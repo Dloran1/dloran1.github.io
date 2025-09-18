@@ -1,178 +1,146 @@
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Blog — all articles (UK) | VPN World</title>
-  <meta name="description" content="All UK articles. The list is auto-generated from the sitemap to always include every guide.">
-  <link rel="canonical" href="/en-gb/blog/">
-  <link rel="stylesheet" href="/assets/style.css">
-  <link rel="stylesheet" href="/assets/style-extensions.css">
-  <style>
-    .wrap{max-width:1100px;margin:0 auto;padding:0 16px}
-    .breadcrumbs ul{display:flex;gap:.5rem;list-style:none;padding:0;margin:12px 0}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin:16px 0 32px}
-    .card{border:1px solid rgba(140,140,160,.35);border-radius:12px;overflow:hidden;background:rgba(255,255,255,.04)}
-    .card a{display:block;color:inherit;text-decoration:none}
-    .thumb{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:#000}
-    .card .body{padding:12px 14px}
-    .card h2{font-size:1.05rem;line-height:1.35;margin:.25rem 0 .35rem}
-    .meta{font-size:.9rem;opacity:.8;margin:.35rem 0}
-    .desc{font-size:.95rem;opacity:.95}
-    .lang-switch{margin:6px 0 16px}
-    .lang-switch a{color:#2E90FA;text-decoration:none}
-    .lang-switch a:hover{text-decoration:underline}
-    .empty, .loading, .error{border:1px dashed rgba(140,140,160,.45);border-radius:10px;padding:12px 14px;margin:14px 0}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Blog — all articles (UK) | VPN World</title>
+<meta name="description" content="All UK blog articles on VPN World: UK-focused VPN guides, streaming, protocols, router setups, privacy & more.">
+<link rel="canonical" href="https://dloran1.github.io/en-gb/blog/">
 
-  <!-- JSON-LD: Breadcrumbs -->
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
-    {"@type":"ListItem","position":1,"name":"Home","item":"https://dloran1.github.io/en-gb/"},
-    {"@type":"ListItem","position":2,"name":"Blog (UK)","item":"https://dloran1.github.io/en-gb/blog/"}
-  ]}
-  </script>
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/style-extensions.css">
+<style>
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+.list{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:16px 0}
+.card{border:1px solid rgba(140,140,160,.35);border-radius:12px;padding:14px;background:rgba(255,255,255,.03)}
+.card a{color:#2E90FA;text-decoration:none}
+.card a:hover{text-decoration:underline}
+.badge{display:inline-block;padding:.2rem .5rem;border:1px solid rgba(140,140,160,.35);border-radius:6px;font-size:.85rem}
+.muted{opacity:.85}
+.note{border-left:3px solid #2E90FA;padding:.75rem 1rem;margin:1rem 0;background:rgba(46,144,250,.06)}
+</style>
 </head>
 <body>
-  <nav class="breadcrumbs" aria-label="Breadcrumb">
-    <ul>
-      <li><a href="/en-gb/">Home</a> ›</li>
-      <li aria-current="page">Blog (UK)</li>
-    </ul>
-  </nav>
 
-  <main class="wrap">
-    <header>
-      <h1>Blog — all articles (UK)</h1>
-      <p class="lang-switch">Switch language: <a href="/blog/">Polski (PL)</a></p>
-      <p class="loading" id="stateBox">Loading articles…</p>
-    </header>
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ul>
+    <li><a href="/en-gb/">Home</a></li>
+    <li aria-current="page">Blog (UK)</li>
+  </ul>
+</nav>
 
-    <section id="posts" class="grid" aria-live="polite"></section>
+<header class="wrap">
+  <h1>Blog — all articles (UK)</h1>
+  <p>Switch language:
+    <a href="/blog/">Polski (PL)</a>
+  </p>
+  <p class="muted">This list auto-loads from <code>sitemap.xml</code>. If the UK entries aren’t yet in the sitemap, it falls back to an internal list or an optional <code>manifest.json</code>.</p>
+</header>
 
-    <section class="empty" id="emptyBox" hidden>
-      Nothing to show yet.
-    </section>
+<main class="wrap">
+  <div id="list" class="list" aria-live="polite"></div>
+  <p id="empty" class="note" hidden>Nothing to show yet.</p>
+</main>
 
-    <section class="error" id="errorBox" hidden>
-      Error loading the list. Refresh or check <code>/sitemap.xml</code>.
-    </section>
-  </main>
+<footer class="foot">
+  <p>© 2025 VPN World • <a href="/en-gb/privacy.html">Privacy Policy</a></p>
+</footer>
 
-  <footer class="foot">
-    <p>© 2025 VPN World • <a href="/en-gb/privacy.html">Privacy Policy</a></p>
-  </footer>
+<script>
+(async function(){
+  // 1) Жёсткий список «на всякий»: сюда я положил все известные UK страницы из нашей работы.
+  // Когда sitemap/manifest подтянется, он их заменит.
+  const FALLBACK_EN = [
+    {u:'/en-gb/blog/what-is-vpn-uk.html', t:'What Is a VPN? (UK, 2025)'},
+    {u:'/en-gb/blog/best-vpn-uk.html', t:'Best VPN for the UK (2025)'},
+    {u:'/en-gb/blog/why-vpn-2025-uk.html', t:'Why use a VPN in 2025 (UK)'},
+    {u:'/en-gb/blog/which-vpn-server-uk.html', t:'Which VPN server should I pick? (UK)'},
+    {u:'/en-gb/blog/vpn-myths-uk.html', t:'VPN Myths — 21 Debunked (UK)'},
+    {u:'/en-gb/blog/vpn-protocols-uk.html', t:'VPN Protocols — WireGuard vs OpenVPN vs IKEv2 (UK)'},
+    {u:'/en-gb/blog/vpn-ip-dns-leaks-uk.html', t:'IP/DNS/WebRTC Leaks — How to Check & Fix (UK)'},
+    {u:'/en-gb/blog/vpn-netflix-uk.html', t:'Best VPNs for Netflix UK — Working Methods'},
+    {u:'/en-gb/blog/vpn-bbc-iplayer-uk.html', t:'VPN for BBC iPlayer — Guide (UK)'},
+    {u:'/en-gb/blog/vpn-on-router-uk.html', t:'VPN on a Router — Overview (UK)'},
+    {u:'/en-gb/blog/vpn-router-setup-uk.html', t:'VPN Router Setup — Step-by-Step (UK)'},
+    {u:'/en-gb/blog/vpn-mac-uk.html', t:'VPN for macOS — Speed & Privacy (UK)'},
+    {u:'/en-gb/blog/vpn-windows-uk.html', t:'VPN for Windows — Setup & Fixes (UK)'},
+    {u:'/en-gb/blog/vpn-android-uk.html', t:'VPN for Android — Setup (UK)'},
+    {u:'/en-gb/blog/vpn-ios-uk.html', t:'VPN for iPhone — Setup (UK)'},
+    {u:'/en-gb/blog/vpn-smart-tv-uk.html', t:'VPN for Smart TV (UK)'},
+    {u:'/en-gb/blog/vpn-streaming-uk.html', t:'Streaming with a VPN (UK)'},
+    {u:'/en-gb/blog/vpn-sky-go-uk.html', t:'VPN for Sky Go (UK)'},
+    {u:'/en-gb/blog/vpn-student-uk.html', t:'VPN for Students (UK)'},
+    {u:'/en-gb/blog/vpn-security-uk.html', t:'VPN & Security Basics (UK)'},
+    {u:'/en-gb/blog/vpn-public-wifi-uk.html', t:'Public Wi-Fi: VPN Guide (UK)'},
+    {u:'/en-gb/blog/vpn-remote-work-uk.html', t:'VPN for Remote Work (UK)'},
+    {u:'/en-gb/blog/vpn-torrenting-uk.html', t:'VPN for Torrenting — Safe & Fast (UK)'},
+    {u:'/en-gb/blog/vpn-travel-uk.html', t:'VPN for Travel (UK)'},
+  ];
 
-  <script>
-  (function(){
-    const BASE = location.origin;                // https://dloran1.github.io
-    const SECTION = '/en-gb/blog/';              // UK blog
-    const SITEMAP_URL = '/sitemap.xml';
-    const postsEl = document.getElementById('posts');
-    const stateBox = document.getElementById('stateBox');
-    const emptyBox = document.getElementById('emptyBox');
-    const errorBox = document.getElementById('errorBox');
+  const listEl = document.getElementById('list');
+  const emptyEl = document.getElementById('empty');
 
-    const parser = new DOMParser();
-
-    function parseXml(str){ return parser.parseFromString(str,'text/xml'); }
-    function parseHtml(str){ return parser.parseFromString(str,'text/html'); }
-
-    function prettyDate(iso){
-      if(!iso) return '';
-      try{
-        const d = new Date(iso);
-        if(isNaN(d)) return '';
-        return d.toLocaleDateString('en-GB',{year:'numeric',month:'short',day:'2-digit'});
-      }catch(e){ return ''; }
+  // утилита отрисовки
+  function render(items){
+    listEl.innerHTML = '';
+    if(!items || !items.length){ emptyEl.hidden = false; return; }
+    emptyEl.hidden = true;
+    items.sort((a,b)=> a.t.localeCompare(b.t, 'en-GB'));
+    for(const it of items){
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `<h3 style="margin:.25rem 0 .5rem"><a href="${it.u}">${it.t}</a></h3>
+        <p class="muted">${it.u.replace('https://dloran1.github.io','')}</p>`;
+      listEl.appendChild(card);
     }
+  }
 
-    function slugTitleFromUrl(url){
-      try{
-        const u = new URL(url);
-        const slug = u.pathname.split('/').filter(Boolean).pop().replace('.html','');
-        return slug.replace(/[-_]+/g,' ').replace(/\b[a-z]/g,m=>m.toUpperCase());
-      }catch(e){ return url; }
-    }
-
-    async function fetchSitemap(){
-      const res = await fetch(SITEMAP_URL, {credentials:'same-origin'});
-      if(!res.ok) throw new Error('sitemap fetch failed');
-      const xml = parseXml(await res.text());
-      const urls = [...xml.querySelectorAll('url')].map(urlEl=>{
-        const loc = urlEl.querySelector('loc')?.textContent?.trim() || '';
-        const lastmod = urlEl.querySelector('lastmod')?.textContent?.trim() || '';
-        return {loc,lastmod};
-      }).filter(u => u.loc.includes(SECTION) && !u.loc.endsWith('/blog/') && !u.loc.endsWith('/index.html'));
-      const map = new Map();
-      urls.forEach(u=> map.set(u.loc, u));
-      return [...map.values()];
-    }
-
-    async function fetchMeta(url){
-      const res = await fetch(url, {credentials:'same-origin'});
-      if(!res.ok) throw new Error('fetch page failed');
-      const doc = parseHtml(await res.text());
-      const title = doc.querySelector('head > title')?.textContent?.trim() || slugTitleFromUrl(url);
-      const desc  = doc.querySelector('meta[name="description"]')?.getAttribute('content')?.trim() || '';
-      const ogImg = doc.querySelector('meta[property="og:image"]')?.getAttribute('content')?.trim() || '';
-      let date = doc.querySelector('time[datetime]')?.getAttribute('datetime') ||
-                 doc.querySelector('.badge,time')?.textContent?.match(/\d{4}-\d{2}-\d{2}/)?.[0] || '';
-      if(!date){
-        const ld = doc.querySelector('script[type="application/ld+json"]');
-        if(ld){
-          try{
-            const json = JSON.parse(ld.textContent);
-            const article = Array.isArray(json['@graph']) ? json['@graph'].find(x=>x['@type']==='Article') : (json['@type']==='Article' ? json : null);
-            date = article?.dateModified || article?.datePublished || '';
-          }catch(e){}
-        }
+  // 2) Пытаемся подтянуть manifest.json (ручной список UK статей — удобно держать 47/47)
+  async function loadManifest(){
+    try{
+      const r = await fetch('/en-gb/blog/manifest.json',{cache:'no-store'});
+      if(!r.ok) return null;
+      const data = await r.json();
+      if(Array.isArray(data) && data.length){
+        return data.filter(x=>x && x.u && x.t);
       }
-      return {title,desc,ogImg,date};
-    }
+      return null;
+    }catch(e){ return null; }
+  }
 
-    function cardTpl(item){
-      const img = item.ogImg || '/assets/img/hero/en-gb/hero-06.webp';
-      const date = prettyDate(item._lastmod || item.date);
-      return `
-      <article class="card">
-        <a href="${item.loc}">
-          <img class="thumb" src="${img}" alt="${item.title}">
-          <div class="body">
-            <h2>${item.title}</h2>
-            ${date ? `<p class="meta"><time datetime="${item._lastmod || item.date}">${date}</time></p>` : ''}
-            ${item.desc ? `<p class="desc">${item.desc}</p>` : ''}
-          </div>
-        </a>
-      </article>`;
-    }
+  // 3) Пытаемся вытащить UK статьи из sitemap.xml
+  async function loadFromSitemap(){
+    try{
+      const r = await fetch('/sitemap.xml',{cache:'no-store'});
+      if(!r.ok) return null;
+      const xml = await r.text();
+      const locs = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m=>m[1]);
+      const uk = locs.filter(u => u.includes('/en-gb/blog/') && u.endsWith('.html'));
+      if(!uk.length) return null;
 
-    (async function run(){
-      try{
-        const urls = await fetchSitemap();
-        if(!urls.length){ stateBox.hidden = true; emptyBox.hidden = false; return; }
-        urls.sort((a,b)=> (b.lastmod||'').localeCompare(a.lastmod||''));
-        const out = [];
-        const chunk = 5;
-        for(let i=0;i<urls.length;i+=chunk){
-          const slice = urls.slice(i,i+chunk);
-          const metas = await Promise.all(slice.map(async u=>{
-            try{
-              const meta = await fetchMeta(u.loc);
-              return {...u,...meta,_lastmod:u.lastmod};
-            }catch(e){
-              return {...u,title:slugTitleFromUrl(u.loc),desc:'',ogImg:'',_lastmod:u.lastmod};
-            }
-          }));
-          out.push(...metas);
-        }
-        stateBox.hidden = true;
-        postsEl.innerHTML = out.map(cardTpl).join('');
-      }catch(e){
-        stateBox.hidden = true; errorBox.hidden = false; console.error(e);
-      }
-    })();
-  })();
-  </script>
+      // получить заголовки – опционально: лёгкий fetch HEAD/GET небезопасен на GH Pages из-за CORS,
+      // поэтому делаем разумные тайтлы из slug:
+      const items = uk.map(u=>{
+        const slug = decodeURIComponent(u.split('/').pop().replace('.html',''))
+                      .replace(/-/g,' ')
+                      .replace(/\buk\b/i,'UK')
+                      .replace(/\bvpn\b/i,'VPN');
+        const title = slug.charAt(0).toUpperCase()+slug.slice(1);
+        return {u, t: title};
+      });
+      return items;
+    }catch(e){ return null; }
+  }
+
+  // Порядок приоритета: sitemap → manifest → fallback
+  const fromSitemap = await loadFromSitemap();
+  if(fromSitemap){ render(fromSitemap); return; }
+
+  const fromManifest = await loadManifest();
+  if(fromManifest){ render(fromManifest); return; }
+
+  render(FALLBACK_EN);
+})();
+</script>
 </body>
 </html>
