@@ -1,145 +1,119 @@
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Blog — all articles (UK) | VPN World</title>
-<meta name="description" content="All UK blog articles on VPN World: UK-focused VPN guides, streaming, protocols, router setups, privacy & more.">
-<link rel="canonical" href="https://dloran1.github.io/en-gb/blog/">
+  <meta charset="utf-8">
+  <title>Blog — VPN World (UK)</title>
+  <meta name="description" content="All UK blog articles: setup guides, streaming playbooks, speed & privacy tips.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/">
 
-<link rel="stylesheet" href="/assets/style.css">
-<link rel="stylesheet" href="/assets/style-extensions.css">
-<style>
-.wrap{max-width:980px;margin:0 auto;padding:0 16px}
-.list{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:16px 0}
-.card{border:1px solid rgba(140,140,160,.35);border-radius:12px;padding:14px;background:rgba(255,255,255,.03)}
-.card a{color:#2E90FA;text-decoration:none}
-.card a:hover{text-decoration:underline}
-.badge{display:inline-block;padding:.2rem .5rem;border:1px solid rgba(140,140,160,.35);border-radius:6px;font-size:.85rem}
-.muted{opacity:.85}
-.note{border-left:3px solid #2E90FA;padding:.75rem 1rem;margin:1rem 0;background:rgba(46,144,250,.06)}
-</style>
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/style-extensions.css">
+  <style>
+    .wrap{max-width:980px;margin:0 auto;padding:0 16px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+    .card{border:1px solid rgba(140,140,160,.35);border-radius:12px;padding:14px;background:rgba(255,255,255,.03)}
+    .card a{color:#2E90FA;text-decoration:none}
+    .card a:hover{text-decoration:underline}
+    .muted{opacity:.85}
+    .filters{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 18px}
+    .filters input{flex:1;min-width:220px;padding:10px;border-radius:10px;border:1px solid rgba(140,140,160,.35);background:rgba(255,255,255,.04);color:inherit}
+    .badge{display:inline-block;padding:.2rem .5rem;border:1px solid rgba(140,140,160,.35);border-radius:6px;font-size:.8rem;margin-left:6px}
+    .lang-switch{margin:8px 0 16px}
+    .lang-switch a{color:#2E90FA;text-decoration:none;margin-right:8px}
+    .lang-switch a:hover{text-decoration:underline}
+    .empty{border:1px dashed rgba(140,140,160,.35);border-radius:12px;padding:18px;text-align:center}
+  </style>
 </head>
 <body>
-
-<nav class="breadcrumbs" aria-label="Breadcrumb">
-  <ul>
-    <li><a href="/en-gb/">Home</a></li>
-    <li aria-current="page">Blog (UK)</li>
-  </ul>
+<nav class="wrap" aria-label="Breadcrumb">
+  <p><a href="/en-gb/">Home</a> › <strong>Blog</strong></p>
 </nav>
 
 <header class="wrap">
-  <h1>Blog — all articles (UK)</h1>
-  <p>Switch language:
-    <a href="/blog/">Polski (PL)</a>
-  </p>
-  <p class="muted">This list auto-loads from <code>sitemap.xml</code>. If the UK entries aren’t yet in the sitemap, it falls back to an internal list or an optional <code>manifest.json</code>.</p>
+  <h1>Blog (UK)</h1>
+  <p class="muted">All UK guides in one place — setup, streaming, speed & privacy. <span class="badge" id="badgeCount">Loading…</span></p>
+
+  <!-- видимый переключатель языков -->
+  <nav class="lang-switch" aria-label="Language switch">
+    <a href="/en-gb/blog/" lang="en-GB">English (UK)</a> |
+    <a href="/blog/" lang="pl-PL">Polski</a>
+  </nav>
+
+  <div class="filters">
+    <input id="q" type="search" placeholder="Search titles…" aria-label="Search articles">
+  </div>
 </header>
 
 <main class="wrap">
-  <div id="list" class="list" aria-live="polite"></div>
-  <p id="empty" class="note" hidden>Nothing to show yet.</p>
+  <div id="list" class="grid" role="list"></div>
+  <div id="empty" class="empty" hidden>Nothing to show yet.</div>
 </main>
 
-<footer class="foot">
-  <p>© 2025 VPN World • <a href="/en-gb/privacy.html">Privacy Policy</a></p>
+<footer class="wrap" style="margin:24px 0 16px">
+  <p class="muted">© 2025 VPN World • <a href="/en-gb/privacy.html">Privacy Policy</a></p>
 </footer>
 
 <script>
 (async function(){
-  // 1) Жёсткий список «на всякий»: сюда я положил все известные UK страницы из нашей работы.
-  // Когда sitemap/manifest подтянется, он их заменит.
-  const FALLBACK_EN = [
-    {u:'/en-gb/blog/what-is-vpn-uk.html', t:'What Is a VPN? (UK, 2025)'},
-    {u:'/en-gb/blog/best-vpn-uk.html', t:'Best VPN for the UK (2025)'},
-    {u:'/en-gb/blog/why-vpn-2025-uk.html', t:'Why use a VPN in 2025 (UK)'},
-    {u:'/en-gb/blog/which-vpn-server-uk.html', t:'Which VPN server should I pick? (UK)'},
-    {u:'/en-gb/blog/vpn-myths-uk.html', t:'VPN Myths — 21 Debunked (UK)'},
-    {u:'/en-gb/blog/vpn-protocols-uk.html', t:'VPN Protocols — WireGuard vs OpenVPN vs IKEv2 (UK)'},
-    {u:'/en-gb/blog/vpn-ip-dns-leaks-uk.html', t:'IP/DNS/WebRTC Leaks — How to Check & Fix (UK)'},
-    {u:'/en-gb/blog/vpn-netflix-uk.html', t:'Best VPNs for Netflix UK — Working Methods'},
-    {u:'/en-gb/blog/vpn-bbc-iplayer-uk.html', t:'VPN for BBC iPlayer — Guide (UK)'},
-    {u:'/en-gb/blog/vpn-on-router-uk.html', t:'VPN on a Router — Overview (UK)'},
-    {u:'/en-gb/blog/vpn-router-setup-uk.html', t:'VPN Router Setup — Step-by-Step (UK)'},
-    {u:'/en-gb/blog/vpn-mac-uk.html', t:'VPN for macOS — Speed & Privacy (UK)'},
-    {u:'/en-gb/blog/vpn-windows-uk.html', t:'VPN for Windows — Setup & Fixes (UK)'},
-    {u:'/en-gb/blog/vpn-android-uk.html', t:'VPN for Android — Setup (UK)'},
-    {u:'/en-gb/blog/vpn-ios-uk.html', t:'VPN for iPhone — Setup (UK)'},
-    {u:'/en-gb/blog/vpn-smart-tv-uk.html', t:'VPN for Smart TV (UK)'},
-    {u:'/en-gb/blog/vpn-streaming-uk.html', t:'Streaming with a VPN (UK)'},
-    {u:'/en-gb/blog/vpn-sky-go-uk.html', t:'VPN for Sky Go (UK)'},
-    {u:'/en-gb/blog/vpn-student-uk.html', t:'VPN for Students (UK)'},
-    {u:'/en-gb/blog/vpn-security-uk.html', t:'VPN & Security Basics (UK)'},
-    {u:'/en-gb/blog/vpn-public-wifi-uk.html', t:'Public Wi-Fi: VPN Guide (UK)'},
-    {u:'/en-gb/blog/vpn-remote-work-uk.html', t:'VPN for Remote Work (UK)'},
-    {u:'/en-gb/blog/vpn-torrenting-uk.html', t:'VPN for Torrenting — Safe & Fast (UK)'},
-    {u:'/en-gb/blog/vpn-travel-uk.html', t:'VPN for Travel (UK)'},
-  ];
+  const list = document.getElementById('list');
+  const empty = document.getElementById('empty');
+  const badge = document.getElementById('badgeCount');
+  const q = document.getElementById('q');
 
-  const listEl = document.getElementById('list');
-  const emptyEl = document.getElementById('empty');
+  async function getJSON(url){
+    const r = await fetch(url, {cache:'no-store'});
+    if(!r.ok) throw new Error(url+' → '+r.status);
+    return r.json();
+  }
 
-  // утилита отрисовки
   function render(items){
-    listEl.innerHTML = '';
-    if(!items || !items.length){ emptyEl.hidden = false; return; }
-    emptyEl.hidden = true;
-    items.sort((a,b)=> a.t.localeCompare(b.t, 'en-GB'));
+    list.innerHTML = '';
+    if(!items.length){ empty.hidden=false; badge.textContent='0'; return; }
+    empty.hidden=true;
+    badge.textContent = items.length;
     for(const it of items){
-      const card = document.createElement('div');
+      const card = document.createElement('article');
       card.className = 'card';
-      card.innerHTML = `<h3 style="margin:.25rem 0 .5rem"><a href="${it.u}">${it.t}</a></h3>
-        <p class="muted">${it.u.replace('https://dloran1.github.io','')}</p>`;
-      listEl.appendChild(card);
+      card.setAttribute('role','listitem');
+      card.innerHTML = `
+        <h3 style="margin:.25rem 0 .35rem"><a href="${it.url}">${it.title}</a></h3>
+        ${it.date ? `<p class="muted" style="margin:0">Updated: <time datetime="${it.date}">${it.date}</time></p>` : ''}
+      `;
+      list.appendChild(card);
     }
   }
 
-  // 2) Пытаемся подтянуть manifest.json (ручной список UK статей — удобно держать 47/47)
-  async function loadManifest(){
+  function normalize(s){ return (s||'').toLowerCase(); }
+
+  let source = [];
+  try{
+    const m = await getJSON('/en-gb/blog/manifest.json');
+    source = (m.items || []).map(x => ({title:x.title, url:x.url, date:m.lastUpdated}));
+  }catch(e){
+    console.warn('manifest.json unavailable, trying sitemap.xml', e);
+    // fallback на sitemap.xml (поддержка, если добавишь UK ссылки в основной сайтмап)
     try{
-      const r = await fetch('/en-gb/blog/manifest.json',{cache:'no-store'});
-      if(!r.ok) return null;
-      const data = await r.json();
-      if(Array.isArray(data) && data.length){
-        return data.filter(x=>x && x.u && x.t);
-      }
-      return null;
-    }catch(e){ return null; }
+      const xml = await fetch('/sitemap.xml', {cache:'no-store'}).then(r=>r.text());
+      const doc = new DOMParser().parseFromString(xml,'application/xml');
+      const urls = [...doc.querySelectorAll('url loc')].map(n=>n.textContent.trim());
+      const uk = urls.filter(u => u.includes('/en-gb/blog/'));
+      source = uk.map(u => ({title: u.split('/').pop().replace(/-/g,' ').replace('.html',''), url: u}));
+    }catch(err){
+      console.error('sitemap fallback failed', err);
+      source = [];
+    }
   }
 
-  // 3) Пытаемся вытащить UK статьи из sitemap.xml
-  async function loadFromSitemap(){
-    try{
-      const r = await fetch('/sitemap.xml',{cache:'no-store'});
-      if(!r.ok) return null;
-      const xml = await r.text();
-      const locs = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m=>m[1]);
-      const uk = locs.filter(u => u.includes('/en-gb/blog/') && u.endsWith('.html'));
-      if(!uk.length) return null;
+  // сортировка по алфавиту (можно заменить на по дате, если добавим даты в manifest)
+  source.sort((a,b) => a.title.localeCompare(b.title));
+  render(source);
 
-      // получить заголовки – опционально: лёгкий fetch HEAD/GET небезопасен на GH Pages из-за CORS,
-      // поэтому делаем разумные тайтлы из slug:
-      const items = uk.map(u=>{
-        const slug = decodeURIComponent(u.split('/').pop().replace('.html',''))
-                      .replace(/-/g,' ')
-                      .replace(/\buk\b/i,'UK')
-                      .replace(/\bvpn\b/i,'VPN');
-        const title = slug.charAt(0).toUpperCase()+slug.slice(1);
-        return {u, t: title};
-      });
-      return items;
-    }catch(e){ return null; }
-  }
-
-  // Порядок приоритета: sitemap → manifest → fallback
-  const fromSitemap = await loadFromSitemap();
-  if(fromSitemap){ render(fromSitemap); return; }
-
-  const fromManifest = await loadManifest();
-  if(fromManifest){ render(fromManifest); return; }
-
-  render(FALLBACK_EN);
+  q.addEventListener('input', () => {
+    const term = normalize(q.value);
+    const filtered = !term ? source : source.filter(it => normalize(it.title).includes(term));
+    render(filtered);
+  });
 })();
 </script>
 </body>
