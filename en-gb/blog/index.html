@@ -1,149 +1,205 @@
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
-  <meta charset="utf-8">
-  <title>Blog — all articles (UK)</title>
-  <meta name="description" content="All UK VPN World articles: setup, streaming, speed & privacy. Auto-synced with the sitemap.">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/">
-  <link rel="stylesheet" href="/assets/style.css">
-  <link rel="stylesheet" href="/assets/style-extensions.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blog — all articles (UK) | VPN World</title>
+  <meta name="description" content="All UK VPN guides in one place — setup, streaming, speed & privacy. Auto-listed from manifest.json (fallback: sitemap.xml)." />
+  <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Blog — all articles (UK)" />
+  <meta property="og:description" content="All UK VPN guides in one place — setup, streaming, speed & privacy." />
+  <meta property="og:url" content="https://dloran1.github.io/en-gb/blog/" />
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp" />
+  <meta property="og:locale" content="en_GB" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Blog — all articles (UK)" />
+  <meta name="twitter:description" content="All UK VPN guides in one place — setup, streaming, speed & privacy." />
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp" />
+
+  <!-- CSS (project styles) -->
+  <link rel="stylesheet" href="/assets/style.css" />
+  <link rel="stylesheet" href="/assets/style-extensions.css" />
+
   <style>
     .wrap{max-width:980px;margin:0 auto;padding:0 16px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+    .lead{opacity:.9;margin:.3rem 0 1rem}
+    .badge{display:inline-block;margin-left:.5rem;padding:.2rem .5rem;border:1px solid rgba(140,140,160,.35);border-radius:6px;font-size:.85rem}
+    .langswitch{margin:.75rem 0 1rem}
+    .langswitch a{color:#2E90FA;text-decoration:none}
+    .search{display:block;width:100%;padding:12px 14px;border-radius:10px;border:1px solid rgba(140,140,160,.35);background:rgba(255,255,255,.02);color:inherit}
+    .grid{display:grid;gap:12px;margin:14px 0 26px}
     .card{border:1px solid rgba(140,140,160,.35);border-radius:12px;padding:14px;background:rgba(255,255,255,.03)}
+    .card h3{margin:.1rem 0 .25rem;font-size:1.15rem}
     .card a{color:#2E90FA;text-decoration:none}
-    .card a:hover{text-decoration:underline}
-    .muted{opacity:.85}
-    .filters{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 18px}
-    .filters input{flex:1;min-width:220px;padding:10px;border-radius:10px;border:1px solid rgba(140,140,160,.35);background:rgba(255,255,255,.04);color:inherit}
-    .badge{display:inline-block;padding:.2rem .5rem;border:1px solid rgba(140,140,160,.35);border-radius:6px;font-size:.8rem;margin-left:6px}
-    .lang-switch{margin:8px 0 16px}
-    .lang-switch a{color:#2E90FA;text-decoration:none;margin-right:8px}
-    .lang-switch a:hover{text-decoration:underline}
-    .empty{border:1px dashed rgba(140,140,160,.35);border-radius:12px;padding:18px;text-align:center}
+    .muted{opacity:.75}
+    .empty{border:1px dashed rgba(140,140,160,.35);border-radius:12px;padding:16px;text-align:center;opacity:.85}
+    .breadcrumbs ul{display:flex;gap:.5rem;list-style:none;padding:0;margin:10px 0}
+    .breadcrumbs a{text-decoration:none}
   </style>
 </head>
 <body>
-<nav class="wrap" aria-label="Breadcrumb">
-  <p><a href="/en-gb/">Home</a> › <strong>Blog (UK)</strong></p>
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ul>
+    <li><a href="/en-gb/">Home</a> ›</li>
+    <li aria-current="page">Blog (UK)</li>
+  </ul>
 </nav>
 
-<header class="wrap">
-  <h1>Blog — all articles (UK)</h1>
-  <p class="muted">All UK guides in one place — setup, streaming, speed & privacy.
-    <span class="badge" id="badgeCount">0</span></p>
+<main class="wrap" id="top">
+  <header>
+    <h1>Blog — all articles (UK) <span class="badge" id="count">0</span></h1>
+    <p class="lead">All UK guides in one place — setup, streaming, speed & privacy.</p>
 
-  <!-- language switch -->
-  <nav class="lang-switch" aria-label="Language switch">
-    <a href="/en-gb/blog/" lang="en-GB">English (UK)</a> |
-    <a href="/blog/" lang="pl-PL">Polski (PL)</a>
-  </nav>
+    <!-- Visible language switch -->
+    <p class="langswitch" aria-label="Language switch">
+      <a href="/en-gb/blog/">English (UK)</a> | <a href="/blog/" lang="pl-PL">Polski (PL)</a>
+    </p>
 
-  <div class="filters">
-    <input id="q" type="search" placeholder="Search titles…" aria-label="Search articles">
-  </div>
-</header>
+    <label for="q" class="visually-hidden">Search titles</label>
+    <input class="search" id="q" type="search" placeholder="Search titles…" autocomplete="off" />
+  </header>
 
-<main class="wrap">
-  <div id="list" class="grid" role="list"></div>
-  <div id="empty" class="empty" hidden>Nothing to show yet.</div>
+  <section class="grid" id="list" aria-live="polite" aria-busy="true">
+    <div class="empty">Loading…</div>
+  </section>
 </main>
 
-<footer class="wrap" style="margin:24px 0 16px">
-  <p class="muted">© 2025 VPN World • <a href="/en-gb/privacy.html">Privacy Policy</a></p>
+<footer class="foot">
+  <p>© 2025 VPN World • <a href="/en-gb/privacy.html">Privacy Policy</a></p>
 </footer>
 
 <script>
-/* ---------- Helper: fetch with timeout ---------- */
-function withTimeout(promise, ms=12000){
-  return Promise.race([promise, new Promise((_,rej)=>setTimeout(()=>rej(new Error('Timeout')),ms))]);
+/* -------- Helpers -------- */
+function el(tag, attrs={}, html=""){
+  const n=document.createElement(tag);
+  for(const k in attrs){ if(attrs[k]!==null) n.setAttribute(k, attrs[k]); }
+  if(html) n.innerHTML=html;
+  return n;
+}
+function normaliseDate(d){
+  // accept 'YYYY-MM-DD' or ISO; return 'YYYY-MM-DD'
+  try{
+    if(!d) return "";
+    if(/^\d{4}-\d{2}-\d{2}$/.test(d)) return d;
+    const dt=new Date(d);
+    if(!isNaN(+dt)){
+      const y=dt.getFullYear();
+      const m=String(dt.getMonth()+1).padStart(2,"0");
+      const day=String(dt.getDate()).padStart(2,"0");
+      return `${y}-${m}-${day}`;
+    }
+  }catch(_){}
+  return "";
 }
 
-/* ---------- Parse sitemap.xml, mirror PL → UK ---------- */
+/* -------- Render -------- */
+function render(list){
+  const wrap=document.getElementById('list');
+  wrap.innerHTML="";
+  if(!list || !list.length){
+    wrap.appendChild(el('div',{class:"empty"},'Nothing to show yet.'));
+    document.getElementById('count').textContent="0";
+    wrap.setAttribute('aria-busy','false');
+    return;
+  }
+  const frag=document.createDocumentFragment();
+  list.forEach(item=>{
+    const card=el('article',{class:'card'});
+    const h=el('h3');
+    const a=el('a',{href:item.url}, item.title || item.url);
+    h.appendChild(a);
+    const meta=el('p',{class:'muted'}, item.lastmod ? `Updated: ${normaliseDate(item.lastmod)}` : '');
+    card.appendChild(h);
+    card.appendChild(meta);
+    frag.appendChild(card);
+  });
+  wrap.appendChild(frag);
+  document.getElementById('count').textContent=String(list.length);
+  wrap.setAttribute('aria-busy','false');
+}
+
+/* -------- Data loaders -------- */
+async function loadFromManifest(){
+  // first try /en-gb/blog/manifest.json (same folder)
+  const res = await fetch('./manifest.json', {cache:'no-store'});
+  if(!res.ok) throw new Error('manifest missing');
+  const json = await res.json();
+  // expected shape: [{title,url,lastmod}]
+  if(!Array.isArray(json)) throw new Error('bad manifest format');
+  // keep only items under /en-gb/blog/
+  return json.filter(x => (x && typeof x.url === 'string' && x.url.indexOf('/en-gb/blog/')===0));
+}
+
 async function loadFromSitemap(){
-  const text = await withTimeout(fetch('/sitemap.xml?cb='+Date.now(), {cache:'no-store'}).then(r=>r.text()));
-  const doc = new DOMParser().parseFromString(text, 'application/xml');
-  const urls = [...doc.querySelectorAll('url')].map(u=>{
-    const loc = u.querySelector('loc')?.textContent?.trim()||'';
-    const lastmod = u.querySelector('lastmod')?.textContent?.trim()||'';
+  const res = await fetch('/sitemap.xml', {cache:'no-store'});
+  if(!res.ok) throw new Error('sitemap missing');
+  const xml = await res.text();
+  const dom = new DOMParser().parseFromString(xml, 'application/xml');
+  const locs = [...dom.querySelectorAll('urlset url')].map(u=>{
+    const loc = u.querySelector('loc')?.textContent?.trim() || '';
+    const lastmod = u.querySelector('lastmod')?.textContent?.trim() || '';
     return {loc, lastmod};
   });
-  // берём только польские статьи из /blog/*.html
-  const plPosts = urls.filter(u => /\/blog\/[^/]+\.html$/.test(u.loc));
-  // строим UK путь 1-в-1 по имени файла
-  const candidates = plPosts.map(p=>{
-    const file = p.loc.split('/blog/')[1]; // e.g. vpn-android-konfiguracja.html
-    const uk = '/en-gb/blog/' + file.replace(/-polska|\-pl/gi,'').replace(/\.html$/i,'.html');
-    return { ukUrl: uk, lastmod: p.lastmod, seed: p.loc };
-  });
-  // проверяем, что UK страница существует
-  const limit = 6; // мягкий пул запросов
-  let i=0, out=[];
-  async function worker(){
-    while(i < candidates.length){
-      const idx = i++;
-      const c = candidates[idx];
-      try{
-        const res = await withTimeout(fetch(c.ukUrl+'?cb='+Date.now(), {cache:'no-store'}));
-        if(res.ok){
-          const html = await res.text();
-          const doc = new DOMParser().parseFromString(html,'text/html');
-          const title =
-            doc.querySelector('meta[property="og:title"]')?.content?.trim() ||
-            doc.querySelector('h1')?.textContent?.trim() ||
-            doc.querySelector('title')?.textContent?.trim() ||
-            c.ukUrl.split('/').pop().replace(/-/g,' ').replace(/\.html$/,'');
-          out.push({title, url:c.ukUrl, date:c.lastmod});
-        }
-      }catch(e){/* skip missing */}
-    }
-  }
-  await Promise.all(new Array(limit).fill(0).map(worker));
-  // сортировка по дате (если есть), иначе по заголовку
-  out.sort((a,b)=>{
-    if(a.date && b.date) return b.date.localeCompare(a.date);
-    return a.title.localeCompare(b.title);
-  });
-  return out;
+  // take only en-gb/blog entries
+  const list = locs.filter(o => o.loc.includes('/en-gb/blog/'))
+                   .map(o => ({
+                      title: decodeURIComponent(o.loc.split('/').pop().replace('.html','').replace(/-/g,' ')).replace(/\b\w/g,s=>s.toUpperCase()),
+                      url: o.loc.replace('https://dloran1.github.io',''),
+                      lastmod: o.lastmod || ''
+                   }));
+  // unique by url
+  const seen=new Set(); const uniq=[];
+  for(const it of list){ if(!seen.has(it.url)){ seen.add(it.url); uniq.push(it);} }
+  return uniq;
 }
 
-/* ---------- Render ---------- */
-(function(){
-  const list = document.getElementById('list');
-  const empty = document.getElementById('empty');
-  const badge = document.getElementById('badgeCount');
+/* -------- Search -------- */
+function wireSearch(source){
   const q = document.getElementById('q');
+  const wrap = document.getElementById('list');
+  q.addEventListener('input', ()=>{
+    const s = q.value.trim().toLowerCase();
+    const filtered = !s ? source : source.filter(x => (x.title||"").toLowerCase().includes(s));
+    wrap.setAttribute('aria-busy','true');
+    render(filtered);
+  });
+}
 
-  function render(items){
-    list.innerHTML='';
-    if(!items.length){ empty.hidden=false; badge.textContent='0'; return; }
-    empty.hidden=true; badge.textContent=items.length;
-    for(const it of items){
-      const el=document.createElement('article');
-      el.className='card'; el.setAttribute('role','listitem');
-      el.innerHTML=`<h3 style="margin:.25rem 0 .35rem"><a href="${it.url}">${it.title}</a></h3>
-        ${it.date?`<p class="muted" style="margin:0">Updated: <time datetime="${it.date}">${it.date}</time></p>`:''}`;
-      list.appendChild(el);
+/* -------- Init -------- */
+(async function init(){
+  let items=[];
+  try{
+    items = await loadFromManifest();
+  }catch(e){
+    try{
+      items = await loadFromSitemap();
+    }catch(e2){
+      items = [];
     }
   }
-
-  let SOURCE=[];
-  render(SOURCE); // стартовый пустой
-
-  // грузим с sitemap (аналогия с PL)
-  loadFromSitemap().then(items=>{
-    SOURCE = items;
-    render(SOURCE);
-  }).catch(()=>{
-    empty.hidden=false;
+  // sort by lastmod desc (fallback: title)
+  items.sort((a,b)=>{
+    const da = Date.parse(a.lastmod||'') || 0;
+    const db = Date.parse(b.lastmod||'') || 0;
+    if(db!==da) return db-da;
+    return (a.title||'').localeCompare(b.title||'');
   });
-
-  q.addEventListener('input',()=>{
-    const t=(q.value||'').toLowerCase();
-    render(!t?SOURCE:SOURCE.filter(x=>x.title.toLowerCase().includes(t)));
-  });
+  render(items);
+  wireSearch(items);
 })();
 </script>
+
+<noscript>
+  <div class="wrap" style="margin-top:1rem">
+    <p class="empty">JavaScript is required to list UK articles here.</p>
+  </div>
+</noscript>
+
 </body>
 </html>
