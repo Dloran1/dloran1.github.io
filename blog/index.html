@@ -2,114 +2,78 @@
 <html lang="pl">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Blog — wszystkie artykuły (PL)</title>
-  <meta name="description" content="Wszystkie poradniki w jednym miejscu — konfiguracja, streaming, prędkość i prywatność.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Wszystkie poradniki VPN World w jednym miejscu — konfiguracja, streaming, prędkość i prywatność.">
   <link rel="canonical" href="https://dloran1.github.io/blog/index.html">
   <link rel="stylesheet" href="/assets/style.css">
   <link rel="stylesheet" href="/assets/style-extensions.css">
-  <style>
-    .list{display:flex;flex-direction:column;gap:10px;margin-top:8px}
-    .card{border:1px solid rgba(140,140,160,.35);border-radius:12px;padding:12px}
-    .muted{opacity:.85}
-    .badge{display:inline-block;border:1px solid rgba(140,140,160,.35);border-radius:8px;padding:2px 8px;font-weight:600;margin-left:8px}
-    .langs{margin:8px 0 12px}
-    .langs a{margin-right:10px}
-    .srch{width:100%;max-width:360px}
-    footer{margin:28px 0 8px;text-align:center}
-  </style>
 </head>
 <body>
-  <nav class="breadcrumbs" aria-label="Breadcrumb">
-    <a href="/">Strona główna</a> › <span>Blog (PL)</span>
-  </nav>
+<nav class="breadcrumbs"><a href="/">Strona główna</a> › <span>Blog (PL)</span></nav>
 
-  <header>
-    <h1>Blog — wszystkie artykuły (PL) <span id="count" class="badge">0</span></h1>
-    <p class="muted">Wszystkie poradniki w jednym miejscu — konfiguracja, streaming, prędkość & prywatność.</p>
-    <p class="langs"><a href="/blog/index.html">Polski (PL)</a> | <a href="/en-gb/blog/index.html" hreflang="en-GB">English (UK)</a></p>
-    <input id="q" class="srch" type="search" placeholder="Szukaj tytułów…" aria-label="Szukaj tytułów">
-  </header>
+<header>
+  <h1>Blog — wszystkie artykuły (PL) <span id="count" class="badge">0</span></h1>
+  <p>Wszystkie poradniki w jednym miejscu — konfiguracja, streaming, prędkość &amp; prywatność.</p>
+  <p><a href="/blog/index.html">Polski (PL)</a> | <a href="/en-gb/blog/index.html">English (UK)</a></p>
+</header>
 
-  <main id="list" class="list" aria-live="polite"></main>
+<label for="q" class="sr-only">Szukaj tytułów…</label>
+<input id="q" type="search" placeholder="Szukaj tytułów…" aria-label="Szukaj tytułów…" />
 
-  <footer>
-    <p>© 2025 VPN World · <a href="/en-gb/privacy.html">Privacy & Cookies</a> · <a href="/pl/polityka-prywatnosci.html">Polityka prywatności</a></p>
-  </footer>
+<ul id="list" class="blog-list" aria-live="polite"></ul>
+
+<footer class="foot">
+  <p>© 2025 VPN World · <a href="/privacy.html">Polityka prywatności (PL)</a> · <a href="/en-gb/privacy.html">Privacy Policy (EN)</a></p>
+</footer>
 
 <script>
 (async function(){
-  const listEl = document.getElementById('list');
-  const countEl = document.getElementById('count');
-  const qEl = document.getElementById('q');
+  const q = document.getElementById('q');
+  const list = document.getElementById('list');
+  const count = document.getElementById('count');
 
-  // РЕЗЕРВНЫЙ список PL (только /blog/… без /en-gb/)
-  const FALLBACK = [
-    "co-to-jest-vpn.html","darmowe-vs-platne-vpn.html","darmowy-vpn-polska.html","dlaczego-vpn-2025.html",
-    "jaki-serwer-vpn-wybrac.html","jaki-serwer-vpn.html","mity-o-vpn.html","no-logs.html","nordvpn-vs-surfshark-pl.html",
-    "player-tvp-vpn.html","test-vpn.html","tvp-vod-vpn.html","vpn-2fa-mfa.html","vpn-a-prawo-w-polsce.html",
-    "vpn-android-konfiguracja.html","vpn-bankowosc-online.html","vpn-dedykowany-ip.html","vpn-dla-apple-tv.html",
-    "vpn-dla-firm-msp.html","vpn-dla-graczy.html","vpn-dla-konsol-ps5-xbox.html","vpn-dla-smart-tv.html",
-    "vpn-dns-leak.html","vpn-double-vpn.html","vpn-geoblokady.html","vpn-geolokalizacja.html",
-    "vpn-iphone-konfiguracja.html","vpn-kill-switch.html","vpn-linux-konfiguracja.html","vpn-na-mac.html",
-    "vpn-netflix-polska.html","vpn-optymalne-ustawienia.html","vpn-p2p-bezpiecznie.html","vpn-port-forwarding.html",
-    "vpn-praca-zdalna.html","vpn-proxy-vs-vpn.html","vpn-publiczne-wifi.html","vpn-split-tunneling.html",
-    "vpn-szybkosc-test.html","vpn-torrent-polska.html","vpn-torrent.html","vpn-windows-konfiguracja.html",
-    "wady-vpn.html","wifi-bezpieczenstwo.html","wifi-checklista.html","wireguard-vs-openvpn.html","zalety-vpn.html"
-  ].map(slug=>`/blog/${slug}`);
-
-  async function getUrlsFromSitemap() {
-    try{
-      const res = await fetch('/sitemap.xml', {cache:'no-store'});
-      if(!res.ok) throw 0;
-      const xml = await res.text();
-      const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
-      // Только польские статьи: /blog/... и НЕ /en-gb/
-      return urls.filter(u => new URL(u, location.origin).pathname.startsWith('/blog/') &&
-                               !new URL(u, location.origin).pathname.startsWith('/en-gb/'));
-    }catch(e){ return []; }
+  async function loadSitemap() {
+    const res = await fetch('/sitemap.xml', {cache:'no-store'});
+    const text = await res.text();
+    const xml = new DOMParser().parseFromString(text, 'application/xml');
+    const urls = [...xml.querySelectorAll('urlset > url')].map(u => ({
+      loc: u.querySelector('loc')?.textContent?.trim() || '',
+      lastmod: u.querySelector('lastmod')?.textContent?.trim() || ''
+    }));
+    // только PL
+    return urls.filter(u => /^https?:\/\/[^/]+\/blog\/.+\.html$/i.test(u.loc));
   }
 
-  async function keepExisting(urls){
-    const results=[];
-    for (const url of urls){
-      try{
-        const r = await fetch(url, {method:'HEAD', cache:'no-store'});
-        if (r.ok) results.push(url);
-      }catch(e){}
-    }
-    return results;
+  function niceTitleFromSlug(slug){
+    // slug -> tytuł z kapitalizacją
+    return slug.replace(/[-_/]+/g,' ')
+               .replace(/\b\w/g, m => m.toUpperCase());
   }
 
   function render(items){
-    listEl.innerHTML = '';
-    const frag = document.createDocumentFragment();
-    items.forEach(u=>{
-      const p = new URL(u, location.origin).pathname;
-      const slug = p.split('/').pop().replace(/\.html$/,'');
-      const title = slug.replace(/-/g,' ').replace(/\b\w/g, s=>s.toUpperCase());
-      const card = document.createElement('article');
-      card.className='card';
-      card.innerHTML = `<a href="${p}">${title}</a>
-                        <div class="muted" data-ts>Updated: —</div>`;
-      frag.appendChild(card);
+    list.innerHTML = '';
+    items.forEach(it=>{
+      const url = it.loc;
+      const slug = url.split('/').pop().replace('.html','');
+      const title = niceTitleFromSlug(slug);
+      const li = document.createElement('li');
+      li.className = 'blog-card';
+      li.innerHTML = `<a href="${url}">${title}</a>
+                      <div class="meta">Zaktualizowano: ${it.lastmod || '—'}</div>`;
+      list.appendChild(li);
     });
-    listEl.appendChild(frag);
-    countEl.textContent = items.length;
+    count.textContent = String(items.length);
   }
 
-  // Поиск по заголовку
-  qEl.addEventListener('input',()=>{
-    const query = qEl.value.trim().toLowerCase();
-    [...listEl.children].forEach(card=>{
-      const txt = card.querySelector('a').textContent.toLowerCase();
-      card.style.display = txt.includes(query) ? '' : 'none';
-    });
-  });
+  const all = await loadSitemap();
+  render(all);
 
-  let urls = await getUrlsFromSitemap();
-  if (urls.length === 0) urls = await keepExisting(FALLBACK);
-  render(urls);
+  q.addEventListener('input', () => {
+    const term = q.value.trim().toLowerCase();
+    const filt = !term ? all : all.filter(i => i.loc.toLowerCase().includes(term));
+    render(filt);
+  });
 })();
 </script>
 </body>
