@@ -2,130 +2,80 @@
 <html lang="en-GB">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Blog — all articles (UK) | VPN World</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="All UK VPN guides in one place — setup, streaming, speed & privacy.">
-  <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/index.html">
-
-  <!-- hreflang -->
-  <link rel="alternate" hreflang="en-GB" href="https://dloran1.github.io/en-gb/blog/index.html">
-  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/index.html">
-  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/index.html">
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Blog — all articles (UK) | VPN World">
-  <meta property="og:description" content="All UK VPN guides in one place — setup, streaming, speed & privacy.">
-  <meta property="og:url" content="https://dloran1.github.io/en-gb/blog/index.html">
-  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/default-blog.webp">
-
+  <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/">
   <link rel="stylesheet" href="/assets/style.css">
   <link rel="stylesheet" href="/assets/style-extensions.css">
   <style>
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .wrap{max-width:960px;margin:0 auto;padding:0 16px}
+    .switch{margin:.5rem 0 1rem}
+    .cards{display:grid;gap:12px}
     .card{border:1px solid rgba(140,140,160,.35);border-radius:12px;padding:14px}
+    .card a{font-weight:700;text-decoration:none}
     .muted{opacity:.8}
-    .count{display:inline-block;border:1px solid rgba(140,140,160,.35);border-radius:8px;padding:.2rem .5rem;margin-left:.5rem}
-    .search{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(140,140,160,.35);background:rgba(255,255,255,.04)}
-    .hero{margin:8px 0 16px}
-    .hero img{width:100%;height:auto;border-radius:12px;border:1px solid rgba(140,140,160,.35)}
+    .search{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(140,140,160,.35);background:rgba(255,255,255,.02);margin:10px 0 16px}
+    .chip{display:inline-block;border:1px solid rgba(140,140,160,.35);border-radius:8px;padding:2px 8px;margin-left:.4rem;font-size:.85rem}
   </style>
+  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/">
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/">
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/">
 </head>
 <body>
-
 <nav class="breadcrumbs" aria-label="Breadcrumb">
-  <ul>
-    <li><a href="/en-gb/"><span>Home</span></a></li>
-    <li aria-current="page">Blog (UK)</li>
-  </ul>
+  <ul><li><a href="/en-gb/">Home</a></li><li aria-current="page">Blog (UK)</li></ul>
 </nav>
 
-<main class="container">
-  <header>
-    <h1>Blog — all articles (UK) <span id="postCount" class="count">0</span></h1>
-    <p class="muted">All UK guides in one place — setup, streaming, speed &amp; privacy.</p>
+<main class="wrap">
+  <h1>Blog — all articles (UK) <span id="count" class="chip">0</span></h1>
+  <p class="muted">All UK guides in one place — setup, streaming, speed & privacy.</p>
 
-    <p>
-      <a href="/en-gb/blog/index.html">English (UK)</a> |
-      <a href="/blog/index.html" rel="alternate" hreflang="pl">Polski (PL)</a>
-    </p>
+  <div class="switch"><a href="/en-gb/blog/">English (UK)</a> | <a href="/blog/">Polski (PL)</a></div>
 
-    <div class="hero">
-      <img src="/assets/img/hero/default-blog.webp" alt="All VPN World articles (UK)">
-    </div>
+  <input id="q" class="search" type="search" placeholder="Search titles…">
 
-    <input id="search" class="search" type="search" placeholder="Search titles…">
-  </header>
-
-  <section id="list" class="grid" aria-live="polite"></section>
+  <section id="list" class="cards" aria-live="polite"></section>
 </main>
 
 <footer class="foot">
-  <p>© 2025 VPN World •
-     <a href="/en-gb/privacy.html">Privacy Policy (EN)</a> •
-     <a href="/pl/polityka-prywatnosci.html">Polityka prywatności (PL)</a>
-  </p>
+  <p>© 2025 VPN World • <a href="/en-gb/privacy.html">Privacy Policy</a> • <a href="/pl/polityka-prywatnosci.html" lang="pl">Polityka prywatności</a></p>
 </footer>
-
-<!-- Scripts -->
-<script src="/assets/js/langswitch.js"></script>
-<script src="/assets/js/consent.js"></script>
-<script src="/assets/js/privacy.js"></script>
 
 <script>
 (async function(){
-  const basePrefix = '/en-gb/blog/';
-  const indexPath  = '/en-gb/blog/index.html';
-  const listEl     = document.getElementById('list');
-  const countEl    = document.getElementById('postCount');
-  const searchEl   = document.getElementById('search');
-
-  function card(item){
-    const a = document.createElement('a');
-    a.className='card';
-    a.href=item.loc;
-    a.innerHTML = `<h3>${item.title}</h3>
-      <p class="muted">Updated: ${item.lastmod||'—'}</p>`;
-    return a;
-  }
-
-  function titleFromURL(url){
+  const list = document.getElementById('list');
+  const q = document.getElementById('q');
+  const wantUK = (u)=>u.startsWith('https://dloran1.github.io/en-gb/blog/');
+  const resp = await fetch('/sitemap.xml',{cache:'no-store'});
+  const xml = await resp.text();
+  const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]).filter(wantUK);
+  const items = [];
+  for (const url of locs){
+    const m = xml.match(new RegExp(`<url>\\s*<loc>${url.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}</loc>[\\s\\S]*?<lastmod>([^<]+)<`));
+    const lastmod = m?m[1]:'';
     const slug = url.split('/').pop().replace('.html','').replace(/-/g,' ');
-    const nice = slug.replace(/\buk\b/gi,'UK').replace(/\bvpn\b/gi,'VPN');
-    return nice.charAt(0).toUpperCase()+nice.slice(1);
+    const title = slug.charAt(0).toUpperCase()+slug.slice(1);
+    items.push({url,title,lastmod});
   }
-
-  let items = [];
-  try {
-    const res = await fetch('/sitemap.xml', {cache:'no-store'});
-    const xml = await res.text();
-    const doc = new DOMParser().parseFromString(xml,'application/xml');
-    const urls = [...doc.querySelectorAll('url')].map(u => ({
-      loc: u.querySelector('loc')?.textContent || '',
-      lastmod: u.querySelector('lastmod')?.textContent || ''
-    }));
-    items = urls
-      .filter(u => u.loc.includes(basePrefix) && !u.loc.endsWith(indexPath))
-      .map(u => ({
-        loc: u.loc.replace(location.origin,''),
-        title: titleFromURL(u.loc),
-        lastmod: u.lastmod
-      }));
-  } catch(e){
-    console.error(e);
-  }
-
-  function render(filter=''){
-    listEl.innerHTML='';
-    const q = filter.trim().toLowerCase();
-    const filtered = items.filter(i => i.title.toLowerCase().includes(q));
-    filtered.forEach(i => listEl.appendChild(card(i)));
-    countEl.textContent = filtered.length;
-  }
-  searchEl.addEventListener('input', e => render(e.target.value));
-  render();
+  const render = (arr)=>{
+    list.innerHTML = arr.map(it=>`
+      <article class="card">
+        <a href="${new URL(it.url).pathname}">${it.title}</a>
+        <div class="muted">Updated: ${it.lastmod||'—'}</div>
+      </article>`).join('');
+    document.getElementById('count').textContent = arr.length;
+  };
+  render(items);
+  q.addEventListener('input',()=> {
+    const v = q.value.toLowerCase();
+    render(items.filter(i=>i.title.toLowerCase().includes(v)));
+  });
 })();
 </script>
 
+<script src="/assets/js/consent.js"></script>
+<script src="/assets/js/privacy.js"></script>
+<script src="/assets/js/langswitch.js"></script>
 </body>
 </html>
