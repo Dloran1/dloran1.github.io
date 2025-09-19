@@ -2,79 +2,128 @@
 <html lang="en-GB">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Blog — all articles (UK)</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="All UK VPN World guides in one place — setup, streaming, speed & privacy.">
-  <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/index.html">
+  <meta name="description" content="All VPN World UK guides in one place — setup, streaming, speed & privacy.">
+  <link rel="canonical" href="/en-gb/blog/index.html">
   <link rel="stylesheet" href="/assets/style.css">
   <link rel="stylesheet" href="/assets/style-extensions.css">
+  <style>
+    .wrap{max-width:980px;margin:0 auto;padding:24px 16px}
+    .row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .badge{display:inline-block;padding:.2rem .5rem;border:1px solid rgba(140,140,160,.35);border-radius:8px}
+    .cards{display:flex;flex-direction:column;gap:12px;margin-top:16px}
+    .card{border:1px solid rgba(140,140,160,.35);border-radius:12px;padding:14px}
+    .card h3{margin:0 0 6px;font-size:1.05rem}
+    .muted{opacity:.85}
+    .lang{margin:12px 0}
+    input[type="search"]{width:100%;max-width:340px;border-radius:10px;border:1px solid rgba(140,140,160,.35);padding:8px 10px;background:#0b1220;color:#e7ecf5}
+    @media (max-width:560px){ .row{flex-direction:column;align-items:flex-start} }
+  </style>
+  <!-- hreflang -->
+  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/index.html">
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/index.html">
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/index.html">
 </head>
 <body>
-<nav class="breadcrumbs"><a href="/en-gb/">Home</a> › <span>Blog (UK)</span></nav>
+  <main class="wrap">
+    <nav aria-label="Breadcrumb" style="margin-bottom:8px"><a href="/en-gb/">Home</a> › <strong>Blog (UK)</strong></nav>
 
-<header>
-  <h1>Blog — all articles (UK) <span id="count" class="badge">0</span></h1>
-  <p>All UK guides in one place — setup, streaming, speed &amp; privacy.</p>
-  <p><a href="/en-gb/blog/index.html">English (UK)</a> | <a href="/blog/index.html">Polski (PL)</a></p>
-</header>
+    <header class="row">
+      <div>
+        <h1 style="margin:0 0 6px">Blog — all articles <span class="muted">(UK)</span> <span id="count" class="badge">0</span></h1>
+        <p class="muted">All UK guides in one place — setup, streaming, speed &amp; privacy.</p>
+      </div>
+      <div class="lang"><a href="/en-gb/blog/index.html">English (UK)</a> | <a href="/blog/index.html">Polski (PL)</a></div>
+    </header>
 
-<label for="q" class="sr-only">Search titles…</label>
-<input id="q" type="search" placeholder="Search titles…" aria-label="Search titles…"/>
+    <label class="muted" for="q">Search titles…</label>
+    <div style="margin:6px 0 14px"><input id="q" type="search" placeholder="Search titles…"></div>
 
-<ul id="list" class="blog-list" aria-live="polite"></ul>
+    <section id="list" class="cards" aria-live="polite"></section>
 
-<footer class="foot">
-  <p>© 2025 VPN World · <a href="/en-gb/privacy.html">Privacy Policy (EN)</a> · <a href="/privacy.html">Polityka prywatności (PL)</a></p>
-</footer>
+    <footer style="margin-top:24px" class="muted">
+      © 2025 VPN World · <a href="/en-gb/privacy.html">Privacy Policy (EN)</a> · <a href="/pl/polityka-prywatnosci.html">Polityka prywatności (PL)</a>
+    </footer>
+  </main>
 
-<script>
-(async function(){
-  const q = document.getElementById('q');
-  const list = document.getElementById('list');
-  const count = document.getElementById('count');
+  <script>
+  (function(){
+    // -------- settings --------
+    const SITEMAP_URL = '/sitemap.xml';
+    const EXCLUDE_URLS = [
+      /\/blog\/index\.html$/i,
+      /\/en-gb\/blog\/index\.html$/i
+    ];
+    // UK раздел: только /en-gb/blog/...
+    const SECTION_ALLOW = /^\/en-gb\/blog\//i;
 
-  async function loadSitemap() {
-    const res = await fetch('/sitemap.xml', {cache:'no-store'});
-    const text = await res.text();
-    const xml = new DOMParser().parseFromString(text, 'application/xml');
-    const urls = [...xml.querySelectorAll('urlset > url')].map(u => ({
-      loc: u.querySelector('loc')?.textContent?.trim() || '',
-      lastmod: u.querySelector('lastmod')?.textContent?.trim() || ''
-    }));
-    // только UK
-    return urls.filter(u => /^https?:\/\/[^/]+\/en-gb\/blog\/.+\.html$/i.test(u.loc));
-  }
+    const isExcluded = (u) => EXCLUDE_URLS.some(rx => rx.test(u));
+    const belongsHere = (u) => SECTION_ALLOW.test(u);
 
-  function niceTitleFromSlug(slug){
-    // slug -> human title
-    return slug.replace(/[-_/]+/g,' ')
-               .replace(/\b\w/g, m => m.toUpperCase());
-  }
+    const $list = document.getElementById('list');
+    const $count = document.getElementById('count');
+    const $q = document.getElementById('q');
 
-  function render(items){
-    list.innerHTML = '';
-    items.forEach(it=>{
-      const url = it.loc;
-      const slug = url.split('/').pop().replace('.html','');
-      const title = niceTitleFromSlug(slug);
-      const li = document.createElement('li');
-      li.className = 'blog-card';
-      li.innerHTML = `<a href="${url}">${title}</a>
-                      <div class="meta">Updated: ${it.lastmod || '—'}</div>`;
-      list.appendChild(li);
-    });
-    count.textContent = String(items.length);
-  }
+    function card(item){
+      const el = document.createElement('article');
+      el.className = 'card';
+      el.innerHTML =
+        `<h3><a href="${item.loc}">${item.title}</a></h3>`+
+        `<p class="muted">Updated: ${item.lastmod || '—'}</p>`;
+      return el;
+    }
 
-  const all = await loadSitemap();
-  render(all);
+    function normalizeTitleFromSlug(url){
+      try{
+        const slug = url.split('/').pop().replace(/\.html$/i,'').replace(/-/g,' ');
+        return slug.replace(/\b\w/g, c => c.toUpperCase());
+      }catch(e){ return url; }
+    }
 
-  q.addEventListener('input', () => {
-    const term = q.value.trim().toLowerCase();
-    const filt = !term ? all : all.filter(i => i.loc.toLowerCase().includes(term));
-    render(filt);
-  });
-})();
-</script>
+    function render(items){
+      $list.innerHTML = '';
+      items.forEach(it => $list.appendChild(card(it)));
+      $count.textContent = items.length;
+    }
+
+    function filterByQuery(items, q){
+      if(!q) return items;
+      q = q.trim().toLowerCase();
+      return items.filter(it => it.title.toLowerCase().includes(q));
+    }
+
+    async function load(){
+      let items = [];
+      try{
+        const res = await fetch(SITEMAP_URL, {cache:'no-store'});
+        const xml = await res.text();
+        const doc = new DOMParser().parseFromString(xml, 'application/xml');
+        const nodes = [...doc.querySelectorAll('urlset > url')];
+        items = nodes.map(n => {
+          const loc = n.querySelector('loc')?.textContent?.trim() || '';
+          const lastmod = n.querySelector('lastmod')?.textContent?.trim() || '';
+          return { loc, lastmod, title: normalizeTitleFromSlug(loc) };
+        })
+        .map(it => {
+          try{
+            const u = new URL(it.loc, location.origin);
+            return { ...it, loc: u.pathname };
+          }catch(_){ return it; }
+        })
+        .filter(it => belongsHere(it.loc) && !isExcluded(it.loc));
+      }catch(e){
+        console.warn('Sitemap load error', e);
+      }
+
+      items.sort((a,b) => (b.lastmod||'').localeCompare(a.lastmod||''));
+      render(items);
+
+      $q.addEventListener('input', () => render(filterByQuery(items, $q.value)));
+    }
+
+    load();
+  })();
+  </script>
 </body>
 </html>
