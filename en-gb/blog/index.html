@@ -2,118 +2,78 @@
 <html lang="en-GB">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Blog — all articles (UK)</title>
-  <meta name="description" content="All UK guides in one place — setup, streaming, speed & privacy.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="All UK VPN World guides in one place — setup, streaming, speed & privacy.">
   <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/index.html">
   <link rel="stylesheet" href="/assets/style.css">
   <link rel="stylesheet" href="/assets/style-extensions.css">
-  <style>
-    .list{display:flex;flex-direction:column;gap:10px;margin-top:8px}
-    .card{border:1px solid rgba(140,140,160,.35);border-radius:12px;padding:12px}
-    .muted{opacity:.85}
-    .badge{display:inline-block;border:1px solid rgba(140,140,160,.35);border-radius:8px;padding:2px 8px;font-weight:600;margin-left:8px}
-    .langs{margin:8px 0 12px}
-    .langs a{margin-right:10px}
-    .srch{width:100%;max-width:360px}
-    footer{margin:28px 0 8px;text-align:center}
-  </style>
 </head>
 <body>
-  <nav class="breadcrumbs" aria-label="Breadcrumb">
-    <a href="/en-gb/">Home</a> › <span>Blog (UK)</span>
-  </nav>
+<nav class="breadcrumbs"><a href="/en-gb/">Home</a> › <span>Blog (UK)</span></nav>
 
-  <header>
-    <h1>Blog — all articles (UK) <span id="count" class="badge">0</span></h1>
-    <p class="muted">All UK guides in one place — setup, streaming, speed & privacy.</p>
-    <p class="langs"><a href="/en-gb/blog/index.html">English (UK)</a> | <a href="/blog/index.html" hreflang="pl">Polski (PL)</a></p>
-    <input id="q" class="srch" type="search" placeholder="Search titles…" aria-label="Search titles">
-  </header>
+<header>
+  <h1>Blog — all articles (UK) <span id="count" class="badge">0</span></h1>
+  <p>All UK guides in one place — setup, streaming, speed &amp; privacy.</p>
+  <p><a href="/en-gb/blog/index.html">English (UK)</a> | <a href="/blog/index.html">Polski (PL)</a></p>
+</header>
 
-  <main id="list" class="list" aria-live="polite"></main>
+<label for="q" class="sr-only">Search titles…</label>
+<input id="q" type="search" placeholder="Search titles…" aria-label="Search titles…"/>
 
-  <footer>
-    <p>© 2025 VPN World · <a href="/en-gb/privacy.html">Privacy Policy (EN)</a> · <a href="/pl/polityka-prywatnosci.html">Polityka prywatności (PL)</a></p>
-  </footer>
+<ul id="list" class="blog-list" aria-live="polite"></ul>
+
+<footer class="foot">
+  <p>© 2025 VPN World · <a href="/en-gb/privacy.html">Privacy Policy (EN)</a> · <a href="/privacy.html">Polityka prywatności (PL)</a></p>
+</footer>
 
 <script>
 (async function(){
-  const listEl = document.getElementById('list');
-  const countEl = document.getElementById('count');
-  const qEl = document.getElementById('q');
+  const q = document.getElementById('q');
+  const list = document.getElementById('list');
+  const count = document.getElementById('count');
 
-  // РЕЗЕРВНЫЙ список UK (только реально существующие/добавленные страницы)
-  const FALLBACK = [
-    "best-vpn-uk.html","free-vs-paid-vpn-uk.html","vpn-android-uk.html","vpn-apple-tv-uk.html",
-    "vpn-bbc-iplayer-uk.html","vpn-best-settings-uk.html","vpn-disadvantages-uk.html","vpn-gaming-uk.html",
-    "vpn-ios-uk.html","vpn-ip-dns-leaks-uk.html","vpn-linux-uk.html","vpn-mac-uk.html","vpn-myths-uk.html",
-    "vpn-netflix-uk.html","vpn-on-router-uk.html","vpn-port-forwarding-uk.html","vpn-protocols-uk.html",
-    "vpn-public-wifi-uk.html","vpn-remote-work-uk.html","vpn-router-setup-uk.html","vpn-security-uk.html",
-    "vpn-sky-go-uk.html","vpn-smart-tv-uk.html","vpn-speed-test-uk.html","vpn-split-tunneling-uk.html",
-    "vpn-streaming-uk.html","vpn-student-uk.html","vpn-torrenting-uk.html","vpn-travel-uk.html","vpn-windows-uk.html",
-    "what-is-vpn-uk.html","which-vpn-server-uk.html","why-vpn-2025-uk.html","dedicated-ip-vpn-uk.html",
-    "double-vpn-uk.html","no-logs-uk.html","vpn-kill-switch-uk.html","vpn-dns-leak-uk.html",
-    "nordvpn-vs-surfshark-uk.html","free-vpn-uk.html"
-  ].map(slug=>`/en-gb/blog/${slug}`);
-
-  async function getUrlsFromSitemap() {
-    try{
-      const res = await fetch('/sitemap.xml', {cache:'no-store'});
-      if(!res.ok) throw 0;
-      const xml = await res.text();
-      const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
-      // Только UK: начинается с /en-gb/blog/
-      return urls.filter(u => new URL(u, location.origin).pathname.startsWith('/en-gb/blog/'));
-    }catch(e){ return []; }
-  }
-
-  async function keepExisting(urls){
-    const results=[];
-    for (const url of urls){
-      try{
-        const r = await fetch(url, {method:'HEAD', cache:'no-store'});
-        if (r.ok) results.push(url);
-      }catch(e){}
-    }
-    return results;
+  async function loadSitemap() {
+    const res = await fetch('/sitemap.xml', {cache:'no-store'});
+    const text = await res.text();
+    const xml = new DOMParser().parseFromString(text, 'application/xml');
+    const urls = [...xml.querySelectorAll('urlset > url')].map(u => ({
+      loc: u.querySelector('loc')?.textContent?.trim() || '',
+      lastmod: u.querySelector('lastmod')?.textContent?.trim() || ''
+    }));
+    // только UK
+    return urls.filter(u => /^https?:\/\/[^/]+\/en-gb\/blog\/.+\.html$/i.test(u.loc));
   }
 
   function niceTitleFromSlug(slug){
-    // Превращаем slug в заголовок с UK-стилем
-    const base = slug.replace(/\.html$/,'').replace(/-/g,' ');
-    return base.replace(/\b\w/g, s=>s.toUpperCase());
+    // slug -> human title
+    return slug.replace(/[-_/]+/g,' ')
+               .replace(/\b\w/g, m => m.toUpperCase());
   }
 
   function render(items){
-    listEl.innerHTML = '';
-    const frag = document.createDocumentFragment();
-    items.forEach(u=>{
-      const p = new URL(u, location.origin).pathname;
-      const slug = p.split('/').pop();
+    list.innerHTML = '';
+    items.forEach(it=>{
+      const url = it.loc;
+      const slug = url.split('/').pop().replace('.html','');
       const title = niceTitleFromSlug(slug);
-      const card = document.createElement('article');
-      card.className='card';
-      card.innerHTML = `<a href="${p}">${title}</a>
-                        <div class="muted" data-ts>Updated: —</div>`;
-      frag.appendChild(card);
+      const li = document.createElement('li');
+      li.className = 'blog-card';
+      li.innerHTML = `<a href="${url}">${title}</a>
+                      <div class="meta">Updated: ${it.lastmod || '—'}</div>`;
+      list.appendChild(li);
     });
-    listEl.appendChild(frag);
-    countEl.textContent = items.length;
+    count.textContent = String(items.length);
   }
 
-  // Поиск по заголовку
-  qEl.addEventListener('input',()=>{
-    const query = qEl.value.trim().toLowerCase();
-    [...listEl.children].forEach(card=>{
-      const txt = card.querySelector('a').textContent.toLowerCase();
-      card.style.display = txt.includes(query) ? '' : 'none';
-    });
-  });
+  const all = await loadSitemap();
+  render(all);
 
-  let urls = await getUrlsFromSitemap();
-  if (urls.length === 0) urls = await keepExisting(FALLBACK);
-  render(urls);
+  q.addEventListener('input', () => {
+    const term = q.value.trim().toLowerCase();
+    const filt = !term ? all : all.filter(i => i.loc.toLowerCase().includes(term));
+    render(filt);
+  });
 })();
 </script>
 </body>
