@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Project QA — VPN World</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root{--bg:#0b1220;--fg:#e9edf1;--mut:#9fb0c3;--ok:#10b981;--warn:#f59e0b;--bad:#ef4444;--card:#10192c;--br:#223049}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;color:var(--fg);background:var(--bg)}
+  header,section{max-width:1100px;margin:18px auto;padding:0 16px}
+  h1{margin:18px 0}
+  .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  button{background:#2E90FA;color:#fff;border:1px solid #2E90FA;border-radius:10px;padding:9px 14px;cursor:pointer}
+  .small{color:var(--mut);font-size:.95rem}
+  .grid{display:grid;grid-template-columns:1fr;gap:10px}
+  .card{background:var(--card);border:1px solid var(--br);border-radius:12px;padding:12px}
+  .bad{border-color:rgba(239,68,68,.6)}
+  .warn{border-color:rgba(245,158,11,.6)}
+  .oktag{display:inline-block;background:rgba(16,185,129,.14);border:1px solid rgba(16,185,129,.5);color:#b5f3de;padding:1px 8px;border-radius:999px;font-size:.8rem}
+  .count{display:inline-block;border:1px solid var(--br);padding:3px 8px;border-radius:8px;background:rgba(255,255,255,.03)}
+  details>summary{cursor:pointer}
+  code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#c7d7ea}
+  a{color:#7ab7ff}
+  table{width:100%;border-collapse:collapse}
+  th,td{border:1px solid var(--br);padding:8px;vertical-align:top}
+  th{background:#12203a}
+</style>
+</head>
+<body>
+<header>
+  <h1>Project QA — PL ↔ UK</h1>
+  <div class="row">
+    <button id="run">Run checks</button>
+    <span class="small">Собирает URL из <code>/sitemap.xml</code> и проверяет каждую страницу.</span>
+  </div>
+  <p class="small">Проверки: consent/privacy скрипты, ссылки на политику в футере (EN/PL), наличие свитчера языков и hreflang, корректность &lt;html lang&gt;, наличие hero/author картинок, счётчик статей (PL/UK).</p>
+</header>
+
+<section id="summary" class="grid"></section>
+<section id="report" class="grid"></section>
+
+<script>
+(async function(){
+  const runBtn = document.getElementById('run');
+  const summary = document.getElementById('summary');
+  const report = document.getElementById('report');
+
+  function card(cls='', html=''){
+    const div=document.createElement('div');
+    div.className='card '+cls;
+    div.innerHTML=html;
+    return div;
+  }
+
+  function parseSitemap(xmlText){
+    const doc = new DOMParser().parseFromString(xmlText, 'application/xml');
+    const locs = [...doc.querySelectorAll('url > loc')].map(n=>n.textContent.trim());
+    // Берём только PL (/blog/) и UK (/en-gb/blog/)
+    const pl = locs.filter(u=>/\/blog\/.+\.html$/i.test(u) && !/\/en-gb\//i.test(u));
+    const uk = locs.filter(u=>/\/en-gb\/blog\/.+\.html$/i.test(u));
+    return {pl, uk, all: locs};
+  }
+
+  function textContains(doc, substr){
+    return doc.querySelector(`script[src*="${substr}"]`) != null;
+  }
+
+  function findFooterLinks(doc){
+    const foot = doc.querySelector('footer.foot') || doc.querySelector('footer');
+    if(!foot) return {hasFooter:false, en:false, pl:false};
+    const en = !!foot.querySelector('a[href*="/en-gb/privacy.html"]');
+    const pl = !!foot.querySelector('a[href*="/pl/polityka-prywatnosci.html"]');
+    return {hasFooter:true, en, pl};
+  }
+
+  function findLangSwitch(doc){
+    const nav = doc.querySelector('.lang-switch, nav[aria-label*="Language"]');
+    return !!nav;
+  }
+
+  function findHreflang(doc){
+    const links = [...doc.querySelectorAll('link[rel="alternate"][hreflang]')];
+    const hasEN = links.some(l=>/en-GB/i.test(l.getAttribute('hreflang')));
+    const hasPL = links.some(l=>/pl-PL/i.test(l.getAttribute('hreflang')));
+    const hasXD = links.some(l=>/x-default/i.test(l.getAttribute('hreflang')));
+    return {hasEN, hasPL, hasXD, count:links.length};
+  }
+
+  function hasScripts(doc){
+    return {
+      consent: textContains(doc,'/assets/js/consent.js'),
+      privacy: textContains(doc,'/assets/js/privacy.js'),
+      langswitch: textContains(doc,'/assets/js/langswitch.js')
+    };
+  }
+
+  function imgOk(url){
+    return (typeof url==='string') && url.length>3 && !url.startsWith('data:');
+  }
+
+  function findImages(doc){
+    const hero = doc.querySelector('article img, figure img');
+    const author = doc.querySelector('.author img, .author-box img');
+    return {
+      hero: hero && imgOk(hero.getAttribute('src')),
+      author: author && imgOk(author.getAttribute('src'))
+    };
+  }
+
+  function getLang(doc){
+    const htmlTag = doc.documentElement.getAttribute('lang')||'';
+    return htmlTag.trim();
+  }
+
+  async function fetchDoc(url){
+    const res = await fetch(url, {cache:'no-store'});
+    const text = await res.text();
+    const doc = new DOMParser().parseFromString(text, 'text/html');
+    return {url, doc, ok:res.ok, status:res.status};
+  }
+
+  async function checkUrl(url){
+    try{
+      const {doc, ok, status} = await fetchDoc(url);
+      if(!ok) return {url, ok:false, status, error:'HTTP '+status};
+      const sc = hasScripts(doc);
+      const fl = findFooterLinks(doc);
+      const ls = findLangSwitch(doc);
+      const hl = findHreflang(doc);
+      const im = findImages(doc);
+      const lg = getLang(doc);
+      return {url, ok:true, sc, fl, ls, hl, im, lg};
+    }catch(e){ return {url, ok:false, status:0, error:String(e)} }
+  }
+
+  function renderSummary(data){
+    summary.innerHTML='';
+    const {plCount, ukCount, badCount, warnCount} = data;
+    summary.appendChild(card('', `
+      <strong>Totals</strong><br>
+      <span class="count">PL: ${plCount}</span>
+      <span class="count">UK: ${ukCount}</span>
+      <span class="count">Issues: <span style="color:#ef4444">${badCount}</span> bad, <span style="color:#f59e0b">${warnCount}</span> warn</span>
+    `));
+  }
+
+  function renderRow(result){
+    const issues=[];
+    const warns=[];
+
+    if(!result.ok){ issues.push(`HTTP ${result.status}`); }
+    else{
+      const {sc, fl, ls, hl, im, lg} = result;
+      if(!sc.langswitch) warns.push('no langswitch.js');
+      if(!sc.consent) warns.push('no consent.js');
+      if(!sc.privacy) warns.push('no privacy.js');
+
+      if(!fl.hasFooter) warns.push('no footer');
+      else{
+        if(!fl.en) issues.push('no EN privacy link');
+        if(!fl.pl) issues.push('no PL privacy link');
+      }
+
+      if(!(hl.hasEN && hl.hasPL)) warns.push('hreflang incomplete');
+      if(!ls) warns.push('no visible language switch');
+      if(!im.hero) warns.push('hero image missing');
+      if(!im.author) warns.push('author image missing');
+      if(!lg) warns.push('html[lang] missing');
+    }
+
+    const cls = issues.length ? 'bad' : (warns.length ? 'warn' : '');
+    const html = `
+      <div class="row" style="justify-content:space-between;gap:8px">
+        <div style="min-width:60%;overflow-wrap:anywhere">
+          <a href="${result.url}" target="_blank" rel="noopener">${result.url}</a>
+          <div class="small mono">${result.ok ? 'OK' : 'Fail'}</div>
+        </div>
+        <div style="text-align:right">
+          ${issues.length?`<div style="color:var(--bad)"><strong>Errors:</strong> ${issues.join(', ')}</div>`:''}
+          ${warns.length?`<div style="color:var(--warn)"><strong>Warn:</strong> ${warns.join(', ')}</div>`:'<span class="oktag">clean</span>'}
+        </div>
+      </div>
+    `;
+    return card(cls, html);
+  }
+
+  runBtn.addEventListener('click', async ()=>{
+    runBtn.disabled=true; runBtn.textContent='Running…';
+    summary.innerHTML=''; report.innerHTML='';
+    try{
+      const sm = await fetch('/sitemap.xml',{cache:'no-store'}).then(r=>r.text());
+      const urls = parseSitemap(sm);
+      const allTargets = [...urls.pl, ...urls.uk];
+
+      // параллельно, но порциями, чтобы не заддосить GH Pages
+      const batch = 10;
+      const results=[];
+      for(let i=0;i<allTargets.length;i+=batch){
+        const slice = allTargets.slice(i,i+batch);
+        const chunk = await Promise.all(slice.map(checkUrl));
+        results.push(...chunk);
+      }
+
+      // подсчёты
+      let badCount=0, warnCount=0;
+      results.forEach(r=>{
+        if(!r.ok) badCount++;
+        else{
+          const {sc, fl, ls, hl, im, lg} = r;
+          const hasIssues = (!fl.en || !fl.pl);
+          const hasWarns  = (!sc.consent || !sc.privacy || !sc.langswitch || !ls || !(hl.hasEN && hl.hasPL) || !im.hero || !im.author || !lg);
+          if(hasIssues) badCount++;
+          else if(hasWarns) warnCount++;
+        }
+      });
+
+      renderSummary({plCount:urls.pl.length, ukCount:urls.uk.length, badCount, warnCount});
+
+      // рендерим проблемные вверху
+      const sorted = results.sort((a,b)=>{
+        const score = r=>{
+          if(!r.ok) return 2;
+          const errors = (r.fl && (!r.fl.en || !r.fl.pl)) ? 1 : 0;
+          return errors?1:0;
+        };
+        return score(b)-score(a);
+      });
+
+      sorted.forEach(r=> report.appendChild(renderRow(r)));
+    }catch(e){
+      report.appendChild(card('bad', `<strong>Failed:</strong> ${String(e)}`));
+    }finally{
+      runBtn.disabled=false; runBtn.textContent='Run checks';
+    }
+  });
+})();
+</script>
+</body>
+</html>
