@@ -7,39 +7,43 @@
   <meta name="description" content="All UK VPN guides in one place — setup, streaming, speed & privacy. Auto-listed from manifest.json (fallback: sitemap.xml)." />
   <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/" />
 
-  <!-- Open Graph -->
+  <!-- OG / Twitter -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Blog — all articles (UK)" />
   <meta property="og:description" content="All UK VPN guides in one place — setup, streaming, speed & privacy." />
   <meta property="og:url" content="https://dloran1.github.io/en-gb/blog/" />
   <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp" />
   <meta property="og:locale" content="en_GB" />
-
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Blog — all articles (UK)" />
-  <meta name="twitter:description" content="All UK VPN guides in one place — setup, streaming, speed & privacy." />
-  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp" />
 
-  <!-- CSS (project styles) -->
+  <!-- Project CSS -->
   <link rel="stylesheet" href="/assets/style.css" />
   <link rel="stylesheet" href="/assets/style-extensions.css" />
 
   <style>
-    .wrap{max-width:980px;margin:0 auto;padding:0 16px}
+    .wrap{max-width:1040px;margin:0 auto;padding:0 16px}
     .lead{opacity:.9;margin:.3rem 0 1rem}
-    .badge{display:inline-block;margin-left:.5rem;padding:.2rem .5rem;border:1px solid rgba(140,140,160,.35);border-radius:6px;font-size:.85rem}
-    .langswitch{margin:.75rem 0 1rem}
+    .langswitch{margin:.75rem 0 1.25rem}
     .langswitch a{color:#2E90FA;text-decoration:none}
-    .search{display:block;width:100%;padding:12px 14px;border-radius:10px;border:1px solid rgba(140,140,160,.35);background:rgba(255,255,255,.02);color:inherit}
-    .grid{display:grid;gap:12px;margin:14px 0 26px}
-    .card{border:1px solid rgba(140,140,160,.35);border-radius:12px;padding:14px;background:rgba(255,255,255,.03)}
-    .card h3{margin:.1rem 0 .25rem;font-size:1.15rem}
+    .toolbar{display:flex;gap:10px;align-items:center;margin:.5rem 0 1rem}
+    .search{flex:1 1 auto;display:block;width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(140,140,160,.35);background:rgba(255,255,255,.02);color:inherit}
+    .select{padding:10px 12px;border-radius:12px;border:1px solid rgba(140,140,160,.35);background:rgba(255,255,255,.02);color:inherit}
+    .count{display:inline-block;margin-left:.5rem;padding:.18rem .55rem;border:1px solid rgba(140,140,160,.35);border-radius:8px;font-size:.85rem}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px;margin:14px 0 28px}
+    @media(min-width:720px){ .grid{grid-template-columns:1fr 1fr} }
+    .card{display:grid;grid-template-columns:108px 1fr;gap:14px;align-items:center;border:1px solid rgba(140,140,160,.35);border-radius:14px;
+          padding:12px 12px; background:rgba(255,255,255,.03); transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease}
+    .card:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(0,0,0,.22); border-color:rgba(46,144,250,.45)}
+    .thumb{width:108px;height:72px;border-radius:10px;object-fit:cover;background:#0b1220;border:1px solid rgba(140,140,160,.35)}
+    .card h3{margin:.1rem 0 .3rem;font-size:1.02rem;line-height:1.25}
     .card a{color:#2E90FA;text-decoration:none}
-    .muted{opacity:.75}
+    .meta{font-size:.9rem;opacity:.75;margin:.1rem 0}
+    .ex{opacity:.9;font-size:.95rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
     .empty{border:1px dashed rgba(140,140,160,.35);border-radius:12px;padding:16px;text-align:center;opacity:.85}
     .breadcrumbs ul{display:flex;gap:.5rem;list-style:none;padding:0;margin:10px 0}
     .breadcrumbs a{text-decoration:none}
+    .pill{display:inline-block;font-size:.75rem;padding:.15rem .45rem;border:1px solid rgba(140,140,160,.35);border-radius:999px;margin-left:.4rem;opacity:.8}
+    .kbd{padding:.08rem .35rem;border:1px solid rgba(140,140,160,.35);border-radius:6px;background:rgba(255,255,255,.06)}
   </style>
 </head>
 <body>
@@ -53,21 +57,26 @@
 
 <main class="wrap" id="top">
   <header>
-    <h1>Blog — all articles (UK) <span class="badge" id="count">0</span></h1>
+    <h1>Blog — all articles (UK) <span class="count" id="count">0</span></h1>
     <p class="lead">All UK guides in one place — setup, streaming, speed & privacy.</p>
-
-    <!-- Visible language switch -->
     <p class="langswitch" aria-label="Language switch">
       <a href="/en-gb/blog/">English (UK)</a> | <a href="/blog/" lang="pl-PL">Polski (PL)</a>
     </p>
-
-    <label for="q" class="visually-hidden">Search titles</label>
-    <input class="search" id="q" type="search" placeholder="Search titles…" autocomplete="off" />
   </header>
+
+  <div class="toolbar">
+    <input id="q" class="search" type="search" placeholder="Search titles…" autocomplete="off" />
+    <select id="sort" class="select" aria-label="Sort">
+      <option value="date">Newest</option>
+      <option value="az">A–Z</option>
+    </select>
+  </div>
 
   <section class="grid" id="list" aria-live="polite" aria-busy="true">
     <div class="empty">Loading…</div>
   </section>
+
+  <p class="meta">Tip: press <span class="kbd">/</span> to jump to search.</p>
 </main>
 
 <footer class="foot">
@@ -75,123 +84,141 @@
 </footer>
 
 <script>
-/* -------- Helpers -------- */
-function el(tag, attrs={}, html=""){
-  const n=document.createElement(tag);
-  for(const k in attrs){ if(attrs[k]!==null) n.setAttribute(k, attrs[k]); }
-  if(html) n.innerHTML=html;
-  return n;
-}
-function normaliseDate(d){
-  // accept 'YYYY-MM-DD' or ISO; return 'YYYY-MM-DD'
-  try{
-    if(!d) return "";
-    if(/^\d{4}-\d{2}-\d{2}$/.test(d)) return d;
-    const dt=new Date(d);
-    if(!isNaN(+dt)){
-      const y=dt.getFullYear();
-      const m=String(dt.getMonth()+1).padStart(2,"0");
-      const day=String(dt.getDate()).padStart(2,"0");
-      return `${y}-${m}-${day}`;
-    }
-  }catch(_){}
+const DEFAULT_IMG = "/assets/img/hero/en-gb/hero-06.webp";
+
+/* helpers */
+const $ = sel => document.querySelector(sel);
+function el(tag, attrs={}, html=""){ const n=document.createElement(tag); for(const k in attrs){ n.setAttribute(k,attrs[k]); } if(html) n.innerHTML=html; return n; }
+function normDate(d){
+  if(!d) return "";
+  if(/^\d{4}-\d{2}-\d{2}$/.test(d)) return d;
+  const t=Date.parse(d); if(!isNaN(t)){ const dt=new Date(t); const m=String(dt.getMonth()+1).padStart(2,"0"); const day=String(dt.getDate()).padStart(2,"0"); return `${dt.getFullYear()}-${m}-${day}`; }
   return "";
 }
 
-/* -------- Render -------- */
-function render(list){
-  const wrap=document.getElementById('list');
+/* render */
+function render(items){
+  const wrap = $("#list");
   wrap.innerHTML="";
-  if(!list || !list.length){
-    wrap.appendChild(el('div',{class:"empty"},'Nothing to show yet.'));
-    document.getElementById('count').textContent="0";
+  if(!items || !items.length){
+    wrap.appendChild(el('div',{class:'empty'},'Nothing to show yet.'));
+    $("#count").textContent="0";
     wrap.setAttribute('aria-busy','false');
     return;
   }
-  const frag=document.createDocumentFragment();
-  list.forEach(item=>{
-    const card=el('article',{class:'card'});
-    const h=el('h3');
-    const a=el('a',{href:item.url}, item.title || item.url);
-    h.appendChild(a);
-    const meta=el('p',{class:'muted'}, item.lastmod ? `Updated: ${normaliseDate(item.lastmod)}` : '');
-    card.appendChild(h);
-    card.appendChild(meta);
+  const frag = document.createDocumentFragment();
+  items.forEach(x=>{
+    const card = el('article',{class:'card'});
+    const img = el('img',{class:'thumb',loading:'lazy',decoding:'async',src: x.image || DEFAULT_IMG, alt: x.alt || 'Article preview'});
+    const box = el('div',{});
+      const h = el('h3');
+      const a = el('a',{href:x.url}, x.title || x.url);
+      if(x.badge) a.appendChild(el('span',{class:'pill'}, x.badge));
+      h.appendChild(a);
+      const meta = el('div',{class:'meta'}, x.lastmod ? `Updated: ${normDate(x.lastmod)}` : '');
+      const ex = el('p',{class:'ex'}, x.excerpt || '');
+      box.appendChild(h); box.appendChild(meta); box.appendChild(ex);
+    card.appendChild(img); card.appendChild(box);
     frag.appendChild(card);
   });
   wrap.appendChild(frag);
-  document.getElementById('count').textContent=String(list.length);
+  $("#count").textContent = String(items.length);
   wrap.setAttribute('aria-busy','false');
 }
 
-/* -------- Data loaders -------- */
+/* data loaders */
 async function loadFromManifest(){
-  // first try /en-gb/blog/manifest.json (same folder)
   const res = await fetch('./manifest.json', {cache:'no-store'});
-  if(!res.ok) throw new Error('manifest missing');
-  const json = await res.json();
-  // expected shape: [{title,url,lastmod}]
-  if(!Array.isArray(json)) throw new Error('bad manifest format');
-  // keep only items under /en-gb/blog/
-  return json.filter(x => (x && typeof x.url === 'string' && x.url.indexOf('/en-gb/blog/')===0));
+  if(!res.ok) throw new Error('no manifest');
+  const data = await res.json();
+  if(!Array.isArray(data)) throw new Error('bad manifest');
+  // keep only en-gb/blog items
+  return data
+    .filter(x => x && typeof x.url==='string' && x.url.startsWith('/en-gb/blog/'))
+    .map(x => ({
+      title: x.title || '',
+      url: x.url,
+      lastmod: x.lastmod || '',
+      image: x.image || '',
+      excerpt: x.excerpt || '',
+      alt: x.alt || '',
+      badge: x.badge || ''
+    }));
 }
 
 async function loadFromSitemap(){
   const res = await fetch('/sitemap.xml', {cache:'no-store'});
-  if(!res.ok) throw new Error('sitemap missing');
+  if(!res.ok) throw new Error('no sitemap');
   const xml = await res.text();
-  const dom = new DOMParser().parseFromString(xml, 'application/xml');
-  const locs = [...dom.querySelectorAll('urlset url')].map(u=>{
-    const loc = u.querySelector('loc')?.textContent?.trim() || '';
-    const lastmod = u.querySelector('lastmod')?.textContent?.trim() || '';
-    return {loc, lastmod};
+  const dom = new DOMParser().parseFromString(xml,'application/xml');
+  const out=[];
+  dom.querySelectorAll('urlset url').forEach(u=>{
+    const loc=u.querySelector('loc')?.textContent?.trim()||'';
+    if(!loc.includes('/en-gb/blog/')) return;
+    const lastmod=u.querySelector('lastmod')?.textContent?.trim()||'';
+    const slug = decodeURIComponent(loc.split('/').pop()||'').replace(/\.html$/,'').replace(/-/g,' ');
+    const pretty = slug.replace(/\b\w/g,s=>s.toUpperCase());
+    out.push({
+      title: pretty,
+      url: loc.replace('https://dloran1.github.io',''),
+      lastmod,
+      image: '',
+      excerpt: ''
+    });
   });
-  // take only en-gb/blog entries
-  const list = locs.filter(o => o.loc.includes('/en-gb/blog/'))
-                   .map(o => ({
-                      title: decodeURIComponent(o.loc.split('/').pop().replace('.html','').replace(/-/g,' ')).replace(/\b\w/g,s=>s.toUpperCase()),
-                      url: o.loc.replace('https://dloran1.github.io',''),
-                      lastmod: o.lastmod || ''
-                   }));
-  // unique by url
+  // dedupe
   const seen=new Set(); const uniq=[];
-  for(const it of list){ if(!seen.has(it.url)){ seen.add(it.url); uniq.push(it);} }
+  for(const it of out){ if(!seen.has(it.url)){ seen.add(it.url); uniq.push(it); } }
   return uniq;
 }
 
-/* -------- Search -------- */
-function wireSearch(source){
-  const q = document.getElementById('q');
-  const wrap = document.getElementById('list');
-  q.addEventListener('input', ()=>{
-    const s = q.value.trim().toLowerCase();
-    const filtered = !s ? source : source.filter(x => (x.title||"").toLowerCase().includes(s));
-    wrap.setAttribute('aria-busy','true');
-    render(filtered);
+/* state + interactions */
+let SOURCE=[];
+function applySort(list, mode){
+  if(mode==='az'){
+    return [...list].sort((a,b)=> (a.title||'').localeCompare((b.title||'')));
+  }
+  // default: by date desc
+  return [...list].sort((a,b)=> (Date.parse(b.lastmod||'')||0) - (Date.parse(a.lastmod||'')||0));
+}
+function wireUI(){
+  const q=$("#q"), sort=$("#sort");
+  function rerender(){
+    const s=q.value.trim().toLowerCase();
+    const mode=sort.value;
+    const filtered = s ? SOURCE.filter(x => (x.title||'').toLowerCase().includes(s)) : SOURCE;
+    render(applySort(filtered, mode));
+  }
+  q.addEventListener('input', rerender);
+  sort.addEventListener('change', rerender);
+
+  // keyboard focus on search
+  window.addEventListener('keydown', (e)=>{
+    if(e.key==='/' && document.activeElement!==q){
+      e.preventDefault(); q.focus();
+    }
   });
 }
 
-/* -------- Init -------- */
-(async function init(){
-  let items=[];
+/* init */
+(async function(){
   try{
-    items = await loadFromManifest();
+    SOURCE = await loadFromManifest();
   }catch(e){
-    try{
-      items = await loadFromSitemap();
-    }catch(e2){
-      items = [];
-    }
+    SOURCE = await loadFromSitemap().catch(()=>[]);
   }
-  // sort by lastmod desc (fallback: title)
-  items.sort((a,b)=>{
-    const da = Date.parse(a.lastmod||'') || 0;
-    const db = Date.parse(b.lastmod||'') || 0;
-    if(db!==da) return db-da;
-    return (a.title||'').localeCompare(b.title||'');
+  // small quality pass: fallback images for categories by slug hints
+  SOURCE = SOURCE.map(x=>{
+    if(x.image) return x;
+    if(/router/i.test(x.title)) x.image="/assets/img/hero/en-gb/hero-07.webp";
+    else if(/netflix|iplayer|stream/i.test(x.title)) x.image="/assets/img/hero/en-gb/hero-06.webp";
+    else if(/protocol|wireguard|openvpn|ikev2/i.test(x.title)) x.image="/assets/img/hero/en-gb/hero-05.webp";
+    else x.image=DEFAULT_IMG;
+    return x;
   });
-  render(items);
-  wireSearch(items);
+  SOURCE = applySort(SOURCE, 'date');
+  render(SOURCE);
+  wireUI();
 })();
 </script>
 
