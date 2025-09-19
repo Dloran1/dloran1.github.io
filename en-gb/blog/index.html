@@ -3,79 +3,96 @@
 <head>
   <meta charset="utf-8">
   <title>Blog — all articles (UK) | VPN World</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="All UK VPN guides in one place — setup, streaming, speed & privacy.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/">
   <link rel="stylesheet" href="/assets/style.css">
   <link rel="stylesheet" href="/assets/style-extensions.css">
-  <style>
-    .wrap{max-width:960px;margin:0 auto;padding:0 16px}
-    .switch{margin:.5rem 0 1rem}
-    .cards{display:grid;gap:12px}
-    .card{border:1px solid rgba(140,140,160,.35);border-radius:12px;padding:14px}
-    .card a{font-weight:700;text-decoration:none}
-    .muted{opacity:.8}
-    .search{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(140,140,160,.35);background:rgba(255,255,255,.02);margin:10px 0 16px}
-    .chip{display:inline-block;border:1px solid rgba(140,140,160,.35);border-radius:8px;padding:2px 8px;margin-left:.4rem;font-size:.85rem}
-  </style>
-  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/">
+  <link rel="alternate" hreflang="en-GB" href="https://dloran1.github.io/en-gb/blog/">
   <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/">
   <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/">
+  <style>
+    .wrap{max-width:980px;margin:0 auto;padding:0 16px}
+    .langswitch{margin:10px 0 18px}
+    .counter{display:inline-block;margin-left:8px;padding:2px 8px;border:1px solid rgba(140,140,160,.35);border-radius:8px;font-weight:600}
+    .card{border:1px solid rgba(140,140,160,.35);border-radius:12px;padding:16px;margin:12px 0}
+    .muted{opacity:.8}
+    .search{width:100%;padding:12px 14px;border:1px solid rgba(140,140,160,.35);border-radius:10px;background:rgba(255,255,255,.03);color:inherit}
+  </style>
 </head>
 <body>
 <nav class="breadcrumbs" aria-label="Breadcrumb">
-  <ul><li><a href="/en-gb/">Home</a></li><li aria-current="page">Blog (UK)</li></ul>
+  <ul>
+    <li><a href="/en-gb/">Home</a></li>
+    <li aria-current="page">Blog (UK)</li>
+  </ul>
 </nav>
 
 <main class="wrap">
-  <h1>Blog — all articles (UK) <span id="count" class="chip">0</span></h1>
-  <p class="muted">All UK guides in one place — setup, streaming, speed & privacy.</p>
+  <h1>Blog — all articles (UK) <span id="count" class="counter">0</span></h1>
+  <p class="muted">All UK guides in one place — setup, streaming, speed &amp; privacy.</p>
 
-  <div class="switch"><a href="/en-gb/blog/">English (UK)</a> | <a href="/blog/">Polski (PL)</a></div>
+  <p class="langswitch"><a href="/en-gb/blog/">English (UK)</a> | <a href="/blog/">Polski (PL)</a></p>
 
-  <input id="q" class="search" type="search" placeholder="Search titles…">
+  <input id="q" class="search" placeholder="Search titles…">
 
-  <section id="list" class="cards" aria-live="polite"></section>
+  <div id="list"></div>
 </main>
 
 <footer class="foot">
-  <p>© 2025 VPN World • <a href="/en-gb/privacy.html">Privacy Policy</a> • <a href="/pl/polityka-prywatnosci.html" lang="pl">Polityka prywatności</a></p>
+  <p>© 2025 VPN World •
+     <a href="/en-gb/privacy.html">Privacy Policy (EN)</a> •
+     <a href="/pl/polityka-prywatnosci.html" lang="pl">Polityka prywatności (PL)</a>
+  </p>
 </footer>
+
+<script src="/assets/js/langswitch.js"></script>
+<script src="/assets/js/consent.js"></script>
+<script src="/assets/js/privacy.js"></script>
 
 <script>
 (async function(){
-  const list = document.getElementById('list');
+  const listEl = document.getElementById('list');
+  const countEl = document.getElementById('count');
   const q = document.getElementById('q');
-  const wantUK = (u)=>u.startsWith('https://dloran1.github.io/en-gb/blog/');
-  const resp = await fetch('/sitemap.xml',{cache:'no-store'});
-  const xml = await resp.text();
-  const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]).filter(wantUK);
-  const items = [];
-  for (const url of locs){
-    const m = xml.match(new RegExp(`<url>\\s*<loc>${url.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}</loc>[\\s\\S]*?<lastmod>([^<]+)<`));
-    const lastmod = m?m[1]:'';
-    const slug = url.split('/').pop().replace('.html','').replace(/-/g,' ');
-    const title = slug.charAt(0).toUpperCase()+slug.slice(1);
-    items.push({url,title,lastmod});
+
+  // берём UK-URL из sitemap.xml (те что под /en-gb/blog/)
+  const sm = await fetch('/sitemap.xml').then(r=>r.text());
+  const urls = [...sm.matchAll(/<loc>(https?:\/\/[^<]+)<\/loc>/g)].map(m=>m[1])
+                .filter(u => /\/en-gb\/blog\/[^/]+\.html$/.test(u));
+  countEl.textContent = urls.length;
+
+  function slugToTitle(slug){
+    return slug
+      .replace(/\.html$/,'')
+      .split('/').pop()
+      .replace(/-/g,' ')
+      .replace(/\b\w/g, s=>s.toUpperCase());
   }
-  const render = (arr)=>{
-    list.innerHTML = arr.map(it=>`
-      <article class="card">
-        <a href="${new URL(it.url).pathname}">${it.title}</a>
-        <div class="muted">Updated: ${it.lastmod||'—'}</div>
-      </article>`).join('');
-    document.getElementById('count').textContent = arr.length;
-  };
-  render(items);
-  q.addEventListener('input',()=> {
-    const v = q.value.toLowerCase();
-    render(items.filter(i=>i.title.toLowerCase().includes(v)));
+
+  let items = urls.map(u=>{
+    const title = slugToTitle(u);
+    return {url: new URL(u).pathname, title, date: '2025-09-19'};
   });
+
+  function render(filter=''){
+    listEl.innerHTML = '';
+    const f = filter.trim().toLowerCase();
+    items
+      .filter(it => !f || it.title.toLowerCase().includes(f))
+      .forEach(it=>{
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <h3><a href="${it.url}">${it.title}</a></h3>
+          <p class="muted">Updated: 2025-09-19</p>`;
+        listEl.appendChild(card);
+      });
+  }
+
+  q.addEventListener('input', ()=>render(q.value));
+  render();
 })();
 </script>
-
-<script src="/assets/js/consent.js"></script>
-<script src="/assets/js/privacy.js"></script>
-<script src="/assets/js/langswitch.js"></script>
 </body>
 </html>
