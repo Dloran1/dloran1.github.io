@@ -2,132 +2,130 @@
 <html lang="pl">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Blog — wszystkie artykuły (PL)</title>
-  <meta name="description" content="Wszystkie poradniki VPN World po polsku — konfiguracja, streaming, prędkość i prywatność.">
-  <link rel="canonical" href="/blog/index.html">
-  <link rel="stylesheet" href="/assets/style.css">
-  <link rel="stylesheet" href="/assets/style-extensions.css">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://dloran1.github.io/blog/">
+  <link rel="icon" href="/assets/img/favicon.png">
+  <meta name="description" content="Wszystkie poradniki VPN w jednym miejscu — konfiguracja, streaming, prędkość i prywatność.">
+
   <style>
-    .wrap{max-width:980px;margin:0 auto;padding:24px 16px}
-    .row{display:flex;justify-content:space-between;align-items:center;gap:12px}
-    .badge{display:inline-block;padding:.2rem .5rem;border:1px solid rgba(140,140,160,.35);border-radius:8px}
-    .cards{display:flex;flex-direction:column;gap:12px;margin-top:16px}
-    .card{border:1px solid rgba(140,140,160,.35);border-radius:12px;padding:14px}
-    .card h3{margin:0 0 6px;font-size:1.05rem}
-    .muted{opacity:.85}
-    .lang{margin:12px 0}
-    input[type="search"]{width:100%;max-width:340px;border-radius:10px;border:1px solid rgba(140,140,160,.35);padding:8px 10px;background:#0b1220;color:#e7ecf5}
-    @media (max-width:560px){ .row{flex-direction:column;align-items:flex-start} }
+    :root{color-scheme:dark}
+    body{margin:0;font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,
+      Cantarell,'Helvetica Neue',Arial,sans-serif;background:#0b1220;color:#e8eef7}
+    .container{max-width:980px;margin:0 auto;padding:18px}
+    a{color:#52a8ff;text-decoration:none}
+    a:hover{text-decoration:underline}
+    header h1{font-size:clamp(28px,5vw,44px);margin:10px 0 6px}
+    .lede{opacity:.9;margin:0 0 18px}
+    .switch{margin:6px 0 14px}
+    .search{display:flex;gap:10px;align-items:center;margin:10px 0 16px}
+    .search input{flex:1; padding:10px 12px;border-radius:10px;border:1px solid #2a3a55;background:#0f182b;color:#e8eef7}
+    .count{display:inline-flex;align-items:center;justify-content:center;
+      min-width:36px;height:32px;border-radius:10px;border:1px solid #2a3a55;margin-left:10px;font-weight:700}
+    .list{display:grid;gap:12px}
+    .card{border:1px solid #2a3a55;border-radius:12px;padding:14px;background:#0e1628}
+    .title{font-weight:800;font-size:20px;margin:0 0 6px}
+    .meta{font-size:14px;opacity:.8}
+    footer{margin:28px 0 10px;text-align:center;opacity:.85}
+    .bad{display:inline-block;background:#2a0e14;border:1px solid #6b1e28;padding:2px 8px;border-radius:8px;margin-left:8px}
   </style>
-  <!-- hreflang -->
-  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/index.html">
-  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/index.html">
-  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/index.html">
 </head>
 <body>
-  <main class="wrap">
-    <nav aria-label="Breadcrumb" style="margin-bottom:8px"><a href="/">Strona główna</a> › <strong>Blog (PL)</strong></nav>
+  <nav class="container" aria-label="Breadcrumb">
+    <a href="/">Strona główna</a> › <a href="/blog/">Blog (PL)</a>
+  </nav>
 
-    <header class="row">
-      <div>
-        <h1 style="margin:0 0 6px">Blog — wszystkie artykuły <span class="muted">(PL)</span> <span id="count" class="badge">0</span></h1>
-        <p class="muted">Wszystkie poradniki w jednym miejscu — konfiguracja, streaming, prędkość &amp; prywatność.</p>
-      </div>
-      <div class="lang"><a href="/blog/index.html">Polski (PL)</a> | <a href="/en-gb/blog/index.html">English (UK)</a></div>
+  <main class="container">
+    <header>
+      <h1>Blog — wszystkie artykuły (PL) <span id="count" class="count">0</span></h1>
+      <p class="lede">Wszystkie poradniki w jednym miejscu — konfiguracja, streaming, prędkość &amp; prywatność.</p>
+      <p class="switch"><a href="/blog/">Polski (PL)</a> | <a href="/en-gb/blog/">English (UK)</a></p>
     </header>
 
-    <label class="muted" for="q">Szukaj tytułów…</label>
-    <div style="margin:6px 0 14px"><input id="q" type="search" placeholder="Szukaj tytułów…"></div>
+    <div class="search">
+      <label for="q" class="sr-only">Szukaj tytułów…</label>
+      <input id="q" type="search" placeholder="Szukaj tytułów…">
+    </div>
 
-    <section id="list" class="cards" aria-live="polite"></section>
+    <section id="list" class="list" aria-live="polite"></section>
 
-    <footer style="margin-top:24px" class="muted">
-      © 2025 VPN World · <a href="/pl/polityka-prywatnosci.html">Polityka prywatności</a> · <a href="/en-gb/privacy.html">Privacy Policy (EN)</a>
+    <footer>
+      <p>© 2025 VPN World · <a href="/assets/privacy.html">Privacy & Cookies</a> · <a href="/pl/polityka-prywatnosci.html">Polityka prywatności</a></p>
     </footer>
   </main>
 
   <script>
   (function(){
-    // -------- настройки фильтра --------
-    const SITEMAP_URL = '/sitemap.xml';
-    const EXCLUDE_URLS = [
-      /\/blog\/index\.html$/i,
-      /\/en-gb\/blog\/index\.html$/i
-    ];
-    // Раздел: для PL допускаем только /blog/... (но не /en-gb/blog/...)
-    const SECTION_ALLOW = /^\/blog\//i;
-    const SECTION_DISALLOW = /^\/en-gb\/blog\//i;
+    const SITEMAP = '/sitemap.xml';
+    const PL_PREFIX = '/blog/';
+    const INDEX_NAME = 'index.html';
 
-    const isExcluded = (u) => EXCLUDE_URLS.some(rx => rx.test(u));
-    const belongsHere = (u) => SECTION_ALLOW.test(u) && !SECTION_DISALLOW.test(u);
+    const listEl = document.getElementById('list');
+    const countEl = document.getElementById('count');
+    const qEl = document.getElementById('q');
 
-    const $list = document.getElementById('list');
-    const $count = document.getElementById('count');
-    const $q = document.getElementById('q');
-
-    function card(item){
-      const a = document.createElement('article');
-      a.className = 'card';
-      a.innerHTML =
-        `<h3><a href="${item.loc}">${item.title}</a></h3>`+
-        `<p class="muted">Zaktualizowano: ${item.lastmod || '—'}</p>`;
-      return a;
-    }
-
-    function normalizeTitleFromSlug(url){
-      try{
-        const slug = url.split('/').pop().replace(/\.html$/i,'').replace(/-/g,' ');
-        // Первая буква — заглавная
-        return slug.replace(/\b\w/g, c => c.toUpperCase());
-      }catch(e){ return url; }
-    }
+    const pretty = s => s.replace(/\s+/g,' ').trim();
+    const titleFromSlug = url => {
+      const slug = url.split('/').pop().replace('.html','');
+      return pretty(slug.replace(/-/g,' '));
+    };
 
     function render(items){
-      $list.innerHTML = '';
-      items.forEach(it => $list.appendChild(card(it)));
-      $count.textContent = items.length;
+      listEl.innerHTML='';
+      items.forEach(it=>{
+        const card=document.createElement('article');
+        card.className='card';
+        card.innerHTML = `
+          <h2 class="title"><a href="${it.loc}">${it.title}</a></h2>
+          <p class="meta">Zaktualizowano: ${it.date||'—'}</p>
+        `;
+        listEl.appendChild(card);
+      });
+      countEl.textContent = items.length;
     }
 
-    function filterByQuery(items, q){
-      if(!q) return items;
-      q = q.trim().toLowerCase();
-      return items.filter(it => it.title.toLowerCase().includes(q));
+    function filterIndex(entries){
+      return entries.filter(u=>{
+        if(!u.loc.startsWith(PL_PREFIX)) return false;
+        return !u.loc.endsWith('/'+INDEX_NAME);
+      });
     }
 
-    async function load(){
-      let items = [];
-      try{
-        const res = await fetch(SITEMAP_URL, {cache:'no-store'});
-        const xml = await res.text();
-        const doc = new DOMParser().parseFromString(xml, 'application/xml');
-        const nodes = [...doc.querySelectorAll('urlset > url')];
-        items = nodes.map(n => {
-          const loc = n.querySelector('loc')?.textContent?.trim() || '';
-          const lastmod = n.querySelector('lastmod')?.textContent?.trim() || '';
-          return { loc, lastmod, title: normalizeTitleFromSlug(loc) };
-        })
-        .filter(it => it.loc.startsWith('https://') || it.loc.startsWith('/'))
-        .map(it => {
-          // сделать относительным, чтобы href были короче
-          try{
-            const u = new URL(it.loc, location.origin);
-            return { ...it, loc: u.pathname };
-          }catch(_){ return it; }
-        })
-        .filter(it => belongsHere(it.loc) && !isExcluded(it.loc));
-      }catch(e){
-        console.warn('Sitemap load error', e);
-      }
-      // Сортировка: по lastmod убыв.
-      items.sort((a,b) => (b.lastmod||'').localeCompare(a.lastmod||''));
-      render(items);
-
-      // поиск
-      $q.addEventListener('input', () => render(filterByQuery(items, $q.value)));
+    function parseSitemap(xml){
+      const out=[];
+      xml.querySelectorAll('urlset > url').forEach(n=>{
+        const loc=n.querySelector('loc')?.textContent||'';
+        const lastmod=n.querySelector('lastmod')?.textContent||'';
+        if(loc) out.push({loc, date:lastmod});
+      });
+      return out;
     }
 
-    load();
+    function attachSearch(items){
+      qEl.addEventListener('input', ()=>{
+        const q = qEl.value.toLowerCase().trim();
+        const res = !q ? items : items.filter(it => it.title.toLowerCase().includes(q));
+        render(res);
+      });
+    }
+
+    fetch(SITEMAP, {cache:'no-store'})
+      .then(r=>r.ok?r.text():Promise.reject(r.status))
+      .then(txt=>new window.DOMParser().parseFromString(txt,'application/xml'))
+      .then(xml=>{
+        let items = filterIndex(parseSitemap(xml)).map(x=>({
+          loc:x.loc, date:x.date, title:titleFromSlug(x.loc)
+        }));
+        items.sort((a,b)=>a.title.localeCompare(b.title, 'pl'));
+        render(items);
+        attachSearch(items);
+      })
+      .catch(err=>{
+        listEl.innerHTML =
+          `<div class="card"><strong>Nie udało się wczytać sitemap</strong><span class="bad">Błąd: ${err}</span><p class="meta">Sprawdź plik <code>/sitemap.xml</code>.</p></div>`;
+        countEl.textContent='0';
+      });
   })();
   </script>
 </body>
