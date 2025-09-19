@@ -7,21 +7,13 @@
   <meta name="description" content="All UK guides in one place — setup, streaming, speed & privacy.">
   <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/index.html">
 
-  <!-- Styles -->
   <link rel="stylesheet" href="/assets/style.css">
   <link rel="stylesheet" href="/assets/style-extensions.css">
 
-  <!-- hreflang (PL ↔ EN-GB) -->
+  <!-- hreflang -->
   <link rel="alternate" hreflang="en-GB" href="https://dloran1.github.io/en-gb/blog/index.html">
   <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/index.html">
   <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/index.html">
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="VPN World">
-  <meta property="og:title" content="Blog — all articles (UK)">
-  <meta property="og:description" content="All UK guides in one place — setup, streaming, speed & privacy.">
-  <meta property="og:url" content="https://dloran1.github.io/en-gb/blog/index.html">
 
   <style>
     .list{display:grid;gap:14px}
@@ -29,10 +21,10 @@
     .meta{opacity:.75;font-size:.95rem;margin-top:6px}
     .count{display:inline-block;border:1px solid rgba(140,140,160,.35);border-radius:8px;padding:2px 8px;margin-left:8px}
     .langswitch{margin:10px 0 20px}
+    .visually-hidden{position:absolute!important;clip:rect(1px,1px,1px,1px);padding:0;border:0;height:1px;width:1px;overflow:hidden}
   </style>
 </head>
 <body>
-
 <nav class="breadcrumbs" aria-label="Breadcrumb">
   <a href="/en-gb/">Home</a> › <span>Blog (UK)</span>
 </nav>
@@ -42,7 +34,6 @@
     <h1>Blog — all articles (UK) <span id="count" class="count" aria-label="Article count">0</span></h1>
     <p>All UK guides in one place — setup, streaming, speed & privacy.</p>
 
-    <!-- Visible language switch -->
     <nav class="langswitch" role="navigation" aria-label="Language switcher">
       <a href="/en-gb/blog/index.html" hreflang="en-GB">English (UK)</a> |
       <a href="/blog/index.html" hreflang="pl">Polski (PL)</a>
@@ -50,21 +41,21 @@
   </header>
 
   <label for="q" class="visually-hidden">Search titles</label>
-  <input id="q" type="search" placeholder="Search titles..." aria-controls="list" />
+  <input id="q" type="search" placeholder="Search titles..." aria-controls="list">
 
   <section id="list" class="list" aria-live="polite"></section>
 </main>
 
 <footer class="foot">
   <p>© 2025 VPN World •
-    <a href="/en-gb/privacy-policy.html" hreflang="en-GB">Privacy Policy (EN)</a> |
+    <a href="/en-gb/privacy.html" hreflang="en-GB">Privacy Policy (EN)</a> |
     <a href="/pl/polityka-prywatnosci.html" hreflang="pl">Polityka prywatności (PL)</a>
   </p>
 </footer>
 
-<!-- Scripts -->
 <script src="/assets/js/consent.js"></script>
 <script src="/assets/js/privacy.js"></script>
+<script src="/assets/js/langswitch.js"></script>
 
 <script>
 (function () {
@@ -72,55 +63,38 @@
   const countEl = document.getElementById('count');
   const q = document.getElementById('q');
 
-  // Какие URL считаем "UK-статьями"
   const isUK = url => url.startsWith('https://dloran1.github.io/en-gb/blog/')
-                      && !/\/index\.html?$/.test(url);
+                   && !/\/index\.html?$/.test(url);
 
   function card(item){
     const a = document.createElement('a');
     a.href = item.loc;
     a.className = 'card';
-    a.innerHTML = `
-      <strong>${item.title}</strong>
-      <div class="meta">Updated: ${item.lastmod || '—'}</div>
-    `;
+    a.innerHTML = `<strong>${item.title}</strong>
+                   <div class="meta">Updated: ${item.lastmod || '—'}</div>`;
     return a;
   }
-
   function titleFromLoc(loc){
     const slug = loc.split('/').pop().replace('.html','').replace(/-/g,' ');
     return slug.charAt(0).toUpperCase()+slug.slice(1);
   }
 
-  fetch('/sitemap.xml')
-    .then(r => r.text())
-    .then(xml => (new window.DOMParser()).parseFromString(xml, 'text/xml'))
-    .then(doc => {
-      const items = [...doc.querySelectorAll('url')].map(u => ({
-        loc: u.querySelector('loc')?.textContent.trim(),
-        lastmod: u.querySelector('lastmod')?.textContent.trim()
-      })).filter(x => x.loc && isUK(x.loc));
-
-      items.forEach(it => it.title = titleFromLoc(it.loc));
-      items.sort((a,b) => (b.lastmod||'').localeCompare(a.lastmod||''));
-
-      render(items);
-
-      q.addEventListener('input', () => {
-        const s = q.value.toLowerCase().trim();
-        const filtered = items.filter(x => x.title.toLowerCase().includes(s));
-        render(filtered);
-      });
-
-      function render(arr){
-        listEl.innerHTML = '';
-        arr.forEach(it => listEl.appendChild(card(it)));
-        countEl.textContent = arr.length;
-      }
-    })
-    .catch(() => {
-      listEl.innerHTML = '<p class="meta">Could not load list from sitemap.xml</p>';
+  fetch('/sitemap.xml').then(r=>r.text())
+  .then(t => new DOMParser().parseFromString(t,'text/xml'))
+  .then(doc => {
+    const items = [...doc.querySelectorAll('url')].map(u => ({
+      loc: u.querySelector('loc')?.textContent.trim(),
+      lastmod: u.querySelector('lastmod')?.textContent.trim()
+    })).filter(x => x.loc && isUK(x.loc));
+    items.forEach(it => it.title = titleFromLoc(it.loc));
+    items.sort((a,b)=>(b.lastmod||'').localeCompare(a.lastmod||''));
+    render(items);
+    q.addEventListener('input', () => {
+      const s = q.value.toLowerCase().trim();
+      render(items.filter(x=>x.title.toLowerCase().includes(s)));
     });
+    function render(arr){ listEl.innerHTML=''; arr.forEach(it=>listEl.appendChild(card(it))); countEl.textContent=arr.length; }
+  }).catch(()=>{ listEl.innerHTML='<p class="meta">Could not load list from sitemap.xml</p>'; });
 })();
 </script>
 </body>
