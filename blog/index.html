@@ -1,113 +1,83 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
   <meta charset="utf-8">
-  <title>Blog — wszystkie artykuły (PL)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Wszystkie poradniki VPN World w jednym miejscu — konfiguracja, streaming, prędkość i prywatność.">
+  <title>Blog — wszystkie artykuły (PL)</title>
+  <meta name="description" content="Wszystkie poradniki w jednym miejscu — konfiguracja, streaming, prędkość & prywatność.">
   <link rel="canonical" href="https://dloran1.github.io/blog/index.html">
-
-  <!-- Styles -->
-  <link rel="stylesheet" href="/assets/style.css">
-  <link rel="stylesheet" href="/assets/style-extensions.css">
-
-  <!-- hreflang -->
   <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/index.html">
-  <link rel="alternate" hreflang="en-GB" href="https://dloran1.github.io/en-gb/blog/index.html">
-  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/blog/index.html">
+  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/index.html">
+  <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
-<nav class="breadcrumbs" aria-label="Breadcrumb">
-  <ul>
-    <li><a href="/">Strona główna</a></li>
-    <li aria-current="page">Blog (PL)</li>
-  </ul>
-</nav>
+  <main class="container">
+    <nav class="breadcrumbs">
+      <a href="/">Strona główna</a> › <span>Blog (PL)</span>
+    </nav>
 
-<main class="container">
-  <header>
-    <h1>Blog — wszystkie artykuły (PL) <span id="count" class="badge">0</span></h1>
-    <p>Wszystkie poradniki w jednym miejscu — konfiguracja, streaming, prędkość &amp; prywatność.</p>
-    <p><a href="/blog/index.html">Polski (PL)</a> | <a href="/en-gb/blog/index.html">English (UK)</a></p>
-    <input id="search" type="search" placeholder="Szukaj tytułów…" aria-label="Szukaj tytułów…">
-  </header>
+    <h1>Blog — wszystkie artykuły (PL) <span id="count"></span></h1>
+    <p>Wszystkie poradniki w jednym miejscu — konfiguracja, streaming, prędkość & prywatność.</p>
 
-  <section id="list" class="cards"></section>
-</main>
+    <div class="lang-switch">
+      <a href="/blog/index.html">Polski (PL)</a> | <a href="/en-gb/blog/index.html">English (UK)</a>
+    </div>
 
-<footer class="foot">
-  <p>© 2025 VPN World · <a href="/pl/polityka-prywatnosci.html">Polityka prywatności</a> · <a href="/en-gb/privacy.html">Privacy & Cookies</a></p>
-</footer>
+    <input type="text" id="search" placeholder="Szukaj tytułów...">
+    <div id="articles"></div>
+  </main>
 
-<!-- Scripts (обязательные) -->
-<script src="/assets/js/consent.js"></script>
-<script src="/assets/js/privacy.js"></script>
-<script src="/assets/js/langswitch.js"></script>
+  <footer class="footer">
+    <p>© 2025 VPN World · <a href="/privacy-policy-en.html">Privacy Policy (EN)</a> | <a href="/privacy-policy-pl.html">Polityka prywatności (PL)</a></p>
+  </footer>
 
-<script>
-(function () {
-  const listEl = document.getElementById('list');
-  const countEl = document.getElementById('count');
-  const searchEl = document.getElementById('search');
-
-  const SELF_INDEX = location.origin + '/blog/index.html';
-
-  function titleFromSlug(url) {
-    const slug = url.split('/').pop().replace('.html','');
-    return slug
-      .replace(/-/g, ' ')
-      .replace(/\b\w/g, m => m.toUpperCase());
-  }
-
-  function cardHTML(url, lastmod) {
-    const t = titleFromSlug(url);
-    const date = lastmod || '—';
-    return `
-      <article class="card">
-        <h2 class="card-title"><a href="${url}">${t}</a></h2>
-        <p class="muted">Zaktualizowano: ${date}</p>
-      </article>`;
-  }
-
-  function render(items) {
-    listEl.innerHTML = items.map(it => cardHTML(it.loc, it.lastmod)).join('');
-    countEl.textContent = items.length;
-  }
-
-  function filterForPL(entries) {
-    return entries
-      .filter(e => e.loc.startsWith(location.origin + '/blog/'))
-      .filter(e => e.loc !== SELF_INDEX); // исключаем сам index.html
-  }
-
-  function attachSearch(items) {
-    searchEl.addEventListener('input', () => {
-      const q = searchEl.value.trim().toLowerCase();
-      const filtered = items.filter(it => titleFromSlug(it.loc).toLowerCase().includes(q));
-      render(filtered);
-    });
-  }
-
-  fetch('/sitemap.xml', {cache: 'no-store'})
-    .then(r => r.text())
-    .then(xml => {
-      const doc = new window.DOMParser().parseFromString(xml, 'application/xml');
-      const nodes = Array.from(doc.querySelectorAll('urlset > url'));
-      const all = nodes.map(n => ({
-        loc: n.querySelector('loc')?.textContent?.trim() || '',
-        lastmod: n.querySelector('lastmod')?.textContent?.trim() || ''
+  <script>
+    async function loadSitemap() {
+      const res = await fetch('/sitemap.xml');
+      const xml = await res.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(xml, 'application/xml');
+      const urls = [...doc.querySelectorAll('url')].map(u => ({
+        loc: u.querySelector('loc').textContent,
+        lastmod: u.querySelector('lastmod')?.textContent || ''
       }));
-      const pl = filterForPL(all);
-      // Стабильная сортировка по заголовку
-      pl.sort((a,b) => titleFromSlug(a.loc).localeCompare(titleFromSlug(b.loc), 'pl', {sensitivity:'base'}));
-      render(pl);
-      attachSearch(pl);
-    })
-    .catch(() => {
-      listEl.innerHTML = `<p class="warn">Nie udało się wczytać sitemap.xml</p>`;
-      countEl.textContent = '0';
-    });
-})();
-</script>
+
+      // Фильтр только PL
+      const entries = urls
+        .filter(e => e.loc.includes('/blog/'))
+        .filter(e => !e.loc.endsWith('/blog/index.html'))
+        .filter(e => !e.loc.includes('/en-gb/'));
+
+      render(entries);
+    }
+
+    function render(entries) {
+      const container = document.getElementById('articles');
+      const search = document.getElementById('search');
+      const count = document.getElementById('count');
+      count.textContent = entries.length;
+
+      function display(list) {
+        container.innerHTML = '';
+        list.forEach(e => {
+          const div = document.createElement('div');
+          div.className = 'post-card';
+          div.innerHTML = `
+            <a href="${e.loc}">${decodeURIComponent(e.loc.split('/').pop().replace('.html','').replace(/-/g,' '))}</a>
+            <div class="meta">Zaktualizowano: ${e.lastmod || '—'}</div>`;
+          container.appendChild(div);
+        });
+      }
+
+      display(entries);
+
+      search.addEventListener('input', () => {
+        const q = search.value.toLowerCase();
+        display(entries.filter(e => e.loc.toLowerCase().includes(q)));
+      });
+    }
+
+    loadSitemap();
+  </script>
 </body>
 </html>
