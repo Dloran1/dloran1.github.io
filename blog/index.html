@@ -1,186 +1,132 @@
-<!DOCTYPE html>
-<html lang="pl-PL">
+<!doctype html>
+<html lang="pl">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Blog — wszystkie artykuły (PL) | Smart Advisor</title>
-  <meta name="description" content="Wszystkie artykuły na blogu (PL). Lista generowana automatycznie z mapy witryny.">
-  <link rel="canonical" href="/blog/">
+  <title>Blog — wszystkie artykuły (PL) | VPN World</title>
+  <meta name="description" content="Wszystkie polskie poradniki VPN w jednym miejscu — konfiguracja, streaming, prędkość i prywatność.">
+  <link rel="canonical" href="https://dloran1.github.io/blog/index.html">
+
+  <!-- hreflang -->
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/index.html">
+  <link rel="alternate" hreflang="en-GB" href="https://dloran1.github.io/en-gb/blog/index.html">
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/blog/index.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Blog — wszystkie artykuły (PL) | VPN World">
+  <meta property="og:description" content="Wszystkie polskie poradniki VPN w jednym miejscu — konfiguracja, streaming, prędkość i prywatność.">
+  <meta property="og:url" content="https://dloran1.github.io/blog/index.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/default-blog.webp">
+
+  <!-- Styles -->
   <link rel="stylesheet" href="/assets/style.css">
   <link rel="stylesheet" href="/assets/style-extensions.css">
   <style>
-    .wrap{max-width:1100px;margin:0 auto;padding:0 16px}
-    .breadcrumbs ul{display:flex;gap:.5rem;list-style:none;padding:0;margin:12px 0}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin:16px 0 32px}
-    .card{border:1px solid rgba(140,140,160,.35);border-radius:12px;overflow:hidden;background:rgba(255,255,255,.03)}
-    .card a{display:block;color:inherit;text-decoration:none}
-    .thumb{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:#000}
-    .card .body{padding:12px 14px}
-    .card h2{font-size:1.05rem;line-height:1.35;margin:.25rem 0 .35rem}
-    .meta{font-size:.9rem;opacity:.8;margin:.35rem 0}
-    .desc{font-size:.95rem;opacity:.95}
-    .lang-switch{margin:6px 0 16px}
-    .lang-switch a{color:#2E90FA;text-decoration:none}
-    .lang-switch a:hover{text-decoration:underline}
-    .empty, .loading, .error{border:1px dashed rgba(140,140,160,.45);border-radius:10px;padding:12px 14px;margin:14px 0}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .card{border:1px solid rgba(140,140,160,.35);border-radius:12px;padding:14px}
+    .muted{opacity:.8}
+    .count{display:inline-block;border:1px solid rgba(140,140,160,.35);border-radius:8px;padding:.2rem .5rem;margin-left:.5rem}
+    .search{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(140,140,160,.35);background:rgba(255,255,255,.04)}
+    .hero{margin:8px 0 16px}
+    .hero img{width:100%;height:auto;border-radius:12px;border:1px solid rgba(140,140,160,.35)}
   </style>
-
-  <!-- JSON-LD: Breadcrumbs -->
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
-    {"@type":"ListItem","position":1,"name":"Home","item":"https://dloran1.github.io/"},
-    {"@type":"ListItem","position":2,"name":"Blog (PL)","item":"https://dloran1.github.io/blog/"}
-  ]}
-  </script>
 </head>
 <body>
-  <nav class="breadcrumbs" aria-label="Okruszki">
-    <ul>
-      <li><a href="/">Home</a> ›</li>
-      <li aria-current="page">Blog (PL)</li>
-    </ul>
-  </nav>
 
-  <main class="wrap">
-    <header>
-      <h1>Blog — wszystkie artykuły (PL)</h1>
-      <p class="lang-switch">Przełącz język: <a href="/en-gb/blog/">English (UK)</a></p>
-      <p class="loading" id="stateBox">Ładowanie listy artykułów…</p>
-    </header>
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ul>
+    <li><a href="/"><span>Strona główna</span></a></li>
+    <li aria-current="page">Blog (PL)</li>
+  </ul>
+</nav>
 
-    <section id="posts" class="grid" aria-live="polite"></section>
+<main class="container">
+  <header>
+    <h1>Blog — wszystkie artykuły (PL) <span id="postCount" class="count">0</span></h1>
+    <p class="muted">Wszystkie poradniki w jednym miejscu — konfiguracja, streaming, prędkość &amp; prywatność.</p>
 
-    <section class="empty" id="emptyBox" hidden>
-      Brak artykułów do wyświetlenia.
-    </section>
+    <p>
+      <a href="/blog/index.html">Polski (PL)</a> |
+      <a href="/en-gb/blog/index.html" rel="alternate" hreflang="en-GB">English (UK)</a>
+    </p>
 
-    <section class="error" id="errorBox" hidden>
-      Wystąpił błąd podczas wczytywania listy. Odśwież stronę lub sprawdź plik <code>/sitemap.xml</code>.
-    </section>
-  </main>
+    <div class="hero">
+      <img src="/assets/img/hero/default-blog.webp" alt="Lista artykułów VPN World">
+    </div>
 
-  <footer class="foot">
-    <p>© 2025 Smart Advisor • <a href="/privacy.html">Privacy</a></p>
-  </footer>
+    <input id="search" class="search" type="search" placeholder="Szukaj tytułów…">
+  </header>
 
-  <script>
-  (function(){
-    const BASE = location.origin;                // https://dloran1.github.io
-    const SECTION = '/blog/';                    // PL blog
-    const SITEMAP_URL = '/sitemap.xml';
-    const postsEl = document.getElementById('posts');
-    const stateBox = document.getElementById('stateBox');
-    const emptyBox = document.getElementById('emptyBox');
-    const errorBox = document.getElementById('errorBox');
+  <section id="list" class="grid" aria-live="polite"></section>
+</main>
 
-    const parser = new DOMParser();
+<footer class="foot">
+  <p>© 2025 VPN World •
+     <a href="/en-gb/privacy.html">Privacy Policy (EN)</a> •
+     <a href="/pl/polityka-prywatnosci.html">Polityka prywatności (PL)</a>
+  </p>
+</footer>
 
-    function parseXml(str){ return parser.parseFromString(str,'text/xml'); }
-    function parseHtml(str){ return parser.parseFromString(str,'text/html'); }
+<!-- Scripts -->
+<script src="/assets/js/langswitch.js"></script>
+<script src="/assets/js/consent.js"></script>
+<script src="/assets/js/privacy.js"></script>
 
-    function prettyDate(iso){
-      if(!iso) return '';
-      try{
-        const d = new Date(iso);
-        if(isNaN(d)) return '';
-        return d.toLocaleDateString('pl-PL',{year:'numeric',month:'2-digit',day:'2-digit'});
-      }catch(e){ return ''; }
-    }
+<script>
+(async function(){
+  const basePrefix = '/blog/';
+  const indexPath  = '/blog/index.html';
+  const listEl     = document.getElementById('list');
+  const countEl    = document.getElementById('postCount');
+  const searchEl   = document.getElementById('search');
 
-    function slugTitleFromUrl(url){
-      try{
-        const u = new URL(url);
-        const slug = u.pathname.split('/').filter(Boolean).pop().replace('.html','');
-        return slug.replace(/[-_]+/g,' ').replace(/\b([a-ząćęłńóśżź])/g,(m)=>m.toUpperCase());
-      }catch(e){ return url; }
-    }
+  function card(item){
+    const a = document.createElement('a');
+    a.className='card';
+    a.href=item.loc;
+    a.innerHTML = `<h3>${item.title}</h3>
+      <p class="muted">Zaktualizowano: ${item.lastmod||'—'}</p>`;
+    return a;
+  }
 
-    async function fetchSitemap(){
-      const res = await fetch(SITEMAP_URL, {credentials:'same-origin'});
-      if(!res.ok) throw new Error('sitemap fetch failed');
-      const xml = parseXml(await res.text());
-      const urls = [...xml.querySelectorAll('url')].map(urlEl=>{
-        const loc = urlEl.querySelector('loc')?.textContent?.trim() || '';
-        const lastmod = urlEl.querySelector('lastmod')?.textContent?.trim() || '';
-        return {loc,lastmod};
-      }).filter(u => u.loc.includes(SECTION) && !u.loc.endsWith('/blog/') && !u.loc.endsWith('/index.html'));
-      // dedupe
-      const map = new Map();
-      urls.forEach(u=> map.set(u.loc, u));
-      return [...map.values()];
-    }
+  function titleFromURL(url){
+    // np. /blog/vpn-optymalne-ustawienia.html -> "VPN optymalne ustawienia"
+    const slug = url.split('/').pop().replace('.html','').replace(/-/g,' ');
+    return slug.charAt(0).toUpperCase()+slug.slice(1);
+  }
 
-    async function fetchMeta(url){
-      const res = await fetch(url, {credentials:'same-origin'});
-      if(!res.ok) throw new Error('fetch page failed');
-      const doc = parseHtml(await res.text());
-      const title = doc.querySelector('head > title')?.textContent?.trim() || slugTitleFromUrl(url);
-      const desc = doc.querySelector('meta[name="description"]')?.getAttribute('content')?.trim() || '';
-      const ogImg = doc.querySelector('meta[property="og:image"]')?.getAttribute('content')?.trim() || '';
-      // date from visible badge/time or JSON-LD Article
-      let date = doc.querySelector('time[datetime]')?.getAttribute('datetime') ||
-                 doc.querySelector('.badge,time')?.textContent?.match(/\d{4}-\d{2}-\d{2}/)?.[0] || '';
-      if(!date){
-        const ld = doc.querySelector('script[type="application/ld+json"]');
-        if(ld){
-          try{
-            const json = JSON.parse(ld.textContent);
-            const article = Array.isArray(json['@graph']) ? json['@graph'].find(x=>x['@type']==='Article') : (json['@type']==='Article' ? json : null);
-            date = article?.dateModified || article?.datePublished || '';
-          }catch(e){}
-        }
-      }
-      return {title,desc,ogImg,date};
-    }
+  let items = [];
+  try {
+    const res = await fetch('/sitemap.xml', {cache:'no-store'});
+    const xml = await res.text();
+    const doc = new DOMParser().parseFromString(xml,'application/xml');
+    const urls = [...doc.querySelectorAll('url')].map(u => ({
+      loc: u.querySelector('loc')?.textContent || '',
+      lastmod: u.querySelector('lastmod')?.textContent || ''
+    }));
+    items = urls
+      .filter(u => u.loc.includes(basePrefix) && !u.loc.endsWith(indexPath))
+      .map(u => ({
+        loc: u.loc.replace(location.origin,''),
+        title: titleFromURL(u.loc),
+        lastmod: u.lastmod
+      }));
+  } catch(e){
+    console.error(e);
+  }
 
-    function cardTpl(item){
-      const img = item.ogImg || '/assets/img/hero/hero-1.jpg';
-      const date = prettyDate(item._lastmod || item.date);
-      return `
-      <article class="card">
-        <a href="${item.loc}">
-          <img class="thumb" src="${img}" alt="${item.title}">
-          <div class="body">
-            <h2>${item.title}</h2>
-            ${date ? `<p class="meta"><time datetime="${item._lastmod || item.date}">${date}</time></p>` : ''}
-            ${item.desc ? `<p class="desc">${item.desc}</p>` : ''}
-          </div>
-        </a>
-      </article>`;
-    }
+  function render(filter=''){
+    listEl.innerHTML='';
+    const q = filter.trim().toLowerCase();
+    const filtered = items.filter(i => i.title.toLowerCase().includes(q));
+    filtered.forEach(i => listEl.appendChild(card(i)));
+    countEl.textContent = filtered.length;
+  }
+  searchEl.addEventListener('input', e => render(e.target.value));
+  render();
+})();
+</script>
 
-    (async function run(){
-      try{
-        const urls = await fetchSitemap();
-        if(!urls.length){
-          stateBox.hidden = true; emptyBox.hidden = false; return;
-        }
-        // sort by lastmod desc
-        urls.sort((a,b)=> (b.lastmod||'').localeCompare(a.lastmod||''));
-        // limit concurrency to avoid hammering (5 at a time)
-        const out = [];
-        const chunk = 5;
-        for(let i=0;i<urls.length;i+=chunk){
-          const slice = urls.slice(i,i+chunk);
-          const metas = await Promise.all(slice.map(async u=>{
-            try{
-              const meta = await fetchMeta(u.loc);
-              return {...u,...meta,_lastmod:u.lastmod};
-            }catch(e){
-              return {...u,title:slugTitleFromUrl(u.loc),desc:'',ogImg:'',_lastmod:u.lastmod};
-            }
-          }));
-          out.push(...metas);
-        }
-        stateBox.hidden = true;
-        postsEl.innerHTML = out.map(cardTpl).join('');
-      }catch(e){
-        stateBox.hidden = true;
-        errorBox.hidden = false;
-        console.error(e);
-      }
-    })();
-  })();
-  </script>
 </body>
 </html>
