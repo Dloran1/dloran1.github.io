@@ -1,147 +1,131 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pl">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Blog — wszystkie artykuły (PL)</title>
-  <meta name="description" content="Wszystkie poradniki w jednym miejscu — konfiguracja, streaming, prędkość i prywatność.">
-  <link rel="canonical" href="https://dloran1.github.io/blog/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blog — wszystkie artykuły (PL) | VPN World</title>
+  <meta name="description" content="Wszystkie polskie poradniki w jednym miejscu — konfiguracja, streaming, prędkość i prywatność.">
+  <link rel="canonical" href="https://dloran1.github.io/blog/index.html">
 
-  <!-- Style (absolute from root) -->
+  <!-- Styles -->
   <link rel="stylesheet" href="/assets/style.css">
   <link rel="stylesheet" href="/assets/style-extensions.css">
 
+  <!-- hreflang (PL ↔ EN-GB) -->
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/index.html">
+  <link rel="alternate" hreflang="en-GB" href="https://dloran1.github.io/en-gb/blog/index.html">
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/blog/index.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="VPN World">
+  <meta property="og:title" content="Blog — wszystkie artykuły (PL)">
+  <meta property="og:description" content="Wszystkie polskie poradniki w jednym miejscu — konfiguracja, streaming, prędkość i prywatność.">
+  <meta property="og:url" content="https://dloran1.github.io/blog/index.html">
+
   <style>
-    .counter{display:inline-block;margin-left:.5rem;padding:.15rem .45rem;border:1px solid rgba(140,140,160,.35);border-radius:6px;font-size:.9rem;vertical-align:middle}
-    .list{display:flex;flex-direction:column;gap:12px;margin-top:12px}
-    .card{border:1px solid rgba(140,140,160,.35);border-radius:12px;padding:14px;background:rgba(255,255,255,.02)}
-    .card a{font-weight:800;text-decoration:none}
-    .muted{opacity:.85}
-    .search{width:100%;padding:.75rem 1rem;border-radius:10px;border:1px solid rgba(140,140,160,.35);background:rgba(255,255,255,.03);color:inherit}
-    .lang{margin:6px 0 14px}
-    .lang a{margin-right:10px}
-    .warn{border-left:3px solid #F59E0B;background:rgba(245,158,11,.08);padding:.75rem 1rem;border-radius:10px}
+    .list{display:grid;gap:14px}
+    .card{border:1px solid rgba(140,140,160,.35);border-radius:12px;padding:14px}
+    .meta{opacity:.75;font-size:.95rem;margin-top:6px}
+    .count{display:inline-block;border:1px solid rgba(140,140,160,.35);border-radius:8px;padding:2px 8px;margin-left:8px}
+    .langswitch{margin:10px 0 20px}
   </style>
 </head>
 <body>
 
 <nav class="breadcrumbs" aria-label="Breadcrumb">
-  <ul>
-    <li><a href="/">Strona główna</a></li>
-    <li aria-current="page">Blog (PL)</li>
-  </ul>
+  <a href="/">Strona główna</a> › <span>Blog (PL)</span>
 </nav>
 
-<article>
+<main class="container">
   <header>
-    <h1>Blog — wszystkie artykuły (PL) <span class="counter" id="count">0</span></h1>
-    <p class="muted">Wszystkie poradniki w jednym miejscu — konfiguracja, streaming, prędkość &amp; prywatność.</p>
+    <h1>Blog — wszystkie artykuły (PL) <span id="count" class="count" aria-label="Liczba artykułów">0</span></h1>
+    <p>Wszystkie poradniki w jednym miejscu — konfiguracja, streaming, prędkość i prywatność.</p>
+
+    <!-- Widoczny przełącznik języków -->
+    <nav class="langswitch" role="navigation" aria-label="Language switcher">
+      <a href="/blog/index.html" hreflang="pl">Polski (PL)</a> |
+      <a href="/en-gb/blog/index.html" hreflang="en-GB">English (UK)</a>
+    </nav>
   </header>
 
-  <p class="lang"><a href="/blog/">Polski (PL)</a> | <a href="/en-gb/blog/">English (UK)</a></p>
+  <label for="q" class="visually-hidden">Szukaj tytułów</label>
+  <input id="q" type="search" placeholder="Szukaj tytułów..." aria-controls="list" />
 
-  <input id="q" class="search" type="search" placeholder="Szukaj tytułów…" aria-label="Szukaj tytułów">
-
-  <div id="list" class="list" role="list"></div>
-
-  <p id="empty" class="warn" hidden>Brak wyników. Jeśli właśnie zaktualizowano <code>sitemap.xml</code>, odśwież stronę po chwili.</p>
-</article>
+  <section id="list" class="list" aria-live="polite"></section>
+</main>
 
 <footer class="foot">
-  <p>© 2025 VPN World • <a href="/pl/polityka-prywatnosci.html">Polityka prywatności</a></p>
+  <p>© 2025 VPN World •
+    <a href="/pl/polityka-prywatnosci.html" hreflang="pl">Polityka prywatności (PL)</a> |
+    <a href="/en-gb/privacy-policy.html" hreflang="en-GB">Privacy Policy (EN)</a>
+  </p>
 </footer>
 
-<script>
-(async function () {
-  const listEl = document.getElementById('list');
-  const countEl = document.getElementById('count');
-  const emptyEl = document.getElementById('empty');
-  const qEl = document.getElementById('q');
-
-  async function getSitemapEntries() {
-    const res = await fetch('/sitemap.xml', { cache: 'no-cache' });
-    if (!res.ok) throw new Error('Nie udało się wczytać sitemap.xml');
-    const xml = await res.text();
-    const doc = new DOMParser().parseFromString(xml, 'application/xml');
-    return [...doc.querySelectorAll('url')].map(u => ({
-      loc: u.querySelector('loc')?.textContent?.trim() || '',
-      lastmod: u.querySelector('lastmod')?.textContent?.trim() || ''
-    }));
-  }
-
-  function isPlBlog(url) {
-    if (!url) return false;
-    // только польские страницы блога
-    if (!url.includes('/blog/')) return false;
-    if (url.includes('/en-gb/')) return false;          // исключить UK
-    if (url.endsWith('/blog/') || url.endsWith('/blog/index.html')) return false;
-    return url.endsWith('.html');
-  }
-
-  function titleFromSlug(url) {
-    try {
-      const path = new URL(url).pathname;
-      const slug = path.split('/').pop().replace('.html','');
-      return slug
-        .replace(/-/g, ' ')
-        .replace(/\bvpn\b/ig,'VPN')
-        .replace(/\bip\b/i,'IP')
-        .replace(/\bdns\b/i,'DNS')
-        .replace(/\bios\b/i,'iOS')
-        .replace(/\bmac\b/i,'Mac')
-        .replace(/\bbbc\b/i,'BBC')
-        .replace(/\biplayer\b/i,'iPlayer')
-        .replace(/^\w/, c => c.toUpperCase());
-    } catch { return url; }
-  }
-
-  function render(items) {
-    listEl.innerHTML = '';
-    if (!items.length) {
-      emptyEl.hidden = false;
-      countEl.textContent = '0';
-      return;
-    }
-    emptyEl.hidden = true;
-    for (const it of items) {
-      const a = document.createElement('a');
-      a.href = it.loc;
-      a.textContent = it.title;
-      a.rel = 'follow';
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.setAttribute('role','listitem');
-      const h = document.createElement('div');
-      h.appendChild(a);
-      const meta = document.createElement('div');
-      meta.className = 'muted';
-      if (it.lastmod) meta.textContent = 'Zaktualizowano: ' + it.lastmod;
-      card.appendChild(h);
-      card.appendChild(meta);
-      listEl.appendChild(card);
-    }
-    countEl.textContent = String(items.length);
-  }
-
-  const urls = await getSitemapEntries().catch(() => []);
-  let pl = urls
-    .filter(u => isPlBlog(u.loc))
-    .map(u => ({ ...u, title: titleFromSlug(u.loc) }))
-    .sort((a,b) => (b.lastmod||'').localeCompare(a.lastmod||'') || a.title.localeCompare(b.title));
-
-  render(pl);
-
-  qEl.addEventListener('input', () => {
-    const q = qEl.value.trim().toLowerCase();
-    const filtered = !q ? pl : pl.filter(x => x.title.toLowerCase().includes(q));
-    render(filtered);
-  });
-})();
-</script>
-
-<!-- те же “обязательные” скрипты -->
+<!-- Scripts (локальные) -->
 <script src="/assets/js/consent.js"></script>
 <script src="/assets/js/privacy.js"></script>
-<script src="/assets/js/langswitch.js"></script>
+
+<script>
+(function () {
+  const listEl = document.getElementById('list');
+  const countEl = document.getElementById('count');
+  const q = document.getElementById('q');
+
+  // Какие URL считаем "PL-статьями"
+  const isPL = url => url.startsWith('https://dloran1.github.io/blog/')
+                      && !/\/index\.html?$/.test(url);
+
+  function card(item){
+    const a = document.createElement('a');
+    a.href = item.loc;
+    a.className = 'card';
+    a.innerHTML = `
+      <strong>${item.title}</strong>
+      <div class="meta">Zaktualizowano: ${item.lastmod || '—'}</div>
+    `;
+    return a;
+  }
+
+  // простая нормализация заголовка из slug
+  function titleFromLoc(loc){
+    const slug = loc.split('/').pop().replace('.html','').replace(/-/g,' ');
+    return slug.charAt(0).toUpperCase()+slug.slice(1);
+  }
+
+  fetch('/sitemap.xml')
+    .then(r => r.text())
+    .then(xml => (new window.DOMParser()).parseFromString(xml, 'text/xml'))
+    .then(doc => {
+      const items = [...doc.querySelectorAll('url')].map(u => ({
+        loc: u.querySelector('loc')?.textContent.trim(),
+        lastmod: u.querySelector('lastmod')?.textContent.trim()
+      })).filter(x => x.loc && isPL(x.loc));
+
+      // Заголовки: если нет <title> в самой странице, берём из slug
+      items.forEach(it => it.title = titleFromLoc(it.loc));
+
+      // сортировка по lastmod ↓ (если есть)
+      items.sort((a,b) => (b.lastmod||'').localeCompare(a.lastmod||''));
+
+      render(items);
+
+      q.addEventListener('input', () => {
+        const s = q.value.toLowerCase().trim();
+        const filtered = items.filter(x => x.title.toLowerCase().includes(s));
+        render(filtered);
+      });
+
+      function render(arr){
+        listEl.innerHTML = '';
+        arr.forEach(it => listEl.appendChild(card(it)));
+        countEl.textContent = arr.length;
+      }
+    })
+    .catch(() => {
+      listEl.innerHTML = '<p class="meta">Nie udało się wczytać listy z sitemap.xml</p>';
+    });
+})();
+</script>
 </body>
 </html>
