@@ -2,27 +2,19 @@
 <html lang="en-GB">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Blog — all articles (UK)</title>
-  <meta name="description" content="All VPN World guides for the UK — setup, streaming, speed & privacy — in one place.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="All UK VPN World guides in one place — setup, streaming, speed & privacy.">
   <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/index.html">
-  <link rel="alternate" href="https://dloran1.github.io/en-gb/blog/index.html" hreflang="en-gb">
-  <link rel="alternate" href="https://dloran1.github.io/blog/index.html" hreflang="pl">
-  <link rel="alternate" href="https://dloran1.github.io/en-gb/blog/index.html" hreflang="x-default">
 
-  <!-- styles -->
+  <!-- Styles -->
   <link rel="stylesheet" href="/assets/style.css">
   <link rel="stylesheet" href="/assets/style-extensions.css">
-  <style>
-    .count-badge{display:inline-block;border:1px solid rgba(140,140,160,.35);border-radius:10px;padding:.15rem .5rem;margin-left:.4rem}
-    .lang{margin:.75rem 0 1.25rem}
-    .card{border:1px solid rgba(140,140,160,.35);border-radius:12px;padding:14px;margin:10px 0}
-    .muted{opacity:.8}
-    .list{margin-top:.5rem}
-    .search{margin:.5rem 0 1rem}
-    .btnbar{display:flex;gap:8px;justify-content:flex-end;margin-top:28px}
-    .chip{border:1px solid rgba(140,140,160,.35);border-radius:999px;padding:6px 10px;background:rgba(255,255,255,.02)}
-  </style>
+
+  <!-- hreflang -->
+  <link rel="alternate" hreflang="en-GB" href="https://dloran1.github.io/en-gb/blog/index.html">
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/index.html">
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/index.html">
 </head>
 <body>
 <nav class="breadcrumbs" aria-label="Breadcrumb">
@@ -34,125 +26,86 @@
 
 <main class="container">
   <header>
-    <h1>Blog — all articles (UK)<span id="count" class="count-badge">0</span></h1>
-    <p class="muted">All UK guides in one place — setup, streaming, speed & privacy.</p>
-    <p class="lang"><a href="/en-gb/blog/index.html">English (UK)</a> | <a href="/blog/index.html">Polski (PL)</a></p>
+    <h1>Blog — all articles (UK) <span id="count" class="badge">0</span></h1>
+    <p>All UK guides in one place — setup, streaming, speed &amp; privacy.</p>
+    <p><a href="/en-gb/blog/index.html">English (UK)</a> | <a href="/blog/index.html">Polski (PL)</a></p>
+    <input id="search" type="search" placeholder="Search titles…" aria-label="Search titles…">
   </header>
 
-  <input id="q" class="search" type="search" placeholder="Search titles…" aria-label="Search titles">
-
-  <section id="list" class="list" aria-live="polite"></section>
-
-  <div class="btnbar">
-    <a class="chip" href="/en-gb/blog/index.html" aria-current="page">EN / English (UK)</a>
-    <a class="chip" href="/blog/index.html">PL / Polski</a>
-  </div>
+  <section id="list" class="cards"></section>
 </main>
 
 <footer class="foot">
-  <p>© 2025 VPN World •
-     <a href="/en-gb/privacy.html">Privacy Policy (EN)</a> •
-     <a href="/pl/polityka-prywatnosci.html" lang="pl">Polityka prywatności (PL)</a>
-  </p>
+  <p>© 2025 VPN World · <a href="/en-gb/privacy.html">Privacy Policy (EN)</a> · <a href="/pl/polityka-prywatnosci.html">Polityka prywatności (PL)</a></p>
 </footer>
 
-<!-- scripts -->
+<!-- Scripts (обязательные) -->
 <script src="/assets/js/consent.js"></script>
 <script src="/assets/js/privacy.js"></script>
 <script src="/assets/js/langswitch.js"></script>
+
 <script>
-(function(){
-  const ROOT = location.origin;
-  const PREFIX = ROOT + "/en-gb/blog/";
-  const SITEMAP = ROOT + "/sitemap.xml";
+(function () {
+  const listEl = document.getElementById('list');
+  const countEl = document.getElementById('count');
+  const searchEl = document.getElementById('search');
 
-  // Fallback список UK (47 слугов) — когда sitemap ещё не видит файлы
-  const FALLBACK = [
-    "what-is-vpn-uk.html","free-vs-paid-vpn-uk.html","free-vpn-uk.html",
-    "why-vpn-2025-uk.html","which-vpn-server-uk.html",
-    "vpn-myths-uk.html","no-logs-uk.html","nordvpn-vs-surfshark-uk.html",
-    "player-tvp-—-skip.html", /* если такого нет — не будет найден, ок */
-    "vpn-speed-test-uk.html","vpn-bbc-iplayer-uk.html",
-    "vpn-2fa-mfa-uk.html","is-vpn-legal-uk.html","vpn-android-uk.html",
-    "vpn-online-banking-uk.html","dedicated-ip-vpn-uk.html","vpn-apple-tv-uk.html",
-    "vpn-remote-work-uk.html","vpn-gaming-uk.html","vpn-ps5-xbox-uk.html",
-    "vpn-smart-tv-uk.html","vpn-ip-dns-leaks-uk.html","double-vpn-uk.html",
-    "vpn-geo-blocking-uk.html","vpn-geo-location-uk.html","vpn-ios-uk.html",
-    "vpn-kill-switch-uk.html","vpn-linux-uk.html","vpn-mac-uk.html",
-    "vpn-netflix-uk.html","vpn-best-settings-uk.html","vpn-torrenting-uk.html",
-    "vpn-port-forwarding-uk.html","vpn-remote-work-uk.html","proxy-vs-vpn-uk.html",
-    "vpn-public-wifi-uk.html","vpn-split-tunneling-uk.html",
-    "vpn-speed-test-uk.html","vpn-travel-uk.html","vpn-windows-uk.html",
-    "vpn-disadvantages-uk.html","vpn-security-uk.html","vpn-sky-go-uk.html",
-    "vpn-streaming-uk.html","vpn-student-uk.html","vpn-on-router-uk.html",
-    "vpn-router-setup-uk.html","vpn-protocols-uk.html","best-vpn-uk.html"
-  ].map(slug => PREFIX + slug);
+  const SELF_INDEX = location.origin + '/en-gb/blog/index.html';
 
-  const list = document.getElementById('list');
-  const count = document.getElementById('count');
-  const q = document.getElementById('q');
-
-  const tidy = t => t.replace(/\s+\|\s+.*$/, '');
-  const card = (u,title,lastmod) => {
-    const div = document.createElement('div');
-    div.className = 'card';
-    div.dataset.title = title.toLowerCase();
-    div.innerHTML = `
-      <h2 style="margin:.2rem 0 .35rem 0;"><a href="${u}">${title}</a></h2>
-      <p class="muted">Updated: ${lastmod || '—'}</p>
-    `;
-    return div;
-  };
-
-  function render(items){
-    list.innerHTML = '';
-    items.forEach(it => list.appendChild(card(it.url, it.title, it.lastmod)));
-    count.textContent = items.length;
+  function titleFromSlug(url) {
+    const slug = url.split('/').pop().replace('.html','');
+    return slug
+      .replace(/-/g, ' ')
+      .replace(/\b\w/g, m => m.toUpperCase());
   }
 
-  async function fetchTitle(url){
-    try{
-      const r = await fetch(url, {mode:'same-origin'});
-      const h = await r.text();
-      const doc = new DOMParser().parseFromString(h, 'text/html');
-      const t = (doc.querySelector('title')?.textContent || doc.querySelector('h1')?.textContent || url);
-      return tidy(t.trim());
-    }catch(e){ return url.split('/').pop().replace(/-/g,' ').replace('.html',''); }
+  function cardHTML(url, lastmod) {
+    const t = titleFromSlug(url);
+    const date = lastmod || '—';
+    return `
+      <article class="card">
+        <h2 class="card-title"><a href="${url}">${t}</a></h2>
+        <p class="muted">Updated: ${date}</p>
+      </article>`;
   }
 
-  async function build(){
-    try{
-      const x = await fetch(SITEMAP);
-      const xml = await x.text();
-      const doc = new DOMParser().parseFromString(xml, 'application/xml');
-      const urls = [...doc.querySelectorAll('urlset > url')].map(n => ({
-        loc: n.querySelector('loc')?.textContent || '',
-        lastmod: n.querySelector('lastmod')?.textContent || ''
+  function render(items) {
+    listEl.innerHTML = items.map(it => cardHTML(it.loc, it.lastmod)).join('');
+    countEl.textContent = items.length;
+  }
+
+  function filterForUK(entries) {
+    return entries
+      .filter(e => e.loc.startsWith(location.origin + '/en-gb/blog/'))
+      .filter(e => e.loc !== SELF_INDEX); // exclude self index.html
+  }
+
+  function attachSearch(items) {
+    searchEl.addEventListener('input', () => {
+      const q = searchEl.value.trim().toLowerCase();
+      const filtered = items.filter(it => titleFromSlug(it.loc).toLowerCase().includes(q));
+      render(filtered);
+    });
+  }
+
+  fetch('/sitemap.xml', {cache: 'no-store'})
+    .then(r => r.text())
+    .then(xml => {
+      const doc = new window.DOMParser().parseFromString(xml, 'application/xml');
+      const nodes = Array.from(doc.querySelectorAll('urlset > url'));
+      const all = nodes.map(n => ({
+        loc: n.querySelector('loc')?.textContent?.trim() || '',
+        lastmod: n.querySelector('lastmod')?.textContent?.trim() || ''
       }));
-      let uk = urls.filter(u => u.loc.startsWith(PREFIX) && !u.loc.endsWith('/index.html'));
-      if(uk.length === 0){ uk = FALLBACK.map(u => ({loc:u,lastmod:''})); }
-
-      const items = [];
-      for(const u of uk){
-        const title = await fetchTitle(u.loc);
-        items.push({url:u.loc, title, lastmod:u.lastmod});
-      }
-      items.sort((a,b)=>(b.lastmod||'').localeCompare(a.lastmod||''));
-      render(items);
-
-      q.addEventListener('input', () => {
-        const v = q.value.trim().toLowerCase();
-        [...list.children].forEach(el => {
-          el.style.display = el.dataset.title.includes(v) ? '' : 'none';
-        });
-      });
-    }catch(e){
-      const items = await Promise.all(FALLBACK.map(async u => ({url:u, title: await fetchTitle(u), lastmod:''})));
-      render(items);
-    }
-  }
-
-  build();
+      const uk = filterForUK(all);
+      uk.sort((a,b) => titleFromSlug(a.loc).localeCompare(titleFromSlug(b.loc), 'en', {sensitivity:'base'}));
+      render(uk);
+      attachSearch(uk);
+    })
+    .catch(() => {
+      listEl.innerHTML = `<p class="warn">Couldn’t load sitemap.xml</p>`;
+      countEl.textContent = '0';
+    });
 })();
 </script>
 </body>
