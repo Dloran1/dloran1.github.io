@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sitemap generator — PL ↔ UK</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  body{font:16px/1.45 system-ui,Segoe UI,Roboto,Arial,sans-serif;background:#0b1220;color:#e6edf3;margin:0;padding:24px}
+  h1{font-size:22px;margin:0 0 12px}
+  .btn{display:inline-block;background:#2E90FA;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;border:0;cursor:pointer}
+  .log{white-space:pre-wrap;font:13px ui-monospace, Menlo, Consolas, monospace;background:#0e1628;border:1px solid #223049;border-radius:10px;padding:10px;margin:14px 0;max-height:40vh;overflow:auto}
+  textarea{width:100%;height:40vh;border:1px solid #223049;background:#0e1628;color:#e6edf3;border-radius:10px;padding:10px}
+  .row{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0}
+  .tip{opacity:.85}
+</style>
+</head>
+<body>
+  <h1>Sitemap generator — PL ↔ UK</h1>
+  <p class="tip">Собирает ссылки из <code>/blog/index.html</code> и <code>/en-gb/blog/index.html</code>, проверяет 404 и выдаёт чистый <code>sitemap.xml</code>.</p>
+  <div class="row">
+    <button class="btn" id="run">Generate</button>
+    <button class="btn" id="copy">Copy XML</button>
+  </div>
+  <div class="log" id="log">Idle…</div>
+  <textarea id="out" placeholder="XML will appear here…"></textarea>
+
+<script>
+(async function(){
+  const logEl = document.getElementById('log');
+  const outEl = document.getElementById('out');
+  const btnRun = document.getElementById('run');
+  const btnCopy = document.getElementById('copy');
+
+  const origin = location.origin;
+  const sources = [
+    `${origin}/blog/`,
+    `${origin}/en-gb/blog/`
+  ];
+
+  function log(s){ logEl.textContent += (logEl.textContent ? "\n" : "") + s; logEl.scrollTop = logEl.scrollHeight; }
+
+  async function fetchText(url){
+    const r = await fetch(url, {cache:'no-store'});
+    if(!r.ok) throw new Error(r.status + ' ' + r.statusText);
+    return await r.text();
+  }
+
+  function extractLinks(html, base){
+    const tmp = document.implementation.createHTMLDocument('');
+    tmp.documentElement.innerHTML = html;
+    const a = Array.from(tmp.querySelectorAll('a[href]'));
+    const urls = new Set();
+    for(const el of a){
+      const href = el.getAttribute('href').trim();
+      if(!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) continue;
+      let u;
+      try{ u = new URL(href, base); }catch(e){ continue; }
+      // только наши страницы .html
+      if(u.origin === location.origin && u.pathname.endsWith('.html')){
+        urls.add(u.href);
+      }
+    }
+    return Array.from(urls);
+  }
+
+  async function headOk(url){
+    try{
+      const r = await fetch(url, {method:'HEAD', cache:'no-store'});
+      return r.ok;
+    }catch(e){ return false; }
+  }
+
+  function fmtDate(d=new Date()){
+    const y=d.getFullYear();
+    const m=String(d.getMonth()+1).padStart(2,'0');
+    const da=String(d.getDate()).padStart(2,'0');
+    return `${y}-${m}-${da}`;
+  }
+
+  btnRun.onclick = async ()=>{
+    logEl.textContent = 'Start…';
+    const all = new Set();
+    for(const src of sources){
+      try{
+        log(`Fetch list: ${src}`);
+        const html = await fetchText(src);
+        extractLinks(html, src).forEach(u=>all.add(u));
+      }catch(e){
+        log(`Failed to read ${src}: ${e.message}`);
+      }
+    }
+
+    // на всякий — добавим корневые лэндинги разделов
+    all.add(`${origin}/`);
+    all.add(`${origin}/blog/index.html`);
+    all.add(`${origin}/en-gb/blog/index.html`);
+    all.add(`${origin}/privacy.html`);
+    all.add(`${origin}/en-gb/privacy.html`);
+
+    const urls = Array.from(all).sort();
+    log(`Found ${urls.length} candidates. Checking 404…`);
+
+    const ok = [];
+    let i=0;
+    for(const u of urls){
+      i++;
+      const good = await headOk(u);
+      log(`${String(i).padStart(3,'0')}/${urls.length} ${good?'OK  ':'404 '} ${u}`);
+      if(good) ok.push(u);
+    }
+
+    // строим XML
+    const today = fmtDate();
+    const map = ok.map(u=>{
+      const priority = u.includes('/blog/') ? '0.7' : '0.5';
+      return `  <url><loc>${u}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>${priority}</priority></url>`;
+    }).join('\n');
+
+    const xml = `<?xml version='1.0' encoding='UTF-8'?>\n<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>\n${map}\n</urlset>\n`;
+    outEl.value = xml;
+    log(`Done. ${ok.length} URLs written.`);
+  };
+
+  btnCopy.onclick = ()=>{
+    outEl.select();
+    document.execCommand('copy');
+    log('XML copied to clipboard.');
+  };
+})();
+</script>
+</body>
+</html>
