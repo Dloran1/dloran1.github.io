@@ -2,166 +2,109 @@
 <html lang="pl">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Blog — wszystkie artykuły (PL)</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="index,follow">
-  <link rel="canonical" href="https://dloran1.github.io/blog/index.html">
-  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/index.html">
-  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/index.html">
-  <link rel="stylesheet" href="/assets/style.css">
-  <link rel="stylesheet" href="/assets/style-extensions.css">
+  <link rel="preconnect" href="https://dloran1.github.io">
+  <link rel="stylesheet" href="/assets/site.css">
   <style>
-    .container{max-width:980px;margin:0 auto;padding:24px 16px}
-    .count{display:inline-block;min-width:40px;text-align:center;border-radius:10px;padding:4px 8px;background:#10151c;border:1px solid #243244;margin-left:.5rem}
-    .list{display:grid;gap:12px;margin:18px 0}
-    .card{border:1px solid rgba(140,140,160,.35);border-radius:12px;padding:14px 16px}
-    .card h3{margin:0 0 6px;font-size:1.05rem}
-    .meta{opacity:.7;font-size:.9rem}
-    .switch{margin:12px 0}
-    .switch a{margin-right:12px}
-    .search-wrap{display:flex;gap:10px;align-items:center;margin:12px 0}
-    .search{flex:1;border-radius:8px;border:1px solid rgba(140,140,160,.35);padding:10px 12px;background:#0b1220;color:#e6e8ee}
-    footer{margin:28px 0;text-align:center;opacity:.85}
+    body{max-width:900px;margin:0 auto;padding:24px}
+    .lang a{margin-right:12px}
+    .count{display:inline-block;background:#223042;color:#fff;border-radius:8px;padding:2px 8px;margin-left:8px}
+    .card{border-radius:14px;background:#0f1722; padding:18px 16px; margin:12px 0; border:1px solid #233146}
+    .card a{font-weight:700; color:#4db2ff; text-decoration:none}
+    .muted{opacity:.7;font-size:.95rem;margin-top:8px}
+    .warn{color:#ffcf66}
+    footer{margin:40px 0 8px;opacity:.8}
   </style>
 </head>
 <body>
-  <nav class="container" aria-label="Breadcrumb">
-    <a href="/">Strona główna</a> › <span>Blog (PL)</span>
-  </nav>
+  <nav><a href="/">Strona główna</a> › <strong>Blog (PL)</strong></nav>
+  <h1>Blog — wszystkie artykuły (PL) <span id="pl-count" class="count">0</span></h1>
+  <p>Wszystkie poradniki w jednym miejscu — konfiguracja, streaming, prędkość & prywatność.</p>
 
-  <main class="container">
-    <h1>Blog — wszystkie artykuły (PL) <span class="count" id="count">0</span></h1>
-    <p>Wszystkie poradniki w jednym miejscu — konfiguracja, streaming, prędkość &amp; prywatność.</p>
+  <p class="lang"><a href="/blog/index.html">Polski (PL)</a> | <a href="/en-gb/blog/index.html">English (UK)</a></p>
 
-    <p class="switch"><a href="/blog/index.html">Polski (PL)</a> | <a href="/en-gb/blog/index.html">English (UK)</a></p>
+  <input id="search" placeholder="Szukaj tytułów…" aria-label="Szukaj tytułów…">
 
-    <div class="search-wrap">
-      <label for="q" class="sr-only">Szukaj tytułów…</label>
-      <input id="q" class="search" placeholder="Szukaj tytułów…">
-    </div>
+  <div id="list"></div>
 
-    <section class="list" id="list" aria-live="polite"></section>
-  </main>
-
-  <footer class="container">
-    <p>© 2025 VPN World · <a href="/pl/polityka-prywatnosci.html">Polityka prywatności</a> · <a href="/en-gb/privacy.html">Privacy Policy</a></p>
+  <footer>
+    © 2025 VPN World ·
+    <a href="/privacy.html">Privacy & Cookies</a> ·
+    <a href="/polityka-prywatnosci.html">Polityka prywatności</a>
   </footer>
 
-  <script>
-  (function(){
-    const listEl = document.getElementById('list');
-    const countEl = document.getElementById('count');
-    const qEl = document.getElementById('q');
+<script>
+(async () => {
+  const listEl = document.getElementById('list');
+  const countEl = document.getElementById('pl-count');
+  const searchEl = document.getElementById('search');
 
-    // --- РЕЗЕРВНЫЙ СТАТИЧЕСКИЙ СПИСОК (PL) ---
-    const FALLBACK = [
-      "/blog/co-to-jest-vpn.html",
-      "/blog/darmowe-vs-platne-vpn.html",
-      "/blog/darmowy-vpn-polska.html",
-      "/blog/dlaczego-vpn-2025.html",
-      "/blog/jaki-serwer-vpn-wybrac.html",
-      "/blog/jaki-serwer-vpn.html",
-      "/blog/mity-o-vpn.html",
-      "/blog/no-logs.html",
-      "/blog/nordvpn-vs-surfshark-pl.html",
-      "/blog/player-tvp-vpn.html",
-      "/blog/test-vpn.html",
-      "/blog/tvp-vod-vpn.html",
-      "/blog/vpn-2fa-mfa.html",
-      "/blog/vpn-a-prawo-w-polsce.html",
-      "/blog/vpn-android-konfiguracja.html",
-      "/blog/vpn-bankowosc-online.html",
-      "/blog/vpn-dedykowany-ip.html",
-      "/blog/vpn-dla-apple-tv.html",
-      "/blog/vpn-dla-firm-msp.html",
-      "/blog/vpn-dla-graczy.html",
-      "/blog/vpn-dla-konsol-ps5-xbox.html",
-      "/blog/vpn-dla-smart-tv.html",
-      "/blog/vpn-dns-leak.html",
-      "/blog/vpn-double-vpn.html",
-      "/blog/vpn-geoblokady.html",
-      "/blog/vpn-geolokalizacja.html",
-      "/blog/vpn-iphone-konfiguracja.html",
-      "/blog/vpn-kill-switch.html",
-      "/blog/vpn-linux-konfiguracja.html",
-      "/blog/vpn-na-mac.html",
-      "/blog/vpn-netflix-polska.html",
-      "/blog/vpn-optymalne-ustawienia.html",
-      "/blog/vpn-p2p-bezpiecznie.html",
-      "/blog/vpn-port-forwarding.html",
-      "/blog/vpn-praca-zdalna.html",
-      "/blog/vpn-proxy-vs-vpn.html",
-      "/blog/vpn-publiczne-wifi.html",
-      "/blog/vpn-split-tunneling.html",
-      "/blog/vpn-szybkosc-test.html",
-      "/blog/vpn-torrent-polska.html",
-      "/blog/vpn-torrent.html",
-      "/blog/vpn-windows-konfiguracja.html",
-      "/blog/wady-vpn.html",
-      "/blog/wifi-bezpieczenstwo.html",
-      "/blog/wifi-checklista.html",
-      "/blog/wireguard-vs-openvpn.html",
-      "/blog/zalety-vpn.html"
-    ];
+  // 1) Пытаемся взять URL’ы из sitemap.xml
+  let urls = [];
+  try {
+    const sm = await fetch('/sitemap.xml', {cache:'no-store'});
+    const xml = new DOMParser().parseFromString(await sm.text(), 'application/xml');
+    urls = [...xml.querySelectorAll('url loc')].map(n=>n.textContent.trim());
+  } catch(e){}
 
-    function slugToTitle(slug){
-      return slug
-        .replace(/^\/|\.html$/g,'')
-        .split('/').pop()
-        .replace(/-/g,' ')
-        .replace(/\b\w/g, m=>m.toUpperCase());
-    }
+  // 2) Берём только PL /blog/*.html, выкидываем index.html
+  urls = urls
+    .filter(u => u.startsWith(location.origin + '/blog/'))
+    .filter(u => !/\/blog\/index\.html$/.test(u));
 
-    function render(items){
-      listEl.innerHTML = '';
-      items.forEach(url=>{
-        const title = url.title || slugToTitle(url.url||url);
-        const href  = url.url || url;
-        const date  = url.date || '—';
-        const card = document.createElement('article');
-        card.className = 'card';
-        card.innerHTML = `<h3><a href="${href}">${title}</a></h3>
-                          <div class="meta">Zaktualizowano: <time>${date}</time></div>`;
-        listEl.appendChild(card);
-      });
-      countEl.textContent = items.length;
-    }
+  // 3) Если сайтмап пустой — фолбэк к манифесту
+  if (!urls.length) {
+    try {
+      const mf = await fetch('/manifest.pl.json', {cache:'no-store'});
+      const data = await mf.json();
+      urls = data.urls.map(p => location.origin + p);
+    } catch(e){}
+  }
 
-    function filter(items, q){
-      q = q.trim().toLowerCase();
-      if(!q) return items;
-      return items.filter(x=>{
-        const t = (x.title || slugToTitle(x.url||x)).toLowerCase();
-        return t.includes(q);
-      });
-    }
+  // 4) Отсекаем 404 (HEAD)
+  const okUrls = [];
+  for (const u of urls) {
+    try {
+      const r = await fetch(u, {method:'HEAD', cache:'no-store'});
+      if (r.ok) okUrls.push(u);
+    } catch(e){}
+  }
 
-    // поиск
-    let currentItems = [];
-    qEl.addEventListener('input', ()=> render(filter(currentItems, qEl.value)));
+  // 5) Сортировка по алфавиту
+  okUrls.sort((a,b)=>a.localeCompare(b));
 
-    // --- загрузка sitemap ---
-    fetch('/sitemap.xml',{cache:'no-store'})
-      .then(r=>r.text())
-      .then(xml=>{
-        const urls = Array.from(xml.matchAll(/<loc>([^<]+)<\/loc>/g)).map(m=>m[1]);
-        const pls = urls
-          .filter(u => u.includes('/blog/') && !u.endsWith('/blog/index.html'))
-          .filter(u => !u.includes('/en-gb/'))           // только PL
-          .map(u => ({url: new URL(u).pathname, title: '', date: (xml.match(new RegExp(`<loc>${u.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}<\\/loc>\\s*<lastmod>([^<]+)<\\/lastmod>`))||[])[1] || '—' }));
-        if (pls.length) {
-          currentItems = pls;
-          render(currentItems);
-        } else {
-          currentItems = FALLBACK.map(u=>({url:u}));
-          render(currentItems);
-        }
-      })
-      .catch(()=>{
-        currentItems = FALLBACK.map(u=>({url:u}));
-        render(currentItems);
-      });
-  })();
-  </script>
+  // 6) Рендер
+  const items = await Promise.all(okUrls.map(async (u) => {
+    let title = u.split('/').pop().replace('.html','').replace(/-/g,' ');
+    // попробуем вытянуть <title> быстрой загрузкой (не критично)
+    try {
+      const r = await fetch(u, {cache:'no-store'});
+      if (r.ok) {
+        const t = await r.text();
+        const m = t.match(/<title>(.*?)<\/title>/i);
+        if (m) title = m[1].trim();
+      }
+    } catch(e){}
+    return {u, title};
+  }));
+
+  const q = (txt) => txt.toLowerCase();
+  const render = () => {
+    const term = q(searchEl.value || '');
+    listEl.innerHTML = '';
+    items.filter(it => q(it.title).includes(term)).forEach(it => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `<a href="${new URL(it.u).pathname}">${it.title}</a>
+                        <div class="muted">Updated: —</div>`;
+      listEl.appendChild(card);
+    });
+    countEl.textContent = String(items.filter(it => q(it.title).includes(term)).length);
+  };
+  searchEl.addEventListener('input', render);
+  render();
+})();
+</script>
 </body>
 </html>
