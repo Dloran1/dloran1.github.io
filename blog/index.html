@@ -4,106 +4,91 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Blog — wszystkie artykuły (PL)</title>
-  <link rel="preconnect" href="https://dloran1.github.io">
-  <link rel="stylesheet" href="/assets/site.css">
+  <meta name="description" content="Wszystkie poradniki w jednym miejscu — konfiguracja, streaming, prędkość i prywatność.">
+  <link rel="canonical" href="/blog/index.html">
+  <link rel="alternate" hreflang="pl" href="/blog/index.html">
+  <link rel="alternate" hreflang="en-gb" href="/en-gb/blog/index.html">
   <style>
-    body{max-width:900px;margin:0 auto;padding:24px}
-    .lang a{margin-right:12px}
-    .count{display:inline-block;background:#223042;color:#fff;border-radius:8px;padding:2px 8px;margin-left:8px}
-    .card{border-radius:14px;background:#0f1722; padding:18px 16px; margin:12px 0; border:1px solid #233146}
-    .card a{font-weight:700; color:#4db2ff; text-decoration:none}
-    .muted{opacity:.7;font-size:.95rem;margin-top:8px}
-    .warn{color:#ffcf66}
-    footer{margin:40px 0 8px;opacity:.8}
+    :root{color-scheme:dark light}
+    body{margin:0;font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;background:#0c1220;color:#cfe3ff}
+    a{color:#59a8ff;text-decoration:none}
+    .wrap{max-width:880px;margin:0 auto;padding:24px 16px 80px}
+    h1{font-size:clamp(28px,5vw,40px);margin:8px 0 8px}
+    .muted{opacity:.8}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0 18px}
+    .pill{display:inline-block;padding:2px 10px;border-radius:10px;background:#1a2340;color:#9cc2ff;font-weight:700}
+    .lang a{margin-right:10px}
+    .card{background:#111a33;border:1px solid #1e2b57;border-radius:12px;padding:16px 18px;margin:12px 0}
+    .title{font-weight:800;font-size:20px;margin:0 0 6px}
+    .small{font-size:13px;opacity:.75}
+    input[type="search"]{flex:1;min-width:220px;background:#0f1730;border:1px solid #23315f;border-radius:10px;color:#cfe3ff;padding:10px 12px}
+    footer{margin-top:28px;font-size:14px;opacity:.9}
+    .grid{margin-top:8px}
   </style>
 </head>
 <body>
-  <nav><a href="/">Strona główna</a> › <strong>Blog (PL)</strong></nav>
-  <h1>Blog — wszystkie artykuły (PL) <span id="pl-count" class="count">0</span></h1>
-  <p>Wszystkie poradniki w jednym miejscu — konfiguracja, streaming, prędkość & prywatność.</p>
+  <div class="wrap">
+    <nav class="small muted"><a href="/">Strona główna</a> › <b>Blog (PL)</b></nav>
+    <h1>Blog — wszystkie artykuły (PL) <span class="pill" id="count">0</span></h1>
+    <p class="muted">Wszystkie poradniki w jednym miejscu — konfiguracja, streaming, prędkość &amp; prywatność.</p>
 
-  <p class="lang"><a href="/blog/index.html">Polski (PL)</a> | <a href="/en-gb/blog/index.html">English (UK)</a></p>
+    <div class="row lang">
+      <a href="/blog/index.html" aria-current="page">Polski (PL)</a> | 
+      <a href="/en-gb/blog/index.html">English (UK)</a>
+    </div>
 
-  <input id="search" placeholder="Szukaj tytułów…" aria-label="Szukaj tytułów…">
+    <div class="row">
+      <label class="small muted" for="q">Szukaj tytułów…</label>
+      <input id="q" type="search" placeholder="Szukaj tytułów…">
+    </div>
 
-  <div id="list"></div>
+    <div id="list" class="grid" aria-live="polite"></div>
 
-  <footer>
-    © 2025 VPN World ·
-    <a href="/privacy.html">Privacy & Cookies</a> ·
-    <a href="/polityka-prywatnosci.html">Polityka prywatności</a>
-  </footer>
+    <footer class="small">
+      © 2025 VPN World ·
+      <a href="/privacy.html">Privacy & Cookies</a> ·
+      <a href="/en-gb/privacy.html">Privacy Policy (EN)</a>
+    </footer>
+  </div>
 
 <script>
-(async () => {
+(async function(){
   const listEl = document.getElementById('list');
-  const countEl = document.getElementById('pl-count');
-  const searchEl = document.getElementById('search');
+  const countEl = document.getElementById('count');
+  const qEl = document.getElementById('q');
 
-  // 1) Пытаемся взять URL’ы из sitemap.xml
-  let urls = [];
-  try {
-    const sm = await fetch('/sitemap.xml', {cache:'no-store'});
-    const xml = new DOMParser().parseFromString(await sm.text(), 'application/xml');
-    urls = [...xml.querySelectorAll('url loc')].map(n=>n.textContent.trim());
-  } catch(e){}
+  const sm = await fetch('/sitemap.xml', {cache:'no-store'}).then(r=>r.text());
+  const urls = [...sm.matchAll(/<loc>(.*?)<\/loc>/g)].map(m=>m[1]);
 
-  // 2) Берём только PL /blog/*.html, выкидываем index.html
-  urls = urls
-    .filter(u => u.startsWith(location.origin + '/blog/'))
-    .filter(u => !/\/blog\/index\.html$/.test(u));
+  // PL: только /blog/*.html (без /en-gb/) и не index.html
+  let items = urls
+    .filter(u => u.includes('/blog/') && !u.includes('/en-gb/') && u.endsWith('.html'))
+    .filter(u => !/\/blog\/index\.html$/i.test(u))
+    .map(u => new URL(u, location.origin).pathname);
 
-  // 3) Если сайтмап пустой — фолбэк к манифесту
-  if (!urls.length) {
-    try {
-      const mf = await fetch('/manifest.pl.json', {cache:'no-store'});
-      const data = await mf.json();
-      urls = data.urls.map(p => location.origin + p);
-    } catch(e){}
-  }
-
-  // 4) Отсекаем 404 (HEAD)
-  const okUrls = [];
-  for (const u of urls) {
-    try {
-      const r = await fetch(u, {method:'HEAD', cache:'no-store'});
-      if (r.ok) okUrls.push(u);
-    } catch(e){}
-  }
-
-  // 5) Сортировка по алфавиту
-  okUrls.sort((a,b)=>a.localeCompare(b));
-
-  // 6) Рендер
-  const items = await Promise.all(okUrls.map(async (u) => {
-    let title = u.split('/').pop().replace('.html','').replace(/-/g,' ');
-    // попробуем вытянуть <title> быстрой загрузкой (не критично)
-    try {
-      const r = await fetch(u, {cache:'no-store'});
-      if (r.ok) {
-        const t = await r.text();
-        const m = t.match(/<title>(.*?)<\/title>/i);
-        if (m) title = m[1].trim();
-      }
-    } catch(e){}
-    return {u, title};
-  }));
-
-  const q = (txt) => txt.toLowerCase();
-  const render = () => {
-    const term = q(searchEl.value || '');
+  const render = (rows) => {
     listEl.innerHTML = '';
-    items.filter(it => q(it.title).includes(term)).forEach(it => {
+    rows.forEach(path => {
+      const name = decodeURIComponent(path.split('/').pop().replace('.html',''))
+        .replace(/-/g,' ').replace(/\b\w/g, s=>s.toUpperCase());
       const card = document.createElement('div');
       card.className = 'card';
-      card.innerHTML = `<a href="${new URL(it.u).pathname}">${it.title}</a>
-                        <div class="muted">Updated: —</div>`;
+      card.innerHTML = `
+        <a class="title" href="${path}">${name}</a>
+        <div class="small muted">Zaktualizowano: —</div>
+      `;
       listEl.appendChild(card);
     });
-    countEl.textContent = String(items.filter(it => q(it.title).includes(term)).length);
+    countEl.textContent = rows.length.toString();
   };
-  searchEl.addEventListener('input', render);
-  render();
+
+  render(items);
+
+  qEl.addEventListener('input', (e)=>{
+    const v = e.target.value.trim().toLowerCase();
+    const filtered = v ? items.filter(p => p.toLowerCase().includes(v)) : items;
+    render(filtered);
+  });
 })();
 </script>
 </body>
