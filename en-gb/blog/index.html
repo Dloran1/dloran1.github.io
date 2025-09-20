@@ -3,129 +3,156 @@
 <head>
   <meta charset="utf-8">
   <title>Blog — all articles (UK)</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="index,follow">
-  <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/">
-  <link rel="icon" href="/assets/img/favicon.png">
-  <meta name="description" content="All UK VPN guides in one place — setup, streaming, speed & privacy.">
-
+  <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/index.html">
+  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/index.html">
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/index.html">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/style-extensions.css">
   <style>
-    :root{color-scheme:dark}
-    body{margin:0;font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,
-      Cantarell,'Helvetica Neue',Arial,sans-serif;background:#0b1220;color:#e8eef7}
-    .container{max-width:980px;margin:0 auto;padding:18px}
-    a{color:#52a8ff;text-decoration:none}
-    a:hover{text-decoration:underline}
-    header h1{font-size:clamp(28px,5vw,44px);margin:10px 0 6px}
-    .lede{opacity:.9;margin:0 0 18px}
-    .switch{margin:6px 0 14px}
-    .search{display:flex;gap:10px;align-items:center;margin:10px 0 16px}
-    .search input{flex:1; padding:10px 12px;border-radius:10px;border:1px solid #2a3a55;background:#0f182b;color:#e8eef7}
-    .count{display:inline-flex;align-items:center;justify-content:center;
-      min-width:36px;height:32px;border-radius:10px;border:1px solid #2a3a55;margin-left:10px;font-weight:700}
-    .list{display:grid;gap:12px}
-    .card{border:1px solid #2a3a55;border-radius:12px;padding:14px;background:#0e1628}
-    .title{font-weight:800;font-size:20px;margin:0 0 6px}
-    .meta{font-size:14px;opacity:.8}
-    footer{margin:28px 0 10px;text-align:center;opacity:.85}
-    .bad{display:inline-block;background:#2a0e14;border:1px solid #6b1e28;padding:2px 8px;border-radius:8px;margin-left:8px}
+    .container{max-width:980px;margin:0 auto;padding:24px 16px}
+    .count{display:inline-block;min-width:40px;text-align:center;border-radius:10px;padding:4px 8px;background:#10151c;border:1px solid #243244;margin-left:.5rem}
+    .list{display:grid;gap:12px;margin:18px 0}
+    .card{border:1px solid rgba(140,140,160,.35);border-radius:12px;padding:14px 16px}
+    .card h3{margin:0 0 6px;font-size:1.05rem}
+    .meta{opacity:.7;font-size:.9rem}
+    .switch{margin:12px 0}
+    .switch a{margin-right:12px}
+    .search-wrap{display:flex;gap:10px;align-items:center;margin:12px 0}
+    .search{flex:1;border-radius:8px;border:1px solid rgba(140,140,160,.35);padding:10px 12px;background:#0b1220;color:#e6e8ee}
+    footer{margin:28px 0;text-align:center;opacity:.85}
   </style>
 </head>
 <body>
   <nav class="container" aria-label="Breadcrumb">
-    <a href="/en-gb/">Home</a> › <a href="/en-gb/blog/">Blog (UK)</a>
+    <a href="/en-gb/">Home</a> › <span>Blog (UK)</span>
   </nav>
 
   <main class="container">
-    <header>
-      <h1>Blog — all articles (UK) <span id="count" class="count">0</span></h1>
-      <p class="lede">All UK guides in one place — setup, streaming, speed &amp; privacy.</p>
-      <p class="switch"><a href="/en-gb/blog/">English (UK)</a> | <a href="/blog/">Polski (PL)</a></p>
-    </header>
+    <h1>Blog — all articles (UK) <span class="count" id="count">0</span></h1>
+    <p>All UK guides in one place — setup, streaming, speed &amp; privacy.</p>
 
-    <div class="search">
+    <p class="switch"><a href="/en-gb/blog/index.html">English (UK)</a> | <a href="/blog/index.html">Polski (PL)</a></p>
+
+    <div class="search-wrap">
       <label for="q" class="sr-only">Search titles…</label>
-      <input id="q" type="search" placeholder="Search titles…">
+      <input id="q" class="search" placeholder="Search titles…">
     </div>
 
-    <section id="list" class="list" aria-live="polite"></section>
-
-    <footer>
-      <p>© 2025 VPN World · <a href="/en-gb/privacy.html">Privacy Policy (EN)</a> · <a href="/pl/polityka-prywatnosci.html">Polityka prywatności (PL)</a></p>
-    </footer>
+    <section class="list" id="list" aria-live="polite"></section>
   </main>
+
+  <footer class="container">
+    <p>© 2025 VPN World · <a href="/en-gb/privacy.html">Privacy Policy (EN)</a> · <a href="/pl/polityka-prywatnosci.html">Polityka prywatności (PL)</a></p>
+  </footer>
 
   <script>
   (function(){
-    const SITEMAP = '/sitemap.xml';
-    const UK_PREFIX = '/en-gb/blog/';
-    const INDEX_NAME = 'index.html';
-
     const listEl = document.getElementById('list');
     const countEl = document.getElementById('count');
     const qEl = document.getElementById('q');
 
-    const pretty = s => s.replace(/\s+/g,' ').trim();
-    const titleFromSlug = url => {
-      const slug = url.split('/').pop().replace('.html','');
-      return pretty(slug.replace(/-/g,' ')).replace(/\b\w/g, m => m.toUpperCase());
-    };
+    // --- РЕЗЕРВНЫЙ СТАТИЧЕСКИЙ СПИСОК (EN-GB) ---
+    const FALLBACK = [
+      "/en-gb/blog/best-vpn-uk.html",
+      "/en-gb/blog/free-vs-paid-vpn-uk.html",
+      "/en-gb/blog/what-is-vpn-uk.html",
+      "/en-gb/blog/why-vpn-2025-uk.html",
+      "/en-gb/blog/which-vpn-server-uk.html",
+      "/en-gb/blog/vpn-myths-uk.html",
+      "/en-gb/blog/no-logs-uk.html",
+      "/en-gb/blog/nordvpn-vs-surfshark-uk.html",
+      "/en-gb/blog/vpn-iplayer-uk.html",
+      "/en-gb/blog/vpn-speed-test-uk.html",
+      "/en-gb/blog/vpn-2fa-mfa-uk.html",
+      "/en-gb/blog/is-vpn-legal-uk.html",
+      "/en-gb/blog/vpn-android-uk.html",
+      "/en-gb/blog/vpn-ios-uk.html",
+      "/en-gb/blog/vpn-mac-uk.html",
+      "/en-gb/blog/vpn-linux-uk.html",
+      "/en-gb/blog/vpn-router-setup-uk.html",
+      "/en-gb/blog/vpn-on-router-uk.html",
+      "/en-gb/blog/vpn-best-settings-uk.html",
+      "/en-gb/blog/vpn-port-forwarding-uk.html",
+      "/en-gb/blog/vpn-protocols-uk.html",
+      "/en-gb/blog/vpn-public-wifi-uk.html",
+      "/en-gb/blog/vpn-remote-work-uk.html",
+      "/en-gb/blog/vpn-security-uk.html",
+      "/en-gb/blog/vpn-travel-uk.html",
+      "/en-gb/blog/vpn-streaming-uk.html",
+      "/en-gb/blog/vpn-smart-tv-uk.html",
+      "/en-gb/blog/vpn-apple-tv-uk.html",
+      "/en-gb/blog/vpn-gaming-uk.html",
+      "/en-gb/blog/vpn-ps5-xbox-uk.html",
+      "/en-gb/blog/vpn-sky-go-uk.html",
+      "/en-gb/blog/vpn-netflix-uk.html",
+      "/en-gb/blog/vpn-dns-leak-uk.html",
+      "/en-gb/blog/vpn-kill-switch-uk.html",
+      "/en-gb/blog/double-vpn-uk.html",
+      "/en-gb/blog/free-vpn-uk.html",
+      "/en-gb/blog/proxy-vs-vpn-uk.html",
+      "/en-gb/blog/vpn-advantages-uk.html",
+      "/en-gb/blog/dedicated-ip-vpn-uk.html",
+      "/en-gb/blog/vpn-torrenting-uk.html",
+      "/en-gb/blog/vpn-windows-uk.html"
+    ];
+
+    function slugToTitle(slug){
+      return slug
+        .replace(/^\/|\.html$/g,'')
+        .split('/').pop()
+        .replace(/-/g,' ')
+        .replace(/\b\w/g, m=>m.toUpperCase());
+    }
 
     function render(items){
-      listEl.innerHTML='';
-      items.forEach(it=>{
-        const card=document.createElement('article');
-        card.className='card';
-        card.innerHTML = `
-          <h2 class="title"><a href="${it.loc}">${it.title}</a></h2>
-          <p class="meta">Updated: ${it.date||'—'}</p>
-        `;
+      listEl.innerHTML = '';
+      items.forEach(url=>{
+        const title = url.title || slugToTitle(url.url||url);
+        const href  = url.url || url;
+        const date  = url.date || '—';
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `<h3><a href="${href}">${title}</a></h3>
+                          <div class="meta">Updated: <time>${date}</time></div>`;
         listEl.appendChild(card);
       });
       countEl.textContent = items.length;
     }
 
-    function filterIndex(entries){
-      return entries.filter(u=>{
-        if(!u.loc.startsWith(UK_PREFIX)) return false;
-        return !u.loc.endsWith('/'+INDEX_NAME);
+    function filter(items, q){
+      q = q.trim().toLowerCase();
+      if(!q) return items;
+      return items.filter(x=>{
+        const t = (x.title || slugToTitle(x.url||x)).toLowerCase();
+        return t.includes(q);
       });
     }
 
-    function parseSitemap(xml){
-      const out=[];
-      xml.querySelectorAll('urlset > url').forEach(n=>{
-        const loc=n.querySelector('loc')?.textContent||'';
-        const lastmod=n.querySelector('lastmod')?.textContent||'';
-        if(loc) out.push({loc, date:lastmod});
-      });
-      return out;
-    }
+    // поиск
+    let currentItems = [];
+    qEl.addEventListener('input', ()=> render(filter(currentItems, qEl.value)));
 
-    function attachSearch(items){
-      qEl.addEventListener('input', ()=>{
-        const q = qEl.value.toLowerCase().trim();
-        const res = !q ? items : items.filter(it => it.title.toLowerCase().includes(q));
-        render(res);
-      });
-    }
-
-    fetch(SITEMAP, {cache:'no-store'})
-      .then(r=>r.ok?r.text():Promise.reject(r.status))
-      .then(txt=>new window.DOMParser().parseFromString(txt,'application/xml'))
+    // --- загрузка sitemap ---
+    fetch('/sitemap.xml',{cache:'no-store'})
+      .then(r=>r.text())
       .then(xml=>{
-        let items = filterIndex(parseSitemap(xml)).map(x=>({
-          loc:x.loc, date:x.date, title:titleFromSlug(x.loc)
-        }));
-        // Стабильная сортировка по title
-        items.sort((a,b)=>a.title.localeCompare(b.title, 'en'));
-        render(items);
-        attachSearch(items);
+        const urls = Array.from(xml.matchAll(/<loc>([^<]+)<\/loc>/g)).map(m=>m[1]);
+        const uks = urls
+          .filter(u => u.includes('/en-gb/blog/') && !u.endsWith('/en-gb/blog/index.html'))
+          .map(u => ({url: new URL(u).pathname, title: '', date: (xml.match(new RegExp(`<loc>${u.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}<\\/loc>\\s*<lastmod>([^<]+)<\\/lastmod>`))||[])[1] || '—' }));
+        if (uks.length) {
+          currentItems = uks;
+          render(currentItems);
+        } else {
+          currentItems = FALLBACK.map(u=>({url:u}));
+          render(currentItems);
+        }
       })
-      .catch(err=>{
-        listEl.innerHTML =
-          `<div class="card"><strong>Couldn’t load sitemap</strong><span class="bad">Error: ${err}</span><p class="meta">Check <code>/sitemap.xml</code>.</p></div>`;
-        countEl.textContent='0';
+      .catch(()=>{
+        currentItems = FALLBACK.map(u=>({url:u}));
+        render(currentItems);
       });
   })();
   </script>
