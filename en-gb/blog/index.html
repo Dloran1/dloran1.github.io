@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <title>Blog — all articles (UK) | VPN World</title>
+  <meta name="description" content="All UK VPN guides in one place — setup, streaming, speed & privacy.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Blog — all articles (UK)">
+  <meta property="og:description" content="All UK VPN guides in one place — setup, streaming, speed & privacy.">
+  <meta property="og:url" content="https://dloran1.github.io/en-gb/blog/">
+  <meta property="og:locale" content="en_GB">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Blog — all articles (UK)">
+  <meta name="twitter:description" content="All UK VPN guides in one place — setup, streaming, speed & privacy.">
+
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/style-extensions.css">
+  <style>
+    .breadcrumbs ul{list-style:none;padding:0;margin:0;display:flex;gap:8px}
+    .breadcrumbs li::after{content:'›';opacity:.6;margin:0 4px}
+    .breadcrumbs li:last-child::after{content:''}
+    .count{opacity:.85;font-weight:600}
+    .cards{display:grid;gap:12px;margin:16px 0}
+    .card{padding:14px 16px;border:1px solid rgba(140,140,160,.35);border-radius:12px;background:rgba(255,255,255,.03)}
+    .card h3{margin:.1rem 0 .35rem;font-size:1.05rem}
+    .muted{opacity:.8;font-size:.9rem}
+    .controls{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 18px}
+    .controls input{max-width:320px}
+  </style>
+</head>
+<body>
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ul>
+    <li><a href="/en-gb/">Home</a></li>
+    <li aria-current="page">Blog (UK)</li>
+  </ul>
+</nav>
+
+<main class="wrap">
+  <h1>Blog — all articles (UK) <span id="count" class="count">…</span></h1>
+  <p class="lead">All UK guides in one place — setup, streaming, speed & privacy.</p>
+
+  <div class="controls">
+    <label for="q" class="muted">Search titles…</label>
+    <input id="q" type="search" placeholder="Search titles…" />
+  </div>
+
+  <div id="cards" class="cards" role="list"></div>
+  <p id="empty" class="muted" hidden>No articles found.</p>
+</main>
+
+<footer class="foot">
+  <p>© 2025 VPN World • 
+     <a href="/en-gb/privacy.html">Privacy Policy</a> • 
+     <a href="/pl/polityka-prywatnosci.html" lang="pl">Polityka prywatności</a>
+  </p>
+</footer>
+
+<script>
+(async function(){
+  const cards = document.getElementById('cards');
+  const count = document.getElementById('count');
+  const empty = document.getElementById('empty');
+  const q = document.getElementById('q');
+
+  // fetch sitemap and extract only /en-gb/blog/*.html (excluding index.html)
+  async function getPosts(){
+    const res = await fetch('/sitemap.xml', {cache:'no-store'});
+    const text = await res.text();
+    const xml = new window.DOMParser().parseFromString(text, 'application/xml');
+    const locs = [...xml.querySelectorAll('url > loc')].map(n=>n.textContent.trim());
+    const urls = locs.filter(u => /\/en-gb\/blog\/.+\.html$/i.test(u) && !/\/index\.html$/i.test(u));
+
+    // For each URL, fetch head quickly to get <title> and maybe JSON-LD dates
+    const items = [];
+    for (const u of urls) {
+      try{
+        const html = await fetch(u, {cache:'no-store'}).then(r=>r.text());
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const h1 = doc.querySelector('h1');
+        const title = (h1?.textContent || doc.title || u).trim();
+        // Try to parse Article LD for date
+        let date = null;
+        [...doc.querySelectorAll('script[type="application/ld+json"]')].some(s=>{
+          try{
+            const d = JSON.parse(s.textContent || '{}');
+            if (d && d['@type']==='Article'){
+              date = d.dateModified || d.datePublished || null;
+              return !!date;
+            }
+          }catch(e){}
+        });
+        items.push({url:u, title, date});
+      }catch(e){
+        items.push({url:u, title:u, date:null});
+      }
+    }
+    // sort by title (стабильный список)
+    items.sort((a,b)=>a.title.localeCompare(b.title));
+    return items;
+  }
+
+  function render(list){
+    cards.innerHTML = '';
+    if (!list.length){ empty.hidden = false; count.textContent = '0'; return; }
+    empty.hidden = true;
+    count.textContent = String(list.length);
+    for (const p of list){
+      const art = document.createElement('article');
+      art.className = 'card';
+      art.innerHTML = `
+        <h3><a href="${p.url}">${p.title}</a></h3>
+        <div class="muted">Updated: <time>${p.date || ''}</time></div>`;
+      cards.appendChild(art);
+    }
+  }
+
+  const all = await getPosts();
+  render(all);
+
+  q.addEventListener('input', () => {
+    const v = q.value.trim().toLowerCase();
+    const filtered = !v ? all : all.filter(p => p.title.toLowerCase().includes(v));
+    render(filtered);
+  });
+})();
+</script>
+
+<script src="/assets/js/consent.js"></script>
+<script src="/assets/js/privacy.js"></script>
+<script src="/assets/js/langswitch.js"></script>
+</body>
+</html>

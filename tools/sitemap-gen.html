@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sitemap cleaner — PL ↔ UK</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  body{font:16px/1.45 system-ui,Segoe UI,Roboto,Arial,sans-serif;background:#0b1220;color:#e6edf3;margin:0;padding:24px}
+  h1{font-size:22px;margin:0 0 12px}
+  .btn{display:inline-block;background:#2E90FA;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;border:0;cursor:pointer}
+  .row{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}
+  .log{white-space:pre-wrap;font:13px ui-monospace,Menlo,Consolas,monospace;background:#0e1628;border:1px solid #223049;border-radius:10px;padding:10px;margin:14px 0;max-height:42vh;overflow:auto}
+  textarea{width:100%;height:42vh;border:1px solid #223049;background:#0e1628;color:#e6edf3;border-radius:10px;padding:10px}
+  .tip{opacity:.85}
+</style>
+</head>
+<body>
+  <h1>Sitemap cleaner — PL ↔ UK</h1>
+  <p class="tip">Читает <code>/sitemap.xml</code>, удаляет битые ссылки (404), добавляет ключевые страницы (home/индексы/политики) и отдаёт «чистый» XML.</p>
+  <div class="row">
+    <button class="btn" id="run">Clean & rebuild</button>
+    <button class="btn" id="copy">Copy XML</button>
+  </div>
+  <div class="log" id="log">Idle…</div>
+  <textarea id="out" placeholder="XML will appear here…"></textarea>
+
+<script>
+(async function(){
+  const logEl = document.getElementById('log');
+  const outEl = document.getElementById('out');
+  const btnRun = document.getElementById('run');
+  const btnCopy = document.getElementById('copy');
+  const ORIGIN = location.origin;
+
+  function log(s){ logEl.textContent += (logEl.textContent?'\n':'')+s; logEl.scrollTop = logEl.scrollHeight; }
+
+  async function fetchText(url){
+    const r = await fetch(url, {cache:'no-store'});
+    if(!r.ok) throw new Error(r.status+' '+r.statusText);
+    return await r.text();
+  }
+
+  function parseSitemap(xml){
+    const urls = [];
+    try{
+      const doc = new DOMParser().parseFromString(xml, 'application/xml');
+      const locs = Array.from(doc.getElementsByTagName('loc'));
+      for(const el of locs){
+        const href = el.textContent.trim();
+        if(href && href.startsWith(ORIGIN)) urls.push(href);
+      }
+    }catch(e){}
+    return urls;
+  }
+
+  async function headOk(url){
+    try{
+      const r = await fetch(url, {method:'HEAD', cache:'no-store'});
+      return r.ok;
+    }catch(e){ return false; }
+  }
+
+  function today(){
+    const d=new Date(), y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), da=String(d.getDate()).padStart(2,'0');
+    return `${y}-${m}-${da}`;
+  }
+
+  btnRun.onclick = async () => {
+    logEl.textContent = 'Start…';
+
+    // 1) читаем текущий sitemap
+    let urls = [];
+    try{
+      log(`Fetch ${ORIGIN}/sitemap.xml`);
+      const xml = await fetchText(`${ORIGIN}/sitemap.xml`);
+      urls = parseSitemap(xml);
+      log(`Found ${urls.length} URLs in existing sitemap.xml`);
+    }catch(e){
+      log(`No sitemap or parse error: ${e.message}`);
+    }
+
+    // 2) добавляем ключевые страницы (на всякий случай)
+    const mustHave = [
+      `${ORIGIN}/`,
+      `${ORIGIN}/blog/index.html`,
+      `${ORIGIN}/en-gb/blog/index.html`,
+      `${ORIGIN}/privacy.html`,
+      `${ORIGIN}/en-gb/privacy.html`
+    ];
+    const set = new Set([...urls, ...mustHave]);
+
+    // 3) проверяем 404 и оставляем только живые
+    const candidates = Array.from(set).sort();
+    log(`Check 404 on ${candidates.length} URLs…`);
+    const good = [];
+    let i=0;
+    for(const u of candidates){
+      i++;
+      const ok = await headOk(u);
+      log(`${String(i).padStart(3,'0')}/${candidates.length} ${ok?'OK  ':'404 '} ${u}`);
+      if(ok) good.push(u);
+    }
+
+    // 4) формируем XML
+    const lastmod = today();
+    const xmlBody = good.map(u=>{
+      const pr = u.includes('/blog/') ? '0.7' : '0.5';
+      return `  <url><loc>${u}</loc><lastmod>${lastmod}</lastmod><changefreq>weekly</changefreq><priority>${pr}</priority></url>`;
+    }).join('\n');
+
+    const xmlOut = `<?xml version='1.0' encoding='UTF-8'?>\n<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>\n${xmlBody}\n</urlset>\n`;
+    outEl.value = xmlOut;
+    log(`Done. ${good.length} live URLs written.`);
+  };
+
+  btnCopy.onclick = ()=>{
+    outEl.select(); document.execCommand('copy'); log('XML copied to clipboard.');
+  };
+})();
+</script>
+</body>
+</html>

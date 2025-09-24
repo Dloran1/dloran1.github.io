@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blog — all articles (UK) | VPN World</title>
+  <meta name="description" content="All VPN articles for the UK version: guides, tests, streaming tips and comparisons.">
+  <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/style-extensions.css">
+</head>
+<body>
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ul>
+    <li><a href="/en-gb/">Home</a></li>
+    <li aria-current="page">Blog (UK)</li>
+  </ul>
+</nav>
+
+<section class="wrap">
+  <h1>Blog — all articles (UK) <span id="count" class="badge" style="margin-left:.5rem"></span></h1>
+  <p>Switch language: <a href="/blog/">Polski (PL)</a></p>
+
+  <div id="list" class="cards"></div>
+  <template id="item">
+    <a class="card" href="#">
+      <h3></h3>
+      <p class="muted"></p>
+    </a>
+  </template>
+</section>
+
+<footer class="foot">
+  <p>© 2025 VPN World • 
+     <a href="/en-gb/privacy.html">Privacy Policy</a> • 
+     <a href="/pl/polityka-prywatnosci.html" lang="pl">Polityka prywatności</a>
+  </p>
+</footer>
+
+<script>
+(async function() {
+  const list = document.querySelector("#list");
+  const tpl = document.querySelector("#item");
+  const badge = document.querySelector("#count");
+
+  async function loadFromSitemap() {
+    try {
+      const res = await fetch("/sitemap.xml");
+      const xml = await res.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(xml, "application/xml");
+      const urls = [...doc.querySelectorAll("url loc")];
+      return urls
+        .map(loc => loc.textContent.trim())
+        .filter(u => u.includes("/en-gb/blog/"));
+    } catch (e) {
+      return [];
+    }
+  }
+
+  async function loadFromManifest() {
+    try {
+      const res = await fetch("/en-gb/blog/manifest.json");
+      return await res.json();
+    } catch (e) {
+      return [];
+    }
+  }
+
+  let urls = await loadFromSitemap();
+  if (!urls.length) {
+    urls = await loadFromManifest();
+  }
+
+  urls.forEach(url => {
+    const slug = url.split("/").pop().replace(".html", "");
+    const title = slug
+      .replace(/-/g, " ")
+      .replace(/\buk\b/i, "UK")
+      .replace(/\bpl\b/i, "Poland")
+      .replace(/\b\w/g, c => c.toUpperCase());
+
+    const item = tpl.content.cloneNode(true);
+    const a = item.querySelector("a");
+    a.href = url;
+    item.querySelector("h3").textContent = title;
+    item.querySelector("p").textContent = url.replace("https://dloran1.github.io", "");
+    list.appendChild(item);
+  });
+
+  badge.textContent = urls.length;
+})();
+</script>
+
+</body>
+</html>
