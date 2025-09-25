@@ -2,23 +2,23 @@
 <html lang="en-GB">
 <head>
   <meta charset="utf-8">
-  <title>VPN Split Tunnelling (UK, 2025) — Setup, Rules, Streaming & Safety | VPN World</title>
-  <meta name="description" content="The complete UK guide to VPN split tunnelling: exact app and domain rules on Windows, macOS and Android; banking & LAN exceptions; streaming reliability for BBC iPlayer/Netflix; DNS/WebRTC leak prevention; router-level policies and troubleshooting.">
+  <title>VPN Split Tunnelling (UK, 2025) — What to Exclude, How to Set Up & How to Avoid Streaming Errors</title>
+  <meta name="description" content="Complete UK guide to VPN split tunnelling: exact app & domain rules for Windows, macOS and Android; router policy routing; when to exclude banking/SSO & printers; leak-free DNS/WebRTC/IPv6; stable BBC iPlayer/Netflix streaming; troubleshooting matrix.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/vpn-split-tunneling-uk.html">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
-  <meta property="og:title" content="VPN Split Tunnelling (UK, 2025) — Setup, Rules, Streaming & Safety">
-  <meta property="og:description" content="Exact UK presets: what to exclude (banking, SSO, printers) vs what to keep in VPN (browsers, streaming, P2P). App, OS and router rules + fix matrix.">
+  <meta property="og:title" content="VPN Split Tunnelling (UK, 2025) — What to Exclude, How to Set Up & How to Avoid Streaming Errors">
+  <meta property="og:description" content="Step-by-step for Windows, macOS and Android. App/URL rules, router policies, leak prevention and reliable BBC iPlayer/Netflix streaming.">
   <meta property="og:url" content="https://dloran1.github.io/en-gb/blog/vpn-split-tunneling-uk.html">
   <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp">
   <meta property="og:locale" content="en_GB">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="VPN Split Tunnelling (UK, 2025) — Setup, Rules, Streaming & Safety">
+  <meta name="twitter:title" content="VPN Split Tunnelling (UK, 2025) — What to Exclude, How to Set Up & How to Avoid Streaming Errors">
   <meta name="twitter:description" content="Do split tunnelling the right way on Windows/macOS/Android or your router. Avoid leaks and keep iPlayer/Netflix stable.">
   <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp">
 
@@ -31,7 +31,7 @@
   <link rel="stylesheet" href="/assets/style-extensions.css">
   <style>
     .badge{display:inline-block;padding:.2rem .5rem;border:1px solid rgba(140,140,160,.35);border-radius:6px;font-size:.85rem}
-    .lead{opacity:.9}
+    .lead{opacity:.92}
     .note{border-left:3px solid #2E90FA;padding:.85rem 1rem;margin:1rem 0;background:rgba(46,144,250,.06)}
     .warn{border-left:3px solid #f59e0b;padding:.85rem 1rem;margin:1rem 0;background:rgba(245,158,11,.08)}
     .danger{border-left:3px solid #ef4444;padding:.85rem 1rem;margin:1rem 0;background:rgba(239,68,68,.08)}
@@ -39,7 +39,7 @@
     .kbd{padding:.1rem .35rem;border:1px solid rgba(140,140,160,.4);border-radius:4px;background:rgba(255,255,255,.06)}
     .toc ul{margin:.25rem 0 1rem 1.25rem}
     .table-wrap{overflow-x:auto}
-    .table-wrap table{min-width:720px}
+    .table-wrap table{min-width:760px}
     .video-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;border:1px solid rgba(140,140,160,.35);background:#000;margin:1rem 0}
     .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
     .video-fallback{position:absolute;inset:0;display:flex;gap:12px;align-items:center;justify-content:center;flex-direction:column}
@@ -49,6 +49,7 @@
     .author img{border-radius:50%;aspect-ratio:1/1}
     .related ul{columns:2;gap:1rem}
     .lang-switch{margin:.5rem 0 1rem}
+    .muted{opacity:.75}
   </style>
 </head>
 <body>
@@ -69,203 +70,314 @@
 </nav>
 
 <article>
-  <header>
-    <h1>VPN Split Tunnelling (UK, 2025) — Setup, Rules, Streaming & Safety</h1>
+  <header class="wrap">
+    <h1>VPN Split Tunnelling (UK, 2025) — What to Exclude, How to Set Up & How to Avoid Streaming Errors</h1>
     <figure class="article-hero">
       <img src="/assets/img/hero/en-gb/hero-06.webp" alt="Split tunnelling on a UK laptop: some apps through VPN, others direct" width="1200" height="630" loading="eager" decoding="async">
-      <figcaption>Send the right traffic via VPN and keep the rest direct — without breaking banking, LAN or streaming.</figcaption>
+      <figcaption>Exclude only what truly needs to bypass the tunnel — keep the rest protected.</figcaption>
     </figure>
-    <p><span class="badge">Updated: 2025-09-25</span> • <strong>~18–22 min read</strong></p>
-    <p class="lead">Split tunnelling lets you decide what goes through the VPN and what bypasses it. Done right, it fixes UK banking logins, corporate SSO, printers/NAS and smart-home panels — while browsers, streaming and P2P stay protected. Below you’ll find exact app/OS/router rules, leak-proof presets and a troubleshooting matrix.</p>
+    <p><span class="badge">Updated: 2025-09-25</span> • <strong>~20–24 min read</strong></p>
+    <p class="lead">Split tunnelling lets you route selected apps or domains outside the VPN while everything else stays encrypted. Done right, it fixes UK banking logins and SCA, corporate SSO, printer/NAS discovery and smart-home dashboards — without sacrificing privacy for browsers, streaming or P2P. This guide gives precise Windows/macOS/Android rules, whole-home router policies, a leak-free checklist and a practical troubleshooting matrix.</p>
   </header>
 
-  <!-- TOC -->
-  <nav class="toc" aria-label="Table of Contents">
-    <strong>On this page</strong>
-    <ul>
-      <li><a href="#what">What split tunnelling is (and isn’t)</a></li>
-      <li><a href="#modes">App vs URL vs Inverse split</a></li>
-      <li><a href="#when">When to use it (UK use-cases)</a></li>
-      <li><a href="#windows">Windows — exact steps</a></li>
-      <li><a href="#mac">macOS — exact steps</a></li>
-      <li><a href="#android">Android — exact steps</a></li>
-      <li><a href="#router">Router policies (whole-home split)</a></li>
-      <li><a href="#leaks">Avoiding DNS/WebRTC/IPv6 leaks</a></li>
-      <li><a href="#streaming">BBC iPlayer / Netflix reliability</a></li>
-      <li><a href="#matrix">Troubleshooting matrix</a></li>
-      <li><a href="#faq">FAQ</a></li>
-    </ul>
-  </nav>
+  <main class="wrap post" id="top">
+    <!-- TOC -->
+    <nav class="toc" aria-label="Table of Contents">
+      <h2>On this page</h2>
+      <ul>
+        <li><a href="#what">What split tunnelling is</a></li>
+        <li><a href="#modes">Modes: apps, domains, inverse</a></li>
+        <li><a href="#tradeoffs">Benefits & trade-offs</a></li>
+        <li><a href="#when">When to use it (UK scenarios)</a></li>
+        <li><a href="#windows">Windows — steps, verification & presets</a></li>
+        <li><a href="#mac">macOS — steps, verification & presets</a></li>
+        <li><a href="#android">Android — steps, verification & presets</a></li>
+        <li><a href="#router">Router policies (whole-home)</a></li>
+        <li><a href="#perf">Performance & practical tips</a></li>
+        <li><a href="#streaming">Streaming stability (BBC iPlayer/Netflix)</a></li>
+        <li><a href="#leaks">Avoiding DNS/WebRTC/IPv6 leaks</a></li>
+        <li><a href="#matrix">Troubleshooting matrix</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#video">Video walkthrough (YouTube)</a></li>
+      </ul>
+    </nav>
 
-  <!-- CTA -->
-  <section class="cta">
-    <p>Looking for providers with robust split-tunnelling and URL rules?</p>
-    <p>
-      <a class="btn btn-primary" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="sponsored noopener noreferrer">NordVPN — app & per-app split</a>
-      <a class="btn btn-secondary" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="sponsored noopener noreferrer">Surfshark — app & URL allow-lists</a>
-    </p>
-  </section>
+    <!-- CTA -->
+    <section class="cta">
+      <p>Need a client with robust split tunnelling and URL rules?</p>
+      <p>
+        <a class="btn btn-primary" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="sponsored noopener noreferrer">NordVPN — convenient app split on Windows/Android</a>
+        <a class="btn btn-secondary" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="sponsored noopener noreferrer">Surfshark — app + domain allow-lists</a>
+      </p>
+    </section>
 
-  <section id="what">
-    <h2>What split tunnelling is (and isn’t)</h2>
-    <p>By default, a VPN app sends <em>all</em> traffic through an encrypted tunnel. With split tunnelling you define exceptions: selected apps or destinations bypass the tunnel and use your regular connection. The opposite mode — “inverse split” — routes only chosen apps via VPN and lets everything else go direct. Split tunnelling is not a firewall, QoS or ad-blocker; it only decides which interface the traffic uses.</p>
-    <div class="warn"><strong>Rule #1:</strong> keep <em>browsers, messengers and P2P</em> inside the tunnel. Exclude only low-risk utilities that genuinely break behind VPN exits.</div>
-  </section>
+    <section id="what">
+      <h2>What split tunnelling is</h2>
+      <p>By default, a VPN app sends <em>all</em> device traffic through the encrypted tunnel. Split tunnelling introduces exceptions: selected apps or destinations (domains/URLs) can go direct, outside the tunnel. The opposite mode (<em>inverse split</em>) routes only a few apps via VPN while everything else goes direct. This is not a firewall, QoS or ad-blocker — it only decides <em>which path</em> traffic takes.</p>
+      <p>Practically you have two “pipes”: the <strong>VPN pipe</strong> and the <strong>direct pipe</strong>. Sloppy rules (e.g., letting your browser or torrent client bypass the tunnel) cause privacy loss and IP↔DNS conflicts. Precise rules fix problematic utilities without compromising protection for the rest.</p>
+      <div class="warn"><strong>Rule #1:</strong> keep browsers, messengers, email and P2P <em>inside</em> the tunnel. Exclude only low-risk helpers that genuinely fail behind VPN exits.</div>
+    </section>
 
-  <section id="modes">
-    <h2>App vs URL vs Inverse split</h2>
-    <ul>
-      <li><strong>App-based:</strong> choose apps that bypass VPN (banking, SSO launchers, printer/NAS tools). Easiest and safest.</li>
-      <li><strong>URL/domain-based:</strong> allow-list specific hostnames (e.g. corporate SSO, printer portals). Requires providers that support domain rules or a router with policy routing.</li>
-      <li><strong>Inverse split:</strong> only nominated apps use VPN (e.g., torrent client + browser), everything else goes direct. Useful on low-powered routers or workstations with strict LAN needs.</li>
-    </ul>
-  </section>
+    <section id="modes">
+      <h2>Modes: apps, domains, inverse</h2>
+      <ul>
+        <li><strong>App-based:</strong> the simplest and safest. Exclude a banking helper, SSO agent, printer/NAS utilities.</li>
+        <li><strong>Domain/URL-based:</strong> allow-lists (e.g., <code>*.company.com</code> or a printer portal). Requires app support or router rules (policy routing).</li>
+        <li><strong>Inverse split:</strong> only selected apps (e.g., browser + P2P client) go through VPN; the rest goes direct. Useful on low-power routers or LAN-sensitive workstations.</li>
+      </ul>
+      <p class="note">Most consumer clients provide app-based split on Windows and Android. On macOS, domain rules are rarer — the cleanest place for them is the router.</p>
+    </section>
 
-  <section id="when">
-    <h2>When to use it (UK use-cases)</h2>
-    <div class="ok"><strong>Good candidates to bypass VPN:</strong> UK banking helper apps, corporate SSO agents (Citrix/Okta), printer/scanner utilities, NAS/SMB clients, smart-home dashboards, AirPrint/Bonjour discovery.</div>
-    <div class="danger"><strong>Keep in VPN:</strong> browsers (Chrome/Edge/Firefox), streaming apps (iPlayer, Netflix), email/messengers, P2P clients and anything handling personal data.</div>
-    <p class="note">If your goal is whole-home coverage (Apple TV, consoles, Smart TVs), consider a <a href="/en-gb/blog/vpn-router-setup-uk.html">router VPN setup</a> and apply split at the router with policy routing. It’s cleaner and avoids per-device quirks.</p>
-  </section>
+    <section id="tradeoffs">
+      <h2>Benefits & trade-offs</h2>
+      <div class="ok"><strong>Pros:</strong> banking/SCA works, you don’t break printers/NAS discovery, consoles and Apple TV are easier when the VPN runs on a router, and latency drops for apps that don’t need VPN.</div>
+      <div class="danger"><strong>Cons:</strong> misconfiguration can leak browser/P2P, or break streaming when DNS and app traffic take different paths. More moving parts to debug.</div>
+    </section>
 
-  <section id="windows">
-    <h2>Windows — exact steps</h2>
-    <ol>
-      <li>Open your VPN app → <strong>Settings → Split tunnelling</strong> (naming varies).</li>
-      <li>Choose <strong>Bypass VPN for selected apps</strong> and add:
-        <ul>
-          <li>Banking app/site helper, SSO launchers.</li>
-          <li>Printer/scanner tools, NAS clients.</li>
-        </ul>
-      </li>
-      <li>Ensure <strong>Use provider DNS</strong> is ON in the VPN app.</li>
-      <li>Restart the apps you changed; for browsers press <span class="kbd">Alt</span>+<span class="kbd">F4</span> to fully exit and relaunch.</li>
-    </ol>
-    <p>Performance tip: prefer <strong>WireGuard/NordLynx</strong>. Switch to OpenVPN <strong>TCP/443</strong> on restrictive Wi-Fi. Full guide: <a href="/en-gb/blog/vpn-windows-uk.html">VPN for Windows</a>.</p>
-  </section>
+    <section id="when">
+      <h2>When to use it (UK scenarios)</h2>
+      <ul>
+        <li><strong>Banking & SCA:</strong> some banks distrust VPN ranges; exclude the helper while keeping the browser in the tunnel.</li>
+        <li><strong>Corporate SSO/legacy portals:</strong> Citrix/Okta/SharePoint may be region-locked or dislike exit IPs. Exclude the SSO agent; keep work browsers in VPN if policy allows.</li>
+        <li><strong>LAN discovery:</strong> printers (AirPrint/Bonjour), scanners and NAS need local broadcasts. Exclude their utilities; keep everything else protected.</li>
+        <li><strong>Smart-home:</strong> local dashboards and auto-discovery can be finicky — exclude the controller app if necessary.</li>
+      </ul>
+      <p class="note">If the goal is whole-home protection (Apple TV, consoles, TVs), move the logic to the router — see <a href="/en-gb/blog/vpn-on-router-uk.html">VPN on a router</a> and <a href="/en-gb/blog/vpn-router-setup-uk.html">UK router setup</a>.</p>
+    </section>
 
-  <section id="mac">
-    <h2>macOS — exact steps</h2>
-    <p>Consumer clients on macOS typically split by app. If you need domain-level control (e.g., let <code>*.company.com</code> go direct), either use a provider with URL rules or move the split to the router. Always keep the macOS firewall on and allow the VPN helper extensions.</p>
-    <ul>
-      <li><strong>Exclude:</strong> printer/NAS utilities, banking helpers, AirPrint discovery.</li>
-      <li><strong>Keep in VPN:</strong> Safari/Chrome/Firefox, streaming apps, P2P clients.</li>
-      <li>After changes, flush DNS: <span class="kbd">sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder</span></li>
-    </ul>
-    <p>See also: <a href="/en-gb/blog/vpn-mac-uk.html">macOS VPN guide</a>.</p>
-  </section>
+    <section id="windows">
+      <h2>Windows — steps, verification & presets</h2>
+      <ol>
+        <li>In your VPN app → <strong>Split tunnelling</strong> → “<strong>Bypass VPN for selected apps</strong>”.</li>
+        <li>Add: banking helper/site launcher, SSO agent (Citrix/Okta), printer/scanner utilities, NAS client.</li>
+        <li>Enable <strong>Use provider DNS</strong>. If your browser uses third-party DoH/DoT, disable it or ensure it rides via the VPN interface.</li>
+        <li>Fully quit and relaunch affected apps (browser: <span class="kbd">Alt</span>+<span class="kbd">F4</span>).</li>
+      </ol>
+      <p><strong>Verification (2 minutes)</strong></p>
+      <ol>
+        <li>With the browser (kept in VPN), open an IP/DNS leak test (see <a href="/en-gb/blog/vpn-ip-dns-leaks-uk.html">guide</a>). DNS should show your VPN provider, not ISP.</li>
+        <li>Launch the excluded utility (e.g., printer/NAS). If it works while the browser still shows VPN DNS — your split is correct.</li>
+      </ol>
+      <ul>
+        <li><strong>Protocol:</strong> WireGuard/NordLynx for throughput and low CPU; on restrictive networks use OpenVPN <strong>TCP/443</strong>.</li>
+        <li><strong>Endpoints:</strong> rotate to lower-load UK nodes (London/Manchester/Birmingham), especially at evening peaks.</li>
+      </ul>
+      <p>Full OS guide: <a href="/en-gb/blog/vpn-windows-uk.html">VPN for Windows</a>.</p>
+    </section>
 
-  <section id="android">
-    <h2>Android — exact steps</h2>
-    <ol>
-      <li>In the VPN app → Split tunnelling → <strong>Exclude apps</strong>.</li>
-      <li>Add: UK banking, printer utilities, smart-home controllers. Keep browsers/streaming inside VPN.</li>
-      <li>Enable <strong>Always-on</strong> and <strong>Block connections without VPN</strong> if your app supports a true kill switch.</li>
-    </ol>
-    <p>More presets: <a href="/en-gb/blog/vpn-android-uk.html">VPN for Android</a>.</p>
-  </section>
+    <section id="mac">
+      <h2>macOS — steps, verification & presets</h2>
+      <p>On macOS, split is typically per-app. If you need domain rules (e.g., <code>*.company.com</code>), use a client with URL allow-lists or move the logic to the router. Keep the macOS firewall on and allow VPN network extensions.</p>
+      <ul>
+        <li><strong>Exclude:</strong> printer/NAS helpers, banking helpers, AirPrint/Bonjour discovery.</li>
+        <li><strong>Keep in VPN:</strong> Safari/Chrome/Firefox, streaming apps, P2P, email, messengers.</li>
+        <li>After changes flush DNS: <span class="kbd">sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder</span></li>
+      </ul>
+      <p><strong>Verification:</strong> repeat the IP/DNS test as on Windows and confirm the excluded LAN app works in parallel.</p>
+      <p>See also: <a href="/en-gb/blog/vpn-mac-uk.html">VPN for macOS</a>.</p>
+    </section>
 
-  <section id="router">
-    <h2>Router policies (whole-home split)</h2>
-    <p>For Apple TV, consoles and Smart TVs the cleanest approach is policy routing on the router: devices or subnets that should use VPN are placed into the tunnel; others go out direct. Benefits: one place to maintain rules, consistent DNS, no per-device split quirks.</p>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Goal</th><th>Policy</th><th>Notes</th></tr></thead>
-        <tbody>
-          <tr><td>Only Apple TV via VPN</td><td>Match Apple TV MAC/IP → route table via VPN</td><td>Reboot Apple TV after changes</td></tr>
-          <tr><td>Consoles direct, rest via VPN</td><td>Match PS5/Xbox IPs → route via WAN</td><td>Online gaming usually prefers direct routes</td></tr>
-          <tr><td>Smart TV via VPN, IoT direct</td><td>VLAN for TV → VPN; IoT VLAN → WAN</td><td>Keeps IoT chatty traffic off the tunnel</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p>Guides: <a href="/en-gb/blog/vpn-on-router-uk.html">VPN on a router</a> • <a href="/en-gb/blog/vpn-router-setup-uk.html">Router setup (UK)</a>.</p>
-  </section>
+    <section id="android">
+      <h2>Android — steps, verification & presets</h2>
+      <ol>
+        <li>In the VPN app → Split tunnelling → <strong>Exclude apps</strong>.</li>
+        <li>Add: banking, printer utilities, smart-home controllers. Keep browsers, streaming and P2P inside the tunnel.</li>
+        <li>Enable <strong>Always-on</strong> and <strong>Block connections without VPN</strong> (true kill switch) if supported.</li>
+      </ol>
+      <ul>
+        <li><strong>Battery:</strong> exclude the VPN app from battery optimisations so Android doesn’t kill the tunnel in background.</li>
+        <li><strong>Protocol:</strong> WireGuard for efficiency; try IKEv2 if Wi-Fi/LTE roaming feels choppy.</li>
+      </ul>
+      <p><strong>Verification:</strong> run an IP/DNS test in the browser (should show VPN DNS) while the excluded app (e.g., printer panel) still reaches LAN resources.</p>
+      <p>More presets: <a href="/en-gb/blog/vpn-android-uk.html">VPN for Android</a>.</p>
+    </section>
 
-  <section id="leaks">
-    <h2>Avoiding DNS/WebRTC/IPv6 leaks</h2>
-    <ul>
-      <li><strong>Provider DNS:</strong> keep it enabled in the VPN app; avoid external DoH/DoT outside the tunnel.</li>
-      <li><strong>WebRTC:</strong> disable local IP exposure in the browser settings or extensions.</li>
-      <li><strong>IPv6:</strong> if your provider doesn’t tunnel IPv6, disable IPv6 temporarily to avoid partial leaks.</li>
-      <li><strong>After changes:</strong> reconnect VPN and relaunch affected apps; clear app caches if streaming errors persist.</li>
-    </ul>
-    <p>Deep dive: <a href="/en-gb/blog/vpn-ip-dns-leaks-uk.html">IP/DNS/WebRTC leaks — UK</a>.</p>
-  </section>
-
-  <section id="streaming">
-    <h2>BBC iPlayer / Netflix reliability</h2>
-    <ul>
-      <li>Keep the streaming app <em>inside</em> the tunnel; bypassing it causes IP↔DNS mismatches.</li>
-      <li>On proxy/unblocker errors: rotate UK server → fully quit app (⌘Q/Alt+F4) → relaunch. On strict networks use OpenVPN <strong>TCP/443</strong>.</li>
-      <li>After changing country, relaunch apps to refresh the route.</li>
-    </ul>
-    <p>See dedicated guides: <a href="/en-gb/blog/vpn-bbc-iplayer-uk.html">BBC iPlayer</a> • <a href="/en-gb/blog/vpn-netflix-uk.html">Netflix UK</a> • <a href="/en-gb/blog/vpn-smart-tv-uk.html">Smart TV</a>.</p>
-  </section>
-
-  <section id="matrix">
-    <h2>Troubleshooting matrix</h2>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr></thead>
-        <tbody>
-          <tr><td>Banking/SSO blocked</td><td>VPN exit distrusted</td><td>Exclude the banking/SSO helper; leave browser in VPN</td></tr>
-          <tr><td>Printer/NAS not visible</td><td>LAN discovery blocked</td><td>Exclude printer/NAS tools; keep browser inside VPN</td></tr>
-          <tr><td>iPlayer/Netflix proxy error</td><td>IP↔DNS mismatch or flagged IP</td><td>Keep app in VPN; rotate server; try TCP/443; relaunch app</td></tr>
-          <tr><td>Leak test shows ISP DNS</td><td>External DoH/DoT outside VPN</td><td>Force provider DNS; reconnect; restart browser</td></tr>
-          <tr><td>Random disconnects</td><td>Sleep/energy saving</td><td>Disable sleep during sessions; enable app auto-connect & kill switch</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- Video (fallback only; no fake IDs) -->
-  <section aria-labelledby="video-title">
-    <h2 id="video-title">Video: Split tunnelling — safe UK presets</h2>
-    <div class="video-wrap">
-      <div class="video-fallback">
-        <p style="color:#fff;opacity:.85">Prefer a video walkthrough?</p>
-        <p><a href="https://www.youtube.com/results?search_query=VPN+split+tunnelling+Windows+macOS+Android" target="_blank" rel="noopener">Search on YouTube</a></p>
+    <section id="router">
+      <h2>Router policies (whole-home)</h2>
+      <p>The cleanest place for split is the router (policy routing): you nominate devices/VLANs that must use VPN; everything else goes out via WAN. Benefits: consistent DNS, one place to maintain rules, no per-device quirks.</p>
+      <h3>Mini how-to (policy routing in 4 steps)</h3>
+      <ol>
+        <li><strong>Device map:</strong> assign static IP/MAC (DHCP reservations) for Apple TV, consoles, laptops.</li>
+        <li><strong>Groups/policies:</strong> create “<em>Via VPN</em>” (e.g., TV VLAN) and “<em>Direct</em>” (IoT, consoles) policies.</li>
+        <li><strong>DNS:</strong> devices in the VPN policy should use provider DNS through the tunnel; otherwise expect IP↔DNS mismatches.</li>
+        <li><strong>Reboot:</strong> after saving rules, restart media devices (TV/Apple TV) to refresh routes and peering.</li>
+      </ol>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Goal</th><th>Policy</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Only Apple TV via VPN</td><td>Match Apple TV MAC/IP → route table via VPN</td><td>Reboot Apple TV after changes</td></tr>
+            <tr><td>Consoles direct</td><td>Match PS5/Xbox IPs → route via WAN</td><td>Lower ping in online games</td></tr>
+            <tr><td>Smart TV via VPN, IoT direct</td><td>TV VLAN → VPN; IoT VLAN → WAN</td><td>Keeps chatty IoT off the tunnel</td></tr>
+            <tr><td>Work laptop always in VPN</td><td>Bind MAC/port → VPN policy</td><td>Helps meet compliance</td></tr>
+          </tbody>
+        </table>
       </div>
-    </div>
-  </section>
+      <p>Guides: <a href="/en-gb/blog/vpn-on-router-uk.html">VPN on a router</a> • <a href="/en-gb/blog/vpn-router-setup-uk.html">Router setup (UK)</a> • <a href="/en-gb/blog/vpn-smart-tv-uk.html">VPN for Smart TV</a></p>
+    </section>
 
-  <!-- Related -->
-  <section class="related">
-    <h2>Read also</h2>
-    <ul>
-      <li><a href="/en-gb/blog/what-is-vpn-uk.html">What is a VPN?</a></li>
-      <li><a href="/en-gb/blog/vpn-protocols-uk.html">VPN protocols (UK)</a></li>
-      <li><a href="/en-gb/blog/vpn-windows-uk.html">VPN for Windows</a></li>
-      <li><a href="/en-gb/blog/vpn-mac-uk.html">VPN for macOS</a></li>
-      <li><a href="/en-gb/blog/vpn-android-uk.html">VPN for Android</a></li>
-      <li><a href="/en-gb/blog/vpn-public-wifi-uk.html">VPN on Public Wi-Fi</a></li>
-      <li><a href="/en-gb/blog/which-vpn-server-uk.html">Which UK server?</a></li>
-      <li><a href="/en-gb/blog/why-vpn-2025-uk.html">Why VPN in 2025</a></li>
-    </ul>
-  </section>
+    <section id="perf">
+      <h2>Performance & practical tips</h2>
+      <ul>
+        <li><strong>Protocol:</strong> WireGuard/NordLynx for maximum throughput; OpenVPN <strong>TCP/443</strong> as Plan B on hotel/office networks.</li>
+        <li><strong>Wi-Fi:</strong> prefer 5 GHz or Ethernet, especially for 4K.</li>
+        <li><strong>Endpoint load:</strong> rotate to lower-load UK nodes in the evening; keep 2–3 favourites.</li>
+        <li><strong>Background sync:</strong> pause heavy cloud sync (OneDrive/iCloud) during gaming/streaming.</li>
+      </ul>
+      <p>Related: <a href="/en-gb/blog/vpn-protocols-uk.html">VPN protocols</a> • <a href="/en-gb/blog/which-vpn-server-uk.html">Which UK server?</a> • <a href="/en-gb/blog/why-vpn-2025-uk.html">Why VPN in 2025</a>.</p>
+    </section>
 
-  <!-- Author -->
-  <section class="author-box" id="author">
-    <h2>About the author</h2>
-    <div class="author">
-      <img src="/assets/img/authors/denys.webp" alt="Denys Shchur" width="96" height="96" loading="lazy" decoding="async">
-      <div>
-        <p><strong>Denys Shchur</strong> — SEO practitioner & VPN enthusiast. Writes practical, UK-focused guides on privacy, streaming and performance tuning.</p>
-        <p class="muted">More by Denys: <a href="/en-gb/blog/best-vpn-uk.html">Best VPN UK</a> • <a href="/en-gb/blog/which-vpn-server-uk.html">Which VPN server?</a></p>
+    <section id="streaming">
+      <h2>Streaming stability (BBC iPlayer/Netflix)</h2>
+      <p>The most common issue is an IP↔DNS conflict: the streaming app travels one path while DNS resolves on another. Keep streaming apps <em>inside</em> the tunnel, enforce provider DNS, and on errors rotate servers and relaunch the app.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>App/message</th><th>Cause</th><th>Fix (order of steps)</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>BBC iPlayer — “you’re using a VPN”</td>
+              <td>IP↔DNS mismatch / flagged UK exit</td>
+              <td>1) Keep iPlayer in VPN 2) Rotate UK server 3) Fully quit app (⌘Q/Alt+F4) 4) Relaunch 5) On strict networks use TCP/443</td>
+            </tr>
+            <tr>
+              <td>Netflix UK — Smart TV/app</td>
+              <td>Peering cache / DNS outside tunnel</td>
+              <td>1) VPN on 2) Restart app/TV 3) Change UK node 4) Confirm DNS shows your VPN provider</td>
+            </tr>
+            <tr>
+              <td>Only part of a catalogue loads</td>
+              <td>Domain rules catching CDN</td>
+              <td>1) Use app-based split 2) Or move rules to the router 3) Enforce provider DNS</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </div>
-  </section>
+      <p>Dedicated guides: <a href="/en-gb/blog/vpn-bbc-iplayer-uk.html">BBC iPlayer</a> • <a href="/en-gb/blog/vpn-netflix-uk.html">Netflix UK</a> • <a href="/en-gb/blog/vpn-smart-tv-uk.html">Smart TV</a>.</p>
+    </section>
+
+    <section id="leaks">
+      <h2>Avoiding DNS/WebRTC/IPv6 leaks</h2>
+      <ul>
+        <li><strong>Provider DNS:</strong> keep it enabled; avoid external DoH/DoT outside the tunnel. If you must use it, force it through the VPN interface.</li>
+        <li><strong>WebRTC:</strong> disable local IP exposure in browser settings or via an extension. Restart the browser after rule changes.</li>
+        <li><strong>IPv6:</strong> if your provider doesn’t tunnel IPv6, temporarily disable IPv6 on OS/router to avoid partial leaks.</li>
+        <li><strong>Verification:</strong> reconnect the VPN and run an IP/DNS test; re-test after client or OS updates.</li>
+      </ul>
+      <p>Deep dive: <a href="/en-gb/blog/vpn-ip-dns-leaks-uk.html">IP/DNS/WebRTC leaks — UK guide</a>.</p>
+    </section>
+
+    <section id="matrix">
+      <h2>Troubleshooting matrix</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr></thead>
+          <tbody>
+            <tr><td>Banking/SSO blocked</td><td>Distrusted VPN exit</td><td>Exclude the helper/SSO agent; keep browser in VPN; try a local UK node</td></tr>
+            <tr><td>Printer/NAS not visible</td><td>LAN discovery blocked</td><td>Exclude printer/NAS tools; keep browser inside VPN</td></tr>
+            <tr><td>iPlayer/Netflix proxy error</td><td>IP↔DNS mismatch / flagged IP</td><td>Keep app in VPN; rotate UK server; try TCP/443; relaunch app</td></tr>
+            <tr><td>Leak test shows ISP DNS</td><td>External DoH/DoT outside VPN</td><td>Force provider DNS; reconnect; restart browser</td></tr>
+            <tr><td>Random disconnects</td><td>Sleep/energy saving</td><td>Disable sleep during sessions; enable auto-connect & kill switch</td></tr>
+            <tr><td>Some sites don’t load</td><td>Domain rules catching CDN</td><td>Switch to app-based split or move rules to router</td></tr>
+            <tr><td>Teams/Zoom unstable</td><td>Mixed paths / QoS</td><td>Keep them either fully in VPN or fully direct; don’t split within a single app</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <h2>FAQ</h2>
+      <details>
+        <summary>Is split tunnelling safe?</summary>
+        <p>Yes — if you only exclude low-risk utilities (banking helpers, printer/NAS) and keep browsers, streaming and P2P inside the tunnel. Enforce provider DNS and re-run IP/DNS tests after changes.</p>
+      </details>
+      <details>
+        <summary>App-based vs domain-based split?</summary>
+        <p>App-based is simpler and safer — you’re less likely to leak browser traffic. Domain-based offers precision but can accidentally catch CDNs; best implemented on the router.</p>
+      </details>
+      <details>
+        <summary>WireGuard or OpenVPN for split?</summary>
+        <p>WireGuard (NordLynx) generally offers better throughput and lower CPU/battery use. OpenVPN TCP/443 helps on aggressive hotel/office networks because it blends with HTTPS.</p>
+      </details>
+      <details>
+        <summary>How do I test for leaks quickly?</summary>
+        <p>1) Connect VPN 2) Open an IP/DNS leak test (see the guide) 3) DNS should be your VPN provider 4) Launch the excluded LAN app and confirm the browser’s DNS result stays on VPN.</p>
+      </details>
+      <details>
+        <summary>Is split OK for compliance (work/UK GDPR)?</summary>
+        <p>Depends on company policy. If full-tunnel is required, use a separate profile or router VLAN policies and avoid device-level split on the work machine.</p>
+      </details>
+      <details>
+        <summary>When should I avoid split entirely?</summary>
+        <p>On devices processing sensitive work data, or wherever policy mandates a full tunnel. Keep everything in VPN and separate traffic at the router instead.</p>
+      </details>
+    </section>
+
+    <!-- Video (working YouTube iframe + visible fallback) -->
+    <section id="video" aria-labelledby="video-title">
+      <h2 id="video-title">Video walkthrough: safe UK presets</h2>
+      <div class="video-wrap">
+        <!-- Working embed: YouTube search playlist -->
+        <iframe
+          src="https://www.youtube.com/embed?listType=search&list=VPN+split+tunnelling+Windows+macOS+Android+UK"
+          title="VPN split tunnelling — Windows/macOS/Android (UK) — YouTube"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+
+        <!-- Fallback for environments blocking iframes -->
+        <div class="video-fallback" aria-hidden="true">
+          <p style="color:#fff;opacity:.85">Prefer a video guide?</p>
+          <p><a href="https://www.youtube.com/results?search_query=VPN+split+tunnelling+Windows+macOS+Android+UK" target="_blank" rel="noopener">Search on YouTube</a></p>
+        </div>
+      </div>
+      <p class="muted">Note: some corporate networks block embedded YouTube. Use the “Search on YouTube” button if the player does not load.</p>
+    </section>
+
+    <!-- Related -->
+    <section class="related">
+      <h2>Read also</h2>
+      <ul>
+        <li><a href="/en-gb/blog/what-is-vpn-uk.html">What is a VPN?</a></li>
+        <li><a href="/en-gb/blog/vpn-protocols-uk.html">VPN protocols (UK)</a></li>
+        <li><a href="/en-gb/blog/vpn-windows-uk.html">VPN for Windows</a></li>
+        <li><a href="/en-gb/blog/vpn-mac-uk.html">VPN for macOS</a></li>
+        <li><a href="/en-gb/blog/vpn-android-uk.html">VPN for Android</a></li>
+        <li><a href="/en-gb/blog/vpn-public-wifi-uk.html">VPN on Public Wi-Fi</a></li>
+        <li><a href="/en-gb/blog/vpn-smart-tv-uk.html">VPN for Smart TV</a></li>
+        <li><a href="/en-gb/blog/which-vpn-server-uk.html">Which UK server?</a></li>
+        <li><a href="/en-gb/blog/why-vpn-2025-uk.html">Why VPN in 2025</a></li>
+        <li><a href="/en-gb/blog/best-vpn-uk.html">Best VPN for the UK</a></li>
+        <li><a href="/en-gb/blog/vpn-ip-dns-leaks-uk.html">IP/DNS/WebRTC leaks — UK</a></li>
+        <li><a href="/en-gb/blog/vpn-on-router-uk.html">VPN on a router</a></li>
+      </ul>
+    </section>
+
+    <!-- Author -->
+    <section class="author-box" id="author">
+      <h2>About the author</h2>
+      <div class="author">
+        <img src="/assets/img/authors/denys.webp" alt="Denys Shchur" width="96" height="96" loading="lazy" decoding="async">
+        <div>
+          <p><strong>Denys Shchur</strong> — SEO practitioner & VPN enthusiast. I’ve been configuring split tunnelling on Windows/macOS/Android clients and home routers (policy routing), focusing on banking/SSO stability, streaming reliability and leak prevention.</p>
+          <p class="muted">More by Denys: <a href="/en-gb/blog/best-vpn-uk.html">Best VPN UK</a> • <a href="/en-gb/blog/which-vpn-server-uk.html">Which VPN server?</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
 </article>
 
 <!-- JSON-LD: Article -->
 <script type="application/ld+json">{
   "@context":"https://schema.org",
   "@type":"Article",
-  "headline":"VPN Split Tunnelling (UK, 2025) — Setup, Rules, Streaming & Safety",
-  "description":"UK-focused split tunnelling guide: app/URL rules on Windows, macOS and Android, router policies, leak prevention and streaming reliability.",
+  "headline":"VPN Split Tunnelling (UK, 2025) — What to Exclude, How to Set Up & How to Avoid Streaming Errors",
+  "description":"UK-focused split tunnelling guide: app/URL rules on Windows, macOS and Android; router policies; leak prevention; reliable BBC iPlayer/Netflix streaming; troubleshooting matrix.",
   "author":{"@type":"Person","name":"Denys Shchur","image":"https://dloran1.github.io/assets/img/authors/denys.webp"},
-  "datePublished":"2025-09-25","dateModified":"2025-09-25",
+  "datePublished":"2025-09-25",
+  "dateModified":"2025-09-25",
   "image":"https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp",
+  "inLanguage":"en-GB",
   "mainEntityOfPage":"https://dloran1.github.io/en-gb/blog/vpn-split-tunneling-uk.html"
 }</script>
 
@@ -283,13 +395,13 @@
 <!-- JSON-LD: FAQ -->
 <script type="application/ld+json">{
   "@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-    {"@type":"Question","name":"Is split tunnelling safe?","acceptedAnswer":{"@type":"Answer","text":"Yes, if you only exclude low-risk utilities (banking helpers, printer/NAS tools) and keep browsers, streaming and P2P inside the tunnel. Use provider DNS to avoid IP↔DNS mismatches."}},
-    {"@type":"Question","name":"Why does iPlayer/Netflix break with split tunnelling?","acceptedAnswer":{"@type":"Answer","text":"Because the app’s traffic and DNS resolve on different paths. Keep streaming apps in VPN, rotate UK servers and use OpenVPN TCP/443 on restrictive networks."}},
-    {"@type":"Question","name":"Can I split by domain instead of by app?","acceptedAnswer":{"@type":"Answer","text":"Some providers support URL/domain allow-lists. Otherwise, move split logic to the router using policy routing."}},
-    {"@type":"Question","name":"What about IPv6 and WebRTC leaks?","acceptedAnswer":{"@type":"Answer","text":"Disable WebRTC IP exposure in the browser and temporarily disable IPv6 if your provider doesn’t tunnel it. Always enable provider DNS in the client."}},
-    {"@type":"Question","name":"When should I avoid split tunnelling completely?","acceptedAnswer":{"@type":"Answer","text":"On devices handling sensitive work data or where compliance requires full-tunnel VPN. In those cases, use separate profiles or a router with VLAN policies instead."}}
-  ]
-}</script>
+    {"@type":"Question","name":"Is split tunnelling safe?","acceptedAnswer":{"@type":"Answer","text":"Yes, if you only exclude low-risk utilities (banking helpers, printer/NAS) and keep browsers, streaming and P2P inside the tunnel. Enforce provider DNS and re-run IP/DNS tests after changes."}},
+    {"@type":"Question","name":"Why does iPlayer/Netflix break with split tunnelling?","acceptedAnswer":{"@type":"Answer","text":"Because the app’s traffic and DNS resolve on different paths (IP↔DNS mismatch). Keep streaming apps in VPN, rotate UK servers, fully quit and relaunch the app, and on strict networks use OpenVPN TCP/443."}},
+    {"@type":"Question","name":"Can I split by domain instead of by app?","acceptedAnswer":{"@type":"Answer","text":"Some providers support URL/domain allow-lists. Otherwise move the logic to the router (policy routing) to avoid catching CDNs by mistake."}},
+    {"@type":"Question","name":"What about IPv6 and WebRTC leaks?","acceptedAnswer":{"@type":"Answer","text":"Disable local IP exposure in the browser and temporarily disable IPv6 if your provider doesn’t tunnel it. Always keep provider DNS enabled."}},
+    {"@type":"Question","name":"How do I test for leaks in 2 minutes?","acceptedAnswer":{"@type":"Answer","text":"1) Connect VPN. 2) Open an IP/DNS leak test (see the UK guide). 3) DNS should show your VPN provider. 4) Launch the excluded LAN app (printer/NAS) and confirm it works while the browser still shows VPN DNS."}},
+    {"@type":"Question","name":"When should I avoid split tunnelling entirely?","acceptedAnswer":{"@type":"Answer","text":"When the device handles sensitive work data or where policy requires a full tunnel. In those cases keep everything in VPN and separate traffic at the router (VLAN/policies)."}}]}
+</script>
 
 <footer class="foot">
   <p>© 2025 VPN World • 
