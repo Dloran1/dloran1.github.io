@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <title>VPN na routerze — kompletny poradnik konfiguracji, policy routing i streaming</title>
+  <meta name="description" content="Routerowy VPN dla całego domu: konfiguracja krok po kroku, policy routing (VLAN/urządzenia), WireGuard i OpenVPN, DNS/IPv6 bez wycieków, stabilny TVP/Player/Netflix, diagnostyka i matryca napraw.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="canonical" href="https://dloran1.github.io/blog/vpn-na-routerze.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="VPN na routerze — kompletny poradnik konfiguracji, policy routing i streaming">
+  <meta property="og:description" content="Konfiguracja routera z VPN (Asus/TP-Link/Synology/OpenWrt), podział na urządzenia/VLAN (PBR), DNS/IPv6 bez wycieków, stabilny streaming i tabela napraw.">
+  <meta property="og:url" content="https://dloran1.github.io/blog/vpn-na-routerze.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp">
+  <meta property="og:locale" content="pl_PL">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="VPN na routerze — kompletny poradnik konfiguracji, policy routing i streaming">
+  <meta name="twitter:description" content="Policy routing, protokoły WireGuard/OpenVPN, brak wycieków DNS/IPv6 i niezawodny VOD.">
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp">
+
+  <!-- hreflang -->
+  <link rel="alternate" hreflang="pl-PL" href="https://dloran1.github.io/blog/vpn-na-routerze.html">
+  <link rel="alternate" hreflang="en-GB" href="https://dloran1.github.io/en-gb/blog/vpn-on-router-uk.html">
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-on-router-uk.html">
+
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/style-extensions-vpnpolska.css">
+  <style>
+    .badge{display:inline-block;padding:.25rem .6rem;border:1px solid rgba(140,140,160,.35);border-radius:6px;font-size:.85rem}
+    .lead{opacity:.9}
+    .note{border-left:3px solid #2E90FA;padding:.85rem 1rem;margin:1rem 0;background:rgba(46,144,250,.06)}
+    .warn{border-left:3px solid #f59e0b;padding:.85rem 1rem;margin:1rem 0;background:rgba(245,158,11,.08)}
+    .danger{border-left:3px solid #ef4444;padding:.85rem 1rem;margin:1rem 0;background:rgba(239,68,68,.08)}
+    .ok{border-left:3px solid #10b981;padding:.85rem 1rem;margin:1rem 0;background:rgba(16,185,129,.08)}
+    .kbd{padding:.1rem .35rem;border:1px solid rgba(140,140,160,.4);border-radius:4px;background:rgba(255,255,255,.06)}
+    .toc ul{margin:.25rem 0 1rem 1.25rem}
+    .table-wrap{overflow-x:auto}
+    .table-wrap table{min-width:860px}
+    .video-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;border:1px solid rgba(140,140,160,.35);background:#000;margin:1rem 0}
+    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    .video-fallback{position:absolute;inset:0;display:flex;gap:12px;align-items:center;justify-content:center;flex-direction:column}
+    .video-fallback a{display:inline-block;padding:10px 16px;border-radius:8px;background:#2E90FA;color:#fff;text-decoration:none}
+    .related ul{columns:2;gap:1rem}
+    .author{display:flex;gap:12px;align-items:center}
+    .author img{border-radius:50%;aspect-ratio:1/1}
+    .lang-switch{margin:.5rem 0 1rem}
+    .muted{opacity:.75}
+    code, pre{background:rgba(140,140,160,.08);border:1px solid rgba(140,140,160,.35);border-radius:8px}
+    pre{padding:12px;overflow:auto}
+  </style>
+</head>
+<body>
+
+<!-- Language switch -->
+<nav class="lang-switch" aria-label="Przełącznik języka">
+  <a href="/en-gb/blog/vpn-on-router-uk.html" lang="en-GB">English (UK)</a> |
+  <a href="/blog/vpn-na-routerze.html" lang="pl-PL">Polski</a>
+</nav>
+
+<nav aria-label="Główna nawigacja" class="nav">
+  <div class="inner">
+    <a class="logo" href="/">VPN Polska</a>
+    <div class="menu"><a href="/">Strona główna</a> • <a href="/blog/index.html">Blog</a></div>
+  </div>
+</nav>
+
+<header class="wrap">
+  <p class="breadcrumbs"><a href="/">Strona główna</a> / <a href="/blog/index.html">Blog</a> / VPN na routerze</p>
+  <h1>VPN na routerze — kompletny poradnik konfiguracji, policy routing i streaming</h1>
+  <figure class="article-hero">
+    <img src="/assets/img/hero/en-gb/hero-06.webp" alt="Router z aktywnym VPN i podziałem ruchu na urządzenia/VLAN" width="1200" height="630" loading="eager" decoding="async">
+    <figcaption>Jedna konfiguracja — ochrona całego domu: Smart TV, Apple TV, konsole, laptopy i IoT.</figcaption>
+  </figure>
+  <p class="lead">VPN na routerze to „skonfiguruj raz — korzystaj wszędzie”. Każde urządzenie w domu dziedziczy ochronę bez instalowania aplikacji. Ten poradnik prowadzi od wyboru sprzętu i protokołu, przez <strong>policy routing</strong> (podział na urządzenia/VLAN), aż po higienę DNS/IPv6 bez wycieków, stabilny <strong>TVP/Player/Netflix</strong> i pełną diagnostykę.</p>
+  <p><span class="badge">Aktualizacja: evergreen</span> • <strong>~20–26 min czytania</strong></p>
+</header>
+
+<main class="wrap post" id="top">
+  <!-- TOC -->
+  <nav class="toc" aria-label="Spis treści">
+    <h2>Spis treści</h2>
+    <ul>
+      <li><a href="#dlaczego">Dlaczego VPN na routerze (a kiedy nie)</a></li>
+      <li><a href="#topologia">Topologia: sprzęt operatora vs dedykowany router VPN</a></li>
+      <li><a href="#modele">Jakie routery i firmware mają sens</a></li>
+      <li><a href="#konfiguracja">Konfiguracja krok po kroku</a></li>
+      <li><a href="#konfiguracja-vendor">Konfiguracja per producent (Asus/TP-Link/Synology/OpenWrt)</a></li>
+      <li><a href="#protokoły">Protokoły i wydajność</a></li>
+      <li><a href="#policy">Policy routing (urządzenia/VLAN) — presety</a></li>
+      <li><a href="#diagnostyka">Diagnostyka i testy (DNS/WebRTC/IPv6)</a></li>
+      <li><a href="#dns">DNS/IPv6 bez wycieków</a></li>
+      <li><a href="#vod">Streaming w Polsce (TVP/Player/Netflix)</a></li>
+      <li><a href="#matrix">Tabela napraw</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#video">Wideo</a></li>
+    </ul>
+  </nav>
+
+  <!-- CTA #1 -->
+  <section class="cta">
+    <p>Potrzebujesz profili dla routera i stabilnego streamingu?</p>
+    <p>
+      <a class="btn btn-primary" href="/go/nordvpn.html" target="_blank" rel="sponsored nofollow noopener">NordVPN — WireGuard (NordLynx) i OpenVPN</a>
+      <a class="btn btn-ghost" href="/go/surfshark.html" target="_blank" rel="sponsored nofollow noopener">Surfshark — dobra cena, nielimit urządzeń</a>
+    </p>
+  </section>
+
+  <section id="dlaczego">
+    <h2>Dlaczego VPN na routerze (a kiedy nie)</h2>
+    <p>Routerowy VPN ma sens, gdy chcesz ustawić zasady w jednym miejscu i mieć spokój na wszystkich urządzeniach. To redukuje błędy typu „telefon po aktualizacji wyłączył klienta VPN”, a Smart TV czy Apple TV, które zwykle nie mają aplikacji VPN, automatycznie korzystają z tunelu. Jeśli zależy Ci tylko na wykluczeniu jednej kłopotliwej aplikacji na komputerze, rozważ <a href="/blog/vpn-split-tunneling.html">split tunneling</a> — jest prostszy i nie wymaga zmian w całym domu.</p>
+    <div class="ok"><strong>Idealne zastosowania:</strong></div>
+    <ul>
+      <li><strong>Smart TV/Apple TV:</strong> przypinasz całe urządzenie do SSID/VLAN z VPN i oglądasz VOD bez niespodzianek (zobacz też <a href="/blog/vpn-smart-tv.html">VPN na Smart TV</a>).</li>
+      <li><strong>Konsole i sieć gościnna:</strong> gościom dajesz prywatność, a konsole przenosisz „bezpośrednio” (niższy ping i mniejsza zmienność).</li>
+      <li><strong>Małe biuro/dom:</strong> jeden zestaw polityk dla całej sieci ułatwia spełnienie wymogów bezpieczeństwa.</li>
+      <li><strong>IoT:</strong> „gadatliwe” urządzenia trzymasz w VLAN-ie, bez mieszania ich DNS z główną siecią.</li>
+    </ul>
+    <div class="warn"><strong>Kiedy lepiej odpuścić:</strong></div>
+    <ul>
+      <li><strong>Pojedynczy kłopot na PC:</strong> np. tylko asystent bankowy — użyj <a href="/blog/vpn-split-tunneling.html">split tunnelingu</a> zamiast przenosić cały dom.</li>
+      <li><strong>Hard-gaming online:</strong> jeśli liczysz każdy ms, trzymaj konsole w „Direct”.</li>
+      <li><strong>Słaby router:</strong> OpenVPN na budżetowym CPU potrafi „przytkać” łącze — celuj w modele z natywnym <a href="/blog/wireguard-vs-openvpn.html">WireGuardem</a>.</li>
+    </ul>
+  </section>
+
+  <section id="topologia">
+    <h2>Topologia: sprzęt operatora vs dedykowany router VPN</h2>
+    <p>Najczyściej i najstabilniej działa układ, w którym urządzenie operatora pełni rolę modemu/ONT, a za nim stawiasz własny router z VPN. Jeśli to możliwe, włącz w sprzęcie operatora <em>bridge</em> albo <em>DMZ</em>, aby uniknąć podwójnego NAT. Jeśli nie — nadal się da, tylko dbaj o dobór protokołu i peering (WireGuard pomaga). Przykładowe schematy i konfiguracje znajdziesz też w tekście <a href="/blog/vpn-router-konfiguracja.html">Konfiguracja routera z VPN</a>.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Wariant</th><th>Zalety</th><th>Wady</th><th>Dla kogo</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Sam hub operatora</td>
+            <td>Brak dodatkowego kosztu, prosta obsługa</td>
+            <td>Zwykle brak klienta VPN i polityk, ograniczone VLAN-y</td>
+            <td>Wyjątki: gdy model faktycznie wspiera klienta VPN</td>
+          </tr>
+          <tr>
+            <td>Router VPN za hubem</td>
+            <td>Pełna kontrola, policy routing, czysty DNS</td>
+            <td>Dodatkowy sprzęt, czasem podwójny NAT</td>
+            <td>Rekomendowane dla domów, wideo i pracy zdalnej</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Brak bridge/DMZ? Wciąż działa — preferuj WireGuard i podłącz TV po Ethernet (mniej losowości buforowania).</p>
+  </section>
+
+  <section id="modele">
+    <h2>Jakie routery i firmware mają sens</h2>
+    <p>Możliwości zależą od sprzętu i oprogramowania. Poniżej krótki przewodnik „co wybrać” z punktu widzenia PBR i wygody:</p>
+    <ul>
+      <li><strong>Stock (Asus/TP-Link/Synology):</strong> coraz częściej oferują klienta OpenVPN/WireGuard, sensowne GUI i stabilność. Minus: mniej elastyczne reguły PBR w tańszych liniach.</li>
+      <li><strong>Asuswrt-Merlin:</strong> rozszerzony firmware dla wielu Asusów. Daje <em>VPN Director</em>, prosty routing per urządzenie, skrypty. Złoty środek między prostotą a mocą.</li>
+      <li><strong>OpenWrt:</strong> największa elastyczność (WireGuard „z pudełka”, pakiet PBR, VLAN-y, SQM). Wymaga chwili nauki, ale pozwala zrobić „dokładnie tak, jak chcesz”.</li>
+      <li><strong>DD-WRT/Tomato:</strong> dobre dla starszych modeli; społeczność i dokumentacja mniejsze niż w OpenWrt.</li>
+      <li><strong>Ubiquiti/Mikrotik:</strong> potężne narzędzia dla entuzjastów i małych firm — wyższy próg wejścia, ale ogromne możliwości.</li>
+    </ul>
+    <p class="danger"><strong>Uwaga:</strong> flashowanie niewłaściwego obrazu może zbrickować urządzenie i naruszyć gwarancję. Jeśli nie chcesz ryzyka, wybierz router z natywnym WireGuardem i stockowym wsparciem klienta VPN.</p>
+  </section>
+
+  <section id="konfiguracja">
+    <h2>Konfiguracja krok po kroku (uniwersalny schemat)</h2>
+    <p>GUI różni się u producentów, ale ogólny proces jest podobny. Ten schemat sprawdzi się na większości routerów z klientem OpenVPN/WireGuard:</p>
+    <ol>
+      <li><strong>Wejdź do panelu routera:</strong> najczęściej <code>192.168.0.1</code> lub <code>192.168.1.1</code>. Zmień hasło admina, włącz zaporę i aktualizuj firmware.</li>
+      <li><strong>Dodaj profil VPN (Client):</strong>
+        <ul>
+          <li><em>OpenVPN:</em> importuj plik <code>.ovpn</code> od dostawcy i uzupełnij login/hasło.</li>
+          <li><em>WireGuard:</em> zaimportuj <code>.conf</code> albo wklej sekcje <code>[Interface]/[Peer]</code> (klucze, endpoint, AllowedIPs).</li>
+        </ul>
+      </li>
+      <li><strong>Endpoint i kraj:</strong> zacznij od węzłów blisko Ciebie (PL/UK/DE) — niższa latencja, mniejsze ryzyko buforowania w 4K.</li>
+      <li><strong>Kill switch:</strong> włącz blokadę ruchu WAN, gdy tunel spadnie (nazywa się różnie: „Kill Switch”, „Block routed clients if VPN disconnects”).</li>
+      <li><strong>DNS dostawcy:</strong> wymuś „Provider DNS over tunnel”. Unikaj „Automatic DNS” — prowadzi do konfliktów IP↔DNS.</li>
+      <li><strong>SSID/VLAN:</strong> utwórz <em>Dom-VPN</em> (TV/Apple TV/praca) i <em>Dom-Direct</em> (konsole/IoT). Od razu podziel urządzenia.</li>
+      <li><strong>Test IP/DNS:</strong> połącz laptop do <em>Dom-VPN</em> i sprawdź test IP/DNS — oba powinny wskazywać dostawcę VPN (poradnik: <a href="/blog/vpn-dns-leak.html">Wycieki IP/DNS/WebRTC</a>).</li>
+      <li><strong>Backup konfiguracji:</strong> zapisz kopię ustawień przed dalszymi eksperymentami.</li>
+    </ol>
+    <p class="note">Jeśli priorytetem jest streaming, od razu planuj <a href="#policy">policy routing</a> i przypnij całe urządzenia (TV/Apple TV) do polityki VPN — nie mieszaj ruchu w obrębie jednej aplikacji.</p>
+  </section>
+
+  <section id="konfiguracja-vendor">
+    <h2>Konfiguracja per producent (skrótowo)</h2>
+
+    <h3>Asus (stock) / Asuswrt-Merlin</h3>
+    <ol>
+      <li><strong>VPN Client:</strong> import <code>.ovpn</code> lub <code>.conf</code> (WireGuard). Zaznacz: „Block Internet if VPN disconnects”.</li>
+      <li><strong>VPN Director (Merlin):</strong> utwórz reguły: TV/Apple TV → <em>Use VPN</em>, konsole/IoT → <em>Bypass VPN</em>.</li>
+      <li><strong>DNS Director:</strong> dla profilu „TV/Apple TV” ustaw <em>Strict (via VPN)</em>. Dla „Direct” pozostaw DNS operatora lub własny resolver.</li>
+      <li><strong>QoS (opcjonalnie):</strong> włącz adaptacyjny QoS dla 4K, jeśli uplink bywa przytykany synchronizacją chmur.</li>
+      <li>W razie kłopotów z VOD zobacz: <a href="/blog/vpn-netflix-polska.html">Netflix PL</a>, <a href="/blog/player-tvp-vpn.html">Player</a>, <a href="/blog/tvp-vod-vpn.html">TVP VOD</a>.</li>
+    </ol>
+
+    <h3>TP-Link (Archer/Omada/Deco)</h3>
+    <ol>
+      <li><strong>VPN Client:</strong> nowsze Archery mają OpenVPN/WireGuard. W Deco GUI jest uproszczone — skorzystaj z szablonu operatora VPN.</li>
+      <li><strong>Profile urządzeń:</strong> przypisz TV/Apple TV do profilu „VPN”, a konsole/IoT do „Direct”. Jeśli brak — rozdziel SSID.</li>
+      <li><strong>DNS:</strong> na profilu „VPN” wybierz „Use VPN DNS”. Upewnij się, że DoH w przeglądarce nie wymusza ścieżki poza tunelem (zobacz <a href="/blog/vpn-dns-leak.html">poradnik</a>).</li>
+    </ol>
+
+    <h3>Synology SRM (RT2600ac/WRX560/RT6600ax)</h3>
+    <ol>
+      <li>Przejdź: <em>Network Center → Internet → VPN Settings → VPN Profiles</em>. Dodaj OpenVPN/WireGuard.</li>
+      <li><strong>Traffic Control:</strong> reguły per urządzenie: TV/Apple TV przez VPN, konsole przez WAN.</li>
+      <li><strong>Safe Access / DNS:</strong> dla grupy „VPN” wymuś DNS dostawcy i sprawdź logi rozwiązywania nazw.</li>
+      <li>Dodatkowe wskazówki znajdziesz też w: <a href="/blog/vpn-router-konfiguracja.html">Konfiguracja routera</a>.</li>
+    </ol>
+
+    <h3>OpenWrt (LuCI + konsola)</h3>
+    <ol>
+      <li><strong>Pakiety:</strong> <code>opkg update && opkg install wireguard-tools luci-proto-wireguard luci-app-wireguard luci-app-pbr</code></li>
+      <li><strong>WireGuard:</strong> w LuCI: <em>Network → Interfaces → Add → WireGuard</em>, wklej klucze i peer. W <em>Firewall</em> dodaj strefę interfejsu.</li>
+      <li><strong>PBR:</strong> <em>Services → PBR</em>: reguły po IP/MAC/VLAN. Włącz logowanie (verbosity), żeby mieć wgląd w trafianie reguł.</li>
+      <li><strong>DNS po tunelu:</strong> w <em>DHCP and DNS</em> przypisz serwery DNS dostawcy do VLAN-u „VPN” i wyłącz „Rebind protection” dla wewnętrznych domen, jeśli trzeba.</li>
+      <li>Więcej praktyki: <a href="/blog/wireguard-vs-openvpn.html">WireGuard vs OpenVPN</a>.</li>
+    </ol>
+  </section>
+
+  <section id="protokoły">
+    <h2>Protokoły i wydajność</h2>
+    <p>Router ≠ PC. Tutaj liczy się każdy cykl CPU i akceleracja kryptografii. Wybór protokołu wpływa realnie na prędkość, latencję i stabilność VOD.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Protokół</th><th>Plusy</th><th>Minusy</th><th>Użyj, gdy…</th></tr></thead>
+        <tbody>
+          <tr><td>WireGuard/NordLynx</td><td>Wysoka przepustowość, niski narzut CPU, szybkie wznowienia</td><td>W części sieci blokowany UDP</td><td>Default dla domów, 4K/8K, backupy</td></tr>
+          <tr><td>OpenVPN UDP</td><td>Ogromna kompatybilność</td><td>Niższa prędkość na słabszych CPU</td><td>Gdy WG niedostępny lub niestabilny</td></tr>
+          <tr><td>OpenVPN TCP/443</td><td>Przechodzi zapory (maskuje się w HTTPS)</td><td>Wyższa latencja, większe obciążenie CPU</td><td>Hotele/biura, sieci restrykcyjne</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul>
+      <li><strong>Sprzęt:</strong> CPU ARM ≥ 1,5 GHz i/lub crypto-offload (AES-NI) realnie podnosi throughput.</li>
+      <li><strong>Warstwa fizyczna:</strong> telewizory po Ethernet; jeśli Wi-Fi, wybieraj 5 GHz i kanały bez tłoku.</li>
+      <li><strong>Rotacja węzłów:</strong> miej 2–3 alternatywy na godziny szczytu — poprawi to buforowanie.</li>
+    </ul>
+    <p class="warn">Klasyczny przypadek: OpenVPN na tanim routerze i spadek z 600 Mb/s do 30 Mb/s. To nie „wina” VPN, tylko braku mocy CPU. Rozwiązanie: WireGuard i/lub lepszy sprzęt.</p>
+  </section>
+
+  <section id="policy">
+    <h2>Policy routing (urządzenia/VLAN) — presety</h2>
+    <p>Policy-based routing rozwiązuje 90% praktycznych problemów: zamiast konfigurować kilkanaście urządzeń, sterujesz centralnie „kto przez VPN, a kto bezpośrednio”.</p>
+
+    <h3>Wzorce domowe</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Cel</th><th>Polityka</th><th>Uwagi</th></tr></thead>
+        <tbody>
+          <tr><td>Tylko Apple TV w VPN</td><td>MAC/IP Apple TV → interfejs tunelu</td><td>Po zmianach zrestartuj Apple TV (odświeży peering)</td></tr>
+          <tr><td>Konsole bezpośrednio</td><td>IP PS5/Xbox → WAN</td><td>Niższy ping i mniejsza zmienność</td></tr>
+          <tr><td>Smart TV w VPN, IoT bezpośrednio</td><td>VLAN TV → VPN; VLAN IoT → WAN</td><td>Izoluje „hałas” IoT od tunelu</td></tr>
+          <tr><td>Laptop służbowy zawsze w VPN</td><td>Wiązanie MAC → polityka VPN</td><td>Prosta zgodność z wymogami bezpieczeństwa</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>OpenWrt — szybki preset PBR (uci)</h3>
+    <p><strong>Założenia:</strong> WAN: <code>wan</code>, WireGuard: <code>wg0</code>. TV w podsieci <code>192.168.10.0/24</code> przez VPN, konsole w <code>192.168.20.0/24</code> bezpośrednio.</p>
+    <pre><code># Instalacja
+opkg update
+opkg install luci-app-pbr pbr
+
+# PBR
+uci set pbr.config.enabled='1'
+uci add pbr policy
+uci set pbr.@policy[-1].name='TV_through_VPN'
+uci set pbr.@policy[-1].src_addr='192.168.10.0/24'
+uci set pbr.@policy[-1].interface='wg0'
+
+uci add pbr policy
+uci set pbr.@policy[-1].name='Consoles_direct'
+uci set pbr.@policy[-1].src_addr='192.168.20.0/24'
+uci set pbr.@policy[-1].interface='wan'
+
+uci commit pbr
+/etc/init.d/pbr restart
+</code></pre>
+
+    <h3>Policy routing „ręcznie” (ip rule/ip route)</h3>
+    <p>Gdy wolisz prostą kontrolę lub testujesz ad-hoc:</p>
+    <pre><code># Dodaj własne tabele
+echo "100 vpn" >> /etc/iproute2/rt_tables
+echo "200 wan" >> /etc/iproute2/rt_tables
+
+# Domyślne bramy do tabel
+ip route add default dev wg0 table vpn
+ip route add default via 192.168.1.1 table wan   # brama WAN
+
+# Zasady (VLAN TV → VPN; VLAN Konsole → WAN)
+ip rule add from 192.168.10.0/24 lookup vpn
+ip rule add from 192.168.20.0/24 lookup wan
+
+# Podgląd
+ip rule show
+ip route show table vpn
+ip route show table wan
+</code></pre>
+    <p class="note">Jeśli masz kilka LAN/VLAN, dodaj też trasy do sąsiednich podsieci w obu tabelach, aby ruch LAN↔LAN nie leciał przez tunel.</p>
+  </section>
+
+  <section id="diagnostyka">
+    <h2>Diagnostyka i testy (DNS/WebRTC/IPv6)</h2>
+    <h3>Szybka checklista</h3>
+    <ul>
+      <li>Na TV/Apple TV (grupa VPN) test IP/DNS musi wskazywać IP i DNS dostawcy VPN.</li>
+      <li>Na konsoli (grupa Direct) DNS ma pochodzić od operatora lub Twojego resolwera po WAN.</li>
+      <li>Po zmianie węzła/kraju zawsze zamknij aplikację VOD i uruchom ponownie (czyści cache peeringu i DNS).</li>
+    </ul>
+
+    <h3>Komendy (OpenWrt/Linux)</h3>
+    <pre><code># Którędy wychodzi DNS?
+tcpdump -ni any port 53 -c 20
+
+# Rozwiązywanie przez konkretne DNS (zobacz, czy to DNS po tunelu)
+nslookup player.pl 10.64.0.1
+dig +short A tvp.pl @10.64.0.1
+
+# Interfejsy i trasy
+ip a
+ip r
+ip r show table vpn
+ip rule show
+
+# Logi PBR/WG
+logread | grep -i pbr
+logread -e wireguard
+</code></pre>
+
+    <h3>WebRTC i IPv6</h3>
+    <ul>
+      <li>W przeglądarce wyłącz/ogranicz ujawnianie lokalnego IP przez WebRTC (wbudowane ustawienia lub lekkie rozszerzenie).</li>
+      <li>Jeśli dostawca VPN nie tuneluje IPv6, wyłącz IPv6 w VLAN „VPN”, aby uniknąć częściowych wycieków (więcej w <a href="/blog/vpn-dns-leak.html">poradniku o wyciekach</a>).</li>
+    </ul>
+  </section>
+
+  <section id="dns">
+    <h2>DNS/IPv6 bez wycieków</h2>
+    <ul>
+      <li><strong>Zawsze DNS po tunelu dla grupy VPN:</strong> w profilach nie używaj „Automatic”. Wymuś serwery dostawcy.</li>
+      <li><strong>DoH/DoT:</strong> jeśli je wymuszasz, trasuj ich ruch interfejsem VPN (policy-based), bo inaczej zrobisz IP↔DNS mismatch.</li>
+      <li><strong>Split-horizon i CDN:</strong> uważaj z regułami domen — łatwo „złapać” CDN na złą ścieżkę. Lepszy podział per urządzenie.</li>
+      <li><strong>IPv6:</strong> brak tunelowania IPv6 → tymczasowo wyłącz na VLAN „VPN”. Gdy dostawca doda wsparcie, włącz ponownie.</li>
+      <li><strong>Weryfikacja po zmianach:</strong> rozłącz/połącz tunel, restartuj aplikacje VOD i przeglądarki, wykonaj test IP/DNS.</li>
+    </ul>
+  </section>
+
+  <section id="vod">
+    <h2>Streaming w Polsce (TVP/Player/Netflix)</h2>
+    <p>Aplikacje VOD są czułe na konflikt IP↔DNS i oflagowane wyjścia. Zasada numer jeden: całe urządzenie (TV/Apple TV) trzymaj w polityce „VPN” — nie dziel jednej aplikacji między ścieżki.</p>
+    <ul>
+      <li><strong>„Wykryto proxy/VPN”:</strong> zmień węzeł → <em>zamknij całkowicie</em> aplikację → uruchom ponownie. W sieciach restrykcyjnych użyj OpenVPN <strong>TCP/443</strong> (patrz <a href="/blog/wireguard-vs-openvpn.html">porównanie protokołów</a>).</li>
+      <li><strong>Po zmianie kraju/miasta:</strong> restart aplikacji/TV odświeża cache DNS i peering. Bez tego czasem trzyma „stare” IP.</li>
+      <li><strong>TVP VOD/Player:</strong> trzymaj DNS po tunelu; gdy IP jest masowo używane, rotuj na mniej obciążony węzeł (<a href="/blog/jaki-serwer-vpn.html">Jaki serwer VPN?</a>).</li>
+      <li><strong>Netflix PL:</strong> stabilny, jeśli cała aplikacja idzie tunelem. Mieszanie ścieżek kończy się błędem proxy.</li>
+    </ul>
+    <p>Więcej praktyki: <a href="/blog/tvp-vod-vpn.html">TVP VOD</a> • <a href="/blog/player-tvp-vpn.html">Player</a> • <a href="/blog/vpn-netflix-polska.html">Netflix PL</a> • <a href="/blog/vpn-smart-tv.html">VPN na Smart TV</a>.</p>
+  </section>
+
+  <section id="matrix">
+    <h2>Tabela napraw (symptom → przyczyna → fix)</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Objaw</th><th>Przyczyna</th><th>Naprawa (kolejność)</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>VOD zgłasza „proxy/VPN”</td>
+            <td>Konflikt IP↔DNS lub oflagowany węzeł</td>
+            <td>1) Trzymaj VOD w VPN 2) Wymuś DNS dostawcy 3) Zmień węzeł 4) Pełny restart aplikacji 5) Na restrykcyjnych sieciach użyj TCP/443</td>
+          </tr>
+          <tr>
+            <td>Ładują się tylko niektóre strony</td>
+            <td>Przeglądarka z DoH/DoT poza tunelem</td>
+            <td>1) Trasuj DoH/DoT interfejsem VPN 2) Lub wyłącz DoH 3) Restart przeglądarki</td>
+          </tr>
+          <tr>
+            <td>Wysoki ping w grach</td>
+            <td>Konsola przypisana do VPN</td>
+            <td>1) Przenieś konsole do „Direct” 2) Wyłącz ciężkie synchronizacje w tle 3) Ewentualnie QoS</td>
+          </tr>
+          <tr>
+            <td>Drukarka/NAS niewidoczne</td>
+            <td>mDNS/Bonjour odcięty między VLAN-ami</td>
+            <td>1) Zezwól mDNS selektywnie 2) Trzymaj drukarkę i klienta w tym samym VLAN 3) Sprawdź izolację AP</td>
+          </tr>
+          <tr>
+            <td>4K buforuje co kilka minut</td>
+            <td>Przeciążony węzeł / słabe Wi-Fi / router CPU-bound</td>
+            <td>1) WireGuard 2) Ethernet dla TV 3) Zmień węzeł 4) 5 GHz i czysty kanał</td>
+          </tr>
+          <tr>
+            <td>Losowe rozłączenia tunelu</td>
+            <td>Uśpienie, niestabilny uplink, zasilanie</td>
+            <td>1) Always-on/Auto-reconnect 2) Sprawdź zasilacz i przewody 3) Monitoruj logi (WireGuard/OpenVPN)</td>
+          </tr>
+          <tr>
+            <td>DNS pokazuje ISP w grupie VPN</td>
+            <td>„Automatic DNS”/policy konflikt z DoH</td>
+            <td>1) Wymuś DNS dostawcy 2) Zwiąż DoH z interfejsem VPN 3) Test po re-connect</td>
+          </tr>
+          <tr>
+            <td>Nie działa panel urządzenia w LAN</td>
+            <td>Trasa LAN↔LAN wymuszona przez tunel</td>
+            <td>1) Dodaj wyjątek w PBR 2) Daj trasę statyczną w tabelach 3) Sprawdź firewall między VLAN</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- CTA #2 -->
+  <section class="cta">
+    <p>Chcesz prostszej konfiguracji i stabilnego streamingu?</p>
+    <p>
+      <a class="btn btn-primary" href="/go/nordvpn.html" target="_blank" rel="sponsored nofollow noopener">NordVPN — profile routerowe + streaming</a>
+      <a class="btn btn-ghost" href="/go/surfshark.html" target="_blank" rel="sponsored nofollow noopener">Surfshark — łatwe polityki, dobra cena</a>
+    </p>
+  </section>
+
+  <section id="faq">
+    <h2>FAQ — najczęstsze pytania</h2>
+    <dl>
+      <dt>Czy każdy router obsługuje VPN?</dt>
+      <dd>Nie. Sprzęt operatora rzadko ma klienta VPN. Szukaj modeli z natywnym OpenVPN/WireGuard (Asus/TP-Link/Synology) lub rozważ <a href="/blog/vpn-router-konfiguracja.html">OpenWrt</a>.</dd>
+
+      <dt>Czy router VPN spowolni Internet?</dt>
+      <dd>Do pewnego stopnia tak — najwięcej zależy od protokołu i CPU routera. <a href="/blog/wireguard-vs-openvpn.html">WireGuard zwykle daje wielokrotność prędkości względem OpenVPN</a> na tym samym sprzęcie.</dd>
+
+      <dt>Czy mogę wybrać, które urządzenia korzystają z VPN?</dt>
+      <dd>Tak. To właśnie <a href="#policy">policy routing</a>. TV/Apple TV przez VPN, konsole/IoT bezpośrednio. Zwiąż DNS z polityką, aby uniknąć konfliktu IP↔DNS.</dd>
+
+      <dt>Co z IPv6 i WebRTC?</dt>
+      <dd>Jeśli dostawca nie tuneluje IPv6, wyłącz IPv6 w VLAN „VPN”, aby uniknąć częściowych wycieków. WebRTC ogranicz w przeglądarce lub lekkim rozszerzeniem (poradnik: <a href="/blog/vpn-dns-leak.html">wycieki IP/DNS/WebRTC</a>).</dd>
+
+      <dt>Kiedy zamiast routera użyć split tunnelingu?</dt>
+      <dd>Gdy problem dotyczy pojedynczej aplikacji na jednym urządzeniu (np. bankowość lub drukarka). Wtedy prościej użyć <a href="/blog/vpn-split-tunneling.html">split tunnelingu</a> w aplikacji VPN.</dd>
+
+      <dt>Jak potwierdzić, że wszystko działa poprawnie?</dt>
+      <dd>Podłącz urządzenie do SSID/VLAN „VPN”, sprawdź test IP/DNS (IP i DNS dostawcy VPN), uruchom VOD i upewnij się, że nie ma błędu „proxy”.</dd>
+    </dl>
+  </section>
+
+  <!-- Video (working embed + visible fallback) -->
+  <section id="video" aria-labelledby="video-title">
+    <h2 id="video-title">Wideo: VPN na routerze — czysta konfiguracja z policy routing</h2>
+    <div class="video-wrap">
+      <iframe
+        src="https://www.youtube.com/embed?listType=search&list=VPN+na+routerze+OpenWrt+WireGuard+OpenVPN+policy+routing"
+        title="VPN na routerze — YouTube" loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <div class="video-fallback" aria-hidden="true">
+        <p style="color:#fff;opacity:.85">Player zablokowany?</p>
+        <p><a href="https://www.youtube.com/results?search_query=VPN+na+routerze+OpenWrt+WireGuard+OpenVPN+policy+routing" target="_blank" rel="noopener">Otwórz na YouTube</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related -->
+  <aside class="readmore related">
+    <h2>Czytaj też</h2>
+    <ul>
+      <li><a href="/blog/vpn-router-konfiguracja.html">Konfiguracja routera z VPN</a></li>
+      <li><a href="/blog/vpn-split-tunneling.html">Split tunneling</a></li>
+      <li><a href="/blog/wireguard-vs-openvpn.html">WireGuard vs OpenVPN</a></li>
+      <li><a href="/blog/vpn-smart-tv.html">VPN na Smart TV</a></li>
+      <li><a href="/blog/vpn-windows-konfiguracja.html">VPN na Windows</a></li>
+      <li><a href="/blog/vpn-android-konfiguracja.html">VPN na Androidzie</a></li>
+      <li><a href="/blog/vpn-na-mac.html">VPN na Mac</a></li>
+      <li><a href="/blog/tvp-vod-vpn.html">TVP VOD i VPN</a></li>
+      <li><a href="/blog/player-tvp-vpn.html">Player i VPN</a></li>
+      <li><a href="/blog/vpn-netflix-polska.html">Netflix PL</a></li>
+      <li><a href="/blog/jaki-serwer-vpn.html">Jaki serwer VPN?</a></li>
+      <li><a href="/blog/dlaczego-vpn-2025.html">Dlaczego VPN w 2025</a></li>
+    </ul>
+  </aside>
+
+  <!-- Author -->
+  <section class="author">
+    <img src="/assets/img/authors/denys.webp" alt="Denys Shchur" width="96" height="96" loading="lazy" decoding="async">
+    <div>
+      <h2>Autor</h2>
+      <p><strong>Denys Shchur</strong> — praktyk VPN i SEO. Buduję konfiguracje routerowe z policy routingiem, nastawione na stabilny streaming i zerowe wycieki DNS/IPv6. Tworzę poradniki, które pomagają użytkownikom w Polsce skonfigurować VPN stabilnie i bezpiecznie, również dla VOD.</p>
+      <p class="muted">Więcej: <a href="/blog/nordvpn-vs-surfshark-pl.html">NordVPN vs Surfshark</a> • <a href="/blog/jaki-serwer-vpn.html">Jaki serwer VPN?</a></p>
+    </div>
+  </section>
+</main>
+
+<!-- JSON-LD: Article -->
+<script type="application/ld+json">{
+  "@context":"https://schema.org","@type":"Article",
+  "headline":"VPN na routerze — kompletny poradnik konfiguracji, policy routing i streaming",
+  "description":"Jak uruchomić VPN na routerze: firmware, WireGuard/OpenVPN, policy routing, higiena DNS/IPv6, stabilność VOD i matryca napraw.",
+  "author":{"@type":"Person","name":"Denys Shchur","image":"https://dloran1.github.io/assets/img/authors/denys.webp"},
+  "image":"https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp",
+  "inLanguage":"pl-PL",
+  "mainEntityOfPage":"https://dloran1.github.io/blog/vpn-na-routerze.html"
+}</script>
+
+<!-- JSON-LD: Breadcrumbs -->
+<script type="application/ld+json">{
+  "@context":"https://schema.org","@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Strona główna","item":"https://dloran1.github.io/"},
+    {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/blog/index.html"},
+    {"@type":"ListItem","position":3,"name":"VPN na routerze","item":"https://dloran1.github.io/blog/vpn-na-routerze.html"}
+  ]}
+</script>
+
+<!-- JSON-LD: FAQ -->
+<script type="application/ld+json">{
+  "@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Czy każdy router obsługuje VPN?","acceptedAnswer":{"@type":"Answer","text":"Nie, większość urządzeń operatora nie ma klienta VPN. Wybierz router z natywnym OpenVPN/WireGuard (Asus/TP-Link/Synology) lub rozważ OpenWrt."}},
+    {"@type":"Question","name":"Czy router VPN spowolni łącze?","acceptedAnswer":{"@type":"Answer","text":"W pewnym stopniu tak. Największy wpływ ma protokół i CPU routera. WireGuard jest wyraźnie szybszy niż OpenVPN na tym samym sprzęcie."}},
+    {"@type":"Question","name":"Jak rozdzielić ruch tylko dla niektórych urządzeń?","acceptedAnswer":{"@type":"Answer","text":"Użyj policy routingu: TV/Apple TV idą przez VPN, konsole oraz IoT bezpośrednio. Zwiąż DNS z polityką, aby uniknąć konfliktu IP↔DNS."}},
+    {"@type":"Question","name":"Co z IPv6 i WebRTC?","acceptedAnswer":{"@type":"Answer","text":"Jeśli dostawca nie tuneluje IPv6, wyłącz go na VLAN „VPN”. WebRTC ogranicz w przeglądarce/rozszerzeniu. Zawsze wymuszaj DNS dostawcy przez tunel."}},
+    {"@type":"Question","name":"Kiedy zamiast routera użyć split tunnelingu?","acceptedAnswer":{"@type":"Answer","text":"Gdy problem dotyczy pojedynczej aplikacji na jednym urządzeniu (np. bankowość albo drukarka). Wtedy prościej użyć split tunnelingu w aplikacji VPN."}}
+  ]}
+</script>
+
+<footer class="foot">
+  <p>© 2025 VPN World • 
+     <a href="/en-gb/privacy.html">Privacy Policy</a> • 
+     <a href="/pl/polityka-prywatnosci.html" lang="pl">Polityka prywatności</a>
+  </p>
+</footer>
+
+<!-- Scripts -->
+<script src="/assets/js/consent.js"></script>
+<script src="/assets/js/privacy.js"></script>
+<script src="/assets/js/langswitch.js"></script>
+</body>
+</html>
