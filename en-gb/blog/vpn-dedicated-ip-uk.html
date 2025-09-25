@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <title>VPN Dedicated IP (UK) — What It Is, When to Use It, Streaming & Banking</title>
+  <meta name="description" content="UK-focused guide to VPN Dedicated IP: what it is, when to use it, pros/cons vs shared IPs, banking & SSO reliability, streaming caveats, pricing, setup on apps and routers, security hygiene, troubleshooting and FAQ.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/vpn-dedicated-ip-uk.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="VPN Dedicated IP (UK) — What It Is, When to Use It, Streaming & Banking">
+  <meta property="og:description" content="A practical UK guide to Dedicated IPs: reduce banking/SSO flags, understand streaming limits, and configure it cleanly on apps and routers.">
+  <meta property="og:url" content="https://dloran1.github.io/en-gb/blog/vpn-dedicated-ip-uk.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:site_name" content="VPN World">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="VPN Dedicated IP (UK) — What It Is, When to Use It, Streaming & Banking">
+  <meta name="twitter:description" content="UK presets and caveats: banking & SSO reliability, split tunnelling tips, router policies and a fix matrix.">
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp">
+
+  <!-- hreflang -->
+  <link rel="alternate" hreflang="en-GB" href="https://dloran1.github.io/en-gb/blog/vpn-dedicated-ip-uk.html">
+  <link rel="alternate" hreflang="pl-PL" href="https://dloran1.github.io/blog/vpn-dedykowany-ip.html">
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-dedicated-ip-uk.html">
+
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/style-extensions.css">
+  <style>
+    :root{--muted:rgba(140,140,160,.75)}
+    .badge{display:inline-block;padding:.25rem .6rem;border:1px solid rgba(140,140,160,.35);border-radius:6px;font-size:.85rem}
+    .lead{opacity:.92}
+    .note{border-left:3px solid #2E90FA;padding:.85rem 1rem;margin:1rem 0;background:rgba(46,144,250,.06)}
+    .warn{border-left:3px solid #f59e0b;padding:.85rem 1rem;margin:1rem 0;background:rgba(245,158,11,.08)}
+    .danger{border-left:3px solid #ef4444;padding:.85rem 1rem;margin:1rem 0;background:rgba(239,68,68,.08)}
+    .ok{border-left:3px solid #10b981;padding:.85rem 1rem;margin:1rem 0;background:rgba(16,185,129,.08)}
+    .toc ul{margin:.25rem 0 1rem 1.25rem}
+    .table-wrap{overflow-x:auto}
+    .table-wrap table{min-width:900px}
+    .video-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;border:1px solid rgba(140,140,160,.35);background:#000;margin:1rem 0}
+    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    .video-fallback{position:absolute;inset:0;display:flex;gap:12px;align-items:center;justify-content:center;flex-direction:column}
+    .video-fallback a{display:inline-block;padding:10px 16px;border-radius:8px;background:#2E90FA;color:#fff;text-decoration:none}
+    .related ul{columns:2;gap:1rem}
+    .author{display:flex;gap:12px;align-items:center}
+    .author img{border-radius:50%;aspect-ratio:1/1}
+    .lang-switch{margin:.5rem 0 1rem}
+    .kbd{padding:.1rem .35rem;border:1px solid rgba(140,140,160,.4);border-radius:4px;background:rgba(255,255,255,.06)}
+    .nav .inner{display:flex;justify-content:space-between;align-items:center}
+    .logo{font-weight:700}
+    .cta .btn{display:inline-block;margin:.25rem .5rem 0 0}
+    .muted{opacity:.75}
+  </style>
+</head>
+<body>
+
+<!-- Language switch -->
+<nav class="lang-switch" aria-label="Language switch">
+  <a href="/en-gb/blog/vpn-dedicated-ip-uk.html" lang="en-GB">English (UK)</a> |
+  <a href="/blog/vpn-dedykowany-ip.html" lang="pl-PL">Polski</a>
+</nav>
+
+<!-- Top nav -->
+<nav aria-label="Primary" class="nav">
+  <div class="inner">
+    <a class="logo" href="/en-gb/">VPN World</a>
+    <div class="menu"><a href="/en-gb/">Home</a> • <a href="/en-gb/blog/">Blog</a></div>
+  </div>
+</nav>
+
+<!-- Breadcrumbs -->
+<nav aria-label="Breadcrumb" class="breadcrumbs wrap">
+  <ul>
+    <li><a href="/en-gb/">Home</a></li>
+    <li><a href="/en-gb/blog/">Blog</a></li>
+    <li aria-current="page">VPN Dedicated IP (UK)</li>
+  </ul>
+</nav>
+
+<header class="wrap">
+  <h1>VPN Dedicated IP (UK) — What It Is, When to Use It, Streaming & Banking</h1>
+  <figure class="article-hero">
+    <img src="/assets/img/hero/en-gb/hero-06.webp" alt="Dedicated IP on a UK VPN setup for banking, SSO and stable access" width="1200" height="630" loading="eager" decoding="async">
+    <figcaption>Fewer security flags for logins and SSO — without exposing your whole browsing outside the VPN.</figcaption>
+  </figure>
+  <p class="lead">A Dedicated IP is an address only you use on the VPN. It helps with UK banking, SSO and portals that distrust public VPN exits. But it comes with trade-offs for privacy and streaming. This guide explains when it shines, where it doesn’t, how pricing works, and how to set it up cleanly on apps and routers — plus split-tunnelling presets, security hygiene and a troubleshooting matrix.</p>
+  <p><span class="badge">Updated: 2025-09-25</span> • <strong>~2 300 words • 12–14 min read</strong></p>
+</header>
+
+<main class="wrap post" id="top">
+  <!-- TOC -->
+  <nav class="toc" aria-label="Table of Contents">
+    <h2>On this page</h2>
+    <ul>
+      <li><a href="#what">What is a Dedicated IP?</a></li>
+      <li><a href="#pros-cons">Pros & cons vs shared IPs</a></li>
+      <li><a href="#static-vs-dedicated">Static vs Dedicated vs Residential</a></li>
+      <li><a href="#pricing">Pricing & provider notes (UK)</a></li>
+      <li><a href="#when">When to use it (UK scenarios)</a></li>
+      <li><a href="#privacy">Privacy impact, compliance & logging</a></li>
+      <li><a href="#streaming">Streaming & catalogue caveats</a></li>
+      <li><a href="#setup">Setup: Windows / macOS / Android</a></li>
+      <li><a href="#router">Router policies with a Dedicated IP</a></li>
+      <li><a href="#split">Split tunnelling with a Dedicated IP</a></li>
+      <li><a href="#matrix">Troubleshooting matrix</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#video">Video</a></li>
+    </ul>
+  </nav>
+
+  <!-- CTA #1 -->
+  <section class="cta" aria-label="Top CTA">
+    <p>Looking for providers that offer a Dedicated IP in the UK?</p>
+    <p>
+      <a class="btn btn-primary" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="sponsored noopener noreferrer">NordVPN — Dedicated IP add-on</a>
+      <a class="btn btn-secondary" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="sponsored noopener noreferrer">Surfshark — Static/Dedicated options</a>
+    </p>
+  </section>
+
+  <section id="what">
+    <h2>What is a Dedicated IP?</h2>
+    <p>A Dedicated IP (DIP) is a VPN endpoint address reserved for your account only. While a shared IP rotates among hundreds of users, a DIP remains stable over time, reducing false positives on banking and SSO and easing API allow-listing. Some providers market “static” or “private” IPs — verify whether the IP is truly <em>exclusive</em> (dedicated) or simply <em>non-rotating</em> (static yet shared).</p>
+    <div class="note"><strong>Quick contrast:</strong> Shared IP = biggest crowd/deniability, higher chance of site flags. Dedicated IP = fewer flags, lower deniability. Static shared IP = the same IP persists but multiple customers still use it.</div>
+    <p>Because the address doesn’t hop around, device fingerprints (TLS, cookies, location) line up with the same source IP. Fraud systems interpret that as consistency rather than a suspicious jump between datacentres or countries.</p>
+  </section>
+
+  <section id="pros-cons">
+    <h2>Pros & cons vs shared IPs</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Aspect</th><th>Dedicated IP</th><th>Shared IP</th></tr></thead>
+        <tbody>
+          <tr><td>Banking/SSO trust</td><td>Fewer flags, stable device fingerprint</td><td>More flags; noisy neighbours</td></tr>
+          <tr><td>Rate limits/CAPTCHA</td><td>Less frequent on admin panels</td><td>Frequent on busy public exits</td></tr>
+          <tr><td>Streaming unblocks</td><td>Not guaranteed; may be flagged quicker</td><td>Rotating pools sometimes fare better</td></tr>
+          <tr><td>Privacy/deniability</td><td>Lower (IP tied to your account)</td><td>Higher (large crowd)</td></tr>
+          <tr><td>Allow-listing</td><td>Ideal (stable source)</td><td>Hard (IP changes often)</td></tr>
+          <tr><td>Price</td><td>Paid add-on per year</td><td>Included in base plan</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="static-vs-dedicated">
+    <h2>Static vs Dedicated vs Residential</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Who uses it</th><th>IP source</th><th>Best for</th><th>Trade-offs</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Dedicated</strong></td>
+            <td>Only you</td>
+            <td>Datacentre (UK city you choose)</td>
+            <td>Banking/SSO, allow-lists, admin</td>
+            <td>Lower crowd privacy; annual fee</td>
+          </tr>
+          <tr>
+            <td><strong>Static (shared)</strong></td>
+            <td>Small group</td>
+            <td>Datacentre</td>
+            <td>Light allow-listing, predictable IP</td>
+            <td>Still noisy neighbours; not exclusive</td>
+          </tr>
+          <tr>
+            <td><strong>Residential</strong></td>
+            <td>Usually shared pool</td>
+            <td>ISP-like residential ranges</td>
+            <td>Harder to fingerprint as DC</td>
+            <td>Expensive; ethics/provider policy vary</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="warn"><strong>Name confusion:</strong> some vendors say “static IP” when they mean “dedicated”. Ask directly: “Is the IP exclusive to my account?” If not exclusive, treat it as shared for privacy/planning.</p>
+  </section>
+
+  <section id="pricing">
+    <h2>Pricing & provider notes (UK)</h2>
+    <p>Dedicated IPs are sold as add-ons billed yearly. Typical UK pricing lands in the range that’s modest compared to business VPNs but a premium over consumer plans. What matters more than £/year is how the provider integrates DIP into its apps and APIs:</p>
+    <ul>
+      <li><strong>App integration:</strong> the DIP should appear as a clear “Dedicated IP — London/Manchester” entry so non-technical users can pick it without importing configs.</li>
+      <li><strong>Multiple locations:</strong> some customers buy two DIPs (e.g., London + Amsterdam) for redundancy; confirm if this is supported under one account.</li>
+      <li><strong>Rotation policy:</strong> ask how often DIPs can be reissued if abused or blacklisted, and whether the old IP is quarantined.</li>
+      <li><strong>KYC & issuance time:</strong> a few providers require extra verification to prevent abuse. If your use case is allow-listing to client SaaS or a payroll portal, plan a small lead time.</li>
+    </ul>
+    <p class="note">If your main goal is streaming, a Dedicated IP rarely outperforms well-maintained shared pools. Keep the DIP for banking/SSO and run streaming via shared endpoints (<a href="/en-gb/blog/vpn-on-router-uk.html">router policies</a> help).</p>
+  </section>
+
+  <section id="when">
+    <h2>When to use it (UK scenarios)</h2>
+    <ul>
+      <li><strong>Banking & SCA:</strong> UK banks sometimes distrust public exits. A DIP reduces login friction, OTP loops and “suspicious activity” prompts.</li>
+      <li><strong>Corporate SSO/legacy portals:</strong> fewer IP reputation issues for Okta/Citrix/SharePoint and apps behind IP allow-lists.</li>
+      <li><strong>Vendor dashboards & APIs:</strong> partners may allow-list source IPs; a DIP is the simplest way to meet that requirement from home.</li>
+      <li><strong>Self-hosted services:</strong> reach a home NAS, camera gateway or admin panel with rules that expect a stable source IP.</li>
+    </ul>
+    <p class="warn"><strong>Not ideal for:</strong> high-privacy browsing (shared IPs are better), catalogue-hopping in streaming (pools react faster), or P2P privacy (use shared). See <a href="/en-gb/blog/vpn-split-tunneling-uk.html">split tunnelling</a> and <a href="/en-gb/blog/vpn-protocols-uk.html">protocols</a>.</p>
+  </section>
+
+  <section id="privacy">
+    <h2>Privacy impact, compliance & logging</h2>
+    <p>A Dedicated IP improves reputation but reduces crowd anonymity because the address is linked to your account. That doesn’t mean browsing is “public”; it means attribution within your provider is simpler. Keep these rules:</p>
+    <ul>
+      <li><strong>Separate profiles:</strong> maintain a “privacy” profile (shared IP) and a “reliability” profile (DIP). Don’t funnel all browsing through the DIP.</li>
+      <li><strong>DoH/DoT discipline:</strong> avoid sending DNS to external resolvers outside the tunnel; otherwise you create IP↔DNS mismatches (see <a href="/en-gb/blog/vpn-ip-dns-leaks-uk.html">leaks guide</a>).</li>
+      <li><strong>IPv6/WebRTC:</strong> if your provider doesn’t tunnel IPv6, disable it on the “VPN” VLAN; limit WebRTC local IP exposure in the browser.</li>
+      <li><strong>Compliance reality:</strong> DIPs are often used in regulated contexts (accounting, HR portals). Expect providers to apply stricter anti-abuse and, in some cases, simple KYC for issuance.</li>
+      <li><strong>Logging stance:</strong> choose providers with publicly audited no-logs claims if privacy matters. DIP usage should not change their logging posture, but review the policy.</li>
+    </ul>
+  </section>
+
+  <section id="streaming">
+    <h2>Streaming & catalogue caveats</h2>
+    <p>A Dedicated IP is <em>not</em> a streaming silver bullet. Some platforms more easily identify fixed, long-lived IPs. Keep expectations realistic:</p>
+    <ul>
+      <li><strong>Use shared for streaming:</strong> curated shared pools are generally better for BBC iPlayer and Netflix UK.</li>
+      <li><strong>Keep the whole app/device in the tunnel:</strong> don’t split a single app’s traffic between DIP and direct — that’s the easiest way to trigger errors.</li>
+      <li><strong>On a proxy error:</strong> rotate to a different UK endpoint (shared), fully quit the app (⌘Q/Alt+F4 or force-close on TV), relaunch.</li>
+      <li><strong>Changing city/country:</strong> after switching endpoints, restart apps/TVs to refresh peering and DNS caches.</li>
+    </ul>
+    <p>See our streaming guides: <a href="/en-gb/blog/vpn-bbc-iplayer-uk.html">BBC iPlayer</a> • <a href="/en-gb/blog/vpn-netflix-uk.html">Netflix UK</a> • <a href="/en-gb/blog/vpn-smart-tv-uk.html">Smart TV (UK)</a>.</p>
+  </section>
+
+  <section id="setup">
+    <h2>Setup: Windows / macOS / Android</h2>
+    <ol>
+      <li><strong>Redeem the Dedicated IP:</strong> your provider issues a location (e.g., London) and the static address or a “Dedicated IP” entry inside the app.</li>
+      <li><strong>Select the DIP endpoint:</strong> in the server list pick “Dedicated IP — UK”. Save it as a favourite for quick switching.</li>
+      <li><strong>Enable provider DNS:</strong> avoid “Automatic DNS”. Keeping provider DNS aligned with the DIP prevents IP↔DNS mismatches.</li>
+      <li><strong>App hygiene:</strong> fully quit and relaunch browsers/streaming apps when switching between shared and DIP profiles — many apps cache paths.</li>
+      <li><strong>Kill switch/auto-connect:</strong> enable both to avoid accidental direct exposure while you assume you’re on the DIP.</li>
+    </ol>
+    <p>OS specifics: <a href="/en-gb/blog/vpn-windows-uk.html">Windows</a> • <a href="/en-gb/blog/vpn-mac-uk.html">macOS</a> • <a href="/en-gb/blog/vpn-android-uk.html">Android</a>. For per-app controls, see <a href="/en-gb/blog/vpn-split-tunneling-uk.html">split tunnelling</a>.</p>
+  </section>
+
+  <section id="router">
+    <h2>Router policies with a Dedicated IP</h2>
+    <p>The clean home design is to run <em>two</em> tunnels on the router: <strong>UK-DIP</strong> and <strong>UK-Shared</strong>. Then route devices by policy (VLAN/MAC/IP). This way banking and admin tools use the DIP while TVs and consoles either use shared or go direct.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Device/Group</th><th>Policy</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Work laptop / admin PC</td><td>UK-DIP</td><td>Stable IP, fewer SSO flags; keep provider DNS</td></tr>
+          <tr><td>Smart TV / Apple TV</td><td>UK-Shared</td><td>Rotating pools; fewer proxy errors</td></tr>
+          <tr><td>Consoles</td><td>Direct (WAN)</td><td>Lower latency and jitter</td></tr>
+          <tr><td>IoT</td><td>Direct (WAN)</td><td>Keep chatty devices out of the tunnel</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Router how-tos: <a href="/en-gb/blog/vpn-on-router-uk.html">VPN on a router (UK)</a> • <a href="/en-gb/blog/vpn-router-setup-uk.html">router setup</a> • <a href="/en-gb/blog/which-vpn-server-uk.html">which UK server?</a></p>
+  </section>
+
+  <section id="split">
+    <h2>Split tunnelling with a Dedicated IP</h2>
+    <p>On a single PC, keep the browser on a shared IP and route only the specific helper that needs the DIP (for example, a banking assistant or a thick client used for payroll). That preserves privacy for general browsing, while letting the sensitive app present a consistent IP.</p>
+    <ul>
+      <li><strong>Windows/macOS:</strong> many providers support per-app split rules; prefer “exclude specific apps from the VPN” when the goal is to keep browsers <em>in</em> the shared tunnel.</li>
+      <li><strong>Android:</strong> use “Always-on VPN” + “Block connections without VPN”, then exclude only the helper app if needed.</li>
+      <li><strong>Testing:</strong> run an IP/DNS test in the browser (should show shared endpoint), then open the helper and confirm the admin portal sees your Dedicated IP.</li>
+    </ul>
+    <p>Full methodology: <a href="/en-gb/blog/vpn-split-tunneling-uk.html">split tunnelling (UK)</a>.</p>
+  </section>
+
+  <section id="matrix">
+    <h2>Troubleshooting matrix</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Symptom</th><th>Likely cause</th><th>Fix (order matters)</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Bank flags or OTP loops</td>
+            <td>DIP not fully propagated / DNS outside tunnel</td>
+            <td>1) Reconnect to DIP 2) Ensure provider DNS 3) Quit/reopen browser 4) If still stuck, try shared IP for browsing and DIP only for the helper</td>
+          </tr>
+          <tr>
+            <td>“Proxy/VPN” on iPlayer/Netflix</td>
+            <td>Fixed IP flagged; IP↔DNS mismatch</td>
+            <td>1) Use shared UK endpoint for streaming 2) Enforce provider DNS 3) Fully relaunch the app 4) If on a TV, power-cycle device</td>
+          </tr>
+          <tr>
+            <td>CAPTCHAs on admin portal</td>
+            <td>Shared pool is noisy</td>
+            <td>Use the DIP for the portal; keep general browsing on shared to reduce exposure</td>
+          </tr>
+          <tr>
+            <td>API rejects connections</td>
+            <td>IP not allow-listed or wrong city</td>
+            <td>Add DIP to allow-list; verify the region the API expects; document a backup endpoint</td>
+          </tr>
+          <tr>
+            <td>Only some sites load</td>
+            <td>External DoH/DoT goes direct</td>
+            <td>Route DoH/DoT via VPN interface or disable; restart browser</td>
+          </tr>
+          <tr>
+            <td>Random drops on router</td>
+            <td>Weak CPU or over-aggressive sleep</td>
+            <td>Use WireGuard where possible; enable auto-connect + kill switch; check power and cabling; avoid oversubscribed endpoints</td>
+          </tr>
+          <tr>
+            <td>Admin app can’t discover printer/NAS</td>
+            <td>Broadcast blocked across VLANs</td>
+            <td>Allow mDNS/SSDP between specific VLANs or place the device and client in the same segment for discovery only</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- CTA #2 -->
+  <section class="cta" aria-label="Bottom CTA">
+    <p>Want a clean Dedicated IP setup plus reliable UK streaming?</p>
+    <p>
+      <a class="btn btn-primary" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="sponsored noopener noreferrer">NordVPN — Dedicated IP add-on</a>
+      <a class="btn btn-secondary" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="sponsored noopener noreferrer">Surfshark — Static/Dedicated options</a>
+    </p>
+  </section>
+
+  <section id="faq">
+    <h2>FAQ — quick answers</h2>
+    <dl>
+      <dt>Is a Dedicated IP private?</dt>
+      <dd>It’s exclusive to your account but offers less crowd anonymity than a shared IP. Use shared IPs for private browsing; keep the DIP for reliability and allow-lists.</dd>
+
+      <dt>Does a Dedicated IP guarantee streaming access?</dt>
+      <dd>No. Some platforms flag long-lived fixed IPs quicker. Shared curated pools typically work better for iPlayer/Netflix.</dd>
+
+      <dt>Can I run a Dedicated IP on a router?</dt>
+      <dd>Yes — create a separate tunnel and bind only specific devices/VLANs using policy routing. Keep TVs on shared or direct paths.</dd>
+
+      <dt>What about IPv6/WebRTC leaks?</dt>
+      <dd>If your provider doesn’t tunnel IPv6, disable it on the VPN segment or VLAN. Limit WebRTC local IP exposure and enforce provider DNS.</dd>
+
+      <dt>Static vs Dedicated IP — what’s the difference?</dt>
+      <dd>Static may be non-rotating yet shared among customers; Dedicated is exclusive. Confirm explicitly with the provider.</dd>
+
+      <dt>Can I have more than one Dedicated IP?</dt>
+      <dd>Often yes (e.g., London + Amsterdam) for redundancy. Ask about billing per location and how failover works in the app/router.</dd>
+
+      <dt>Will I need KYC?</dt>
+      <dd>Some providers do basic checks to prevent abuse. If you need the DIP for corporate allow-lists, plan for short issuance time.</dd>
+    </dl>
+  </section>
+
+  <!-- Video (working embed + visible fallback) -->
+  <section id="video" aria-labelledby="video-title">
+    <h2 id="video-title">Video: Dedicated IP — clean UK setup</h2>
+    <div class="video-wrap">
+      <iframe
+        width="560" height="315"
+        src="https://www.youtube.com/embed?listType=search&list=VPN+Dedicated+IP+UK+banking+streaming"
+        title="VPN Dedicated IP — YouTube" loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <div class="video-fallback" aria-hidden="true">
+        <p style="color:#fff;opacity:.85">Player blocked?</p>
+        <p><a href="https://www.youtube.com/results?search_query=VPN+Dedicated+IP+UK+banking+streaming" target="_blank" rel="noopener">Open on YouTube</a></p>
+      </div>
+    </div>
+    <p class="muted">Some corporate networks block YouTube iframes. Use the “Open on YouTube” button in that case.</p>
+  </section>
+
+  <!-- Related -->
+  <aside class="related">
+    <h2>Read also</h2>
+    <ul>
+      <li><a href="/en-gb/blog/vpn-split-tunneling-uk.html">Split tunnelling (UK)</a></li>
+      <li><a href="/en-gb/blog/vpn-on-router-uk.html">VPN on a router (UK)</a></li>
+      <li><a href="/en-gb/blog/vpn-ip-dns-leaks-uk.html">IP/DNS/WebRTC leaks — UK</a></li>
+      <li><a href="/en-gb/blog/vpn-protocols-uk.html">VPN protocols (UK)</a></li>
+      <li><a href="/en-gb/blog/which-vpn-server-uk.html">Which UK VPN server?</a></li>
+      <li><a href="/en-gb/blog/best-vpn-uk.html">Best VPN for the UK</a></li>
+    </ul>
+  </aside>
+
+  <!-- Author -->
+  <section class="author" id="author">
+    <img src="/assets/img/authors/denys.webp" alt="Denys Shchur" width="96" height="96" loading="lazy" decoding="async">
+    <div>
+      <h2>About the author</h2>
+      <p><strong>Denys Shchur</strong> — SEO practitioner & VPN enthusiast. Designs router/DIP setups for stable UK banking and streaming with zero DNS/IPv6 leaks.</p>
+      <p class="muted">More: <a href="/en-gb/blog/best-vpn-uk.html">Best VPN UK</a> • <a href="/en-gb/blog/which-vpn-server-uk.html">Which VPN server?</a></p>
+    </div>
+  </section>
+</main>
+
+<!-- JSON-LD: Article -->
+<script type="application/ld+json">{
+  "@context":"https://schema.org","@type":"Article",
+  "headline":"VPN Dedicated IP (UK) — What It Is, When to Use It, Streaming & Banking",
+  "description":"Dedicated IP explained for the UK: when to use it, privacy trade-offs, pricing, router policies, split tunnelling and troubleshooting.",
+  "author":{"@type":"Person","name":"Denys Shchur","image":"https://dloran1.github.io/assets/img/authors/denys.webp"},
+  "image":"https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp",
+  "inLanguage":"en-GB",
+  "dateModified":"2025-09-25",
+  "mainEntityOfPage":"https://dloran1.github.io/en-gb/blog/vpn-dedicated-ip-uk.html",
+  "publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo-512.png"}}
+}</script>
+
+<!-- JSON-LD: Breadcrumbs -->
+<script type="application/ld+json">{
+  "@context":"https://schema.org","@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://dloran1.github.io/en-gb/"},
+    {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/en-gb/blog/"},
+    {"@type":"ListItem","position":3,"name":"VPN Dedicated IP (UK)","item":"https://dloran1.github.io/en-gb/blog/vpn-dedicated-ip-uk.html"}
+  ]}
+</script>
+
+<!-- JSON-LD: FAQ -->
+<script type="application/ld+json">{
+  "@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Is a Dedicated IP private?","acceptedAnswer":{"@type":"Answer","text":"It’s exclusive to your account but offers less crowd anonymity than a shared IP. Use shared IPs for private browsing; keep the DIP for reliability and allow-lists."}},
+    {"@type":"Question","name":"Does a Dedicated IP guarantee streaming access?","acceptedAnswer":{"@type":"Answer","text":"No. Some platforms flag long-lived fixed IPs quicker. Shared curated pools typically work better for iPlayer/Netflix."}},
+    {"@type":"Question","name":"Can I run a Dedicated IP on a router?","acceptedAnswer":{"@type":"Answer","text":"Yes — create a separate tunnel and bind only specific devices/VLANs using policy routing. Keep TVs on shared or direct paths."}},
+    {"@type":"Question","name":"What about IPv6/WebRTC leaks?","acceptedAnswer":{"@type":"Answer","text":"If your provider doesn’t tunnel IPv6, disable it on the VPN segment or VLAN. Limit WebRTC local IP exposure and enforce provider DNS."}},
+    {"@type":"Question","name":"Static vs Dedicated IP — what’s the difference?","acceptedAnswer":{"@type":"Answer","text":"Static may be non-rotating yet shared among customers; Dedicated is exclusive. Confirm explicitly with the provider."}},
+    {"@type":"Question","name":"Can I have more than one Dedicated IP?","acceptedAnswer":{"@type":"Answer","text":"Often yes (e.g., London + Amsterdam) for redundancy. Ask about billing per location and how failover works in the app/router."}},
+    {"@type":"Question","name":"Will I need KYC?","acceptedAnswer":{"@type":"Answer","text":"Some providers do basic checks to prevent abuse. If you need the DIP for corporate allow-lists, plan for short issuance time."}}
+  ]}
+</script>
+
+<footer class="foot">
+  <p>© 2025 VPN World • 
+     <a href="/en-gb/privacy.html">Privacy Policy</a> • 
+     <a href="/pl/polityka-prywatnosci.html" lang="pl">Polityka prywatności</a>
+  </p>
+</footer>
+
+<!-- Includes -->
+<script src="/assets/js/consent.js"></script>
+<script src="/assets/js/privacy.js"></script>
+<script src="/assets/js/langswitch.js"></script>
+</body>
+</html>
