@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <title>VPN on a Router (UK) — Complete Setup, Policy Routing & Streaming Reliability</title>
+  <meta name="description" content="Run a VPN on your router in the UK: step-by-step setup for Asus/TP-Link/Synology and OpenWrt, policy routing per device/VLAN, WireGuard vs OpenVPN, leak-free DNS/IPv6, reliable BBC iPlayer/Netflix, troubleshooting matrix and FAQ.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/vpn-on-router-uk.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="VPN on a Router (UK) — Complete Setup, Policy Routing & Streaming Reliability">
+  <meta property="og:description" content="UK-focused router VPN guide: setup, policy routing per device/VLAN, WireGuard/OpenVPN, leak-free DNS/IPv6, and stable BBC iPlayer/Netflix.">
+  <meta property="og:url" content="https://dloran1.github.io/en-gb/blog/vpn-on-router-uk.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp">
+  <meta property="og:locale" content="en_GB">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="VPN on a Router (UK) — Complete Setup, Policy Routing & Streaming Reliability">
+  <meta name="twitter:description" content="Protect your whole home with a router VPN. Policy routing for TVs & consoles, leak-free DNS/IPv6, and iPlayer/Netflix fixes.">
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp">
+
+  <!-- hreflang -->
+  <link rel="alternate" hreflang="en-GB" href="https://dloran1.github.io/en-gb/blog/vpn-on-router-uk.html">
+  <link rel="alternate" hreflang="pl-PL" href="https://dloran1.github.io/blog/vpn-na-routerze.html">
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-on-router-uk.html">
+
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/style-extensions.css">
+
+  <style>
+    :root{--muted:rgba(140,140,160,.75)}
+    .badge{display:inline-block;padding:.25rem .6rem;border:1px solid rgba(140,140,160,.35);border-radius:6px;font-size:.85rem}
+    .lead{opacity:.92}
+    .note{border-left:3px solid #2E90FA;padding:.85rem 1rem;margin:1rem 0;background:rgba(46,144,250,.06)}
+    .warn{border-left:3px solid #f59e0b;padding:.85rem 1rem;margin:1rem 0;background:rgba(245,158,11,.08)}
+    .danger{border-left:3px solid #ef4444;padding:.85rem 1rem;margin:1rem 0;background:rgba(239,68,68,.08)}
+    .ok{border-left:3px solid #10b981;padding:.85rem 1rem;margin:1rem 0;background:rgba(16,185,129,.08)}
+    .kbd{padding:.1rem .35rem;border:1px solid rgba(140,140,160,.4);border-radius:4px;background:rgba(255,255,255,.06)}
+    .toc ul{margin:.25rem 0 1rem 1.25rem}
+    .table-wrap{overflow-x:auto}
+    .table-wrap table{min-width:840px}
+    .video-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;border:1px solid rgba(140,140,160,.35);background:#000;margin:1rem 0}
+    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    .video-fallback{position:absolute;inset:0;display:flex;gap:12px;align-items:center;justify-content:center;flex-direction:column}
+    .video-fallback a{display:inline-block;padding:10px 16px;border-radius:8px;background:#2E90FA;color:#fff;text-decoration:none}
+    .related ul{columns:2;gap:1rem}
+    .author{display:flex;gap:12px;align-items:center}
+    .author img{border-radius:50%;aspect-ratio:1/1}
+    .lang-switch{margin:.5rem 0 1rem}
+    .muted{opacity:.75}
+    .breadcrumbs ul{display:flex;gap:.5rem;flex-wrap:wrap}
+    .breadcrumbs li::after{content:"/";margin:0 .5rem;color:var(--muted)}
+    .breadcrumbs li:last-child::after{content:""}
+    .nav .inner{display:flex;justify-content:space-between;align-items:center}
+    .logo{font-weight:700}
+    .cta .btn{display:inline-block;margin:.25rem .5rem 0 0}
+  </style>
+</head>
+<body>
+
+<!-- Language switch -->
+<nav class="lang-switch" aria-label="Language switch">
+  <a href="/en-gb/blog/vpn-on-router-uk.html" lang="en-GB">English (UK)</a> |
+  <a href="/blog/vpn-na-routerze.html" lang="pl-PL">Polski</a>
+</nav>
+
+<!-- Top nav -->
+<nav aria-label="Primary" class="nav">
+  <div class="inner">
+    <a class="logo" href="/en-gb/">VPN World</a>
+    <div class="menu"><a href="/en-gb/">Home</a> • <a href="/en-gb/blog/">Blog</a></div>
+  </div>
+</nav>
+
+<!-- Breadcrumbs -->
+<nav aria-label="Breadcrumb" class="breadcrumbs wrap">
+  <ul>
+    <li><a href="/en-gb/">Home</a></li>
+    <li><a href="/en-gb/blog/">Blog</a></li>
+    <li aria-current="page">VPN on a Router (UK)</li>
+  </ul>
+</nav>
+
+<header class="wrap">
+  <h1>VPN on a Router (UK) — Complete Setup, Policy Routing & Streaming Reliability</h1>
+  <figure class="article-hero">
+    <img src="/assets/img/hero/en-gb/hero-06.webp" alt="Router running a VPN with device/VLAN policy routing in a UK home" width="1200" height="630" loading="eager" decoding="async">
+    <figcaption>One configuration protects the whole home: Smart TVs, Apple TV, consoles, laptops and IoT.</figcaption>
+  </figure>
+  <p class="lead">A router VPN is “set once, protect everything”. Smart TVs, Apple TV, consoles and IoT rarely support VPN apps — but once they connect to a VPN SSID or VLAN, they inherit encryption and region settings automatically. This UK-focused guide covers: step-by-step setup, <strong>policy routing</strong> per device/VLAN, leak-free <strong>DNS/IPv6</strong>, reliable <strong>BBC iPlayer/Netflix</strong>, protocol choices and a practical <strong>fix matrix</strong>.</p>
+  <p><span class="badge">Updated: evergreen</span> • <strong>~20–26 min read</strong></p>
+</header>
+
+<main class="wrap post" id="top">
+  <!-- TOC -->
+  <nav class="toc" aria-label="Table of Contents">
+    <h2>On this page</h2>
+    <ul>
+      <li><a href="#why">Why a router VPN (and when not to)</a></li>
+      <li><a href="#benefits">Key benefits vs app-only VPN</a></li>
+      <li><a href="#topology">Topology: ISP hub vs dedicated VPN router</a></li>
+      <li><a href="#hardware">Routers & firmware that make sense</a></li>
+      <li><a href="#setup">Step-by-step setup</a></li>
+      <li><a href="#protocols">Protocols & performance</a></li>
+      <li><a href="#policy">Policy routing per device/VLAN</a></li>
+      <li><a href="#dns">Leak-free DNS/IPv6</a></li>
+      <li><a href="#security">Security hygiene & best practices</a></li>
+      <li><a href="#streaming">Streaming in the UK (BBC iPlayer / Netflix)</a></li>
+      <li><a href="#matrix">Troubleshooting matrix</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#video">Video</a></li>
+    </ul>
+  </nav>
+
+  <!-- CTA #1 -->
+  <section class="cta" aria-label="Top CTA">
+    <p>Need router profiles and reliable streaming?</p>
+    <p>
+      <a class="btn btn-primary" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="sponsored noopener noreferrer">NordVPN — WireGuard (NordLynx) & OpenVPN</a>
+      <a class="btn btn-secondary" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="sponsored noopener noreferrer">Surfshark — sharp pricing, unlimited devices</a>
+    </p>
+  </section>
+
+  <section id="why">
+    <h2>Why a router VPN (and when not to)</h2>
+    <p>A router VPN shines when you want “one policy for the whole home”. Every device on the VPN SSID or VLAN inherits encryption and regional endpoints without installing apps or relying on each user to keep the VPN on. Configuration lives in one place, testing is consistent, and DNS rules are easier to enforce across TVs, media boxes and laptops.</p>
+    <div class="ok"><strong>Great fit when:</strong></div>
+    <ul>
+      <li><strong>Smart TV / Apple TV:</strong> you want reliable streaming without sideloading or complex TV hacks. Assign the TV to the VPN SSID and you’re done.</li>
+      <li><strong>Guest network / kids:</strong> give guests or kids a private internet path, while you keep consoles direct for gaming latency.</li>
+      <li><strong>Home office / micro-business:</strong> one policy meets baseline security quickly across laptops, printers and NAS.</li>
+      <li><strong>IoT privacy:</strong> chatty devices (cameras, sensors, hubs) gain TLS-in-tunnel protection by default.</li>
+    </ul>
+    <div class="warn"><strong>Consider alternatives when:</strong></div>
+    <ul>
+      <li><strong>Only one helper app breaks behind VPN:</strong> e.g., a banking assistant or legacy printer tool. Use <a href="/en-gb/blog/vpn-split-tunneling-uk.html">split tunnelling</a> on that <em>single</em> device instead of moving the whole house.</li>
+      <li><strong>Competitive gaming:</strong> if every millisecond counts, keep consoles direct via policy routing to avoid extra latency or jitter.</li>
+      <li><strong>Very old hardware:</strong> OpenVPN on weak CPUs can bottleneck fast fibre. Prefer WireGuard or a small dedicated VPN appliance.</li>
+    </ul>
+  </section>
+
+  <section id="benefits">
+    <h2>Key benefits vs app-only VPN</h2>
+    <p>Running a VPN on a router differs from installing an app on each device. The most important differences are coverage, consistency and control.</p>
+    <ul>
+      <li><strong>Coverage:</strong> devices with no VPN app (TVs, consoles, some IoT) still gain protection and region routing.</li>
+      <li><strong>Consistency:</strong> the same DNS provider and the same UK endpoint apply to all devices in the VPN segment, reducing IP↔DNS conflicts that break streaming.</li>
+      <li><strong>Control:</strong> <a href="#policy">policy routing</a> lets you decide which VLANs or MACs use the tunnel, and which go direct.</li>
+      <li><strong>Reliability:</strong> fewer moving parts than ten separate apps; one tunnel to monitor with a router-level kill switch.</li>
+      <li><strong>Privacy ergonomics:</strong> guests simply join a Wi-Fi name; you don’t need to educate them about VPN clients.</li>
+    </ul>
+    <p class="note">App-only VPNs are still useful for mobile work, hotel Wi-Fi and ad-hoc privacy. For the home, a router VPN brings consistency that streaming apps appreciate.</p>
+  </section>
+
+  <section id="topology">
+    <h2>Topology: ISP hub vs dedicated VPN router</h2>
+    <p>In the UK, the cleanest pattern is a <strong>dedicated VPN router behind your ISP hub</strong> (BT/EE, Virgin Media, Sky, TalkTalk, Vodafone). The hub acts as modem/ONT; your own router handles VPN and policies. This avoids vendor lock-ins and gives you control over DNS and VLANs.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Variant</th><th>Pros</th><th>Cons</th><th>Who it suits</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>ISP hub only</td>
+            <td>No extra cost; simple to run</td>
+            <td>Usually no VPN client or policy routing; limited DNS control</td>
+            <td>Only if the hub truly supports VPN and custom DNS</td>
+          </tr>
+          <tr>
+            <td>VPN router behind hub</td>
+            <td>Full control; <a href="#policy">policy routing</a>; clean DNS; easy testing</td>
+            <td>Extra box; potential double NAT unless bridge/DMZ is available</td>
+            <td>Recommended default; place hub in bridge/DMZ where possible</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">No bridge/DMZ? It still works — favour WireGuard, and use Ethernet for TVs to avoid flaky Wi-Fi/peering artefacts.</p>
+  </section>
+
+  <section id="hardware">
+    <h2>Routers & firmware that make sense</h2>
+    <ul>
+      <li><strong>Stock firmware (Asus/TP-Link/Synology):</strong> increasingly ship with OpenVPN/WireGuard clients. Easy GUIs, minimal risk. Policy routing may be basic but good enough for a home.</li>
+      <li><strong>Asuswrt-Merlin:</strong> a stock-plus for many Asus models. Adds better scripts and flexible policies without a full OpenWrt jump.</li>
+      <li><strong>OpenWrt:</strong> ultimate flexibility and solid performance; PBR (policy-based routing) handles per-device/VLAN rules. Requires some networking comfort.</li>
+      <li><strong>DD-WRT/Tomato:</strong> GUI-friendly alternatives; useful for older models, smaller communities than OpenWrt.</li>
+      <li><strong>Ubiquiti/MikroTik:</strong> powerful and enterprise-flavoured; fantastic for small offices, higher learning curve for homes.</li>
+    </ul>
+    <p class="danger"><strong>Heads-up:</strong> flashing the wrong image can brick a device and void warranty. If you want zero risk, buy a model with native WireGuard support.</p>
+    <p>Protocol trade-offs in depth: <a href="/en-gb/blog/vpn-protocols-uk.html">VPN protocols (UK)</a>. If you’d rather split by app on a single device, see <a href="/en-gb/blog/vpn-split-tunneling-uk.html">split tunnelling</a>.</p>
+  </section>
+
+  <section id="setup">
+    <h2>Step-by-step setup</h2>
+    <p>While GUIs differ, the flow is similar. The outline below works for Asus/TP-Link/Synology stock firmware and OpenWrt (with naming variations). Take a configuration backup before and after major changes.</p>
+    <ol>
+      <li><strong>Log into the router:</strong> usually <code>192.168.0.1</code> or <code>192.168.1.1</code>. Change the admin password; enable the firewall.</li>
+      <li><strong>Add the VPN profile:</strong> in <em>VPN Client</em>:
+        <ul>
+          <li><em>OpenVPN:</em> import the <code>.ovpn</code> file; enter VPN account credentials; check TLS options and cipher if available.</li>
+          <li><em>WireGuard:</em> paste the <code>[Interface]</code>/<code>[Peer]</code> profile or import a <code>.conf</code>; verify allowed-IPs and endpoint.</li>
+        </ul>
+      </li>
+      <li><strong>Pick UK endpoints:</strong> start with London/Manchester/Birmingham. Save 2–3 alternates for evening peaks. For live sport, keep a backup server ready.</li>
+      <li><strong>Enable kill switch:</strong> block WAN if the tunnel drops (labels vary: “Block Internet if VPN disconnects”, “Kill Switch”). Test by toggling the tunnel off.</li>
+      <li><strong>Force provider DNS:</strong> avoid “Automatic DNS”. Enforce <em>Provider DNS over tunnel</em> for the VPN segment.</li>
+      <li><strong>Create SSIDs/VLANs:</strong> e.g., “Home-VPN” (TV/Apple TV/work) and “Home-Direct” (consoles/IoT). This makes policies trivial and keeps DoH/DoT consistent.</li>
+      <li><strong>QoS (optional):</strong> give streaming a stable slice by prioritising TV/Apple TV MACs. Don’t starve interactive traffic.</li>
+      <li><strong>Test:</strong> connect to the VPN SSID and run an IP/DNS test; both must show your VPN provider. Launch iPlayer or Netflix to confirm there’s no proxy error.</li>
+      <li><strong>Backup:</strong> export the router config again once the base works. Name it with date + “base”.</li>
+    </ol>
+    <p class="note">Vendors often provide model-specific wizards for the UK. If streaming is a priority, plan <a href="#policy">policy routing</a> from the start to avoid mixing paths.</p>
+  </section>
+
+  <section id="protocols">
+    <h2>Protocols & performance</h2>
+    <p>Routers are not PCs — CPU is precious. Protocol choice impacts throughput and latency far more on consumer hardware than on laptops or desktops.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Protocol</th><th>Pros</th><th>Cons</th><th>Use when…</th></tr></thead>
+        <tbody>
+          <tr><td>WireGuard / NordLynx</td><td>Fast, low CPU; quick resume; simple config</td><td>UDP can be blocked by strict networks</td><td>Home networks, 4K/8K, modern routers</td></tr>
+          <tr><td>OpenVPN UDP</td><td>Broad compatibility; mature</td><td>Lower throughput on weak CPUs; more overhead</td><td>When WireGuard is unavailable or unstable</td></tr>
+          <tr><td>OpenVPN TCP/443</td><td>Blends with HTTPS; traverses firewalls well</td><td>Highest CPU cost and latency; prone to head-of-line blocking</td><td>Hotels/offices; guest Wi-Fi with aggressive filtering</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul>
+      <li><strong>Hardware matters:</strong> ARM 1.5 GHz+ and cryptographic acceleration (AES-NI or ARMv8 crypto) help enormously.</li>
+      <li><strong>Wi-Fi layer:</strong> for TVs prefer Ethernet; if Wi-Fi, use 5 GHz over congested 2.4 GHz, and place the TV within clear line-of-sight.</li>
+      <li><strong>Endpoint rotation:</strong> test 2–3 UK endpoints at peak hours to avoid buffering caused by overloaded exits.</li>
+      <li><strong>MTU tuning (advanced):</strong> if you see odd stalling on some sites, try lowering MTU on the tunnel (e.g., 1380–1420) and retest.</li>
+    </ul>
+    <p class="warn">Classic pitfall: OpenVPN on a bargain router turns 500–900 Mb/s fibre into 20–40 Mb/s. The VPN isn’t “slow” — the CPU is. Switch to WireGuard or upgrade hardware.</p>
+  </section>
+
+  <section id="policy">
+    <h2>Policy routing per device/VLAN</h2>
+    <p>Policy routing solves 90% of real-world pain. Instead of juggling split tunnelling on ten devices, decide centrally: “who goes via VPN, who stays direct”. Policies can reference MACs, static IPs, subnets or whole VLANs, keeping your DNS behaviour aligned with each path.</p>
+    <ol>
+      <li><strong>DHCP reservations:</strong> assign static IPs to TVs, Apple TV, consoles and a work laptop.</li>
+      <li><strong>Groups/VLANs:</strong> create <em>VPN</em> (TV/Apple TV/work) and <em>Direct</em> (consoles/IoT). Separate SSIDs help users pick the right path.</li>
+      <li><strong>Rules:</strong> “VPN” group → tunnel interface; “Direct” → WAN. On OpenWrt use the PBR package. On Asus/TP-Link bind clients to the VPN profile if supported.</li>
+      <li><strong>DNS bound to policy:</strong> enforce provider DNS over the tunnel for the VPN group; the Direct group uses ISP DNS or a resolver you control.</li>
+      <li><strong>Testing:</strong> on the TV/Apple TV, an IP/DNS test must show your VPN provider; on the console, it should show ISP DNS.</li>
+    </ol>
+    <p>Home patterns that just work:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Goal</th><th>Policy</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Only Apple TV via VPN</td><td>Apple TV MAC/IP → VPN table</td><td>Reboot Apple TV after policy changes</td></tr>
+          <tr><td>Consoles direct</td><td>PS5/Xbox IPs → WAN</td><td>Lower ping, less jitter in competitive titles</td></tr>
+          <tr><td>Smart TV via VPN, IoT direct</td><td>TV VLAN → VPN; IoT VLAN → WAN</td><td>Keeps noisy IoT off the tunnel</td></tr>
+          <tr><td>Work laptop always VPN</td><td>Bind MAC → VPN policy</td><td>Home compliance gets simpler</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>If your priority is TVs/Apple TV, see <a href="/en-gb/blog/vpn-smart-tv-uk.html">VPN for Smart TV (UK)</a>. For per-app control on a single machine, use <a href="/en-gb/blog/vpn-split-tunneling-uk.html">split tunnelling</a>.</p>
+  </section>
+
+  <section id="dns">
+    <h2>Leak-free DNS/IPv6</h2>
+    <p>Most streaming errors come from an IP↔DNS mismatch: the app takes one path while DNS queries go another. Keep the resolver consistent with the path and you will avoid nearly all “proxy/VPN” flags.</p>
+    <ul>
+      <li><strong>Provider DNS only:</strong> for the VPN group enforce provider DNS <em>over the tunnel</em>. Disable “Automatic DNS”.</li>
+      <li><strong>Browser DoH/DoT:</strong> if you must use DoH/DoT, route it via the VPN interface using policy rules — otherwise you’ll leak to an external resolver.</li>
+      <li><strong>IPv6:</strong> some providers don’t tunnel IPv6. If so, disable IPv6 on the “VPN” VLAN to avoid partial leaks that confuse streaming apps.</li>
+      <li><strong>Verification workflow:</strong> reconnect the tunnel → restart streaming apps/browsers → re-run IP/DNS tests → launch iPlayer/Netflix and check for errors.</li>
+    </ul>
+    <p>Deep dive on testing: <a href="/en-gb/blog/vpn-ip-dns-leaks-uk.html">IP/DNS/WebRTC leaks — UK</a>. For OS-level knobs, see <a href="/en-gb/blog/vpn-windows-uk.html">Windows</a>, <a href="/en-gb/blog/vpn-mac-uk.html">macOS</a> and <a href="/en-gb/blog/vpn-android-uk.html">Android</a>.</p>
+  </section>
+
+  <section id="security">
+    <h2>Security hygiene & best practices</h2>
+    <p>Performance is important, but so is hygiene. A few small tweaks keep a router VPN stable and safe for the whole household.</p>
+    <ul>
+      <li><strong>Keep firmware current:</strong> update the router and the VPN profile bundle every few months. New ciphers and bug fixes matter.</li>
+      <li><strong>Use strong admin credentials:</strong> switch off remote management unless you truly need it, and restrict it to your IP if you do.</li>
+      <li><strong>Separate admin and user Wi-Fi:</strong> don’t expose the router UI on the guest SSID. A separate management VLAN is ideal.</li>
+      <li><strong>Kill switch + auto-connect:</strong> let the router reconnect automatically and block WAN if the tunnel drops during the night.</li>
+      <li><strong>Backups:</strong> keep a labelled offline copy of your “known-good” config. If an experiment goes wrong, restore in seconds.</li>
+      <li><strong>Logs for one week:</strong> enable circular VPN logs with a small retention to troubleshoot rare drops without filling storage.</li>
+    </ul>
+  </section>
+
+  <section id="streaming">
+    <h2>Streaming in the UK (BBC iPlayer / Netflix)</h2>
+    <p>Streaming apps are sensitive to IP↔DNS mismatches and to overloaded public exits. Follow these rules and you’ll rarely see a proxy warning.</p>
+    <ul>
+      <li><strong>Keep streaming inside the tunnel:</strong> assign the whole device (Smart TV/Apple TV/Fire TV) to the VPN policy; do not split a single app’s traffic.</li>
+      <li><strong>On “proxy/VPN” errors:</strong> rotate the UK endpoint → <em>fully quit</em> the app (⌘Q/Alt+F4 on desktop; force-close on TVs) → relaunch. In strict networks use OpenVPN <strong>TCP/443</strong>.</li>
+      <li><strong>After changing country or city:</strong> restart apps/TV to refresh peering caches. It solves surprisingly many playback quirks.</li>
+    </ul>
+    <p>Service-specific notes:</p>
+    <ul>
+      <li><strong>BBC iPlayer:</strong> requires a UK IP and consistent DNS. If DNS resolves outside the tunnel, expect instant errors. Keep the TV on the VPN SSID.</li>
+      <li><strong>Netflix UK:</strong> usually stable when the device stays in the VPN policy. Bypassing the tunnel tends to trigger proxy messages or partial catalogues.</li>
+    </ul>
+    <p>Guides: <a href="/en-gb/blog/vpn-bbc-iplayer-uk.html">BBC iPlayer</a> • <a href="/en-gb/blog/vpn-netflix-uk.html">Netflix UK</a> • <a href="/en-gb/blog/vpn-smart-tv-uk.html">Smart TV (UK)</a> • <a href="/en-gb/blog/which-vpn-server-uk.html">Which UK VPN server?</a></p>
+  </section>
+
+  <section id="matrix">
+    <h2>Troubleshooting matrix (symptom → cause → fix)</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr></thead>
+        <tbody>
+          <tr><td>iPlayer/Netflix shows “proxy/VPN”</td><td>IP↔DNS mismatch or flagged exit</td><td>Keep app in VPN; enforce provider DNS; rotate UK server; try TCP/443; fully relaunch the app</td></tr>
+          <tr><td>Only some sites open</td><td>External DoH/DoT outside the tunnel</td><td>Route DoH/DoT via the VPN interface or disable; restart the browser</td></tr>
+          <tr><td>High gaming ping</td><td>Console sits in the VPN policy</td><td>Move console to “Direct”; limit background sync on the VPN group</td></tr>
+          <tr><td>Printer/NAS invisible</td><td>mDNS/Bonjour blocked between VLANs</td><td>Allow mDNS selectively or place printer + client on the same VLAN</td></tr>
+          <tr><td>4K buffering</td><td>CPU-bound router or weak Wi-Fi</td><td>Use WireGuard; Ethernet for TVs; 5 GHz; rotate to a lower-load UK endpoint</td></tr>
+          <tr><td>Random tunnel drops</td><td>Sleep/energy saving or flaky WAN</td><td>Disable router sleep; enable auto-connect & kill switch; check cabling and power</td></tr>
+          <tr><td>Some corporate portals fail</td><td>Region checks or captive SSO</td><td>Put the work laptop on the VPN policy with a UK/EEA endpoint, or keep it direct if your IT requires full corporate VPN</td></tr>
+          <tr><td>Chromecast won’t discover TV</td><td>Broadcast blocked across VLANs</td><td>Allow mDNS/SSDP between the phone VLAN and the TV VLAN or keep them in the same segment</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- CTA #2 -->
+  <section class="cta" aria-label="Bottom CTA">
+    <p>Want simpler setup and stable UK streaming?</p>
+    <p>
+      <a class="btn btn-primary" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="sponsored noopener noreferrer">NordVPN — router profiles + streaming</a>
+      <a class="btn btn-secondary" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="sponsored noopener noreferrer">Surfshark — easy policies, great value</a>
+    </p>
+  </section>
+
+  <section id="faq">
+    <h2>FAQ — quick answers</h2>
+    <dl>
+      <dt>Do all routers support a VPN client?</dt>
+      <dd>No. ISP hubs rarely do. Choose a router with native OpenVPN/WireGuard (Asus/TP-Link/Synology) or consider <a href="/en-gb/blog/vpn-router-setup-uk.html">OpenWrt</a>.</dd>
+
+      <dt>Will a router VPN slow my fibre?</dt>
+      <dd>To a degree. The protocol and CPU matter most. WireGuard is typically several times faster than OpenVPN on the same hardware.</dd>
+
+      <dt>Can I select which devices use the VPN?</dt>
+      <dd>Yes — that’s <a href="#policy">policy routing</a>: TVs/Apple TV via VPN, consoles/IoT direct. Bind DNS to the policy to avoid IP↔DNS conflicts.</dd>
+
+      <dt>What about IPv6 and WebRTC?</dt>
+      <dd>If your provider doesn’t tunnel IPv6, disable it on the “VPN” VLAN to avoid partial leaks. Limit WebRTC IP exposure in the browser. Always enforce provider DNS.</dd>
+
+      <dt>When should I use split tunnelling instead?</dt>
+      <dd>If the issue is a single helper on one device (banking/printer). Use <a href="/en-gb/blog/vpn-split-tunneling-uk.html">split tunnelling</a> rather than moving the whole home.</dd>
+
+      <dt>How do I verify it’s working?</dt>
+      <dd>Join the “VPN” SSID/VLAN, run an IP/DNS leak test — both should show your VPN provider. Launch iPlayer/Netflix; if there’s no proxy warning, routing and DNS are consistent.</dd>
+    </dl>
+  </section>
+
+  <!-- Video (working embed + visible fallback) -->
+  <section id="video" aria-labelledby="video-title">
+    <h2 id="video-title">Video: Clean router VPN setup with policy routing (UK)</h2>
+    <div class="video-wrap">
+      <iframe
+        src="https://www.youtube.com/embed?listType=search&list=Router+VPN+UK+OpenWrt+WireGuard+OpenVPN+policy+routing"
+        title="Router VPN — YouTube" loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <div class="video-fallback" aria-hidden="true">
+        <p style="color:#fff;opacity:.85">Player blocked?</p>
+        <p><a href="https://www.youtube.com/results?search_query=Router+VPN+UK+OpenWrt+WireGuard+OpenVPN+policy+routing" target="_blank" rel="noopener">Open on YouTube</a></p>
+      </div>
+    </div>
+    <p class="muted">Some corporate networks block YouTube iframes. Use the “Open on YouTube” button in that case.</p>
+  </section>
+
+  <!-- Related -->
+  <aside class="related">
+    <h2>Read also</h2>
+    <ul>
+      <li><a href="/en-gb/blog/vpn-router-setup-uk.html">Router VPN setup (UK)</a></li>
+      <li><a href="/en-gb/blog/vpn-split-tunneling-uk.html">Split tunnelling (UK)</a></li>
+      <li><a href="/en-gb/blog/vpn-protocols-uk.html">VPN protocols (UK)</a></li>
+      <li><a href="/en-gb/blog/vpn-smart-tv-uk.html">VPN for Smart TV (UK)</a></li>
+      <li><a href="/en-gb/blog/vpn-windows-uk.html">VPN for Windows</a></li>
+      <li><a href="/en-gb/blog/vpn-mac-uk.html">VPN for macOS</a></li>
+      <li><a href="/en-gb/blog/vpn-android-uk.html">VPN for Android</a></li>
+      <li><a href="/en-gb/blog/vpn-bbc-iplayer-uk.html">BBC iPlayer & VPN</a></li>
+      <li><a href="/en-gb/blog/vpn-netflix-uk.html">Netflix UK & VPN</a></li>
+      <li><a href="/en-gb/blog/which-vpn-server-uk.html">Which UK VPN server?</a></li>
+      <li><a href="/en-gb/blog/best-vpn-uk.html">Best VPN for the UK</a></li>
+    </ul>
+  </aside>
+
+  <!-- Author -->
+  <section class="author" id="author">
+    <img src="/assets/img/authors/denys.webp" alt="Denys Shchur" width="96" height="96" loading="lazy" decoding="async">
+    <div>
+      <h2>About the author</h2>
+      <p><strong>Denys Shchur</strong> — SEO practitioner & VPN enthusiast. Designs router VPN setups with policy routing for stable UK streaming and zero DNS/IPv6 leaks.</p>
+      <p class="muted">More: <a href="/en-gb/blog/best-vpn-uk.html">Best VPN for the UK</a> • <a href="/en-gb/blog/which-vpn-server-uk.html">Which UK VPN server?</a></p>
+    </div>
+  </section>
+</main>
+
+<!-- JSON-LD: Article -->
+<script type="application/ld+json">{
+  "@context":"https://schema.org","@type":"Article",
+  "headline":"VPN on a Router (UK) — Complete Setup, Policy Routing & Streaming Reliability",
+  "description":"Run a VPN on your router in the UK: firmware options, WireGuard/OpenVPN, policy routing per device/VLAN, leak-free DNS/IPv6, reliable iPlayer/Netflix and a fix matrix.",
+  "author":{"@type":"Person","name":"Denys Shchur","image":"https://dloran1.github.io/assets/img/authors/denys.webp"},
+  "image":"https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp",
+  "inLanguage":"en-GB",
+  "mainEntityOfPage":"https://dloran1.github.io/en-gb/blog/vpn-on-router-uk.html"
+}</script>
+
+<!-- JSON-LD: Breadcrumbs -->
+<script type="application/ld+json">{
+  "@context":"https://schema.org","@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://dloran1.github.io/en-gb/"},
+    {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/en-gb/blog/"},
+    {"@type":"ListItem","position":3,"name":"VPN on a Router (UK)","item":"https://dloran1.github.io/en-gb/blog/vpn-on-router-uk.html"}
+  ]}
+</script>
+
+<!-- JSON-LD: FAQ -->
+<script type="application/ld+json">{
+  "@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Do all routers support a VPN client?","acceptedAnswer":{"@type":"Answer","text":"No. ISP hubs rarely support VPN. Choose a router with native OpenVPN/WireGuard (Asus/TP-Link/Synology) or consider OpenWrt."}},
+    {"@type":"Question","name":"Will a router VPN slow my fibre?","acceptedAnswer":{"@type":"Answer","text":"To some extent. Protocol and CPU matter most. WireGuard is usually several times faster than OpenVPN on the same hardware."}},
+    {"@type":"Question","name":"Can I choose which devices use the VPN?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use policy routing: TVs/Apple TV via VPN, consoles/IoT direct. Bind DNS to the policy to avoid IP-to-DNS mismatches."}},
+    {"@type":"Question","name":"What about IPv6 and WebRTC?","acceptedAnswer":{"@type":"Answer","text":"If your provider doesn’t tunnel IPv6, disable it on the “VPN” VLAN to avoid partial leaks. Limit WebRTC IP exposure in the browser. Always enforce provider DNS."}},
+    {"@type":"Question","name":"When should I use split tunnelling?","acceptedAnswer":{"@type":"Answer","text":"If the problem is a single helper on one device (banking/printer), use split tunnelling rather than moving the whole house to a router VPN."}}
+  ]}
+</script>
+
+<footer class="foot">
+  <p>© 2025 VPN World • 
+     <a href="/en-gb/privacy.html">Privacy Policy</a> • 
+     <a href="/pl/polityka-prywatnosci.html" lang="pl">Polityka prywatności</a>
+  </p>
+</footer>
+
+<!-- Includes -->
+<script src="/assets/js/consent.js"></script>
+<script src="/assets/js/privacy.js"></script>
+<script src="/assets/js/langswitch.js"></script>
+</body>
+</html>
