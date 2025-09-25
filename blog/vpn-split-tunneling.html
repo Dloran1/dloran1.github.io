@@ -1,221 +1,293 @@
 <!DOCTYPE html>
-
 <html lang="pl">
 <head>
-<meta charset="utf-8"/>
-<title>Split tunneling w VPN — jak wydzielić ruch (2025)</title>
-<meta content="Split tunneling pozwala wybrać, które aplikacje/strony idą przez VPN, a które łączą się bezpośrednio. Kiedy to ma sens, jak ustawić na Windows, macOS, Android, iOS i Linux, oraz jakie są ryzyka (DNS/IPv6, bankowość, VOD). Poradnik 2025." name="description"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="../../assets/style.css" rel="stylesheet"/><link href="../../assets/style-extensions-vpnpolska.css" rel="stylesheet"/>
-<link href="https://dloran1.github.io/blog/vpn-split-tunneling.html" rel="canonical"/>
-<!-- Open Graph / Twitter -->
-<meta content="article" property="og:type"/>
-<meta content="Split tunneling w VPN — jak wydzielić ruch (2025)" property="og:title"/>
-<meta content="Aplikacje przez VPN czy poza nim? Konfiguracje, scenariusze, bezpieczeństwo i testy." property="og:description"/>
-<meta content="https://dloran1.github.io/blog/vpn-split-tunneling.html" property="og:url"/>
-<meta content="https://dloran1.github.io/assets/img/hero/vpn-split-tunneling.webp" property="og:image"/>
-<meta content="1200" property="og:image:width"/>
-<meta content="628" property="og:image:height"/>
-<meta content="summary_large_image" name="twitter:card"/>
-<!-- JSON-LD: Breadcrumbs -->
-<script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"BreadcrumbList",
-    "itemListElement":[
-      {"@type":"ListItem","position":1,"name":"Strona główna","item":"https://dloran1.github.io/"},
-      {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/blog/index.html"},
-      {"@type":"ListItem","position":3,"name":"Split tunneling w VPN","item":"https://dloran1.github.io/blog/vpn-split-tunneling.html"}
-    ]
-  }
-  </script>
-<link href="/assets/style.css" rel="stylesheet"/><link href="/assets/style-extensions-vpnpolska.css" rel="stylesheet"/><style>.lang-switch{margin:.5rem 0 1rem;font-size:.95rem}.lang-switch a{color:#2E90FA;text-decoration:none;margin:0 6px}.lang-switch a:hover{text-decoration:underline}</style><link href="https://dloran1.github.io/en-gb/blog/vpn-split-tunneling-uk.html" hreflang="en-GB" rel="alternate"/><link href="https://dloran1.github.io/blog/vpn-split-tunneling.html" hreflang="pl-PL" rel="alternate"/><link href="https://dloran1.github.io/en-gb/blog/vpn-split-tunneling-uk.html" hreflang="x-default" rel="alternate"/></head>
-<body><nav aria-label="Language switch" class="lang-switch"><a href="/en-gb/blog/vpn-split-tunneling-uk.html" lang="en-GB">English (UK)</a> | <a href="/blog/vpn-split-tunneling.html" lang="pl-PL">Polski</a></nav>
+  <meta charset="utf-8">
+  <title>Split tunneling w VPN (2025) — jak ustawić, co wykluczyć i jak uniknąć błędów VOD</title>
+  <meta name="description" content="Pełny poradnik split tunneling: reguły aplikacji i domen dla Windows/macOS/Android, polityki na routerze, kiedy wykluczać bankowość/SSO i drukarki, a co zawsze trzymać w tunelu. Brak wycieków DNS/WebRTC i stabilny streaming (TVP/Player/Netflix).">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="canonical" href="https://dloran1.github.io/blog/vpn-split-tunneling.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Split tunneling w VPN (2025) — jak ustawić, co wykluczyć i jak uniknąć błędów VOD">
+  <meta property="og:description" content="Krok po kroku dla Windows, macOS i Android. Reguły aplikacji/URL, polityki na routerze, unikanie wycieków DNS/WebRTC, stabilność TVP/Player/Netflix.">
+  <meta property="og:url" content="https://dloran1.github.io/blog/vpn-split-tunneling.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp">
+  <meta property="og:locale" content="pl_PL">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Split tunneling w VPN (2025) — jak ustawić, co wykluczyć i jak uniknąć błędów VOD">
+  <meta name="twitter:description" content="Reguły aplikacji i domen, router policy routing, brak wycieków i stabilny streaming.">
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp">
+
+  <!-- hreflang -->
+  <link rel="alternate" hreflang="pl-PL" href="https://dloran1.github.io/blog/vpn-split-tunneling.html">
+  <link rel="alternate" hreflang="en-GB" href="https://dloran1.github.io/en-gb/blog/vpn-split-tunneling-uk.html">
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-split-tunneling-uk.html">
+
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/style-extensions-vpnpolska.css">
+  <style>
+    .badge{display:inline-block;padding:.2rem .5rem;border:1px solid rgba(140,140,160,.35);border-radius:6px;font-size:.85rem}
+    .lead{opacity:.9}
+    .note{border-left:3px solid #2E90FA;padding:.85rem 1rem;margin:1rem 0;background:rgba(46,144,250,.06)}
+    .warn{border-left:3px solid #f59e0b;padding:.85rem 1rem;margin:1rem 0;background:rgba(245,158,11,.08)}
+    .danger{border-left:3px solid #ef4444;padding:.85rem 1rem;margin:1rem 0;background:rgba(239,68,68,.08)}
+    .ok{border-left:3px solid #10b981;padding:.85rem 1rem;margin:1rem 0;background:rgba(16,185,129,.08)}
+    .toc ul{margin:.25rem 0 1rem 1.25rem}
+    .table-wrap{overflow-x:auto}
+    .video-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;border:1px solid rgba(140,140,160,.35);background:#000;margin:1rem 0}
+    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    .video-fallback{position:absolute;inset:0;display:flex;gap:12px;align-items:center;justify-content:center;flex-direction:column}
+    .video-fallback a{display:inline-block;padding:10px 16px;border-radius:8px;background:#2E90FA;color:#fff;text-decoration:none}
+    .related ul{columns:2;gap:1rem}
+    .author{display:flex;gap:12px;align-items:center}
+    .author img{border-radius:50%;aspect-ratio:1/1}
+    .lang-switch{margin:.5rem 0 1rem}
+  </style>
+</head>
+<body>
+
+<!-- Language switch -->
+<nav class="lang-switch" aria-label="Language switch">
+  <a href="/en-gb/blog/vpn-split-tunneling-uk.html" lang="en-GB">English (UK)</a> |
+  <a href="/blog/vpn-split-tunneling.html" lang="pl-PL">Polski</a>
+</nav>
+
 <nav aria-label="Główna nawigacja" class="nav">
-<div class="inner">
-<a class="logo" href="../../">VPN Polska</a>
-<div class="menu">
-<a href="../../">Strona główna</a> •
-      <a href="../../blog/index.html">Blog</a>
-</div>
-</div>
+  <div class="inner">
+    <a class="logo" href="/">VPN Polska</a>
+    <div class="menu"><a href="/">Strona główna</a> • <a href="/blog/index.html">Blog</a></div>
+  </div>
 </nav>
+
 <header class="wrap">
-<p class="breadcrumbs"><a href="../../">Strona główna</a> / <a href="../../blog/index.html">Blog</a> / Split tunneling w VPN</p>
-<h1>Split tunneling w VPN — jak wydzielić ruch (2025)</h1>
-<figure class="article-hero">
-<img alt="Split tunneling w VPN — wydzielanie ruchu aplikacji i stron" decoding="async" fetchpriority="high" height="628" loading="eager" src="/assets/img/hero/en-gb/hero-06.webp" width="1200"/>
-</figure>
-<p class="lead"><strong>Split tunneling</strong> pozwala zdecydować, które aplikacje lub domeny idą przez tunel VPN, a które łączą się bezpośrednio. To przyspiesza serwisy lokalne (bank, gry), jednocześnie zachowując prywatność dla reszty. Poniżej — kiedy ma sens, jak ustawić na różnych systemach i jak uniknąć <strong>wycieków DNS/IPv6</strong>.</p>
+  <p class="breadcrumbs"><a href="/">Strona główna</a> / <a href="/blog/index.html">Blog</a> / Split tunneling</p>
+  <h1>Split tunneling w VPN (2025) — jak ustawić, co wykluczyć i jak uniknąć błędów VOD</h1>
+  <figure class="article-hero">
+    <img src="/assets/img/hero/en-gb/hero-06.webp" alt="Split tunneling — aplikacje poza tunelem, przeglądarka w VPN" width="1200" height="630" loading="eager" decoding="async">
+  </figure>
+  <p class="lead">Split tunneling pozwala wskazać aplikacje lub domeny, które ominą tunel VPN. Dzięki temu naprawisz logowania bankowe, narzędzia drukarki czy dostęp do NAS, a jednocześnie zachowasz bezpieczeństwo przeglądarki, VOD i P2P. Niżej dostajesz konkretne kroki dla Windows/macOS/Android oraz polityki na routerze.</p>
+  <p><span class="badge">Aktualizacja: 2025-09-25</span> • <strong>~18–22 min czytania</strong></p>
 </header>
+
 <main class="wrap post" id="top">
-<!-- TOC -->
-<nav aria-label="Spis treści" class="toc">
-<h2>Spis treści</h2>
-<ul>
-<li><a href="#co-to">Czym jest split tunneling i jakie są tryby</a></li>
-<li><a href="#kiedy">Kiedy używać (a kiedy nie)</a></li>
-<li><a href="#konfiguracja">Konfiguracje: Windows, macOS, Android, iOS, Linux</a></li>
-<li><a href="#bezpieczenstwo">Bezpieczeństwo: DNS, IPv6, WebRTC, kill switch</a></li>
-<li><a href="#scenariusze">Scenariusze: VOD, bankowość, gry, praca zdalna, P2P</a></li>
-<li><a href="#testy">Testy i diagnostyka</a></li>
-<li><a href="#checklista">Checklista „użyj z głową”</a></li>
-<li><a href="#faq">FAQ</a></li>
-</ul>
-</nav>
-<h2 id="co-to">Czym jest split tunneling i jakie są tryby</h2>
-<p>To funkcja aplikacji VPN, która rozdziela ruch na dwie grupy: przez tunel oraz poza nim. Najczęstsze tryby:</p>
-<ul>
-<li><strong>Per-app</strong> — wybierasz konkretne aplikacje do tunelu albo z tunelu wykluczasz.</li>
-<li><strong>Per-site (URL/domena)</strong> — reguły dla domen/zakresów; idealne do VOD lub banków.</li>
-<li><strong>Inverse split</strong> — tylko wskazane aplikacje/domeny idą przez VPN, reszta idzie poza nim.</li>
-</ul>
-<p>Podstawy działania VPN: <a href="../../blog/co-to-jest-vpn.html">Co to jest VPN</a>. Różnice względem proxy/Smart DNS: <a href="../../blog/vpn-proxy-vs-vpn.html">Proxy vs VPN</a>, <a href="../../blog/vpn-dla-smart-tv.html">VPN dla Smart TV</a>.</p>
-<h2 id="kiedy">Kiedy używać (a kiedy nie)</h2>
-<ul>
-<li><strong>Używaj</strong>, gdy lokalna usługa (np. bank) blokuje IP VPN lub wymaga polskiego adresu; gdy gra lepiej działa bez tunelu; gdy chcesz maksymalnej przepustowości dla VOD na TV przy zachowaniu VPN w przeglądarce na laptopie.</li>
-<li><strong>Unikaj</strong>, jeśli nie masz pewności co do <strong>DNS/IPv6</strong> — łatwo o niespójność regionu i wykrycie. Zobacz: <a href="../../blog/vpn-dns-leak.html">Wycieki DNS</a>.</li>
-</ul>
-<p>Praca zdalna? Rozdziel ruch prywatny i służbowy: <a href="../../blog/vpn-praca-zdalna.html">VPN a praca zdalna</a>. VOD? Czasem lepszy będzie <strong>Smart DNS</strong>: <a href="../../blog/vpn-netflix-polska.html">Netflix</a>, <a href="../../blog/player-tvp-vpn.html">Player i TVP</a>, <a href="../../blog/tvp-vod-vpn.html">TVP VOD</a>.</p>
-<!-- CTA #1 -->
-<div class="cta">
-<a class="btn btn-primary" href="../../go/nordvpn.html" rel="sponsored nofollow noopener" target="_blank">✅ NordVPN — split tunneling per-app i per-site</a>
-     
-    <a class="btn btn-ghost" href="../../go/surfshark.html" rel="sponsored nofollow noopener" target="_blank">Surfshark — nielimit urządzeń + Smart DNS</a>
-</div>
-<h2 id="konfiguracja">Konfiguracje: Windows, macOS, Android, iOS, Linux</h2>
-<h3>Windows</h3>
-<ul>
-<li>Aplikacja VPN: włącz <strong>Split tunneling</strong> i dodaj programy do „Exclude from VPN” (np. gra) lub „Only use VPN for”.</li>
-<li>Upewnij się, że <strong>Kill switch</strong> działa dla ruchu w tunelu. Więcej o KS: <a href="../../blog/vpn-kill-switch.html">kill switch</a>.</li>
-</ul>
-<h3>macOS</h3>
-<ul>
-<li>Split per-app jest zależny od dostawcy. Alternatywnie użyj profili/automatyzacji (np. różne przeglądarki dla banku vs reszta).</li>
-<li>Preferowany protokół: <a href="../../blog/wireguard-vs-openvpn.html">WireGuard</a> (lub IKEv2 jako profil systemowy).</li>
-</ul>
-<h3>Android</h3>
-<ul>
-<li>W wielu apkach: lista aplikacji „Outside VPN” lub „Through VPN”. Włącz <strong>Always-on + blokuj bez VPN</strong> dla maksymalnej kontroli.</li>
-<li>Wyłącz prywatny DNS poza tunelem, by uniknąć konfliktu z regułami. Patrz: <a href="../../blog/vpn-android-konfiguracja.html">Android</a>.</li>
-</ul>
-<h3>iOS</h3>
-<ul>
-<li>Ograniczone per-app; często prostsze jest inverse split (tylko wybrane aplikacje przez VPN) albo użycie profilu <strong>IKEv2 On-Demand</strong>.</li>
-<li>Dla banku użyj oddzielnej przeglądarki poza VPN, a dla reszty — aplikacja VPN z WireGuard/IKEv2. Zobacz: <a href="../../blog/vpn-iphone-konfiguracja.html">iPhone</a>.</li>
-</ul>
-<h3>Linux</h3>
-<ul>
-<li>Per-app przez <strong>policy routing</strong> (ip rule/iptables/nftables) lub profile NetworkManager; klienci dostawców często oferują prosty split.</li>
-<li>Zabezpiecz regułami zapory, aby aplikacje „VPN-only” nie wychodziły na WAN bez tunelu.</li>
-</ul>
-<h2 id="bezpieczenstwo">Bezpieczeństwo: DNS, IPv6, WebRTC, kill switch</h2>
-<ul>
-<li><strong>DNS</strong>: wymuś DNS dostawcy dla ruchu w tunelu; unikaj zewnętrznego DoH/DoT poza VPN (niespójność IP↔DNS). Wyjaśnienie: <a href="../../blog/vpn-dns-leak.html">Wycieki DNS</a>.</li>
-<li><strong>IPv6</strong>: jeśli nie jest tunelowane — wyłącz, by uniknąć ujawnienia adresu. Gdy dostawca wspiera IPv6, zostaw włączone.</li>
-<li><strong>WebRTC</strong>: w przeglądarce ogranicz ujawnianie IP lokalnego (szczególnie, gdy część kart jest poza VPN).</li>
-<li><strong>Kill switch</strong>: musi blokować ruch aplikacji oznaczonych „VPN-only”, gdy tunel padnie.</li>
-</ul>
-<h2 id="scenariusze">Scenariusze: VOD, bankowość, gry, praca zdalna, P2P</h2>
-<ul>
-<li><strong>VOD</strong>: TV/Apple TV poza VPN (Smart DNS), a przeglądarka/telefon przez VPN. Poradniki: <a href="../../blog/vpn-netflix-polska.html">Netflix</a>, <a href="../../blog/player-tvp-vpn.html">Player i TVP</a>, <a href="../../blog/tvp-vod-vpn.html">TVP VOD</a>.</li>
-<li><strong>Bankowość</strong>: przeglądarka bankowa poza VPN (PL IP) lub przez polski węzeł. Szczegóły: <a href="../../blog/vpn-bankowosc-online.html">bankowość online</a>.</li>
-<li><strong>Gry</strong>: gra poza VPN (czasem niższy ping), ale komunikatory/strumień przez VPN.</li>
-<li><strong>Praca</strong>: narzędzia firmowe (RDP/SSH/CRM) przez VPN, prywatne serwisy poza nim. Zobacz: <a href="../../blog/vpn-praca-zdalna.html">praca zdalna</a>.</li>
-<li><strong>P2P</strong>: klient torrent <em>zawsze</em> w tunelu (VPN-only). Więcej: <a href="../../blog/vpn-p2p-bezpiecznie.html">P2P bezpiecznie</a>, <a href="../../blog/vpn-port-forwarding.html">port forwarding</a>.</li>
-</ul>
-<h2 id="testy">Testy i diagnostyka</h2>
-<ol>
-<li>Sprawdź publiczne IP i <strong>DNS</strong> dla aplikacji w tunelu i poza nim (powinny się różnić zgodnie z regułami).</li>
-<li>Zmierz <strong>ping/jitter</strong> dla gry/połączeń firmowych o różnych porach: <a href="../../blog/test-vpn.html">Test VPN</a>, <a href="../../blog/vpn-szybkosc-test.html">Prędkość i ping</a>.</li>
-<li>Wyłącz VPN awaryjnie — potwierdź, że aplikacje „VPN-only” nie mają łączności (kill switch/Firewall).</li>
-</ol>
-<h2 id="checklista">Checklista „użyj z głową”</h2>
-<ol>
-<li>Zdefiniuj cel: prywatność, VOD, bank, gry, praca.</li>
-<li>Włącz split per-app/per-site zgodnie z celem; trzymaj w tunelu to, co wrażliwe.</li>
-<li>Wymuś <strong>DNS dostawcy</strong>, wyłącz DoH/DoT poza VPN; zadbaj o <strong>IPv6</strong>.</li>
-<li>Aktywny <strong>kill switch</strong> dla aplikacji oznaczonych „VPN-only”.</li>
-<li>Przetestuj IP/DNS i stabilność wieczorem, gdy sieć bywa najbardziej obciążona.</li>
-</ol>
-<!-- CTA #2 -->
-<div class="cta">
-<a class="btn btn-primary" href="../../go/nordvpn.html" rel="sponsored nofollow noopener" target="_blank">✅ Zacznij z NordVPN (split per-app/per-site)</a>
-     
-    <a class="btn btn-ghost" href="../../go/surfshark.html" rel="sponsored nofollow noopener" target="_blank">Surfshark — sprawdź ofertę</a>
-</div>
-<!-- TOP-5 -->
-<section class="top5" id="top5">
-<h2>TOP 5 VPN z dobrym split tunnelingiem (2025)</h2>
-<ol>
-<li><strong>NordVPN</strong> — split per-app i per-site, szybki WireGuard, kill switch. <a href="../../go/nordvpn.html" rel="sponsored nofollow noopener" target="_blank">Sprawdź</a></li>
-<li><strong>Surfshark</strong> — nielimit urządzeń, split per-app, Smart DNS. <a href="../../go/surfshark.html" rel="sponsored nofollow noopener" target="_blank">Zobacz</a></li>
-<li><strong>ExpressVPN</strong> — wkrótce w ofercie.</li>
-<li><strong>CyberGhost</strong> — wkrótce w ofercie.</li>
-<li><strong>Proton VPN</strong> — wkrótce w ofercie.</li>
-</ol>
-</section>
-<!-- FAQ -->
-<section class="faq" id="faq">
-<h2>FAQ — split tunneling</h2>
-<details>
-<summary>Czy split tunneling obniża poziom prywatności?</summary>
-<p>Tylko dla aplikacji poza tunelem — ich ruch nie jest szyfrowany ani ukryty. W tunelu poziom prywatności się nie zmienia.</p>
-</details>
-<details>
-<summary>Czy mogę mieszać split z Smart DNS?</summary>
-<p>Tak. Często TV/Apple TV działa na Smart DNS (poza VPN), a telefon/PC na VPN. Zadbaj o spójność DNS, aby uniknąć błędów regionu.</p>
-</details>
-<details>
-<summary>Dlaczego bank czasem blokuje logowanie przez VPN?</summary>
-<p>Ze względu na nietypową lokalizację IP. Użyj polskiego węzła albo wyklucz aplikację bankową ze splitu tak, by łączyła się poza VPN. Poradnik: <a href="../../blog/vpn-bankowosc-online.html">bankowość online</a>.</p>
-</details>
-</section>
-<!-- YouTube -->
-<div aria-label="Wideo: Split tunneling w VPN — konfiguracja i testy" class="yt-embed">
-<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube-nocookie.com/embed/yCWNRzoQGis?rel=0&amp;modestbranding=1&amp;iv_load_policy=3" title="Split tunneling w VPN — poradnik 2025"></iframe>
-<div class="video-fallback" hidden="True"><p style="color:#fff;opacity:.85">Video unavailable? Open it on YouTube:</p><p><a href="https://www.youtube.com" rel="noopener" target="_blank">Search on YouTube</a></p></div></div>
-<!-- Author -->
-<section class="author">
-<div class="author__media">
-<img alt="Denys Shchur" decoding="async" height="160" loading="lazy" src="/assets/img/hero/en-gb/hero-06.webp" width="160"/>
-</div>
-<div class="author__body">
-<p><strong>Autor: Denys Shchur</strong> — praktyk VPN i SEO.</p>
-<p class="muted">Ostatnia aktualizacja: <time datetime="2025-09-06">06.09.2025</time></p>
-</div>
-</section>
-<aside class="readmore">
-<h2>Czytaj też</h2>
-<p>Powiązane: <a href="../../blog/vpn-optymalne-ustawienia.html">Optymalne ustawienia VPN</a>, <a href="../../blog/vpn-kill-switch.html">Kill switch</a>, <a href="../../blog/vpn-praca-zdalna.html">Praca zdalna</a>, <a href="../../blog/vpn-p2p-bezpiecznie.html">P2P bezpiecznie</a>, <a href="../../blog/vpn-dns-leak.html">Wycieki DNS</a></p>
-</aside>
-<p class="backtop"><a href="#top">↑ Wróć na górę</a></p>
+  <!-- TOC -->
+  <nav class="toc" aria-label="Spis treści">
+    <h2>Spis treści</h2>
+    <ul>
+      <li><a href="#co-to">Na czym polega split tunneling</a></li>
+      <li><a href="#tryby">Aplikacje vs domeny vs tryb odwrócony</a></li>
+      <li><a href="#kiedy">Kiedy używać (PL scenariusze)</a></li>
+      <li><a href="#windows">Windows — kroki</a></li>
+      <li><a href="#mac">macOS — kroki</a></li>
+      <li><a href="#android">Android — kroki</a></li>
+      <li><a href="#router">Polityki na routerze</a></li>
+      <li><a href="#leaks">Unikanie wycieków (DNS/WebRTC/IPv6)</a></li>
+      <li><a href="#vod">Stabilność TVP/Player/Netflix</a></li>
+      <li><a href="#matrix">Tabela napraw</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+  </nav>
+
+  <!-- CTA -->
+  <section class="cta">
+    <p>
+      <a class="btn btn-primary" href="/go/nordvpn.html" target="_blank" rel="sponsored nofollow noopener">NordVPN — split na Windows/Android</a>
+      <a class="btn btn-ghost" href="/go/surfshark.html" target="_blank" rel="sponsored nofollow noopener">Surfshark — reguły aplikacji i URL</a>
+    </p>
+  </section>
+
+  <section id="co-to">
+    <h2>Na czym polega split tunneling</h2>
+    <p>Standardowo VPN szyfruje cały ruch. Split tunneling pozwala wskazać wyjątki: konkretne aplikacje lub domeny ominą tunel i skorzystają z „zwykłego” połączenia. Odwrotna wersja (inverse) kieruje do VPN tylko wybrane programy, a reszta idzie bezpośrednio. To nie jest zapora sieciowa ani blokada reklam — dotyczy wyłącznie wyboru interfejsu sieciowego.</p>
+    <div class="warn"><strong>Zasada #1:</strong> przeglądarki, komunikatory, e-mail i P2P pozostaw w VPN. Wykluczaj tylko te narzędzia, które realnie nie działają za wyjściami VPN.</div>
+  </section>
+
+  <section id="tryby">
+    <h2>Aplikacje vs domeny vs tryb odwrócony</h2>
+    <ul>
+      <li><strong>Według aplikacji:</strong> najbezpieczniej; wykluczasz bankowość, agentów SSO, narzędzia drukarki/NAS.</li>
+      <li><strong>Według domen:</strong> białe listy hostów (np. <code>*.firma.pl</code>). Wymaga wsparcia po stronie dostawcy lub reguł na routerze.</li>
+      <li><strong>Inverse:</strong> tylko wybrane programy (np. przeglądarka + klient P2P) idą przez VPN, reszta bezpośrednio. Przydatne na słabszych routerach.</li>
+    </ul>
+  </section>
+
+  <section id="kiedy">
+    <h2>Kiedy używać (PL scenariusze)</h2>
+    <div class="ok"><strong>Dobry kandydat do wykluczenia:</strong> bankowość online (apki/pomocniki), klienci SSO (Citrix/Okta), narzędzia drukarki/skanera, oprogramowanie NAS/SMB, panele Smart-Home.</div>
+    <div class="danger"><strong>Zostaw w VPN:</strong> przeglądarki (Chrome/Firefox/Edge), VOD (Player/TVP/Netflix), komunikatory, P2P i wszystko, co dotyka danych osobistych.</div>
+    <p class="note">Jeśli chcesz ochronić cały dom (Apple TV, konsole, telewizory), lepiej przenieść split na router: <a href="/blog/vpn-na-routerze.html">VPN na routerze</a> lub <a href="/blog/vpn-router-konfiguracja.html">konfiguracja routera</a> (nazwy dopasuj do realnych plików w projekcie).</p>
+  </section>
+
+  <section id="windows">
+    <h2>Windows — kroki</h2>
+    <ol>
+      <li>W aplikacji VPN włącz <strong>Split tunneling</strong> → tryb „Wyklucz z VPN wybrane aplikacje”.</li>
+      <li>Dodaj: bankowość, launchery SSO, drukarka/skaner, klient NAS.</li>
+      <li>Upewnij się, że włączone jest <strong>„DNS dostawcy”</strong>.</li>
+      <li>Całkowicie zamknij i uruchom ponownie aplikacje, których dotyczy zmiana.</li>
+    </ol>
+    <p>Wydajność: preferuj <strong>WireGuard</strong>, a na sieciach restrykcyjnych użyj OpenVPN <strong>TCP/443</strong>. Pełen poradnik: <a href="/blog/vpn-windows-konfiguracja.html">VPN na Windows</a>.</p>
+  </section>
+
+  <section id="mac">
+    <h2>macOS — kroki</h2>
+    <p>Większość klientów dzieli po aplikacjach. Jeśli potrzebujesz reguł domenowych (np. <code>*.firma.pl</code>), użyj dostawcy z obsługą URL albo przenieś reguły na router. Włącz zaporę macOS, zezwól rozszerzeniom VPN.</p>
+    <ul>
+      <li><strong>Wyklucz:</strong> narzędzia drukarki/NAS, pomocniki bankowe, AirPrint/Bonjour.</li>
+      <li><strong>W VPN:</strong> Safari/Chrome/Firefox, VOD, P2P.</li>
+      <li>Po zmianach wyczyść DNS: <span class="kbd">sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder</span></li>
+    </ul>
+    <p>Poradnik: <a href="/blog/vpn-na-mac.html">VPN na Mac</a>.</p>
+  </section>
+
+  <section id="android">
+    <h2>Android — kroki</h2>
+    <ol>
+      <li>W aplikacji VPN → Split tunneling → <strong>Wyklucz aplikacje</strong>.</li>
+      <li>Dodaj bankowość, drukarki, Smart-Home; przeglądarki i VOD zostaw w tunelu.</li>
+      <li>Włącz <strong>Always-on</strong> i <strong>Blokuj połączenia bez VPN</strong>, jeśli klient to wspiera.</li>
+    </ol>
+    <p>Szczegóły: <a href="/blog/vpn-android-konfiguracja.html">VPN na Androidzie</a>.</p>
+  </section>
+
+  <section id="router">
+    <h2>Polityki na routerze</h2>
+    <p>Najczyściej jest sterować split tunnelingiem na routerze (policy routing): wskazujesz urządzenia/VLAN-y, które mają iść przez VPN, a reszta bezpośrednio. Zyskujesz spójny DNS i brak „kaprysów” pojedynczych urządzeń.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Cel</th><th>Polityka</th><th>Uwagi</th></tr></thead>
+        <tbody>
+          <tr><td>Tylko Apple TV przez VPN</td><td>MAC/IP Apple TV → tabela routingu przez VPN</td><td>Restart Apple TV po zmianach</td></tr>
+          <tr><td>Konsole bezpośrednio, reszta przez VPN</td><td>IP PS5/Xbox → WAN</td><td>Gry online zwykle wolą ruch bezpośredni</td></tr>
+          <tr><td>Smart TV przez VPN, IoT bezpośrednio</td><td>VLAN TV → VPN; VLAN IoT → WAN</td><td>Odcina „gadatliwy” IoT od tunelu</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Więcej: <a href="/blog/vpn-na-routerze.html">VPN na routerze</a> • <a href="/blog/vpn-router-konfiguracja.html">Konfiguracja routera</a> (dopasuj do realnych plików).</p>
+  </section>
+
+  <section id="leaks">
+    <h2>Unikanie wycieków (DNS/WebRTC/IPv6)</h2>
+    <ul>
+      <li><strong>DNS dostawcy:</strong> trzymaj włączone w aplikacji; unikaj zewnętrznego DoH/DoT poza VPN.</li>
+      <li><strong>WebRTC:</strong> ogranicz ujawnianie IP w ustawieniach przeglądarki/rozszerzeniu.</li>
+      <li><strong>IPv6:</strong> jeśli dostawca go nie tuneluje — wyłącz tymczasowo, aby uniknąć częściowych wycieków.</li>
+      <li><strong>Po zmianach:</strong> rozłącz/połącz VPN, zrestartuj aplikacje; przy błędach VOD wyczyść dane aplikacji.</li>
+    </ul>
+    <p>Więcej: <a href="/blog/vpn-dns-leak.html">Wycieki IP/DNS/WebRTC</a>.</p>
+  </section>
+
+  <section id="vod">
+    <h2>Stabilność TVP/Player/Netflix</h2>
+    <ul>
+      <li>Aplikacje VOD trzymaj w tunelu; ominięcie powoduje konflikt IP↔DNS i błędy typu „proxy”.</li>
+      <li>Przy błędzie: zmień węzeł → całkowicie zamknij apkę (Alt+F4/⌘Q) → uruchom ponownie. Na sieciach restrykcyjnych użyj TCP/443.</li>
+      <li>Po zmianie kraju uruchom ponownie aplikacje, by odświeżyć trasę.</li>
+    </ul>
+    <p>Poradniki: <a href="/blog/tvp-vod-vpn.html">TVP VOD</a> • <a href="/blog/player-tvp-vpn.html">Player</a> • <a href="/blog/vpn-netflix-polska.html">Netflix PL</a>.</p>
+  </section>
+
+  <section id="matrix">
+    <h2>Tabela napraw</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Objaw</th><th>Przyczyna</th><th>Naprawa</th></tr></thead>
+        <tbody>
+          <tr><td>Blokada bankowości/SSO</td><td>Wyjście VPN na czarnej liście</td><td>Wyklucz pomocnika bankowego/SSO; przeglądarkę zostaw w VPN</td></tr>
+          <tr><td>Brak widoczności drukarki/NAS</td><td>Discovery LAN blokowane przez tunel</td><td>Wyklucz narzędzia drukarki/NAS; przeglądarka w VPN</td></tr>
+          <tr><td>Błąd VOD „proxy”</td><td>Konflikt IP↔DNS / IP oflagowany</td><td>Trzymaj VOD w tunelu; zmień węzeł; TCP/443; restart aplikacji</td></tr>
+          <tr><td>Test pokazuje DNS ISP</td><td>Zewnętrzny DoH/DoT</td><td>Wymuś DNS dostawcy; rozłącz/połącz; restart przeglądarki</td></tr>
+          <tr><td>Losowe rozłączenia</td><td>Uśpienie/energooszczędzanie</td><td>Wyłącz usypianie podczas sesji; włącz Auto-connect i kill switch</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Wideo (fallback) -->
+  <section aria-labelledby="video-title">
+    <h2 id="video-title">Wideo: Split tunneling — bezpieczne ustawienia</h2>
+    <div class="video-wrap">
+      <div class="video-fallback">
+        <p style="color:#fff;opacity:.85">Wolisz wideo-instrukcję?</p>
+        <p><a href="https://www.youtube.com/results?search_query=split+tunneling+VPN+Windows+macOS+Android+PL" target="_blank" rel="noopener">Szukaj na YouTube</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related -->
+  <aside class="readmore related">
+    <h2>Czytaj też</h2>
+    <ul>
+      <li><a href="/blog/co-to-jest-vpn.html">Co to jest VPN?</a></li>
+      <li><a href="/blog/wireguard-vs-openvpn.html">WireGuard vs OpenVPN</a></li>
+      <li><a href="/blog/vpn-windows-konfiguracja.html">VPN na Windows</a></li>
+      <li><a href="/blog/vpn-na-mac.html">VPN na Mac</a></li>
+      <li><a href="/blog/vpn-android-konfiguracja.html">VPN na Androidzie</a></li>
+      <li><a href="/blog/vpn-publiczne-wifi.html">VPN w publicznym Wi-Fi</a></li>
+      <li><a href="/blog/jaki-serwer-vpn.html">Jaki serwer VPN?</a></li>
+      <li><a href="/blog/dlaczego-vpn-2025.html">Dlaczego VPN w 2025</a></li>
+    </ul>
+  </aside>
+
+  <!-- Author -->
+  <section class="author">
+    <div class="author__media">
+      <img src="/assets/img/authors/denys.webp" alt="Denys Shchur" width="96" height="96" loading="lazy" decoding="async">
+    </div>
+    <div class="author__body">
+      <p><strong>Autor: Denys Shchur</strong> — praktyk VPN i SEO. Pisze poradniki nastawione na praktykę, wydajność i stabilność VOD/bankowości.</p>
+      <p class="muted">Więcej: <a href="/blog/nordvpn-vs-surfshark-pl.html">NordVPN vs Surfshark</a> • <a href="/blog/jaki-serwer-vpn.html">Jaki serwer VPN?</a></p>
+    </div>
+  </section>
 </main>
+
 <!-- JSON-LD: Article -->
-<script type="application/ld+json">
-{
+<script type="application/ld+json">{
   "@context":"https://schema.org",
   "@type":"Article",
   "inLanguage":"pl-PL",
-  "headline":"Split tunneling w VPN — jak wydzielić ruch (2025)",
-  "description":"Split tunneling pozwala decydować, które aplikacje/domeny idą przez VPN. Konfiguracje dla Windows, macOS, Android, iOS i Linux, bezpieczeństwo (DNS/IPv6/WebRTC), scenariusze i testy.",
-  "datePublished":"2025-09-02",
-  "dateModified":"2025-09-06",
-  "image":"https://dloran1.github.io/assets/img/hero/vpn-split-tunneling.webp",
-  "author":{"@type":"Person","name":"Denys Shchur","url":"https://dloran1.github.io/o-autorze.html"},
-  "publisher":{"@type":"Organization","name":"VPN Polska",
-    "logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo-512.png","width":512,"height":512}
-  },
+  "headline":"Split tunneling w VPN (2025) — jak ustawić, co wykluczyć i jak uniknąć błędów VOD",
+  "description":"Split tunneling krok po kroku dla Windows, macOS i Android; polityki na routerze; brak wycieków DNS/WebRTC i stabilny streaming.",
+  "author":{"@type":"Person","name":"Denys Shchur","image":"https://dloran1.github.io/assets/img/authors/denys.webp"},
+  "datePublished":"2025-09-25","dateModified":"2025-09-25",
+  "image":"https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp",
   "mainEntityOfPage":"https://dloran1.github.io/blog/vpn-split-tunneling.html"
-}
-</script>
+}</script>
+
+<!-- JSON-LD: Breadcrumbs -->
+<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Strona główna","item":"https://dloran1.github.io/"},
+    {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/blog/index.html"},
+    {"@type":"ListItem","position":3,"name":"Split tunneling","item":"https://dloran1.github.io/blog/vpn-split-tunneling.html"}
+  ]
+}</script>
+
+<!-- JSON-LD: FAQ -->
+<script type="application/ld+json">{
+  "@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Czy split tunneling jest bezpieczny?","acceptedAnswer":{"@type":"Answer","text":"Tak, jeśli wykluczasz tylko niskoryzykowne narzędzia (bankowość pomocnicza, drukarka/NAS) i zostawiasz przeglądarki, VOD i P2P w tunelu. W aplikacji wymuś DNS dostawcy."}},
+    {"@type":"Question","name":"Dlaczego VOD sypie błędami przy split tunnelingu?","acceptedAnswer":{"@type":"Answer","text":"Bo ruch aplikacji i DNS idą różnymi ścieżkami. Trzymaj VOD w tunelu, zmień węzeł i na sieciach restrykcyjnych użyj TCP/443."}},
+    {"@type":"Question","name":"Czy mogę dzielić po domenach zamiast po aplikacjach?","acceptedAnswer":{"@type":"Answer","text":"Tak — część dostawców obsługuje reguły URL/domen. W innym wypadku przenieś reguły na router (policy routing)."}},
+    {"@type":"Question","name":"Co z IPv6/WebRTC?","acceptedAnswer":{"@type":"Answer","text":"Ogranicz ujawnianie IP WebRTC w przeglądarce i wyłącz IPv6, jeśli dostawca go nie tuneluje. Zawsze używaj DNS dostawcy."}},
+    {"@type":"Question","name":"Kiedy nie używać split tunnelingu?","acceptedAnswer":{"@type":"Answer","text":"Na urządzeniach z danymi wrażliwymi lub gdy wymogi zgodności nakazują pełny tunel. Wtedy stosuj osobne profile lub polityki VLAN na routerze."}}
+  ]
+}</script>
+
 <footer class="foot">
-<p>© 2025 VPN World • 
+  <p>© 2025 VPN World • 
      <a href="/en-gb/privacy.html">Privacy Policy</a> • 
      <a href="/pl/polityka-prywatnosci.html" lang="pl">Polityka prywatności</a>
-</p>
+  </p>
 </footer>
-<!-- Подключения -->
+
+<!-- Scripts -->
 <script src="/assets/js/consent.js"></script>
 <script src="/assets/js/privacy.js"></script>
 <script src="/assets/js/langswitch.js"></script>
