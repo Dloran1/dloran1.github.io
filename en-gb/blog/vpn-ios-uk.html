@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <title>VPN for iOS & iPadOS (UK) — Clean Setup, Private Relay, DNS Leaks, Streaming & Fixes</title>
+  <meta name="description" content="UK-focused iPhone/iPad VPN guide: clean setup, WireGuard vs IKEv2 vs OpenVPN, Private Relay & DoH hygiene, DNS/WebRTC/IPv6 leak checks, reliable BBC iPlayer/Netflix, on-demand rules, captive portals, battery/roaming tips, troubleshooting and FAQ.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/vpn-ios-uk.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="VPN for iOS & iPadOS (UK) — Clean Setup, Private Relay, DNS Leaks, Streaming & Fixes">
+  <meta property="og:description" content="Step-by-step iPhone/iPad VPN setup for the UK: protocols, Private Relay, DNS/DoH hygiene, reliable iPlayer/Netflix and a practical fix matrix.">
+  <meta property="og:url" content="https://dloran1.github.io/en-gb/blog/vpn-ios-uk.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:site_name" content="VPN World">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="VPN for iOS & iPadOS (UK) — Clean Setup, Private Relay, DNS Leaks, Streaming & Fixes">
+  <meta name="twitter:description" content="iOS/iPadOS VPN done right: WireGuard/IKEv2, kill switch, Private Relay, leak checks and streaming reliability.">
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp">
+
+  <!-- hreflang -->
+  <link rel="alternate" hreflang="en-GB" href="https://dloran1.github.io/en-gb/blog/vpn-ios-uk.html">
+  <link rel="alternate" hreflang="pl-PL" href="https://dloran1.github.io/blog/vpn-ios.html">
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-ios-uk.html">
+
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/style-extensions.css">
+  <style>
+    :root{--muted:rgba(140,140,160,.75)}
+    .badge{display:inline-block;padding:.25rem .6rem;border:1px solid rgba(140,140,160,.35);border-radius:6px;font-size:.85rem}
+    .lead{opacity:.92}
+    .note{border-left:3px solid #2E90FA;padding:.9rem 1rem;margin:1rem 0;background:rgba(46,144,250,.06)}
+    .warn{border-left:3px solid #f59e0b;padding:.9rem 1rem;margin:1rem 0;background:rgba(245,158,11,.08)}
+    .danger{border-left:3px solid #ef4444;padding:.9rem 1rem;margin:1rem 0;background:rgba(239,68,68,.08)}
+    .ok{border-left:3px solid #10b981;padding:.9rem 1rem;margin:1rem 0;background:rgba(16,185,129,.08)}
+    .kbd{padding:.1rem .35rem;border:1px solid rgba(140,140,160,.4);border-radius:4px;background:rgba(255,255,255,.06)}
+    .toc ul{margin:.25rem 0 1rem 1.25rem}
+    .table-wrap{overflow-x:auto}
+    .table-wrap table{min-width:900px;border-collapse:collapse}
+    .table-wrap th, .table-wrap td{border:1px solid rgba(140,140,160,.35);padding:.6rem .7rem;text-align:left}
+    .table-wrap thead th{background:rgba(140,140,160,.08)}
+    .video-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;border:1px solid rgba(140,140,160,.35);background:#000;margin:1rem 0}
+    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    .video-fallback{position:absolute;inset:0;display:flex;gap:12px;align-items:center;justify-content:center;flex-direction:column}
+    .video-fallback a{display:inline-block;padding:10px 16px;border-radius:8px;background:#2E90FA;color:#fff;text-decoration:none}
+    .related ul{columns:2;gap:1rem}
+    .author{display:flex;gap:12px;align-items:center}
+    .author img{border-radius:50%;aspect-ratio:1/1}
+    .lang-switch{margin:.5rem 0 1rem}
+    .nav .inner{display:flex;justify-content:space-between;align-items:center}
+    .logo{font-weight:700}
+    .cta .btn{display:inline-block;margin:.25rem .5rem 0 0}
+    .breadcrumbs ul{display:flex;gap:.5rem;flex-wrap:wrap}
+    .breadcrumbs li::after{content:"/";margin:0 .5rem;color:var(--muted)}
+    .breadcrumbs li:last-child::after{content:""}
+    .muted{opacity:.75}
+  </style>
+</head>
+<body>
+
+<!-- Language switch -->
+<nav class="lang-switch" aria-label="Language switch">
+  <a href="/en-gb/blog/vpn-ios-uk.html" lang="en-GB">English (UK)</a> |
+  <a href="/blog/vpn-ios.html" lang="pl-PL">Polski</a>
+</nav>
+
+<!-- Top nav -->
+<nav aria-label="Primary" class="nav">
+  <div class="inner">
+    <a class="logo" href="/en-gb/">VPN World</a>
+    <div class="menu"><a href="/en-gb/">Home</a> • <a href="/en-gb/blog/">Blog</a></div>
+  </div>
+</nav>
+
+<!-- Breadcrumbs -->
+<nav aria-label="Breadcrumb" class="breadcrumbs wrap">
+  <ul>
+    <li><a href="/en-gb/">Home</a></li>
+    <li><a href="/en-gb/blog/">Blog</a></li>
+    <li aria-current="page">VPN for iOS (UK)</li>
+  </ul>
+</nav>
+
+<header class="wrap">
+  <h1>VPN for iOS & iPadOS (UK) — Clean Setup, Private Relay, DNS Leaks, Streaming & Fixes</h1>
+  <figure class="article-hero">
+    <img src="/assets/img/hero/en-gb/hero-06.webp"
+         alt="iPhone and iPad using a UK VPN with leak-free DNS and Private Relay disabled"
+         width="1200" height="630" loading="eager" decoding="async" fetchpriority="high">
+    <figcaption>Set it once — browse safely everywhere, with clean DNS and reliable streaming.</figcaption>
+  </figure>
+  <p class="lead">This UK-focused guide shows how to configure a VPN on iPhone and iPad without random drops, DNS mismatches or streaming errors. You’ll get protocol choices (WireGuard, IKEv2, OpenVPN), iCloud Private Relay hygiene, on-demand behaviour, captive-portal tips, battery-friendly settings, router policies and a practical troubleshooting matrix.</p>
+  <p><span class="badge">Updated: evergreen</span> • <strong>~16–22 min read</strong></p>
+</header>
+
+<main class="wrap post" id="top">
+  <!-- TOC -->
+  <nav class="toc" aria-label="Table of Contents">
+    <h2>On this page</h2>
+    <ul>
+      <li><a href="#prep">Before you start (clean slate)</a></li>
+      <li><a href="#setup">Quick setup (clean & reliable)</a></li>
+      <li><a href="#protocols">Protocols: WireGuard vs IKEv2 vs OpenVPN</a></li>
+      <li><a href="#relay">iCloud Private Relay, DoH & Safari</a></li>
+      <li><a href="#ondemand">On-Demand, Kill Switch & Captive Portals</a></li>
+      <li><a href="#leaks">Avoiding IP/DNS/WebRTC/IPv6 leaks</a></li>
+      <li><a href="#streaming">BBC iPlayer / Netflix reliability</a></li>
+      <li><a href="#battery">Battery, roaming & travel presets</a></li>
+      <li><a href="#router">iPhone with a router VPN (policies)</a></li>
+      <li><a href="#shortcuts">Shortcuts & Focus automations</a></li>
+      <li><a href="#advanced">Advanced: MTU & strict networks</a></li>
+      <li><a href="#matrix">Troubleshooting matrix</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#video">Video</a></li>
+    </ul>
+  </nav>
+
+  <!-- CTA #1 -->
+  <section class="cta" aria-label="Top CTA">
+    <p>Need an iOS client that’s stable with clean DNS?</p>
+    <p>
+      <a class="btn btn-primary" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="sponsored noopener noreferrer">NordVPN — iOS app + WireGuard (NordLynx)</a>
+      <a class="btn btn-secondary" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="sponsored noopener noreferrer">Surfshark — easy iOS setup & clean DNS</a>
+    </p>
+  </section>
+
+  <section id="prep">
+    <h2>Before you start (clean slate)</h2>
+    <p>Old profiles and DNS configs cause the majority of iOS VPN issues. Spend two minutes to reset things properly:</p>
+    <ul>
+      <li><strong>Remove legacy VPN profiles:</strong> <em>Settings → General → VPN & Device Management</em> → delete profiles from old providers.</li>
+      <li><strong>Delete custom DNS profiles:</strong> <em>Settings → General → VPN & Device Management → Configuration Profiles</em> and remove any “DNS/DoH” profiles unless supplied by your VPN and routed <em>through</em> the tunnel.</li>
+      <li><strong>Reset network settings (last resort):</strong> if you’ve experimented with many profiles, consider <em>Settings → General → Transfer or Reset iPhone → Reset → Reset Network Settings</em> (you’ll re-enter Wi-Fi passwords).</li>
+      <li><strong>Update iOS and the VPN app:</strong> bug fixes often target VPN networking and power management.</li>
+    </ul>
+    <p class="note">A clean baseline avoids IP↔DNS mismatches that cause iPlayer/Netflix proxy errors and “some sites don’t load” issues.</p>
+  </section>
+
+  <section id="setup">
+    <h2>Quick setup (clean & reliable)</h2>
+    <ol>
+      <li>Install your provider’s iOS app from the UK App Store.</li>
+      <li>Sign in → allow <strong>VPN configurations</strong> and <strong>Local Network</strong> when prompted.</li>
+      <li>Open the app’s protocol settings and pick <strong>WireGuard/NordLynx</strong> (fastest) or <strong>IKEv2</strong> (smooth handover on Wi-Fi ⇄ 4G/5G).</li>
+      <li>Enable <strong>Use provider DNS</strong>. Avoid external “Secure DNS”/DoH profiles unless you are sure they route via the tunnel.</li>
+      <li>Pick a <strong>UK endpoint</strong> (London/Manchester/Birmingham) and save 2–3 favourites for peak times. Consider adding an EU fallback (Dublin/Amsterdam).</li>
+      <li>Turn on <strong>Auto-connect</strong> and the app’s <strong>Kill Switch</strong>. For IKEv2, ensure <em>Connect On Demand</em> is enabled in the profile.</li>
+      <li>Test: reconnect VPN → run an IP/DNS leak test → launch BBC iPlayer or Netflix and confirm there’s no proxy warning.</li>
+    </ol>
+    <p class="warn"><strong>Per-app split tunnelling:</strong> iOS consumer apps don’t support it. If you need app/domain rules, use a <a href="/en-gb/blog/vpn-on-router-uk.html">router</a> with policy routing.</p>
+  </section>
+
+  <section id="protocols">
+    <h2>Protocols: WireGuard vs IKEv2 vs OpenVPN</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Protocol</th><th scope="col">Pros</th><th scope="col">Cons</th><th scope="col">Use when…</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>WireGuard / NordLynx</td><td>Fastest; low battery; quick handovers; low jitter</td><td>Some captive portals block UDP</td><td>Default for most users and streaming</td></tr>
+          <tr><td>IKEv2</td><td>Great on Wi-Fi⇄4G roaming; native On-Demand; stable on corporate Wi-Fi</td><td>Can be rate-limited by middleboxes</td><td>Travel, patchy networks, office Wi-Fi</td></tr>
+          <tr><td>OpenVPN TCP/443</td><td>Disguises as HTTPS; passes strict firewalls</td><td>Highest battery/latency; head-of-line blocking</td><td>Hotels/campus/enterprise with UDP blocks</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Deep dives: <a href="/en-gb/blog/vpn-protocols-uk.html">VPN protocols (UK)</a> • Router angle: <a href="/en-gb/blog/vpn-on-router-uk.html">VPN on a router</a>.</p>
+  </section>
+
+  <section id="relay">
+    <h2>iCloud Private Relay, DoH & Safari</h2>
+    <p>Apple features that “help with privacy” can clash with your VPN path if misconfigured. Keep it simple:</p>
+    <ul>
+      <li><strong>Disable iCloud Private Relay</strong> for the connection you use with the VPN (<em>Settings → Apple ID → iCloud → Private Relay</em>).</li>
+      <li>If enabled, turn off <strong>“Limit IP address tracking”</strong> in the <em>Wi-Fi network details</em> for the SSID you use with the VPN.</li>
+      <li><strong>Secure DNS/DoH profiles:</strong> avoid installing third-party DoH unless your provider instructs you and routes it via the tunnel.</li>
+      <li><strong>Safari:</strong> it already minimises WebRTC local IP exposure. For third-party browsers, set WebRTC to “public IP only” if the option exists.</li>
+    </ul>
+    <p class="note">Mixed paths (e.g., DNS via Apple/DoH, traffic via VPN) are the #1 reason for geo/streaming errors.</p>
+  </section>
+
+  <section id="ondemand">
+    <h2>On-Demand, Kill Switch & Captive Portals</h2>
+    <ul>
+      <li><strong>Auto-connect</strong> handles daily use. For IKEv2, ensure <em>Connect On Demand</em> keeps sessions alive after sleep/roaming.</li>
+      <li><strong>Captive portals:</strong> when joining hotel/café Wi-Fi, disconnect the VPN, open the splash page, complete the login, then reconnect the VPN. Some apps include a “Detect Captive Portal” toggle — keep it on while travelling.</li>
+      <li><strong>Local network access:</strong> grant “Local Network” permission to the VPN app so AirPrint/Chromecast discovery works; it doesn’t bypass the VPN — it allows local broadcasts.</li>
+      <li><strong>Home/office SSIDs:</strong> consider separate SSIDs: <em>Home-VPN</em> (phones/laptops via VPN) and <em>Home-Direct</em> (consoles/IoT). See <a href="/en-gb/blog/vpn-on-router-uk.html">router VPN</a>.</li>
+    </ul>
+  </section>
+
+  <section id="leaks">
+    <h2>Avoiding IP/DNS/WebRTC/IPv6 leaks</h2>
+    <ul>
+      <li><strong>Provider DNS only:</strong> confirm the app uses its resolver through the tunnel. Reconnect after toggling options.</li>
+      <li><strong>IPv6:</strong> if your provider doesn’t tunnel IPv6, prefer one that does, or disable IPv6 on the VPN SSID at the router to avoid partial leaks.</li>
+      <li><strong>WebRTC:</strong> Safari is conservative; on Chromium-based browsers, limit WebRTC local IPs where offered.</li>
+      <li><strong>Verify regularly:</strong> reconnect → test IP/DNS → relaunch streaming apps. Re-test after iOS/app updates.</li>
+    </ul>
+    <p>More: <a href="/en-gb/blog/vpn-ip-dns-leaks-uk.html">IP/DNS/WebRTC leaks — UK</a>.</p>
+  </section>
+
+  <section id="streaming">
+    <h2>BBC iPlayer / Netflix reliability</h2>
+    <p>A stable, single path is key. iOS can’t split a single app’s traffic in consumer mode, so keep all of the streaming app inside the tunnel:</p>
+    <ul>
+      <li>On error: rotate to another UK server → <em>fully quit</em> the app (swipe away) → relaunch. On strict Wi-Fi, try OpenVPN <strong>TCP/443</strong>.</li>
+      <li>After changing city/country, restart the app/TV stick to refresh peering/DNS caches.</li>
+      <li>Use provider DNS; external DoH will break region checks even if your IP is UK.</li>
+    </ul>
+    <p>Guides: <a href="/en-gb/blog/vpn-bbc-iplayer-uk.html">BBC iPlayer</a> • <a href="/en-gb/blog/vpn-netflix-uk.html">Netflix UK</a> • <a href="/en-gb/blog/vpn-smart-tv-uk.html">Smart TV (UK)</a>.</p>
+  </section>
+
+  <section id="battery">
+    <h2>Battery, roaming & travel presets</h2>
+    <ul>
+      <li><strong>Protocol choice:</strong> WireGuard is the most efficient. IKEv2 is second best, especially when bouncing between Wi-Fi and 4G/5G.</li>
+      <li><strong>Background App Refresh:</strong> allow it for your VPN app so iOS doesn’t suspend the tunnel on sleep.</li>
+      <li><strong>Low Power Mode:</strong> may delay reconnects. Disable it during long sessions if you notice drops.</li>
+      <li><strong>Roaming preset:</strong> save two UK favourites and one nearby EU endpoint (Dublin/Amsterdam) to survive hotel Wi-Fi oddities.</li>
+      <li><strong>Wi-Fi Assist & Private Address:</strong> “Private Wi-Fi Address” can confuse allow-lists tied to MAC. If you use MAC-based rules at home, keep it off for your home SSID.</li>
+      <li><strong>eSIM + hotspot:</strong> if tethering an iPad from an iPhone, run the VPN on the <em>tethering device</em> for simpler paths.</li>
+    </ul>
+  </section>
+
+  <section id="router">
+    <h2>iPhone with a router VPN (policies)</h2>
+    <p>If your home uses a <a href="/en-gb/blog/vpn-on-router-uk.html">router VPN</a>, keep iPhones on the <em>VPN SSID</em> and guests on a <em>Direct</em> SSID. Policy routing prevents DNS conflicts and keeps streaming consistent on TVs, while your phone uses the same UK resolver as the TV.</p>
+    <p class="ok"><strong>Typical split:</strong> Work laptop/iPhone → VPN SSID • Consoles/IoT → Direct • Smart TV/Apple TV → VPN SSID.</p>
+  </section>
+
+  <section id="shortcuts">
+    <h2>Shortcuts & Focus automations</h2>
+    <p>While iOS doesn’t expose per-app split tunnelling, you can still automate <em>when</em> the VPN connects:</p>
+    <ul>
+      <li><strong>Shortcuts → Automations:</strong> create automations “When I open Streaming folder” → <em>Open app</em> → then <em>Open VPN app</em> (most providers deep-link to “connect”).</li>
+      <li><strong>Focus modes:</strong> set a “Travel” Focus that triggers your VPN app and disables Private Relay/Limit IP Tracking on known SSIDs.</li>
+      <li><strong>Widget:</strong> add your provider’s connect/disconnect widget to the Home Screen for one-tap control.</li>
+    </ul>
+  </section>
+
+  <section id="advanced">
+    <h2>Advanced: MTU & strict networks</h2>
+    <p>On some hotel/campus networks, you’ll see video buffering or sites half-loading every few seconds. That can be an MTU issue.</p>
+    <ul>
+      <li><strong>Try a lower MTU</strong> on the VPN (if the app allows) or on your travel router (typical sweet spot 1380–1420 for UDP tunnelling).</li>
+      <li><strong>Fallback to TCP/443</strong> when UDP is throttled; it rides over HTTPS rules but costs some battery/latency.</li>
+      <li><strong>Disable HTTP/3 (QUIC)</strong> in apps that allow it (e.g., some browsers) if the network mangles UDP/443.</li>
+    </ul>
+  </section>
+
+  <section id="matrix">
+    <h2>Troubleshooting matrix</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Symptom</th><th scope="col">Likely cause</th><th scope="col">Fix (order matters)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>iPlayer/Netflix says “proxy/VPN”</td><td>DNS resolved outside tunnel / overloaded exit</td><td>Force provider DNS → rotate UK server → fully quit app → try TCP/443 on strict Wi-Fi</td></tr>
+          <tr><td>Only some sites load</td><td>Private Relay or DoH profile active</td><td>Disable Private Relay & “Limit IP address tracking” → remove external DoH → reconnect VPN</td></tr>
+          <tr><td>Frequent reconnects</td><td>Battery saving / app suspended</td><td>Enable Background App Refresh → use WireGuard → avoid Low Power Mode during sessions</td></tr>
+          <tr><td>Captive portal won’t open</td><td>VPN blocks splash login</td><td>Disconnect VPN → open Wi-Fi page → complete login → reconnect VPN</td></tr>
+          <tr><td>AirPrint/Chromecast not found</td><td>Local discovery permission missing</td><td>Allow “Local Network” for the VPN app; keep devices on same SSID/VLAN</td></tr>
+          <tr><td>App store shows wrong region</td><td>DNS/IP mismatch or cached store</td><td>Reconnect VPN → verify DNS shows provider → restart App Store</td></tr>
+          <tr><td>Random buffering on hotel Wi-Fi</td><td>MTU/UDP shaping</td><td>Lower MTU to ~1400 → use TCP/443 → try nearby EU endpoint</td></tr>
+          <tr><td>Bank flags / OTP loops</td><td>Public shared exit or DNS mismatch</td><td>Ensure provider DNS → if needed use a <a href="/en-gb/blog/vpn-dedicated-ip-uk.html">Dedicated IP</a> just for banking</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- CTA #2 -->
+  <section class="cta" aria-label="Bottom CTA">
+    <p>Want an iOS setup that just works in the UK?</p>
+    <p>
+      <a class="btn btn-primary" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="sponsored noopener noreferrer">NordVPN — fast iOS app</a>
+      <a class="btn btn-secondary" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="sponsored noopener noreferrer">Surfshark — easy on-demand</a>
+    </p>
+  </section>
+
+  <section id="faq">
+    <h2>FAQ — quick answers</h2>
+    <dl>
+      <dt>Does iOS support per-app split tunnelling?</dt>
+      <dd>Not in consumer apps. Per-app VPN exists in MDM/enterprise. For home use, do policies on the router.</dd>
+
+      <dt>Private Relay vs VPN — can I use both?</dt>
+      <dd>No. Private Relay conflicts with the VPN path and DNS. Turn it off while using a VPN.</dd>
+
+      <dt>Which protocol should I pick on iPhone?</dt>
+      <dd>WireGuard (or NordLynx) for speed/battery; IKEv2 for roaming; OpenVPN TCP/443 only for strict networks.</dd>
+
+      <dt>How do I know I’m leak-free?</dt>
+      <dd>Reconnect → run an IP/DNS test (should show your VPN provider) → launch iPlayer/Netflix with no proxy warning.</dd>
+
+      <dt>Is a Dedicated IP better on iOS?</dt>
+      <dd>It reduces banking flags but isn’t a streaming silver bullet. See <a href="/en-gb/blog/vpn-dedicated-ip-uk.html">Dedicated IP (UK)</a>.</dd>
+
+      <dt>Can I automate the VPN on iOS?</dt>
+      <dd>Yes. Use Shortcuts automations (e.g., when opening a Streaming folder) to launch your VPN app, and Focus modes to ensure it connects on travel SSIDs.</dd>
+
+      <dt>Should I disable IPv6 on iOS?</dt>
+      <dd>Prefer providers that tunnel IPv6. If not available, disable IPv6 on the VPN SSID at the router to avoid partial leaks.</dd>
+    </dl>
+  </section>
+
+  <!-- Video (working embed + fallback) -->
+  <section id="video" aria-labelledby="video-title">
+    <h2 id="video-title">Video: iOS VPN — clean UK setup</h2>
+    <div class="video-wrap">
+      <iframe
+        src="https://www.youtube.com/embed?listType=search&list=iOS+VPN+setup+WireGuard+IKEv2+UK"
+        title="iOS VPN — YouTube" loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <div class="video-fallback" aria-hidden="true">
+        <p style="color:#fff;opacity:.85">Player blocked?</p>
+        <p><a href="https://www.youtube.com/results?search_query=iOS+VPN+setup+WireGuard+IKEv2+UK" target="_blank" rel="noopener">Open on YouTube</a></p>
+      </div>
+    </div>
+    <p class="muted">Some corporate networks block YouTube iframes. Use the button above in that case.</p>
+  </section>
+
+  <!-- Related -->
+  <aside class="related">
+    <h2>Read also</h2>
+    <ul>
+      <li><a href="/en-gb/blog/vpn-android-uk.html">VPN for Android</a></li>
+      <li><a href="/en-gb/blog/vpn-windows-uk.html">VPN for Windows</a></li>
+      <li><a href="/en-gb/blog/vpn-mac-uk.html">VPN for macOS</a></li>
+      <li><a href="/en-gb/blog/vpn-on-router-uk.html">VPN on a router (UK)</a></li>
+      <li><a href="/en-gb/blog/vpn-split-tunneling-uk.html">Split tunnelling (UK)</a></li>
+      <li><a href="/en-gb/blog/vpn-ip-dns-leaks-uk.html">IP/DNS/WebRTC leaks — UK</a></li>
+      <li><a href="/en-gb/blog/vpn-protocols-uk.html">VPN protocols (UK)</a></li>
+      <li><a href="/en-gb/blog/best-vpn-uk.html">Best VPN for the UK</a></li>
+    </ul>
+  </aside>
+
+  <!-- Author -->
+  <section class="author" id="author">
+    <img src="/assets/img/authors/denys.webp" alt="Denys Shchur" width="96" height="96" loading="lazy" decoding="async">
+    <div>
+      <h2>About the author</h2>
+      <p><strong>Denys Shchur</strong> — SEO practitioner & VPN enthusiast. Focused on practical iOS setups with clean DNS and reliable UK streaming.</p>
+      <p class="muted">More: <a href="/en-gb/blog/best-vpn-uk.html">Best VPN UK</a> • <a href="/en-gb/blog/which-vpn-server-uk.html">Which UK server?</a></p>
+    </div>
+  </section>
+</main>
+
+<!-- JSON-LD: Article -->
+<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@type":"Article",
+  "headline":"VPN for iOS & iPadOS (UK) — Clean Setup, Private Relay, DNS Leaks, Streaming & Fixes",
+  "description":"How to configure VPN on iPhone/iPad for the UK: protocols, Private Relay, leak prevention, streaming reliability, router policies and troubleshooting.",
+  "author":{"@type":"Person","name":"Denys Shchur","image":"https://dloran1.github.io/assets/img/authors/denys.webp"},
+  "image":"https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp",
+  "inLanguage":"en-GB",
+  "datePublished":"2025-09-01",
+  "dateModified":"2025-09-26",
+  "mainEntityOfPage":"https://dloran1.github.io/en-gb/blog/vpn-ios-uk.html",
+  "publisher":{
+    "@type":"Organization",
+    "name":"VPN World",
+    "logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo-512.png"}
+  }
+}</script>
+
+<!-- JSON-LD: Breadcrumbs -->
+<script type="application/ld+json">{
+  "@context":"https://schema.org","@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://dloran1.github.io/en-gb/"},
+    {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/en-gb/blog/"},
+    {"@type":"ListItem","position":3,"name":"VPN for iOS (UK)","item":"https://dloran1.github.io/en-gb/blog/vpn-ios-uk.html"}
+  ]}
+</script>
+
+<!-- JSON-LD: FAQ -->
+<script type="application/ld+json">{
+  "@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Does iOS support per-app split tunnelling?","acceptedAnswer":{"@type":"Answer","text":"Not in consumer apps. Per-app VPN exists in MDM/enterprise. For home use, do policies on the router."}},
+    {"@type":"Question","name":"Should I disable iCloud Private Relay when using a VPN?","acceptedAnswer":{"@type":"Answer","text":"Yes. Private Relay hijacks DNS and conflicts with the VPN path. Turn it off while the VPN is in use."}},
+    {"@type":"Question","name":"Which VPN protocol is best on iPhone?","acceptedAnswer":{"@type":"Answer","text":"WireGuard (or NordLynx) for speed/battery, IKEv2 for roaming, OpenVPN TCP/443 for strict networks."}},
+    {"@type":"Question","name":"How do I avoid DNS leaks on iOS?","acceptedAnswer":{"@type":"Answer","text":"Use provider DNS over the tunnel, avoid external DoH profiles, and reconnect after changes."}},
+    {"@type":"Question","name":"Can I automate the VPN on iOS?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use Shortcuts automations to launch/connect your VPN app for specific apps or Focus modes, and add a Home Screen widget."}},
+    {"@type":"Question","name":"Is a Dedicated IP useful on iOS?","acceptedAnswer":{"@type":"Answer","text":"It can reduce banking flags/OTP loops but doesn’t guarantee streaming. Use shared UK pools for iPlayer/Netflix."}}
+  ]}
+</script>
+
+<footer class="foot">
+  <p>© 2025 VPN World • 
+     <a href="/en-gb/privacy.html">Privacy Policy</a> • 
+     <a href="/pl/polityka-prywatnosci.html" lang="pl">Polityka prywatności</a>
+  </p>
+</footer>
+
+<!-- Includes -->
+<script src="/assets/js/consent.js"></script>
+<script src="/assets/js/privacy.js"></script>
+<script src="/assets/js/langswitch.js"></script>
+</body>
+</html>
