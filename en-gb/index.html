@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <title>Blog — all articles (UK) | VPN World</title>
+  <meta name="description" content="All UK VPN guides — setup, streaming, speed & privacy.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/">
+  <meta name="google-site-verification" content="ifkQ7gK26aIyTO1EfuvIeHN0EDvtWkpOCOV9iURG-RI">
+
+  <link rel="alternate" hreflang="en-GB" href="https://dloran1.github.io/en-gb/blog/">
+  <link rel="alternate" hreflang="pl-PL" href="https://dloran1.github.io/blog/">
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/">
+
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/style-extensions.css">
+  <style>
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    .header-line{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+    .pill{display:inline-block;padding:.35rem .7rem;border:1px solid rgba(140,140,160,.35);border-radius:999px}
+    .lang{display:flex;gap:8px}
+    .lang a{padding:.35rem .7rem;border:1px solid rgba(140,140,160,.35);border-radius:10px;text-decoration:none}
+    .lang a.active{background:rgba(255,255,255,.05)}
+    .toolbar{display:flex;gap:10px;align-items:center;margin:14px 0}
+    .toolbar input{flex:1;padding:12px 14px;border-radius:12px;border:1px solid rgba(140,140,160,.35);background:rgba(255,255,255,.02);color:inherit}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin:10px 0 32px}
+    .card{border:1px solid rgba(140,140,160,.35);border-radius:14px;background:rgba(255,255,255,.02);padding:14px}
+    .card a{font-weight:700;text-decoration:none}
+    .meta{display:flex;gap:10px;align-items:center;margin-top:8px;opacity:.8;font-size:.92rem}
+    .badge{border:1px solid rgba(140,140,160,.35);border-radius:8px;padding:.15rem .45rem}
+    .muted{opacity:.75}
+  </style>
+
+<script defer data-domain="dloran1.github.io" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ul>
+    <li><a href="/en-gb/">Home</a></li>
+    <li aria-current="page">Blog (UK)</li>
+  </ul>
+</nav>
+
+<header class="wrap">
+  <h1 style="margin-bottom:6px">Blog — all articles (UK)</h1>
+  <p class="muted">All UK guides in one place — setup, streaming, speed &amp; privacy.</p>
+
+  <div class="header-line">
+    <div class="pill">Articles: <strong id="cnt">0</strong></div>
+    <div class="lang" role="navigation" aria-label="Language">
+      <a class="active" href="/en-gb/blog/">English (UK)</a>
+      <a href="/blog/" lang="pl-PL">Polski (PL)</a>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <input id="q" type="search" placeholder="Search titles…">
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="list" class="grid" aria-live="polite"></div>
+</main>
+
+<footer class="foot">
+  <p>© 2025 VPN World • 
+     <a href="/en-gb/privacy.html">Privacy Policy</a> • 
+     <a href="/pl/polityka-prywatnosci.html" lang="pl">Polityka prywatności</a>
+  </p>
+</footer>
+
+<script>
+(async function(){
+  const list = document.getElementById('list');
+  const cnt  = document.getElementById('cnt');
+  const q    = document.getElementById('q');
+
+  const res = await fetch('/sitemap.xml').catch(()=>null);
+  if(!res || !res.ok){ list.innerHTML = '<p class="muted">Failed to load sitemap.xml</p>'; return; }
+
+  const xml  = new DOMParser().parseFromString(await res.text(),'application/xml');
+  const nodes= [...xml.querySelectorAll('url')].map(u => ({
+    loc: u.querySelector('loc')?.textContent?.trim() || '',
+    lastmod: u.querySelector('lastmod')?.textContent?.substring(0,10) || ''
+  }));
+
+  const items = nodes
+    .map(o => { try{ const u=new URL(o.loc); return { path:u.pathname, lastmod:o.lastmod }; } catch { return null; }})
+    .filter(Boolean)
+    .filter(o => o.path.startsWith('/en-gb/blog/') && o.path !== '/en-gb/blog/')
+    .map(o => {
+      const slug = o.path.split('/').pop().replace('.html','');
+      return {
+        path:o.path,
+        title: slug.replace(/-/g,' ').replace(/\b\w/g,s=>s.toUpperCase()),
+        lastmod:o.lastmod
+      };
+    })
+    .sort((a,b)=>a.title.localeCompare(b.title));
+
+  function draw(rows){
+    list.innerHTML = rows.map(r => `
+      <article class="card">
+        <a href="${r.path}">${r.title}</a>
+        <div class="meta"><span class="badge">UK</span>${r.lastmod?`<span>Updated: ${r.lastmod}</span>`:''}</div>
+      </article>`).join('');
+    cnt.textContent = rows.length;
+  }
+  draw(items);
+
+  q.addEventListener('input', () => {
+    const v=q.value.toLowerCase().trim();
+    draw(v?items.filter(it=>it.title.toLowerCase().includes(v)):items);
+  });
+})();
+</script>
+
+<script src="/assets/js/consent.js"></script>
+<script src="/assets/js/privacy.js"></script>
+<script src="/assets/js/langswitch.js"></script>
+
+<script>
+(function(){
+  var GAID = &#x27;G-LR2H6R8H7C&#x27;;
+  if(!GAID || GAID.indexOf('G-')!==0) return;
+  function loadGA4(){
+    if(window._ga4_loaded) return;
+    var s=document.createElement('script'); s.async=true; s.src='https://www.googletagmanager.com/gtag/js?id='+GAID;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', GAID, { 'anonymize_ip': true });
+    window._ga4_loaded = true;
+  }
+  try { if(window.vpnwConsent && window.vpnwConsent.analytics) loadGA4(); } catch(e){}
+  document.addEventListener('vpnw:consent', function(ev){ if(ev && ev.detail && ev.detail.analytics) loadGA4(); });
+})();
+</script>
+
+
+<script>
+(function(){
+  function onClick(e){
+    var a = e.target.closest && e.target.closest('a[data-affiliate]');
+    if(!a) return;
+    var partner = a.getAttribute('data-affiliate') || 'unknown';
+    try { window.plausible && window.plausible('Affiliate Click', { props: { partner: partner } }); } catch(e){}
+    try { window.gtag && window.gtag('event','affiliate_click', { partner: partner }); } catch(e){}
+  }
+  document.addEventListener('click', onClick, true);
+})();
+</script>
+
+</body>
+</html>
