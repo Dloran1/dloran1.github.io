@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<title>VPN z dedykowanym IP — co to jest, kiedy używać, streaming i bankowość — guide</title>
+<meta content="Dedykowany adres IP w VPN: kiedy warto (bankowość, SSO, allow-listy), gdzie nie ma sensu (VOD/prywatność), jak ustawić w aplikacjach i na routerze, split tunneling, DNS/IPv6 bez wycieków, matryca napraw, RODO i praktyczne checklisty." name="description"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<!-- Open Graph -->
+<meta content="article" property="og:type"/>
+<meta content="VPN z dedykowanym IP — co to jest, kiedy używać, streaming i bankowość" property="og:title"/>
+<meta content="Dedykowany IP pomaga w bankowości/SSO i allow-listach, ale ma kompromisy prywatności i ograniczenia VOD. Zobacz konfigurację bez wycieków DNS/IPv6 + checklisty i matrycę napraw." property="og:description"/>
+<meta content="https://dloran1.github.io/blog/vpn-dedykowany-ip.html" property="og:url"/>
+<meta content="https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp" property="og:image"/>
+<meta content="pl_PL" property="og:locale"/>
+<meta content="VPN World" property="og:site_name"/>
+<!-- Twitter -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="VPN z dedykowanym IP — co to jest, kiedy używać, streaming i bankowość" name="twitter:title"/>
+<meta content="Polskie presety: bankowość i SSO bez flag, router PBR, split tunneling i czysty DNS/IPv6, RODO i checklisty." name="twitter:description"/>
+<meta content="https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp" name="twitter:image"/>
+<!-- hreflang -->
+<link href="/assets/style.css" rel="stylesheet"/>
+<link href="/assets/style-extensions-vpnpolska.css" rel="stylesheet"/>
+<style>
+    :root{--muted:rgba(140,140,160,.75)}
+    .badge{display:inline-block;padding:.25rem .6rem;border:1px solid rgba(140,140,160,.35);border-radius:6px;font-size:.85rem}
+    .lead{opacity:.92}
+    .note{border-left:3px solid #2E90FA;padding:.9rem 1rem;margin:1rem 0;background:rgba(46,144,250,.06)}
+    .warn{border-left:3px solid #f59e0b;padding:.9rem 1rem;margin:1rem 0;background:rgba(245,158,11,.08)}
+    .danger{border-left:3px solid #ef4444;padding:.9rem 1rem;margin:1rem 0;background:rgba(239,68,68,.08)}
+    .ok{border-left:3px solid #10b981;padding:.9rem 1rem;margin:1rem 0;background:rgba(16,185,129,.08)}
+    .kbd{padding:.1rem .35rem;border:1px solid rgba(140,140,160,.4);border-radius:4px;background:rgba(255,255,255,.06)}
+    .toc ul{margin:.25rem 0 1rem 1.25rem}
+    .table-wrap{overflow-x:auto}
+    .table-wrap table{min-width:980px;border-collapse:collapse}
+    .table-wrap th, .table-wrap td{border:1px solid rgba(140,140,160,.35);padding:.6rem .7rem;text-align:left}
+    .table-wrap thead th{background:rgba(140,140,160,.08)}
+    .video-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;border:1px solid rgba(140,140,160,.35);background:#000;margin:1rem 0}
+    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    .video-fallback{position:absolute;inset:0;display:flex;gap:12px;align-items:center;justify-content:center;flex-direction:column}
+    .video-fallback a{display:inline-block;padding:10px 16px;border-radius:8px;background:#2E90FA;color:#fff;text-decoration:none}
+    .related ul{columns:2;gap:1rem}
+    .author{display:flex;gap:12px;align-items:center}
+    .author img{border-radius:50%;aspect-ratio:1/1}
+    .lang-switch{margin:.5rem 0 1rem}
+    .nav .inner{display:flex;justify-content:space-between;align-items:center}
+    .logo{font-weight:700}
+    .cta .btn{display:inline-block;margin:.25rem .5rem 0 0}
+    .muted{opacity:.75}
+    .breadcrumbs ul{display:flex;gap:.5rem;flex-wrap:wrap}
+    .breadcrumbs li::after{content:"/";margin:0 .5rem;opacity:.6}
+    .breadcrumbs li:last-child::after{content:""}
+    .checklist li{margin:.35rem 0}
+  </style>
+<script data-domain="dloran1.github.io" defer="" src="https://plausible.io/js/script.js"></script>
+<meta content="2025-10-04" property="article:published_time"/></head>
+<body>
+<!-- Language switch -->
+<nav aria-label="Przełącznik języka" class="lang-switch">
+<a href="/en-gb/blog/vpn-dedicated-ip-uk.html" lang="en-GB">English (UK)</a> |
+  <a href="/blog/vpn-dedykowany-ip.html" lang="pl-PL">Polski</a>
+</nav>
+<!-- Top nav -->
+<nav aria-label="Główna nawigacja" class="nav">
+<div class="inner">
+<a class="logo" href="/">VPN World</a>
+<div class="menu"><a href="/">Strona główna</a> • <a href="/en-us/">Blog</a></div>
+</div>
+</nav>
+<!-- Breadcrumbs -->
+<nav aria-label="Okruszki" class="breadcrumbs wrap">
+<ul>
+<li><a href="/">Strona główna</a></li>
+<li><a href="/en-us/">Blog</a></li>
+<li aria-current="page">VPN z dedykowanym IP</li>
+</ul>
+</nav>
+<header class="wrap">
+<h1>VPN z dedykowanym IP — co to jest, kiedy używać, streaming i bankowość</h1><p>This is the US English version. It summarises key actions, tests and configuration details for VPN usage and security. Full localised text will be extended later.</p><time datetime="2025-10-04">2025-10-04</time><!--LANG_SWITCHER--><nav aria-label="Language switcher" class="lang-switcher" style="margin:16px 0; padding:10px 12px; border:1px solid #e5e7eb; border-radius:10px; font-size:0.95rem; display:flex; flex-wrap:wrap; gap:10px; align-items:center;"><strong style="margin-right:6px;">Language:</strong><span style="opacity:.35; padding:6px 10px; border-radius:8px; border:1px dashed #d1d5db;">pl-PL</span><span style="opacity:.35; padding:6px 10px; border-radius:8px; border:1px dashed #d1d5db;">en-gb</span><a href="/en-us/blog/vpn-dedicated-ip-us.html" hreflang="en-us" lang="en" style="text-decoration:none; padding:6px 10px; border-radius:8px; border:1px solid #111; background:#111; color:#fff;">en-us</a><span style="opacity:.35; padding:6px 10px; border-radius:8px; border:1px dashed #d1d5db;">de</span><span style="opacity:.35; padding:6px 10px; border-radius:8px; border:1px dashed #d1d5db;">fr</span><span style="opacity:.35; padding:6px 10px; border-radius:8px; border:1px dashed #d1d5db;">es</span><span style="opacity:.35; padding:6px 10px; border-radius:8px; border:1px dashed #d1d5db;">be</span></nav><!--/LANG_SWITCHER-->
+<figure class="article-hero">
+<img alt="Dedykowany adres IP w VPN — stabilne logowania bankowe i SSO" decoding="async" fetchpriority="high" height="630" loading="eager" src="/assets/img/hero/en-gb/hero-06.webp" width="1200"/>
+<figcaption>Mniej flag bezpieczeństwa przy logowaniu i SSO — pamiętaj jednak o kompromisach prywatności oraz VOD.</figcaption>
+</figure>
+<p class="lead">Dedykowany IP (DIP) to stały adres wyjściowy w sieci VPN przypisany wyłącznie do Twojego konta. Dzięki temu bankowość, SSO i panele z allow-listą IP rzadziej zgłaszają alarmy. To nie jest jednak „lepszy VPN do wszystkiego”: DIP ma koszty prywatności i bywa gorzej traktowany przez serwisy VOD. W tym poradniku dostajesz jasne zasady <em>kiedy DIP ma sens</em>, gdzie <em>lepiej zostać przy IP współdzielonym</em>, jak ustawić DIP czyściutko w aplikacjach i na routerze (bez wycieków DNS/IPv6), jak łączyć go ze <a href="/blog/vpn-split-tunneling.html">split tunnelingiem</a> oraz pełną <strong>matrycę napraw</strong>.</p>
+<p><span class="badge">Aktualizacja: evergreen</span> • <strong>~2300 słów • 12–16 min czytania</strong></p>
+</header>
+<main class="wrap post" id="top">
+<!-- TOC -->
+<nav aria-label="Spis treści" class="toc">
+<h2>Spis treści</h2>
+<ul>
+<li><a href="#co-to">Czym jest dedykowany IP</a></li>
+<li><a href="#typy">Dedykowany vs statyczny vs współdzielony</a></li>
+<li><a href="#plusy-minusy">Plusy i minusy DIP</a></li>
+<li><a href="#kiedy">Kiedy używać w Polsce (scenariusze)</a></li>
+<li><a href="#prywatnosc">Prywatność: ryzyka i higiena</a></li>
+<li><a href="#vod">Streaming i katalogi VOD</a></li>
+<li><a href="#konfiguracja">Konfiguracja: Windows / macOS / Android</a></li>
+<li><a href="#router">Router: OpenWrt / Asus / TP-Link</a></li>
+<li><a href="#split">Split tunneling z DIP (presety)</a></li>
+<li><a href="#weryfikacja">Testy: IP/DNS/WebRTC/IPv6</a></li>
+<li><a href="#koszt">Koszt i wybór dostawcy</a></li>
+<li><a href="#bledy">Najczęstsze błędy i mity</a></li>
+<li><a href="#rodo">RODO i zgodność (compliance)</a></li>
+<li><a href="#case">Mini case studies</a></li>
+<li><a href="#alternatywy">Alternatywy dla DIP</a></li>
+<li><a href="#checklist">Checklist szybkiego startu</a></li>
+<li><a href="#matrix">Tabela napraw</a></li>
+<li><a href="#faq">FAQ</a></li>
+<li><a href="#slownik">Słowniczek pojęć</a></li>
+<li><a href="#video">Wideo</a></li>
+</ul>
+</nav>
+<!-- CTA #1 -->
+<section aria-label="CTA górny" class="cta">
+<p>Szukasz dostawcy z dedykowanym IP (PL/UK) i profilami na router?</p>
+<p>
+<a class="btn btn-primary" href="/go/nordvpn.html" rel="sponsored nofollow noopener" target="_blank">NordVPN — Dedicated IP (PL/UK)</a>
+<a class="btn btn-ghost" href="/go/surfshark.html" rel="sponsored nofollow noopener" target="_blank">Surfshark — Static/Dedicated + prosta konfiguracja</a>
+</p>
+</section>
+<section id="co-to">
+<h2>Czym jest dedykowany IP</h2>
+<p>Dedykowany IP (DIP) to adres wyjściowy, który w infrastrukturze VPN jest przypisany wyłącznie do Twojego konta. W przeciwieństwie do puli współdzielonej, gdzie setki użytkowników „wychodzą” na świat jednym IP, tutaj to IP należy tylko do Ciebie — jest stabilne i przewidywalne.</p>
+<p>Efekt: mniej capthch, mniej pętli OTP w bankowości (SCA), mniej „nietypowej aktywności” w SSO i panelach administracyjnych. W zamian — mniejsza „anonimowość tłumu” i (czasami) gorsza tolerancja platform streamingowych na długowieczne adresy DC.</p>
+<div class="note"><strong>Na skróty:</strong> DIP = stabilność i allow-listy. IP współdzielone = większa prywatność i zwykle lepsze VOD.</div>
+</section>
+<section id="typy">
+<h2>Dedykowany vs statyczny vs współdzielony</h2>
+<p>Marketingowo bywa chaos. Rozróżniaj precyzyjnie:</p>
+<ul>
+<li><strong>Dedykowany IP (Dedicated):</strong> ekskluzywny dla Ciebie. Minimum flag, ale mniejsza „deniability”.</li>
+<li><strong>Statyczny IP (Static):</strong> adres nie rotuje, ale może być <em>współdzielony</em> z innymi. Zachowuje się lepiej niż typowa pula, lecz to nie to samo co DIP.</li>
+<li><strong>Współdzielony IP (Shared/rotacyjny):</strong> duża pula użytkowników, często rotowana. Największa prywatność tłumu, lecz najwięcej captcha i ostrzeżeń.</li>
+</ul>
+<div class="warn"><strong>Warto dopytać support:</strong> „Czy IP jest ekskluzywne dla mojego konta?”. Jeśli nie — traktuj je jako współdzielone.</div>
+</section>
+<section id="plusy-minusy">
+<h2>Plusy i minusy DIP</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th scope="col">Aspekt</th>
+<th scope="col">Dedykowany IP</th>
+<th scope="col">IP współdzielone</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>Bankowość/SSO</td><td>Mniej flag i pętli OTP</td><td>Częściej ostrzeżenia i blokady</td></tr>
+<tr><td>Allow-listy (API, panele)</td><td>Idealny — stabilne źródło</td><td>Trudny — IP bywa zmienne</td></tr>
+<tr><td>VOD/streaming</td><td>Bywa szybciej oflagowany</td><td>Pule rotacyjne zwykle skuteczniejsze</td></tr>
+<tr><td>Prywatność</td><td>Mniejsza anonimowość tłumu</td><td>Największa „deniability”</td></tr>
+<tr><td>Koszt</td><td>Dodatkowa opłata roczna</td><td>W cenie planu</td></tr>
+</tbody>
+</table>
+</div>
+<p>Jeśli Twoim celem jest <em>stabilny dostęp</em> (bankowość, SSO, allow-listy) — DIP ma sens. Dla <em>prywatności i rozrywki</em> często lepsze są pule współdzielone.</p>
+</section>
+<section id="kiedy">
+<h2>Kiedy używać w Polsce (scenariusze)</h2>
+<ul>
+<li><strong>Bankowość/SCA:</strong> mniej ostrzeżeń, mniej „nietypowej aktywności”.</li>
+<li><strong>SSO/firmowe panele:</strong> Okta/Citrix/SharePoint rzadziej odrzucą logowanie.</li>
+<li><strong>Allow-listy IP (SaaS/API):</strong> DIP jako klucz wejściowy.</li>
+<li><strong>Dostęp do domu:</strong> NAS/Home Assistant z regułą „tylko z tego IP”.</li>
+</ul>
+<div class="danger"><strong>Nie używaj jako „zawsze”:</strong> prywatne surfowanie (P2P, social, badania) i katalogi VOD — tu zazwyczaj wygrywa IP współdzielone + w razie potrzeby <a href="/blog/vpn-na-routerze.html">VPN na routerze</a> z politykami.</div>
+</section>
+<section id="prywatnosc">
+<h2>Prywatność: ryzyka i higiena</h2>
+<p>DIP jest powiązany z Twoim kontem, więc anonimowość tłumu maleje. Dobre praktyki:</p>
+<ul>
+<li><strong>Dwa profile:</strong> „Prywatność” (IP współdzielone) i „Stabilność” (DIP). Przeglądanie/VOD/P2P trzymaj w „Prywatność”.</li>
+<li><strong>DNS w tunelu:</strong> w aplikacji włącz „DNS dostawcy”. Zewnętrzny DoH/DoT poza tunelem = konflikt IP↔DNS (zobacz <a href="/blog/vpn-dns-leak.html">wycieki IP/DNS/WebRTC</a>).</li>
+<li><strong>IPv6/WebRTC:</strong> gdy dostawca nie tuneluje IPv6 — wyłącz IPv6 w systemie lub VLAN „VPN”. Ogranicz ujawnianie IP przez WebRTC w przeglądarce.</li>
+<li><strong>Higiena urządzeń:</strong> aktualizacje, auto-connect, kill switch. Przy przełączaniu profili — pełny restart przeglądarki/aplikacji.</li>
+</ul>
+<p class="note"><strong>Tip:</strong> jeśli wymuszasz DoH/DoT, trasuj go interfejsem VPN (policy routing), inaczej testy DNS pokażą ISP i posypią się błędy VOD.</p>
+</section>
+<section id="vod">
+<h2>Streaming i katalogi VOD</h2>
+<p>Dedykowany IP nie jest „magicznym kluczem” do VOD — bywa wręcz szybciej flagowany. Dlatego:</p>
+<ul>
+<li><strong>VOD na pulach współdzielonych:</strong> zwykle stabilniejsze (Netflix/Player/TVP VOD).</li>
+<li><strong>Całe urządzenie w tunelu:</strong> nie dziel ruchu jednej aplikacji na różne ścieżki (mismatch IP↔DNS = błąd proxy).</li>
+<li><strong>Gdy pojawi się „proxy/VPN”:</strong> zmień na węzeł współdzielony → <em>zamknij całkowicie</em> aplikację (⌘Q/Alt+F4 lub force-close na TV) → uruchom ponownie.</li>
+<li><strong>Zmiana miasta/kraju:</strong> restart aplikacji/TV odświeża peering i cache DNS.</li>
+</ul>
+<p>Praktyczne poradniki: <a href="/blog/tvp-vod-vpn.html">TVP VOD</a> • <a href="/blog/player-tvp-vpn.html">Player</a> • <a href="/blog/vpn-netflix-polska.html">Netflix PL</a> • <a href="/blog/vpn-dla-smart-tv.html">VPN na Smart TV</a>.</p>
+</section>
+<section id="konfiguracja">
+<h2>Konfiguracja: Windows / macOS / Android</h2>
+<ol>
+<li><strong>Aktywuj DIP:</strong> w panelu dostawcy wykup/aktywuj adres w wybranej lokalizacji (PL/UK). W aplikacji pojawi się pozycja typu „Dedicated IP — Warszawa/Londyn”.</li>
+<li><strong>Łączenie:</strong> wybierz „Dedicated IP — PL/UK”, dodaj do ulubionych.</li>
+<li><strong>DNS dostawcy:</strong> włączone. Opcja „Automatic DNS” lub przeglądarkowy „Secure DNS” poza tunelem = kłopoty.</li>
+<li><strong>Kill switch + auto-connect:</strong> włącz, zwłaszcza na laptopie/telefonie.</li>
+<li><strong>Higiena aplikacji:</strong> po przełączeniu między DIP a współdzielonym — pełny restart przeglądarek i aplikacji VOD.</li>
+</ol>
+<p>Więcej kroków OS: <a href="/blog/vpn-windows-konfiguracja.html">Windows</a> • <a href="/blog/vpn-na-mac.html">macOS</a> • <a href="/blog/vpn-android-konfiguracja.html">Android</a>. Kontrola per-apka: <a href="/blog/vpn-split-tunneling.html">split tunneling</a>.</p>
+</section>
+<section id="router">
+<h2>Router: OpenWrt / Asus / TP-Link</h2>
+<p>Najczyściej działa układ <em>dwóch tuneli</em> i polityk (PBR): <strong>PL-DIP</strong> oraz <strong>PL-Shared</strong>. Przykładowy podział:</p>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th scope="col">Urządzenie/Grupa</th>
+<th scope="col">Polityka</th>
+<th scope="col">Uwagi</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>Laptop służbowy / admin</td><td>PL-DIP</td><td>Stabilne IP, mniej flag SSO; wymuś DNS dostawcy</td></tr>
+<tr><td>Smart TV / Apple TV</td><td>PL-Shared</td><td>Pule rotacyjne → mniej błędów „proxy”</td></tr>
+<tr><td>Konsole</td><td>Direct (WAN)</td><td>Niższa latencja i jitter</td></tr>
+<tr><td>IoT</td><td>Direct (WAN)</td><td>Nie „zaśmieca” tunelu</td></tr>
+</tbody>
+</table>
+</div>
+<h3>OpenWrt (skrót)</h3>
+<ol>
+<li><code>opkg install luci-app-wireguard luci-app-pbr</code> (lub profil OpenVPN + <code>pbr</code>).</li>
+<li>Dodaj interfejsy: <code>wg-dip</code> i <code>wg-shared</code> (albo odpowiedniki OpenVPN).</li>
+<li>W <em>Services → PBR</em> dodaj reguły (MAC/IP/VLAN): laptop → <code>wg-dip</code>; TV → <code>wg-shared</code>; konsole/IoT → <code>wan</code>.</li>
+<li>W <em>DHCP and DNS</em> przypisz serwery DNS dostawcy do VLAN/SSID „VPN”.</li>
+</ol>
+<h3>Asus (stock / Asuswrt-Merlin)</h3>
+<ul>
+<li><em>VPN Client</em>: utwórz profile DIP i Shared. W <em>Policy Rules/VPN Director</em> przypisz urządzenia.</li>
+<li>Włącz <em>Block routed clients if VPN is down</em> (kill switch dla grupy VPN).</li>
+</ul>
+<h3>TP-Link / Synology</h3>
+<ul>
+<li>Jeśli GUI wspiera dwa profile klienta VPN — przypisz je do hostów/SSID.</li>
+<li>Gdy GUI zbyt „skromne” — rozważ dodatkowy router z <a href="/blog/vpn-na-routerze.html">OpenWrt</a> za hubem operatora.</li>
+</ul>
+<p>Architektura w praktyce: <a href="/blog/vpn-na-routerze.html">VPN na routerze</a> (topologie, VLAN-y), protokoły: <a href="/blog/wireguard-vs-openvpn.html">WireGuard vs OpenVPN</a>.</p>
+</section>
+<section id="split">
+<h2>Split tunneling z DIP (presety)</h2>
+<p>Na pojedynczym komputerze najbezpieczniej zostawić przeglądarki i VOD na IP współdzielonym, a do DIP przepuścić tylko <em>konkretną</em> aplikację, która tego wymaga (np. asystent bankowy, klient kadrowo-płacowy).</p>
+<ul>
+<li><strong>Windows/macOS:</strong> w kliencie VPN wybierz „wyklucz z VPN wybrane aplikacje” i wskaż tylko helper DIP (jeśli DIP masz w osobnym profilu — odwrotnie: utrzymaj przeglądarki na profilu współdzielonym).</li>
+<li><strong>Android:</strong> włącz „Always-on VPN” + „Blokuj połączenia bez VPN”, a w split-list dodaj jedynie apkę pomocniczą.</li>
+<li><strong>Test:</strong> w przeglądarce test IP/DNS (ma wskazywać pulę współdzieloną), w helperze – panel powinien widzieć Twoje DIP.</li>
+</ul>
+<p>Pełna metodyka: <a href="/blog/vpn-split-tunneling.html">split tunneling</a>.</p>
+</section>
+<section id="weryfikacja">
+<h2>Testy: IP/DNS/WebRTC/IPv6</h2>
+<ul>
+<li><strong>IP/DNS:</strong> po zmianie profilu rozłącz/połącz VPN i <em>restartuj</em> aplikacje. IP i DNS powinny pokazywać ten sam dostawca/ścieżkę.</li>
+<li><strong>WebRTC:</strong> ogranicz ujawnianie lokalnych IP w przeglądarce (wbudowane ustawienia lub lekkie rozszerzenie).</li>
+<li><strong>IPv6:</strong> brak tunelowania u dostawcy → tymczasowo wyłącz w systemie lub w VLAN „VPN”.</li>
+<li><strong>DoH/DoT:</strong> wymuś trasowanie interfejsem VPN lub wyłącz, inaczej pojawi się konflikt IP↔DNS.</li>
+</ul>
+<p>Więcej: <a href="/blog/vpn-dns-leak.html">Wycieki IP/DNS/WebRTC</a>.</p>
+</section>
+<section id="koszt">
+<h2>Koszt i wybór dostawcy</h2>
+<p>DIP to zazwyczaj <em>dodatkowo płatny</em> moduł do abonamentu VPN. Przy wyborze zwróć uwagę na:</p>
+<ul>
+<li><strong>Lokalizacje DIP:</strong> czy dostępne są PL/UK i jak łatwa jest zmiana miasta (np. Warszawa, Londyn).</li>
+<li><strong>Protokół i aplikacje:</strong> wsparcie dla WireGuard/OpenVPN w kliencie <em>i</em> na routerze.</li>
+<li><strong>Polityki na routerze:</strong> czy dostawca ma gotowe profile i tutoriale dla <a href="/blog/vpn-na-routerze.html">OpenWrt/Asus</a>.</li>
+<li><strong>Wsparcie VOD (poza DIP):</strong> kuracja pul współdzielonych, szybkie rotacje węzłów.</li>
+<li><strong>Wsparcie i SLA:</strong> realny support, nie tylko chat-bot. Przy DIP liczy się szybkość reakcji.</li>
+</ul>
+<p>Jeśli DIP ma służyć głównie do bankowości/SSO — nie przepłacaj za egzotyczne regiony. Ważniejsze są stabilność i zgodny DNS niż „ilość flag na mapie”.</p>
+</section>
+<section id="bledy">
+<h2>Najczęstsze błędy i mity</h2>
+<ul>
+<li><strong>„DIP = większa prywatność”</strong> — odwrotnie. To wygoda i stabilność, ale mniejsza „anonimowość tłumu”.</li>
+<li><strong>Mieszanie DNS:</strong> systemowy DoH „na skróty” poza tunelem powoduje błędy w VOD i panele 2FA „na czerwono”.</li>
+<li><strong>Jedna polityka dla całego domu:</strong> wrzucenie wszystkiego w DIP kończy się wysokim pingiem na konsoli i błędami w streamingu. Zrób PBR.</li>
+<li><strong>„Static = Dedicated”:</strong> nie zawsze. Dopytaj support — to <em>klucz</em> przed zakupem.</li>
+<li><strong>Brak restartu aplikacji:</strong> po przełączeniu profilu pamięć DNS/peeringu potrafi trzymać stare ścieżki.</li>
+</ul>
+</section>
+<section id="rodo">
+<h2>RODO i zgodność (compliance)</h2>
+<p>DIP bywa używany w małych firmach do dostępu administracyjnego. Minimalne zalecenia:</p>
+<ul>
+<li><strong>Segmentacja:</strong> VLAN „VPN-Admin” z dostępem po DIP, osobno „VPN-Media” na współdzielonej puli.</li>
+<li><strong>Audyt:</strong> notuj, które systemy akceptują DIP (allow-list), trzymaj wersjonowane profile na routerze.</li>
+<li><strong>Hasła/klucze:</strong> rotacja zgodnie z polityką dostawcy; ogranicz dostęp po MAC/VLAN (PBR).</li>
+<li><strong>Logi po Twojej stronie:</strong> nie musisz gromadzić treści, ale logi dostępu (kto/ kiedy) w SIEM poprawiają traceability.</li>
+</ul>
+<p>To nie jest porada prawna — chodzi o higienę wdrożenia i minimalny porządek w politykach.</p>
+</section>
+<section id="case">
+<h2>Mini case studies</h2>
+<ul>
+<li><strong>Mały software house:</strong> allow-lista DIP do panelu produkcyjnego + 2FA. Przeglądanie i repozytoria przez współdzieloną pulę. Efekt: mniej capthch, mniej błędnych blokad przy deployu.</li>
+<li><strong>Domowe biuro:</strong> laptop w DIP (SSO), TV i telefony na współdzielonej puli, konsole/IoT bezpośrednio. Zniknęły „proxy errors” w VOD, a bank przestał pytać o OTP przy każdym logowaniu.</li>
+<li><strong>Freelancer HR:</strong> klient wymagał allow-listy IP do panelu kadrowego. DIP rozwiązał temat bez wykupowania statycznego IP u ISP.</li>
+</ul>
+</section>
+<section id="alternatywy">
+<h2>Alternatywy dla DIP</h2>
+<ul>
+<li><strong>Static (współdzielony) IP:</strong> tańszy, ale nie ekskluzywny — ok do mniej wymagających portali.</li>
+<li><strong>Własny serwer w chmurze + tunel:</strong> pełna kontrola, więcej konfiguracji po Twojej stronie; pamiętaj o aktualizacjach/patchowaniu.</li>
+<li><strong>Proxy rezydencyjne:</strong> specyficzne przypadki (np. testy reklam). Nie mieszaj z kontami prywatnymi — zasady serwisów mogą tego zabraniać.</li>
+<li><strong>Brak DIP + dobre PBR:</strong> często wystarczy: bankowość na współdzielonej puli bywa stabilna, jeśli provider dba o reputację węzłów i DNS.</li>
+</ul>
+</section>
+<section id="checklist">
+<h2>Checklist szybkiego startu</h2>
+<ul class="checklist">
+<li>✔ Kup/aktywuj <strong>DIP w PL/UK</strong> u sprawdzonego dostawcy.</li>
+<li>✔ W aplikacji zapisz dwa profile: <strong>DIP</strong> i <strong>Shared</strong>. Włącz <strong>kill switch</strong> + <strong>provider DNS</strong>.</li>
+<li>✔ Na routerze utwórz <strong>PL-DIP</strong>, <strong>PL-Shared</strong> i polityki PBR (laptop → DIP, TV → Shared, konsole/IoT → WAN).</li>
+<li>✔ Wyłącz <strong>IPv6</strong> na segmencie „VPN”, jeśli dostawca go nie tuneluje.</li>
+<li>✔ Sprawdź <strong>IP/DNS/WebRTC</strong> po każdym przełączeniu profilu.</li>
+<li>✔ Przy błędzie <strong>„proxy/VPN”</strong> w VOD — zmień węzeł na współdzielony i <em>pełny restart</em> aplikacji.</li>
+<li>✔ Zrób <strong>backup</strong> konfiguracji routera po udanych testach.</li>
+</ul>
+</section>
+<section id="matrix">
+<h2>Tabela napraw (symptom → przyczyna → fix)</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th scope="col">Objaw</th>
+<th scope="col">Przyczyna</th>
+<th scope="col">Naprawa (kolejność)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bank/SSO pyta w kółko o OTP</td>
+<td>DIP nie „doszedł” / DNS poza tunelem</td>
+<td>1) Przełącz/połącz na DIP 2) Wymuś DNS dostawcy 3) Pełny restart przeglądarki 4) Ewentualnie: przeglądanie na współdzielonym, DIP tylko dla helpera</td>
+</tr>
+<tr>
+<td>VOD: „proxy/VPN”</td>
+<td>Flagowany DIP lub mismatch IP↔DNS</td>
+<td>1) Użyj węzła współdzielonego 2) Zamknij i uruchom appkę od nowa 3) Na sieciach restrykcyjnych — OpenVPN TCP/443</td>
+</tr>
+<tr>
+<td>CAPTCHA w panelu admin</td>
+<td>Współdzielona pula „hałaśliwa”</td>
+<td>Wejdź przez DIP do panelu; przeglądanie zostaw na IP współdzielonym</td>
+</tr>
+<tr>
+<td>API odrzuca połączenie</td>
+<td>IP nie jest na allow-liście / zły region</td>
+<td>Dodaj DIP do allow-listy; sprawdź wymaganą lokalizację; zaplanuj zapasowy endpoint</td>
+</tr>
+<tr>
+<td>Ładują się tylko niektóre strony</td>
+<td>DoH/DoT idzie poza VPN</td>
+<td>Trasuj DoH/DoT interfejsem VPN lub wyłącz; restart przeglądarki</td>
+</tr>
+<tr>
+<td>Dropy tunelu na routerze</td>
+<td>Słaby CPU / zasilanie / przeciążony węzeł</td>
+<td>WireGuard gdzie się da; auto-connect + kill switch; sprawdź zasilacz/kable; zmień węzeł na mniej obciążony</td>
+</tr>
+<tr>
+<td>Drukarka/NAS „znikają”</td>
+<td>mDNS/Bonjour blokowane między VLAN</td>
+<td>Zezwól mDNS selektywnie lub trzymaj klienta i urządzenie w tym samym segmencie (przynajmniej na czas discovery)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- CTA #2 -->
+<section aria-label="CTA dolny" class="cta">
+<p>Chcesz czystą konfigurację DIP i stabilny streaming?</p>
+<p>
+<a class="btn btn-primary" href="/go/nordvpn.html" rel="sponsored nofollow noopener" target="_blank">NordVPN — Dedicated IP (PL/UK)</a>
+<a class="btn btn-ghost" href="/go/surfshark.html" rel="sponsored nofollow noopener" target="_blank">Surfshark — Static/Dedicated + łatwe polityki</a>
+</p>
+</section>
+<section id="faq">
+<h2>FAQ — szybkie odpowiedzi</h2>
+<dl>
+<dt>Czy dedykowany IP jest „anonimowy”?</dt>
+<dd>To adres ekskluzywny dla Twojego konta, więc anonimowość tłumu jest mniejsza. Do prywatnego surfowania używaj IP współdzielonego; DIP zostaw do stabilności i allow-list.</dd>
+<dt>Czy DIP gwarantuje dostęp do VOD?</dt>
+<dd>Nie. Stałe adresy bywają szybciej flagowane. Pula współdzielona z dobrą „pielęgnacją” zwykle sprawdza się lepiej.</dd>
+<dt>Czy mogę używać DIP na routerze?</dt>
+<dd>Tak. Utwórz osobny tunel i przypisz wyłącznie potrzebne urządzenia/VLAN-y (policy routing). TV zazwyczaj lepiej zostawić na puli współdzielonej.</dd>
+<dt>Static vs Dedicated — jaka różnica?</dt>
+<dd>„Static” może być stały, ale współdzielony przez kilku klientów. „Dedicated” jest wyłącznie dla Ciebie. Zawsze doprecyzuj u dostawcy.</dd>
+<dt>Co z IPv6/WebRTC?</dt>
+<dd>Jeśli dostawca nie tuneluje IPv6, wyłącz je w VLAN „VPN”. W przeglądarce ogranicz WebRTC. Zawsze wymuszaj DNS dostawcy po tunelu.</dd>
+<dt>Czy mogę mieć kilka DIP (np. PL + UK)?</dt>
+<dd>Często tak. Dopytaj o rozliczanie per lokalizacja i jak wygląda przełączanie/failover w aplikacji lub na routerze.</dd>
+</dl>
+</section>
+<section id="slownik">
+<h2>Słowniczek pojęć</h2>
+<ul>
+<li><strong>DIP (Dedicated IP):</strong> ekskluzywny adres wyjściowy przypisany do konta.</li>
+<li><strong>Static IP:</strong> adres nie rotuje, ale bywa współdzielony.</li>
+<li><strong>Allow-list:</strong> lista dozwolonych źródeł IP w usłudze/API.</li>
+<li><strong>PBR (Policy-Based Routing):</strong> reguły trasowania po urządzeniu/MAC/VLAN.</li>
+<li><strong>DoH/DoT:</strong> szyfrowanie zapytań DNS (HTTPS/TLS).</li>
+</ul>
+</section>
+<!-- Video (working embed + visible fallback) -->
+<section aria-labelledby="video-title" id="video">
+<h2 id="video-title">Wideo: Dedykowany IP — czysta konfiguracja (PL)</h2>
+<div class="video-wrap">
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed?listType=search&amp;list=VPN+dedykowany+IP+bankowo%C5%9B%C4%87+SSO+router+OpenWrt" title="Dedykowany IP — YouTube"></iframe>
+<div aria-hidden="true" class="video-fallback">
+<p style="color:#fff;opacity:.85">Player zablokowany?</p>
+<p><a href="https://www.youtube.com/results?search_query=VPN+dedykowany+IP+bankowo%C5%9B%C4%87+SSO+router+OpenWrt" rel="noopener" target="_blank">Otwórz na YouTube</a></p>
+</div>
+</div>
+<p class="muted">Niektóre sieci firmowe blokują osadzone iframy. Skorzystaj z przycisku „Otwórz na YouTube”.</p>
+</section>
+<!-- Related -->
+<aside class="readmore related">
+<h2>Czytaj też</h2>
+<ul>
+<li><a href="/blog/vpn-split-tunneling.html">Split tunneling</a></li>
+<li><a href="/blog/vpn-na-routerze.html">VPN na routerze</a></li>
+<li><a href="/blog/vpn-dns-leak.html">Wycieki IP/DNS/WebRTC</a></li>
+<li><a href="/blog/wireguard-vs-openvpn.html">WireGuard vs OpenVPN</a></li>
+<li><a href="/blog/jaki-serwer-vpn.html">Jaki serwer VPN?</a></li>
+<li><a href="/blog/vpn-windows-konfiguracja.html">VPN na Windows</a></li>
+<li><a href="/blog/vpn-na-mac.html">VPN na Mac</a></li>
+<li><a href="/blog/vpn-android-konfiguracja.html">VPN na Androidzie</a></li>
+<li><a href="/blog/vpn-dla-smart-tv.html">VPN na Smart TV</a></li>
+<li><a href="/blog/vpn-netflix-polska.html">Netflix PL</a></li>
+<li><a href="/blog/player-tvp-vpn.html">Player i VPN</a></li>
+<li><a href="/blog/tvp-vod-vpn.html">TVP VOD i VPN</a></li>
+</ul>
+</aside>
+<!-- Author -->
+<section class="author" id="author">
+<img alt="Denys Shchur" decoding="async" height="96" loading="lazy" src="/assets/img/authors/denys.webp" width="96"/>
+<div>
+<h2>Autor</h2>
+<p><strong>Denys Shchur</strong> — praktyk VPN i SEO. Projektuje konfiguracje DIP/router (PBR) z naciskiem na stabilną bankowość i VOD oraz zerowe wycieki DNS/IPv6.</p>
+<p class="muted">Więcej: <a href="/blog/nordvpn-vs-surfshark-pl.html">NordVPN vs Surfshark</a> • <a href="/blog/jaki-serwer-vpn.html">Jaki serwer VPN?</a></p>
+</div>
+</section>
+</main>
+<!-- JSON-LD: Article -->
+<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@type":"Article",
+  "headline":"VPN z dedykowanym IP — co to jest, kiedy używać, streaming i bankowość",
+  "description":"Dedykowany IP w VPN po polsku: kiedy ma sens, różnice vs statyczny/współdzielony, prywatność, konfiguracja w aplikacjach i na routerze, split tunneling, RODO i matryca napraw.",
+  "author":{"@type":"Person","name":"Denys Shchur","image":"https://dloran1.github.io/assets/img/authors/denys.webp"},
+  "image":"https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp",
+  "inLanguage":"pl-PL",
+  "datePublished":"2025-09-25",
+  "dateModified":"2025-09-25",
+  "mainEntityOfPage":"https://dloran1.github.io/blog/vpn-dedykowany-ip.html",
+  "publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo-512.png"}}
+}</script>
+<!-- JSON-LD: Breadcrumbs -->
+<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Strona główna","item":"https://dloran1.github.io/"},
+    {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/blog/index.html"},
+    {"@type":"ListItem","position":3,"name":"VPN z dedykowanym IP","item":"https://dloran1.github.io/blog/vpn-dedykowany-ip.html"}
+  ]
+}</script>
+<!-- JSON-LD: FAQ -->
+<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"Czy dedykowany IP jest „anonimowy”?",
+     "acceptedAnswer":{"@type":"Answer","text":"To adres ekskluzywny dla Twojego konta, więc anonimowość tłumu jest mniejsza. Do prywatnego surfowania używaj IP współdzielonego; DIP zostaw do stabilności i allow-list."}},
+    {"@type":"Question","name":"Czy DIP gwarantuje VOD?",
+     "acceptedAnswer":{"@type":"Answer","text":"Nie. Stałe adresy bywają szybciej flagowane. Pula współdzielona z dobrą pielęgnacją zwykle sprawdza się lepiej."}},
+    {"@type":"Question","name":"Czy mogę używać DIP na routerze?",
+     "acceptedAnswer":{"@type":"Answer","text":"Tak. Utwórz osobny tunel i przypisz tylko wybrane urządzenia/VLAN-y (policy routing). TV zazwyczaj lepiej zostawić na puli współdzielonej."}},
+    {"@type":"Question","name":"Static vs Dedicated — jaka różnica?",
+     "acceptedAnswer":{"@type":"Answer","text":"„Static” może być stały, ale współdzielony. „Dedicated” jest wyłącznie dla Ciebie. Zawsze doprecyzuj u dostawcy."}},
+    {"@type":"Question","name":"Co z IPv6/WebRTC?",
+     "acceptedAnswer":{"@type":"Answer","text":"Jeśli dostawca nie tuneluje IPv6, wyłącz je w VLAN „VPN”. W przeglądarce ogranicz WebRTC. Zawsze wymuszaj DNS dostawcy po tunelu."}},
+    {"@type":"Question","name":"Czy mogę mieć kilka DIP (np. PL + UK)?",
+     "acceptedAnswer":{"@type":"Answer","text":"Często tak. Dopytaj o rozliczanie per lokalizacja oraz jak wygląda przełączanie/failover w aplikacji lub na routerze."}}
+  ]
+}</script>
+<footer class="foot">
+<p>© 2025 VPN World • 
+     <a href="/pl/polityka-prywatnosci.html">Polityka prywatności</a> • 
+     <a href="/en-gb/privacy.html" lang="en-GB">Privacy Policy</a>
+</p>
+</footer>
+<!-- Scripts -->
+<script src="/assets/js/consent.js"></script>
+<script src="/assets/js/privacy.js"></script>
+<script src="/assets/js/langswitch.js"></script>
+<script>
+(function(){
+  var GAID = &#x27;G-LR2H6R8H7C&#x27;;
+  if(!GAID || GAID.indexOf('G-')!==0) return;
+  function loadGA4(){
+    if(window._ga4_loaded) return;
+    var s=document.createElement('script'); s.async=true; s.src='https://www.googletagmanager.com/gtag/js?id='+GAID;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', GAID, { 'anonymize_ip': true });
+    window._ga4_loaded = true;
+  }
+  try { if(window.vpnwConsent && window.vpnwConsent.analytics) loadGA4(); } catch(e){}
+  document.addEventListener('vpnw:consent', function(ev){ if(ev && ev.detail && ev.detail.analytics) loadGA4(); });
+})();
+</script>
+<script>
+(function(){
+  function onClick(e){
+    var a = e.target.closest && e.target.closest('a[data-affiliate]');
+    if(!a) return;
+    var partner = a.getAttribute('data-affiliate') || 'unknown';
+    try { window.plausible && window.plausible('Affiliate Click', { props: { partner: partner } }); } catch(e){}
+    try { window.gtag && window.gtag('event','affiliate_click', { partner: partner }); } catch(e){}
+  }
+  document.addEventListener('click', onClick, true);
+})();
+</script>
+</body>
+</html>
