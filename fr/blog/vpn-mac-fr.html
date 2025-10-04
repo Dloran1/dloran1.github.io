@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<title>VPN na iOS i iPadOS — czysta konfiguracja, Private Relay, wycieki DNS i streaming — guide</title>
+<meta content="Praktyczny poradnik dla iPhone’a/iPada w Polsce: czysta konfiguracja VPN, WireGuard vs IKEv2 vs OpenVPN, wyłączenie iCloud Private Relay, higiena DNS/DoH, brak wycieków IPv6/WebRTC, stabilny TVP/Player/Netflix, On-Demand, captive portal, bateria, automatyzacje i matryca napraw." name="description"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<!-- Open Graph -->
+<meta content="article" property="og:type"/>
+<meta content="VPN na iOS i iPadOS — czysta konfiguracja, Private Relay, wycieki DNS i streaming" property="og:title"/>
+<meta content="Krok po kroku: protokoły, Private Relay i DoH, testy wycieków, stabilny TVP/Player/Netflix, automatyzacje Shortcuts i matryca napraw." property="og:description"/>
+<meta content="https://dloran1.github.io/blog/vpn-ios.html" property="og:url"/>
+<meta content="https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp" property="og:image"/>
+<meta content="pl_PL" property="og:locale"/>
+<meta content="VPN World" property="og:site_name"/>
+<!-- Twitter -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="VPN na iOS i iPadOS — czysta konfiguracja, Private Relay, wycieki DNS i streaming" name="twitter:title"/>
+<meta content="iOS VPN bez niespodzianek: WireGuard/IKEv2, Private Relay, DNS/DoH, stabilność VOD, automatyzacje i naprawy." name="twitter:description"/>
+<meta content="https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp" name="twitter:image"/>
+<!-- hreflang -->
+<link href="/assets/style.css" rel="stylesheet"/>
+<link href="/assets/style-extensions-vpnpolska.css" rel="stylesheet"/>
+<style>
+    :root{--muted:rgba(140,140,160,.75)}
+    .badge{display:inline-block;padding:.25rem .6rem;border:1px solid rgba(140,140,160,.35);border-radius:6px;font-size:.85rem}
+    .lead{opacity:.92}
+    .note{border-left:3px solid #2E90FA;padding:.9rem 1rem;margin:1rem 0;background:rgba(46,144,250,.06)}
+    .warn{border-left:3px solid #f59e0b;padding:.9rem 1rem;margin:1rem 0;background:rgba(245,158,11,.08)}
+    .danger{border-left:3px solid #ef4444;padding:.9rem 1rem;margin:1rem 0;background:rgba(239,68,68,.08)}
+    .ok{border-left:3px solid #10b981;padding:.9rem 1rem;margin:1rem 0;background:rgba(16,185,129,.08)}
+    .kbd{padding:.1rem .35rem;border:1px solid rgba(140,140,160,.4);border-radius:4px;background:rgba(255,255,255,.06)}
+    .toc ul{margin:.25rem 0 1rem 1.25rem}
+    .table-wrap{overflow-x:auto}
+    .table-wrap table{min-width:900px;border-collapse:collapse}
+    .table-wrap th,.table-wrap td{border:1px solid rgba(140,140,160,.35);padding:.6rem .7rem;text-align:left}
+    .table-wrap thead th{background:rgba(140,140,160,.08)}
+    .video-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;border:1px solid rgba(140,140,160,.35);background:#000;margin:1rem 0}
+    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    .video-fallback{position:absolute;inset:0;display:flex;gap:12px;align-items:center;justify-content:center;flex-direction:column}
+    .video-fallback a{display:inline-block;padding:10px 16px;border-radius:8px;background:#2E90FA;color:#fff;text-decoration:none}
+    .related ul{columns:2;gap:1rem}
+    .author{display:flex;gap:12px;align-items:center}
+    .author img{border-radius:50%;aspect-ratio:1/1}
+    .lang-switch{margin:.5rem 0 1rem}
+    .nav .inner{display:flex;justify-content:space-between;align-items:center}
+    .logo{font-weight:700}
+    .cta .btn{display:inline-block;margin:.25rem .5rem 0 0}
+    .breadcrumbs ul{display:flex;gap:.5rem;flex-wrap:wrap}
+    .breadcrumbs li::after{content:"/";margin:0 .5rem;color:var(--muted)}
+    .breadcrumbs li:last-child::after{content:""}
+    .muted{opacity:.75}
+  </style>
+<script data-domain="dloran1.github.io" defer="" src="https://plausible.io/js/script.js"></script>
+<meta content="2025-10-04" property="article:published_time"/></head>
+<body>
+<!-- Language switch -->
+<nav aria-label="Przełącznik języka" class="lang-switch">
+<a href="/en-gb/blog/vpn-ios-uk.html" lang="en-GB">English (UK)</a> |
+  <a href="/blog/vpn-ios.html" lang="pl-PL">Polski</a>
+</nav>
+<!-- Top nav -->
+<nav aria-label="Główna nawigacja" class="nav">
+<div class="inner">
+<a class="logo" href="/">VPN World</a>
+<div class="menu"><a href="/">Strona główna</a> • <a href="/fr/">Blog</a></div>
+</div>
+</nav>
+<!-- Breadcrumbs -->
+<nav aria-label="Okruszki" class="breadcrumbs wrap">
+<ul>
+<li><a href="/">Strona główna</a></li>
+<li><a href="/fr/">Blog</a></li>
+<li aria-current="page">VPN na iOS</li>
+</ul>
+</nav>
+<header class="wrap">
+<h1>VPN na iOS i iPadOS — czysta konfiguracja, Private Relay, wycieki DNS i streaming</h1><p>Ceci est la version française. Elle résume les étapes, réglages et bonnes pratiques pour le VPN et la confidentialité. Le contenu localisé complet sera enrichi par la suite.</p><time datetime="2025-10-04">2025-10-04</time><!--LANG_SWITCHER--><nav aria-label="Language switcher" class="lang-switcher" style="margin:16px 0; padding:10px 12px; border:1px solid #e5e7eb; border-radius:10px; font-size:0.95rem; display:flex; flex-wrap:wrap; gap:10px; align-items:center;"><strong style="margin-right:6px;">Language:</strong><span style="opacity:.35; padding:6px 10px; border-radius:8px; border:1px dashed #d1d5db;">pl-PL</span><span style="opacity:.35; padding:6px 10px; border-radius:8px; border:1px dashed #d1d5db;">en-gb</span><span style="opacity:.35; padding:6px 10px; border-radius:8px; border:1px dashed #d1d5db;">en-us</span><span style="opacity:.35; padding:6px 10px; border-radius:8px; border:1px dashed #d1d5db;">de</span><a href="/fr/blog/vpn-mac-fr.html" hreflang="fr" lang="fr" style="text-decoration:none; padding:6px 10px; border-radius:8px; border:1px solid #111; background:#111; color:#fff;">fr</a><span style="opacity:.35; padding:6px 10px; border-radius:8px; border:1px dashed #d1d5db;">es</span><span style="opacity:.35; padding:6px 10px; border-radius:8px; border:1px dashed #d1d5db;">be</span></nav><!--/LANG_SWITCHER-->
+<figure class="article-hero">
+<img alt="iPhone/iPad z aktywnym VPN i poprawnym DNS w Polsce" decoding="async" fetchpriority="high" height="630" loading="eager" src="/assets/img/hero/en-gb/hero-06.webp" width="1200"/>
+<figcaption>Ustaw raz — korzystaj wszędzie: stabilne połączenie, czysty DNS i brak błędów VOD.</figcaption>
+</figure>
+<p class="lead">Dostajesz kompletne, <strong>praktyczne ustawienia</strong> VPN dla iPhone’a i iPada: wybór protokołu (WireGuard, IKEv2, OpenVPN), wyłączenie iCloud Private Relay, higienę DNS/DoH bez konfliktów, On-Demand, obejście captive portali, porady dot. baterii/roamingu, polityki na routerze i <strong>matrycę napraw</strong> dla TVP/Player/Netflix. Bez magii, po polsku.</p>
+<p><span class="badge">Aktualizacja: evergreen</span> • <strong>~16–22 min czytania</strong></p>
+</header>
+<main class="wrap post" id="top">
+<!-- TOC -->
+<nav aria-label="Spis treści" class="toc">
+<h2>Spis treści</h2>
+<ul>
+<li><a href="#przed">Przed startem (czysta baza)</a></li>
+<li><a href="#start">Szybki start (czysta konfiguracja)</a></li>
+<li><a href="#proto">Protokoły: WireGuard vs IKEv2 vs OpenVPN</a></li>
+<li><a href="#relay">iCloud Private Relay, DoH i Safari</a></li>
+<li><a href="#ondemand">On-Demand, kill switch i captive portal</a></li>
+<li><a href="#leaks">Brak wycieków IP/DNS/WebRTC/IPv6</a></li>
+<li><a href="#vod">Stabilność VOD (TVP/Player/Netflix)</a></li>
+<li><a href="#bateria">Bateria, roaming i presety podróżne</a></li>
+<li><a href="#router">iPhone w sieci z VPN na routerze (polityki)</a></li>
+<li><a href="#shortcuts">Automatyzacje: Skróty i Tryby skupienia</a></li>
+<li><a href="#advanced">Zaawansowane: MTU i „twarde” sieci</a></li>
+<li><a href="#matrix">Tabela napraw</a></li>
+<li><a href="#faq">FAQ</a></li>
+<li><a href="#video">Wideo</a></li>
+</ul>
+</nav>
+<!-- CTA #1 -->
+<section aria-label="CTA górny" class="cta">
+<p>Potrzebujesz stabilnej aplikacji na iOS z czystym DNS?</p>
+<p>
+<a class="btn btn-primary" href="/go/nordvpn.html" rel="sponsored nofollow noopener noreferrer" target="_blank">NordVPN — iOS + NordLynx</a>
+<a class="btn btn-ghost" href="/go/surfshark.html" rel="sponsored nofollow noopener noreferrer" target="_blank">Surfshark — prosta konfiguracja iOS</a>
+</p>
+</section>
+<section id="przed">
+<h2>Przed startem (czysta baza)</h2>
+<p>Większość „dziwnych” problemów na iOS to stare profile i mieszanka DNS. Poświęć 2 minuty na reset higieny:</p>
+<ul>
+<li><strong>Usuń stare profile VPN</strong>: <em>Ustawienia → Ogólne → VPN i zarządzanie urządzeniem</em> → kasuj nieużywane.</li>
+<li><strong>Usuń profile DNS/DoH</strong>: w tym samym miejscu skasuj „Secure DNS/DoH”, jeśli to nie profil od Twojego VPN <em>routowany przez tunel</em>.</li>
+<li><strong>Aktualizacje</strong>: zaktualizuj iOS i aplikację VPN — poprawki często dotykają sieci/energii.</li>
+<li><strong>Reset sieci (ostatecznie)</strong>: <em>Ustawienia → Ogólne → Przenieś lub resetuj iPhone’a → Resetuj → Ustawienia sieciowe</em> (utracisz zapisane Wi-Fi).</li>
+</ul>
+<p class="note"><strong>Cel:</strong> wyeliminować konflikt IP↔DNS, który powoduje błędy VOD i „ładuje się tylko część stron”.</p>
+</section>
+<section id="start">
+<h2>Szybki start (czysta konfiguracja)</h2>
+<ol>
+<li>Zainstaluj aplikację dostawcy z App Store (PL).</li>
+<li>Zaloguj się i zezwól na <strong>konfiguracje VPN</strong> oraz <strong>Sieć lokalną</strong>.</li>
+<li>Wybierz <strong>WireGuard/NordLynx</strong> (najszybszy) albo <strong>IKEv2</strong> (płynny roaming Wi-Fi ⇄ LTE/5G).</li>
+<li>Włącz <strong>DNS dostawcy</strong> w aplikacji. Nie wymuszaj zewnętrznych profili DoH, jeśli nie idą tunelem.</li>
+<li>Wybierz węzeł <strong>PL</strong> (Warszawa/Kraków) i dodaj 2–3 ulubione + jeden EU fallback (Praga/Frankfurt/Amsterdam).</li>
+<li>Włącz <strong>Auto-connect</strong> i <strong>Kill switch</strong> (nazwa zależna). Dla IKEv2 upewnij się, że działa <em>Connect On Demand</em>.</li>
+<li>Test: rozłącz/połącz → sprawdź IP/DNS → uruchom TVP/Player/Netflix — brak ostrzeżeń o proxy?</li>
+</ol>
+<p class="warn"><strong>Split per aplikacja:</strong> iOS w wersjach konsumenckich go nie ma. Reguły rób na <a href="/blog/vpn-na-routerze.html">routerze</a> politykami (PBR).</p>
+</section>
+<section id="proto">
+<h2>Protokoły: WireGuard vs IKEv2 vs OpenVPN</h2>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Protokół</th><th>Plusy</th><th>Minusy</th><th>Kiedy użyć</th></tr></thead>
+<tbody>
+<tr><td>WireGuard / NordLynx</td><td>Bardzo szybki, niski jitter i pobór energii, szybkie wznawianie</td><td>Bywa blokowany UDP w sieciach publicznych</td><td>Domyślny wybór w domu i mobilnie</td></tr>
+<tr><td>IKEv2</td><td>Świetny roaming Wi-Fi⇄LTE, natywny On-Demand</td><td>Może być limitowany przez middleboxy</td><td>Podróże, biuro, patchworkowe Wi-Fi</td></tr>
+<tr><td>OpenVPN TCP/443</td><td>Przechodzi przez twarde zapory (jak HTTPS)</td><td>Wyższe opóźnienia i zużycie baterii</td><td>Hotele/uczelnie/biura z blokadą UDP</td></tr>
+</tbody>
+</table>
+</div>
+<p>Więcej: <a href="/blog/wireguard-vs-openvpn.html">WireGuard vs OpenVPN</a> • <a href="/blog/vpn-na-routerze.html">VPN na routerze</a>.</p>
+</section>
+<section id="relay">
+<h2>iCloud Private Relay, DoH i Safari</h2>
+<p>Część „prywatnościowych” funkcji Apple potrafi wejść w drogę tunelowi VPN. Proste zasady:</p>
+<ul>
+<li><strong>Wyłącz iCloud Private Relay</strong> dla łącza używanego z VPN: <em>Ustawienia → Apple ID → iCloud → Private Relay</em>.</li>
+<li>W szczegółach Wi-Fi wyłącz <strong>„Ograniczanie śledzenia adresu IP”</strong> dla SSID, na którym używasz VPN.</li>
+<li><strong>Profile DoH/Secure DNS:</strong> instaluj tylko, jeśli dostawca tak zaleca i <em>routuje to przez tunel</em>. W przeciwnym razie będą konflikty.</li>
+<li><strong>Safari/WebRTC:</strong> Safari domyślnie ogranicza ujawnianie IP. W alternatywnych przeglądarkach ustaw „tylko publiczny IP w WebRTC”, jeśli jest opcja.</li>
+</ul>
+<p class="note">Mieszane ścieżki (DNS poza tunelem, ruch w tunelu) to najczęstsza przyczyna błędów VOD i sklepów.</p>
+</section>
+<section id="ondemand">
+<h2>On-Demand, kill switch i captive portal</h2>
+<ul>
+<li><strong>Auto-connect</strong> w aplikacji przykrywa 90% scenariuszy. IKEv2 + <em>Connect On Demand</em> ładnie „wstaje” po uśpieniu.</li>
+<li><strong>Portale hotel/kawiarnia</strong>: rozłącz VPN → otwórz stronę logowania → zaloguj → połącz VPN. Szukaj w aplikacji opcji „Detect captive portal”.</li>
+<li><strong>Sieć lokalna</strong>: zostaw uprawnienie „Sieć lokalna” dla aplikacji VPN, by działał AirPrint/Chromecast (to nie omija tunelu).</li>
+<li><strong>SSIDs w domu</strong>: osobny SSID/VLAN „VPN” (telefony/laptopy) i „Direct” (konsole/IoT) ułatwia życie. Zajrzyj do <a href="/blog/vpn-na-routerze.html">policy routing</a>.</li>
+</ul>
+</section>
+<section id="leaks">
+<h2>Brak wycieków IP/DNS/WebRTC/IPv6</h2>
+<ul>
+<li><strong>DNS dostawcy</strong> po tunelu — po zmianie opcji zrób reconnect.</li>
+<li><strong>IPv6</strong>: najlepiej, gdy dostawca tuneluje IPv6. Jeśli nie — wyłącz IPv6 na SSID „VPN” w routerze, by uniknąć częściowych wycieków.</li>
+<li><strong>WebRTC</strong>: Safari bezpieczne; w Chromium ogranicz IP lokalne (jeśli opcja istnieje).</li>
+<li><strong>Weryfikacja</strong>: reconnect → test IP/DNS → relaunch VOD. Powtórz po aktualizacjach iOS/apki.</li>
+</ul>
+<p>Poradnik: <a href="/blog/vpn-dns-leak.html">Wycieki IP/DNS/WebRTC</a>.</p>
+</section>
+<section id="vod">
+<h2>Stabilność VOD (TVP/Player/Netflix)</h2>
+<p>iOS nie dzieli ruchu jednej aplikacji na różne ścieżki, więc trzymaj <em>całą aplikację</em> w tunelu — to minimalizuje błędy „proxy”.</p>
+<ul>
+<li>Gdy pojawia się komunikat o VPN/proxy: zmień węzeł PL → <em>zamknij aplikację całkowicie</em> (gestem) → uruchom ponownie. Na twardych Wi-Fi spróbuj OpenVPN <strong>TCP/443</strong>.</li>
+<li>Po zmianie miasta/kraju odśwież cache DNS/peering: restart aplikacji lub urządzenia (TV stick).</li>
+<li>Używaj <strong>DNS dostawcy</strong> — zewnętrzny DoH złamie geologię nawet przy polskim IP.</li>
+</ul>
+<p>Powiązane: <a href="/blog/tvp-vod-vpn.html">TVP VOD</a> • <a href="/blog/player-tvp-vpn.html">Player</a> • <a href="/blog/vpn-netflix-polska.html">Netflix PL</a> • <a href="/blog/vpn-dla-smart-tv.html">VPN na Smart TV</a>.</p>
+</section>
+<section id="bateria">
+<h2>Bateria, roaming i presety podróżne</h2>
+<ul>
+<li><strong>WireGuard</strong> jest najbardziej energooszczędny. <strong>IKEv2</strong> — świetny przy przełączaniu Wi-Fi/LTE.</li>
+<li>Dodaj aplikację VPN do <em>Odświeżania w tle</em>, żeby iOS nie usypiał tunelu.</li>
+<li><strong>Tryb niskiego zużycia energii</strong> może opóźniać reconnect — wyłącz na długie sesje.</li>
+<li><strong>Preset podróżny</strong>: dwie ulubione lokalizacje PL + jedna EU (Praga/Frankfurt/Amsterdam) na kapryśne hotele.</li>
+<li><strong>„Prywatny adres Wi-Fi”</strong> może psuć whitelisty po MAC — dla domowego SSID rozważ wyłączenie.</li>
+<li><strong>Hotspot/eSIM</strong>: gdy udostępniasz net iPad’owi, prościej włączyć VPN na <em>urządzeniu udostępniającym</em>.</li>
+</ul>
+</section>
+<section id="router">
+<h2>iPhone w sieci z VPN na routerze (polityki)</h2>
+<p>Jeśli w domu działa <a href="/blog/vpn-na-routerze.html">VPN na routerze</a>, trzymaj iPhone’y na SSID/VLAN <em>VPN</em>, a gości na <em>Direct</em>. Polityki (PBR) trzymają spójny DNS na TV i telefonie i eliminują „mieszane ścieżki”.</p>
+<p class="ok"><strong>Typowy podział:</strong> laptop/telefon → <em>VPN</em> • konsole/IoT → <em>Direct</em> • Smart TV/Apple TV → <em>VPN</em>.</p>
+</section>
+<section id="shortcuts">
+<h2>Automatyzacje: Skróty i Tryby skupienia</h2>
+<p>Brak splitu per aplikacja nie znaczy, że nie da się <em>mądrze</em> łączyć VPN:</p>
+<ul>
+<li><strong>Skróty → Automatyzacje</strong>: „Gdy otwieram folder Streaming” → <em>Otwórz aplikację</em> → następnie <em>Otwórz aplikację VPN</em> (większość dostawców ma deeplink „connect”).</li>
+<li><strong>Tryby skupienia</strong>: ustaw „Podróż”, który uruchamia aplikację VPN i przypomina o wyłączeniu Private Relay/Limit IP na znanych SSID.</li>
+<li><strong>Widżet</strong>: dodaj widget „Połącz/rozłącz” na ekran startowy dla jednego tapnięcia.</li>
+</ul>
+</section>
+<section id="advanced">
+<h2>Zaawansowane: MTU i „twarde” sieci</h2>
+<p>Buforowanie co kilka sekund, „pół-wczytane” strony na hotelowym Wi-Fi? Często to MTU/kształtowanie UDP.</p>
+<ul>
+<li><strong>Obniż MTU</strong> (jeśli aplikacja pozwala) lub na routerze podróżnym: zwykle 1380–1420 działa lepiej dla UDP.</li>
+<li><strong>Fallback na TCP/443</strong>, gdy UDP jest dławione — przejdzie jak HTTPS kosztem opóźnień/baterii.</li>
+<li><strong>Wyłącz HTTP/3 (QUIC)</strong> w przeglądarce, jeśli sieć modyfikuje UDP/443.</li>
+</ul>
+</section>
+<section id="matrix">
+<h2>Tabela napraw</h2>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Objaw</th><th>Przyczyna</th><th>Naprawa (kolejność)</th></tr></thead>
+<tbody>
+<tr><td>VOD: „proxy/VPN”</td><td>DNS poza tunelem / przeciążony węzeł</td><td>Wymuś DNS dostawcy → zmień węzeł → pełny restart aplikacji → TCP/443 na twardych Wi-Fi</td></tr>
+<tr><td>Ładują się tylko niektóre strony</td><td>Aktywny Private Relay / profil DoH</td><td>Wyłącz Private Relay i „Ograniczanie IP” → usuń zewnętrzny DoH → reconnect</td></tr>
+<tr><td>Częste rozłączenia</td><td>Oszczędzanie energii / app wstrzymywana</td><td>Odświeżanie w tle → WireGuard → wyłącz „Niski pobór” podczas sesji</td></tr>
+<tr><td>Nie otwiera się strona logowania Wi-Fi</td><td>Captive portal blokowany przez tunel</td><td>Rozłącz VPN → zaloguj się → połącz VPN</td></tr>
+<tr><td>AirPrint/Chromecast niewidoczny</td><td>Brak zgody na „Sieć lokalną”</td><td>Zezwól w iOS → trzymaj urządzenia na tym samym SSID/VLAN</td></tr>
+<tr><td>App Store „myli” region</td><td>Cache sklepu lub konflikt IP↔DNS</td><td>Reconnect VPN → sprawdź, że DNS = dostawca → restart App Store</td></tr>
+<tr><td>Buforowanie na hotelowym Wi-Fi</td><td>MTU/kształtowanie UDP</td><td>MTU ~1400 → TCP/443 → sąsiedni węzeł (np. DE/CZ)</td></tr>
+<tr><td>Bank/SSO w pętli OTP</td><td>Współdzielona pula lub konflikt DNS</td><td>Wymuś DNS dostawcy → rozważ <a href="/blog/vpn-dedykowany-ip.html">dedykowany IP</a> wyłącznie do bankowości</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- CTA #2 -->
+<section aria-label="CTA dolny" class="cta">
+<p>Chcesz konfiguracji iOS, która „po prostu działa”?</p>
+<p>
+<a class="btn btn-primary" href="/go/nordvpn.html" rel="sponsored nofollow noopener noreferrer" target="_blank">NordVPN — szybka aplikacja iOS</a>
+<a class="btn btn-ghost" href="/go/surfshark.html" rel="sponsored nofollow noopener noreferrer" target="_blank">Surfshark — proste On-Demand</a>
+</p>
+</section>
+<section id="faq">
+<h2>FAQ — szybkie odpowiedzi</h2>
+<dl>
+<dt>Czy iOS ma split tunneling per aplikacja?</dt>
+<dd>Nie w aplikacjach konsumenckich. Split per apka istnieje w MDM. W domu użyj polityk na routerze.</dd>
+<dt>Czy muszę wyłączyć iCloud Private Relay?</dt>
+<dd>Tak. Private Relay „porywa” DNS i kłóci się z trasą VPN. Wyłącz go na Wi-Fi/komórce używanej z VPN.</dd>
+<dt>Jaki protokół wybrać na iPhone’ie?</dt>
+<dd>WireGuard/NordLynx dla szybkości i baterii; IKEv2 dla roamingu; OpenVPN TCP/443 na sieciach restrykcyjnych.</dd>
+<dt>Jak sprawdzić wycieki?</dt>
+<dd>Połącz VPN → test IP/DNS (powinien wskazywać Twojego dostawcę VPN) → uruchom VOD bez błędu „proxy”.</dd>
+<dt>Czy dedykowany IP pomoże na iOS?</dt>
+<dd>Zmniejsza tarcia w bankowości/SSO, ale nie gwarantuje VOD. Do VOD zwykle lepsze są pule współdzielone.</dd>
+<dt>Czy mogę automatyzować łączenie VPN?</dt>
+<dd>Tak. Skróty/Automatyzacje i Tryby skupienia mogą otwierać aplikację VPN przy wybranych apkach/SSID.</dd>
+<dt>Czy wyłączać IPv6 na iOS?</dt>
+<dd>Lepiej wybrać dostawcę z tunelowaniem IPv6. Jeśli brak — wyłącz IPv6 na SSID „VPN” w routerze.</dd>
+</dl>
+</section>
+<!-- Wideo (z fallbackiem) -->
+<section aria-labelledby="video-title" id="video">
+<h2 id="video-title">Wideo: iOS VPN — czysta konfiguracja</h2>
+<div class="video-wrap">
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed?listType=search&amp;list=VPN+iOS+konfiguracja+WireGuard+IKEv2" title="iOS VPN — YouTube"></iframe>
+<div aria-hidden="true" class="video-fallback">
+<p style="color:#fff;opacity:.85">Player zablokowany?</p>
+<p><a href="https://www.youtube.com/results?search_query=VPN+iOS+konfiguracja+WireGuard+IKEv2" rel="noopener" target="_blank">Otwórz na YouTube</a></p>
+</div>
+</div>
+<p class="muted">Niektóre sieci firmowe blokują iframy. Skorzystaj z przycisku „Otwórz na YouTube”.</p>
+</section>
+<!-- Related -->
+<aside class="related">
+<h2>Czytaj też</h2>
+<ul>
+<li><a href="/blog/vpn-android-konfiguracja.html">VPN na Androidzie</a></li>
+<li><a href="/blog/vpn-windows-konfiguracja.html">VPN na Windows</a></li>
+<li><a href="/blog/vpn-na-mac.html">VPN na macOS</a></li>
+<li><a href="/blog/vpn-na-routerze.html">VPN na routerze</a></li>
+<li><a href="/blog/vpn-na-routerze.html">Policy routing (router)</a></li>
+<li><a href="/blog/vpn-split-tunneling.html">Split tunneling</a></li>
+<li><a href="/blog/vpn-dns-leak.html">Wycieki IP/DNS/WebRTC</a></li>
+<li><a href="/blog/wireguard-vs-openvpn.html">Protokoły VPN</a></li>
+<li><a href="/blog/vpn-dedykowany-ip.html">Dedykowany IP</a></li>
+</ul>
+</aside>
+<!-- Author -->
+<section class="author" id="author">
+<img alt="Denys Shchur" decoding="async" height="96" loading="lazy" src="/assets/img/authors/denys.webp" width="96"/>
+<div>
+<h2>Autor</h2>
+<p><strong>Denys Shchur</strong> — praktyk VPN i SEO. Ustawia konfiguracje iOS z czystym DNS i stabilnym VOD w Polsce.</p>
+<p class="muted">Więcej: <a href="/blog/nordvpn-vs-surfshark-pl.html">NordVPN vs Surfshark</a> • <a href="/blog/jaki-serwer-vpn.html">Jaki serwer VPN?</a></p>
+</div>
+</section>
+</main>
+<!-- JSON-LD: Article -->
+<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@type":"Article",
+  "headline":"VPN na iOS i iPadOS — czysta konfiguracja, Private Relay, wycieki DNS i streaming",
+  "description":"Konfiguracja VPN na iPhone/iPad: protokoły, Private Relay, higiena DNS/DoH, brak wycieków, stabilny VOD, polityki routera i naprawy.",
+  "author":{"@type":"Person","name":"Denys Shchur","image":"https://dloran1.github.io/assets/img/authors/denys.webp"},
+  "image":"https://dloran1.github.io/assets/img/hero/en-gb/hero-06.webp",
+  "inLanguage":"pl-PL",
+  "datePublished":"2025-09-01",
+  "dateModified":"2025-09-26",
+  "mainEntityOfPage":"https://dloran1.github.io/blog/vpn-ios.html",
+  "publisher":{
+    "@type":"Organization",
+    "name":"VPN Polska",
+    "logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo-512.png"}
+  }
+}</script>
+<!-- JSON-LD: Breadcrumbs -->
+<script type="application/ld+json">{
+  "@context":"https://schema.org","@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Strona główna","item":"https://dloran1.github.io/"},
+    {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/blog/index.html"},
+    {"@type":"ListItem","position":3,"name":"VPN na iOS","item":"https://dloran1.github.io/blog/vpn-ios.html"}
+  ]}
+</script>
+<!-- JSON-LD: FAQ -->
+<script type="application/ld+json">{
+  "@context":"https://schema.org","@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"Czy iOS ma split tunneling per aplikacja?","acceptedAnswer":{"@type":"Answer","text":"Nie w aplikacjach konsumenckich. Split per aplikacja dostępny jest w MDM. W domu ustaw reguły na routerze (policy routing)."}},
+    {"@type":"Question","name":"Czy muszę wyłączyć iCloud Private Relay przy VPN?","acceptedAnswer":{"@type":"Answer","text":"Tak. Private Relay przejmuje DNS i koliduje ze ścieżką VPN. Wyłącz go dla sieci używanej z VPN."}},
+    {"@type":"Question","name":"Jaki protokół wybrać na iPhone’ie?","acceptedAnswer":{"@type":"Answer","text":"WireGuard/NordLynx dla szybkości i baterii, IKEv2 dla roamingu, OpenVPN TCP/443 na sieciach z twardymi filtrami."}},
+    {"@type":"Question","name":"Jak uniknąć wycieków DNS/IP?","acceptedAnswer":{"@type":"Answer","text":"Wymuś DNS dostawcy po tunelu, nie używaj zewnętrznego DoH, po zmianach zrób reconnect i sprawdź testami."}},
+    {"@type":"Question","name":"Czy dedykowany IP pomaga na iOS?","acceptedAnswer":{"@type":"Answer","text":"Zmniejsza tarcia w bankowości/SSO, ale nie gwarantuje VOD. Do streamingu zwykle lepsze są pule współdzielone."}},
+    {"@type":"Question","name":"Czy mogę zautomatyzować łączenie VPN?","acceptedAnswer":{"@type":"Answer","text":"Tak. Użyj Skrótów (Automatyzacje) i Trybów skupienia, a także widżetu dostawcy do jednego stuknięcia."}}
+  ]
+}</script>
+<footer class="foot">
+<p>© 2025 VPN World • 
+     <a href="/pl/polityka-prywatnosci.html">Polityka prywatności</a> • 
+     <a href="/en-gb/privacy.html" lang="en-GB">Privacy Policy</a>
+</p>
+</footer>
+<!-- Scripts -->
+<script src="/assets/js/consent.js"></script>
+<script src="/assets/js/privacy.js"></script>
+<script src="/assets/js/langswitch.js"></script>
+<script>
+(function(){
+  var GAID = &#x27;G-LR2H6R8H7C&#x27;;
+  if(!GAID || GAID.indexOf('G-')!==0) return;
+  function loadGA4(){
+    if(window._ga4_loaded) return;
+    var s=document.createElement('script'); s.async=true; s.src='https://www.googletagmanager.com/gtag/js?id='+GAID;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', GAID, { 'anonymize_ip': true });
+    window._ga4_loaded = true;
+  }
+  try { if(window.vpnwConsent && window.vpnwConsent.analytics) loadGA4(); } catch(e){}
+  document.addEventListener('vpnw:consent', function(ev){ if(ev && ev.detail && ev.detail.analytics) loadGA4(); });
+})();
+</script>
+<script>
+(function(){
+  function onClick(e){
+    var a = e.target.closest && e.target.closest('a[data-affiliate]');
+    if(!a) return;
+    var partner = a.getAttribute('data-affiliate') || 'unknown';
+    try { window.plausible && window.plausible('Affiliate Click', { props: { partner: partner } }); } catch(e){}
+    try { window.gtag && window.gtag('event','affiliate_click', { partner: partner }); } catch(e){}
+  }
+  document.addEventListener('click', onClick, true);
+})();
+</script>
+</body>
+</html>
