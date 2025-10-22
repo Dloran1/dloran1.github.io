@@ -142,26 +142,26 @@
     <p>WPA3 wprowadza m.in. lepszą odporność na słabe hasła dzięki mechanizmom równoważnym SAE (Dragonfly). Oznacza to trudniejsze ataki offline na hasło. W praktyce: jeżeli wszystkie Twoje urządzenia wspierają WPA3, warto przełączyć tryb sieci. Jeżeli część sprzętu jest starsza, zastosuj <em>mixed mode</em> (WPA2/WPA3) jako etap przejściowy, ale trzymaj rękę na pulsie i sukcesywnie wymieniaj urządzenia, które blokują pełne przejście.</p>
 
     <h2>Segmentacja: sieć gościnna i IoT</h2>
-    <p>Urządzenia IoT (kamery, wtyczki, TV) często dostają rzadkie aktualizacje i mają większą powierzchnię ataku. Rozdziel:
+    <p>Urządzenia IoT (kamery, wtyczki, TV) często dostają rzadkie aktualizacje i mają większą powierzchnię ataku. Rozdziel:</p>
     <ul>
       <li><strong>SSID główne</strong> — dla komputerów i smartfonów.</li>
       <li><strong>SSID gościnne</strong> — izolowane VLAN, bez dostępu do zasobów LAN.</li>
       <li><strong>SSID IoT</strong> — ograniczone regułami firewall (tylko ruch wychodzący, brak dostępu do panelu routera).</li>
     </ul>
-    Takie strefy ograniczają skutki przejęcia pojedynczego urządzenia.</p>
+    <p>Takie strefy ograniczają skutki przejęcia pojedynczego urządzenia.</p>
 
     <h2>DNS i ochrona przed phishingiem</h2>
     <p>Ataki na domowe sieci często uderzają w DNS: zmiana serwerów na złośliwe powoduje „ciche” przekierowania. Co robić? Po pierwsze: blokuj zmianę DNS w panelu routera hasłem administratora. Po drugie: w przeglądarce włącz <strong>DNS-over-HTTPS</strong>. Po trzecie: monitoruj, czy urządzenia nie odwołują się do podejrzanych domen. Warto okresowo wykonać <a href="/blog/test-predkosci-vpn.html">szybki test</a> oraz sprawdzić wycieki (np. DNS leak) z poziomu aplikacji VPN.</p>
 
     <h2>Rola VPN: warstwa szyfrowania i prywatności</h2>
-    <p>VPN tworzy zaszyfrowany tunel między Twoim urządzeniem a serwerem operatora VPN. Dzięki temu:
+    <p>VPN tworzy zaszyfrowany tunel między Twoim urządzeniem a serwerem operatora VPN. Dzięki temu:</p>
     <ul>
       <li>właściciel sieci (np. kawiarnia, hotel) nie widzi treści Twojego ruchu,</li>
       <li>dostawca internetu nie może profilować odwiedzanych stron,</li>
       <li>trudniej przeprowadzić ataki typu «man-in-the-middle»,</li>
       <li>możesz bezpieczniej korzystać z publicznych hot-spotów.</li>
     </ul>
-    Najlepszy efekt osiągasz, łącząc poprawnie skonfigurowany router (WPA3, aktualizacje) z solidnym VPN.</p>
+    <p>Najlepszy efekt osiągasz, łącząc poprawnie skonfigurowany router (WPA3, aktualizacje) z solidnym VPN.</p>
 
     <h2>VPN na routerze vs. w aplikacji</h2>
     <p><strong>VPN na routerze</strong> obejmuje wszystkie urządzenia (także te bez natywnego klienta), ale może obniżyć prędkość, jeśli router ma słaby procesor szyfrujący. <strong>Aplikacja VPN</strong> na komputerze/telefonie daje profile i funkcje (np. <a href="/blog/vpn-kill-switch.html">Kill Switch</a>, <a href="/blog/vpn-split-tunneling.html">Split Tunneling</a>) i bywa szybsza na nowym sprzęcie. Dobrym kompromisem jest tryb hybrydowy: routerowy VPN dla IoT i TV, a aplikacja dla pracy i bankowości.</p>
@@ -189,22 +189,23 @@
     <h2>Najczęstsze błędy i jak ich uniknąć</h2>
     <p><strong>Pozostawione domyślne loginy</strong> — pierwszy cel skanerów botnetów. Zmień je natychmiast. <strong>Brak aktualizacji</strong> — krytyczne luki bywają łatane dopiero po tygodniach; włącz auto-update, jeśli to możliwe. <strong>WPS</strong> — wygodne parowanie kosztem bezpieczeństwa. <strong>Brak segmentacji</strong> — jedna sieć dla gości i IoT zwiększa ryzyko lateral movement. <strong>„Niewidoczny SSID” jako jedyna ochrona</strong> — to nie zabezpieczenie; poprawny model to szyfrowanie i silne hasła.</p>
 
-    <h2>Wideo: jak zabezpieczyć domowe Wi-Fi (krok po kroku)</h2>
+    <!-- >>> REPLACED YOUTUBE BLOCK: EN-ONLY <<< -->
+    <h2>Video: How to secure your home Wi-Fi</h2>
     <div class="video-wrapper">
       <iframe width="560" height="315"
               src="https://www.youtube.com/embed/3P_9H9rDqjM"
-              title="How to secure your home Wi-Fi (EN)"
+              title="How to secure your home Wi-Fi (English tutorial)"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
-    <!-- Follow-back tekstowe linki (bez nofollow) -->
     <p class="video-link">
-      Obejrzyj na YouTube:
+      Watch on YouTube:
       <a href="https://www.youtube.com/watch?v=3P_9H9rDqjM" target="_blank">How to secure your home Wi-Fi</a>
-      · Kanał:
-      <a href="https://www.youtube.com/@CHANNEL_HANDLE" target="_blank">CHANNEL_NAME</a>
+      · Channel:
+      <a href="https://www.youtube.com/@TechQuickie" target="_blank">TechQuickie</a>
     </p>
+    <!-- <<< /REPLACED YOUTUBE BLOCK -->
 
     <h2>Głębiej technicznie: protokoły, porty i logi</h2>
     <p>Warto wiedzieć, które protokoły są włączone i dlaczego. Jeżeli Twój router oferuje IPsec, L2TP, OpenVPN lub WireGuard, rozważ ich użycie w zależności od ekosystemu i wymagań. Zadbaj o podstawowe reguły firewall (blokuj ruch przychodzący z gościnnej/IoT do LAN). Włącz logowanie zdarzeń administracyjnych i alerty e-mail (jeżeli sprzęt wspiera). Dobrą praktyką jest okresowy przegląd logów pod kątem nieudanych logowań i zmian adresów IP.</p>
