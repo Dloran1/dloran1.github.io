@@ -96,10 +96,54 @@ function acceptConsent(){
   </figcaption>
 </figure>
 
-<div class="cookie-banner" role="dialog" aria-live="polite">
-  Nous utilisons des cookies (voir <a href="/fr/blog/politique-confidentialite.html" rel="nofollow">Privacy</a>).
-  <button onclick="acceptConsent()">J’accepte</button>
+<!-- Bandeau cookies — FR -->
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite">
+  <p>Nous utilisons des cookies (voir 
+    <a href="../privacy.html" rel="nofollow noreferrer">Politique de confidentialité</a>).
+  </p>
+  <button type="button" id="cookieAccept" aria-label="J’accepte">J’accepte</button>
 </div>
+
+<script>
+(function(){
+  var banner = document.getElementById('cookieBanner');
+  var btn = document.getElementById('cookieAccept');
+
+  // afficher si pas encore accepté
+  if (!localStorage.getItem('cookieConsent')) {
+    banner.classList.add('is-visible');
+  }
+
+  btn.addEventListener('click', function () {
+    // Consent Mode v2 — tout en "granted" après clic
+    if (typeof gtag === 'function') {
+      gtag('consent','update',{
+        ad_storage:'granted',
+        ad_user_data:'granted',
+        ad_personalization:'granted',
+        analytics_storage:'granted',
+        functionality_storage:'granted',
+        personalization_storage:'granted',
+        security_storage:'granted'
+      });
+    }
+    localStorage.setItem('cookieConsent','1');
+    banner.classList.remove('is-visible');
+  });
+})();
+</script>
+
+<style>
+.cookie-banner{position:fixed;left:1rem;right:1rem;bottom:1rem;display:none;
+  background:#0f172a;border:1px solid rgba(255,255,255,.12);border-radius:.75rem;
+  padding:1rem .875rem;box-shadow:0 4px 24px rgba(0,0,0,.25);z-index:9999}
+.cookie-banner.is-visible{display:flex;gap:.75rem;align-items:center;justify-content:space-between}
+.cookie-banner p{margin:0;font-size:.95rem;color:#e5e7eb}
+.cookie-banner a{color:#93c5fd;text-decoration:underline}
+.cookie-banner button{margin-left:.5rem;border:0;border-radius:.5rem;padding:.5rem .9rem;
+  font-weight:600;background:#2563eb;color:#fff;cursor:pointer}
+@media (max-width:520px){.cookie-banner{flex-direction:column;align-items:flex-start}}
+</style>
 
 <main>
   <p class="quick-answer"><strong>Réponse rapide&nbsp;:</strong> pour la plupart des utilisateurs, choisissez le protocole <em>WireGuard</em> (ou <em>NordLynx</em>/<em>Lightway</em>), activez le <em>Kill Switch</em>, DNS privés et le blocage IPv6, et sélectionnez un serveur géographiquement proche avec faible charge. Pour le streaming, préférez des serveurs optimisés de votre service VPN.</p>
