@@ -2,9 +2,10 @@
 <html lang="pl">
 <head>
 <meta charset="utf-8">
-<title>Podwójny VPN (Double VPN) — kiedy warto i jak ustawić? | VPN World</title>
-<meta name="description" content="Double VPN (podwójny VPN): działanie, kiedy ma sens, ograniczenia i konfiguracja krok po kroku. Praktyczny przewodnik 2025 + FAQ.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Podwójny VPN (Double VPN) — kiedy warto, jak działa i jakie są ograniczenia | VPN World</title>
+<meta name="description" content="Pełny poradnik 2025: co to jest Podwójny VPN (Double VPN/MultiHop), kiedy daje realną korzyść, jak wpływa na prędkość, jak ustawić, jakie pułapki i alternatywy.">
 
 <link rel="icon" href="/favicon.ico">
 <link rel="canonical" href="https://dloran1.github.io/blog/podwojny-vpn.html">
@@ -21,12 +22,7 @@
 
 <!-- Open Graph / Twitter -->
 <meta property="og:type" content="article">
-<meta property="og:title" content="Podwójny VPN (Double VPN) — kiedy warto i jak ustawić?">
-<meta property="og:description" content="Jak działa Double VPN, jakie są plusy i minusy oraz kiedy ma to sens. Przewodnik 2025.">
-<meta property="og:url" content="https://dloran1.github.io/blog/podwojny-vpn.html">
-<meta property="og:image" content="https://dloran1.github.io/assets/img/hero/what-is-a-vpn-uk.webp">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="675">
+<meta property="og:site_name" content="VPN World">
 <meta property="og:locale" content="pl_PL">
 <meta property="og:locale:alternate" content="en_GB">
 <meta property="og:locale:alternate" content="en_US">
@@ -34,82 +30,107 @@
 <meta property="og:locale:alternate" content="es_ES">
 <meta property="og:locale:alternate" content="fr_FR">
 <meta property="og:locale:alternate" content="nl_BE">
+<meta property="og:title" content="Podwójny VPN (Double VPN) — kiedy warto, jak działa i ograniczenia">
+<meta property="og:description" content="Co daje Double VPN/MultiHop, jak go ustawić, kiedy ma sens i jakie ma wady. Praktyczne przykłady i FAQ.">
+<meta property="og:url" content="https://dloran1.github.io/blog/podwojny-vpn.html">
+<meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-double-vpn-uk.webp">
+<meta property="og:image:alt" content="Ilustracja podwójnego szyfrowania i dwóch węzłów VPN">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Podwójny VPN (Double VPN) — kiedy warto i jak ustawić?">
-<meta name="twitter:description" content="Double VPN: działanie, ustawienia, plusy i minusy.">
-<meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/what-is-a-vpn-uk.webp">
+<meta name="twitter:title" content="Podwójny VPN (Double VPN) — kiedy warto i jak działa">
+<meta name="twitter:description" content="Pełny poradnik: korzyści, ryzyka, konfiguracja i testy prędkości.">
+<meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-double-vpn-uk.webp">
+
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
 <link rel="stylesheet" href="../assets/css/style.css">
 
-<!-- GA4 + Consent Mode v2 -->
+<!-- GA4 + Consent Mode v2 (ID: G-EMR8C4TLVM) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-EMR8C4TLVM"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('consent','default',{
-    ad_storage:'denied', ad_user_data:'denied', ad_personalization:'denied',
-    analytics_storage:'denied', functionality_storage:'denied',
-    personalization_storage:'denied', security_storage:'granted'
+    ad_storage:'denied',
+    ad_user_data:'denied',
+    ad_personalization:'denied',
+    analytics_storage:'denied',
+    functionality_storage:'denied',
+    personalization_storage:'denied',
+    security_storage:'granted'
   });
   gtag('js', new Date());
   gtag('config','G-EMR8C4TLVM');
   function acceptConsent(){
     gtag('consent','update',{
-      ad_storage:'granted', ad_user_data:'granted', ad_personalization:'granted',
-      analytics_storage:'granted', functionality_storage:'granted',
-      personalization_storage:'granted', security_storage:'granted'
+      ad_storage:'granted',
+      ad_user_data:'granted',
+      ad_personalization:'granted',
+      analytics_storage:'granted',
+      functionality_storage:'granted',
+      personalization_storage:'granted',
+      security_storage:'granted'
     });
-    var b=document.getElementById('privacy-banner'); if(b) b.remove();
+    document.getElementById('privacy-banner')?.remove();
   }
 </script>
 
-<!-- JSON-LD: Article -->
+<style>
+/* Kompaktowa data pod nagłówkiem */
+.meta-line{margin:6px 0 0 0;font-size:.95rem;opacity:.85}
+.meta-line time{white-space:nowrap}
+/* video wrapper */
+.video-wrap{position:relative;padding-top:56.25%;margin:24px 0;border-radius:12px;overflow:hidden}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+/* cookie banner */
+.privacy-banner{position:fixed;left:12px;right:12px;bottom:12px;background:#0f172a;color:#e2e8f0;border:1px solid #1f2937;border-radius:12px;padding:12px 14px;display:flex;gap:10px;align-items:center;z-index:9999}
+.privacy-banner a{color:#93c5fd;text-decoration:underline}
+.privacy-banner .btn{padding:8px 12px;border:0;border-radius:10px;background:#2563eb;color:#fff;cursor:pointer}
+.brand .logo{width:28px;height:28px;vertical-align:-6px;margin-right:6px}
+.hero{margin:18px 0}
+.hero img{width:100%;height:auto;border-radius:14px;display:block}
+.note{background:#0b1220;border:1px solid #1f2a44;border-radius:10px;padding:12px;margin:16px 0}
+.tip{background:#0e1a11;border:1px solid #214d2c;border-radius:10px;padding:12px;margin:16px 0}
+.faq dt{font-weight:700;margin-top:14px}
+.faq dd{margin:6px 0 10px 0}
+.author{display:flex;gap:14px;align-items:center;margin-top:24px;padding-top:16px;border-top:1px dashed #1f2a44}
+.author img{width:56px;height:56px;border-radius:50%}
+.related li{margin:6px 0}
+.lang-switch{margin:10px 0 6px 0}
+</style>
+
+<!-- JSON-LD -->
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
   "@type":"Article",
   "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/blog/podwojny-vpn.html"},
-  "headline":"Podwójny VPN (Double VPN) — kiedy warto i jak ustawić?",
-  "description":"Double VPN (podwójny VPN): działanie, kiedy ma sens, ograniczenia i konfiguracja.",
-  "image":"https://dloran1.github.io/assets/img/hero/what-is-a-vpn-uk.webp",
-  "datePublished":"2025-11-01",
-  "dateModified":"2025-11-01",
+  "headline":"Podwójny VPN (Double VPN) — kiedy warto, jak działa i ograniczenia",
+  "description":"Co daje Double VPN/MultiHop, jak go ustawić, kiedy ma sens i jakie ma wady. Praktyczne przykłady i FAQ.",
+  "image":"https://dloran1.github.io/assets/img/hero/vpn-double-vpn-uk.webp",
   "author":{"@type":"Person","name":"Denys Shchur"},
   "publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}},
-  "inLanguage":"pl-PL"
+  "datePublished":"2025-11-01",
+  "dateModified":"2025-11-01"
 }
 </script>
-<!-- JSON-LD: Breadcrumbs -->
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+{
+ "@context":"https://schema.org",
+ "@type":"BreadcrumbList",
+ "itemListElement":[
   {"@type":"ListItem","position":1,"name":"Strona główna","item":"https://dloran1.github.io/"},
   {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/blog/"},
   {"@type":"ListItem","position":3,"name":"Podwójny VPN"}
-]}
-</script>
-<!-- JSON-LD: FAQ -->
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-  {"@type":"Question","name":"Czym jest Double VPN?","acceptedAnswer":{"@type":"Answer","text":"To łańcuchowe połączenie przez dwa serwery VPN. Ruch jest szyfrowany i kierowany dwukrotnie, co utrudnia korelację danych."}},
-  {"@type":"Question","name":"Kiedy warto użyć podwójnego VPN?","acceptedAnswer":{"@type":"Answer","text":"Gdy priorytetem jest poufność, np. dziennikarstwo, wrażliwe badania, publiczne Wi-Fi w krajach z cenzurą."}},
-  {"@type":"Question","name":"Czy Double VPN jest szybki?","acceptedAnswer":{"@type":"Answer","text":"Nie. Zwykle spowalnia połączenie o 20–50% i zwiększa ping."}},
-  {"@type":"Question","name":"Czy mogę łączyć dowolne serwery?","acceptedAnswer":{"@type":"Answer","text":"Najczęściej wybierasz pary oferowane przez dostawcę. Własne łańcuchy przez dwóch dostawców są skomplikowane."}}
-]}
-</script>
-<!-- JSON-LD: Related -->
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"ItemList","name":"Powiązane przewodniki","itemListElement":[
-  {"@type":"ListItem","position":1,"name":"Protokoły VPN","url":"https://dloran1.github.io/blog/protokoly-vpn.html"},
-  {"@type":"ListItem","position":2,"name":"Optymalne ustawienia VPN","url":"https://dloran1.github.io/blog/optymalne-ustawienia-vpn.html"},
-  {"@type":"ListItem","position":3,"name":"Test prędkości VPN","url":"https://dloran1.github.io/blog/test-predkosci-vpn.html"},
-  {"@type":"ListItem","position":4,"name":"Jaki serwer VPN wybrać?","url":"https://dloran1.github.io/blog/jaki-serwer-vpn.html"}
-]}
+ ]
+}
 </script>
 </head>
 <body>
 
-<!-- Language switch -->
-<nav class="lang-switch">
+<nav class="lang-switch container">
   <a href="/blog/podwojny-vpn.html" class="active">Polski</a> |
   <a href="/en-gb/blog/vpn-double-vpn-uk.html">English (UK)</a> |
   <a href="/en-us/blog/vpn-double-vpn.html">English (US)</a> |
@@ -119,130 +140,127 @@
   <a href="/nl-be/blog/vpn-double-vpn.html">Nederlands (BE)</a>
 </nav>
 
-<!-- Только дата обновления (компактно) -->
-<div class="meta-bar container tiny" style="margin:.35rem 0 .2rem 0">
-  <span>Aktualizacja: <time datetime="2025-11-01">01.11.2025</time></span>
-</div>
-
 <header class="site-header">
   <div class="container header-inner">
-    <a href="/" class="brand"><img src="../assets/img/logo.png" class="logo" alt="VPN World"><span class="brand-text">VPN World</span></a>
+    <a href="/" class="brand"><img src="../assets/img/logo.png" class="logo" alt="VPN World logo"> <span class="brand-text">VPN World</span></a>
   </div>
 </header>
 
-<main class="container card">
+<main class="container card" style="padding:18px">
+  <p class="meta-line">Zaktualizowano: <time datetime="2025-11-01">01.11.2025</time></p>
+
   <figure class="hero">
-    <img src="/assets/img/hero/what-is-a-vpn-uk.webp" alt="Podwójny VPN (Double VPN)" width="1200" height="675" loading="eager" decoding="async">
-    <figcaption class="hero-text">
-      <h1>Podwójny VPN (Double VPN) — kiedy warto i jak ustawić?</h1>
-      <p>Maksymalna poufność kosztem prędkości: działanie, ustawienia i realne zastosowania.</p>
-    </figcaption>
+    <img src="/assets/img/hero/vpn-double-vpn-uk.webp" width="1200" height="675" alt="Schemat dwóch kolejnych węzłów — Podwójny VPN (Double VPN)" loading="eager" decoding="async">
   </figure>
 
-  <!-- Cookie banner -->
-  <div id="privacy-banner" class="privacy-banner">Używamy plików cookie. <a href="/privacy.html">Privacy</a> · <button class="btn btn-compact" onclick="acceptConsent()">OK</button></div>
+  <h1>Podwójny VPN (Double VPN) — kiedy to ma sens, a kiedy nie?</h1>
+  <p><strong>Podwójny VPN</strong> (często nazywany też <em>Double VPN</em> lub <em>MultiHop</em>) to funkcja, w której Twój ruch przechodzi przez <em>dwa</em> różne serwery VPN, zanim dotrze do internetu. Zyskujesz dodatkową warstwę separacji: dostawca internetu widzi jedynie połączenie do pierwszego węzła, strony docelowe widzą adres IP drugiego. Brzmi jak tarcza + tarcza — i faktycznie tak jest, ale ceną bywa <strong>spadek prędkości</strong> oraz bardziej skomplikowany routing.</p>
 
-  <section class="content">
-    <p class="eyebrow">Szybka odpowiedź</p>
-    <div class="note">
-      <p><strong>Double VPN</strong> kieruje Twój ruch przez <strong>dwa serwery</strong> zamiast jednego. Zyskujesz lepszą separację metadanych i trudniejszą korelację ruchu, ale <strong>tracisz na prędkości</strong> (często 20–50% względem pojedynczego VPN). Używaj, gdy poufność jest ważniejsza niż streaming czy gry.</p>
-    </div>
+  <div class="tip"><strong>Szybka odpowiedź:</strong> Double VPN warto włączyć, gdy priorytetem jest <em>maksymalna separacja metadanych</em> (dziennikarze, badacze, wrażliwe zapytania) i akceptujesz niższe prędkości. Do codziennego użytku (streaming, gry, bankowość) zwykle lepszy będzie pojedynczy węzeł z <a href="/blog/protokoly-vpn.html">szybkim protokołem</a> (WireGuard/NordLynx/Lightway), aktywnym Kill Switch i prywatnym DNS.</div>
 
-    <!-- CTA #1 -->
-    <p><a class="btn cta" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">Wypróbuj NordVPN — Double VPN + NordLynx</a></p>
-    <p class="tiny">Alternatywa: <a href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark</a> (MultiHop 2.0).</p>
+  <!-- CTA #1 -->
+  <p><a class="btn btn-primary" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">Wypróbuj NordVPN — MultiHop + wysoka prędkość</a></p>
+  <p class="tiny">Alternatywa: <a href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark</a> (MultiHop Dynamic, rotacja IP, CleanWeb).</p>
 
-    <h2>Jak działa podwójny VPN?</h2>
-    <p>W modelu Double VPN klient zestawia tunel do <em>serwera A</em>, a wewnątrz niego drugi tunel do <em>serwera B</em>. W Internecie widoczny jest adres IP <em>serwera B</em>. Serwer A zna Twoje IP, ale nie widzi treści końcowego połączenia; serwer B widzi ruch, lecz nie zna IP źródłowego. Korelacja jest trudniejsza — zwłaszcza gdy serwery znajdują się w różnych jurysdykcjach.</p>
+  <h2>Jak działa Double VPN (w praktyce)</h2>
+  <p>Połączenie budowane jest warstwowo: najpierw tunel do <strong>Serwera A</strong>, potem z jego wnętrza drugi tunel do <strong>Serwera B</strong>. Końcowy adres IP widoczny dla serwisu www pochodzi z B. Dostawca VPN może stosować różne kombinacje szyfrowań i tras (np. kraj A → kraj B). U niektórych usług da się wybrać pary ręcznie, u innych z góry zdefiniowane są najlepsze ścieżki (np. „Polska → Holandia”).</p>
 
-    <h3>Protokoły i firewall</h3>
-    <p>Zacznij od <strong>WireGuard/NordLynx</strong> (lub Lightway). Gdy sieć filtruje ten ruch, użyj <strong>OpenVPN TCP/443</strong>. Więcej o różnicach: <a href="/blog/protokoly-vpn.html">protokoły VPN</a>.</p>
+  <h3>Double VPN vs. własny „łańcuch” przez dwa różne VPN</h3>
+  <p>Teoretycznie możesz zestawić dwa różne programy VPN jeden na drugim (np. aplikacja X w systemie + <a href="/blog/vpn-konfiguracja-routera.html">tunel na routerze</a>). Daje to podobny efekt, ale trudniej to kontrolować i diagnozować. Wbudowane MultiHop w jednej aplikacji jest bardziej stabilne i łatwiejsze do wyłączenia jednym kliknięciem.</p>
 
-    <h2>Kiedy Double VPN ma sens?</h2>
-    <ul>
-      <li><strong>Wrażliwe projekty</strong> (badania, dziennikarstwo, informatorzy).</li>
-      <li><strong>Publiczne Wi-Fi</strong> w krajach z cenzurą — dodatkowa separacja metadanych (<a href="/blog/vpn-publiczne-wifi.html">poradnik Wi-Fi</a>).</li>
-      <li><strong>Podróże</strong> — gdy zależy Ci na mieszaniu jurysdykcji i tras.</li>
-    </ul>
-    <p><strong>Nie</strong> używaj Double VPN do streamingu/gier — ping i spadek prędkości będą odczuwalne. Do ogólnego użytku lepsze są <a href="/blog/optymalne-ustawienia-vpn.html">optymalne ustawienia VPN</a>.</p>
+  <h2>Kiedy włączyć Podwójny VPN</h2>
+  <ul>
+    <li><strong>Wrażliwe badania/OSINT</strong> — gdy nie chcesz, by ktokolwiek powiązał Twoje IP z zapytaniami, a zwykły pojedynczy węzeł to za mało.</li>
+    <li><strong>Publiczne hotspoty</strong> + wymaganie dodatkowej separacji metadanych (obok <a href="/blog/bezpieczenstwo-wifi.html">higieny Wi-Fi</a> i <a href="/blog/lista-bezpieczenstwa-wifi.html">checklisty</a>).</li>
+    <li><strong>Praca z materiałami poufnymi</strong>, gdzie polityka bezpieczeństwa wymaga „nadmiarowych” warstw.</li>
+  </ul>
 
-    <h2>Plusy i minusy</h2>
-    <div class="grid two">
-      <div class="tip">
-        <h3>Plusy</h3>
-        <ul>
-          <li>Lepsza separacja tożsamości i miejsca wyjścia.</li>
-          <li>Utrudniona korelacja czasowa ruchu.</li>
-          <li>Możliwość mieszania jurysdykcji.</li>
-        </ul>
-      </div>
-      <div class="note">
-        <h3>Minusy</h3>
-        <ul>
-          <li>Niższa prędkość (−20–50%) i wyższy ping — sprawdź <a href="/blog/test-predkosci-vpn.html">test prędkości VPN</a>.</li>
-          <li>Nie rozwiązuje fingerprintingu przeglądarki.</li>
-          <li>Nie każdy duet serwerów nadaje się do VOD.</li>
-        </ul>
-      </div>
-    </div>
+  <h2>Kiedy <em>nie</em> używać Double VPN</h2>
+  <ul>
+    <li><strong>Streaming</strong> — dodatkowy hop często obniży prędkość i stabilność. Lepiej wybrać pojedynczy serwer zoptymalizowany do VOD i (jeśli trzeba) obejść <a href="/blog/bloki-geo-vpn.html">blokady geograficzne</a>.</li>
+    <li><strong>Gry online</strong> — każdy skok = większy ping. Tu liczy się najbliższy, najmniej obciążony serwer.</li>
+    <li><strong>Codzienna bankowość</strong> — prościej i szybciej po jednym węźle, najlepiej w Twoim kraju.</li>
+  </ul>
 
-    <h2>Konfiguracja — krok po kroku</h2>
-    <ol>
-      <li><strong>Wybierz parę serwerów</strong> (najlepiej różne kraje). Dla UE sprawdza się np. PL→NL lub DE→CH. Gdy zależy Ci na niskim opóźnieniu, wybieraj geograficznie bliskie wyjście — patrz <a href="/blog/jaki-serwer-vpn.html">jaki serwer VPN</a>.</li>
-      <li><strong>Protokół:</strong> WireGuard/NordLynx; gdy nie działa — OpenVPN TCP/443.</li>
-      <li><strong>Kill Switch:</strong> włącz, by uniknąć wycieków IP.</li>
-      <li><strong>DNS + IPv6:</strong> prywatne DNS dostawcy i blokada IPv6, by uniknąć <a href="/blog/wyciek-dns-vpn.html">wycieków DNS</a>.</li>
-      <li><strong>Testy końcowe:</strong> IP/IPv6/DNS + speed-test. W razie dużych strat przełącz parę serwerów lub wróć do pojedynczego tunelu.</li>
-    </ol>
+  <h2>Wpływ na prędkość: czego się spodziewać</h2>
+  <p>Przepuszczenie ruchu przez dwa węzły sprawia, że spada przepustowość i rośnie opóźnienie. W praktyce różnica bywa od kilku do kilkudziesięciu procent w zależności od odległości między węzłami i ich obciążenia. Jeśli zależy Ci na faktach, wykonaj <a href="/blog/test-predkosci-vpn.html">test prędkości VPN</a> przed i po włączeniu Double VPN, najlepiej o podobnej porze dnia.</p>
 
-    <h2>Najlepsze praktyki</h2>
-    <ul>
-      <li>Nie łącz kilku VPN równocześnie (system + przeglądarka + router) — trasa robi się niestabilna.</li>
-      <li>Wyłącz zbędne aplikacje w tle, aby nie marnować pasma przy podwójnym szyfrowaniu.</li>
-      <li>Do pracy zdalnej stosuj profil „praca” i włączaj Double VPN tylko na czas zadań — patrz <a href="/blog/vpn-praca-zdalna.html">VPN a praca zdalna</a>.</li>
-    </ul>
+  <div class="note"><strong>Wskazówka:</strong> używaj protokołów z szybką kryptografią (WireGuard/NordLynx), aby zniwelować część „podatku” MultiHop. Pamiętaj też o prywatnym DNS i blokadzie IPv6, aby uniknąć anomalii i <a href="/blog/wyciek-dns-vpn.html">wycieków DNS</a>.</div>
 
-    <!-- Wideo -->
-    <div class="video-wrap" style="margin:1rem 0">
-      <iframe width="560" height="315"
-        src="https://www.youtube-nocookie.com/embed/8G4G4Y3vG9k"
-        title="Double VPN — jak działa (video)" frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen></iframe>
-      <p class="tiny">Nie działa? Otwórz: <a href="https://www.youtube.com/watch?v=8G4G4Y3vG9k" target="_blank" rel="noopener">YouTube</a>.</p>
-    </div>
+  <h2>Konfiguracja: najprostsza ścieżka</h2>
+  <ol>
+    <li>W aplikacji dostawcy znajdź sekcję <em>MultiHop/Double VPN</em>.</li>
+    <li>Wybierz jedną z par (np. „Polska → Holandia”). Jeśli masz opcję manualną, dobierz kraje, które są blisko i mają dobre łącza tranzytowe.</li>
+    <li>Włącz <strong>Kill Switch</strong> i „blokadę IPv6”. Jeżeli aplikacja ma <em>Threat Protection/CleanWeb</em>, włącz dla filtracji DNS.</li>
+    <li>Sprawdź IP i DNS (np. na stronach testowych) — potwierdź, że widoczne jest IP <em>drugiego</em> węzła.</li>
+  </ol>
 
-    <!-- CTA #2 -->
-    <div class="cta-row">
-      <p><a class="btn cta" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — Double VPN + szybki NordLynx</a></p>
-      <p class="tiny">Alternatywa: <a href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark MultiHop 2.0</a>.</p>
-    </div>
+  <h2>Scenariusze użycia i dobre praktyki</h2>
+  <ul>
+    <li><strong>Minimalizuj trasę</strong>: wybieraj pary krajów z dobrą łącznością (np. PL→NL, DE→CH). Im krótsza trasa, tym mniejszy spadek prędkości.</li>
+    <li><strong>Nie przesadzaj z hopami</strong>: łańcuch 3+ węzłów brzmi atrakcyjnie, ale w praktyce mocno spowalnia i komplikuje debugowanie.</li>
+    <li><strong>Rozdziel aplikacje</strong>: jeżeli tylko <em>część</em> ruchu wymaga MultiHop, użyj <em>split tunneling</em> — reszta pójdzie zwykłym tunelem lub poza VPN.</li>
+    <li><strong>Testuj obciążenie</strong>: wybieraj serwery o niskim obciążeniu i dobrą reputacją dla Twoich usług (czasem różne pary lepiej działają dla różnych serwisów).</li>
+  </ul>
 
-    <h2>FAQ — szybkie odpowiedzi</h2>
-    <details><summary>Czy Double VPN nadaje się do Netfliksa?</summary><p>Najczęściej nie — dodatkowa latencja i mniejsza prędkość. Do VOD używaj pojedynczego tunelu z serwerem streamingowym.</p></details>
-    <details><summary>Czy wycieki DNS są bardziej prawdopodobne?</summary><p>Nie, jeśli używasz prywatnych DNS i blokady IPv6 oraz testujesz po zmianie pary serwerów.</p></details>
-    <details><summary>Czy mogę łączyć dwóch różnych dostawców?</summary><p>Teoretycznie tak (np. drugi VPN w VM/routerze), ale to skomplikowane i podatne na błędy — lepiej wbudowany MultiHop.</p></details>
+  <!-- WIDEO (oficjalne, EN) -->
+  <div class="video-wrap">
+    <iframe src="https://www.youtube-nocookie.com/embed/6YvG7x2YQjI" title="What is Double VPN / MultiHop" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </div>
+  <p class="tiny">Jeśli osadzony film się nie wczytuje, obejrzyj go bezpośrednio na YouTube.</p>
+
+  <h2>Alternatywy dla Podwójnego VPN</h2>
+  <ul>
+    <li><strong>Pojedynczy szybki węzeł + twarde ustawienia prywatności</strong> (Kill Switch, prywatny DNS, brak logów, blokada IPv6).</li>
+    <li><strong>„Rotacja IP”</strong> — częsta zmiana adresu może lepiej zacierać ślady niż dodatkowy hop.</li>
+    <li><strong>Tor przez VPN</strong> — większa anonimowość kosztem wydajności; dobry do wyspecjalizowanych zadań, nie do streamingu.</li>
+  </ul>
+
+  <h2>Najczęstsze problemy i szybkie naprawy</h2>
+  <p><strong>Wolno działa</strong> — wybierz bliższą parę, zmień protokół na WireGuard/NordLynx; porównaj różne pory dnia. <strong>Strona nie działa/wykrywa VPN</strong> — sprawdź inną parę MultiHop lub użyj pojedynczego węzła; część serwisów gorzej toleruje łańcuchy. <strong>Wycieki DNS</strong> — upewnij się, że aplikacja zmieniła DNS na prywatne i zablokowała IPv6.</p>
+
+  <!-- CTA #2 (bliżej końca) -->
+  <p><a class="btn btn-secondary" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">Sprawdź Double VPN w NordVPN</a></p>
+  <p class="tiny">Albo przetestuj <a href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — MultiHop Dynamic</a>.</p>
+
+  <section aria-labelledby="faq">
+    <h2 id="faq">FAQ — Podwójny VPN</h2>
+    <dl class="faq">
+      <dt>Czy Double VPN podwójnie szyfruje dane?</dt>
+      <dd>Tak — każdy tunel stosuje własne szyfrowanie. Najważniejszy zysk to jednak separacja metadanych: inne IP wejścia i wyjścia.</dd>
+
+      <dt>Czy Double VPN ukryje mnie przed usługodawcą VPN?</dt>
+      <dd>Nie. Dostawca nadal widzi sesję (przynajmniej na jednym z węzłów). Dlatego kluczowa jest polityka „brak logów” i wiarygodność marki.</dd>
+
+      <dt>Czy MultiHop poprawi omijanie blokad VOD?</dt>
+      <dd>Zwykle nie — częściej pogarsza stabilność. Do VOD lepszy jest pojedynczy serwer zoptymalizowany do streamingu.</dd>
+
+      <dt>Jak to testować?</dt>
+      <dd>Zmierz ping/przepustowość <a href="/blog/test-predkosci-vpn.html">przed i po</a>; sprawdź też <a href="/blog/wyciek-dns-vpn.html">wycieki DNS/IP</a>.</dd>
+    </dl>
   </section>
 
-  <!-- Author box -->
-  <aside class="author-box">
-    <img src="/assets/img/author/denys-shchur.webp" alt="Denys Shchur" width="72" height="72" loading="lazy">
+  <div class="author">
+    <img src="/assets/img/author/denys-shchur.webp" alt="Denys Shchur — autor">
     <div>
-      <strong>Denys Shchur</strong>
-      <p class="tiny">Redaktor VPN World. Pisze o prywatności i praktycznych ustawieniach bezpieczeństwa.</p>
+      <strong>Denys Shchur</strong><br>
+      Redaktor VPN World. Testuje protokoły, prędkości i praktyczne ustawienia prywatności.
     </div>
-  </aside>
+  </div>
 
-  <!-- Related (PL, żywe slugi) -->
-  <aside class="related">
-    <h2>Powiązane przewodniki</h2>
-    <ul>
-      <li><a href="/blog/protokoly-vpn.html">Protokoły VPN</a></li>
-      <li><a href="/blog/optymalne-ustawienia-vpn.html">Optymalne ustawienia VPN</a></li>
-      <li><a href="/blog/test-predkosci-vpn.html">Test prędkości VPN</a></li>
-      <li><a href="/blog/jaki-serwer-vpn.html">Jaki serwer VPN wybrać?</a></li>
+  <hr>
+  <section aria-labelledby="related">
+    <h2 id="related">Powiązane przewodniki</h2>
+    <ul class="related">
+      <li><a href="/blog/protokoly-vpn.html">Protokoły VPN — który wybrać</a></li>
+      <li><a href="/blog/test-predkosci-vpn.html">Test prędkości VPN — jak mierzyć poprawnie</a></li>
+      <li><a href="/blog/wyciek-dns-vpn.html">Wyciek DNS — jak wykryć i zablokować</a></li>
+      <li><a href="/blog/vpn-konfiguracja-routera.html">VPN na routerze — krok po kroku</a></li>
+      <li><a href="/blog/bezpieczenstwo-wifi.html">Bezpieczeństwo Wi-Fi w domu i pracy</a></li>
+      <li><a href="/blog/bloki-geo-vpn.html">Blokady geograficzne — jak je omijać</a></li>
+      <li><a href="/blog/mity-o-vpn.html">Mity o VPN — co jest prawdą</a></li>
     </ul>
-  </aside>
+  </section>
 </main>
 
 <footer class="site-footer">
@@ -252,6 +270,40 @@
   </div>
   <div class="container tiny">© 2025 VPN World</div>
 </footer>
+
+<!-- JSON-LD: FAQPage + Related(ItemList) -->
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"FAQPage",
+ "mainEntity":[
+  {"@type":"Question","name":"Czy Double VPN podwójnie szyfruje dane?","acceptedAnswer":{"@type":"Answer","text":"Tak — każdy tunel ma własne szyfrowanie, a największy zysk to separacja metadanych (inne IP wejścia i wyjścia)."}},
+  {"@type":"Question","name":"Czy MultiHop pomoże w VOD?","acceptedAnswer":{"@type":"Answer","text":"Zazwyczaj nie. Do VOD wybierz pojedynczy serwer zoptymalizowany do streamingu; MultiHop częściej obniża prędkość."}},
+  {"@type":"Question","name":"Jak testować Double VPN?","acceptedAnswer":{"@type":"Answer","text":"Porównaj ping/przepustowość przed i po, sprawdź wycieki DNS/IP, ewentualnie zmień parę serwerów i protokół."}}
+ ]
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"ItemList",
+ "itemListElement":[
+  {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/blog/protokoly-vpn.html"},
+  {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/blog/test-predkosci-vpn.html"},
+  {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/blog/wyciek-dns-vpn.html"},
+  {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/blog/vpn-konfiguracja-routera.html"},
+  {"@type":"ListItem","position":5,"url":"https://dloran1.github.io/blog/bezpieczenstwo-wifi.html"},
+  {"@type":"ListItem","position":6,"url":"https://dloran1.github.io/blog/bloki-geo-vpn.html"},
+  {"@type":"ListItem","position":7,"url":"https://dloran1.github.io/blog/mity-o-vpn.html"}
+ ]
+}
+</script>
+
+<!-- Cookie banner (PL) -->
+<div id="privacy-banner" class="privacy-banner" role="dialog" aria-live="polite">
+  Używamy plików cookie. <a href="/privacy.html">Privacy</a>.
+  <button class="btn" onclick="acceptConsent()">OK</button>
+</div>
 
 <script src="../assets/js/main.js"></script>
 </body>
