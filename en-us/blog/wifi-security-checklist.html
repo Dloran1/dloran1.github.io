@@ -5,7 +5,6 @@
 <title>Wi-Fi Security Checklist 2025 — 25 essential steps to protect your network | VPN World</title>
 <meta name="description" content="Practical 2025 Wi-Fi security checklist: router hardening, WPA3, safe DNS, guest & IoT isolation, VPN usage, and leak tests. Updated, field-tested guidance.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="index, follow">
 
 <link rel="canonical" href="https://dloran1.github.io/en-us/blog/wifi-security-checklist.html">
 
@@ -35,8 +34,6 @@
 <meta property="og:locale:alternate" content="es_ES">
 <meta property="og:locale:alternate" content="fr_FR">
 <meta property="og:locale:alternate" content="nl_BE">
-<meta property="article:published_time" content="2025-11-27">
-<meta property="article:modified_time" content="2025-11-27">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
@@ -52,8 +49,6 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){ dataLayer.push(arguments); }
-
-  gtag('js', new Date());
   gtag('consent','default',{
     ad_storage:'denied',
     ad_user_data:'denied',
@@ -61,10 +56,10 @@
     analytics_storage:'denied',
     functionality_storage:'denied',
     personalization_storage:'denied',
-    security_storage:'granted'
+    security_storage:'denied'
   });
-  gtag('config','G-EMR8C4TLVM',{anonymize_ip:true});
-
+  gtag('js', new Date());
+  gtag('config','G-EMR8C4TLVM');
   function acceptConsent(){
     gtag('consent','update',{
       ad_storage:'granted',
@@ -94,7 +89,7 @@
 <header class="site-header">
   <div class="container header-inner">
     <a href="/en-us/" class="brand">
-      <img src="../../assets/img/logo.png" class="logo" alt=""><span class="brand-text">VPN World</span>
+      <img src="../../assets/img/logo.png" class="logo" alt="VPN World logo"><span class="brand-text">VPN World</span>
     </a>
   </div>
 </header>
@@ -112,7 +107,14 @@
     Updated: <time datetime="2025-11-27">November 27, 2025</time>
   </div>
 
-  <p class="lead">Short answer: enable WPA3, strong unique passwords, auto-updates, guest/IoT isolation, secure DNS, and use a reputable VPN when you’re on public Wi-Fi or want to hide browsing from your ISP. Then run leak tests.</p>
+  <p class="lead">Short answer: enable WPA3, strong unique passwords, auto-updates, guest/IoT isolation, secure DNS, and use a reputable VPN when you’re on public Wi-Fi or want to hide browsing from your ISP. Then run leak and speed tests to be sure everything works as expected.</p>
+
+  <p class="note">
+    New to this topic? First read the deep-dive <a href="/en-us/blog/wifi-security.html">Wi-Fi security guide</a>,
+    then follow this checklist. When you’re done, run a quick
+    <a href="/en-us/blog/vpn-speed-test.html">VPN speed test</a> and a
+    <a href="/en-us/blog/vpn-dns-leak.html">DNS/IPv6 leak test</a> to verify your setup.
+  </p>
 
   <!-- Early CTA -->
   <div class="cta">
@@ -124,13 +126,13 @@
 
   <h2>Quick wins (5–10 minutes)</h2>
   <ul class="checklist">
-    <li>Change default router admin password to a <strong>unique</strong> 16–20-char passphrase; turn off remote admin if unused.</li>
-    <li>Rename SSID to something neutral (no address/brand or name).</li>
+    <li>Change default router admin password to a <strong>unique</strong> 16–20-character passphrase; turn off remote admin if unused.</li>
+    <li>Rename SSID to something neutral (no address, ISP name or family name).</li>
     <li>Set Wi-Fi encryption to <strong>WPA3-Personal</strong> (or WPA2-AES if legacy devices force it; avoid mixed/TKIP).</li>
     <li>Update router firmware and enable auto-updates if supported.</li>
     <li>Disable WPS and UPnP; keep only needed services on.</li>
-    <li>Use a <strong>separate guest network</strong>; block access to LAN by default.</li>
-    <li>Prefer 5 GHz/6 GHz bands; reduce transmit power to cover just your home.</li>
+    <li>Use a <strong>separate guest network</strong> and block access to your LAN by default.</li>
+    <li>Prefer 5 GHz/6 GHz bands; reduce transmit power to cover just your home or apartment.</li>
   </ul>
 
   <h2>Router hardening (15–30 minutes)</h2>
@@ -138,33 +140,33 @@
     <li>Create a dedicated <strong>IoT VLAN/SSID</strong> for cameras, bulbs and TVs; deny inter-device and LAN access.</li>
     <li>Switch router DNS to a secure resolver (DoH/DoT) — Cloudflare 1.1.1.1, Quad9 9.9.9.9 or AdGuard; optionally enable DNS filtering.</li>
     <li>Enable <strong>MAC randomization</strong> on clients; disable legacy 802.11b/g if not needed.</li>
-    <li>Schedule Wi-Fi off during the night / working hours if useful.</li>
-    <li>Log out of the router panel after changes; keep a backup of config.</li>
+    <li>Schedule Wi-Fi off during the night or long absences to reduce attack surface.</li>
+    <li>Log out of the router panel after changes; keep an encrypted backup of the configuration.</li>
   </ol>
 
   <h2>Device hygiene</h2>
   <ul>
     <li>Keep OS and apps auto-updated; remove unused apps and old VPN profiles.</li>
     <li>Enable full-disk encryption (BitLocker/FileVault), screen lock and 2FA for accounts.</li>
-    <li>Use modern browsers with HTTPS-Only mode; block third-party cookies.</li>
-    <li>On mobiles, disable “auto-join” for unfamiliar networks; prefer personal hotspots over unknown Wi-Fi.</li>
+    <li>Use modern browsers with HTTPS-Only mode; block third-party cookies and aggressive tracking.</li>
+    <li>On mobiles, disable “auto-join” for unfamiliar networks; prefer personal hotspots over unknown public Wi-Fi.</li>
   </ul>
 
-  <div class="note"><strong>Note:</strong> A VPN does <em>not</em> secure your router itself. It encrypts traffic from your device to the VPN server, hiding it from local snoops and your ISP, and helps on hostile/public networks.</div>
+  <div class="note"><strong>Note:</strong> A VPN does <em>not</em> secure your router itself. It encrypts traffic from your device to the VPN server, hiding it from local snoops and your ISP, and helps on hostile/public networks. Think of it as a seat belt, not a full armored car.</div>
 
   <h2>Use a VPN smartly</h2>
   <ul>
     <li>Choose <strong>WireGuard</strong> or <strong>OpenVPN UDP</strong> for best speed/security; fall back to TCP when networks are restrictive.</li>
     <li>Enable the <strong>kill switch</strong> and auto-connect on untrusted Wi-Fi.</li>
-    <li>Pick nearby servers for latency; use country-specific servers for streaming/licensing needs.</li>
-    <li>Consider router-level VPN for “always-on” protection; keep a split-tunnel for latency-sensitive apps.</li>
+    <li>Pick nearby servers for latency; use country-specific servers for streaming/licensing needs. Our guide on <a href="/en-us/blog/which-vpn-server.html">which VPN server to choose</a> goes deeper.</li>
+    <li>Consider router-level VPN for “always-on” protection; keep a split tunnel for latency-sensitive apps.</li>
   </ul>
 
-  <h2>Run privacy &amp; leak tests</h2>
+  <h2>Run privacy & leak tests</h2>
   <ol>
-    <li>Check public IP and DNS servers before/after enabling the VPN.</li>
-    <li>Run <a href="/en-us/blog/vpn-dns-leak.html">DNS and WebRTC/IPv6 leak tests</a>; if leaks appear, disable IPv6 on the device or enable IPv6 support in the VPN app.</li>
-    <li>Verify HTTPS padlock and certificate on sensitive sites (banking, email).</li>
+    <li>Check public IP and DNS servers before and after enabling the VPN.</li>
+    <li>Run <strong>DNS</strong> and <strong>WebRTC/IPv6</strong> leak tests; if leaks appear, disable IPv6 on the device or enable IPv6 support in the VPN app.</li>
+    <li>Verify HTTPS padlock and certificate on sensitive sites (banking, email, workplace portals).</li>
   </ol>
 
   <h2>Common mistakes to avoid</h2>
@@ -184,11 +186,16 @@
   <p class="tiny" style="text-align:center;margin-top:6px;">
     If the video doesn’t load, <a href="https://www.youtube.com/watch?v=9O5K1H0QZ5Q" target="_blank" rel="noopener">watch on YouTube</a>.
   </p>
-
-  <h2>FAQ</h2>
-  <details><summary>Is WPA3 mandatory?</summary><p>Prefer WPA3-Personal whenever your devices support it. If legacy gear breaks, use WPA2-AES only, never TKIP or “mixed” with WEP.</p></details>
-  <details><summary>Do I need a VPN at home?</summary><p>At home it adds ISP privacy and geo options; on public Wi-Fi it’s strongly recommended to mitigate local snooping and rogue APs.</p></details>
-  <details><summary>Should I turn off 2.4 GHz?</summary><p>Keep it only for IoT or distant rooms. Main devices should use 5/6 GHz for speed and less interference.</p></details>
+    <h2>FAQ</h2>
+  <details><summary>Is WPA3 mandatory?</summary>
+    <p>Prefer WPA3-Personal whenever your devices support it. If legacy gear breaks, use WPA2-AES only, never TKIP or “mixed” with WEP.</p>
+  </details>
+  <details><summary>Do I need a VPN at home?</summary>
+    <p>At home it adds ISP privacy and geo options; on public Wi-Fi it’s strongly recommended to mitigate local snooping and rogue access points.</p>
+  </details>
+  <details><summary>Should I turn off 2.4 GHz?</summary>
+    <p>Keep it mainly for IoT or distant rooms. Primary devices should use 5/6 GHz for speed and less interference.</p>
+  </details>
 
   <!-- Late CTA -->
   <div class="cta">
@@ -203,7 +210,10 @@
   <!-- Author box -->
   <section class="author-box">
     <img src="/assets/img/author/denys-shchur.webp" alt="Denys Shchur" width="72" height="72" loading="lazy">
-    <div><strong>Denys Shchur</strong><br><span class="tiny">Editor, VPN World</span></div>
+    <div>
+      <strong>Denys Shchur</strong><br>
+      <span class="tiny">Editor, VPN World — tests consumer VPN apps and writes practical Wi-Fi and privacy guides.</span>
+    </div>
   </section>
 
   <!-- Related guides -->
@@ -219,8 +229,12 @@
 
 <footer class="site-footer">
   <div class="container footer-grid">
-    <div><strong>VPN World</strong><p>Independent guides on privacy and security.</p></div>
-    <nav><a href="/privacy.html">Privacy</a> <a href="/sitemap.xml">Sitemap</a> <a href="mailto:denger88@gmail.com">Contact</a></nav>
+    <div><strong>VPN World</strong><p>Independent guides on privacy, streaming and security.</p></div>
+    <nav>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/sitemap.xml">Sitemap</a>
+      <a href="mailto:denger88@gmail.com">Contact</a>
+    </nav>
   </div>
   <div class="container tiny">© 2025 VPN World</div>
 </footer>
@@ -229,40 +243,68 @@
 <script src="../../assets/js/cookie-consent.js"></script>
 
 <!-- Cookie/Privacy banner -->
-<div id="privacy-banner" class="privacy-banner">We use cookies. <a href="/privacy.html">Privacy</a> ·
+<div id="privacy-banner" class="privacy-banner">
+  We use cookies. <a href="/privacy.html">Privacy</a> ·
   <button class="btn btn-compact" onclick="acceptConsent();this.parentElement.remove()">OK</button>
 </div>
 
-<!-- JSON-LD -->
+<!-- JSON-LD: Article -->
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
   "@type":"Article",
   "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/en-us/blog/wifi-security-checklist.html"},
   "headline":"Wi-Fi Security Checklist 2025 — 25 essential steps to protect your network",
-  "description":"Practical Wi-Fi security checklist: router hardening, WPA3, safe DNS, guest & IoT isolation, VPN usage, and leak tests.",
+  "description":"Practical Wi-Fi security checklist for US users: router hardening, WPA3, safe DNS, guest & IoT isolation, VPN usage, and leak tests.",
   "image":"https://dloran1.github.io/assets/img/hero/wifi-security-checklist-uk.webp",
   "datePublished":"2025-11-27",
   "dateModified":"2025-11-27",
   "author":{"@type":"Person","name":"Denys Shchur"},
-  "publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}},
+  "publisher":{
+    "@type":"Organization",
+    "name":"VPN World",
+    "logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}
+  },
   "articleSection":"Wi-Fi security",
   "wordCount":"1300"
 }
 </script>
 
+<!-- JSON-LD: FAQPage -->
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
   "@type":"FAQPage",
   "mainEntity":[
-    {"@type":"Question","name":"Is WPA3 mandatory?","acceptedAnswer":{"@type":"Answer","text":"Prefer WPA3-Personal whenever devices support it; otherwise WPA2-AES only."}},
-    {"@type":"Question","name":"Do I need a VPN at home?","acceptedAnswer":{"@type":"Answer","text":"At home it adds ISP privacy and geo options; on public Wi-Fi it’s strongly recommended."}},
-    {"@type":"Question","name":"Should I turn off 2.4 GHz?","acceptedAnswer":{"@type":"Answer","text":"Keep it for IoT/distant rooms only; use 5/6 GHz for primary devices."}}
+    {
+      "@type":"Question",
+      "name":"Is WPA3 mandatory?",
+      "acceptedAnswer":{
+        "@type":"Answer",
+        "text":"Prefer WPA3-Personal whenever your devices support it. If legacy gear breaks, use WPA2-AES only — never TKIP or mixed modes with WEP."
+      }
+    },
+    {
+      "@type":"Question",
+      "name":"Do I need a VPN at home?",
+      "acceptedAnswer":{
+        "@type":"Answer",
+        "text":"At home a VPN adds privacy from your ISP and geo options; on public Wi-Fi it is strongly recommended to reduce local snooping and rogue access point risks."
+      }
+    },
+    {
+      "@type":"Question",
+      "name":"Should I turn off 2.4 GHz?",
+      "acceptedAnswer":{
+        "@type":"Answer",
+        "text":"Keep 2.4 GHz mainly for IoT or distant rooms. Primary laptops and phones should use 5 or 6 GHz for speed and lower interference."
+      }
+    }
   ]
 }
 </script>
 
+<!-- JSON-LD: BreadcrumbList -->
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
@@ -275,6 +317,7 @@
 }
 </script>
 
+<!-- JSON-LD: ItemList (related) -->
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
