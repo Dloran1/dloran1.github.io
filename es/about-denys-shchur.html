@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>Sobre el autor – Denys Shchur | VPN World</title>
+  <title>Sobre el autor — Denys Shchur | VPN World</title>
   <meta name="description" content="Conozca a Denys Shchur, el autor detrás de VPN World. Probador independiente de VPN, redactor especializado en ciberseguridad y arquitecto de contenidos SEO centrado en la privacidad.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="index, follow">
@@ -23,11 +23,11 @@
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="VPN World">
-  <meta property="og:title" content="Sobre el autor – Denys Shchur | VPN World">
+  <meta property="og:title" content="Sobre el autor — Denys Shchur | VPN World">
   <meta property="og:description" content="Descubra quién es Denys Shchur, el creador de VPN World. Prueba VPN, servicios de streaming y herramientas de seguridad y convierte los resultados en guías prácticas.">
   <meta property="og:url" content="https://dloran1.github.io/es/about-denys-shchur.html">
   <meta property="og:image" content="https://dloran1.github.io/assets/img/author/denys-shchur.webp">
-  <meta property="og:image:alt" content="Denys Shchur – autor de VPN World">
+  <meta property="og:image:alt" content="Denys Shchur — autor de VPN World">
   <meta property="og:locale" content="es_ES">
   <meta property="og:locale:alternate" content="pl_PL">
   <meta property="og:locale:alternate" content="en_GB">
@@ -38,12 +38,14 @@
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Sobre el autor – Denys Shchur | VPN World">
+  <meta name="twitter:title" content="Sobre el autor — Denys Shchur | VPN World">
   <meta name="twitter:description" content="Probador independiente de VPN, redactor de ciberseguridad y arquitecto de contenido SEO detrás de VPN World.">
   <meta name="twitter:image" content="https://dloran1.github.io/assets/img/author/denys-shchur.webp">
 
   <!-- Preconnect -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
   <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
 
   <!-- Styles -->
@@ -54,56 +56,112 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+
     gtag('consent', 'default', {
-      'ad_storage': 'denied',
-      'ad_user_data': 'denied',
-      'ad_personalization': 'denied',
-      'analytics_storage': 'denied',
-      'functionality_storage': 'denied',
-      'personalization_storage': 'denied',
-      'security_storage': 'denied'
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'denied',
+      personalization_storage: 'denied',
+      security_storage: 'granted'
     });
+
     gtag('js', new Date());
     gtag('config', 'G-RD6M691ZWD');
 
     function acceptConsent() {
       gtag('consent', 'update', {
-        'ad_storage': 'granted',
-        'ad_user_data': 'granted',
-        'ad_personalization': 'granted',
-        'analytics_storage': 'granted',
-        'functionality_storage': 'granted',
-        'personalization_storage': 'granted',
-        'security_storage': 'granted'
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+        analytics_storage: 'granted',
+        functionality_storage: 'granted',
+        personalization_storage: 'granted',
+        security_storage: 'granted'
       });
       var banner = document.getElementById('cookie-banner');
-      if (banner) {
-        banner.style.display = 'none';
-      }
+      if (banner) banner.style.display = 'none';
+      try { localStorage.setItem('vpnworld_consent', 'granted'); } catch(e) {}
     }
+
+    (function restoreConsent(){
+      try {
+        if (localStorage.getItem('vpnworld_consent') === 'granted') {
+          gtag('consent', 'update', {
+            ad_storage: 'granted',
+            ad_user_data: 'granted',
+            ad_personalization: 'granted',
+            analytics_storage: 'granted',
+            functionality_storage: 'granted',
+            personalization_storage: 'granted',
+            security_storage: 'granted'
+          });
+          var banner = document.getElementById('cookie-banner');
+          if (banner) banner.style.display = 'none';
+        }
+      } catch(e) {}
+    })();
   </script>
 
-  <!-- JSON-LD Person -->
+  <!-- JSON-LD (Person + Organization + WebSite + WebPage + Breadcrumbs) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Person",
-    "@id": "https://dloran1.github.io/es/about-denys-shchur.html#person",
-    "name": "Denys Shchur",
-    "url": "https://dloran1.github.io/es/about-denys-shchur.html",
-    "image": "https://dloran1.github.io/assets/img/author/denys-shchur.webp",
-    "sameAs": [
-      "https://www.linkedin.com/in/denys-shchur/"
-    ],
-    "jobTitle": "Probador independiente de VPN y arquitecto de contenidos SEO",
-    "worksFor": {
-      "@type": "Organization",
-      "name": "VPN World"
-    },
-    "description": "Creador de VPN World. Prueba servicios VPN y herramientas de privacidad y transforma los resultados en guías prácticas para usuarios reales."
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://dloran1.github.io/#organization",
+        "name": "VPN World",
+        "url": "https://dloran1.github.io/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://dloran1.github.io/assets/img/logo.png"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://dloran1.github.io/#website",
+        "url": "https://dloran1.github.io/",
+        "name": "VPN World",
+        "publisher": { "@id": "https://dloran1.github.io/#organization" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://dloran1.github.io/es/about-denys-shchur.html#person",
+        "name": "Denys Shchur",
+        "url": "https://dloran1.github.io/es/about-denys-shchur.html",
+        "image": "https://dloran1.github.io/assets/img/author/denys-shchur.webp",
+        "sameAs": [
+          "https://www.linkedin.com/in/denys-shchurr/"
+        ],
+        "jobTitle": "Probador independiente de VPN y arquitecto de contenidos SEO",
+        "worksFor": { "@id": "https://dloran1.github.io/#organization" },
+        "description": "Probador independiente de VPN, redactor especializado en ciberseguridad y arquitecto de contenidos SEO detrás de VPN World."
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://dloran1.github.io/es/about-denys-shchur.html#webpage",
+        "url": "https://dloran1.github.io/es/about-denys-shchur.html",
+        "name": "Sobre el autor — Denys Shchur | VPN World",
+        "isPartOf": { "@id": "https://dloran1.github.io/#website" },
+        "about": { "@id": "https://dloran1.github.io/es/about-denys-shchur.html#person" },
+        "inLanguage": "es",
+        "dateModified": "2026-01-02"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://dloran1.github.io/es/about-denys-shchur.html#breadcrumbs",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://dloran1.github.io/es/" },
+          { "@type": "ListItem", "position": 2, "name": "Autor", "item": "https://dloran1.github.io/es/about-denys-shchur.html" }
+        ]
+      }
+    ]
   }
   </script>
 </head>
+
 <body>
   <header class="site-header">
     <div class="top-lang-switch">
@@ -111,23 +169,32 @@
       <a href="https://dloran1.github.io/en-gb/about-denys-shchur.html">English (UK)</a> |
       <a href="https://dloran1.github.io/en-us/about-denys-shchur.html">English (US)</a> |
       <a href="https://dloran1.github.io/de/about-denys-shchur.html">Deutsch</a> |
-      <a href="https://dloran1.github.io/es/about-denys-shchur.html">Español</a> |
+      <a href="https://dloran1.github.io/es/about-denys-shchur.html" class="active">Español</a> |
       <a href="https://dloran1.github.io/fr/about-denys-shchur.html">Français</a> |
       <a href="https://dloran1.github.io/nl-be/about-denys-shchur.html">Nederlands (BE)</a>
     </div>
+
     <div class="logo-wrap">
-      <a href="https://dloran1.github.io/" class="logo">VPN World</a>
+      <a href="https://dloran1.github.io/es/" class="logo">VPN World</a>
     </div>
   </header>
 
   <main class="content">
     <article class="article">
-      <p class="breadcrumb">VPN World · Autor · Sobre mí</p>
-      <h1>Sobre el autor – Denys Shchur</h1>
-      <p class="meta">Última actualización: 25 de noviembre de 2025</p>
+      <p class="breadcrumb">VPN World · Autor · Sobre</p>
+
+      <h1>Sobre el autor — Denys Shchur</h1>
+
+      <p class="meta">
+        Última actualización: <time datetime="2026-01-02">2 de enero de 2026</time>
+      </p>
 
       <figure class="author-figure">
-        <img src="/assets/img/author/denys-shchur.webp" alt="Denys Shchur – autor de VPN World" loading="lazy">
+        <img src="/assets/img/author/denys-shchur.webp"
+             alt="Denys Shchur — autor de VPN World"
+             loading="lazy"
+             width="720"
+             height="720">
       </figure>
 
       <p>
@@ -138,129 +205,63 @@
 
       <p>
         VPN World nació como un proyecto independiente y con el tiempo se ha convertido en un archivo
-        multilingüe sobre privacidad y seguridad. No se trata solo de listar funciones, sino de entender
-        cómo se comporta una VPN cuando se usa en una conexión doméstica normal, en una red Wi-Fi pública
-        o durante un viaje, y qué implicaciones reales tiene para la privacidad.
+        multilingüe sobre privacidad y seguridad. Me interesa cómo se comporta una VPN cuando se usa en
+        una conexión doméstica normal, en una red Wi-Fi pública o durante un viaje, y qué implicaciones
+        reales tiene para la privacidad — más allá de las promesas de marketing.
       </p>
 
       <p>
         Además de VPN World, también dirijo
-        <a href="https://smartadvisoronline.com" target="_blank" rel="noopener noreferrer">SmartAdvisorOnline</a>,
+        <a href="https://smartadvisoronline.com" target="_blank" rel="noopener noreferrer">SmartAdvisorOnline</a> —
         un proyecto en inglés centrado en recomendaciones de VPN, buenas prácticas de seguridad
         y guías paso a paso sobre trabajo remoto y uso responsable de la tecnología.
       </p>
 
       <h2>Cómo construyo el contenido en VPN World</h2>
-      <p>
-        Cada guía extensa que publico suele apoyarse en tres pilares:
-      </p>
+      <p>Cuando preparo una guía, suelo mirarla desde tres ángulos:</p>
       <ul>
-        <li>
-          <strong>Uso real</strong>: probar una VPN en distintos dispositivos (móvil, portátil,
-          Smart TV, router) y diferentes entornos de red.
-        </li>
-        <li>
-          <strong>Base técnica</strong>: entender protocolos, cifrado, fugas de DNS,
-          políticas de registros (logs) y funciones como el kill switch o el split tunneling.
-        </li>
-        <li>
-          <strong>Visión a largo plazo</strong>: observar cómo se comporta un servicio después
-          de semanas o meses de uso y no solo durante una primera impresión.
-        </li>
+        <li><strong>Uso real</strong> — pruebas en distintos dispositivos y redes (móvil, portátil, Smart TV, router; casa, viajes, Wi-Fi público).</li>
+        <li><strong>Base técnica</strong> — protocolos, cifrado, gestión de DNS, kill switch, split tunneling y políticas de registros.</li>
+        <li><strong>Visión a largo plazo</strong> — cómo se comporta el servicio tras semanas o meses, no solo en una primera impresión.</li>
       </ul>
       <p>
         A partir de ahí, intento responder a preguntas muy concretas:
         si una VPN es suficiente para banca online, si sirve para saltar bloqueos geográficos
-        sin romper la calidad de vídeo, o si es una buena idea usar una opción gratuita
-        para algo más que tareas muy básicas.
+        sin romper la calidad de vídeo o si una opción gratuita tiene sentido más allá de tareas básicas.
       </p>
 
-      <h2>Privacidad, seguridad y detalles que importan</h2>
-      <p>
-        La diferencia entre una configuración segura y una que solo lo parece suele estar
-        en pequeños detalles. Por ejemplo:
-      </p>
+      <h2>Privacidad, seguridad y los pequeños detalles</h2>
+      <p>La diferencia entre una configuración segura y una que solo lo parece suele estar en detalles. Por ejemplo:</p>
       <ul>
         <li>cómo se gestionan las consultas DNS y si existe riesgo de fugas,</li>
         <li>si el proveedor mantiene registros que podrían vincularse a una persona,</li>
-        <li>si usa servidores solo en RAM y protocolos modernos como WireGuard,</li>
+        <li>si utiliza protocolos modernos y una infraestructura sólida,</li>
         <li>si el kill switch realmente bloquea el tráfico cuando el túnel se cae.</li>
       </ul>
       <p>
-        Por eso en muchas de mis guías aparecen términos como <em>No-Logs</em>, fugas de DNS,
-        IP dedicada o 2FA/MFA. No es para complicar las cosas, sino para explicar qué ajustes
-        merece la pena revisar y qué partes del panel de configuración se pueden dejar tal cual.
+        Por eso en mis guías aparecen términos como <em>No-Logs</em>, fugas de DNS,
+        IP dedicada o 2FA/MFA. El objetivo no es complicar, sino explicar qué ajustes merece la pena revisar
+        y cuáles no suelen marcar la diferencia para la mayoría.
       </p>
 
-      <h2>Un enfoque basado en escenarios reales</h2>
-      <p>
-        Más allá de los tests sintéticos, concentro las pruebas en situaciones que se parecen
-        a lo que hace la mayoría de la gente:
-      </p>
+      <h2>Cómo funcionan las pruebas en la práctica</h2>
+      <p>Diseño las pruebas alrededor de patrones de uso reales, no solo de benchmarks. Eso incluye:</p>
       <ul>
-        <li>ver series, eventos deportivos y plataformas de streaming internacionales,</li>
-        <li>trabajar a distancia con conexión a recursos de la empresa,</li>
-        <li>usar redes Wi-Fi públicas en aeropuertos, cafeterías u hoteles,</li>
-        <li>gestionar banca online y otras operaciones sensibles,</li>
-        <li>descargas P2P y escenarios donde la estabilidad y la privacidad son clave.</li>
+        <li>streaming y servicios internacionales,</li>
+        <li>conexiones domésticas y Wi-Fi congestionado por la noche,</li>
+        <li>uso en móviles, portátiles, Smart TVs y consolas,</li>
+        <li>redes públicas, Wi-Fi de aeropuertos y hotspots,</li>
+        <li>mezclar VPN con banca, trabajo remoto y gaming.</li>
       </ul>
-      <p>
-        En este contexto, no solo cuentan los megabits por segundo; también importan aspectos
-        como la estabilidad de la aplicación, la facilidad de uso o si la configuración es
-        razonable para alguien que no se dedica profesionalmente a redes.
-      </p>
 
       <h2>Transparencia y enlaces de afiliado</h2>
       <p>
-        En VPN World utilizo enlaces de afiliado para algunos proveedores de VPN.
-        Si contratas un servicio a través de uno de estos enlaces, puedo recibir una comisión,
-        pero el precio para ti no cambia. Esto me permite seguir probando herramientas
-        y actualizar los contenidos existentes.
+        VPN World utiliza enlaces de afiliado para algunos proveedores. Si contratas un servicio a través de uno de esos enlaces,
+        puedo recibir una comisión sin coste adicional para ti. Esto ayuda a financiar nuevas pruebas y actualizaciones.
       </p>
       <p>
-        Aun así, las recomendaciones no se compran. Si un servicio rinde mal en las pruebas,
-        lo digo claramente. Si una función es más marketing que beneficio real, intento explicarlo
-        y plantear alternativas más sensatas.
+        Las recomendaciones no se compran. Si un servicio rinde mal, lo digo claramente.
       </p>
-
-      <h2>Últimas guías de Denys Shchur</h2>
-      <ul>
-        <li>
-          <a href="/es/blog/que-es-una-vpn.html">
-            ¿Qué es una VPN? Explicación sencilla para empezar
-          </a>
-        </li>
-        <li>
-          <a href="/es/blog/protocolos-vpn.html">
-            Protocolos VPN explicados: OpenVPN, WireGuard, IKEv2 y más
-          </a>
-        </li>
-        <li>
-          <a href="/es/blog/prueba-de-velocidad-vpn.html">
-            Prueba de velocidad VPN: cómo medir y entender los resultados
-          </a>
-        </li>
-        <li>
-          <a href="/es/blog/seguridad-wifi.html">
-            Seguridad Wi-Fi en casa: pasos prácticos para 2025
-          </a>
-        </li>
-        <li>
-          <a href="/es/blog/no-logs-vpn.html">
-            VPN sin registros (No-Logs): qué significa realmente
-          </a>
-        </li>
-        <li>
-          <a href="/es/blog/vpn-gratis-vs-de-pago.html">
-            VPN gratis vs de pago: diferencias, riesgos y compromisos
-          </a>
-        </li>
-        <li>
-          <a href="/es/blog/vpn-dns-leak.html">
-            Fugas de DNS con VPN: cómo detectarlas y evitarlas
-          </a>
-        </li>
-      </ul>
 
       <h2>Contacto con el autor</h2>
       <p>
@@ -270,13 +271,17 @@
       <div class="contact-box">
         <ul>
           <li>Email: <a href="mailto:u1797008805@gmail.com">u1797008805@gmail.com</a></li>
-          <li>LinkedIn: <a href="https://www.linkedin.com/in/denys-shchur/" target="_blank" rel="noopener noreferrer">Perfil de Denys Shchur en LinkedIn</a></li>
+          <li>
+            LinkedIn:
+            <a href="https://www.linkedin.com/in/denys-shchurr/" target="_blank" rel="noopener noreferrer">Denys Shchur en LinkedIn</a>
+          </li>
         </ul>
       </div>
+
       <p>
         Actualizo VPN World de forma periódica para que el contenido siga el ritmo
-        de los cambios en los servicios VPN, las plataformas de streaming
-        y el panorama general de amenazas en internet.
+        de los cambios en los servicios VPN, las plataformas de streaming y el panorama de amenazas.
+        La idea es que siga siendo útil mucho después de cerrar la pestaña.
       </p>
     </article>
   </main>
@@ -284,16 +289,16 @@
   <footer class="site-footer">
     <p>VPN World · Sitio independiente sobre privacidad, seguridad y uso práctico de VPN.</p>
     <p>
-      <a href="https://dloran1.github.io/privacy.html">Privacidad</a> ·
-      <a href="https://dloran1.github.io/sitemap.xml">Sitemap</a> ·
-      <a href="mailto:u1797008805@gmail.com">Contacto</a>
+      <a href="https://dloran1.github.io/es/privacy.html">Privacy</a> ·
+      <a href="https://dloran1.github.io/es/rss.xml">RSS</a> ·
+      <a href="mailto:u1797008805@gmail.com">Contact</a>
     </p>
-    <p>© 2025 VPN World</p>
+    <p>© 2026 VPN World</p>
   </footer>
 
-  <div id="cookie-banner" class="cookie-banner">
-    <p>Usamos cookies con fines de analítica y seguridad. Puedes obtener más información en la página de Privacidad.</p>
-    <button type="button" onclick="acceptConsent()">OK</button>
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
+    <p>Usamos cookies con fines de analítica y seguridad. Puedes obtener más información en la página de Privacy.</p>
+    <button type="button" class="btn btn-compact" onclick="acceptConsent()">OK</button>
   </div>
 </body>
 </html>
