@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-gb">
+<html lang="en-GB">
 <head>
   <meta charset="utf-8">
   <title>About the Author — Denys Shchur | VPN World</title>
@@ -43,7 +43,9 @@
   <meta name="twitter:image" content="https://dloran1.github.io/assets/img/author/denys-shchur.webp">
 
   <!-- Preconnect -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
   <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
 
   <!-- Styles -->
@@ -54,80 +56,145 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+
     gtag('consent', 'default', {
-      'ad_storage': 'denied',
-      'ad_user_data': 'denied',
-      'ad_personalization': 'denied',
-      'analytics_storage': 'denied',
-      'functionality_storage': 'denied',
-      'personalization_storage': 'denied',
-      'security_storage': 'denied'
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'denied',
+      personalization_storage: 'denied',
+      security_storage: 'granted'
     });
+
     gtag('js', new Date());
     gtag('config', 'G-RD6M691ZWD');
 
     function acceptConsent() {
       gtag('consent', 'update', {
-        'ad_storage': 'granted',
-        'ad_user_data': 'granted',
-        'ad_personalization': 'granted',
-        'analytics_storage': 'granted',
-        'functionality_storage': 'granted',
-        'personalization_storage': 'granted',
-        'security_storage': 'granted'
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+        analytics_storage: 'granted',
+        functionality_storage: 'granted',
+        personalization_storage: 'granted',
+        security_storage: 'granted'
       });
       var banner = document.getElementById('cookie-banner');
-      if (banner) {
-        banner.style.display = 'none';
-      }
+      if (banner) banner.style.display = 'none';
+      try { localStorage.setItem('vpnworld_consent', 'granted'); } catch(e) {}
     }
+
+    (function restoreConsent(){
+      try {
+        if (localStorage.getItem('vpnworld_consent') === 'granted') {
+          gtag('consent', 'update', {
+            ad_storage: 'granted',
+            ad_user_data: 'granted',
+            ad_personalization: 'granted',
+            analytics_storage: 'granted',
+            functionality_storage: 'granted',
+            personalization_storage: 'granted',
+            security_storage: 'granted'
+          });
+          var banner = document.getElementById('cookie-banner');
+          if (banner) banner.style.display = 'none';
+        }
+      } catch(e) {}
+    })();
   </script>
 
-  <!-- JSON-LD Person -->
+  <!-- JSON-LD (Person + Organization + WebSite + WebPage + Breadcrumbs) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Person",
-    "@id": "https://dloran1.github.io/en-gb/about-denys-shchur.html#person",
-    "name": "Denys Shchur",
-    "url": "https://dloran1.github.io/en-gb/about-denys-shchur.html",
-    "image": "https://dloran1.github.io/assets/img/author/denys-shchur.webp",
-    "sameAs": [
-      "https://www.linkedin.com/in/denys-shchur/"
-    ],
-    "jobTitle": "Independent VPN Tester and SEO Content Architect",
-    "worksFor": {
-      "@type": "Organization",
-      "name": "VPN World"
-    },
-    "description": "Independent VPN tester, cybersecurity-focused writer and SEO content architect behind VPN World."
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://dloran1.github.io/#organization",
+        "name": "VPN World",
+        "url": "https://dloran1.github.io/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://dloran1.github.io/assets/img/logo.png"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://dloran1.github.io/#website",
+        "url": "https://dloran1.github.io/",
+        "name": "VPN World",
+        "publisher": { "@id": "https://dloran1.github.io/#organization" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://dloran1.github.io/en-gb/about-denys-shchur.html#person",
+        "name": "Denys Shchur",
+        "url": "https://dloran1.github.io/en-gb/about-denys-shchur.html",
+        "image": "https://dloran1.github.io/assets/img/author/denys-shchur.webp",
+        "sameAs": [
+          "https://www.linkedin.com/in/denys-shchurr/"
+        ],
+        "jobTitle": "Independent VPN Tester and SEO Content Architect",
+        "worksFor": { "@id": "https://dloran1.github.io/#organization" },
+        "description": "Independent VPN tester, cybersecurity-focused writer and SEO content architect behind VPN World."
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://dloran1.github.io/en-gb/about-denys-shchur.html#webpage",
+        "url": "https://dloran1.github.io/en-gb/about-denys-shchur.html",
+        "name": "About the Author — Denys Shchur | VPN World",
+        "isPartOf": { "@id": "https://dloran1.github.io/#website" },
+        "about": { "@id": "https://dloran1.github.io/en-gb/about-denys-shchur.html#person" },
+        "inLanguage": "en-GB",
+        "dateModified": "2026-01-02"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://dloran1.github.io/en-gb/about-denys-shchur.html#breadcrumbs",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dloran1.github.io/en-gb/" },
+          { "@type": "ListItem", "position": 2, "name": "Author", "item": "https://dloran1.github.io/en-gb/about-denys-shchur.html" }
+        ]
+      }
+    ]
   }
   </script>
 </head>
+
 <body>
   <header class="site-header">
     <div class="top-lang-switch">
       <a href="https://dloran1.github.io/about-denys-shchur.html">Polski</a> |
-      <a href="https://dloran1.github.io/en-gb/about-denys-shchur.html">English (UK)</a> |
+      <a href="https://dloran1.github.io/en-gb/about-denys-shchur.html" class="active">English (UK)</a> |
       <a href="https://dloran1.github.io/en-us/about-denys-shchur.html">English (US)</a> |
       <a href="https://dloran1.github.io/de/about-denys-shchur.html">Deutsch</a> |
       <a href="https://dloran1.github.io/es/about-denys-shchur.html">Español</a> |
       <a href="https://dloran1.github.io/fr/about-denys-shchur.html">Français</a> |
       <a href="https://dloran1.github.io/nl-be/about-denys-shchur.html">Nederlands (BE)</a>
     </div>
+
     <div class="logo-wrap">
-      <a href="https://dloran1.github.io/" class="logo">VPN World</a>
+      <a href="https://dloran1.github.io/en-gb/" class="logo">VPN World</a>
     </div>
   </header>
 
   <main class="content">
     <article class="article">
       <p class="breadcrumb">VPN World · Author · About</p>
+
       <h1>About the Author — Denys Shchur</h1>
-      <p class="meta">Last updated: 25 November 2025</p>
+
+      <p class="meta">
+        Last updated: <time datetime="2026-01-02">2 January 2026</time>
+      </p>
 
       <figure class="author-figure">
-        <img src="/assets/img/author/denys-shchur.webp" alt="Denys Shchur — author of VPN World" loading="lazy">
+        <img src="/assets/img/author/denys-shchur.webp"
+             alt="Denys Shchur — author of VPN World"
+             loading="lazy"
+             width="720"
+             height="720">
       </figure>
 
       <p>
@@ -137,145 +204,90 @@
       </p>
 
       <p>
-        VPN World was born as a side project that gradually turned into a structured,
-        multi-language knowledge base. A lot of my time goes into checking how VPNs behave
-        in realistic UK and European scenarios: streaming BBC iPlayer or DAZN, dealing with
-        geo-blocked services, working from home on shared connections, or joining public Wi-Fi
-        on the go. The goal is simple: explain what actually works, not just what looks good
-        in marketing copy.
+        VPN World started as a side project and turned into a structured, multi-language knowledge base.
+        I focus on realistic UK and European scenarios: streaming, travel, remote work, and everyday privacy risks —
+        with an emphasis on what actually works in practice, not just what looks good on marketing pages.
       </p>
 
       <p>
         In parallel to VPN World, I run
         <a href="https://smartadvisoronline.com" target="_blank" rel="noopener noreferrer">SmartAdvisorOnline</a> —
-        an English-only project focused on VPN advice, security best practices and structured
-        how-to guides around remote work, online privacy and “less noise, more signal” tech choices.
+        an English project focused on VPN advice, security best practices and “less noise, more signal” how-to guides.
       </p>
 
       <h2>How I approach writing on VPN World</h2>
-      <p>
-        When I start a new guide, I usually look at three angles:
-      </p>
+      <p>When I start a new guide, I usually look at three angles:</p>
       <ul>
-        <li>
-          <strong>Real usage</strong> — how a tool behaves when you actually connect from a flat,
-          a café, a co-working space or a hotel Wi-Fi in a different country.
-        </li>
-        <li>
-          <strong>Technical underpinnings</strong> — protocols, encryption, DNS handling,
-          kill switches, split tunnelling and how they’re implemented.
-        </li>
-        <li>
-          <strong>Long-term perspective</strong> — what happens when you use the same VPN
-          every day for months, not just for a quick screenshot.
-        </li>
+        <li><strong>Real usage</strong> — how a tool behaves at home, in cafés, co-working spaces, hotels, and while travelling.</li>
+        <li><strong>Technical underpinnings</strong> — protocols, DNS handling, kill switches, split tunnelling, and practical configuration.</li>
+        <li><strong>Long-term perspective</strong> — what happens after weeks and months of daily use, not just quick demo tests.</li>
       </ul>
       <p>
         I try to keep the language direct and practical: instead of repeating vendor slogans,
-        I’d rather answer questions such as “Will this unblock the match I want to watch?”,
-        “Is this safe enough for online banking?” or “Will this slow down my home Wi-Fi too much?”.
+        I’d rather answer questions like “Will this actually unblock what I need?” or “Will this break my Wi-Fi at home?”.
       </p>
 
       <h2>Security, privacy and the small details</h2>
-      <p>
-        Security on paper and security in the real world are not the same thing.
-        From a user’s point of view, it matters whether:
-      </p>
+      <p>Security on paper and security in the real world are not the same thing. In practice, it matters whether:</p>
       <ul>
-        <li>your DNS requests are handled properly or quietly leaked to your ISP,</li>
-        <li>a VPN keeps any logs that could be matched to your traffic,</li>
-        <li>the provider uses RAM-only servers and up-to-date protocols,</li>
-        <li>a kill switch actually stops traffic when the tunnel drops.</li>
+        <li>DNS requests are handled properly or quietly leaked to your ISP,</li>
+        <li>a VPN keeps logs that could be matched to your traffic,</li>
+        <li>the provider uses modern protocols and hardened infrastructure,</li>
+        <li>a kill switch truly blocks traffic when the tunnel drops.</li>
       </ul>
       <p>
-        That’s why many of my guides go deeper into topics such as geo-blocks, DNS behaviour,
-        dedicated IPs, or two-factor authentication. The idea is not to overwhelm you with jargon,
-        but to show which settings are worth changing and which you can safely ignore.
+        That’s why many VPN World guides go deeper into geo-blocks, DNS behaviour, dedicated IPs,
+        and account security — the areas where users often get surprised.
       </p>
 
       <h2>How testing works in practice</h2>
-      <p>
-        I try to build tests around everyday patterns rather than lab conditions. That includes:
-      </p>
+      <p>I build tests around everyday usage patterns rather than lab conditions. That includes:</p>
       <ul>
-        <li>streaming UK and international services (BBC iPlayer, TVP, Netflix, DAZN),</li>
-        <li>connecting from home broadband as well as congested evening Wi-Fi,</li>
-        <li>using VPNs on phones, laptops, smart TVs and consoles,</li>
-        <li>running traffic through public networks, airport Wi-Fi and hotspots,</li>
-        <li>combining VPN usage with banking apps, work tools and gaming.</li>
+        <li>streaming UK and international services,</li>
+        <li>home broadband as well as congested evening Wi-Fi,</li>
+        <li>VPN use on phones, laptops, smart TVs and consoles,</li>
+        <li>public networks, airport Wi-Fi and hotspots,</li>
+        <li>mixing VPN usage with banking apps, work tools and gaming.</li>
       </ul>
-      <p>
-        Along the way I pay attention not only to speed tests, but also to “soft” factors:
-        whether apps are stable, whether they cause friction on weaker devices,
-        and whether the overall setup feels realistic for someone who is not a network engineer.
-      </p>
 
       <h2>Transparency and affiliate links</h2>
       <p>
-        VPN World uses affiliate links for some providers. If you choose to subscribe
-        via one of those links, I may receive a commission at no additional cost to you.
-        This helps fund new tests, tools and time spent updating older articles.
+        VPN World uses affiliate links for some providers. If you choose to subscribe via one of those links,
+        I may receive a commission at no additional cost to you. This helps fund new tests and updates.
       </p>
       <p>
-        Recommendations are not pay-to-play. If a service performs poorly, that is reflected
-        in the content. If a feature is more marketing than substance, I try to say so clearly
-        and offer alternatives.
+        Recommendations are not pay-to-play. If a service performs poorly, that is reflected in the content.
       </p>
 
       <h2>Latest guides by Denys Shchur</h2>
       <ul>
-        <li>
-          <a href="/en-gb/blog/vpn-geo-blocks-uk.html">
-            VPNs and geo-blocks: how services detect and restrict access
-          </a>
-        </li>
-        <li>
-          <a href="/en-gb/blog/free-vpn-uk.html">
-            Free VPNs in the UK: what you can realistically expect
-          </a>
-        </li>
-        <li>
-          <a href="/en-gb/blog/best-free-vpn-uk.html">
-            Best free VPN options for light use in 2025 (UK view)
-          </a>
-        </li>
-        <li>
-          <a href="/en-gb/blog/vpn-myths-uk.html">
-            Common VPN myths in the UK: what’s actually true
-          </a>
-        </li>
-        <li>
-          <a href="/en-gb/blog/no-logs-vpn-uk.html">
-            No-logs VPNs explained: policies, audits and reality
-          </a>
-        </li>
-        <li>
-          <a href="/en-gb/blog/vpn-public-wifi-uk.html">
-            Staying safe on public Wi-Fi with a VPN
-          </a>
-        </li>
-        <li>
-          <a href="/en-gb/blog/wifi-security-uk.html">
-            Wi-Fi security for UK households: practical checklist
-          </a>
-        </li>
+        <li><a href="/en-gb/blog/vpn-geo-blocks-uk.html">VPNs and geo-blocks: how services detect and restrict access</a></li>
+        <li><a href="/en-gb/blog/free-vpn-uk.html">Free VPNs in the UK: what you can realistically expect</a></li>
+        <li><a href="/en-gb/blog/best-free-vpn-uk.html">Best free VPN options for light use in 2025 (UK view)</a></li>
+        <li><a href="/en-gb/blog/vpn-myths-uk.html">Common VPN myths in the UK: what’s actually true</a></li>
+        <li><a href="/en-gb/blog/no-logs-vpn-uk.html">No-logs VPNs explained: policies, audits and reality</a></li>
+        <li><a href="/en-gb/blog/vpn-public-wifi-uk.html">Staying safe on public Wi-Fi with a VPN</a></li>
+        <li><a href="/en-gb/blog/wifi-security-uk.html">Wi-Fi security for UK households: practical checklist</a></li>
       </ul>
 
       <h2>Contact the author</h2>
       <p>
-        If you’d like to ask about VPNs, privacy, UK-specific scenarios or you have an idea
-        for a guide that would be genuinely useful, feel free to get in touch:
+        If you’d like to ask about VPNs, privacy, UK-specific scenarios or you have an idea for a guide,
+        feel free to get in touch:
       </p>
       <div class="contact-box">
         <ul>
           <li>Email: <a href="mailto:u1797008805@gmail.com">u1797008805@gmail.com</a></li>
-          <li>LinkedIn: <a href="https://www.linkedin.com/in/denys-shchur/" target="_blank" rel="noopener noreferrer">Denys Shchur on LinkedIn</a></li>
+          <li>
+            LinkedIn:
+            <a href="https://www.linkedin.com/in/denys-shchurr/" target="_blank" rel="noopener noreferrer">Denys Shchur on LinkedIn</a>
+          </li>
         </ul>
       </div>
+
       <p>
-        I keep VPN World evolving over time, refining older articles and adding new ones
-        as tools, threats and regulations change. The idea is to build a reference that
-        stays useful long after you close the tab.
+        I keep VPN World evolving over time, refining older articles and adding new ones as tools and threats change.
+        The goal is a reference that stays useful long after you close the tab.
       </p>
     </article>
   </main>
@@ -283,16 +295,16 @@
   <footer class="site-footer">
     <p>VPN World · Independent site about privacy, security and practical VPN usage.</p>
     <p>
-      <a href="https://dloran1.github.io/privacy.html">Privacy</a> ·
-      <a href="https://dloran1.github.io/sitemap.xml">Sitemap</a> ·
+      <a href="https://dloran1.github.io/en-gb/privacy.html">Privacy</a> ·
+      <a href="https://dloran1.github.io/en-gb/rss.xml">RSS</a> ·
       <a href="mailto:u1797008805@gmail.com">Contact</a>
     </p>
-    <p>© 2025 VPN World</p>
+    <p>© 2026 VPN World</p>
   </footer>
 
-  <div id="cookie-banner" class="cookie-banner">
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
     <p>We use cookies for analytics and security purposes. You can learn more in our Privacy page.</p>
-    <button type="button" onclick="acceptConsent()">OK</button>
+    <button type="button" class="btn btn-compact" onclick="acceptConsent()">OK</button>
   </div>
 </body>
 </html>
