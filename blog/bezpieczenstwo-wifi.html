@@ -1,246 +1,561 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="utf-8">
-<title>Bezpieczeństwo Wi-Fi – jak chronić swoją sieć i dane | VPN World</title>
-<meta name="description" content="Praktyczny przewodnik 2025: konfiguracja routera, WPA3, segmentacja gości i IoT, bezpieczne DNS oraz rola VPN w ochronie prywatności.">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <title>Bezpieczeństwo Wi-Fi (2026): 17 kroków, które realnie podnoszą ochronę sieci | VPN World</title>
+  <meta name="description" content="Praktyczny przewodnik 2026: WPA3, aktualizacje routera, sieć gościnna i IoT, bezpieczne DNS, ochrona przed Evil Twin oraz checklisty i testy. Analityka GA4 działa dopiero po zgodzie (Consent Mode v2)." />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index, follow">
 
-<link rel="canonical" href="https://dloran1.github.io/blog/bezpieczenstwo-wifi.html">
+  <link rel="icon" href="/favicon.ico">
 
-<!-- HREFLANG -->
-<link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/bezpieczenstwo-wifi.html">
-<link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/wifi-security-uk.html">
-<link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/wifi-security.html">
-<link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/wifi-sicherheit.html">
-<link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/seguridad-wifi.html">
-<link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/securite-wifi.html">
-<link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/wifi-beveiliging.html">
-<link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/wifi-security-uk.html">
+  <!-- Canonical & hreflang -->
+  <link rel="canonical" href="https://dloran1.github.io/blog/bezpieczenstwo-wifi.html">
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/bezpieczenstwo-wifi.html">
+  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/wifi-security-uk.html">
+  <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/wifi-security.html">
+  <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/wifi-sicherheit.html">
+  <link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/seguridad-wifi.html">
+  <link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/securite-wifi.html">
+  <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/wifi-beveiliging.html">
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/blog/bezpieczenstwo-wifi.html">
 
-<link rel="icon" href="/favicon.ico">
-<link rel="stylesheet" href="../assets/css/style.css">
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/css/style.css">
 
-<!-- OG/Twitter -->
-<meta property="og:title" content="Bezpieczeństwo Wi-Fi – jak chronić swoją sieć i dane">
-<meta property="og:description" content="Router hardening, WPA3, sieć gościnna i IoT, bezpieczne DNS oraz VPN — plan krok po kroku.">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://dloran1.github.io/blog/bezpieczenstwo-wifi.html">
-<meta property="og:image" content="/assets/img/hero/wifi-security-uk.webp">
-<meta property="article:published_time" content="2025-10-22">
-<meta property="article:modified_time" content="2025-10-22">
+  <!-- Preconnect -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-RD6M691ZWD');
-</script>
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Bezpieczeństwo Wi-Fi (2026): 17 kroków, które realnie podnoszą ochronę sieci">
+  <meta property="og:description" content="WPA3, aktualizacje routera, sieć gościnna i IoT, bezpieczne DNS, ochrona przed Evil Twin — praktyczny plan krok po kroku.">
+  <meta property="og:url" content="https://dloran1.github.io/blog/bezpieczenstwo-wifi.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/wifi-security-uk.webp">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="nl_BE">
 
-<!-- JSON-LD Article -->
-<script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"Article",
-  "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/blog/bezpieczenstwo-wifi.html"},
-  "headline":"Bezpieczeństwo Wi-Fi – jak chronić swoją sieć i dane",
-  "image":"https://dloran1.github.io/assets/img/hero/wifi-security-uk.webp",
-  "datePublished":"2025-10-22",
-  "dateModified":"2025-10-22",
-  "author":{"@type":"Person","name":"Denys Shchur"},
-  "publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}},
-  "description":"Przewodnik 2025 po bezpieczeństwie Wi-Fi: konfiguracja routera, WPA3, segmentacja, DNS i VPN."
-}
-</script>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bezpieczeństwo Wi-Fi (2026): 17 kroków, które realnie podnoszą ochronę sieci">
+  <meta name="twitter:description" content="Praktyczny przewodnik 2026: router, WPA3, DNS, segmentacja i checklisty.">
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/wifi-security-uk.webp">
 
-<!-- JSON-LD Breadcrumbs -->
-<script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"BreadcrumbList",
-  "itemListElement":[
-    {"@type":"ListItem","position":1,"name":"Strona główna","item":"https://dloran1.github.io/"},
-    {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/blog/index.html"},
-    {"@type":"ListItem","position":3,"name":"Bezpieczeństwo Wi-Fi","item":"https://dloran1.github.io/blog/bezpieczenstwo-wifi.html"}
-  ]
-}
-</script>
+  <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    /* Consent Mode v2: default DENIED for ALL keys (VPN World Stage 2.5 standard) */
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'denied',
+      personalization_storage: 'denied',
+      security_storage: 'denied'
+    });
+
+    gtag('js', new Date());
+  </script>
+
+  <!-- Consent logic (safe DOM handling) -->
+  <script>
+    function hideCookieBannerSafely() {
+      var banner = document.getElementById('cookie-banner');
+      if (banner) banner.style.display = 'none';
+    }
+
+    function acceptConsent() {
+      gtag('consent', 'update', {
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+        analytics_storage: 'granted',
+        functionality_storage: 'granted',
+        personalization_storage: 'granted',
+        security_storage: 'granted'
+      });
+
+      try { localStorage.setItem('vpnworld_consent', 'granted'); } catch(e) {}
+
+      hideCookieBannerSafely();
+
+      /* GA4 config only AFTER consent */
+      gtag('config', 'G-RD6M691ZWD');
+    }
+
+    function rejectConsent() {
+      gtag('consent', 'update', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        functionality_storage: 'denied',
+        personalization_storage: 'denied',
+        security_storage: 'denied'
+      });
+
+      try { localStorage.setItem('vpnworld_consent', 'denied'); } catch(e) {}
+
+      hideCookieBannerSafely();
+    }
+
+    function applyStoredConsentSafely() {
+      try {
+        var c = localStorage.getItem('vpnworld_consent');
+        if (c === 'granted') {
+          gtag('consent', 'update', {
+            ad_storage: 'granted',
+            ad_user_data: 'granted',
+            ad_personalization: 'granted',
+            analytics_storage: 'granted',
+            functionality_storage: 'granted',
+            personalization_storage: 'granted',
+            security_storage: 'granted'
+          });
+          hideCookieBannerSafely();
+          gtag('config', 'G-RD6M691ZWD');
+        } else if (c === 'denied') {
+          gtag('consent', 'update', {
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+            analytics_storage: 'denied',
+            functionality_storage: 'denied',
+            personalization_storage: 'denied',
+            security_storage: 'denied'
+          });
+          hideCookieBannerSafely();
+        }
+      } catch(e) {}
+    }
+
+    document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
+  </script>
+
+  <!-- JSON-LD: Article + BreadcrumbList + FAQPage + ItemList (NO Person here) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"Article",
+        "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/blog/bezpieczenstwo-wifi.html"},
+        "headline":"Bezpieczeństwo Wi-Fi (2026): 17 kroków, które realnie podnoszą ochronę sieci",
+        "description":"Praktyczny przewodnik 2026: WPA3, aktualizacje routera, sieć gościnna i IoT, bezpieczne DNS, ochrona przed Evil Twin oraz checklisty i testy.",
+        "image":"https://dloran1.github.io/assets/img/hero/wifi-security-uk.webp",
+        "datePublished":"2026-01-03",
+        "dateModified":"2026-01-03",
+        "author":{"@type":"Organization","name":"VPN World Editorial Team"},
+        "publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}}
+      },
+      {
+        "@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"Strona główna","item":"https://dloran1.github.io/"},
+          {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/blog/index.html"},
+          {"@type":"ListItem","position":3,"name":"Bezpieczeństwo Wi-Fi","item":"https://dloran1.github.io/blog/bezpieczenstwo-wifi.html"}
+        ]
+      },
+      {
+        "@type":"FAQPage",
+        "mainEntity":[
+          {
+            "@type":"Question",
+            "name":"Czy WPA3 jest konieczne, aby Wi-Fi było bezpieczne?",
+            "acceptedAnswer":{"@type":"Answer","text":"WPA3 jest zalecane, bo podnosi poziom ochrony (m.in. lepsza odporność na ataki offline). Jeśli WPA3 nie jest dostępne, użyj WPA2-AES i silnego hasła oraz wyłącz WPS."}
+          },
+          {
+            "@type":"Question",
+            "name":"Czy ukrywanie SSID zwiększa bezpieczeństwo?",
+            "acceptedAnswer":{"@type":"Answer","text":"Zwykle minimalnie. Większe znaczenie mają aktualizacje routera, WPA3/WPA2-AES, wyłączenie WPS, segmentacja sieci oraz bezpieczny DNS."}
+          },
+          {
+            "@type":"Question",
+            "name":"Jak rozpoznać fałszywy hotspot (Evil Twin)?",
+            "acceptedAnswer":{"@type":"Answer","text":"Porównaj nazwę sieci z informacją od obsługi, sprawdź czy sieć nie wymaga podejrzanego logowania i unikaj otwartych hotspotów. W publicznych sieciach korzystaj z VPN."}
+          },
+          {
+            "@type":"Question",
+            "name":"Czy sieć gościnna ma sens w domu?",
+            "acceptedAnswer":{"@type":"Answer","text":"Tak. Ogranicza dostęp gości do urządzeń w sieci lokalnej i zmniejsza ryzyko, że niezaufane urządzenie zobaczy zasoby prywatne (NAS, drukarki, panele routera)."}
+          },
+          {
+            "@type":"Question",
+            "name":"Co jest najczęstszą przyczyną włamania do domowego routera?",
+            "acceptedAnswer":{"@type":"Answer","text":"Brak aktualizacji, domyślne lub słabe hasło do panelu administracyjnego oraz włączone WPS albo zdalny dostęp. To trio najczęściej otwiera drzwi atakującym."}
+          }
+        ]
+      },
+      {
+        "@type":"ItemList",
+        "name":"Powiązane artykuły",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/blog/lista-bezpieczenstwa-wifi.html","name":"Lista bezpieczeństwa Wi-Fi"},
+          {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/blog/vpn-publiczne-wifi.html","name":"VPN i publiczne Wi-Fi"},
+          {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/blog/wyciek-dns-vpn.html","name":"Wyciek DNS a VPN"},
+          {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/blog/vpn-konfiguracja-routera.html","name":"VPN na routerze: konfiguracja"}
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
+
 <body>
 
-<nav class="lang-switch">
-  <a href="/blog/bezpieczenstwo-wifi.html" class="active">Polski</a> |
-  <a href="/en-gb/blog/wifi-security-uk.html">English (UK)</a> |
-  <a href="/en-us/blog/wifi-security.html">English (US)</a> |
-  <a href="/de/blog/wifi-sicherheit.html">Deutsch</a> |
-  <a href="/es/blog/seguridad-wifi.html">Español</a> |
-  <a href="/fr/blog/securite-wifi.html">Français</a> |
-  <a href="/nl-be/blog/wifi-beveiliging.html">Nederlands (BE)</a>
-</nav>
-
 <header class="site-header">
-  <div class="container header-inner">
-    <a href="/" class="brand">
-      <img src="../assets/img/logo.png" class="logo" alt="VPN World">
-      <span class="brand-text">VPN World</span>
-    </a>
+  <div class="top-lang-switch">
+    <a href="https://dloran1.github.io/blog/bezpieczenstwo-wifi.html" class="active">Polski</a> |
+    <a href="https://dloran1.github.io/en-gb/blog/wifi-security-uk.html">English (UK)</a> |
+    <a href="https://dloran1.github.io/en-us/blog/wifi-security.html">English (US)</a> |
+    <a href="https://dloran1.github.io/de/blog/wifi-sicherheit.html">Deutsch</a> |
+    <a href="https://dloran1.github.io/es/blog/seguridad-wifi.html">Español</a> |
+    <a href="https://dloran1.github.io/fr/blog/securite-wifi.html">Français</a> |
+    <a href="https://dloran1.github.io/nl-be/blog/wifi-beveiliging.html">Nederlands (BE)</a>
+  </div>
+
+  <div class="logo-wrap">
+    <a href="https://dloran1.github.io/" class="logo">VPN World</a>
   </div>
 </header>
 
-<main class="container card article">
+<main class="content">
+  <article class="article">
 
-  <figure class="hero">
-    <img src="/assets/img/hero/wifi-security-uk.webp" alt="Bezpieczeństwo Wi-Fi" width="1200" height="675" loading="eager" decoding="async">
-    <figcaption class="hero-text">
-      <h1>Bezpieczeństwo Wi-Fi: jak chronić swoją sieć i dane</h1>
-      <p>Wzmocnij router, włącz WPA3, odizoluj gości i IoT, ustaw bezpieczne DNS i dodaj VPN — oto sprawdzony plan na 2025.</p>
-    </figcaption>
-  </figure>
+    <figure class="hero">
+      <img src="/assets/img/hero/wifi-security-uk.webp" alt="Bezpieczeństwo Wi-Fi — router, WPA3 i ochrona danych" width="1200" height="675" loading="eager" decoding="async">
+    </figure>
 
-  <nav class="breadcrumbs" aria-label="breadcrumb">
-    <a href="/">Strona główna</a> › <a href="/blog/index.html">Blog</a> › <span>Bezpieczeństwo Wi-Fi</span>
-  </nav>
+    <h1>Bezpieczeństwo Wi-Fi (2026): 17 kroków, które realnie podnoszą ochronę sieci</h1>
 
-  <p class="meta"><time datetime="2025-10-22">22 października 2025</time></p>
-
-  <!-- CTA #1 -->
-  <div class="cta-buttons">
-    <a class="nordvpn" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow noopener">✅ NordVPN — ochroń domowe Wi-Fi</a>
-    <a class="surfshark" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow noopener">Surfshark — sprawdź ofertę</a>
-  </div>
-
-  <article>
-    <p>Domowe i firmowe sieci Wi-Fi stały się standardem, ale wiele routerów działa latami na domyślnych ustawieniach. To prosta droga do ataków: przejęcia panelu, podmiany DNS czy podsłuchu ruchu. Ten przewodnik pokazuje, jak realnie podnieść <strong>bezpieczeństwo Wi-Fi</strong> — krok po kroku i z praktycznymi linkami do naszych poradników.</p>
-
-    <h2>Dlaczego to ważne</h2>
-    <p>Bez szyfrowania każdy w zasięgu może podsłuchiwać pakiety. Atakujący bywa też „bliźniaczym” punktem dostępowym (Evil Twin). Na start polecamy podstawy: <a href="/blog/co-to-jest-vpn.html">Co to jest VPN</a> — zrozumiesz, czym szyfrowanie tunelowe różni się od zwykłego Wi-Fi.</p>
-
-    <h2>Utwardzenie routera (checklista)</h2>
-    <ol>
-      <li><strong>Zmień hasło admina</strong> i — jeśli możliwe — włącz 2FA.</li>
-      <li><strong>Aktualizuj firmware</strong> co kwartał; producenci łatami zamykają luki.</li>
-      <li><strong>Wyłącz zdalny dostęp</strong> (panel tylko z LAN/VPN).</li>
-      <li><strong>Włącz WPA3</strong> (lub przynajmniej WPA2-AES). <a href="/blog/protokoly-vpn.html">Protokoły VPN</a> wyjaśniają różnice szyfrowania w praktyce.</li>
-      <li><strong>Wyłącz WPS</strong> — eliminuje prosty brute-force PIN.</li>
-      <li><strong>Ustaw własne DNS</strong> i zabezpiecz je w panelu.</li>
-      <li><strong>Kopia konfiguracji</strong> po zmianach — ułatwia odzysk.</li>
-    </ol>
-
-    <h2>Segmentacja: główna, gościnna i IoT</h2>
-    <p>Urządzenia IoT (TV, kamery, wtyczki) aktualizują się rzadko. Najprościej: odseparuj je od komputerów.</p>
-    <ul>
-      <li><strong>SSID główne</strong> — sprzęt zaufany do pracy i bankowości.</li>
-      <li><strong>SSID gościnne</strong> — izolacja klientów; brak dostępu do LAN.</li>
-      <li><strong>SSID IoT</strong> — tylko ruch wychodzący; bez dostępu do panelu.</li>
-    </ul>
-    <p>Jeśli router wspiera VLAN, przypisz osobne sieci. W praktyce pomaga nasz poradnik: <a href="/blog/vpn-konfiguracja-routera.html">VPN na routerze — konfiguracja</a>.</p>
-
-    <h2>DNS i ochrona przed phishingiem</h2>
-    <p>Częsty wektor ataku to podmiana DNS i „ciche” przekierowania. Skonfiguruj DoH/DoT w przeglądarce i okresowo wykonuj <a href="/blog/test-predkosci-vpn.html">test prędkości/wycieków</a>. Jeśli łączysz się w kawiarniach i hotelach, przeczytaj koniecznie: <a href="/blog/vpn-publiczne-wifi.html">VPN i publiczne Wi-Fi</a>.</p>
-
-    <h2>Jak VPN wzmacnia bezpieczeństwo Wi-Fi</h2>
-    <p>VPN szyfruje ruch, maskuje IP i utrudnia ataki MITM. W połączeniu z poprawnie ustawionym routerem (WPA3, aktualizacje, segmentacja) daje realną ochronę w sieciach publicznych. W aplikacji ustaw <a href="/blog/vpn-kill-switch.html">Kill Switch</a> i rozważ <a href="/blog/vpn-split-tunneling.html">Split Tunneling</a>, aby część aplikacji (np. streaming) chodziła poza tunelem.</p>
-
-    <!-- YouTube (EN only, stable, follow-back) -->
-    <h2>Video: How to secure your Wi-Fi network</h2>
-    <div class="video-wrapper">
-      <iframe width="560" height="315"
-              src="https://www.youtube.com/embed/GmOzih6I1zs"
-              title="How to secure your Wi-Fi network (English tutorial)"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    </div>
-    <p class="video-link">
-      Watch on YouTube:
-      <a href="https://www.youtube.com/watch?v=GmOzih6I1zs" target="_blank">How to secure your Wi-Fi network</a>
-      · Channel:
-      <a href="https://www.youtube.com/@TechGumbo" target="_blank">TechGumbo</a>
+    <p class="meta">
+      <strong>Data publikacji:</strong>
+      <time datetime="2026-01-03">3 stycznia 2026</time>
+      · <strong>Autor:</strong> <a href="/about-denys-shchur.html">Denys Shchur</a>
     </p>
 
-    <h2>Publiczne Wi-Fi: zasady minimalizujące ryzyko</h2>
+    <p>
+      Wi-Fi jest wygodne, ale też bezlitosne: jeśli router działa latami na ustawieniach „fabrycznych”, to prędzej czy później
+      pojawi się ryzyko przejęcia panelu, podsłuchu ruchu, podmiany DNS albo prostego ataku na słabe hasło.
+      Ten poradnik nie jest listą magicznych trików. To praktyczny plan — co zmienić, w jakiej kolejności i dlaczego to ma sens.
+      Cel: żeby Twoja sieć domowa (a często także małe biuro) była odporna na typowe scenariusze 2026.
+    </p>
+
+    <div class="note">
+      <strong>Szybka odpowiedź:</strong> Największy skok bezpieczeństwa daje: aktualny firmware routera, mocne hasło do panelu,
+      WPA3 (lub WPA2-AES), wyłączone WPS, osobna sieć gościnna i segment dla IoT oraz bezpieczne DNS. W publicznych hotspotach
+      traktuj VPN jak pas bezpieczeństwa.
+    </div>
+
+    <!-- CTA #1 -->
+    <div class="cta-buttons">
+      <a class="nordvpn" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">
+        ✅ NordVPN — ochrona w publicznych sieciach
+      </a>
+      <a class="surfshark" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">
+        Surfshark — sprawdź ofertę
+      </a>
+    </div>
+
+    <h2>1) Model zagrożeń: co realnie dzieje się w praktyce</h2>
+    <p>
+      Bezpieczeństwo Wi-Fi warto zacząć od pytania: <em>co dokładnie próbujemy zablokować?</em> W typowej sieci domowej i małej firmie
+      występują powtarzalne scenariusze: atak na panel administracyjny routera (domyślne hasła, stare wersje firmware),
+      podszycie się pod hotspot (Evil Twin), próby łamania hasła do Wi-Fi, przejęcie DNS, infekcje urządzeń IoT oraz
+      niechciany dostęp gościa do zasobów LAN.
+    </p>
+
+    <p>
+      Dobra wiadomość: większość z tych ryzyk da się ograniczyć „nudnymi” ustawieniami. Zła wiadomość: jedno magiczne ustawienie nie istnieje.
+      Zamiast tego budujemy warstwy: router → szyfrowanie → segmentacja → DNS → nawyki użytkowników.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Zagrożenie</th>
+          <th>Jak wygląda</th>
+          <th>Najprostsza ochrona</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Evil Twin</td>
+          <td>Fałszywy hotspot o podobnej nazwie</td>
+          <td>Weryfikacja SSID + VPN w hotspotach</td>
+        </tr>
+        <tr>
+          <td>WPS / słabe hasło</td>
+          <td>Brute-force PIN lub hasła Wi-Fi</td>
+          <td>Wyłącz WPS + długie hasło</td>
+        </tr>
+        <tr>
+          <td>Stary firmware</td>
+          <td>Znane luki w routerze</td>
+          <td>Aktualizacje + wyłączenie zdalnego panelu</td>
+        </tr>
+        <tr>
+          <td>Podmiana DNS</td>
+          <td>Przekierowania na fałszywe strony</td>
+          <td>Ustaw bezpieczne DNS + kontrola konfiguracji</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>Key takeaway:</strong> Jeśli masz czas tylko na 30 minut, zacznij od routera: aktualizacja firmware, zmiana hasła admina,
+      wyłączenie WPS i przełączenie na WPA3/WPA2-AES. To często usuwa najłatwiejsze „wejścia”.
+    </div>
+
+    <h2>2) Utwardzenie routera: baza całej ochrony</h2>
+    <p>
+      Router to brama do internetu i jednocześnie Twój lokalny „kontroler ruchu”. Jeśli ktoś przejmie panel administracyjny,
+      może zmienić DNS, przekierować ruch, otworzyć porty albo podstawić własne ustawienia. Dlatego router traktujemy jak system krytyczny,
+      nawet jeśli stoi w salonie.
+    </p>
+    <h3>Najważniejsze ustawienia (krok po kroku)</h3>
+    <p>
+      Zacznij od rzeczy, które mają najwyższy wpływ i prawie nie mają kosztu:
+    </p>
     <ul>
-      <li>Łącz się tylko z oficjalnym SSID (unikaj „bliźniaków”).</li>
-      <li>Włącz VPN <em>przed</em> logowaniem do poczty/pracy.</li>
-      <li>Preferuj HTTPS; po sesji „zapomnij sieć”.</li>
+      <li><strong>Aktualizacja firmware</strong> — najlepiej sprawdzać cyklicznie (np. raz na kwartał) i włączać auto-update, jeśli jest dostępny.</li>
+      <li><strong>Zmiana hasła do panelu admin</strong> — długie i unikalne; jeśli router wspiera menedżer haseł lub 2FA, warto to włączyć.</li>
+      <li><strong>Wyłączenie zdalnego panelu</strong> — panel zarządzania powinien działać tylko z LAN (a nie z internetu).</li>
+      <li><strong>Wyłączenie WPS</strong> — w praktyce często niepotrzebne, a bywa najłatwiejszą drogą do kompromitacji.</li>
+      <li><strong>UPnP</strong> — jeśli nie używasz konsoli/serwerów wymagających automatycznego otwierania portów, rozważ wyłączenie.</li>
     </ul>
 
-    <h2>Checklist do odhaczenia</h2>
+    <p>
+      Kolejny krok to ograniczenie „zasięgu szkód”: nawet jeśli jedno urządzenie zostanie zainfekowane, nie powinno mieć
+      prostego dostępu do panelu routera i zasobów całej sieci.
+    </p>
+
+    <h2>3) WPA3, WPA2-AES i hasło Wi-Fi: dlaczego „silne” to nie slogan</h2>
+    <p>
+      Szyfrowanie Wi-Fi jest jak drzwi wejściowe. Nie muszą być pancerne, ale muszą być solidne i dobrze zamknięte.
+      W 2026 minimalnym standardem jest <strong>WPA3</strong>. Jeśli Twój router lub starsze urządzenia nie obsługują WPA3,
+      wybierz <strong>WPA2-AES</strong> (unikaj WPA/WEP oraz mieszanek, jeśli można).
+    </p>
+
+    <p>
+      Hasło do Wi-Fi powinno być długie, nieoczywiste i nieużywane nigdzie indziej. Praktyczna metoda: 4–5 losowych słów + liczby
+      (np. z menedżera haseł) albo długi ciąg znaków. Warto pamiętać, że największym problemem nie jest „czy ktoś spróbuje”,
+      tylko „czy złamanie hasła będzie dla niego tanie i szybkie”.
+    </p>
+
+    <div class="note">
+      <strong>Szybka odpowiedź:</strong> WPA3 + długie hasło + WPS wyłączone to zestaw, który w większości domów eliminuje najprostsze ataki „z ulicy”.
+      Jeśli musisz zostać przy WPA2, wybierz WPA2-AES i pilnuj aktualizacji routera.
+    </div>
+
+    <h2>4) Segmentacja: sieć główna, gościnna i IoT</h2>
+    <p>
+      Najczęstszy błąd to trzymanie wszystkiego w jednej sieci: laptop do pracy, telefon, telewizor, kamera, inteligentne gniazdko
+      i urządzenia gości. Tymczasem urządzenia IoT są statystycznie najbardziej ryzykowne: rzadziej dostają aktualizacje,
+      często mają proste interfejsy i czasem działają na starych komponentach.
+    </p>
+
+    <p>
+      Najprostsza segmentacja bez VLAN-ów:
+    </p>
     <ul>
-      <li>Hasło admina zmienione; 2FA (jeśli dostępne)</li>
-      <li>Firmware aktualny; auto-update włączony</li>
-      <li>Zdalny panel wyłączony (tylko LAN/VPN)</li>
-      <li>WPA3 / WPA2-AES; WPS off</li>
-      <li>Goście i IoT odizolowane</li>
-      <li>DNS ustawione + DoH/DoT; brak wycieków</li>
-      <li>VPN aktywny w publicznych sieciach</li>
-      <li>Backup konfiguracji zapisany</li>
+      <li><strong>Sieć główna</strong> — tylko urządzenia zaufane (komputer do pracy, telefon).</li>
+      <li><strong>Sieć gościnna</strong> — dla gości; izolacja klientów (włącz, jeśli dostępna).</li>
+      <li><strong>Sieć IoT</strong> — jeśli router pozwala, osobne SSID dla TV/kamer/gadżetów.</li>
     </ul>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Segment</th>
+          <th>Co tam trafia</th>
+          <th>Ustawienia minimalne</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Główna</td>
+          <td>PC/laptop/telefon do bankowości i pracy</td>
+          <td>Silne hasło, WPA3, dostęp do LAN</td>
+        </tr>
+        <tr>
+          <td>Gościnna</td>
+          <td>Urządzenia znajomych</td>
+          <td>Izolacja klientów, brak dostępu do LAN</td>
+        </tr>
+        <tr>
+          <td>IoT</td>
+          <td>TV, kamery, gniazdka, IoT</td>
+          <td>Brak dostępu do panelu routera, ograniczenia LAN</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>Key takeaway:</strong> Segmentacja to „bezpiecznik” na wypadek błędu: jeśli jedno urządzenie jest słabsze, nie powinno
+      automatycznie otwierać drzwi do całej sieci.
+    </div>
+
+    <h2>5) Bezpieczne DNS i ochrona przed podmianą</h2>
+    <p>
+      DNS to „książka telefoniczna” internetu: tłumaczy domeny na adresy IP. Jeśli DNS zostanie podmieniony, możesz trafić
+      na fałszywą stronę banku lub panel logowania, nawet jeśli wpiszesz poprawny adres. Dlatego warto:
+      kontrolować ustawienia DNS w routerze, a w miarę możliwości korzystać z bezpieczniejszych metod rozwiązywania nazw.
+      W praktyce najważniejsze jest jedno: <em>unikaj sytuacji, w której ktoś może zmienić DNS bez Twojej wiedzy</em>.
+    </p>
+
+    <p>
+      W kontekście VPN i prywatności problemem bywają też wycieki DNS — czyli sytuacja, gdy ruch DNS omija tunel VPN.
+      Dlatego warto znać podstawy i co jakiś czas zrobić kontrolę. (Więcej: <a href="/blog/wyciek-dns-vpn.html">Wyciek DNS a VPN</a>.)
+    </p>
+
+    <h2>6) Publiczne hotspoty i Evil Twin: najprostszy atak na “zaufanie”</h2>
+    <p>
+      W kawiarniach, hotelach i na lotniskach najgroźniejsze nie zawsze są „hakerskie narzędzia”, tylko zwykła socjotechnika:
+      fałszywa sieć o nazwie podobnej do prawdziwej (Evil Twin) albo otwarta sieć bez hasła. Jeśli połączysz się z takim hotspotem,
+      atakujący może próbować przechwytywać ruch, podsuwać fałszywe strony lub wymuszać logowanie do „portalu”, który zbiera dane.
+    </p>
+
+    <p>
+      Minimalny zestaw zasad:
+    </p>
+    <ul>
+      <li>Potwierdź nazwę sieci (SSID) u obsługi, nie zgaduj.</li>
+      <li>Unikaj otwartych hotspotów bez hasła, jeśli to możliwe.</li>
+      <li>Włącz VPN <em>przed</em> logowaniem do poczty, pracy i bankowości.</li>
+      <li>Po wyjściu usuń sieć z listy zapamiętanych („zapomnij sieć”).</li>
+    </ul>
+
+    <p>
+      Jeśli często pracujesz mobilnie, potraktuj VPN jak nawyk bezpieczeństwa — szczególnie w publicznych sieciach.
+      Zobacz też: <a href="/blog/vpn-publiczne-wifi.html">VPN i publiczne Wi-Fi</a>.
+    </p>
+
+    <h2>7) Checklista 17 kroków (do odhaczenia)</h2>
+    <p>
+      Poniżej masz listę, którą możesz potraktować jak plan na jedno popołudnie. Nie musisz robić wszystkiego naraz, ale
+      pierwszy rząd (router + WPA + WPS) daje największy efekt.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Krok</th>
+          <th>Dlaczego ma znaczenie</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Aktualizuj firmware routera</td><td>Łata znane luki</td></tr>
+        <tr><td>2</td><td>Zmień hasło admina (unikalne)</td><td>Chroni panel zarządzania</td></tr>
+        <tr><td>3</td><td>Wyłącz zdalny panel z internetu</td><td>Zmniejsza powierzchnię ataku</td></tr>
+        <tr><td>4</td><td>Wyłącz WPS</td><td>Eliminuje łatwe ataki PIN</td></tr>
+        <tr><td>5</td><td>Włącz WPA3 (lub WPA2-AES)</td><td>Lepsze szyfrowanie</td></tr>
+        <tr><td>6</td><td>Ustaw długie hasło Wi-Fi</td><td>Utrudnia brute-force</td></tr>
+        <tr><td>7</td><td>Włącz sieć gościnną</td><td>Oddziela gości od LAN</td></tr>
+        <tr><td>8</td><td>Oddziel IoT (osobny SSID)</td><td>Ogranicza ryzyko z IoT</td></tr>
+        <tr><td>9</td><td>Wyłącz nieużywane usługi (UPnP)</td><td>Mniej “otwartych drzwi”</td></tr>
+        <tr><td>10</td><td>Sprawdź ustawienia DNS w routerze</td><td>Chroni przed podmianą</td></tr>
+        <tr><td>11</td><td>Włącz szyfrowanie na urządzeniach (HTTPS)</td><td>Utrudnia podsłuch</td></tr>
+        <tr><td>12</td><td>Nie używaj “otwartych” hotspotów</td><td>Mniej ryzyk</td></tr>
+        <tr><td>13</td><td>VPN w publicznych sieciach</td><td>Szyfrowanie tunelu</td></tr>
+        <tr><td>14</td><td>Wyloguj i “zapomnij sieć” po wyjściu</td><td>Unikasz autopołączeń</td></tr>
+        <tr><td>15</td><td>Ogranicz dostęp do panelu (tylko LAN)</td><td>Brak “zdalnych prób”</td></tr>
+        <tr><td>16</td><td>Zrób kopię konfiguracji routera</td><td>Szybki powrót po awarii</td></tr>
+        <tr><td>17</td><td>Powtórz przegląd co 3 miesiące</td><td>Utrzymanie standardu</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      Jeśli chcesz mieć wersję “na lodówkę” w formie krótszej listy, zobacz:
+      <a href="/blog/lista-bezpieczenstwa-wifi.html">Lista bezpieczeństwa Wi-Fi</a>.
+    </p>
+
+    <h2>Wideo (YouTube): stały blok Stage 2.5</h2>
+    <div class="video-wrap">
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE"
+        title="VPN World — wideo"
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen></iframe>
+    </div>
+    <p>
+      <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="noopener noreferrer">Obejrzyj na YouTube</a>
+    </p>
 
     <h2>FAQ</h2>
-    <p><strong>Czy samo silne hasło Wi-Fi wystarczy?</strong><br>Nie. Potrzebne są aktualizacje, wyłączenie WPS, segmentacja i VPN w hotspotach.</p>
-    <p><strong>Czy WPA3 spowalnia sieć?</strong><br>W praktyce niezauważalnie. Zysk bezpieczeństwa przewyższa narzut.</p>
-    <p><strong>Czy VPN chroni też urządzenia IoT?</strong><br>VPN na routerze — tak, ale IoT trzymaj w oddzielnej sieci i aktualizuj firmware.</p>
-    <p><strong>Czy ukrycie SSID zwiększa bezpieczeństwo?</strong><br>Minimalnie. Kluczowe są WPA3/WPA2-AES i silne hasła.</p>
-    <p><strong>Gdzie zacząć, jeśli dopiero startuję?</strong><br>Od podstaw: <a href="/blog/co-to-jest-vpn.html">co to jest VPN</a> i <a href="/blog/darmowy-vpn.html">czy darmowy VPN ma sens</a>.</p>
+    <p><strong>Czy WPA3 spowalnia Wi-Fi?</strong><br>
+      Zwykle nie w sposób zauważalny. Zysk bezpieczeństwa jest większy niż potencjalny narzut.</p>
+    <p><strong>Czy muszę kupować nowy router, żeby było bezpiecznie?</strong><br>
+      Jeśli obecny nie dostaje aktualizacji lub nie obsługuje WPA2-AES/WPA3, zakup nowszego modelu bywa najrozsądniejszym ruchem.</p>
+    <p><strong>Czy sieć gościnna jest potrzebna, jeśli mam silne hasło?</strong><br>
+      Tak, bo chroni zasoby LAN przed przypadkowym dostępem gościa lub niezaufanego urządzenia.</p>
+    <p><strong>Co zrobić po wykryciu podejrzanych przekierowań?</strong><br>
+      Sprawdź DNS w routerze, zmień hasło admina, zaktualizuj firmware i rozważ reset ustawień oraz ponowną konfigurację.</p>
+    <p><strong>Od czego zacząć, jeśli jestem początkujący?</strong><br>
+      Od aktualizacji routera, wyłączenia WPS, włączenia WPA3/WPA2-AES i ustawienia długiego hasła.</p>
 
+    <section class="author-box">
+      <p>
+        Autor: <a href="/about-denys-shchur.html">Denys Shchur</a>.
+        Ten poradnik jest częścią serii praktycznych przewodników VPN World o prywatności i bezpieczeństwie w sieci.
+      </p>
+    </section>
 
-<section class="author-box">
-  <p>Autorem jest <a href="/about-denys-shchur.html">Denys Shchur</a> – twórca VPN World i autor treści o VPN i cyberbezpieczeństwie.</p>
-</section>
+    <section class="related">
+      <h2>Powiązane artykuły</h2>
+      <ul>
+        <li><a href="/blog/lista-bezpieczenstwa-wifi.html">Lista bezpieczeństwa Wi-Fi</a></li>
+        <li><a href="/blog/vpn-publiczne-wifi.html">VPN i publiczne Wi-Fi</a></li>
+        <li><a href="/blog/wyciek-dns-vpn.html">Wyciek DNS a VPN</a></li>
+        <li><a href="/blog/vpn-konfiguracja-routera.html">VPN na routerze: konfiguracja</a></li>
+      </ul>
+    </section>
 
-</article>
-
-  <section class="related">
-    <h2>Powiązane artykuły</h2>
-    <ul>
-      <li><a href="/blog/lista-bezpieczenstwa-wifi.html">Lista bezpieczeństwa Wi-Fi</a></li>
-      <li><a href="/blog/vpn-publiczne-wifi.html">VPN i publiczne Wi-Fi</a></li>
-      <li><a href="/blog/optymalne-ustawienia-vpn.html">Optymalne ustawienia VPN</a></li>
-      <li><a href="/blog/protokoly-vpn.html">Protokoły VPN: przegląd</a></li>
-    </ul>
-  </section>
-
-  <!-- CTA #2 -->
-  <div class="cta-box">
-    <h3>Zabezpiecz swoją sieć już dziś</h3>
-    <p>Przejdź na WPA3, odizoluj gości oraz IoT i włącz sprawdzony VPN.</p>
+    <!-- CTA #2 -->
     <div class="cta-buttons">
-      <a class="nordvpn" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow noopener">NordVPN — szybka ochrona</a>
-      <a class="surfshark" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow noopener">Surfshark — dobra cena</a>
+      <a class="nordvpn" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">
+        NordVPN — szybka ochrona w hotspotach
+      </a>
+      <a class="surfshark" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">
+        Surfshark — dobra cena na start
+      </a>
     </div>
-  </div>
 
+  </article>
 </main>
-
 <footer class="site-footer">
-  <div class="container footer-grid">
-    <div><strong>VPN World</strong><p>Niezależny serwis o prywatności i bezpieczeństwie w sieci.</p></div>
-    <nav class="footer-links">
-      <a href="/privacy.html">Privacy</a>
-      <a href="/sitemap.xml">Sitemap</a>
-      <a href="mailto:denger88@gmail.com">Kontakt</a>
-    </nav>
-  </div>
-  <div class="container tiny">© 2025 VPN World</div>
+  <p>VPN World · Niezależny serwis o prywatności, bezpieczeństwie i praktycznym wykorzystaniu VPN.</p>
+  <p>
+    <a href="https://dloran1.github.io/privacy.html">Privacy</a> ·
+    <a href="https://dloran1.github.io/disclosure.html">Disclosure</a> ·
+    <a href="mailto:u1797008805@gmail.com">Contact</a>
+  </p>
+  <p>© 2026 VPN World</p>
 </footer>
 
-<script src="../assets/js/main.js"></script>
-<script src="../assets/js/cookie-consent.js"></script>
-
-<div id="privacy-banner" class="privacy-banner">
-  Używamy plików cookie. <a href="/privacy.html">Polityka prywatności</a> ·
-  <button class="btn btn-compact" onclick="this.parentElement.remove()">OK</button>
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
+  <p>Analityka jest wyłączona domyślnie. Możesz zaakceptować lub odrzucić analitykę.</p>
+  <div class="cookie-actions">
+    <button type="button" class="btn btn-compact" onclick="acceptConsent()">Akceptuję</button>
+    <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Odrzucam</button>
+  </div>
 </div>
-
-<style>
-.video-wrapper{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}
-.video-wrapper iframe{position:absolute;left:0;top:0;width:100%;height:100%}
-.breadcrumbs{margin:10px 0;font-size:.95rem}
-.breadcrumbs a{text-decoration:underline}
-.footer-links a{margin-right:12px}
-</style>
 
 </body>
 </html>
+
+<!-- PAGE: https://dloran1.github.io/blog/bezpieczenstwo-wifi.html -->
