@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Polityka prywatności | VPN World</title>
-  <meta name="description" content="Polityka prywatności VPN World: jak działają cookies, analityka (GA4), Consent Mode v2 (domyślnie odmowa) oraz jak możesz zarządzać zgodą i danymi.">
+  <meta name="description" content="Polityka prywatności VPN World: cookies, analityka (GA4), zgody (Consent Mode v2) i zasady prywatności dla użytkowników w Polsce i UE.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="index, follow">
 
@@ -20,27 +20,8 @@
   <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/privacy.html">
   <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/privacy.html">
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="article">
-  <meta property="og:site_name" content="VPN World">
-  <meta property="og:title" content="Polityka prywatności | VPN World">
-  <meta property="og:description" content="Dowiedz się, jakie dane przetwarzamy, jak działa analityka (GA4), cookies i Consent Mode v2 (domyślnie odmowa) w serwisie VPN World.">
-  <meta property="og:url" content="https://dloran1.github.io/privacy.html">
-  <meta property="og:image" content="https://dloran1.github.io/assets/img/author/denys-shchur.webp">
-  <meta property="og:image:alt" content="VPN World — privacy policy">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:locale:alternate" content="en_GB">
-  <meta property="og:locale:alternate" content="en_US">
-  <meta property="og:locale:alternate" content="de_DE">
-  <meta property="og:locale:alternate" content="es_ES">
-  <meta property="og:locale:alternate" content="fr_FR">
-  <meta property="og:locale:alternate" content="nl_BE">
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Polityka prywatności | VPN World">
-  <meta name="twitter:description" content="Polityka prywatności, cookies i analityka (GA4) w VPN World — z domyślną odmową zgody (Consent Mode v2).">
-  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/author/denys-shchur.webp">
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/css/style.css">
 
   <!-- Preconnect -->
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
@@ -48,16 +29,13 @@
   <link rel="dns-prefetch" href="https://www.google-analytics.com">
   <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="/assets/css/style.css">
-
-  <!-- GA4 + Consent Mode v2 (Stage 2.5: default DENIED for ALL keys) -->
+  <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
 
-    // Consent Mode v2: default denied for all storage categories
+    /* Consent Mode v2: default DENIED for ALL keys (VPN World Stage 2.5 standard) */
     gtag('consent', 'default', {
       ad_storage: 'denied',
       ad_user_data: 'denied',
@@ -69,9 +47,14 @@
     });
 
     gtag('js', new Date());
-    gtag('config', 'G-RD6M691ZWD', {
-      anonymize_ip: true
-    });
+  </script>
+
+  <!-- Consent logic (safe DOM handling) -->
+  <script>
+    function hideCookieBannerSafely() {
+      var banner = document.getElementById('cookie-banner');
+      if (banner) banner.style.display = 'none';
+    }
 
     function acceptConsent() {
       gtag('consent', 'update', {
@@ -83,34 +66,35 @@
         personalization_storage: 'granted',
         security_storage: 'granted'
       });
-      var banner = document.getElementById('cookie-banner');
-      if (banner) banner.style.display = 'none';
+
       try { localStorage.setItem('vpnworld_consent', 'granted'); } catch(e) {}
+
+      hideCookieBannerSafely();
+
+      /* GA4 config only AFTER consent */
+      gtag('config', 'G-RD6M691ZWD');
     }
 
-    function denyConsent() {
-      // keep denied; hide banner to avoid nagging
-      var banner = document.getElementById('cookie-banner');
-      if (banner) banner.style.display = 'none';
+    function rejectConsent() {
+      gtag('consent', 'update', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        functionality_storage: 'denied',
+        personalization_storage: 'denied',
+        security_storage: 'denied'
+      });
+
       try { localStorage.setItem('vpnworld_consent', 'denied'); } catch(e) {}
+
+      hideCookieBannerSafely();
     }
 
-    // GPC support: if browser sends Global Privacy Control signal, keep non-essential storage OFF.
-    // This is consistent with our default-deny setup.
-    (function handleGPC(){
+    function applyStoredConsentSafely() {
       try {
-        var gpc = (typeof navigator !== 'undefined' && navigator.globalPrivacyControl === true);
-        if (gpc) {
-          // Ensure everything stays denied; also store a flag for transparency/debug
-          try { localStorage.setItem('vpnworld_gpc', '1'); } catch(e) {}
-        }
-      } catch(e) {}
-    })();
-
-    (function restoreConsent(){
-      try {
-        var saved = localStorage.getItem('vpnworld_consent');
-        if (saved === 'granted') {
+        var c = localStorage.getItem('vpnworld_consent');
+        if (c === 'granted') {
           gtag('consent', 'update', {
             ad_storage: 'granted',
             ad_user_data: 'granted',
@@ -120,17 +104,27 @@
             personalization_storage: 'granted',
             security_storage: 'granted'
           });
-          var banner = document.getElementById('cookie-banner');
-          if (banner) banner.style.display = 'none';
-        } else if (saved === 'denied') {
-          var banner2 = document.getElementById('cookie-banner');
-          if (banner2) banner2.style.display = 'none';
+          hideCookieBannerSafely();
+          gtag('config', 'G-RD6M691ZWD');
+        } else if (c === 'denied') {
+          gtag('consent', 'update', {
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+            analytics_storage: 'denied',
+            functionality_storage: 'denied',
+            personalization_storage: 'denied',
+            security_storage: 'denied'
+          });
+          hideCookieBannerSafely();
         }
       } catch(e) {}
-    })();
+    }
+
+    document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
   </script>
 
-  <!-- JSON-LD (WebPage + Organization) -->
+  <!-- JSON-LD (Organization + WebSite + WebPage) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -144,16 +138,27 @@
           "@type": "ImageObject",
           "url": "https://dloran1.github.io/assets/img/logo.png"
         },
-        "email": "u1797008805@gmail.com"
+        "contactPoint": [{
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "u1797008805@gmail.com"
+        }]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://dloran1.github.io/#website",
+        "url": "https://dloran1.github.io/",
+        "name": "VPN World",
+        "publisher": { "@id": "https://dloran1.github.io/#organization" }
       },
       {
         "@type": "WebPage",
         "@id": "https://dloran1.github.io/privacy.html#webpage",
         "url": "https://dloran1.github.io/privacy.html",
         "name": "Polityka prywatności | VPN World",
-        "isPartOf": { "@id": "https://dloran1.github.io/#organization" },
+        "isPartOf": { "@id": "https://dloran1.github.io/#website" },
         "inLanguage": "pl",
-        "dateModified": "2026-01-03"
+        "dateModified": "2026-01-02"
       }
     ]
   }
@@ -161,122 +166,84 @@
 </head>
 
 <body>
-  <header class="site-header">
-    <div class="top-lang-switch">
-      <a href="https://dloran1.github.io/privacy.html" class="active">Polski</a> |
-      <a href="https://dloran1.github.io/en-gb/privacy.html">English (UK)</a> |
-      <a href="https://dloran1.github.io/en-us/privacy.html">English (US)</a> |
-      <a href="https://dloran1.github.io/de/privacy.html">Deutsch</a> |
-      <a href="https://dloran1.github.io/es/privacy.html">Español</a> |
-      <a href="https://dloran1.github.io/fr/privacy.html">Français</a> |
-      <a href="https://dloran1.github.io/nl-be/privacy.html">Nederlands (BE)</a>
-    </div>
 
-    <div class="logo-wrap">
-      <a href="https://dloran1.github.io/" class="logo">VPN World</a>
-    </div>
-  </header>
-
-  <main class="content">
-    <article class="article">
-      <p class="breadcrumb">VPN World · Polityka · Prywatność</p>
-
-      <h1>Polityka prywatności</h1>
-
-      <p class="meta">
-        Ostatnia aktualizacja: <time datetime="2026-01-03">3 stycznia 2026</time>
-      </p>
-
-      <p>
-        Ta strona wyjaśnia, jak działa prywatność w serwisie <strong>VPN World</strong> (dalej: „Serwis”),
-        jakie dane mogą być przetwarzane oraz w jaki sposób możesz kontrolować cookies i analitykę.
-        Nie sprzedajemy danych osobowych i nie udostępniamy ich „na handel”.
-      </p>
-
-      <h2>Kto jest administratorem?</h2>
-      <p>
-        Serwis prowadzi autor VPN World. Kontakt w sprawach prywatności:
-        <a href="mailto:u1797008805@gmail.com">u1797008805@gmail.com</a>.
-      </p>
-
-      <h2>Jakie dane mogą się pojawić</h2>
-      <ul>
-        <li><strong>Dane kontaktowe</strong> — jeśli napiszesz e-mail, otrzymujemy Twoją wiadomość i adres nadawcy (tylko w celu odpowiedzi).</li>
-        <li><strong>Dane techniczne</strong> — standardowe logi serwera (np. adres IP, typ przeglądarki, czas żądania). Służą do bezpieczeństwa i diagnostyki.</li>
-        <li><strong>Dane analityczne</strong> — korzystamy z Google Analytics 4 (GA4), ale <strong>analityka jest zablokowana domyślnie</strong> do momentu wyrażenia zgody.</li>
-      </ul>
-
-      <h2>Cookies i zgoda (Consent Mode v2)</h2>
-      <p>
-        Serwis korzysta z mechanizmu <strong>Google Consent Mode v2</strong>. Oznacza to, że:
-      </p>
-      <ul>
-        <li><strong>domyślnie</strong> wszystkie typy przechowywania (w tym analityka i reklamy) są ustawione na <strong>„denied”</strong>,</li>
-        <li>dopiero po kliknięciu przycisku zgody uruchamiane jest przechowywanie wymagane do analityki,</li>
-        <li>informacja o zgodzie jest zapisywana lokalnie w Twojej przeglądarce (localStorage: <code>vpnworld_consent</code>).</li>
-      </ul>
-
-      <h2>Google Analytics 4 (GA4) — co to znaczy w praktyce</h2>
-      <p>
-        GA4 służy nam do zrozumienia, które treści są użyteczne (np. popularność artykułów, podstawowe zachowania na stronie).
-        <strong>Nie uruchamiamy analityki domyślnie</strong> — start następuje dopiero po Twojej zgodzie.
-      </p>
-
-      <h2>GPC (Global Privacy Control)</h2>
-      <p>
-        Niektóre przeglądarki wysyłają sygnał <strong>Global Privacy Control (GPC)</strong> informujący, że użytkownik nie życzy sobie śledzenia.
-        W Serwisie domyślnie blokujemy analitykę i pozostałe magazyny danych (Consent Mode v2: <em>default denied</em>), więc w praktyce
-        <strong>GPC oznacza utrzymanie ustawień „wyłączone”</strong>. Dodatkowo wykrywamy sygnał GPC po stronie przeglądarki i pozostawiamy
-        nieistotne cookies/analytics wyłączone.
-      </p>
-
-      <h2>Linki zewnętrzne i afiliacyjne</h2>
-      <p>
-        W artykułach mogą pojawiać się linki do serwisów zewnętrznych (np. stron dostawców VPN). Nie kontrolujemy ich polityk prywatności.
-        Jeśli link jest afiliacyjny, jest odpowiednio oznaczany (np. atrybutami typu <code>rel="nofollow sponsored"</code>).
-      </p>
-
-      <h2>Twoje prawa i kontrola</h2>
-      <ul>
-        <li>Możesz <strong>nie wyrazić zgody</strong> — Serwis nadal będzie działać, a analityka pozostanie wyłączona.</li>
-        <li>Możesz wyczyścić ustawienia w przeglądarce (localStorage/cookies), aby „zresetować” wybór zgody.</li>
-        <li>Jeśli skontaktujesz się z nami e-mailem, możesz poprosić o usunięcie korespondencji (o ile nie ma obowiązku jej przechowywania).</li>
-      </ul>
-
-      <h2>Kontakt</h2>
-      <p>
-        Pytania dotyczące prywatności, zgód lub danych kieruj na:
-        <a href="mailto:u1797008805@gmail.com">u1797008805@gmail.com</a>.
-      </p>
-
-      <p class="note">
-        Uwaga: Ta polityka dotyczy wyłącznie Serwisu VPN World. Serwisy zewnętrzne (np. dostawcy VPN, platformy VOD, YouTube)
-        mają własne zasady prywatności.
-      </p>
-    </article>
-  </main>
-
-  <footer class="site-footer">
-    <p>VPN World · Niezależny serwis o prywatności, bezpieczeństwie i praktycznym wykorzystaniu VPN.</p>
-    <p>
-      <a href="https://dloran1.github.io/privacy.html">Privacy</a> ·
-      <a href="https://dloran1.github.io/disclosure.html">Disclosure</a> ·
-      <a href="https://dloran1.github.io/rss.xml">RSS</a> ·
-      <a href="mailto:u1797008805@gmail.com">Contact</a>
-    </p>
-    <p>© 2026 VPN World</p>
-  </footer>
-
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
-    <p>
-      Używamy cookies głównie do analityki i bezpieczeństwa. <strong>Analityka jest domyślnie wyłączona</strong> i uruchomi się
-      dopiero po Twojej zgodzie. Więcej informacji: Polityka prywatności.
-    </p>
-    <div class="cookie-actions" style="display:flex; gap:10px; flex-wrap:wrap;">
-      <button type="button" class="btn btn-compact" onclick="acceptConsent()">Akceptuję</button>
-      <button type="button" class="btn btn-compact" onclick="denyConsent()">Odrzucam</button>
-    </div>
+<header class="site-header">
+  <div class="top-lang-switch">
+    <a href="https://dloran1.github.io/privacy.html" class="active">Polski</a> |
+    <a href="https://dloran1.github.io/en-gb/privacy.html">English (UK)</a> |
+    <a href="https://dloran1.github.io/en-us/privacy.html">English (US)</a> |
+    <a href="https://dloran1.github.io/de/privacy.html">Deutsch</a> |
+    <a href="https://dloran1.github.io/es/privacy.html">Español</a> |
+    <a href="https://dloran1.github.io/fr/privacy.html">Français</a> |
+    <a href="https://dloran1.github.io/nl-be/privacy.html">Nederlands (BE)</a>
   </div>
+
+  <div class="logo-wrap">
+    <a href="https://dloran1.github.io/" class="logo">VPN World</a>
+  </div>
+</header>
+
+<main class="content">
+  <article class="article">
+    <h1>Polityka prywatności</h1>
+    <p class="meta"><strong>Ostatnia aktualizacja:</strong> <time datetime="2026-01-02">2 stycznia 2026</time></p>
+
+    <h2>1. Informacje ogólne</h2>
+    <p>
+      VPN World to niezależny serwis informacyjny o VPN, prywatności i cyberbezpieczeństwie.
+      Nie sprzedajemy danych osobowych.
+    </p>
+
+    <h2>2. Cookies i analityka</h2>
+    <p>
+      Analityka jest <strong>wyłączona domyślnie</strong>. Google Analytics 4 (GA4) uruchamia się dopiero po Twojej wyraźnej zgodzie
+      w banerze cookies. Jeśli odrzucisz — analityka pozostaje wyłączona.
+    </p>
+
+    <h2>3. Zgoda i jej cofnięcie</h2>
+    <p>
+      Stosujemy Google Consent Mode v2. Wszystkie kategorie storage są domyślnie ustawione na <strong>denied</strong>.
+      Możesz zaakceptować lub odrzucić analitykę w banerze. Decyzja jest zapisywana lokalnie w Twojej przeglądarce.
+    </p>
+
+    <h2>4. Global Privacy Control (GPC)</h2>
+    <p>
+      Niektóre przeglądarki wysyłają sygnał Global Privacy Control (GPC). Obecnie serwis nie przetwarza automatycznie sygnałów GPC.
+      Jednocześnie analityka i tak jest wyłączona domyślnie — włącza się dopiero po świadomej zgodzie.
+    </p>
+
+    <h2>5. Linki afiliacyjne</h2>
+    <p>
+      VPN World może używać linków afiliacyjnych. Nie daje nam to dostępu do Twoich danych płatniczych.
+      Ewentualne śledzenie odbywa się po stronie partnerów afiliacyjnych — zgodnie z ich politykami.
+    </p>
+
+    <h2>6. Kontakt</h2>
+    <p>
+      W sprawach prywatności możesz napisać na:
+      <a href="mailto:u1797008805@gmail.com">u1797008805@gmail.com</a>
+    </p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <p>VPN World · Niezależny serwis o prywatności, bezpieczeństwie i praktycznym wykorzystaniu VPN.</p>
+  <p>
+    <a href="https://dloran1.github.io/privacy.html">Privacy</a> ·
+    <a href="https://dloran1.github.io/rss.xml">RSS</a> ·
+    <a href="mailto:u1797008805@gmail.com">Contact</a>
+  </p>
+  <p>© 2026 VPN World</p>
+</footer>
+
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
+  <p>Analityka jest wyłączona domyślnie. Możesz zaakceptować lub odrzucić analitykę.</p>
+  <div class="cookie-actions">
+    <button type="button" class="btn btn-compact" onclick="acceptConsent()">Akceptuję</button>
+    <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Odrzucam</button>
+  </div>
+</div>
+
 </body>
 </html>
 
