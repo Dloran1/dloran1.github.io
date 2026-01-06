@@ -5,6 +5,7 @@
   <title>No-logs VPN (2025, UK): what it really means (and how to verify it) | VPN World</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="No-logs VPN in 2025: what providers actually log, how RAM-only servers work, and 7 checks to verify if a VPN is really private. Practical guide for UK users.">
+  <meta name="robots" content="index, follow">
 
   <link rel="icon" href="/favicon.ico">
   <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/no-logs-vpn-uk.html">
@@ -19,7 +20,14 @@
   <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/no-logs-vpn.html">
   <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/no-logs-vpn-uk.html">
 
+  <!-- Styles -->
   <link rel="stylesheet" href="../../assets/css/style.css">
+
+  <!-- Preconnect -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
 
   <!-- Open Graph / Twitter -->
   <meta property="og:type" content="article">
@@ -31,188 +39,196 @@
   <meta property="og:locale:alternate" content="es_ES">
   <meta property="og:locale:alternate" content="fr_FR">
   <meta property="og:locale:alternate" content="nl_BE">
+
   <meta property="og:title" content="No-logs VPN (2025, UK): what it really means (and how to verify it)">
-  <meta property="og:description" content="Deep dive into no-logs VPN: what is and isn’t logged, how RAM-only servers work, and how to check if a provider is genuinely private.">
+  <meta property="og:description" content="Deep dive into no-logs VPN: what is and isn’t logged, how RAM-only servers work, and 7 checks to verify if a provider is genuinely private.">
   <meta property="og:url" content="https://dloran1.github.io/en-gb/blog/no-logs-vpn-uk.html">
   <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/no-logs-vpn-uk.webp">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="No-logs VPN (2025, UK): what it really means (and how to verify it)">
   <meta name="twitter:description" content="No-logs VPN explained in plain English: logs, court cases, RAM-only infrastructure and 7 checks to verify a provider.">
   <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/no-logs-vpn-uk.webp">
 
-  <!-- Google tag (GA4, VPN World: G-RD6M691ZWD) + Consent Mode v2 -->
+  <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
 
-    gtag('js', new Date());
-
-    // Consent Mode v2 – default: everything denied except security_storage
-    gtag('consent', 'default', {
-      ad_storage: 'denied',
-      ad_user_data: 'denied',
-      ad_personalization: 'denied',
-      analytics_storage: 'denied',
-      functionality_storage: 'denied',
-      personalization_storage: 'denied',
-      security_storage: 'granted'
+    // Stage 2.5: default denied for ALL storage types (including security_storage)
+    gtag('consent','default', {
+      ad_storage:'denied',
+      ad_user_data:'denied',
+      ad_personalization:'denied',
+      analytics_storage:'denied',
+      functionality_storage:'denied',
+      personalization_storage:'denied',
+      security_storage:'denied'
     });
 
-    gtag('config', 'G-RD6M691ZWD');
+    gtag('js', new Date());
 
-    function acceptConsent() {
-      gtag('consent', 'update', {
-        ad_storage: 'granted',
-        ad_user_data: 'granted',
-        ad_personalization: 'granted',
-        analytics_storage: 'granted',
-        functionality_storage: 'granted',
-        personalization_storage: 'granted',
-        security_storage: 'granted'
-      });
-      var banner = document.getElementById('privacy-banner');
+    function hideCookieBannerSafely() {
+      var banner = document.getElementById('cookie-banner');
       if (banner) banner.style.display = 'none';
     }
+
+    function acceptConsent() {
+      gtag('consent','update', {
+        ad_storage:'granted',
+        ad_user_data:'granted',
+        ad_personalization:'granted',
+        analytics_storage:'granted',
+        functionality_storage:'granted',
+        personalization_storage:'granted',
+        security_storage:'granted'
+      });
+      try { localStorage.setItem('vpnworld_consent','granted'); } catch(e) {}
+      hideCookieBannerSafely();
+      // GA config only after consent
+      gtag('config','G-RD6M691ZWD');
+    }
+
+    function rejectConsent() {
+      gtag('consent','update', {
+        ad_storage:'denied',
+        ad_user_data:'denied',
+        ad_personalization:'denied',
+        analytics_storage:'denied',
+        functionality_storage:'denied',
+        personalization_storage:'denied',
+        security_storage:'denied'
+      });
+      try { localStorage.setItem('vpnworld_consent','denied'); } catch(e) {}
+      hideCookieBannerSafely();
+    }
+
+    function applyStoredConsentSafely() {
+      try {
+        var c = localStorage.getItem('vpnworld_consent');
+        if (c === 'granted') {
+          gtag('consent','update', {
+            ad_storage:'granted',
+            ad_user_data:'granted',
+            ad_personalization:'granted',
+            analytics_storage:'granted',
+            functionality_storage:'granted',
+            personalization_storage:'granted',
+            security_storage:'granted'
+          });
+          hideCookieBannerSafely();
+          gtag('config','G-RD6M691ZWD');
+        } else if (c === 'denied') {
+          gtag('consent','update', {
+            ad_storage:'denied',
+            ad_user_data:'denied',
+            ad_personalization:'denied',
+            analytics_storage:'denied',
+            functionality_storage:'denied',
+            personalization_storage:'denied',
+            security_storage:'denied'
+          });
+          hideCookieBannerSafely();
+        }
+      } catch(e) {}
+    }
+
+    document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
   </script>
 
-  <!-- JSON-LD: Article -->
+  <!-- JSON-LD (Stage 2.5): Article + FAQPage + BreadcrumbList + ItemList -->
   <script type="application/ld+json">
   {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": "https://dloran1.github.io/en-gb/blog/no-logs-vpn-uk.html"
-    },
-    "headline": "No-logs VPN (2025, UK): what it really means (and how to verify it)",
-    "description": "Deep dive into what a no-logs VPN really is in 2025, which logs matter for privacy, and how UK users can verify providers using audits, court cases and network tests.",
-    "image": "https://dloran1.github.io/assets/img/hero/no-logs-vpn-uk.webp",
-    "author": {
-      "@type": "Person",
-      "name": "Denys Shchur"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "VPN World",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://dloran1.github.io/assets/img/logo.png"
-      }
-    },
-    "inLanguage": "en-GB",
-    "datePublished": "2025-11-22",
-    "dateModified": "2025-11-22"
-  }
-  </script>
-
-  <!-- JSON-LD: FAQPage -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
+    "@context":"https://schema.org",
+    "@graph":[
       {
-        "@type": "Question",
-        "name": "What is a no-logs VPN?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "A no-logs VPN is a service that does not store identifiable activity data such as browsing history, DNS requests, connection timestamps or source IP addresses. Minimal technical logs may exist for running the service, but they are either aggregated, anonymised or deleted quickly and cannot be tied back to a specific user."
+        "@type":"Article",
+        "@id":"https://dloran1.github.io/en-gb/blog/no-logs-vpn-uk.html",
+        "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/en-gb/blog/no-logs-vpn-uk.html"},
+        "headline":"No-logs VPN (2025, UK): what it really means (and how to verify it)",
+        "description":"Deep dive into what a no-logs VPN really is in 2025, which logs matter for privacy, and how UK users can verify providers using audits, court cases and network tests.",
+        "image":"https://dloran1.github.io/assets/img/hero/no-logs-vpn-uk.webp",
+        "inLanguage":"en-GB",
+        "datePublished":"2025-11-22",
+        "dateModified":"2025-11-22",
+        "author":{
+          "@type":"Person",
+          "name":"Denys Shchur",
+          "url":"https://dloran1.github.io/en-gb/about-denys-shchur.html"
+        },
+        "publisher":{
+          "@type":"Organization",
+          "name":"VPN World",
+          "logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}
         }
       },
       {
-        "@type": "Question",
-        "name": "Do VPNs really keep no logs at all?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "In practice, almost every VPN needs some operational data, for example total bandwidth usage per server. What matters for privacy is that the provider does not keep logs that allow authorities or attackers to reconstruct who did what online from a given IP address."
-        }
+        "@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"Home","item":"https://dloran1.github.io/en-gb/"},
+          {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/en-gb/blog/"},
+          {"@type":"ListItem","position":3,"name":"No-logs VPN","item":"https://dloran1.github.io/en-gb/blog/no-logs-vpn-uk.html"}
+        ]
       },
       {
-        "@type": "Question",
-        "name": "How can I verify that a no-logs claim is genuine?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Check for independent security or no-logs audits, review any court cases or requests for data the provider has received, read the privacy policy carefully, and run leak tests to make sure your real IP and DNS requests are not exposed while connected."
-        }
+        "@type":"FAQPage",
+        "mainEntity":[
+          {
+            "@type":"Question",
+            "name":"What is a no-logs VPN?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"A no-logs VPN is a service that does not store identifiable activity data such as browsing history, DNS requests, connection timestamps or source IP addresses. Minimal technical logs may exist for running the service, but they should be aggregated, anonymised and not linkable to a specific user."
+            }
+          },
+          {
+            "@type":"Question",
+            "name":"Do VPNs really keep no logs at all?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"In practice, most VPNs need some operational data (for example total server load or aggregated bandwidth). What matters for privacy is that the provider does not keep logs that allow someone to reconstruct who did what online from a given VPN exit IP."
+            }
+          },
+          {
+            "@type":"Question",
+            "name":"How can I verify that a no-logs claim is genuine?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"Look for independent audits, transparent privacy policy language, and credible real-world signals such as transparency reports or court cases where the provider could not produce activity logs. Then run your own leak tests (DNS/IPv6/WebRTC) to make sure traffic is not escaping the tunnel."
+            }
+          },
+          {
+            "@type":"Question",
+            "name":"Is a free VPN ever truly no-logs?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"Most free VPNs monetise in ways that require tracking (ads, data collection, device identifiers). If you care about privacy, a reputable paid VPN with audited logging practices is usually safer than a free service with unclear incentives."
+            }
+          }
+        ]
       },
       {
-        "@type": "Question",
-        "name": "Is a free VPN ever truly no-logs?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Most free VPNs monetise data or inject ads, which usually requires tracking. If you care about privacy, a reputable paid VPN with transparent logging practices is almost always safer than a free one."
-        }
-      }
-    ]
-  }
-  </script>
-
-  <!-- JSON-LD: BreadcrumbList -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://dloran1.github.io/en-gb/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Blog",
-        "item": "https://dloran1.github.io/en-gb/blog/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": "No-logs VPN"
-      }
-    ]
-  }
-  </script>
-
-  <!-- JSON-LD: Related ItemList -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    "name": "Related VPN World guides (EN-GB)",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "url": "https://dloran1.github.io/en-gb/blog/free-vs-paid-vpn-uk.html"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "url": "https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html"
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "url": "https://dloran1.github.io/en-gb/blog/vpn-public-wifi-uk.html"
-      },
-      {
-        "@type": "ListItem",
-        "position": 4,
-        "url": "https://dloran1.github.io/en-gb/blog/disadvantages-of-vpn-uk.html"
+        "@type":"ItemList",
+        "name":"Related VPN World guides (EN-GB)",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/en-gb/blog/free-vs-paid-vpn-uk.html"},
+          {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html"},
+          {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/en-gb/blog/vpn-public-wifi-uk.html"},
+          {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/en-gb/blog/disadvantages-of-vpn-uk.html"}
+        ]
       }
     ]
   }
   </script>
 </head>
+
 <body>
   <!-- HEADER -->
   <header class="site-header">
     <div class="container header-inner">
-
       <div class="header-main">
         <a href="/en-gb/" class="brand">
           <img src="../../assets/img/logo.png" class="logo" alt="VPN World logo">
@@ -233,9 +249,19 @@
         <a href="/fr/blog/no-logs-vpn.html">Français</a>
         <a href="/nl-be/blog/no-logs-vpn.html">Nederlands (BE)</a>
       </nav>
-
     </div>
   </header>
+
+  <!-- Visual breadcrumbs (UX) -->
+  <div class="container" style="padding: 10px 16px 0;">
+    <nav aria-label="Breadcrumb" class="breadcrumbs" style="font-size:14px; opacity:.85;">
+      <a href="/en-gb/" style="text-decoration:none;">Home</a>
+      <span aria-hidden="true"> / </span>
+      <a href="/en-gb/blog/" style="text-decoration:none;">Blog</a>
+      <span aria-hidden="true"> / </span>
+      <span>No-logs VPN</span>
+    </nav>
+  </div>
 
   <main>
     <!-- HERO -->
@@ -246,32 +272,33 @@
 
           <p class="note">
             <strong>Quick answer:</strong>
-            a genuine no-logs VPN does <em>not</em> keep activity logs that could link your real IP to browsing history, DNS requests or traffic content.  
+            a genuine no-logs VPN does <em>not</em> keep activity logs that could link your real IP to browsing history, DNS requests or traffic content.
             It may still collect minimal technical data (like total bandwidth per server), but this must be anonymised, aggregated and regularly wiped.
           </p>
 
           <p>
-            If you scroll through VPN websites, almost all of them shout <strong>“strict no-logs policy”</strong>.  
-            The problem is that <em>no-logs</em> is not a protected legal term in the UK. One provider means “no usage logs”, another means
-            “we log, but only for 24 hours”, and a third one quietly collects device IDs for advertising.
+            Almost every VPN website screams <strong>“strict no-logs policy”</strong>. The problem is that <em>no-logs</em> is not a protected legal term in the UK.
+            One provider means “no browsing history”, another means “we keep connection metadata for 24 hours”, and a third quietly collects identifiers for analytics.
           </p>
 
           <p>
-            In this guide we’ll break down what <strong>no-logs</strong> should mean in practice, which data is most sensitive,
-            how RAM-only and diskless servers help, and how you – as a normal user in the UK – can verify whether a VPN’s promise is more than a landing-page buzzword.
+            In this guide you’ll learn what <strong>no-logs</strong> should mean in practice, which data is actually sensitive, how RAM-only servers help,
+            and how you (as a normal user in the UK) can verify whether a VPN’s promise is more than a landing-page buzzword.
           </p>
 
           <div class="hero-author">
             <img src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur – author of VPN World">
             <div class="hero-author-text">
               <span class="hero-author-label">Written by</span>
-              <span class="hero-author-name">Denys Shchur</span>
+              <span class="hero-author-name">
+                <a href="/en-gb/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a>
+              </span>
               <span class="meta">Updated: 22 November 2025 · 12–15 min read</span>
             </div>
           </div>
 
-          <!-- Early CTA block -->
-          <div class="cta-buttons">
+          <!-- Early CTA block (Stage 2.5: partner links, classes for styling) -->
+          <div class="cta-buttons" aria-label="Affiliate offers">
             <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584"
                class="nordvpn"
                target="_blank"
@@ -289,7 +316,7 @@
           <ul class="meta-points">
             <li>No-logs vs “some logs” explained</li>
             <li>How audits & court cases expose lies</li>
-            <li>Step-by-step checklist for UK users</li>
+            <li>7 checks you can do as a normal user</li>
           </ul>
         </div>
 
@@ -301,19 +328,19 @@
       </div>
     </section>
 
-    <!-- SECTION 1: What does “no-logs VPN” actually mean? -->
+    <!-- SECTION 1 -->
     <section class="section">
       <div class="container article">
         <h2>What a no-logs VPN should (and shouldn’t) collect</h2>
 
         <p class="note">
           <strong>Key takeaway:</strong>
-          ignore vague marketing phrases. Look specifically for what the provider says about <strong>connection timestamps</strong>, 
-          <strong>source IPs</strong>, <strong>browsing history</strong>, and <strong>DNS queries</strong> – that’s where the real privacy risk lives.
+          ignore vague marketing phrases. Look specifically for what the provider says about <strong>connection timestamps</strong>,
+          <strong>source IPs</strong>, <strong>browsing history</strong>, and <strong>DNS queries</strong> — that’s where the real privacy risk lives.
         </p>
 
         <p>
-          A VPN always sees some information about your connection. Technically it can’t work without it.  
+          A VPN always sees some information about your connection. Technically it can’t work without it.
           The important question is: <strong>does the provider record that data on disk in a way that can later identify you?</strong>
         </p>
 
@@ -321,33 +348,38 @@
           <thead>
             <tr>
               <th>Data type</th>
-              <th>Safe for a no-logs VPN?</th>
+              <th>Safe for a no-logs claim?</th>
               <th>Why it matters</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>Real IP address &amp; exact timestamps</td>
-              <td><strong>No</strong> – must not be stored long-term</td>
-              <td>Allows correlation: “IP X used VPN at 20:14, same minute as torrent traffic on exit IP Y”.</td>
+              <td><strong>No</strong> — must not be stored long-term</td>
+              <td>Enables correlation: “IP X used VPN at 20:14, same minute as traffic from exit IP Y”.</td>
             </tr>
             <tr>
               <td>Visited domains / URLs (HTTP/HTTPS)</td>
-              <td><strong>No</strong> – never acceptable for a no-logs claim</td>
-              <td>Effectively a complete browsing history tied to your account.</td>
+              <td><strong>No</strong> — never acceptable</td>
+              <td>Effectively your browsing history tied to an account or device.</td>
+            </tr>
+            <tr>
+              <td>DNS queries</td>
+              <td><strong>No</strong> — should not be stored in identifiable form</td>
+              <td>DNS can reveal which sites you access even when content is encrypted.</td>
             </tr>
             <tr>
               <td>Aggregate bandwidth per server</td>
               <td><strong>Yes</strong>, if anonymised</td>
-              <td>Needed for capacity planning and detecting abuse; no link to individuals.</td>
+              <td>Needed for capacity planning and abuse prevention; no link to individuals.</td>
             </tr>
             <tr>
-              <td>Crash logs on client device</td>
+              <td>Crash logs on a client device</td>
               <td>Yes, if optional &amp; anonymised</td>
-              <td>Helps fix bugs; should never contain full URLs or personal identifiers.</td>
+              <td>Helps fix bugs; should never include full URLs or personal identifiers.</td>
             </tr>
             <tr>
-              <td>Payment email / billing data</td>
+              <td>Billing records</td>
               <td>Yes, stored separately</td>
               <td>Billing law requires some records, but they shouldn’t be technically linked to traffic logs.</td>
             </tr>
@@ -355,92 +387,184 @@
         </table>
 
         <p>
-          Some providers quietly log connection metadata “for performance and security”, which can still be enough to deanonymise you in the wrong hands.  
-          That’s why a serious no-logs VPN clearly states what <em>is not</em> collected, not just what is.
+          Some providers quietly log “connection metadata for performance and security”. That phrase can still hide risky retention.
+          For privacy, the best policies explicitly say what is <em>not</em> collected (no IPs, no timestamps, no DNS logs), and explain
+          what is collected (aggregated stats) with a clear retention window.
         </p>
 
         <p class="human-note">
-          Honest moment: if any VPN’s privacy policy is only two paragraphs long and screams “we respect your privacy” without details, I close the tab immediately.
+          Honest moment: if a VPN’s privacy policy is two short paragraphs that only say “we respect your privacy”, I close the tab immediately.
         </p>
 
         <p>
-          If you’re new to VPNs in general, it’s worth scanning our intro guides
-          <a href="/en-gb/blog/what-is-a-vpn-uk.html">“What is a VPN?”</a> and
-          <a href="/en-gb/blog/free-vs-paid-vpn-uk.html">“Free vs paid VPN”</a> before obsessing over log types.
+          If you’re new to VPNs, scan our basics first:
+          <a href="/en-gb/blog/what-is-a-vpn-uk.html">What is a VPN?</a> and
+          <a href="/en-gb/blog/free-vs-paid-vpn-uk.html">Free vs paid VPN (UK)</a>.
+          Once the fundamentals are clear, “no-logs” becomes much easier to judge.
         </p>
       </div>
     </section>
 
-    <!-- VIDEO SECTION -->
+    <!-- SECTION 2 -->
+    <section class="section section-alt">
+      <div class="container article">
+        <h2>No-logs vs “no browsing logs”: the wording traps to watch for</h2>
+
+        <p class="note">
+          <strong>Key takeaway:</strong>
+          a VPN can say “we don’t log browsing” and still keep enough metadata to identify you later. Always look for explicit language about
+          <strong>source IP</strong> and <strong>connection timestamps</strong>.
+        </p>
+
+        <p>
+          In real life, “no-logs” marketing often hides behind categories. Here’s the practical breakdown:
+        </p>
+
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Claim</th>
+              <th>What it usually means</th>
+              <th>What you must verify</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>“No browsing logs”</td>
+              <td>No stored URLs or page titles</td>
+              <td>Are IP/timestamps stored? Are DNS requests stored? What is retention?</td>
+            </tr>
+            <tr>
+              <td>“No usage logs”</td>
+              <td>Vague umbrella wording</td>
+              <td>Ask: what is “usage”? Look for a concrete list of non-collected data.</td>
+            </tr>
+            <tr>
+              <td>“We keep minimal logs”</td>
+              <td>Operational telemetry exists</td>
+              <td>Are logs aggregated/anonymised? Is it opt-in? Is deletion automatic?</td>
+            </tr>
+            <tr>
+              <td>“Logs for fraud prevention”</td>
+              <td>Potentially dangerous metadata retention</td>
+              <td>Exact fields + exact retention window + whether it can be tied to a user.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>
+          The UK angle: the safest approach is not trying to guess how a court might interpret the word “logs”.
+          It’s choosing a provider whose systems make <strong>useful logging technically difficult</strong> (RAM-only servers, independent audits),
+          and whose policy is precise enough that a misleading claim would be easy to expose.
+        </p>
+      </div>
+    </section>
+
+    <!-- VIDEO SECTION (Stage 2.5: official VPN World video) -->
     <section class="section section-alt">
       <div class="container">
         <h2>Short video: VPN privacy explained in plain English</h2>
 
         <p class="note">
           <strong>Key takeaway:</strong>
-          the main job of a VPN is to separate <strong>who you are</strong> (your IP, location, ISP) from <strong>what you do</strong> (sites you visit, apps you use).  
+          the main job of a VPN is to separate <strong>who you are</strong> (your IP, ISP) from <strong>what you do</strong> (sites you access).
           A proper no-logs policy stops that bridge from being rebuilt later.
         </p>
 
         <div class="video-wrap">
           <iframe
-            src="https://www.youtube-nocookie.com/embed/0T9-cbph69U"
-            title="What is a VPN and do I need one? Simple explanation"
+            src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&modestbranding=1"
+            title="VPN World — video"
             loading="lazy"
             frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
         </div>
+
         <p>
-          If the embed doesn’t load, you can watch the video directly on YouTube:
-          <a href="https://www.youtube.com/watch?v=0T9-cbph69U" target="_blank" rel="noopener noreferrer">
-            What is a VPN and do I need one? – simple explanation
+          If the player doesn’t load, watch on YouTube:
+          <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">
+            https://www.youtube.com/watch?v=rzcAKFaZvhE
           </a>.
         </p>
       </div>
     </section>
 
-    <!-- SECTION 2: RAM-only, audits, jurisdiction -->
+    <!-- SECTION 3 -->
     <section class="section">
       <div class="container article">
         <h2>How modern no-logs VPNs prove their claims</h2>
 
         <p class="note">
           <strong>Key takeaway:</strong>
-          don’t just trust the words “zero logs”. Look for <strong>independent audits</strong>, 
-          <strong>RAM-only servers</strong>, <strong>clear jurisdiction</strong> and, ideally, <strong>real-world court cases</strong> where no data was handed over.
+          don’t just trust “zero logs”. Look for <strong>independent audits</strong>, <strong>RAM-only servers</strong>,
+          <strong>clear jurisdiction</strong>, and ideally <strong>real-world tests</strong> (transparency reports, data request stories).
         </p>
 
         <p>
-          Luckily, 2025 is much better than 2015 in terms of transparency. Reputable providers combine several mechanisms to back up their slogans:
+          2025 is much better than 2015 for VPN transparency. Strong providers combine technical design and external verification so the “no-logs” claim
+          is not purely marketing. The most useful signals are:
         </p>
 
         <ul>
-          <li><strong>Independent audits</strong> – external firms review configuration, logging systems and sometimes even source code.</li>
-          <li><strong>RAM-only (diskless) servers</strong> – the entire runtime lives in volatile memory; reboots wipe everything.</li>
-          <li><strong>Configuration as code</strong> – identical, centrally managed server images make it harder to “forget” a rogue log file on one node.</li>
-          <li><strong>Colocation and owned hardware</strong> – fewer third-party data centres touching the equipment.</li>
-          <li><strong>Public transparency reports</strong> – number of data requests received vs. what could actually be provided (ideally: nothing identifiable).</li>
+          <li><strong>Independent audits</strong> — third-party firms review logging systems and infrastructure claims.</li>
+          <li><strong>RAM-only (diskless) servers</strong> — volatile memory only; reboots wipe runtime data.</li>
+          <li><strong>Configuration-as-code</strong> — reproducible server images reduce “one rogue node” risk.</li>
+          <li><strong>Transparency reporting</strong> — how many requests, what could be provided (ideally: nothing identifiable).</li>
+          <li><strong>Leak protection in the client</strong> — DNS/IPv6/WebRTC handling that prevents accidental exposure.</li>
         </ul>
 
         <p>
-          When you see constant marketing around “no-logs”, but <em>none</em> of the points above, that’s a red flag.  
-          In that case, your data protection is effectively “trust us, bro”.
+          To keep this practical, here’s a quick “proof stack” you can use as a checklist when evaluating a provider:
         </p>
+
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Proof signal</th>
+              <th>What “good” looks like</th>
+              <th>What to treat as a red flag</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Audit</td>
+              <td>Named firm, dated report, scope clearly described</td>
+              <td>“We were audited” with no firm name, no date, no scope</td>
+            </tr>
+            <tr>
+              <td>RAM-only</td>
+              <td>Explicit diskless infrastructure claims + operational details</td>
+              <td>Vague “secure servers” phrasing with no explanation</td>
+            </tr>
+            <tr>
+              <td>Policy precision</td>
+              <td>Explicit “no source IP, no timestamps, no DNS logs, no traffic content”</td>
+              <td>Generic “we respect privacy” wording</td>
+            </tr>
+            <tr>
+              <td>Real-world credibility</td>
+              <td>Transparency reports and consistent public explanations</td>
+              <td>History of controversy where logs “appeared” despite the claim</td>
+            </tr>
+          </tbody>
+        </table>
 
         <p>
-          Providers like NordVPN and Surfshark combine audited policies with RAM-only infrastructure, which is why we usually recommend them as starting points instead of random
-          “100% free lifetime VPN” services from app stores.
+          Providers like NordVPN and Surfshark are common starting points because they combine audited policies, modern protocols
+          (WireGuard / NordLynx), and DNS leak protection. That’s usually safer than rolling the dice on random “free lifetime VPN”
+          apps where incentives are unclear.
         </p>
 
-        <!-- Second CTA block (deep in the article) -->
-        <div class="cta-box">
+        <div class="cta-box" aria-label="Recommended VPN">
           <h3>Want a practical starting point?</h3>
           <p>
-            If you don’t want to spend weeks comparing providers, start with one audited no-logs VPN, test it on your own devices and keep an eye on leak tests and performance.
+            If you don’t want to spend weeks comparing providers, start with one reputable VPN, test it on your own devices,
+            and verify basics like DNS leaks and kill switch behaviour.
           </p>
-          <div class="cta-buttons">
+
+          <div class="cta-buttons" aria-label="Affiliate offers">
             <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584"
                class="nordvpn"
                target="_blank"
@@ -454,28 +578,29 @@
               Test Surfshark (RAM-only network)
             </a>
           </div>
+
           <p class="human-note">
-            Small disclosure: if you subscribe via these links, VPN World may earn a commission – without changing your price.
-            It helps keep this project independent and ad-free.
+            Disclosure: if you subscribe via these links, VPN World may earn a commission — without changing your price.
+            It helps keep the project independent.
           </p>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 3: Checklist / table -->
+    <!-- SECTION 4 -->
     <section class="section section-alt">
       <div class="container article">
         <h2>7-point checklist: is this VPN really no-logs?</h2>
 
         <p class="note">
           <strong>Key takeaway:</strong>
-          treat VPN marketing pages like a job interview. Ask hard questions, verify with independent sources, and always assume that
-          “free & unlimited” comes with a data-harvesting catch.
+          treat VPN marketing pages like a job interview. Ask hard questions, verify with independent signals,
+          and assume “free &amp; unlimited” often comes with data collection.
         </p>
 
         <p>
-          Use the table below like a mini due-diligence sheet before committing to a long subscription. It’s the same process we use when researching tools for
-          guides such as <a href="/en-gb/blog/best-free-vpn-uk.html">best free VPNs in the UK</a>.
+          Use this as a mini due-diligence sheet before committing to a long subscription.
+          It also helps you understand why <a href="/en-gb/blog/free-vs-paid-vpn-uk.html">free vs paid VPN</a> is a privacy question, not just a price question.
         </p>
 
         <table class="comparison-table">
@@ -489,133 +614,161 @@
           <tbody>
             <tr>
               <td>Independent audit?</td>
-              <td>Recent technical or no-logs audit by a known firm; report publicly referenced.</td>
-              <td>“We’ve been audited” with no names, dates or links.</td>
+              <td>Recent audit by a known firm, scope explained</td>
+              <td>“Audited” with no names, dates, or scope</td>
             </tr>
             <tr>
-              <td>Policy on activity logs?</td>
-              <td>Explicit “no browsing history, no DNS queries, no traffic content”.</td>
-              <td>Generic wording like “we care about your privacy” with no detail.</td>
+              <td>Activity logs?</td>
+              <td>Explicit: no browsing history, no DNS logs, no traffic content</td>
+              <td>Generic privacy slogans, no specifics</td>
             </tr>
             <tr>
               <td>Connection metadata?</td>
-              <td>Minimal, aggregated data with clear retention period (e.g. 24 hours, aggregated stats).</td>
-              <td>Full timestamps and IPs stored for “fraud prevention” without limits.</td>
+              <td>Minimal aggregated data with a retention window and clear purpose</td>
+              <td>Full timestamps &amp; source IP stored “for security” with no limit</td>
             </tr>
             <tr>
               <td>Infrastructure?</td>
-              <td>RAM-only servers, config as code, owned or tightly controlled hardware.</td>
-              <td>Old shared servers, vague “trusted partners”, no mention of reboots or wiping.</td>
+              <td>RAM-only + reproducible deployment (config-as-code)</td>
+              <td>Vague “secure servers” marketing, no details</td>
             </tr>
             <tr>
-              <td>Jurisdiction &amp; data requests?</td>
-              <td>Country openly stated; transparency reports with “no logs available to hand over”.</td>
-              <td>Completely silent on law enforcement requests and data retention obligations.</td>
+              <td>Jurisdiction?</td>
+              <td>Clear legal entity and country, transparent explanation</td>
+              <td>Trying to hide jurisdiction or legal structure</td>
             </tr>
             <tr>
               <td>Client telemetry?</td>
-              <td>Optional, opt-in, clearly documented; never includes URLs or DNS data.</td>
-              <td>Always-on analytics / advertising IDs with no opt-out.</td>
+              <td>Optional, opt-in, clearly documented</td>
+              <td>Always-on analytics, device IDs, no opt-out</td>
             </tr>
             <tr>
-              <td>Track record?</td>
-              <td>No major scandals involving handing over logs that “didn’t exist”.</td>
-              <td>Past incidents where activity logs appeared despite “no-logs” claims.</td>
+              <td>Can you verify yourself?</td>
+              <td>Leak tests pass; DNS routed through VPN; kill switch works</td>
+              <td>DNS/IPv6 leaks or frequent drops without protection</td>
             </tr>
           </tbody>
         </table>
 
         <p>
-          Once you’ve gone through this checklist, run a few technical tests yourself:
+          After this checklist, do a few “normal user” tests:
         </p>
 
         <ul>
           <li>
-            <strong>Leak tests:</strong> with the VPN connected, visit an IP / DNS leak test and confirm that
-            <a href="/en-gb/blog/vpn-dns-leak-uk.html">your DNS requests</a> don’t go through your ISP.
+            <strong>DNS &amp; IPv6 leak tests:</strong> connect to the VPN and verify your DNS requests do not go through your ISP.
+            See <a href="/en-gb/blog/vpn-dns-leak-uk.html">How to check your VPN for DNS leaks</a>.
           </li>
           <li>
-            <strong>Public Wi-Fi check:</strong> connect to a café hotspot and repeat the tests –
-            see our <a href="/en-gb/blog/vpn-public-wifi-uk.html">VPN for public Wi-Fi guide</a> for details.
+            <strong>Public Wi-Fi scenario:</strong> run the same tests on café/hotel Wi-Fi.
+            Use our <a href="/en-gb/blog/vpn-public-wifi-uk.html">VPN for public Wi-Fi guide</a>.
           </li>
           <li>
-            <strong>Speed tests:</strong> make sure the combination of <a href="/en-gb/blog/vpn-protocols-uk.html">protocol</a>
-            (WireGuard / NordLynx) and a nearby server still gives usable latency.
+            <strong>Kill switch behaviour:</strong> temporarily disconnect the VPN and confirm traffic is blocked (not silently routed).
+            Start here: <a href="/en-gb/blog/vpn-kill-switch-uk.html">VPN kill switch (UK)</a>.
           </li>
         </ul>
 
         <p class="human-note">
-          It sounds like a lot of work, but you only have to do this properly once or twice.  
-          After that, you’ll spot weak “no-logs” claims in seconds.
+          It looks like a lot, but you only need to do this properly once or twice.
+          After that, weak “no-logs” claims become obvious within seconds.
         </p>
       </div>
     </section>
 
-    <!-- FAQ VISIBLE -->
+    <!-- SECTION 5 -->
+    <section class="section">
+      <div class="container article">
+        <h2>Common limitations: what “no-logs” cannot protect you from</h2>
+
+        <p class="note">
+          <strong>Key takeaway:</strong>
+          even a real no-logs VPN does not magically make you anonymous if you log into accounts, accept tracking cookies,
+          or leak identifiers via browsers and apps.
+        </p>
+
+        <p>
+          A no-logs policy is a strong privacy layer, but it is not a complete anonymity system. Here are the most common ways people
+          accidentally deanonymise themselves even with a good VPN:
+        </p>
+
+        <ul>
+          <li><strong>Account logins:</strong> if you log into Google, Facebook, or your bank, your identity is already attached to the session.</li>
+          <li><strong>Browser fingerprinting:</strong> unique device/browser configurations can be tracked across sessions.</li>
+          <li><strong>Tracking pixels &amp; cookies:</strong> VPNs don’t block cookies by default — that’s browser hygiene.</li>
+          <li><strong>DNS/WebRTC leaks:</strong> a “no-logs” claim doesn’t matter if your traffic escapes locally.</li>
+          <li><strong>Bad operational choices:</strong> reusing passwords or skipping 2FA makes account takeover easier than “VPN deanonymisation”.</li>
+        </ul>
+
+        <p>
+          If you want a pragmatic, security-first baseline, combine a reputable VPN with basic habits:
+          a password manager, 2FA, and sensible browser settings.
+        </p>
+      </div>
+    </section>
+
+    <!-- FAQ (visible) -->
     <section class="section">
       <div class="container article">
         <h2>FAQ: common questions about no-logs VPNs</h2>
 
         <h3>Is any VPN completely log-free?</h3>
         <p>
-          Realistically, no. Every network service needs <em>some</em> operational data. The key is that none of it should be
-          detailed enough to reconstruct your individual activities. Look for providers that clearly separate billing data from
-          network systems and explain exactly what’s collected and for how long.
+          Realistically, no. Every network service needs <em>some</em> operational data.
+          What matters is that none of it is detailed enough to reconstruct your individual activities.
+          Look for providers that separate billing systems from network systems and explain what’s collected and for how long.
         </p>
 
         <h3>Do UK data retention laws affect foreign VPNs?</h3>
         <p>
-          If a VPN has infrastructure or a legal presence in the UK, local laws may apply to that entity.  
-          Many privacy-focused services choose jurisdictions with less aggressive data retention requirements,
-          but that doesn’t magically exempt them from all international cooperation. Logging <em>nothing useful</em>
-          remains the most robust defence.
+          If a provider has infrastructure or a legal presence in the UK, local obligations may apply to that entity.
+          Many services choose jurisdictions with fewer retention requirements, but the most robust defence is still simple:
+          the provider’s systems should not retain useful activity logs in the first place.
         </p>
 
         <h3>Is a no-logs VPN enough to stay anonymous?</h3>
         <p>
-          Not on its own. Browser fingerprinting, account logins, cookies and behaviour patterns can still reveal who you are.
-          Think of a no-logs VPN as a strong privacy layer that should be combined with basic hygiene like unique passwords,
-          2FA (see <a href="/en-gb/blog/vpn-2fa-mfa-uk.html">our VPN + 2FA guide</a>) and a sensible browser setup.
+          Not on its own. Cookies, logins, browser fingerprinting, and behavioural patterns can still identify you.
+          Think of a no-logs VPN as one strong layer — not the whole solution.
         </p>
 
         <h3>Should I use a free no-logs VPN instead of a paid one?</h3>
         <p>
-          There are a few legitimate free tiers, but almost all truly free VPNs monetise data one way or another.
-          If you’re serious about privacy, a limited but transparent paid plan is usually the safer bet than a mysterious “no-logs” free app.
+          There are a few legitimate free tiers, but most “totally free” VPNs monetise via ads, analytics, or data collection.
+          If privacy is the goal, a transparent paid plan is usually safer than a free service with unclear incentives.
         </p>
       </div>
     </section>
 
-    <!-- RELATED GUIDES -->
+    <!-- RELATED GUIDES (single block, card-grid only) -->
+    <!-- RELATED_START -->
     <section class="section section-alt">
       <div class="container">
         <h2>Related VPN World guides (EN-GB)</h2>
         <div class="card-grid">
           <article class="card">
             <h3><a href="/en-gb/blog/free-vs-paid-vpn-uk.html">Free vs paid VPN in the UK</a></h3>
-            <p>When a “free VPN” is fine – and when it quietly turns your data into the product.</p>
+            <p>When a “free VPN” is fine — and when it quietly turns your data into the product.</p>
+          </article>
 
-
-<section class="author-box">
-  <p>Written by <a href="/en-gb/about-denys-shchur.html">Denys Shchur</a> – VPN &amp; cybersecurity writer and founder of VPN World.</p>
-</section>
-
-</article>
           <article class="card">
             <h3><a href="/en-gb/blog/vpn-dns-leak-uk.html">How to check your VPN for DNS leaks</a></h3>
             <p>Step-by-step DNS &amp; IPv6 leak tests to make sure nothing escapes the tunnel.</p>
           </article>
+
           <article class="card">
             <h3><a href="/en-gb/blog/vpn-public-wifi-uk.html">Using a VPN on public Wi-Fi</a></h3>
             <p>Practical checklist for cafés, hotels, airports and trains in the UK and abroad.</p>
           </article>
+
           <article class="card">
             <h3><a href="/en-gb/blog/disadvantages-of-vpn-uk.html">Disadvantages of VPNs</a></h3>
-            <p>Situations where a VPN can actually break things – and how to fix or avoid them.</p>
+            <p>Situations where a VPN can break things — and how to fix or avoid them.</p>
           </article>
         </div>
       </div>
     </section>
+    <!-- RELATED_END -->
 
     <!-- AUTHOR BOX -->
     <section class="section">
@@ -624,50 +777,71 @@
           <img src="../../assets/img/author/denys-shchur.webp" alt="Portrait of Denys Shchur" class="author-avatar">
           <div>
             <h3>About the author</h3>
-            <p><strong>Denys Shchur</strong> is the creator of VPN World, focusing on practical, test-driven guides about VPNs,
-              online privacy and secure remote work. He spends far too much time running speed tests and checking for DNS leaks,
-              so you don’t have to.</p>
+            <p>
+              <strong><a href="/en-gb/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a></strong> is the creator of VPN World,
+              focusing on practical, test-driven guides about VPNs, online privacy and secure remote work.
+              He spends far too much time running speed tests and checking for DNS leaks, so you don’t have to.
+            </p>
           </div>
         </div>
       </div>
     </section>
-  <!-- RELATED_START -->
-<section class="related-guides" aria-label="Related Guides">
-  <h2>Related Guides</h2>
-  <ul>
-    <li><a href="/en-gb/blog/vpn-public-wifi-uk.html">/en-gb/blog/vpn-public-wifi-uk.html</a></li>
-    <li><a href="/en-gb/blog/wifi-security-uk.html">/en-gb/blog/wifi-security-uk.html</a></li>
-    <li><a href="/en-gb/blog/vpn-kill-switch-uk.html">/en-gb/blog/vpn-kill-switch-uk.html</a></li>
-    <li><a href="/en-gb/blog/vpn-protocols-uk.html">/en-gb/blog/vpn-protocols-uk.html</a></li>
-    <li><a href="/en-gb/blog/what-is-a-vpn-uk.html">/en-gb/blog/what-is-a-vpn-uk.html</a></li>
-  </ul>
-</section>
-<!-- RELATED_END -->
-</main>
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <strong>VPN World</strong>
-        <p>Independent guides on privacy, streaming and online security.</p>
+    <!-- Final CTA block (Stage 2.5: second placement near end) -->
+    <section class="section">
+      <div class="container article">
+        <div class="cta-box" aria-label="Recommended VPN">
+          <h2>Recommended VPN</h2>
+          <p class="cta-note">Affiliate links (nofollow/sponsored).</p>
+          <div class="cta-buttons" aria-label="Affiliate offers">
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584"
+               class="nordvpn"
+               target="_blank"
+               rel="nofollow sponsored noopener noreferrer">
+              Try NordVPN — audited no-logs policy
+            </a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430"
+               class="surfshark"
+               target="_blank"
+               rel="nofollow sponsored noopener noreferrer">
+              Try Surfshark — strong value
+            </a>
+          </div>
+          <p class="human-note">
+            Disclosure: VPN World may earn a commission if you subscribe via these links — without changing your price.
+          </p>
+        </div>
       </div>
-      <nav>
-        <a href="/privacy.html">Privacy</a>
-        <a href="/sitemap.xml">Sitemap</a>
+    </section>
+
+  </main>
+
+  <!-- FOOTER (new standard) -->
+  <footer class="site-footer">
+    <div class="container">
+      <p><strong>VPN World</strong> · Independent service about privacy, security, and practical VPN use.</p>
+      <p>
+        <a href="/en-gb/privacy.html">Privacy</a> ·
+        <a href="/en-gb/disclosure.html">Disclosure</a> ·
         <a href="mailto:u1797008805@gmail.com">Contact</a>
-      </nav>
+      </p>
+      <p>© 2026 VPN World</p>
     </div>
-    <div class="container tiny">© 2025 VPN World</div>
   </footer>
 
   <script src="../../assets/js/main.js"></script>
   <script src="../../assets/js/cookie-consent.js"></script>
 
-  <!-- Cookie / privacy banner, wired to Consent Mode -->
-  <div id="privacy-banner" class="privacy-banner">
-    We use cookies for analytics and security. See our <a href="/privacy.html">Privacy policy</a>.
-    <button class="btn btn-compact" type="button" onclick="acceptConsent()">OK</button>
+  <!-- Cookie banner (Stage 2.5) -->
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
+    <p>Analytics is disabled by default. You can accept or reject analytics.</p>
+    <div class="cookie-actions">
+      <button type="button" class="btn btn-compact" onclick="acceptConsent()">Accept</button>
+      <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Reject</button>
+    </div>
   </div>
+
 </body>
 </html>
+
+<!-- PAGE: https://dloran1.github.io/en-gb/blog/no-logs-vpn-uk.html -->
