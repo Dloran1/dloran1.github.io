@@ -1,13 +1,17 @@
-<!DOCTYPE html><html lang="en-gb">
+<!doctype html>
+<html lang="en-gb">
 <head>
-<meta charset="utf-8">
-<title>Vpn Dns Leak Uk | VPN World</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="index, follow">
-<link rel="icon" href="/favicon.ico">
-<link rel="stylesheet" href="../../assets/css/style.css">
-<link rel="canonical" href="https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html">
-<link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/wyciek-dns-vpn.html">
+  <meta charset="utf-8">
+  <title>DNS Leak in a VPN — how to detect and fix it (2026) | VPN World</title>
+  <meta name="description" content="DNS Leak in a VPN — how to detect and fix it (2026)">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index, follow">
+
+  <link rel="icon" href="/favicon.ico">
+
+  <!-- Canonical & hreflang -->
+  <link rel="canonical" href="https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html">
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/wyciek-dns-vpn.html">
   <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html">
   <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-dns-leak.html">
   <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-dns-leak.html">
@@ -16,42 +20,365 @@
   <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-dns-leak.html">
   <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html">
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-RD6M691ZWD');
-</script>
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/css/style.css">
 
+  <!-- Preconnect -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="DNS Leak in a VPN — how to detect and fix it (2026) | VPN World">
+  <meta property="og:description" content="DNS Leak in a VPN — how to detect and fix it (2026)">
+  <meta property="og:url" content="https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/wyciek-dns-vpn-uk.webp">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="nl_BE">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DNS Leak in a VPN — how to detect and fix it (2026) | VPN World">
+  <meta name="twitter:description" content="DNS Leak in a VPN — how to detect and fix it (2026)">
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/wyciek-dns-vpn-uk.webp">
+
+  <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    gtag('consent','default', {
+      ad_storage:'denied',
+      ad_user_data:'denied',
+      ad_personalization:'denied',
+      analytics_storage:'denied',
+      functionality_storage:'denied',
+      personalization_storage:'denied',
+      security_storage:'denied'
+    });
+
+    gtag('js', new Date());
+  </script>
+
+  <script>
+    function hideCookieBannerSafely() {
+      var banner = document.getElementById('cookie-banner');
+      if (banner) banner.style.display = 'none';
+    }
+
+    function acceptConsent() {
+      gtag('consent','update',{
+        ad_storage:'granted',
+        ad_user_data:'granted',
+        ad_personalization:'granted',
+        analytics_storage:'granted',
+        functionality_storage:'granted',
+        personalization_storage:'granted',
+        security_storage:'granted'
+      });
+      try { localStorage.setItem('vpnworld_consent','granted'); } catch(e) {}
+      hideCookieBannerSafely();
+      gtag('config','G-RD6M691ZWD');
+    }
+
+    function rejectConsent() {
+      gtag('consent','update',{
+        ad_storage:'denied',
+        ad_user_data:'denied',
+        ad_personalization:'denied',
+        analytics_storage:'denied',
+        functionality_storage:'denied',
+        personalization_storage:'denied',
+        security_storage:'denied'
+      });
+      try { localStorage.setItem('vpnworld_consent','denied'); } catch(e) {}
+      hideCookieBannerSafely();
+    }
+
+    function applyStoredConsentSafely() {
+      try {
+        var c = localStorage.getItem('vpnworld_consent');
+        if (c === 'granted') {
+          gtag('consent','update',{
+            ad_storage:'granted',
+            ad_user_data:'granted',
+            ad_personalization:'granted',
+            analytics_storage:'granted',
+            functionality_storage:'granted',
+            personalization_storage:'granted',
+            security_storage:'granted'
+          });
+          hideCookieBannerSafely();
+          gtag('config','G-RD6M691ZWD');
+        } else if (c === 'denied') {
+          gtag('consent','update',{
+            ad_storage:'denied',
+            ad_user_data:'denied',
+            ad_personalization:'denied',
+            analytics_storage:'denied',
+            functionality_storage:'denied',
+            personalization_storage:'denied',
+            security_storage:'denied'
+          });
+          hideCookieBannerSafely();
+        }
+      } catch(e) {}
+    }
+
+    document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
+  </script>
+
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html"},"headline":"DNS Leak in a VPN — how to detect and fix it (2026) | VPN World","description":"DNS Leak in a VPN — how to detect and fix it (2026)","image":"https://dloran1.github.io/assets/img/hero/wyciek-dns-vpn-uk.webp","datePublished":"2026-01-05","dateModified":"2026-01-05","author":{"@type":"Organization","name":"VPN World Editorial Team"},"publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://dloran1.github.io/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/en-gb/blog/index.html"},{"@type":"ListItem","position":3,"name":"DNS Leak in a VPN — how to detect and fix it (2026)","item":"https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html"}]},{"@type":"FAQPage","mainEntity":[]},{"@type":"ItemList","name":"Related guides","itemListElement":[{"@type":"ListItem","position":1,"url":"https://dloran1.github.io/en-gb/blog/vpn-kill-switch-uk.html"}]}]}
+  </script>
 </head>
 <body>
-<nav class="lang-switch"><a href="/blog/wyciek-dns-vpn.html">Polski</a> | <a href="/en-gb/blog/vpn-dns-leak-uk.html" class="active">English (UK)</a> | <a href="/en-us/blog/vpn-dns-leak.html">English (US)</a> | <a href="/de/blog/vpn-dns-leak.html">Deutsch</a> | <a href="/es/blog/vpn-dns-leak.html">Español</a> | <a href="/fr/blog/vpn-dns-leak.html">Français</a> | <a href="/nl-be/blog/vpn-dns-leak.html">Nederlands (BE)</a></nav>
 
+<nav class="lang-switch"><a href="/blog/wyciek-dns-vpn.html" class="">Polski</a> | <a href="/en-gb/blog/vpn-dns-leak-uk.html" class="active">English (UK)</a> | <a href="/en-us/blog/vpn-dns-leak.html" class="">English (US)</a> | <a href="/de/blog/vpn-dns-leak.html" class="">Deutsch</a> | <a href="/es/blog/vpn-dns-leak.html" class="">Español</a> | <a href="/fr/blog/vpn-dns-leak.html" class="">Français</a> | <a href="/nl-be/blog/vpn-dns-leak.html" class="">Nederlands (BE)</a></nav>
 
-<header class="site-header"><div class="container header-inner">
-  <a href="/en-gb/" class="brand"><img src="../../assets/img/logo.png" class="logo" alt=""> <span class="brand-text">VPN World</span></a>
-  
-</div></header>
-<main class="container card" style="padding:18px 0"><h1>Vpn Dns Leak Uk</h1><p>Content coming soon...</p><!-- RELATED_START -->
-<section class="related-guides" aria-label="Related Guides">
-  <h2>Related Guides</h2>
+<header class="site-header">
+  <div class="logo-wrap">
+    <a href="https://dloran1.github.io/" class="logo">VPN World</a>
+  </div>
+</header>
+
+<main class="content">
+  <article class="article">
+    <h1>DNS Leak in a VPN — how to detect and fix it (2026)</h1>
+
+    <section class="cta-box" aria-label="Recommended VPN">
+  <h2>Recommended VPN</h2>
+  <p class="cta-note">Affiliate links (nofollow/sponsored).</p>
+  <div class="cta-actions">
+    <a class="btn btn-primary" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — fast servers</a>
+    <a class="btn btn-secondary" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — best value</a>
+  </div>
+</section>
+
+    <!-- CONTENT_START -->
+    <!-- CONTENT_START -->
+    <h2>DNS Leak in a VPN — How to Detect and Fix It (2026)</h2>
+
+    <p>Using a VPN (Virtual Private Network) is one of the best ways to enhance your online privacy and security. However, even when connected to a VPN, your DNS requests might still be exposed to your Internet Service Provider (ISP) or other third parties through what is known as a DNS leak. This compromises your anonymity and undermines the very purpose of using a VPN.</p>
+
+    <p>In this comprehensive guide, we will explore what a DNS leak is, why it happens, how to detect it, and practical steps to fix it across different operating systems and devices. We will also cover related topics such as IPv6 and WebRTC leaks, router considerations, and a troubleshooting checklist to help you maintain your privacy effectively.</p>
+
+    <h3>What is a DNS Leak?</h3>
+
+    <p>When you visit a website, your device uses the Domain Name System (DNS) to translate the domain name (e.g., <code>example.com</code>) into an IP address that computers can understand. Normally, when you use a VPN, all your traffic, including DNS requests, should be routed through the VPN tunnel to the VPN provider’s DNS servers or other secure DNS resolvers.</p>
+
+    <p>A DNS leak occurs when your DNS requests bypass the VPN tunnel and are sent directly to your ISP’s DNS servers or another third party. This can reveal the websites you visit, even though your IP address is hidden by the VPN.</p>
+
+    <h2>Quick answer: How to detect and fix a DNS leak</h2>
+
+    <p><strong>Quick answer:</strong> To detect a DNS leak, use online DNS leak test tools while connected to your VPN. If the DNS servers shown belong to your ISP or unexpected providers, you have a leak. To fix it, configure your device or VPN to use secure DNS servers, disable IPv6 if unsupported, and adjust system or router settings to force DNS through the VPN.</p>
+
+    <h2>When Does a DNS Leak Make Sense?</h2>
+
+    <p>Understanding when DNS leaks can occur helps you identify potential risks and take preventative action. DNS leaks typically happen due to:</p>
+
+    <ul>
+      <li><strong>VPN client misconfiguration:</strong> Some VPN apps do not route DNS queries through the VPN tunnel by default.</li>
+      <li><strong>Operating system behaviour:</strong> Certain OS features, such as Windows’ Smart Multi-Homed Name Resolution, can cause DNS requests to bypass the VPN.</li>
+      <li><strong>IPv6 traffic:</strong> Many VPNs only tunnel IPv4 traffic, leaving IPv6 DNS requests exposed.</li>
+      <li><strong>WebRTC leaks:</strong> Browser features like WebRTC can reveal your real IP address and DNS even through a VPN.</li>
+      <li><strong>Router DNS settings:</strong> If your router does not route DNS queries through the VPN or uses ISP DNS servers, leaks can occur.</li>
+    </ul>
+
+    <p>In summary, DNS leaks can happen whenever DNS requests are not fully routed through the VPN tunnel or when other network features circumvent the VPN’s protection.</p>
+
+    <h2>Limitations of VPNs in Preventing DNS Leaks</h2>
+
+    <p>While VPNs are a powerful tool for online privacy, they are not foolproof. Some limitations include:</p>
+
+    <ul>
+      <li><strong>Partial tunneling:</strong> Split tunneling or selective routing can cause some DNS requests to bypass the VPN.</li>
+      <li><strong>IPv6 incompatibility:</strong> Many VPN providers do not fully support IPv6, leading to potential leaks.</li>
+      <li><strong>Browser and app behaviour:</strong> Certain applications may use their own DNS resolvers, ignoring system or VPN settings.</li>
+      <li><strong>Router-level leaks:</strong> If your router is not properly configured, DNS requests may leak even if your device is connected to a VPN.</li>
+    </ul>
+
+    <p>Therefore, it is important to understand that a VPN alone does not guarantee perfect anonymity or privacy, especially if DNS leaks are not addressed.</p>
+
+    <h2>DNS, IPv6, and WebRTC Leak Testing</h2>
+
+    <p>To maintain your privacy, it is crucial to test for different types of leaks:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Leak Type</th>
+          <th>Description</th>
+          <th>Testing Method</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>DNS Leak</td>
+          <td>DNS requests sent outside the VPN tunnel.</td>
+          <td>Use online DNS leak test tools such as <a href="https://dnsleaktest.com/">dnsleaktest.com</a> or <a href="https://ipleak.net/">ipleak.net</a>.</td>
+        </tr>
+        <tr>
+          <td>IPv6 Leak</td>
+          <td>IPv6 traffic bypassing the VPN.</td>
+          <td>Use IPv6 leak test sites like <a href="https://ipleak.net/">ipleak.net</a> or <a href="https://ipv6leak.com/">ipv6leak.com</a>.</td>
+        </tr>
+        <tr>
+          <td>WebRTC Leak</td>
+          <td>Browser feature revealing real IP address and DNS.</td>
+          <td>Test with tools like <a href="https://browserleaks.com/webrtc">browserleaks.com/webrtc</a>.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Regularly performing these tests while connected to your VPN ensures your privacy settings are working as expected.</p>
+
+    <h2>Practical Fixes by Operating System</h2>
+
+    <h3>Windows</h3>
+
+    <ul>
+      <li><strong>Disable Smart Multi-Homed Name Resolution:</strong> This feature can cause DNS leaks. Disable it via Group Policy Editor or registry.</li>
+      <li><strong>Use VPN’s DNS servers:</strong> Ensure your VPN client is configured to force DNS through the VPN.</li>
+      <li><strong>Disable IPv6:</strong> If your VPN does not support IPv6, disable it in the network adapter settings.</li>
+      <li><strong>Flush DNS cache:</strong> Run <code>ipconfig /flushdns</code> in Command Prompt after changing settings.</li>
+    </ul>
+
+    <h3>macOS</h3>
+
+    <ul>
+      <li><strong>Set VPN DNS servers manually:</strong> Configure DNS servers in Network preferences to those provided by your VPN.</li>
+      <li><strong>Disable IPv6:</strong> Via Network settings, set IPv6 to “Link-local only” or “Off”.</li>
+      <li><strong>Flush DNS cache:</strong> Use Terminal commands like <code>sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder</code>.</li>
+    </ul>
+
+    <h3>Android</h3>
+
+    <ul>
+      <li><strong>Use VPN apps with built-in DNS leak protection.</strong></li>
+      <li><strong>Disable IPv6:</strong> May require root or custom ROM; otherwise rely on VPN support.</li>
+      <li><strong>Use Private DNS feature:</strong> Android supports Private DNS (DNS over TLS) which can be set to secure DNS providers.</li>
+    </ul>
+
+    <h3>iOS</h3>
+
+    <ul>
+      <li><strong>Use VPN apps with DNS leak protection.</strong></li>
+      <li><strong>Disable IPv6:</strong> Not straightforward on iOS; rely on VPN support.</li>
+      <li><strong>Configure DNS manually:</strong> In Wi-Fi settings, set DNS servers to VPN or secure DNS providers.</li>
+    </ul>
+
+    <h2>Router Notes</h2>
+
+    <p>Many users connect multiple devices to a VPN through a router. However, routers can be a source of DNS leaks if not properly configured:</p>
+
+    <ul>
+      <li><strong>Use a VPN-enabled router:</strong> Some routers support VPN client mode, routing all traffic through the VPN.</li>
+      <li><strong>Configure router DNS:</strong> Set the router's DNS servers to those of the VPN provider or trusted third-party DNS like Cloudflare (1.1.1.1) or Google (8.8.8.8).</li>
+      <li><strong>Disable ISP DNS options:</strong> Avoid automatic DNS settings from your ISP.</li>
+      <li><strong>Check for IPv6 leaks:</strong> Disable IPv6 on the router if unsupported by your VPN.</li>
+    </ul>
+
+    <h2>Troubleshooting Checklist</h2>
+
+    <ol>
+      <li>Connect to your VPN and visit a DNS leak test site.</li>
+      <li>Check if DNS servers belong to your VPN or a third party.</li>
+      <li>If leak detected, disable IPv6 on your device and/or router.</li>
+      <li>Ensure your VPN client forces all DNS queries through the VPN.</li>
+      <li>Flush your DNS cache and reconnect your VPN.</li>
+      <li>Test for WebRTC leaks using browser leak test tools.</li>
+      <li>Configure manual DNS servers if needed.</li>
+      <li>Restart your device and router after changes.</li>
+      <li>Repeat tests to confirm leaks are fixed.</li>
+    </ol>
+
+    <h2>Frequently Asked Questions (FAQ)</h2>
+
+    <h3>1. What is the difference between a DNS leak and an IP leak?</h3>
+    <p>A DNS leak exposes your DNS queries (which websites you visit), while an IP leak exposes your real IP address. Both compromise privacy but affect different aspects of your online activity.</p>
+
+    <h3>2. Can I fix DNS leaks without changing my VPN provider?</h3>
+    <p>Yes, many DNS leaks can be fixed by configuring your device and VPN settings properly, disabling IPv6, and using secure DNS servers. However, some VPNs have better built-in DNS leak protection than others.</p>
+
+    <h3>3. Is disabling IPv6 always necessary?</h3>
+    <p>Not always. If your VPN fully supports IPv6 and tunnels IPv6 traffic, you don't need to disable it. Otherwise, disabling IPv6 helps prevent leaks.</p>
+
+    <h3>4. Are free VPNs more prone to DNS leaks?</h3>
+    <p>Often, yes. Free VPNs may lack proper DNS leak protection and may even log or sell your data. Paid VPNs usually offer better privacy and leak protection.</p>
+
+    <h3>5. How often should I test for DNS leaks?</h3>
+    <p>Regular testing is recommended, especially after updating your VPN app, operating system, or router firmware. At minimum, test whenever you start a new VPN session.</p>
+
+    <p>For more information about VPN safety features, consider reading our guide on the <a href="/en-gb/blog/vpn-kill-switch-uk.html">VPN Kill Switch</a> and how it complements leak protection.</p>
+    <!-- CONTENT_END -->
+    <!-- CONTENT_END -->
+
+    <section class="video" aria-label="Video">
+  <h2>Video: quick explanation</h2>
+  <div class="video-wrap">
+    <iframe
+      src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&modestbranding=1"
+      title="VPN World — video"
+      loading="lazy"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen></iframe>
+  </div>
+  <p class="video-fallback">
+    If the player doesn&#x27;t load, watch on YouTube:
+    <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" rel="nofollow noopener noreferrer" target="_blank">https://www.youtube.com/watch?v=rzcAKFaZvhE</a>
+  </p>
+</section>
+
+    <!-- RELATED_START -->
+<section class="related" aria-label="Related guides">
+  <h2>Related guides</h2>
   <ul>
-    <li><a href="/en-gb/blog/what-is-a-vpn-uk.html">/en-gb/blog/what-is-a-vpn-uk.html</a></li>
-    <li><a href="/en-gb/blog/vpn-protocols-uk.html">/en-gb/blog/vpn-protocols-uk.html</a></li>
-    <li><a href="/en-gb/blog/proxy-vs-vpn-uk.html">/en-gb/blog/proxy-vs-vpn-uk.html</a></li>
-    <li><a href="/en-gb/blog/vpn-optimal-settings-uk.html">/en-gb/blog/vpn-optimal-settings-uk.html</a></li>
-    <li><a href="/en-gb/blog/vpn-speed-test-uk.html">/en-gb/blog/vpn-speed-test-uk.html</a></li>
+    <li><a href="/en-gb/blog/vpn-kill-switch-uk.html">vpn kill switch uk</a></li>
   </ul>
 </section>
 <!-- RELATED_END -->
+
+    <section class="cta-box" aria-label="Recommended VPN">
+  <h2>Recommended VPN</h2>
+  <p class="cta-note">Affiliate links (nofollow/sponsored).</p>
+  <div class="cta-actions">
+    <a class="btn btn-primary" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — fast servers</a>
+    <a class="btn btn-secondary" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — best value</a>
+  </div>
+</section>
+  </article>
 </main>
-<footer class="site-footer"><div class="container footer-grid">
-  <div><strong>VPN World</strong><p>Niezależny serwis o prywatności i bezpieczeństwie w sieci.</p></div>
-  <nav><a href="/privacy.html">Privacy</a> <a href="/sitemap.xml">Sitemap</a> <a href="mailto:denger88@gmail.com">Kontakt</a></nav>
-</div><div class="container tiny">© 2025 VPN World</div></footer>
-<script src="../../assets/js/main.js"></script>
-<script src="../../assets/js/cookie-consent.js"></script>
-<div id="privacy-banner" class="privacy-banner">We use cookies. <a href="/privacy.html">Privacy</a> · <button class="btn btn-compact" onclick="this.parentElement.remove()">OK</button></div>
-</body></html>
+
+<footer class="site-footer">
+  <p>VPN World · Independent service about privacy, security, and practical VPN use.</p>
+  <p>
+    <a href="https://dloran1.github.io/privacy.html">Privacy</a> ·
+    <a href="https://dloran1.github.io/disclosure.html">Disclosure</a> ·
+    <a href="mailto:u1797008805@gmail.com">Contact</a>
+  </p>
+  <p>© 2026 VPN World</p>
+</footer>
+
+
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
+  <p>Analytics is disabled by default. You can accept or reject analytics.</p>
+  <div class="cookie-actions">
+    <button type="button" class="btn btn-compact" onclick="acceptConsent()">Accept</button>
+    <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Reject</button>
+  </div>
+</div>
+
+
+</body>
+</html>
+
+<!-- PAGE: https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html -->
