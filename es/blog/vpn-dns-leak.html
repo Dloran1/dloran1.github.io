@@ -2,14 +2,15 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>Fuga de DNS con VPN: Detección y Soluciones Profesionales (Guía 2026)</title>
+  <title>Fuga de DNS con VPN: detección y soluciones (2026)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Análisis técnico exhaustivo de 1200+ palabras sobre fugas de DNS, IPv6 y WebRTC. Aprenda a blindar su conexión VPN en Windows, macOS y routers con metodologías de nivel profesional.">
+  <meta name="description" content="Guía práctica 2026: qué es una fuga de DNS con VPN, cómo probar DNS/IPv6/WebRTC y cómo solucionarla en Windows, macOS, Android, iOS y routers — con límites de privacidad realistas.">
   <meta name="robots" content="index, follow">
 
   <link rel="icon" href="/favicon.ico">
   <link rel="canonical" href="https://dloran1.github.io/es/blog/vpn-dns-leak.html">
 
+  <!-- HREFLANG (7× + x-default) -->
   <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/wyciek-dns-vpn.html">
   <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html">
   <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-dns-leak.html">
@@ -19,159 +20,482 @@
   <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-dns-leak.html">
   <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html">
 
+  <!-- Styles -->
   <link rel="stylesheet" href="../../assets/css/style.css">
 
+  <!-- Preconnect -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="VPN World">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="nl_BE">
+  <meta property="og:title" content="Fuga de DNS con VPN: detección y soluciones (2026)">
+  <meta property="og:description" content="Guía práctica 2026: qué es una fuga de DNS con VPN, cómo probar DNS/IPv6/WebRTC y cómo solucionarla en Windows, macOS, Android, iOS y routers — con límites de privacidad realistas.">
+  <meta property="og:url" content="https://dloran1.github.io/es/blog/vpn-dns-leak.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Fuga de DNS con VPN: detección y soluciones (2026)">
+  <meta name="twitter:description" content="Guía práctica 2026: qué es una fuga de DNS con VPN, cómo probar DNS/IPv6/WebRTC y cómo solucionarla en Windows, macOS, Android, iOS y routers — con límites de privacidad realistas.">
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp">
+
+  <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+
     gtag('consent','default', {
-      ad_storage:'denied', ad_user_data:'denied', ad_personalization:'denied',
-      analytics_storage:'denied', functionality_storage:'denied',
-      personalization_storage:'denied', security_storage:'denied'
+      ad_storage:'denied',
+      ad_user_data:'denied',
+      ad_personalization:'denied',
+      analytics_storage:'denied',
+      functionality_storage:'denied',
+      personalization_storage:'denied',
+      security_storage:'denied'
     });
+
     gtag('js', new Date());
+
+    function hideCookieBannerSafely() {
+      var banner = document.getElementById('cookie-banner');
+      if (banner) banner.style.display = 'none';
+    }
+
     function acceptConsent() {
       gtag('consent','update', {
-        ad_storage:'granted', ad_user_data:'granted', ad_personalization:'granted',
-        analytics_storage:'granted', functionality_storage:'granted',
-        personalization_storage:'granted', security_storage:'granted'
+        ad_storage:'granted',
+        ad_user_data:'granted',
+        ad_personalization:'granted',
+        analytics_storage:'granted',
+        functionality_storage:'granted',
+        personalization_storage:'granted',
+        security_storage:'granted'
       });
       try { localStorage.setItem('vpnworld_consent','granted'); } catch(e) {}
+      hideCookieBannerSafely();
       gtag('config','G-RD6M691ZWD');
     }
+
+    function rejectConsent() {
+      gtag('consent','update', {
+        ad_storage:'denied',
+        ad_user_data:'denied',
+        ad_personalization:'denied',
+        analytics_storage:'denied',
+        functionality_storage:'denied',
+        personalization_storage:'denied',
+        security_storage:'denied'
+      });
+      try { localStorage.setItem('vpnworld_consent','denied'); } catch(e) {}
+      hideCookieBannerSafely();
+    }
+
+    function applyStoredConsentSafely() {
+      try {
+        var c = localStorage.getItem('vpnworld_consent');
+        if (c === 'granted') {
+          gtag('consent','update', {
+            ad_storage:'granted',
+            ad_user_data:'granted',
+            ad_personalization:'granted',
+            analytics_storage:'granted',
+            functionality_storage:'granted',
+            personalization_storage:'granted',
+            security_storage:'granted'
+          });
+          hideCookieBannerSafely();
+          gtag('config','G-RD6M691ZWD');
+        } else if (c === 'denied') {
+          gtag('consent','update', {
+            ad_storage:'denied',
+            ad_user_data:'denied',
+            ad_personalization:'denied',
+            analytics_storage:'denied',
+            functionality_storage:'denied',
+            personalization_storage:'denied',
+            security_storage:'denied'
+          });
+          hideCookieBannerSafely();
+        }
+      } catch(e) {}
+    }
+
+    document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
   </script>
 
+  <!-- JSON-LD (Stage 2.5): Article + FAQPage + BreadcrumbList + ItemList -->
   <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://dloran1.github.io/es/blog/vpn-dns-leak.html","headline":"Fuga de DNS con VPN: detección y soluciones (2026)","description":"Guía completa sobre seguridad de red y prevención de fugas de datos.","image":"https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp","datePublished":"2026-01-06","author":{"@type":"Person","name":"Denys Shchur"}}]}
+{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://dloran1.github.io/es/blog/vpn-dns-leak.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/es/blog/vpn-dns-leak.html"},"headline":"Fuga de DNS con VPN: detección y soluciones (2026)","description":"Guía práctica 2026: qué es una fuga de DNS con VPN, cómo probar DNS/IPv6/WebRTC y cómo solucionarla en Windows, macOS, Android, iOS y routers — con límites de privacidad realistas.","image":"https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp","inLanguage":"es","datePublished":"2026-01-06","dateModified":"2026-01-06","author":{"@type":"Person","name":"Denys Shchur","url":"https://dloran1.github.io/es/about-denys-shchur.html"},"publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://dloran1.github.io/es/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/es/blog/"},{"@type":"ListItem","position":3,"name":"Fuga de DNS con VPN: detección y soluciones (2026)","item":"https://dloran1.github.io/es/blog/vpn-dns-leak.html"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does “no-logs” mean for a VPN?","acceptedAnswer":{"@type":"Answer","text":"In practice, it means the provider does not retain identifiable activity logs (like browsing history, DNS requests, or source IP + timestamp pairs) that could be used to link your online actions to you later. Some aggregated operational data may still exist."}},{"@type":"Question","name":"How can I verify a VPN’s privacy claims?","acceptedAnswer":{"@type":"Answer","text":"Look for independent audits with clear scope and dates, transparent policy wording, and credible operational signals. Then run your own DNS/IPv6/WebRTC leak tests to confirm traffic stays inside the VPN tunnel."}},{"@type":"Question","name":"Does a VPN make you anonymous?","acceptedAnswer":{"@type":"Answer","text":"Not fully. A VPN helps protect the network layer, but logins, cookies, fingerprinting, and app identifiers can still link activity to you. Treat a VPN as one strong privacy layer, not complete anonymity."}}]}]}
   </script>
 </head>
 
 <body>
+  <!-- HEADER -->
   <header class="site-header">
     <div class="container header-inner">
       <div class="header-main">
-        <a href="/es/" class="brand"><img src="../../assets/img/logo.png" class="logo" alt="VPN World"><span class="brand-text">VPN World</span></a>
-        <nav class="primary-nav"><a href="/es/blog/">Blog</a></nav>
+        <a href="/es/" class="brand">
+          <img src="../../assets/img/logo.png" class="logo" alt="VPN World logo">
+          <span class="brand-text">VPN World</span>
+        </a>
+
+        <nav class="primary-nav" aria-label="Main navigation">
+          <a href="/es/blog/">Blog</a>
+        </nav>
       </div>
-      <nav class="lang-switch"><a href="/blog/wyciek-dns-vpn.html">Polski</a> | <a href="/es/blog/vpn-dns-leak.html" class="active">Español</a></nav>
+
+      <nav class="lang-switch" aria-label="Language switcher"><a href="/blog/wyciek-dns-vpn.html" class="">Polski</a> | <a href="/en-gb/blog/vpn-dns-leak-uk.html" class="">English (UK)</a> | <a href="/en-us/blog/vpn-dns-leak.html" class="">English (US)</a> | <a href="/de/blog/vpn-dns-leak.html" class="">Deutsch</a> | <a href="/es/blog/vpn-dns-leak.html" class="active">Español</a> | <a href="/fr/blog/vpn-dns-leak.html" class="">Français</a> | <a href="/nl-be/blog/vpn-dns-leak.html" class="">Nederlands (BE)</a></nav>
     </div>
   </header>
 
   <main>
+    <!-- HERO (No-logs style) -->
     <section class="hero">
       <div class="container hero-inner">
         <div class="hero-copy">
-          <h1>Fuga de DNS con VPN: Detección y Soluciones Profesionales (2026)</h1>
-          <p class="note">Una fuga de DNS no es solo un error técnico; es una brecha crítica en su anonimato digital. Esta guía de 1200 palabras analiza cada vector de ataque y proporciona soluciones definitivas.</p>
+          <h1>Fuga de DNS con VPN: detección y soluciones (2026)</h1>
+
+          <p class="note">
+            <strong>Quick answer:</strong>
+            Guía práctica 2026: qué es una fuga de DNS con VPN, cómo probar DNS/IPv6/WebRTC y cómo solucionarla en Windows, macOS, Android, iOS y routers — con límites de privacidad realistas.
+          </p>
+
+          <p>
+            This guide focuses on practical, test-driven checks and realistic limitations — not marketing slogans.
+            Use it as a checklist you can apply on your own devices.
+          </p>
+
           <div class="hero-author">
-            <img src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur">
+            <img src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur – author of VPN World">
             <div class="hero-author-text">
-              <span class="hero-author-name"><a href="/es/about-denys-shchur.html">Denys Shchur</a></span>
-              <span class="meta">Actualizado: 2026-01-06 · 1200+ palabras · 45 min de lectura</span>
+              <span class="hero-author-label">Written by</span>
+              <span class="hero-author-name">
+                <a href="/es/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a>
+              </span>
+              <span class="meta">Updated: 2026-01-06 · 12–18 min read</span>
             </div>
           </div>
-          <div class="cta-buttons">
-            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener">Prueba NordVPN</a>
-            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener">Prueba Surfshark</a>
+
+          <!-- Early CTA block -->
+<div class="cta-buttons" aria-label="Affiliate offers">
+  <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Try NordVPN — audited no-logs policy</a>
+  <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Try Surfshark — RAM-only servers</a>
+</div>
+
+          <ul class="meta-points">
+            <li>Clear definitions (what matters, what doesn’t)</li>
+            <li>Practical tests you can run today</li>
+            <li>Fixes and realistic privacy limits</li>
+          </ul>
+        </div>
+
+        <div class="hero-media">
+          <div class="hero-art">
+            <img src="../../assets/img/hero/vpn-dns-leak-uk.webp" alt="Abstract illustration for Fuga de DNS con VPN: detección y soluciones (2026)">
           </div>
         </div>
       </div>
     </section>
+
+    <!-- CONTENT -->
+    <section class="section">
+      <div class="container article">
+        <!-- CONTENT_START -->
+<p>Las fugas de DNS representan una de las amenazas más comunes para la privacidad en el uso de VPN. A pesar de estar conectado a una VPN, tu tráfico DNS puede salir sin cifrar, exponiendo tus hábitos de navegación a terceros, como tu proveedor de servicios de Internet (ISP). Esta situación erosiona significativamente el anonimato que esperas de una VPN.</p>
+<p>En esta guía práctica actualizada para 2026, aprenderás en detalle qué es una fuga de DNS, cuándo ocurre, cómo detectarla (incluyendo fugas IPv6 y WebRTC), y los pasos precisos para corregirlas en Windows, macOS, Android, iOS y routers domésticos. Además, abordaremos los límites realistas de privacidad que puedes esperar en la práctica, para que tomes decisiones informadas y protejas verdaderamente tu identidad online.</p>
+
+<h2>
+<p class="note"><strong>Related:</strong> <a href="/es/blog/ajustes-optimos-vpn.html">Ajustes optimos vpn</a></p>
+Respuesta rápida: Fuga de DNS con VPN</h2>
+<ul>
+  <li>Una fuga de DNS ocurre cuando las consultas DNS salen de tu conexión cifrada y se envían a través de tu ISP u otro servidor no protegido.</li>
+  <li>Esto suele suceder por mala configuración del sistema o la VPN, uso de IPv6 o funciones del navegador como WebRTC.</li>
+  <li>Puedes detectar una fuga usando pruebas online que revelan qué servidores DNS resuelven tus peticiones.</li>
+  <li>La mayoría de las fugas pueden solucionarse ajustando la configuración de la VPN o del sistema operativo.</li>
+  <li>No todas las VPN bloquean fugas DNS, IPv6 o WebRTC de manera fiable en todos los dispositivos.</li>
+</ul>
+<div class="key-takeaway"><strong>Key takeaway:</strong> Las fugas de DNS pueden ocurrir incluso si tu VPN parece conectada; requieren pruebas regulares y acción específica para prevenir la exposición de tu IP y consultas.</div>
+
+<h2>
+<p class="note"><strong>Related:</strong> <a href="/es/blog/best-vpn-gratis.html">Best vpn gratis</a></p>
+¿Cuándo ocurre una fuga de DNS?</h2>
+<p>Las fugas de DNS suceden cuando, pese a estar bajo una VPN activa, el sistema operativo o las aplicaciones siguen enviando solicitudes DNS fuera del túnel cifrado proporcionado por la VPN. Esto puede ocurrir por diversas razones técnicas y de configuración:</p>
+<ul>
+  <li>El sistema operativo tiene configurado el DNS de tu ISP como preferido y la VPN no lo reemplaza.</li>
+  <li>Falta de soporte en la VPN para IPv6, lo que deja escapar trafico DNS por ese canal.</li>
+  <li>La VPN establece la conexión, pero el navegador o ciertas aplicaciones hacen bypass parcial del túnel, especialmente con WebRTC.</li>
+  <li>Problemas con el "kill switch" de la VPN o cortes breves de la conexión cifrada.</li>
+  <li>Uso de configuraciones mixtas (por ejemplo, conexiones simultáneas a Wi-Fi y datos móviles).</li>
+</ul>
+<p>Al comprender cuándo y por qué ocurren las fugas, es posible identificarlas y actuar para reducir el riesgo de que tus datos de navegación sean monitorizados sin que te des cuenta.</p>
+<table border="1" cellpadding="4">
+  <caption>Principales escenarios y causas de fuga de DNS</caption>
+  <tr>
+    <th>Escenario</th>
+    <th>Causa típica</th>
+  </tr>
+  <tr>
+    <td>Windows con VPN pero sin bloqueo de DNS</td>
+    <td>El sistema sigue enviando consultas DNS al servidor por defecto</td>
+  </tr>
+  <tr>
+    <td>macOS con túnel VPN parcial</td>
+    <td>Aplicaciones utilizan interfaces fuera de la VPN</td>
+  </tr>
+  <tr>
+    <td>Android/iOS con apps mal diseñadas</td>
+    <td>Las apps no respetan el túnel VPN o hacen peticiones directas</td>
+  </tr>
+  <tr>
+    <td>Router configurado parcialmente</td>
+    <td>Algunos dispositivos usan DNS local, otros bypass VPN</td>
+  </tr>
+</table>
+<div class="key-takeaway"><strong>Key takeaway:</strong> Las fugas de DNS surgen de la poca integración entre la VPN, el sistema operativo y las aplicaciones, y pueden producirse con cualquier servicio VPN si la configuración no es la adecuada.</div>
+
+<h2>Limitaciones y casos borde de privacidad</h2>
+<p>Las VPN comerciales, aunque son herramientas valiosas de privacidad, no son infalibles frente a todas las fugas posibles. Existen varios límites técnicos y contextos donde es realista esperar cierto grado de exposición incluso cuando crees estar protegido:</p>
+<ul>
+  <li><strong>Soporte incompleto de IPv6:</strong> Muchas VPN siguen limitando el túnel a IPv4 y no redireccionan ni bloquean tráfico IPv6.</li>
+  <li><strong>WebRTC en navegadores modernos:</strong> Esta tecnología permite compartir IP interna/externa y DNS a través de JavaScript, fuera del túnel VPN, a menos que esté explícitamente bloqueado.</li>
+  <li><strong>Redes compartidas y dispositivos IoT:</strong> Algunos aparatos domésticos, cámaras o asistentes de voz pueden ignorar la VPN y usar DNS local o preconfigurado.</li>
+  <li><strong>Restricciones de plataformas móviles:</strong> Android e iOS gestionan el tráfico VPN y DNS de manera muy diferente, y algunas apps pueden sortear el túnel.</li>
+  <li><strong>Servidores DNS públicos (Google, Cloudflare):</strong> Aunque el tráfico DNS no llega a tu ISP, sí queda registrado en los logs del proveedor DNS.</li>
+</ul>
+<p>Incluso con buenas prácticas, la «anonimidad total» es prácticamente imposible de garantizar. Lo esencial es minimizar los vectores de fuga, conocer los límites y actuar de forma informada.</p>
+<table border="1" cellpadding="4">
+  <caption>Comparativa de protección VPN según escenario</caption>
+  <tr>
+    <th>Escenario</th>
+    <th>Riesgo de fuga</th>
+    <th>Solución posible</th>
+  </tr>
+  <tr>
+    <td>Navegador con WebRTC activo</td>
+    <td>Alto</td>
+    <td>Desactivar WebRTC o usar extensiones bloqueadoras</td>
+  </tr>
+  <tr>
+    <td>VPN sin soporte IPv6</td>
+    <td>Medio-Alto</td>
+    <td>Deshabilitar IPv6 en el sistema o usar VPN compatible con IPv6</td>
+  </tr>
+  <tr>
+    <td>Apps móviles no configuradas</td>
+    <td>Variable</td>
+    <td>Verificar permisos y uso efectivo de la VPN</td>
+  </tr>
+</table>
+<div class="key-takeaway"><strong>Key takeaway:</strong> Ninguna VPN es infalible: existen casos límite y tecnologías emergentes difíciles de bloquear completamente. Saber esto persigue una expectativa realista de privacidad digital.</div>
+
+<h2>
+<p class="note"><strong>Related:</strong> <a href="/es/blog/bloqueos-geograficos-vpn.html">Bloqueos geograficos vpn</a></p>
+¿Cómo probar fugas de DNS, IPv6 y WebRTC?</h2>
+<p>La única manera de estar seguro de que tu VPN no está sufriendo fugas de DNS, IPv6 o WebRTC es probarlo explícitamente. Puedes hacerlo en cuestión de minutos con herramientas de diagnóstico online y funcionalidades del sistema operativo.</p>
+<ul>
+  <li><strong>DNS Leak Test:</strong> Conéctate a la VPN y accede a un sitio de prueba de fugas de DNS, iniciando una prueba estándar y avanzada. Si ves servidores DNS de tu ISP, hay fuga.</li>
+  <li><strong>Prueba IPv6 Leak:</strong> Verifica tu IP publica (debe ser la del servidor VPN) y observa si aparece una dirección IPv6 propia. Si ves tu IPv6 real, hay fuga.</li>
+  <li><strong>Test WebRTC Leak:</strong> En el navegador, consulta sitios de prueba WebRTC. Si muestra tu IP local pública o la de tu ISP en vez de la de la VPN, hay fuga.</li>
+  <li><strong>Conexión paralela:</strong> Desconecta y reconecta tu VPN durante la prueba para ver si hay leaks temporales durante el restablecimiento de conexión.</li>
+</ul>
+<p>Documenta los resultados, especialmente si repites pruebas en diferentes redes Wi-Fi, dispositivos o con configuración de router propia. Anota el nombre y ubicación de los servidores DNS que aparecen: no deben corresponderse con los de tu ISP.</p>
+<div class="key-takeaway"><strong>Key takeaway:</strong> Probar fugas debe ser parte de tu rutina periódica de privacidad, ya que solo la prueba directa puede garantizar una configuración de VPN verdaderamente segura y libre de leaks.</div>
+
+<h2>Cómo corregir fugas de DNS por plataforma</h2>
+<p>Las soluciones a las fugas de DNS varían dependiendo del sistema operativo y la configuración de la VPN. A continuación, se resumen las principales acciones recomendadas para cada entorno:</p>
+
+<h3>Windows</h3>
+<ul>
+  <li>Activa la protección contra fugas DNS en tu aplicación VPN (si está disponible).</li>
+  <li>Configura manualmente el DNS en la interfaz de red a uno seguro (por ejemplo, 1.1.1.1 o 9.9.9.9 tras conectar la VPN).</li>
+  <li>Desactiva IPv6 en el panel de control si tu VPN no lo soporta.</li>
+  <li>Verifica que el “kill switch” esté activo para prevenir fugas en cortes de conexión.</li>
+</ul>
+
+<h3>macOS</h3>
+<ul>
+  <li>Revisa los servicios DNS en Preferencias de Red: elimina DNS del ISP tras conexión VPN.</li>
+  <li>Muchos clientes VPN para Mac requieren la protección manual de IPv6.</li>
+  <li>Desconecta y vuelve a conectar la VPN tras reiniciar o cambiar de red Wi-Fi para asegurar el túnel.</li>
+</ul>
+
+<h3>Android</h3>
+<ul>
+  <li>Utiliza apps VPN con protección nativa contra fugas DNS e IPv6.</li>
+  <li>Combina con DNS Privado (DNS-over-HTTPS/TLS) en ajustes de Red y Privacidad.</li>
+  <li>Revisa los permisos de apps sensibles que podrían saltarse la VPN (en Ajustes &gt; Apps).</li>
+</ul>
+
+<h3>iOS</h3>
+<ul>
+  <li>Verifica en Ajustes &gt; VPN que todas las conexiones utilizan el perfil VPN deseado.</li>
+  <li>Utiliza un “profile” VPN que fuerce el uso de DNS seguro y no permita bypasses.</li>
+  <li>Deshabilita Servicios de localización que pueden enviar tráfico fuera de la VPN.</li>
+</ul>
+
+<h3>Routers y redes locales</h3>
+<ul>
+  <li>Configura el router para redirigir todo el tráfico DNS a través de la VPN (políticas de firewall).</li>
+  <li>Deshabilita el DNS automático del ISP en el router y usa DNS seguro manual.</li>
+  <li>Asegura que todos los dispositivos estén conectados solo al router VPN y no a otras redes Wi-Fi simultáneamente.</li>
+</ul>
+<div class="key-takeaway"><strong>Key takeaway:</strong> La efectividad de la corrección de fugas depende de combinar ajustes VPN, del sistema operativo y del router correctamente; un sólo cambio puede no ser suficiente.</div>
+
+<h2>
+<p class="note"><strong>Related:</strong> <a href="/es/blog/configuracion-vpn-iphone.html">Configuracion vpn iphone</a></p>
+Checklist práctico de resolución de problemas</h2>
+<p>Antes de considerar solucionada una fuga de DNS, revisa minuciosamente los siguientes pasos en tu dispositivo y entorno de red:</p>
+<ol>
+  <li>Comprueba la versión de tu cliente VPN y actualízala si es necesario.</li>
+  <li>Realiza pruebas de fugas DNS, IPv6 y WebRTC tras cada cambio de configuración.</li>
+  <li>Verifica que el sistema operativo no mantenga servidores DNS antiguos en caché tras activar la VPN.</li>
+  <li>Deshabilita IPv6 desde la configuración de red si tienes dudas sobre el soporte VPN.</li>
+  <li>Activa manualmente los DNS seguros en el panel de red cuando sea posible.</li>
+  <li>Prueba en modo Incógnito o con diferentes navegadores para descartar extensiones que puedan interferir.</li>
+  <li>Reinicia el equipo y la VPN para asegurar aplicación completa de cambios.</li>
+  <li>Si usas router, revisa que no existan reglas o interfaces secundarias que puedan filtrar tráfico fuera de la VPN.</li>
+</ol>
+<div class="key-takeaway"><strong>Key takeaway:</strong> Seguir un checklist metódico tras cada ajuste es la forma más fiable de garantizar que todas las fugas han sido cerradas y que tu configuración es segura.</div>
+
+<h2>Preguntas frecuentes sobre fugas de DNS y VPN</h2>
+<dl>
+  <dt>¿Qué es exactamente una fuga de DNS al usar una VPN?</dt>
+  <dd>Es cuando tus consultas DNS viajan fuera del túnel VPN cifrado, llegando directamente al servidor de tu ISP u otro no seguro.</dd>
+  <dt>¿Puedo tener una fuga de DNS aunque la VPN diga que estoy conectado?</dt>
+  <dd>Sí. La conexión VPN puede estar activa pero el sistema o aplicaciones pueden seguir usando otros DNS.</dd>
+  <dt>¿Las fugas de DNS son igual de graves que las fugas de IP?</dt>
+  <dd>Ambas pueden exponer información sobre tu actividad y ubicación, pero la fuga de DNS revela a qué dominios accedes incluso si tu IP está oculta.</dd>
+  <dt>¿Por qué el IPv6 aumenta el riesgo de fugas?</dt>
+  <dd>Muchas VPN no redirigen tráfico IPv6, permitiendo que solicitudes y DNS salgan por canales no cifrados.</dd>
+  <dt>¿Cómo puedo saber si mi sistema usa DNS seguro tras conectar la VPN?</dt>
+  <dd>Haz una prueba de fuga DNS. Si ves servidores ajenos a ISP (propios de la VPN), estás protegido.</dd>
+  <dt>¿WebRTC afecta mi privacidad si uso VPN?</dt>
+  <dd>Sí, especialmente en navegadores. Puede filtrar la dirección local o pública aunque estés bajo VPN.</dd>
+  <dt>¿Limitarme a apps de la Google Play/App Store evita fugas en móviles?</dt>
+  <dd>No necesariamente. Muchas apps pueden ignorar el túnel VPN si no están bien diseñadas.</dd>
+  <dt>¿Sirve cambiar manualmente los DNS en vez de usar la protección de la VPN?</dt>
+  <dd>Puede ayudar, pero si el túnel VPN está mal configurado, seguirá habiendo fuga por otros canales.</dd>
+  <dt>¿Es recomendable usar servidores DNS públicos (1.1.1.1, 9.9.9.9)?</dt>
+  <dd>Son mejores que el del ISP, pero siguen implicando compartir tus consultas con un tercero.</dd>
+  <dt>¿Los routers con VPN garantizan protección total frente a fugas?</dt>
+  <dd>No siempre. La configuración debe garantizar que todo el tráfico, incluido DNS, pase exclusivamente por la VPN.</dd>
+  <dt>¿Todas las VPN comerciales bloquean fugas automáticamente?</dt>
+  <dd>No. Algunos proveedores solo lo implementan en ciertas apps o plataformas, por lo que es esencial probar cada una.</dd>
+  <dt>¿Cómo afecta el modo incógnito o privado a las fugas DNS?</dt>
+  <dd>No afecta directamente: sólo limita el historial local, pero no impide la fuga de DNS fuera del túnel VPN.</dd>
+</dl>
+<div class="key-takeaway"><strong>Key takeaway:</strong> Las preguntas frecuentes muestran que las fugas de DNS son complejas y multifactoriales: requieren atención constante y actualización de conocimientos técnicos.</div>
+
+<h2>
+<p class="note"><strong>Related:</strong> <a href="/es/blog/configuracion-vpn-linux.html">Configuracion vpn linux</a></p>
+Conclusión</h2>
+<p>Las fugas de DNS representan una de las amenazas más subestimadas para la privacidad online, incluso entre quienes son usuarios avanzados de VPN. Detectar y bloquear este tipo de filtraciones requiere algo más que instalar una aplicación VPN; implica comprender los mecanismos internos del sistema operativo, el comportamiento del software, las limitaciones propias de cada plataforma y la vigilancia activa mediante pruebas periódicas.</p>
+<p>Recuerda que nunca existe una garantía total de anonimato o protección contra fugas con una única acción. Solo la combinación de una VPN robusta, una configuración cuidadosa y pruebas recurrentes te permitirá acercarte al nivel de privacidad y seguridad que buscas
+        <!-- CONTENT_END -->
+      </div>
+    </section>
+
+<section class="section section-alt">
+  <div class="container">
+    <h2>Short video: VPN privacy explained in plain English</h2>
+
+    <p class="note">
+      <strong>Key takeaway:</strong>
+      the main job of a VPN is to separate <strong>who you are</strong> (your IP, ISP) from <strong>what you do</strong> (sites you access).
+      A proper no-logs approach helps stop that bridge from being rebuilt later.
+    </p>
+
+    <div class="video-wrap">
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&modestbranding=1"
+        title="VPN World — video"
+        loading="lazy"
+        frameborder="0"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen></iframe>
+    </div>
+
+    <p>
+      If the player doesn’t load, watch on YouTube:
+      <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a>.
+    </p>
+  </div>
+</section>
+
+    <!-- RELATED_START -->
+
+    <!-- RELATED_END -->
+
+<section class="section">
+  <div class="container">
+    <div class="author-box">
+      <img src="../../assets/img/author/denys-shchur.webp" alt="Portrait of Denys Shchur" class="author-avatar">
+      <div>
+        <h3>About the author</h3>
+        <p>
+          <strong><a href="/es/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a></strong>
+          is the creator of VPN World, focusing on practical, test-driven guides about VPNs, online privacy and secure remote work.
+          He spends far too much time running speed tests and checking for DNS leaks, so you don’t have to.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
     <section class="section">
       <div class="container article">
-        <h2>1. Introducción: La anatomía del silencio en la red</h2>
-        <p>En 2026, la privacidad se ha convertido en una mercancía rara. Muchos usuarios instalan una VPN creyendo que un simple interruptor de "encendido" los hace invisibles. Sin embargo, la realidad técnica es que el sistema operativo de su computadora no fue diseñado originalmente para la privacidad, sino para la conectividad a cualquier costo. Esta filosofía de "conectar primero, preguntar después" es la raíz de lo que conocemos como **fugas de DNS**.</p>
-        <p>Una fuga de DNS ocurre cuando las solicitudes de traducción de nombres de dominio eluden el túnel cifrado de su VPN y se envían directamente a los servidores de su proveedor de servicios de Internet (ISP). Aunque el contenido de sus mensajes pueda estar cifrado, el hecho de que usted está visitando un sitio de criptomonedas, un foro médico o una plataforma de oposición política queda registrado en los logs de su ISP, listos para ser vendidos o analizados.</p>
-        <p>El detalle que muchos pasan por alto es que el DNS es, en la práctica, un “mapa de intención”. Incluso sin ver el contenido, un observador puede inferir rutinas (horarios de trabajo), intereses sensibles (salud, finanzas), y hábitos de consumo. Además, los registros DNS suelen conservarse más tiempo que otros metadatos porque son útiles para “diagnóstico”, lo que aumenta el impacto real de una fuga: no es un fallo momentáneo, es un historial acumulativo.</p>
-        <p>También conviene entender que una fuga no siempre es constante. Puede ser intermitente: aparece al cambiar de Wi-Fi a datos móviles, al despertar el portátil del modo suspensión, al abrir un navegador con DoH activo, o cuando una aplicación ignora la configuración del sistema y usa resolvers embebidos. Por eso, la verificación debe repetirse en escenarios reales, no solo en una prueba “limpia” recién reiniciada.</p>
-
-        <h2>2. El Sistema de Nombres de Dominio (DNS) y el túnel VPN</h2>
-        <p>Para entender la fuga, primero debemos entender el flujo normal. Cuando usted escribe `ejemplo.com`, su sistema envía una consulta UDP o TCP al puerto 53. En una configuración ideal de VPN, este paquete se encapsula dentro del protocolo de la VPN (como WireGuard o OpenVPN), viaja cifrado hasta el servidor de la VPN y solo allí se resuelve. La respuesta regresa por el mismo camino cifrado.</p>
-        <p>El problema surge cuando hay un conflicto de interfaces. Su computadora tiene una interfaz física (Wi-Fi o Ethernet) y una interfaz virtual (VPN). Si el sistema operativo decide, por razones de latencia, que es "mejor" enviar la consulta por la interfaz física, la privacidad desaparece. Esto es lo que llamamos una fuga estructural.</p>
-        <p>Otro punto crítico es la “persistencia” del DNS. Muchos sistemas guardan respuestas en caché (DNS cache) durante segundos o minutos. Si se produce una fuga antes de que la VPN estabilice rutas y servidores, esa consulta ya salió fuera del túnel. Aunque luego todo parezca correcto, el daño está hecho. En auditorías serias se fuerza la limpieza de cachés y se repiten consultas para descartar falsos negativos.</p>
-
-        <h2>3. Vectores críticos de fuga en 2026</h2>
-        
-        <h3>3.1. Smart Multi-Homed Name Resolution (Windows)</h3>
-        <p>Windows 10 y 11 utilizan un mecanismo que envía peticiones DNS a todos los adaptadores de red disponibles simultáneamente. El sistema acepta la respuesta que llegue más rápido. Dado que el túnel VPN añade una capa de procesamiento y distancia física, la respuesta del ISP local casi siempre llega milisegundos antes. Esto significa que Windows, por diseño, prefiere filtrar sus datos antes que esperar a la seguridad. Corregir esto requiere cambios profundos en la política de grupo (GPO) o en el registro del sistema.</p>
-        <p>En entornos corporativos, el problema se agrava porque pueden coexistir DNS internos (Active Directory, split-DNS) con DNS públicos. Si la VPN está configurada con “túnel dividido” (split tunneling), es más fácil que Windows seleccione el resolver “equivocado”. El resultado no siempre es visible: usted ve una IP VPN, pero parte del DNS sale por la ruta local, especialmente al resolver dominios cortos, CDNs o endpoints de telemetría.</p>
-
-        <h3>3.2. La trampa de IPv6</h3>
-        <p>Estamos en 2026 y la transición a IPv6 está casi completa. Muchas VPN, sin embargo, siguen funcionando sobre una arquitectura puramente IPv4. Si su ISP le asigna una dirección IPv6, su navegador intentará usarla por defecto. Si el cliente VPN no está diseñado para interceptar o bloquear el tráfico IPv6, este tráfico "flota" fuera del túnel. Esta es la causa número uno de las fugas de IP real en la actualidad, permitiendo que los sitios web vean quién es usted a pesar de que su dirección IPv4 esté oculta.</p>
-        <p>El riesgo no es solo “ver la IP”. En IPv6 es común que la red local anuncie prefijos de manera automática (SLAAC). Un dispositivo puede cambiar de red y obtener nuevas direcciones sin que el usuario lo note. Si su VPN no gestiona IPv6, usted puede quedar expuesto justo en momentos de transición: reinicios del router, cambios de Wi-Fi, o cuando el sistema prioriza rutas IPv6 por métricas internas.</p>
-
-        <h3>3.3. WebRTC y la traición del navegador</h3>
-        <p>WebRTC es un protocolo fantástico para videoconferencias sin plugins, pero es un desastre para la privacidad. Permite que un sitio web ejecute scripts que piden al navegador revelar todas las direcciones IP asociadas a las interfaces locales. Esto se hace a través de servidores STUN y ocurre fuera de la lógica de enrutamiento de la VPN en muchos casos. Un sitio malicioso puede saber su IP local y su IP pública real simplemente con un fragmento de JavaScript.</p>
-        <p>Además, WebRTC no es el único vector a nivel de navegador. Extensiones mal diseñadas, proxies configurados a medias, y funciones de “aceleración” de red pueden introducir rutas paralelas. Por eso, el enfoque profesional no es solo desactivar una opción: es reducir superficies de fuga, limitar permisos y mantener un navegador con configuraciones coherentes con su modelo de amenaza.</p>
-
-        <h2>4. Metodología de Auditoría: El protocolo de las 3 capas</h2>
-        <p>No basta con visitar un sitio web y ver un check verde. Una auditoría profesional requiere probar tres capas de conectividad:</p>
-        <ul>
-          <li><strong>Capa 1: DNS Estándar.</strong> Utilice `dnsleaktest.com` y ejecute el test extendido. Este test realiza múltiples consultas a diferentes subdominios para forzar al sistema a revelar todos los servidores DNS que está consultando. Si ve algún servidor que no pertenece a su proveedor de VPN, tiene una fuga.</li>
-          <li><strong>Capa 2: Fuga de Protocolo (IPv6).</strong> Visite `ipleak.net` y observe la sección de IPv6. Si aparece una dirección que coincide con su ubicación real, su túnel es permeable.</li>
-          <li><strong>Capa 3: Fuga de Aplicación (WebRTC).</strong> Verifique si su IP local (generalmente 192.168.x.x o 10.x.x.x) o su IP pública real aparecen en los resultados de detección de WebRTC.</li>
-        </ul>
-        <p>Para elevar la auditoría a nivel “profesional”, repita estas pruebas en tres momentos: (1) justo después de conectar la VPN, (2) después de 10–15 minutos de navegación normal, y (3) tras un evento de cambio (desconectar/reconectar Wi-Fi, suspender y reanudar el equipo, o cambiar de red). Muchas fugas aparecen únicamente en transiciones, que es cuando el sistema “reconstruye” rutas y prioridades.</p>
-
-        <h2>5. Guía de Solución: Blindaje de plataforma</h2>
-
-        <h3>5.1. Windows: El método de fuerza bruta</h3>
-        <p>Para Windows, el ajuste más efectivo es forzar el uso de DNS estáticos que no pertenezcan al ISP, incluso cuando la VPN no está activa. Esto crea una "red de seguridad". Recomendamos usar los servidores de Quad9 (9.9.9.9) o Cloudflare (1.1.1.1), ya que no registran su IP personal. Además, deshabilitar IPv6 en las propiedades del adaptador de red es una medida necesaria si su proveedor de VPN no tiene protección nativa.</p>
-        <p>También es recomendable verificar que el cliente VPN tenga un “kill switch” real (a nivel de firewall o reglas de sistema), no solo a nivel de aplicación. Si la VPN cae, un kill switch bien implementado bloquea todo el tráfico saliente hasta que el túnel se restaure. Esto reduce fugas tanto de DNS como de IP durante microcortes, que son comunes en Wi-Fi saturado o redes móviles.</p>
-
-        <h3>5.2. macOS y la prioridad de red</h3>
-        <p>En el sistema de Apple, la clave está en el orden de servicio. En Preferencias del Sistema > Red, asegúrese de que la interfaz de su VPN esté en la parte superior de la lista. Esto obliga al sistema a priorizar el enrutamiento a través del túnel virtual antes de recurrir a la interfaz física.</p>
-        <p>En macOS, las fugas pueden ser más sutiles cuando hay múltiples perfiles (por ejemplo, VPN + iCloud Private Relay, o VPN + proxies corporativos). Si su objetivo es consistencia, evite superponer herramientas que compitan por el enrutamiento. Un principio simple: una sola capa principal (VPN), y el resto solo si entiende exactamente qué tráfico toca cada una.</p>
-
-        <h3>5.3. Navegadores: Hardening WebRTC</h3>
-        <p>Para Firefox, la solución es definitiva: acceda a `about:config` y cambie `media.peerconnection.enabled` a `false`. En Chrome y otros navegadores basados en Chromium (como Edge o Brave), la gestión es más difícil y se recomienda el uso de extensiones de confianza que bloqueen específicamente el tráfico STUN de WebRTC.</p>
-        <p>Si usted depende de videollamadas, no siempre conviene desactivar WebRTC por completo. En ese caso, priorice el aislamiento: use un perfil de navegador específico para videoconferencias y otro perfil endurecido para navegación sensible. Separar contextos reduce el riesgo de que un sitio cualquiera active capacidades que usted solo necesita en entornos controlados.</p>
-
-        <h2>6. El futuro: DNS sobre HTTPS (DoH) y TLS (DoT)</h2>
-        <p>A medida que avanzamos en 2026, el cifrado del DNS se está moviendo hacia la capa de aplicación. El uso de DoH en su navegador puede actuar como una segunda capa de cifrado. Si su VPN falla y el DNS se fuga, el ISP seguirá viendo tráfico cifrado si usted tiene DoH activado hacia un proveedor independiente. Sin embargo, tenga cuidado: esto puede causar conflictos de enrutamiento si no se configura en armonía con su cliente VPN.</p>
-        <p>Un matiz importante: DoH/DoT protege la confidencialidad del DNS, pero no “anula” la fuga por sí solo. Si el DNS sale fuera del túnel, el ISP podría no leer los dominios si todo va por DoH, pero aún verá a qué servidor DoH se conecta usted y en qué momentos. Además, si su navegador usa DoH y el sistema usa DNS clásico, puede terminar con resultados inconsistentes (CDNs distintos, geolocalización errática) que rompen sesiones o activan sistemas antifraude.</p>
-        <p>La solución madura es coherencia: o bien la VPN gestiona DNS completo (ideal), o usted define una política clara (DNS del proveedor VPN + bloqueo IPv6 + kill switch), y solo después añade DoH como capa extra, sabiendo qué componente manda en cada escenario.</p>
-
-        <h2>7. FAQ: Preguntas críticas de seguridad</h2>
-        <dl>
-          <dt>¿Una fuga de DNS significa que mi ISP puede ver mis contraseñas?</dt>
-          <dd>No. Sus contraseñas viajan cifradas por HTTPS. El ISP solo ve qué sitios visita, no qué hace en ellos. Pero saber que usted visita un sitio de salud mental o de apuestas es información suficiente para comprometer su privacidad.</dd>
-          <dt>¿Los routers con VPN son mejores para evitar fugas?</dt>
-          <dd>Sí, mil veces sí. Al configurar la VPN en el router, todos los dispositivos de la casa (incluso los que no permiten configurar VPN, como una Smart TV) están protegidos. El tráfico DNS se filtra antes de salir de su red local, eliminando las fugas por software en el dispositivo final.</dd>
-          <dt>¿Por qué las VPN gratuitas siempre tienen fugas?</dt>
-          <dd>Porque mantener una infraestructura de servidores DNS privados y actualizados es costoso. Las VPN gratuitas suelen usar los DNS públicos del ISP para ahorrar ancho de banda y costes de procesamiento.</dd>
-          <dt>¿Puedo tener fuga aunque mi IP pública muestre el país de la VPN?</dt>
-          <dd>Sí. La IP pública solo confirma el “camino” del tráfico web principal. El DNS puede ir por otra ruta, especialmente en Windows con múltiples adaptadores, en redes con túnel dividido, o cuando el navegador usa resolvers propios. Por eso se comprueba DNS, IPv6 y WebRTC por separado.</dd>
-          <dt>¿Con qué frecuencia debo volver a probar si ya “arreglé” el problema?</dt>
-          <dd>Como regla práctica: después de cada actualización grande del sistema operativo, después de actualizaciones del cliente VPN y cuando cambie de router o proveedor de Internet. Si su uso es sensible, haga una verificación rápida semanal; las fugas intermitentes suelen aparecer tras cambios de red o ajustes automáticos.</dd>
-        </dl>
-
-        <h2>8. Conclusión: La vigilancia es el precio de la libertad</h2>
-        <p>No existe el "configurar y olvidar" en la ciberseguridad. Los sistemas operativos se actualizan, los navegadores cambian sus protocolos y los ISPs encuentran nuevas formas de extraer datos. La fuga de DNS es el síntoma de una mala configuración, pero también es una oportunidad para aprender a controlar su propio tráfico. Realice pruebas semanales, mantenga sus clientes VPN actualizados y, sobre todo, entienda que el túnel más seguro es aquel que usted mismo ha verificado.</p>
-        <p>Si quiere pensar como un profesional, cambie el enfoque: no se trata de “confiar” en un proveedor, sino de diseñar un sistema que falle de forma segura. Eso significa priorizar protecciones nativas (DNS del proveedor VPN, bloqueo/soporte IPv6, kill switch), minimizar configuraciones que compitan entre sí y validar con pruebas repetibles. La privacidad real no es un producto, es un proceso.</p>
-
-        <p class="note"><strong>Sugerencia de lectura:</strong> Explore nuestros análisis sobre <a href="/es/blog/ajustes-optimos-vpn.html">ajustes óptimos vpn</a> para maximizar su velocidad sin sacrificar la seguridad.</p>
-        
-        <div class="cta-box">
-          <h2>Protección garantizada</h2>
-          <p>Proveedores como NordVPN y Surfshark incluyen protección nativa contra fugas de DNS e IPv6 a nivel de kernel, lo que reduce drásticamente los riesgos analizados en esta guía.</p>
-          <div class="cta-buttons">
-            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener">Obtener NordVPN</a>
-            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener">Obtener Surfshark</a>
-          </div>
+        <div class="cta-box" aria-label="Recommended VPN">
+          <h2>Recommended VPN</h2>
+          <p class="cta-note">Affiliate links (nofollow/sponsored).</p>
+<div class="cta-buttons" aria-label="Affiliate offers">
+  <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Try NordVPN — audited no-logs policy</a>
+  <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Try Surfshark — RAM-only servers</a>
+</div>
+          <p class="human-note">Disclosure: VPN World may earn a commission if you subscribe via these links — without changing your price.</p>
         </div>
-        </div>
+      </div>
     </section>
 
-    <footer class="site-footer">
-      <div class="container">
-        <p>© 2026 VPN World · <a href="/es/privacy.html">Privacidad</a> · <a href="mailto:u1797008805@gmail.com">Contacto</a></p>
-      </div>
-    </footer>
   </main>
 
+<footer class="site-footer">
+  <div class="container">
+    <p><strong>VPN World</strong> · Independent service about privacy, security, and practical VPN use.</p>
+    <p>
+      <a href="/es/privacy.html">Privacy</a> ·
+      <a href="/es/disclosure.html">Disclosure</a> ·
+      <a href="mailto:u1797008805@gmail.com">Contact</a>
+    </p>
+    <p>© 2026 VPN World</p>
+  </div>
+</footer>
+
   <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/cookie-consent.js"></script>
+
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
+    <p>Analytics is disabled by default. You can accept or reject analytics.</p>
+    <div class="cookie-actions">
+      <button type="button" class="btn btn-compact" onclick="acceptConsent()">Accept</button>
+      <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Reject</button>
+    </div>
+  </div>
+
 </body>
 </html>
+
+<!-- PAGE: https://dloran1.github.io/es/blog/vpn-dns-leak.html -->
