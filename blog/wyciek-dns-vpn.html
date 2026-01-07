@@ -2,15 +2,15 @@
 <html lang="pl">
 <head>
   <meta charset="utf-8">
-  <title>Wyciek DNS a VPN: jak rozpoznać i zapobiegać wyciekom DNS | VPN World</title>
-  <meta name="description" content="Wyciek DNS to poważne zagrożenie dla prywatności podczas korzystania z VPN. Dowiedz się, czym jest wyciek DNS, jak go wykryć i jak skutecznie zabezpieczyć się przed nim, aby chronić swoją anonimowość w sieci." />
+  <title>Wyciek DNS w VPN: wykrywanie i naprawa (2026)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Praktyczny poradnik (2026): czym jest wyciek DNS w VPN, jak testować DNS/IPv6/WebRTC i jak naprawić problemy na Windows, macOS, Android, iOS oraz routerze — bez obietnic &quot;100% anonimowości&quot;.">
   <meta name="robots" content="index, follow">
 
   <link rel="icon" href="/favicon.ico">
-
-  <!-- Canonical & hreflang -->
   <link rel="canonical" href="https://dloran1.github.io/blog/wyciek-dns-vpn.html">
+
+  <!-- HREFLANG (7× + x-default) -->
   <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/wyciek-dns-vpn.html">
   <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html">
   <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-dns-leak.html">
@@ -21,7 +21,7 @@
   <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
 
   <!-- Preconnect -->
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
@@ -31,10 +31,7 @@
 
   <!-- Open Graph / Twitter -->
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Wyciek DNS a VPN: jak rozpoznać i zapobiegać wyciekom DNS">
-  <meta property="og:description" content="Wyciek DNS to poważne zagrożenie dla prywatności podczas korzystania z VPN. Dowiedz się, czym jest wyciek DNS, jak go wykryć i jak skutecznie zabezpieczyć się przed nim.">
-  <meta property="og:url" content="https://dloran1.github.io/blog/wyciek-dns-vpn.html">
-  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-dns-leak.webp">
+  <meta property="og:site_name" content="VPN World">
   <meta property="og:locale" content="pl_PL">
   <meta property="og:locale:alternate" content="en_GB">
   <meta property="og:locale:alternate" content="en_US">
@@ -42,11 +39,17 @@
   <meta property="og:locale:alternate" content="es_ES">
   <meta property="og:locale:alternate" content="fr_FR">
   <meta property="og:locale:alternate" content="nl_BE">
+  <meta property="og:title" content="Wyciek DNS w VPN: wykrywanie i naprawa (2026)">
+  <meta property="og:description" content="Praktyczny poradnik (2026): czym jest wyciek DNS w VPN, jak testować DNS/IPv6/WebRTC i jak naprawić problemy na Windows, macOS, Android, iOS oraz routerze — bez obietnic &quot;100% anonimowości&quot;.">
+  <meta property="og:url" content="https://dloran1.github.io/blog/wyciek-dns-vpn.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Wyciek DNS a VPN: jak rozpoznać i zapobiegać wyciekom DNS">
-  <meta name="twitter:description" content="Wyciek DNS to poważne zagrożenie dla prywatności podczas korzystania z VPN. Dowiedz się, czym jest wyciek DNS, jak go wykryć i jak skutecznie zabezpieczyć się przed nim.">
-  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-dns-leak.webp">
+  <meta name="twitter:title" content="Wyciek DNS w VPN: wykrywanie i naprawa (2026)">
+  <meta name="twitter:description" content="Praktyczny poradnik (2026): czym jest wyciek DNS w VPN, jak testować DNS/IPv6/WebRTC i jak naprawić problemy na Windows, macOS, Android, iOS oraz routerze — bez obietnic &quot;100% anonimowości&quot;.">
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp">
 
   <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
@@ -54,59 +57,49 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
 
-    /* Consent Mode v2: default DENIED for ALL keys (VPN World Stage 2.5 standard) */
-    gtag('consent', 'default', {
-      ad_storage: 'denied',
-      ad_user_data: 'denied',
-      ad_personalization: 'denied',
-      analytics_storage: 'denied',
-      functionality_storage: 'denied',
-      personalization_storage: 'denied',
-      security_storage: 'denied'
+    gtag('consent','default', {
+      ad_storage:'denied',
+      ad_user_data:'denied',
+      ad_personalization:'denied',
+      analytics_storage:'denied',
+      functionality_storage:'denied',
+      personalization_storage:'denied',
+      security_storage:'denied'
     });
 
     gtag('js', new Date());
-  </script>
 
-  <!-- Consent logic (safe DOM handling) -->
-  <script>
     function hideCookieBannerSafely() {
       var banner = document.getElementById('cookie-banner');
       if (banner) banner.style.display = 'none';
     }
 
     function acceptConsent() {
-      gtag('consent', 'update', {
-        ad_storage: 'granted',
-        ad_user_data: 'granted',
-        ad_personalization: 'granted',
-        analytics_storage: 'granted',
-        functionality_storage: 'granted',
-        personalization_storage: 'granted',
-        security_storage: 'granted'
+      gtag('consent','update', {
+        ad_storage:'granted',
+        ad_user_data:'granted',
+        ad_personalization:'granted',
+        analytics_storage:'granted',
+        functionality_storage:'granted',
+        personalization_storage:'granted',
+        security_storage:'granted'
       });
-
-      try { localStorage.setItem('vpnworld_consent', 'granted'); } catch(e) {}
-
+      try { localStorage.setItem('vpnworld_consent','granted'); } catch(e) {}
       hideCookieBannerSafely();
-
-      /* GA4 config only AFTER consent */
-      gtag('config', 'G-RD6M691ZWD');
+      gtag('config','G-RD6M691ZWD');
     }
 
     function rejectConsent() {
-      gtag('consent', 'update', {
-        ad_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied',
-        analytics_storage: 'denied',
-        functionality_storage: 'denied',
-        personalization_storage: 'denied',
-        security_storage: 'denied'
+      gtag('consent','update', {
+        ad_storage:'denied',
+        ad_user_data:'denied',
+        ad_personalization:'denied',
+        analytics_storage:'denied',
+        functionality_storage:'denied',
+        personalization_storage:'denied',
+        security_storage:'denied'
       });
-
-      try { localStorage.setItem('vpnworld_consent', 'denied'); } catch(e) {}
-
+      try { localStorage.setItem('vpnworld_consent','denied'); } catch(e) {}
       hideCookieBannerSafely();
     }
 
@@ -114,26 +107,26 @@
       try {
         var c = localStorage.getItem('vpnworld_consent');
         if (c === 'granted') {
-          gtag('consent', 'update', {
-            ad_storage: 'granted',
-            ad_user_data: 'granted',
-            ad_personalization: 'granted',
-            analytics_storage: 'granted',
-            functionality_storage: 'granted',
-            personalization_storage: 'granted',
-            security_storage: 'granted'
+          gtag('consent','update', {
+            ad_storage:'granted',
+            ad_user_data:'granted',
+            ad_personalization:'granted',
+            analytics_storage:'granted',
+            functionality_storage:'granted',
+            personalization_storage:'granted',
+            security_storage:'granted'
           });
           hideCookieBannerSafely();
-          gtag('config', 'G-RD6M691ZWD');
+          gtag('config','G-RD6M691ZWD');
         } else if (c === 'denied') {
-          gtag('consent', 'update', {
-            ad_storage: 'denied',
-            ad_user_data: 'denied',
-            ad_personalization: 'denied',
-            analytics_storage: 'denied',
-            functionality_storage: 'denied',
-            personalization_storage: 'denied',
-            security_storage: 'denied'
+          gtag('consent','update', {
+            ad_storage:'denied',
+            ad_user_data:'denied',
+            ad_personalization:'denied',
+            analytics_storage:'denied',
+            functionality_storage:'denied',
+            personalization_storage:'denied',
+            security_storage:'denied'
           });
           hideCookieBannerSafely();
         }
@@ -143,244 +136,475 @@
     document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
   </script>
 
-  <!-- JSON-LD: Article + BreadcrumbList + FAQPage + ItemList -->
+  <!-- JSON-LD (Stage 2.5): Article + FAQPage + BreadcrumbList + ItemList -->
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@graph":[
-      {
-        "@type":"Article",
-        "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/blog/wyciek-dns-vpn.html"},
-        "headline":"Wyciek DNS a VPN: jak rozpoznać i zapobiegać wyciekom DNS",
-        "description":"Wyciek DNS to poważne zagrożenie dla prywatności podczas korzystania z VPN. Dowiedz się, czym jest wyciek DNS, jak go wykryć i jak skutecznie zabezpieczyć się przed nim, aby chronić swoją anonimowość w sieci.",
-        "image":"https://dloran1.github.io/assets/img/hero/vpn-dns-leak.webp",
-        "datePublished":"2025-12-15",
-        "dateModified":"2025-12-15",
-        "author":{"@type":"Organization","name":"VPN World Editorial Team"},
-        "publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}}
-      },
-      {
-        "@type":"BreadcrumbList",
-        "itemListElement":[
-          {"@type":"ListItem","position":1,"name":"Strona główna","item":"https://dloran1.github.io/"},
-          {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/blog/index.html"},
-          {"@type":"ListItem","position":3,"name":"Wyciek DNS a VPN","item":"https://dloran1.github.io/blog/wyciek-dns-vpn.html"}
-        ]
-      },
-      {
-        "@type":"FAQPage",
-        "mainEntity":[
-          {
-            "@type":"Question",
-            "name":"Czym jest wyciek DNS i dlaczego jest niebezpieczny?",
-            "acceptedAnswer":{"@type":"Answer","text":"Wyciek DNS to sytuacja, gdy zapytania DNS nie są przesyłane przez tunel VPN, lecz bezpośrednio do lokalnego dostawcy internetu. To ujawnia odwiedzane strony i lokalizację, mimo aktywnego VPN, narażając prywatność użytkownika."}
-          },
-          {
-            "@type":"Question",
-            "name":"Jak mogę sprawdzić, czy mój VPN ma wyciek DNS?",
-            "acceptedAnswer":{"@type":"Answer","text":"Można użyć specjalnych narzędzi online do testów wycieku DNS, które pokazują, czy zapytania DNS są przesyłane przez VPN. Popularne testy to dnsleaktest.com, ipleak.net lub wbudowane opcje w aplikacji VPN."}
-          },
-          {
-            "@type":"Question",
-            "name":"Jak zapobiec wyciekom DNS podczas korzystania z VPN?",
-            "acceptedAnswer":{"@type":"Answer","text":"Należy korzystać z VPN, które oferują własne, bezpieczne serwery DNS i mają wbudowaną ochronę przed wyciekami DNS. Dodatkowo warto ręcznie ustawić bezpieczne serwery DNS w systemie lub routerze, a także wyłączyć IPv6, jeśli VPN go nie obsługuje."}
-          },
-          {
-            "@type":"Question",
-            "name":"Czy każdy VPN chroni przed wyciekami DNS?",
-            "acceptedAnswer":{"@type":"Answer","text":"Nie, nie każdy VPN ma skuteczną ochronę przed wyciekami DNS. Warto wybierać usługi VPN z potwierdzoną polityką no-log i funkcją blokady wycieków DNS (DNS leak protection)."}
-          },
-          {
-            "@type":"Question",
-            "name":"Czy wyciek DNS może wpłynąć na moją anonimowość w internecie?",
-            "acceptedAnswer":{"@type":"Answer","text":"Tak, wyciek DNS może ujawnić Twoją prawdziwą lokalizację i historię odwiedzanych stron, co podważa anonimowość i prywatność, którą VPN ma zapewnić."}
-          }
-        ]
-      },
-      {
-        "@type":"ItemList",
-        "name":"Powiązane artykuły",
-        "itemListElement":[
-          {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/blog/lista-bezpieczenstwa-wifi.html","name":"Lista bezpieczeństwa Wi-Fi"},
-          {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/blog/vpn-publiczne-wifi.html","name":"VPN i publiczne Wi-Fi"},
-          {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/blog/optymalne-ustawienia-vpn.html","name":"Optymalne ustawienia VPN"},
-          {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/blog/protokoly-vpn.html","name":"Protokoły VPN"},
-          {"@type":"ListItem","position":5,"url":"https://dloran1.github.io/blog/lista-bezpieczenstwa-wifi.html","name":"Lista bezpieczeństwa Wi-Fi"},
-          {"@type":"ListItem","position":6,"url":"https://dloran1.github.io/blog/co-to-jest-vpn.html","name":"Co to jest VPN?"}
-        ]
-      }
-    ]
-  }
+{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://dloran1.github.io/blog/wyciek-dns-vpn.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/blog/wyciek-dns-vpn.html"},"headline":"Wyciek DNS w VPN: wykrywanie i naprawa (2026)","description":"Praktyczny poradnik (2026): czym jest wyciek DNS w VPN, jak testować DNS/IPv6/WebRTC i jak naprawić problemy na Windows, macOS, Android, iOS oraz routerze — bez obietnic \"100% anonimowości\".","image":"https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp","inLanguage":"pl-PL","datePublished":"2026-01-06","dateModified":"2026-01-06","author":{"@type":"Person","name":"Denys Shchur","url":"https://dloran1.github.io/about-denys-shchur.html"},"publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://dloran1.github.io/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/blog/"},{"@type":"ListItem","position":3,"name":"Wyciek DNS w VPN: wykrywanie i naprawa (2026)","item":"https://dloran1.github.io/blog/wyciek-dns-vpn.html"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Co oznacza „brak logów” (no-logs) w VPN?","acceptedAnswer":{"@type":"Answer","text":"W praktyce oznacza to, że dostawca nie przechowuje identyfikowalnych logów aktywności (np. historii przeglądania, zapytań DNS lub par źródłowy IP + znacznik czasu), które pozwoliłyby później powiązać Twoje działania w sieci z Tobą. Część zagregowanych danych operacyjnych (np. obciążenie serwerów) może jednak nadal istnieć."}},{"@type":"Question","name":"Jak mogę zweryfikować deklaracje prywatności VPN?","acceptedAnswer":{"@type":"Answer","text":"Szukaj niezależnych audytów (z jasnym zakresem i datą), przejrzystej polityki prywatności oraz wiarygodnych sygnałów operacyjnych. Następnie wykonaj własne testy wycieków DNS/IPv6/WebRTC, aby potwierdzić, że ruch faktycznie pozostaje w tunelu VPN."}},{"@type":"Question","name":"Czy VPN zapewnia anonimowość?","acceptedAnswer":{"@type":"Answer","text":"Nie w pełni. VPN chroni warstwę sieciową, ale logowanie do kont, cookies, fingerprinting przeglądarki i identyfikatory aplikacji nadal mogą łączyć aktywność z użytkownikiem. Traktuj VPN jako mocną warstwę prywatności, a nie pełną anonimowość."}}]}]}
   </script>
 </head>
 
 <body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="header-main">
+        <a href="/" class="brand">
+          <img src="../assets/img/logo.png" class="logo" alt="VPN World logo">
+          <span class="brand-text">VPN World</span>
+        </a>
 
-<nav class="lang-switch"><a href="/blog/wyciek-dns-vpn.html" class="active">Polski</a> | <a href="/en-gb/blog/vpn-dns-leak-uk.html">English (UK)</a> | <a href="/en-us/blog/vpn-dns-leak.html">English (US)</a> | <a href="/de/blog/vpn-dns-leak.html">Deutsch</a> | <a href="/es/blog/vpn-dns-leak.html">Español</a> | <a href="/fr/blog/vpn-dns-leak.html">Français</a> | <a href="/nl-be/blog/vpn-dns-leak.html">Nederlands (BE)</a></nav>
+        <nav class="primary-nav" aria-label="Główna nawigacja">
+          <a href="/blog/">Blog</a>
+        </nav>
+      </div>
 
-<header class="site-header">
-  <div class="container header-inner">
-    <a href="/" class="brand"><img src="/assets/img/logo.png" class="logo" alt="VPN World logo"> <span class="brand-text">VPN World</span></a>
-  </div>
-</header>
+      <nav class="lang-switch" aria-label="Przełącznik języka"><a href="/blog/wyciek-dns-vpn.html" class="active">Polski</a> | <a href="/en-gb/blog/vpn-dns-leak-uk.html" class="">English (UK)</a> | <a href="/en-us/blog/vpn-dns-leak.html" class="">English (US)</a> | <a href="/de/blog/vpn-dns-leak.html" class="">Deutsch</a> | <a href="/es/blog/vpn-dns-leak.html" class="">Español</a> | <a href="/fr/blog/vpn-dns-leak.html" class="">Français</a> | <a href="/nl-be/blog/vpn-dns-leak.html" class="">Nederlands (BE)</a></nav>
+    </div>
+  </header>
 
-<main class="container card" style="padding:18px 0">
-  <article>
-    <figure class="hero">
-      <img src="/assets/img/hero/vpn-dns-leak.webp" alt="Ilustracja wycieku DNS podczas korzystania z VPN" width="1200" height="675" loading="eager" decoding="async">
-    </figure>
+  <main>
+    <!-- HERO (No-logs style) -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h1>Wyciek DNS w VPN: wykrywanie i naprawa (2026)</h1>
 
-    <h1>Wyciek DNS a VPN: jak rozpoznać i zapobiegać wyciekom DNS</h1>
+          <p class="note">
+            <strong>Szybka odpowiedź:</strong>
+            Praktyczny poradnik (2026): czym jest wyciek DNS w VPN, jak testować DNS/IPv6/WebRTC i jak naprawić problemy na Windows, macOS, Android, iOS oraz routerze — bez obietnic „100% anonimowości”.
+          </p>
 
-    <p class="meta">
-      <strong>Data publikacji:</strong>
-      <time datetime="2025-12-15">15 grudnia 2025</time>
-      · <strong>Autor:</strong> <a href="/blog/co-to-jest-vpn.html">Zespół VPN World</a>
-    </p>
+          <p>
+            Ten przewodnik stawia na praktykę i testy, a nie marketingowe slogany.
+            Potraktuj go jak checklistę, którą możesz przejść na własnych urządzeniach — krok po kroku.
+          </p>
 
-    <p>
-      Korzystanie z VPN to jeden z najskuteczniejszych sposobów na ochronę prywatności i anonimowości w sieci. Jednak nawet najlepsze usługi VPN mogą nie zapewnić pełnej ochrony, jeśli dochodzi do tzw. <strong>wycieku DNS</strong>. W tym artykule wyjaśnimy, czym jest wyciek DNS, dlaczego jest groźny, jak go wykryć i jak skutecznie się przed nim zabezpieczyć, aby Twoje połączenie VPN było naprawdę bezpieczne.
-    </p>
+          <div class="hero-author">
+            <img src="../assets/img/author/denys-shchur.webp" alt="Denys Shchur – autor VPN World">
+            <div class="hero-author-text">
+              <span class="hero-author-label">Autor:</span>
+              <span class="hero-author-name">
+                <a href="/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a>
+              </span>
+              <span class="meta">Aktualizacja: 2026-01-06 · 12–18 min czytania</span>
+            </div>
+          </div>
 
-    <h2>Co to jest wyciek DNS?</h2>
-    <p>
-      DNS (Domain Name System) to usługa tłumacząca czytelne dla człowieka nazwy domen (np. <em>vpnworld.pl</em>) na adresy IP, które są wykorzystywane do komunikacji w internecie. Gdy korzystasz z VPN, cały Twój ruch, w tym zapytania DNS, powinny być przesyłane przez zaszyfrowany tunel VPN do serwerów DNS dostawcy VPN.
-    </p>
-    <p>
-      <strong>Wyciek DNS</strong> występuje, gdy zapytania DNS omijają tunel VPN i są wysyłane bezpośrednio do lokalnego dostawcy internetu lub innego serwera DNS, który nie jest chroniony. Oznacza to, że Twój dostawca internetu, a potencjalnie także inne podmioty, mogą zobaczyć, jakie strony odwiedzasz, mimo że korzystasz z VPN.
-    </p>
+          <!-- Early CTA block -->
+          <div class="cta-buttons" aria-label="Oferty partnerskie">
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Wypróbuj NordVPN — audytowana polityka braku logów</a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Wypróbuj Surfshark — serwery RAM-only</a>
+          </div>
 
-    <h2>Dlaczego wyciek DNS jest problemem?</h2>
-    <p>
-      Wyciek DNS podważa podstawową funkcję VPN, jaką jest ukrycie Twojej aktywności i lokalizacji. Nawet jeśli cały ruch jest szyfrowany, wyciek DNS ujawnia odwiedzane domeny, co może prowadzić do:
-    </p>
-    <ul>
-      <li>Śledzenia Twojej aktywności online przez dostawcę internetu lub agencje rządowe.</li>
-      <li>Profilowania reklamowego i analizy zachowań w sieci.</li>
-      <li>Ujawnienia lokalizacji geograficznej, co może obniżyć skuteczność omijania blokad geograficznych.</li>
-      <li>Zagrożeń bezpieczeństwa, gdy atakujący wykorzysta informacje o odwiedzanych stronach.</li>
-    </ul>
+          <ul class="meta-points">
+            <li>Jasne definicje (co ma znaczenie, a co nie)</li>
+            <li>Testy, które wykonasz od ręki</li>
+            <li>Naprawy i realne granice prywatności</li>
+          </ul>
+        </div>
 
-    <h2>Jak wykryć wyciek DNS?</h2>
-    <p>
-      Na szczęście istnieje kilka prostych sposobów, aby sprawdzić, czy Twój VPN chroni przed wyciekami DNS:
-    </p>
-    <ul>
-      <li><strong>Testy online:</strong> Skorzystaj z serwisów takich jak <a href="https://www.dnsleaktest.com" target="_blank" rel="noopener noreferrer">dnsleaktest.com</a> lub <a href="https://ipleak.net" target="_blank" rel="noopener noreferrer">ipleak.net</a>. Połącz się z VPN i uruchom test – jeśli zobaczysz adresy DNS spoza sieci VPN (np. Twojego ISP), oznacza to wyciek.</li>
-      <li><strong>Sprawdź ustawienia systemu:</strong> Na komputerze możesz zweryfikować, jakie serwery DNS są używane podczas połączenia z VPN, np. za pomocą polecenia <code>ipconfig /all</code> (Windows) lub <code>scutil --dns</code> (macOS).</li>
-      <li><strong>Test IPv6:</strong> Jeśli Twój VPN nie obsługuje IPv6, a Twój system korzysta z IPv6, może dojść do wycieku zapytań DNS przez ten protokół.</li>
-    </ul>
-
-    <h2>Przyczyny wycieków DNS</h2>
-    <p>
-      Wyciek DNS może mieć różne źródła, w tym:
-    </p>
-    <ul>
-      <li><strong>Brak ochrony przed wyciekami DNS w aplikacji VPN</strong> – niektóre usługi nie implementują skutecznych mechanizmów blokujących wycieki.</li>
-      <li><strong>Ustawienia systemowe lub routera</strong> – ręczne lub automatyczne przypisanie serwerów DNS spoza VPN.</li>
-      <li><strong>Protokół VPN</strong> – niektóre protokoły mogą nie tunelować zapytań DNS poprawnie.</li>
-      <li><strong>IPv6</strong> – jeśli VPN nie obsługuje IPv6, zapytania mogą być wysyłane poza tunel.</li>
-      <li><strong>Konfiguracja wielu kart sieciowych</strong> – np. połączenie Wi-Fi i Ethernet może powodować rozdzielenie ruchu.</li>
-    </ul>
-
-    <h2>Jak zapobiegać wyciekom DNS?</h2>
-    <p>
-      Oto praktyczne kroki, które pomogą Ci zabezpieczyć się przed wyciekami DNS:
-    </p>
-    <ol>
-      <li><strong>Wybierz VPN z ochroną przed wyciekami DNS</strong> – upewnij się, że Twój dostawca VPN oferuje wbudowaną funkcję blokowania wycieków DNS (DNS leak protection).</li>
-      <li><strong>Ustaw ręcznie bezpieczne serwery DNS</strong> – zamiast korzystać z DNS dostawcy internetu, skonfiguruj w systemie lub routerze serwery DNS dostawcy VPN lub publiczne, które wspierają prywatność, np. Cloudflare (1.1.1.1), Google DNS (8.8.8.8), Quad9 (9.9.9.9).</li>
-      <li><strong>Wyłącz IPv6, jeśli VPN go nie obsługuje</strong> – w systemie lub routerze, aby zapobiec wyciekom przez ten protokół.</li>
-      <li><strong>Używaj protokołów VPN z pełnym tunelowaniem</strong> – OpenVPN, WireGuard lub IKEv2 zwykle dobrze radzą sobie z ochroną DNS.</li>
-      <li><strong>Regularnie testuj połączenie pod kątem wycieków</strong> – nawet najlepszy VPN może mieć błędy lub problemy z konfiguracją.</li>
-      <li><strong>Aktualizuj oprogramowanie VPN i system</strong> – poprawki często zawierają usprawnienia bezpieczeństwa.</li>
-      <li><strong>W razie potrzeby skonfiguruj zabezpieczenia na routerze</strong> – niektóre routery pozwalają wymusić korzystanie z określonych serwerów DNS lub blokować ruch DNS spoza VPN.</li>
-    </ol>
-
-    <h2>Wyciek DNS a inne aspekty bezpieczeństwa VPN</h2>
-    <p>
-      Ochrona przed wyciekami DNS to tylko jeden z elementów bezpieczeństwa VPN. Warto pamiętać także o:
-    </p>
-    <ul>
-      <li><a href="/blog/optymalne-ustawienia-vpn.html">optymalnych ustawieniach VPN</a>, które minimalizują ryzyko wycieków i poprawiają prywatność,</li>
-      <li>wyborze odpowiednich <a href="/blog/protokoly-vpn.html">protokołów VPN</a>,</li>
-      <li>korzystaniu z VPN na routerze, co pozwala chronić wszystkie urządzenia w sieci (<a href="/blog/vpn-konfiguracja-routera.html">VPN na routerze: konfiguracja</a>),</li>
-      <li>rozważeniu dodatkowych mechanizmów, takich jak podwójny VPN (<a href="/blog/podwojny-vpn.html">Podwójny VPN</a>) czy VPN z dedykowanym IP (<a href="/blog/vpn-dedykowane-ip.html">VPN dedykowane IP</a>).</li>
-    </ul>
-
-    <h2>Praktyczne wskazówki i narzędzia</h2>
-    <p>
-      Aby ułatwić sobie kontrolę nad wyciekami DNS, możesz skorzystać z poniższych narzędzi i porad:
-    </p>
-    <ul>
-      <li><strong>Testy online</strong> – jak wspomniano, dnsleaktest.com i ipleak.net to szybkie sposoby na diagnozę.</li>
-      <li><strong>Oprogramowanie VPN</strong> – wybieraj aplikacje z funkcją automatycznej ochrony przed wyciekami DNS i kill switch.</li>
-      <li><strong>Zmiana DNS w systemie</strong> – instrukcje zmiany serwerów DNS znajdziesz w dokumentacji systemu lub na stronach dostawców VPN.</li>
-      <li><strong>Wyłącz IPv6</strong> – jeśli nie jest potrzebne lub nie jest obsługiwane przez VPN, wyłącz IPv6 w ustawieniach sieciowych.</li>
-      <li><strong>Regularne aktualizacje</strong> – zarówno systemu, jak i oprogramowania VPN.</li>
-    </ul>
-
-    <h2>Podsumowanie</h2>
-    <p>
-      Wyciek DNS to jedno z najczęstszych i najgroźniejszych zagrożeń dla prywatności podczas korzystania z VPN. Nawet najlepszy VPN nie ochroni Cię, jeśli zapytania DNS będą wychodzić poza zaszyfrowany tunel. Dlatego tak ważne jest, aby świadomie wybierać dostawcę VPN, który oferuje ochronę przed wyciekami DNS, a także samodzielnie kontrolować i konfigurować ustawienia DNS w systemie i routerze.
-    </p>
-    <p>
-      Pamiętaj, że ochrona prywatności to proces wielowarstwowy. Warto zapoznać się z innymi poradnikami na temat VPN i bezpieczeństwa w sieci, na przykład <a href="/blog/co-to-jest-vpn.html">Co to jest VPN?</a>, <a href="/blog/optymalne-ustawienia-vpn.html">Optymalne ustawienia VPN</a> czy <a href="/blog/lista-bezpieczenstwa-wifi.html">Lista bezpieczeństwa Wi-Fi</a>. Dzięki temu Twoja ochrona będzie kompleksowa i skuteczna.
-    </p>
-
-    <h2>FAQ</h2>
-    <p><strong>Czy wyciek DNS oznacza, że mój VPN jest bezużyteczny?</strong><br>
-      Nie zawsze, ale wyciek DNS poważnie obniża poziom prywatności i anonimowości. Warto szybko zidentyfikować i naprawić problem.</p>
-    <p><strong>Jakie protokoły VPN najlepiej chronią przed wyciekami DNS?</strong><br>
-      OpenVPN, WireGuard i IKEv2 to protokoły, które zwykle dobrze radzą sobie z tunelowaniem zapytań DNS, pod warunkiem, że VPN ma odpowiednie zabezpieczenia.</p>
-    <p><strong>Czy mogę samodzielnie ustawić bezpieczne serwery DNS?</strong><br>
-      Tak, zmiana serwerów DNS w systemie lub routerze na publiczne, prywatnościowe DNS to dobry krok. Pamiętaj jednak, by VPN również obsługiwał takie ustawienia.</p>
-    <p><strong>Co zrobić, jeśli mój VPN nie ma ochrony przed wyciekami DNS?</strong><br>
-      Rozważ zmianę dostawcy VPN na takiego, który oferuje tę funkcję. Możesz też ręcznie konfigurować DNS i wyłączać IPv6, ale to rozwiązania mniej wygodne.</p>
-    <p><strong>Czy wyciek DNS może wystąpić na urządzeniach mobilnych?</strong><br>
-      Tak, smartfony i tablety także mogą mieć wycieki DNS, zwłaszcza jeśli korzystają z systemowych ustawień DNS lub VPN nie obsługuje ochrony na danym systemie.</p>
-
-    <section class="author-box">
-      <p>
-        Autor: <a href="/blog/co-to-jest-vpn.html">Zespół VPN World</a>.<br>
-        Ten artykuł jest częścią serii poradników o prywatności i bezpieczeństwie w sieci.
-      </p>
+        <div class="hero-media">
+          <div class="hero-art">
+            <img src="../assets/img/hero/vpn-dns-leak-uk.webp" alt="Ilustracja: wyciek DNS w VPN — wykrywanie i naprawa (2026)">
+          </div>
+        </div>
+      </div>
     </section>
 
-  </article>
+    <!-- CONTENT -->
+    <section class="section">
+      <div class="container article">
+        <!-- CONTENT_START -->
 
-  <!-- RELATED_START -->
-  <section class="related-guides" aria-label="Powiązane poradniki">
-    <h2>Powiązane poradniki</h2>
+<p>
+Wyciek DNS to jeden z najbardziej przeoczanych problemów związanych z używaniem VPN. Nawet jeśli szyfrujesz ruch i widzisz „połączono” w aplikacji, część metadanych może nadal wychodzić poza tunel.
+A to właśnie metadane potrafią zdradzić bardzo dużo: jakie domeny odwiedzasz, kiedy i jak często.
+Jeśli interesuje Cię szerszy kontekst, zacznij od podstaw w poradniku <a href="/blog/co-to-jest-vpn.html">co to jest VPN</a>, a potem wróć do testów z tego materiału.
+</p>
+
+<p>
+W tym artykule pokazuję praktyczny proces: najpierw rozumiesz, czym jest wyciek DNS, potem testujesz DNS/IPv6/WebRTC, a na końcu naprawiasz problem na Windows, macOS, Androidzie, iOS i routerze.
+Nie obiecuję „100% anonimowości”, bo jej nie ma — ale możesz znacząco ograniczyć ryzyko.
+Jeżeli często łączysz się z publicznymi hotspotami, zobacz też poradnik <a href="/blog/vpn-publiczne-wifi.html">VPN na publiczne Wi-Fi</a>, bo tam wycieki zdarzają się częściej.
+</p>
+
+<h2>Szybka odpowiedź: jak diagnozować wyciek DNS</h2>
+<ul>
+  <li>Wyciek DNS oznacza, że zapytania o domeny (np. google.com) wychodzą poza tunel VPN i mogą być widoczne dla ISP lub administratora sieci.</li>
+  <li>Najczęstsze przyczyny: błędna konfiguracja, split tunneling, brak ochrony DNS w aplikacji, reset interfejsu sieciowego, problemy z IPv6.</li>
+  <li>Test wykonasz w kilka minut: porównaj wyniki „bez VPN” i „z VPN” oraz sprawdź, czy widzisz DNS od dostawcy internetu.</li>
+  <li>Sprawdź również wycieki IPv6 i WebRTC — to inne mechanizmy, ale efekt może być podobny: ujawnienie IP/lokalizacji.</li>
+  <li>Po naprawie powtórz test po restarcie i po zmianie sieci (Wi-Fi ↔ hotspot), bo część wycieków jest „przerywana”.</li>
+</ul>
+<div class="key-takeaway"><strong>Key takeaway:</strong> VPN ma chronić warstwę sieciową, ale bez testów DNS/IPv6/WebRTC nie masz pewności, że w praktyce działa tak, jak myślisz.</div>
+
+<h2>Kiedy dochodzi do wycieku DNS i jak to rozpoznać?</h2>
+<p>
+DNS (Domain Name System) to „książka telefoniczna internetu”: zamienia nazwy domen na adresy IP.
+Gdy wszystko działa poprawnie, po połączeniu z VPN zapytania DNS powinny iść przez tunel (do DNS dostawcy VPN lub przez bezpieczną konfigurację w aplikacji).
+Wyciek DNS pojawia się wtedy, gdy system lub przeglądarka mimo VPN wysyła zapytania do DNS Twojego ISP lub innego serwera poza tunelem.
+</p>
+
+<p>
+Najczęstsze scenariusze:
+</p>
+<ul>
+  <li><strong>Split tunneling:</strong> część aplikacji omija VPN, czasem razem z DNS.</li>
+  <li><strong>Brak/źle działający kill switch:</strong> przy chwilowym rozłączeniu VPN system wraca do domyślnego DNS.</li>
+  <li><strong>Windows i wiele interfejsów:</strong> system potrafi „mieszać” rozwiązywanie nazw w zależności od priorytetów kart sieciowych.</li>
+  <li><strong>IPv6:</strong> jeśli VPN nie obsługuje IPv6, ruch IPv6 może ominąć tunel (czasem dotyczy to także DNS).</li>
+  <li><strong>Wymuszenia w sieciach:</strong> niektóre hotspoty i sieci firmowe próbują narzucić własny DNS lub przekierowania.</li>
+</ul>
+
+<p>
+Uwaga: wyciek DNS często jest niewidoczny dla użytkownika. Strony „działają normalnie”, a VPN wydaje się włączony.
+Dlatego w praktyce najważniejsze są testy. Jeżeli chcesz mieć spójny proces „co sprawdzić przed wejściem do sieci”, możesz połączyć ten poradnik z checklistą z artykułu <a href="/blog/optymalne-ustawienia-vpn.html">optymalne ustawienia VPN</a>.
+</p>
+
+<div class="key-takeaway"><strong>Key takeaway:</strong> Jeśli w teście DNS widzisz serwery dostawcy internetu mimo aktywnego VPN — prywatność jest naruszona, nawet jeśli IP wygląda „zagranicznie”.</div>
+
+<h2>Ograniczenia i przypadki szczególne: kiedy VPN nie wystarcza</h2>
+<p>
+VPN nie jest magiczną tarczą. Chroni głównie warstwę sieciową, ale istnieją edge cases, które potrafią „wybić dziurę” w ochronie:
+Do popularnych należą: split tunneling, WebRTC, brak obsługi IPv6 i zachowanie DNS w przeglądarce (np. DoH).
+Jeśli interesuje Cię „odkłamywanie” marketingu, sprawdź też <a href="/blog/mity-o-vpn.html">mity o VPN</a>.
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sytuacja</th>
+      <th>Opis zagrożenia</th>
+      <th>Potencjalny wyciek</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Brak wsparcia IPv6</td>
+      <td>VPN chroni tylko IPv4, a IPv6 idzie poza tunel.</td>
+      <td>Adres IPv6 ujawniony ISP</td>
+    </tr>
+    <tr>
+      <td>WebRTC w przeglądarce</td>
+      <td>Przeglądarka może ujawniać publiczny/lokalny adres IP w mechanizmach WebRTC.</td>
+      <td>Prawdziwy IP widoczny</td>
+    </tr>
+    <tr>
+      <td>Split tunneling</td>
+      <td>Część ruchu omija VPN (w tym zapytania DNS lub połączenia aplikacji).</td>
+      <td>DNS/połączenia poza tunelem</td>
+    </tr>
+    <tr>
+      <td>Publiczne Wi-Fi</td>
+      <td>Sieć może próbować wymusić własny DNS lub przekierowania.</td>
+      <td>DNS widoczny administratorowi sieci</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+W praktyce chodzi o to, żeby znać swoje „słabe punkty” i je kontrolować.
+Jeżeli głównym powodem używania VPN jest streaming, pamiętaj, że niektóre konfiguracje (np. split tunneling) są kuszące, ale zwiększają ryzyko wycieków.
+W takim przypadku zobacz <a href="/blog/vpn-streaming.html">VPN do streamingu</a> i stosuj testy z tego artykułu po każdej zmianie ustawień.
+</p>
+
+<div class="key-takeaway"><strong>Key takeaway:</strong> „VPN działa” nie oznacza „DNS jest szczelny”. Szczelność to wynik testu, nie wrażenie.</div>
+
+<h2>Jak testować wycieki DNS, IPv6 i WebRTC?</h2>
+<p>
+Najprostsza metoda to porównanie wyników przed i po włączeniu VPN. Zanim zaczniesz:
+wyłącz inne narzędzia sieciowe (proxy, drugi VPN, dziwne rozszerzenia), żeby nie wprowadzać szumu.
+Jeśli korzystasz z proxy do konkretnych zadań, zobacz <a href="/blog/proxy-vs-vpn.html">proxy vs VPN</a> — takie kombinacje potrafią generować nietypowe wycieki.
+</p>
+
+<ol>
+  <li><strong>Bez VPN:</strong> sprawdź swoje IP i zanotuj, jakie DNS są wykrywane (zwykle DNS ISP).</li>
+  <li><strong>Z VPN:</strong> połącz się, odśwież test i porównaj:
     <ul>
-      <li><a href="/blog/lista-bezpieczenstwa-wifi.html">/blog/lista-bezpieczenstwa-wifi.html</a></li>
-      <li><a href="/blog/vpn-publiczne-wifi.html">/blog/vpn-publiczne-wifi.html</a></li>
-      <li><a href="/blog/optymalne-ustawienia-vpn.html">/blog/optymalne-ustawienia-vpn.html</a></li>
-      <li><a href="/blog/protokoly-vpn.html">/blog/protokoly-vpn.html</a></li>
-      <li><a href="/blog/co-to-jest-vpn.html">/blog/co-to-jest-vpn.html</a></li>
+      <li>czy DNS należą do dostawcy VPN (lub bezpiecznej konfiguracji), a nie do ISP?</li>
+      <li>czy pojawia się Twój adres IPv6?</li>
+      <li>czy test WebRTC pokazuje realny/publiczny IP lub lokalne adresy, które zdradzają sieć?</li>
     </ul>
-  </section>
-  <!-- RELATED_END -->
+  </li>
+  <li><strong>Po restarcie:</strong> uruchom komputer/telefon ponownie i sprawdź jeszcze raz.</li>
+  <li><strong>Po zmianie sieci:</strong> Wi-Fi → hotspot → inne Wi-Fi (to często ujawnia „przerywane” wycieki).</li>
+</ol>
 
-</main>
+<table>
+  <thead>
+    <tr>
+      <th>Test</th>
+      <th>Prawidłowy wynik przez VPN</th>
+      <th>Zły wynik (wyciek)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>DNS</td>
+      <td>DNS operatora VPN / bezpiecznej konfiguracji</td>
+      <td>DNS od Twojego ISP</td>
+    </tr>
+    <tr>
+      <td>IPv6</td>
+      <td>Brak realnego IPv6 (jeśli VPN nie obsługuje) lub IPv6 „od VPN”</td>
+      <td>Widoczny Twój IPv6</td>
+    </tr>
+    <tr>
+      <td>WebRTC</td>
+      <td>Brak realnego publicznego IP w wynikach</td>
+      <td>Twój prawdziwy IP/lokalne IP zdradzające sieć</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- DIAGRAM (PL) -->
+<div class="technical-diagram" style="margin: 25px 0; text-align: center;">
+  <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg" style="max-width: 100%; height: auto; background: #ffffff; border: 1px solid #e1e8ed; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+    <rect x="10" y="10" width="220" height="260" rx="10" fill="#f8fbff" />
+    <rect x="570" y="10" width="220" height="260" rx="10" fill="#fff9f9" />
+    
+    <text x="120" y="35" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#2c3e50">Twoje Urządzenie</text>
+    <text x="680" y="35" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#c0392b">Internet / Dostawca (ISP)</text>
+
+    <rect x="85" y="120" width="70" height="50" rx="4" fill="#3498db" />
+    <rect x="100" y="170" width="40" height="4" fill="#2980b9" />
+
+    <path d="M 160 145 L 640 145" stroke="#3498db" stroke-width="35" stroke-linecap="round" opacity="0.1" />
+    <text x="400" y="130" font-family="Arial, sans-serif" font-size="12" font-style="italic" text-anchor="middle" fill="#2980b9">Szyfrowany tunel VPN (Bezpieczny)</text>
+
+    <defs>
+      <marker id="arrow-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+        <path d="M0,0 L8,4 L0,8 Z" fill="#27ae60" />
+      </marker>
+      <marker id="arrow-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+        <path d="M0,0 L8,4 L0,8 Z" fill="#e74c3c" />
+      </marker>
+    </defs>
+
+    <path d="M 160 150 L 635 150" stroke="#27ae60" stroke-width="2.5" fill="none" marker-end="url(#arrow-g)" />
+    <text x="400" y="168" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#27ae60">Chronione zapytanie DNS</text>
+
+    <path d="M 160 135 C 250 50, 500 50, 650 115" stroke="#e74c3c" stroke-width="2.5" stroke-dasharray="6,4" fill="none" marker-end="url(#arrow-r)" />
+    <text x="400" y="55" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#e74c3c">WYCIEK DNS!</text>
+
+    <rect x="640" y="120" width="80" height="90" rx="6" fill="#e74c3c" />
+    <rect x="655" y="135" width="50" height="8" rx="2" fill="#c0392b" />
+    <rect x="655" y="150" width="50" height="8" rx="2" fill="#c0392b" />
+    <text x="680" y="195" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="white">Logi Dostawcy</text>
+  </svg>
+  <p style="font-family: Arial, sans-serif; font-size: 13px; color: #607d8b; margin-top: 10px;">
+    <i>Rys 1. Wizualizacja zapytania DNS omijającego tunel VPN.</i>
+  </p>
+</div>
+
+<div class="key-takeaway"><strong>Key takeaway:</strong> Testy to nie „raz na zawsze”. Rób je po aktualizacjach i po zmianie sieci — wtedy najczęściej wychodzą wycieki.</div>
+
+<h2>Rozwiązania: jak naprawić wycieki DNS na różnych platformach</h2>
+<p>
+Naprawa wycieku DNS zależy od systemu i od tego, jak działa klient VPN. Jeśli używasz funkcji typu kill switch, zobacz też osobny poradnik <a href="/blog/vpn-kill-switch.html">VPN kill switch</a> — to jeden z kluczowych elementów, który ogranicza wycieki przy rozłączeniach.
+</p>
+
+<h3>Windows</h3>
+<ul>
+  <li>Włącz w aplikacji VPN „DNS leak protection” oraz <em>kill switch</em>.</li>
+  <li>Usuń niestandardowe wpisy DNS na karcie sieciowej (jeśli nie wiesz po co je masz) i pozwól VPN zarządzać DNS.</li>
+  <li>Jeśli VPN nie obsługuje IPv6, rozważ wyłączenie IPv6 w ustawieniach karty sieciowej.</li>
+  <li>Po zmianach: rozłącz/połącz VPN i wykonaj test DNS jeszcze raz.</li>
+</ul>
+<p>
+Jeżeli konfigurujesz VPN ręcznie, przyda Ci się poradnik <a href="/blog/vpn-konfiguracja-windows.html">konfiguracja VPN na Windows</a>, bo w Windows najłatwiej o konflikty priorytetów interfejsów.
+</p>
+
+<h3>macOS</h3>
+<ul>
+  <li>Sprawdź, czy VPN ma opcję ochrony DNS i czy jest włączona.</li>
+  <li>Unikaj „ręcznych” zmian DNS w systemie, jeśli nie są potrzebne (mogą omijać polityki VPN).</li>
+  <li>Jeśli występuje wyciek IPv6, wyłącz IPv6 lub użyj VPN, który poprawnie go obsługuje.</li>
+</ul>
+<p>
+Jeżeli często pracujesz zdalnie, a VPN jest elementem bezpieczeństwa firmy, zobacz też <a href="/blog/vpn-praca-zdalna.html">VPN do pracy zdalnej</a> — tam ważne są stałe reguły i powtarzalne testy.
+</p>
+
+<h3>Android</h3>
+<ul>
+  <li>Włącz „Zawsze aktywny VPN” oraz „Blokuj połączenia bez VPN” (jeśli dostępne).</li>
+  <li>Wyłącz split tunneling, jeśli nie masz konkretnego powodu, by go używać.</li>
+  <li>Po zmianie Wi-Fi/komórkowej transmisji danych wykonaj ponownie test DNS.</li>
+</ul>
+<p>
+Jeśli dopiero wybierasz aplikację, zacznij od porównania w poradniku <a href="/blog/najlepszy-darmowy-vpn.html">najlepszy darmowy VPN</a>, ale pamiętaj: darmowe VPN-y częściej mają słabą ochronę DNS (albo jej brak).
+</p>
+
+<h3>iOS</h3>
+<ul>
+  <li>Używaj aplikacji VPN z solidną ochroną DNS i trybem „blokuj poza VPN” (jeśli jest wspierany).</li>
+  <li>Jeśli VPN rozłącza się w tle, traktuj to jak ryzyko wycieku — testuj po dłuższej przerwie.</li>
+  <li>Unikaj podejrzanych profili VPN wymagających dziwnych zmian w DNS.</li>
+</ul>
+<p>
+Jeśli konfigurujesz iPhone ręcznie, zajrzyj do <a href="/blog/vpn-konfiguracja-iphone.html">konfiguracja VPN na iPhone</a>.
+</p>
+
+<h3>Router</h3>
+<ul>
+  <li>Ustaw VPN na routerze i skonfiguruj DNS w panelu routera na stałe.</li>
+  <li>W DHCP wymuś DNS, aby urządzenia w sieci lokalnej nie korzystały z DNS ISP.</li>
+  <li>Jeśli VPN nie wspiera IPv6 — wyłącz IPv6 na routerze.</li>
+</ul>
+<p>
+Router jest świetny, jeśli chcesz chronić też Smart TV i konsole. Wtedy warto czytać razem z poradnikiem <a href="/blog/vpn-konfiguracja-routera.html">konfiguracja VPN na routerze</a>.
+</p>
+
+<div class="key-takeaway"><strong>Key takeaway:</strong> Najlepszy efekt daje zestaw: ochrona DNS + kill switch + kontrola IPv6 + testy po zmianach (aktualizacja, sieć, restart).</div>
+
+<h2>Checklist przed użyciem VPN: zapobiegaj wyciekom na bieżąco</h2>
+<ul>
+  <li>Włącz ochronę DNS i kill switch w aplikacji VPN.</li>
+  <li>Jeśli VPN nie obsługuje IPv6, wyłącz IPv6 (system/router).</li>
+  <li>Unikaj split tunneling bez wyraźnej potrzeby.</li>
+  <li>Połącz VPN zanim otworzysz przeglądarkę i aplikacje wymagające prywatności.</li>
+  <li>Testuj DNS/IPv6/WebRTC po aktualizacji systemu i po zmianie sieci.</li>
+  <li>Jeśli zależy Ci na wydajności, wykonaj okresowo <a href="/blog/test-predkosci-vpn.html">test prędkości VPN</a>, bo przeciążone serwery mogą powodować niestabilność i rozłączenia.</li>
+</ul>
+<div class="key-takeaway"><strong>Key takeaway:</strong> Stabilność połączenia VPN jest częścią bezpieczeństwa: mniej rozłączeń = mniejsze ryzyko wycieków.</div>
+
+<h2>FAQ: Często zadawane pytania o wyciek DNS przez VPN</h2>
+<dl>
+  <dt>Czy każdy VPN chroni przed wyciekiem DNS?</dt>
+  <dd>Nie. Tylko te usługi, które poprawnie przekierowują zapytania DNS do własnych serwerów i mają ochronę DNS leak protection oraz działający kill switch.</dd>
+
+  <dt>Jak sprawdzić, czy mam wyciek DNS?</dt>
+  <dd>Wykonaj test DNS w przeglądarce po połączeniu z VPN i zobacz, czy wykrywane DNS należą do VPN, czy do Twojego ISP.</dd>
+
+  <dt>Czy wyciek WebRTC i DNS to to samo?</dt>
+  <dd>Nie. WebRTC może ujawniać IP niezależnie od DNS. Dlatego testuj DNS, IPv6 i WebRTC osobno.</dd>
+
+  <dt>Czy zmiana serwera DNS na Google lub Cloudflare pomaga?</dt>
+  <dd>Nie zawsze. Jeśli DNS omija tunel VPN, to nadal będzie widoczny — niezależnie od tego, czy używasz Google/Cloudflare.</dd>
+
+  <dt>Czy wyciek DNS może ujawnić moje strony i lokalizację?</dt>
+  <dd>Tak. Zapytania DNS zdradzają, jakie domeny odwiedzasz, a często pośrednio również lokalizację i profil aktywności.</dd>
+
+  <dt>Co zrobić, jeśli aplikacja VPN nie oferuje ochrony DNS?</dt>
+  <dd>Możesz próbować wymusić DNS na poziomie systemu/routera, ale najpewniejszą opcją jest zmiana VPN na usługę z natywną ochroną DNS i kill switchem.</dd>
+
+  <dt>Dlaczego wycieki DNS zdarzają się częściej w publicznych Wi-Fi?</dt>
+  <dd>Bo takie sieci często stosują własne reguły DNS, przekierowania i ograniczenia. Jeśli VPN jest niestabilny, łatwiej o rozłączenie i fallback do DNS ISP.</dd>
+
+  <dt>Czy wyciek IPv6 jest groźny?</dt>
+  <dd>Tak. Jeśli widoczny jest Twój realny IPv6, to część ruchu może omijać VPN. W takiej sytuacji wyłącz IPv6 lub użyj VPN z poprawną obsługą IPv6.</dd>
+
+  <dt>Jak zabezpieczyć router przed wyciekiem DNS?</dt>
+  <dd>Wymuś DNS w routerze (DHCP) i, jeśli to możliwe, blokuj DNS poza interfejsem VPN. Po zmianach zawsze wykonaj test DNS.</dd>
+
+  <dt>Czy aktualizacje systemu mogą wpływać na wycieki DNS?</dt>
+  <dd>Tak. Aktualizacje mogą resetować ustawienia sieci, zmieniać priorytety kart lub włączać nowe funkcje DNS w przeglądarce. Po aktualizacji zrób szybki test DNS/IPv6/WebRTC.</dd>
+</dl>
+<div class="key-takeaway"><strong>Key takeaway:</strong> Najlepsza strategia to nawyk: test po aktualizacji + test po zmianie sieci. To realnie łapie większość wycieków.</div>
+
+<h2>Podsumowanie: jak podejść do wycieków DNS „po ludzku”</h2>
+<p>
+Jeśli chcesz prostego planu: włącz ochronę DNS i kill switch, kontroluj IPv6, unikaj split tunneling, a potem testuj po zmianach.
+To nie jest „paranoja”, tylko higiena. Wyciek DNS nie musi oznaczać, że VPN jest zły — czasem to konflikt ustawień lub zachowanie systemu.
+Ale bez testu nie odróżnisz „jest okej” od „wycieka od tygodnia”.
+</p>
+<p>
+Jeżeli zależy Ci na stabilnej konfiguracji (np. do pracy, bankowości czy publicznych hotspotów), rozważ VPN na routerze i spójne ustawienia na wszystkich urządzeniach.
+A jeśli dopiero wybierasz usługę, pamiętaj, że sama obietnica „no-logs” nie wystarczy: liczy się realne zachowanie DNS w tunelu i powtarzalne wyniki testów.
+</p>
+<div class="key-takeaway"><strong>Key takeaway:</strong> VPN to warstwa prywatności — ale szczelność DNS/IPv6/WebRTC trzeba potwierdzić testem i utrzymać przez dobre ustawienia.</div>
+
+        <!-- CONTENT_END -->
+      </div>
+    </section>
+
+<section class="section section-alt">
+  <div class="container">
+    <h2>Krótkie wideo: prywatność z VPN w prostych słowach</h2>
+
+    <p class="note">
+      <strong>Key takeaway:</strong>
+      główne zadanie VPN to rozdzielić <strong>kim jesteś</strong> (IP, ISP) od <strong>tego, co robisz</strong> (jakie strony otwierasz).
+      Dobra polityka „brak logów” pomaga ograniczyć możliwość powiązania aktywności z użytkownikiem w przyszłości.
+    </p>
+
+    <div class="video-wrap">
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&modestbranding=1"
+        title="VPN World — wideo"
+        loading="lazy"
+        frameborder="0"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen></iframe>
+    </div>
+
+    <p>
+      Jeśli odtwarzacz nie działa, obejrzyj na YouTube:
+      <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a>.
+    </p>
+  </div>
+</section>
+
+    <!-- RELATED_START -->
+
+    <!-- RELATED_END -->
+
+<section class="section">
+  <div class="container">
+    <div class="author-box">
+      <img src="../assets/img/author/denys-shchur.webp" alt="Portret Denys Shchur" class="author-avatar">
+      <div>
+        <h3>O autorze</h3>
+        <p>
+          <strong><a href="/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a></strong>
+          jest twórcą VPN World i koncentruje się na praktycznych, testowych poradnikach o VPN, prywatności w sieci oraz bezpiecznej pracy zdalnej.
+          Spędza zdecydowanie za dużo czasu na testach i sprawdzaniu wycieków DNS — żebyś Ty nie musiał.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <section class="section">
+      <div class="container article">
+        <div class="cta-box" aria-label="Polecane VPN">
+          <h2>Polecane VPN</h2>
+          <p class="cta-note">Linki partnerskie (nofollow/sponsored).</p>
+          <div class="cta-buttons" aria-label="Oferty partnerskie">
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Wypróbuj NordVPN — audytowana polityka braku logów</a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Wypróbuj Surfshark — serwery RAM-only</a>
+          </div>
+          <p class="human-note">Informacja: VPN World może otrzymać prowizję, jeśli wykupisz abonament przez te linki — bez zmiany ceny dla Ciebie.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
 
 <footer class="site-footer">
-  <div class="container footer-grid">
-    <div><strong>VPN World</strong><p>Niezależny serwis o prywatności i bezpieczeństwie w sieci.</p></div>
-    <nav><a href="/privacy.html">Privacy</a> <a href="/sitemap.xml">Sitemap</a> <a href="mailto:denger88@gmail.com">Kontakt</a></nav>
+  <div class="container">
+    <p><strong>VPN World</strong> · Niezależny serwis o prywatności, bezpieczeństwie i praktycznym korzystaniu z VPN.</p>
+    <p>
+      <a href="/privacy.html">Prywatność</a> ·
+      <a href="/disclosure.html">Ujawnienie współpracy</a> ·
+      <a href="mailto:u1797008805@gmail.com">Kontakt</a>
+    </p>
+    <p>© 2026 VPN World</p>
   </div>
-  <div class="container tiny">© 2025 VPN World</div>
 </footer>
 
-<script src="/assets/js/main.js"></script>
-<script src="/assets/js/cookie-consent.js"></script>
-<div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
-  <p>Analityka jest wyłączona domyślnie. Możesz zaakceptować lub odrzucić analitykę.</p>
-  <div class="cookie-actions">
-    <button type="button" class="btn btn-compact" onclick="acceptConsent()">Akceptuję</button>
-    <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Odrzucam</button>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/cookie-consent.js"></script>
+
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
+    <p>Analityka jest domyślnie wyłączona. Możesz zaakceptować lub odrzucić pliki cookie analityczne.</p>
+    <div class="cookie-actions">
+      <button type="button" class="btn btn-compact" onclick="acceptConsent()">Akceptuj</button>
+      <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Odrzuć</button>
+    </div>
   </div>
-</div>
 
 </body>
 </html>
+
+<!-- PAGE: https://dloran1.github.io/blog/wyciek-dns-vpn.html -->
