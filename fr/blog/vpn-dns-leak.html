@@ -138,7 +138,7 @@
 
   <!-- JSON-LD (Stage 2.5): Article + FAQPage + BreadcrumbList + ItemList -->
   <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://dloran1.github.io/fr/blog/vpn-dns-leak.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/fr/blog/vpn-dns-leak.html"},"headline":"Fuite DNS avec un VPN : détection et solutions (2026)","description":"Guide pratique 2026 : qu’est-ce qu’une fuite DNS avec un VPN, comment tester DNS/IPv6/WebRTC et corriger les fuites sur Windows, macOS, Android, iOS et routeurs — avec des limites réalistes.","image":"https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp","inLanguage":"fr","datePublished":"2026-01-06","dateModified":"2026-01-06","author":{"@type":"Person","name":"Denys Shchur","url":"https://dloran1.github.io/fr/about-denys-shchur.html"},"publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://dloran1.github.io/fr/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/fr/blog/"},{"@type":"ListItem","position":3,"name":"Fuite DNS avec un VPN : détection et solutions (2026)","item":"https://dloran1.github.io/fr/blog/vpn-dns-leak.html"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does “no-logs” mean for a VPN?","acceptedAnswer":{"@type":"Answer","text":"In practice, it means the provider does not retain identifiable activity logs (like browsing history, DNS requests, or source IP + timestamp pairs) that could be used to link your online actions to you later. Some aggregated operational data may still exist."}},{"@type":"Question","name":"How can I verify a VPN’s privacy claims?","acceptedAnswer":{"@type":"Answer","text":"Look for independent audits with clear scope and dates, transparent policy wording, and credible operational signals. Then run your own DNS/IPv6/WebRTC leak tests to confirm traffic stays inside the VPN tunnel."}},{"@type":"Question","name":"Does a VPN make you anonymous?","acceptedAnswer":{"@type":"Answer","text":"Not fully. A VPN helps protect the network layer, but logins, cookies, fingerprinting, and app identifiers can still link activity to you. Treat a VPN as one strong privacy layer, not complete anonymity."}}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://dloran1.github.io/fr/blog/vpn-dns-leak.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/fr/blog/vpn-dns-leak.html"},"headline":"Fuite DNS avec un VPN : détection et solutions (2026)","description":"Guide pratique 2026 : qu’est-ce qu’une fuite DNS avec un VPN, comment tester DNS/IPv6/WebRTC et corriger les fuites sur Windows, macOS, Android, iOS et routeurs — avec des limites réalistes.","image":"https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp","inLanguage":"fr","datePublished":"2026-01-06","dateModified":"2026-01-06","author":{"@type":"Person","name":"Denys Shchur","url":"https://dloran1.github.io/fr/about-denys-shchur.html"},"publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://dloran1.github.io/fr/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/fr/blog/"},{"@type":"ListItem","position":3,"name":"Fuite DNS avec un VPN : détection et solutions (2026)","item":"https://dloran1.github.io/fr/blog/vpn-dns-leak.html"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Qu’est-ce qu’une fuite DNS exactement ?","acceptedAnswer":{"@type":"Answer","text":"Une fuite DNS se produit lorsque les requêtes DNS ne passent pas par le tunnel chiffré du VPN et partent vers le DNS du FAI (ou un autre resolver externe). Votre FAI peut alors déduire les sites que vous consultez, même si votre trafic web reste chiffré via HTTPS."}},{"@type":"Question","name":"Comment tester rapidement DNS, IPv6 et WebRTC ?","acceptedAnswer":{"@type":"Answer","text":"Testez le DNS (standard puis étendu) pendant que le VPN est actif, vérifiez ensuite l’IPv6 (adresse réelle visible ou non), puis contrôlez WebRTC dans le navigateur. Comparez les résultats avec et sans VPN : seuls les serveurs DNS du VPN (ou ceux que vous avez définis) doivent apparaître."}},{"@type":"Question","name":"Un kill switch suffit-il pour éviter les fuites ?","acceptedAnswer":{"@type":"Answer","text":"Le kill switch réduit fortement le risque lors d’une coupure du VPN, mais il ne corrige pas toutes les causes (IPv6 non géré, DNS imposé par un logiciel tiers, bascule réseau). L’approche fiable est : kill switch + DNS correct + gestion/ blocage IPv6 + re-tests réguliers."}}]}]}
   </script>
 </head>
 
@@ -169,42 +169,42 @@
           <h1>Fuite DNS avec un VPN : détection et solutions (2026)</h1>
 
           <p class="note">
-            <strong>Quick answer:</strong>
+            <strong>Réponse rapide :</strong>
             Guide pratique 2026 : qu’est-ce qu’une fuite DNS avec un VPN, comment tester DNS/IPv6/WebRTC et corriger les fuites sur Windows, macOS, Android, iOS et routeurs — avec des limites réalistes.
           </p>
 
           <p>
-            This guide focuses on practical, test-driven checks and realistic limitations — not marketing slogans.
-            Use it as a checklist you can apply on your own devices.
+            Ce guide privilégie des vérifications concrètes, basées sur des tests, et des limites réalistes — pas des slogans marketing.
+            Utilisez-le comme une checklist à appliquer sur vos appareils.
           </p>
 
           <div class="hero-author">
             <img src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur – author of VPN World">
             <div class="hero-author-text">
-              <span class="hero-author-label">Written by</span>
+              <span class="hero-author-label">Écrit par</span>
               <span class="hero-author-name">
                 <a href="/fr/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a>
               </span>
-              <span class="meta">Updated: 2026-01-06 · 12–18 min read</span>
+              <span class="meta">Mis à jour : 2026-01-06 · 12–18 min de lecture</span>
             </div>
           </div>
 
           <!-- Early CTA block -->
 <div class="cta-buttons" aria-label="Affiliate offers">
-  <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Try NordVPN — audited no-logs policy</a>
-  <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Try Surfshark — RAM-only servers</a>
+  <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer NordVPN — politique no-logs auditée</a>
+  <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer Surfshark — serveurs RAM-only</a>
 </div>
 
           <ul class="meta-points">
-            <li>Clear definitions (what matters, what doesn’t)</li>
-            <li>Practical tests you can run today</li>
-            <li>Fixes and realistic privacy limits</li>
+            <li>Définitions claires (ce qui compte, ce qui ne compte pas)</li>
+            <li>Tests pratiques à faire tout de suite</li>
+            <li>Correctifs et limites réalistes de confidentialité</li>
           </ul>
         </div>
 
         <div class="hero-media">
           <div class="hero-art">
-            <img src="../../assets/img/hero/vpn-dns-leak-uk.webp" alt="Abstract illustration for Fuite DNS avec un VPN : détection et solutions (2026)">
+            <img src="../../assets/img/hero/vpn-dns-leak-uk.webp" alt="Illustration abstraite pour Fuite DNS avec un VPN : détection et solutions (2026)">
           </div>
         </div>
       </div>
@@ -218,11 +218,11 @@
 L’utilisation d’un VPN est devenue quasi incontournable pour préserver sa confidentialité et accéder à un internet moins filtré. Pourtant, même avec un VPN activé, il existe un risque souvent méconnu : la fuite DNS. Si elle survient, votre activité en ligne peut être exposée à votre fournisseur d’accès ou à des tiers, malgré toutes vos précautions.
 </p>
 <p>
-Dans cet article, nous allons détailler ce qu’est une fuite DNS, pourquoi elle se produit, comment la détecter rapidement, et surtout comment la corriger selon votre appareil. En 2026, avec la montée en flèche de l’usage des VPN et des technologies réseau, il est essentiel d’aller au-delà des basics pour assurer une protection efficace.
+Dans cet article, nous allons détailler ce qu’est une fuite DNS, pourquoi elle se produit, comment la détecter rapidement, et surtout comment la corriger selon votre appareil. En 2026, avec la montée en flèche de l’usage des VPN et des technologies réseau, il est essentiel d’aller au-delà des bases pour assurer une protection efficace.
 </p>
 
 <section class="internal-links" aria-label="Recommended reading">
-  <h2>Recommended reading</h2>
+  <h2>Lectures recommandées</h2>
   <ul>
     <li><a href="/fr/blog/best-vpn-gratuit.html">Best vpn gratuit</a></li>
     <li><a href="/fr/blog/blocages-geographiques-vpn.html">Blocages geographiques vpn</a></li>
@@ -231,8 +231,6 @@ Dans cet article, nous allons détailler ce qu’est une fuite DNS, pourquoi ell
     <li><a href="/fr/blog/configuration-vpn-routeur.html">Configuration vpn routeur</a></li>
   </ul>
 </section>
-
-
 
 <h2>Réponse rapide : Que faire face aux fuites DNS ?</h2>
 <ul>
@@ -247,7 +245,7 @@ Dans cet article, nous allons détailler ce qu’est une fuite DNS, pourquoi ell
 <h2>Quand et pourquoi une fuite DNS se produit-elle ?</h2>
 <p>
 Une fuite DNS survient quand, malgré l’utilisation d’un VPN, les demandes de résolution DNS (traduction des sites web en adresses IP) ne passent pas par les serveurs DNS sécurisés du VPN, mais par ceux par défaut du fournisseur internet. Cela expose potentiellement votre historique de navigation à des tiers. Cette faiblesse peut se produire :
-</div>
+</p>
 <ul>
   <li>Lorsqu’un VPN ne redirige pas correctement le trafic DNS (problème logiciel ou configuration incomplète)</li>
   <li>En cas de bascule réseau (changement Wi-Fi, extinction, ou coupure momentanée du VPN)</li>
@@ -257,7 +255,7 @@ Une fuite DNS survient quand, malgré l’utilisation d’un VPN, les demandes d
 </ul>
 <p>
 Les conséquences peuvent aller de la compromission de votre anonymat à la censure de contenus ou au blocage géographique.
-</div>
+</p>
 <table>
   <caption>Comparatif des risques par source de fuite</caption>
   <thead>
@@ -270,7 +268,7 @@ Les conséquences peuvent aller de la compromission de votre anonymat à la cens
   <tbody>
     <tr>
       <td>VPN mal configuré</td>
-      <td>Exposition IP & activité web</td>
+      <td>Exposition IP &amp; activité web</td>
       <td>Windows, Android</td>
     </tr>
     <tr>
@@ -295,13 +293,13 @@ Les conséquences peuvent aller de la compromission de votre anonymat à la cens
 <h2>Limites, cas particuliers et zones grises</h2>
 <p>
 Aucune solution VPN n’est infaillible, particulièrement face à la complexité de certaines configurations réseau et des systèmes d’exploitation modernes. Voici quelques scénarios où les fuites DNS persistent ou réapparaissent malgré un VPN activé :
-</div>
+</p>
 <ul>
   <li>
     <strong>Utilisation de serveurs DNS tiers :</strong> Certains logiciels antivirus, extensions navigateur ou applications réseau tentent d’imposer leur propre DNS.
   </li>
   <li>
-    <strong>Multi-connectivité :</strong> Lorsqu’un appareil est connecté à la fois en Wi‑Fi et Ethernet (ou 4G), les requêtes dysfonctionnent plus facilement.
+    <strong>Multi-connectivité :</strong> Lorsqu’un appareil est connecté à la fois en Wi-Fi et Ethernet (ou 4G), les requêtes dysfonctionnent plus facilement.
   </li>
   <li>
     <strong>IPv6 pas bloqué par le VPN :</strong> Si votre VPN n’intercepte pas le trafic IPv6, celui-ci peut révéler votre identité.
@@ -310,7 +308,7 @@ Aucune solution VPN n’est infaillible, particulièrement face à la complexit�
     <strong>Mise à jour système ou VPN :</strong> Une mise à jour logicielle peut réinitialiser des paramètres sensibles sans avertissement.
   </li>
   <li>
-    <strong>Compatibilité routeur limitée :</strong> Les firmware propriétaires des routeurs empêchent parfois la reconfiguration DNS côté VPN.
+    <strong>Compatibilité routeur limitée :</strong> Les firmwares propriétaires des routeurs empêchent parfois la reconfiguration DNS côté VPN.
   </li>
 </ul>
 <table>
@@ -326,7 +324,7 @@ Aucune solution VPN n’est infaillible, particulièrement face à la complexit�
     <tr>
       <td>DNS imposé par un antivirus</td>
       <td>BitDefender force l’usage de ses DNS</td>
-      <td>Désactiver DNS interne de l’antivirus</td>
+      <td>Désactiver le DNS interne de l’antivirus</td>
     </tr>
     <tr>
       <td>Application réseau conflictuelle</td>
@@ -335,8 +333,8 @@ Aucune solution VPN n’est infaillible, particulièrement face à la complexit�
     </tr>
     <tr>
       <td>DNS sur IPv6 seulement</td>
-      <td>La box n’autorise pas de modifier IPv6 DNS</td>
-      <td>Désactiver IPv6 ou bloquer via firewall</td>
+      <td>La box n’autorise pas de modifier les DNS IPv6</td>
+      <td>Désactiver IPv6 ou bloquer via pare-feu</td>
     </tr>
   </tbody>
 </table>
@@ -345,7 +343,7 @@ Aucune solution VPN n’est infaillible, particulièrement face à la complexit�
 <h2>Comment tester une fuite DNS, IPv6 et WebRTC</h2>
 <p>
 Pour être certain qu’aucune fuite DNS n’expose votre activité, il est impératif de réaliser plusieurs tests, notamment pour le DNS, l’IPv6 et WebRTC :
-</div>
+</p>
 <ul>
   <li>
     <strong>Test DNS classique :</strong> Rendez-vous sur un site spécialisé de test DNS (ex. dnsleaktest). Lancez le test standard et notez les adresses IP et noms de serveurs affichés.
@@ -357,15 +355,55 @@ Pour être certain qu’aucune fuite DNS n’expose votre activité, il est imp�
     <strong>Test WebRTC (pour navigateurs) :</strong> Sur Firefox, Chrome, Edge ou Safari, vérifiez si votre IP publique et vos serveurs DNS sont visibles lors d'un test WebRTC.
   </li>
 </ul>
+
+<div class="technical-diagram" style="margin: 25px 0; text-align: center;">
+  <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg" style="max-width: 100%; height: auto; background: #ffffff; border: 1px solid #e1e8ed; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+    <rect x="10" y="10" width="220" height="260" rx="10" fill="#f8fbff" />
+    <rect x="570" y="10" width="220" height="260" rx="10" fill="#fff9f9" />
+    
+    <text x="120" y="35" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#2c3e50">Votre Appareil</text>
+    <text x="680" y="35" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#c0392b">Internet / FAI</text>
+
+    <rect x="85" y="120" width="70" height="50" rx="4" fill="#3498db" />
+    <rect x="100" y="170" width="40" height="4" fill="#2980b9" />
+
+    <path d="M 160 145 L 640 145" stroke="#3498db" stroke-width="35" stroke-linecap="round" opacity="0.1" />
+    <text x="400" y="130" font-family="Arial, sans-serif" font-size="12" font-style="italic" text-anchor="middle" fill="#2980b9">Tunnel Chiffré VPN (Sécurisé)</text>
+
+    <defs>
+      <marker id="arrow-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+        <path d="M0,0 L8,4 L0,8 Z" fill="#27ae60" />
+      </marker>
+      <marker id="arrow-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+        <path d="M0,0 L8,4 L0,8 Z" fill="#e74c3c" />
+      </marker>
+    </defs>
+
+    <path d="M 160 150 L 635 150" stroke="#27ae60" stroke-width="2.5" fill="none" marker-end="url(#arrow-g)" />
+    <text x="400" y="168" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#27ae60">Requête DNS Chiffrée</text>
+
+    <path d="M 160 135 C 250 50, 500 50, 650 115" stroke="#e74c3c" stroke-width="2.5" stroke-dasharray="6,4" fill="none" marker-end="url(#arrow-r)" />
+    <text x="400" y="55" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#e74c3c">FUITE DNS !</text>
+
+    <rect x="640" y="120" width="80" height="90" rx="6" fill="#e74c3c" />
+    <rect x="655" y="135" width="50" height="8" rx="2" fill="#c0392b" />
+    <rect x="655" y="150" width="50" height="8" rx="2" fill="#c0392b" />
+    <text x="680" y="195" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="white">Log du FAI</text>
+  </svg>
+  <p style="font-family: Arial, sans-serif; font-size: 13px; color: #607d8b; margin-top: 10px;">
+    <i>Fig 1. Visualisation d'une requête DNS échappant au tunnel VPN.</i>
+  </p>
+</div>
+
 <p>
 Comparez toujours les résultats <strong>avant</strong> et <strong>après</strong> activation du VPN. Si le VPN fonctionne, seuls les serveurs DNS du VPN (et non du FAI) doivent apparaître, pareil pour l’IP.
-</div>
+</p>
 <div class="key-takeaway"><strong>Key takeaway:</strong> Tester régulièrement via plusieurs méthodes (DNS, IPv6 et WebRTC) expose les faiblesses cachées d’une installation VPN et garantit l’efficacité des paramètres appliqués.</div>
 
 <h2>Comment corriger une fuite DNS selon sa plateforme</h2>
 <p>
 La correction d’une fuite dépend du système utilisé. Voici les solutions les plus efficaces pour chaque plateforme majeure, à appliquer dès qu’une fuite est détectée ou à titre préventif.
-</div>
+</p>
 
 <h3>Windows</h3>
 <ul>
@@ -391,7 +429,7 @@ La correction d’une fuite dépend du système utilisé. Voici les solutions le
 <h3>iOS</h3>
 <ul>
   <li>Vérifier que le profil VPN est bien actif (paramètre « Connect on Demand »).</li>
-  <li>Rebooter si des résultats suspects persistent après modification du profil VPN.</li>
+  <li>Redémarrer si des résultats suspects persistent après modification du profil VPN.</li>
   <li>Éviter les applications réseaux imposant leur DNS tant que vous êtes sous VPN.</li>
 </ul>
 
@@ -406,7 +444,7 @@ La correction d’une fuite dépend du système utilisé. Voici les solutions le
 <h2>Checklist de dépannage en cas de fuite persistante</h2>
 <p>
 Face à une fuite DNS tenace, il convient de suivre ces étapes :
-</div>
+</p>
 <ol>
   <li>Redémarrer l’appareil afin d’effacer les caches DNS et réseau.</li>
   <li>Tester le VPN sur un autre appareil pour localiser l’origine du dysfonctionnement.</li>
@@ -418,7 +456,7 @@ Face à une fuite DNS tenace, il convient de suivre ces étapes :
 </ol>
 <p>
 Après chaque étape, répétez les tests DNS/IPv6/WebRTC pour suivre l’évolution. En cas de doute, consultez la documentation du fournisseur VPN ou contactez le support technique avec vos résultats de test.
-</div>
+</p>
 <div class="key-takeaway"><strong>Key takeaway:</strong> La résolution d’une fuite DNS demande méthode et persévérance ; documentez chaque étape afin d’isoler la cause réelle et d’éviter les mêmes erreurs à l’avenir.</div>
 
 <h2>FAQ sur les fuites DNS avec un VPN</h2>
@@ -463,25 +501,32 @@ Après chaque étape, répétez les tests DNS/IPv6/WebRTC pour suivre l’évolu
 
 <h2>Conclusion</h2>
 <p>
-En 2026, les avancées techn
+En 2026, les avancées technologiques (IPv6, DNS chiffré, navigateurs plus complexes) rendent la confidentialité plus difficile à garantir « par défaut ». Une fuite DNS n’est pas un détail : elle peut suffire à révéler les sites que vous consultez, vos habitudes, et parfois votre localisation, même si le reste du trafic est chiffré.
+</p>
+<p>
+La meilleure stratégie est simple et reproductible : activez les protections du client VPN (dont le kill switch), vérifiez la gestion d’IPv6, contrôlez WebRTC côté navigateur, puis testez régulièrement après chaque mise à jour système et à chaque changement de réseau. Si votre configuration est instable, passer le VPN au niveau du routeur reste souvent l’option la plus « propre » : un point unique de contrôle pour tout le foyer.
+</p>
+<p>
+Enfin, gardez une règle d’or : une configuration VPN est fiable uniquement si elle est vérifiée par des tests. Prenez l’habitude de tester DNS/IPv6/WebRTC, et vous éliminerez la majorité des fuites avant qu’elles ne deviennent un vrai problème.
+</p>
         <!-- CONTENT_END -->
       </div>
     </section>
 
 <section class="section section-alt">
   <div class="container">
-    <h2>Short video: VPN privacy explained in plain English</h2>
+    <h2>Courte vidéo : la confidentialité VPN expliquée simplement</h2>
 
     <p class="note">
       <strong>Key takeaway:</strong>
-      the main job of a VPN is to separate <strong>who you are</strong> (your IP, ISP) from <strong>what you do</strong> (sites you access).
-      A proper no-logs approach helps stop that bridge from being rebuilt later.
+      le rôle principal d’un VPN est de séparer <strong>qui vous êtes</strong> (IP, FAI) de <strong>ce que vous faites</strong> (sites consultés).
+      Une approche no-logs sérieuse aide à éviter que ce lien soit reconstruit plus tard.
     </p>
 
     <div class="video-wrap">
       <iframe
         src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&modestbranding=1"
-        title="VPN World — video"
+        title="VPN World — vidéo"
         loading="lazy"
         frameborder="0"
         referrerpolicy="strict-origin-when-cross-origin"
@@ -490,7 +535,7 @@ En 2026, les avancées techn
     </div>
 
     <p>
-      If the player doesn’t load, watch on YouTube:
+      Si le lecteur ne se charge pas, regardez sur YouTube :
       <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a>.
     </p>
   </div>
@@ -505,11 +550,11 @@ En 2026, les avancées techn
     <div class="author-box">
       <img src="../../assets/img/author/denys-shchur.webp" alt="Portrait of Denys Shchur" class="author-avatar">
       <div>
-        <h3>About the author</h3>
+        <h3>À propos de l’auteur</h3>
         <p>
           <strong><a href="/fr/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a></strong>
-          is the creator of VPN World, focusing on practical, test-driven guides about VPNs, online privacy and secure remote work.
-          He spends far too much time running speed tests and checking for DNS leaks, so you don’t have to.
+          est le créateur de VPN World et se concentre sur des guides pratiques, basés sur des tests, autour des VPN, de la confidentialité en ligne et du travail à distance sécurisé.
+          Il passe beaucoup trop de temps à lancer des tests de vitesse et à traquer les fuites DNS, pour que vous n’ayez pas à le faire.
         </p>
       </div>
     </div>
@@ -519,13 +564,13 @@ En 2026, les avancées techn
     <section class="section">
       <div class="container article">
         <div class="cta-box" aria-label="Recommended VPN">
-          <h2>Recommended VPN</h2>
-          <p class="cta-note">Affiliate links (nofollow/sponsored).</p>
+          <h2>VPN recommandés</h2>
+          <p class="cta-note">Liens affiliés (nofollow/sponsored).</p>
 <div class="cta-buttons" aria-label="Affiliate offers">
-  <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Try NordVPN — audited no-logs policy</a>
-  <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Try Surfshark — RAM-only servers</a>
+  <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer NordVPN — politique no-logs auditée</a>
+  <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer Surfshark — serveurs RAM-only</a>
 </div>
-          <p class="human-note">Disclosure: VPN World may earn a commission if you subscribe via these links — without changing your price.</p>
+          <p class="human-note">Divulgation : VPN World peut percevoir une commission si vous souscrivez via ces liens — sans changer votre prix.</p>
         </div>
       </div>
     </section>
@@ -534,10 +579,10 @@ En 2026, les avancées techn
 
 <footer class="site-footer">
   <div class="container">
-    <p><strong>VPN World</strong> · Independent service about privacy, security, and practical VPN use.</p>
+    <p><strong>VPN World</strong> · Service indépendant sur la confidentialité, la sécurité et l’usage pratique des VPN.</p>
     <p>
-      <a href="/fr/privacy.html">Privacy</a> ·
-      <a href="/fr/disclosure.html">Disclosure</a> ·
+      <a href="/fr/privacy.html">Confidentialité</a> ·
+      <a href="/fr/disclosure.html">Divulgation</a> ·
       <a href="mailto:u1797008805@gmail.com">Contact</a>
     </p>
     <p>© 2026 VPN World</p>
@@ -548,10 +593,10 @@ En 2026, les avancées techn
   <script src="../../assets/js/cookie-consent.js"></script>
 
   <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
-    <p>Analytics is disabled by default. You can accept or reject analytics.</p>
+    <p>Les analyses sont désactivées par défaut. Vous pouvez accepter ou refuser les analyses.</p>
     <div class="cookie-actions">
-      <button type="button" class="btn btn-compact" onclick="acceptConsent()">Accept</button>
-      <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Reject</button>
+      <button type="button" class="btn btn-compact" onclick="acceptConsent()">Accepter</button>
+      <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Refuser</button>
     </div>
   </div>
 
