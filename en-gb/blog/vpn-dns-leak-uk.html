@@ -214,233 +214,235 @@
     <section class="section">
       <div class="container article">
         <!-- CONTENT_START -->
-<p>Using a VPN is one of the most popular ways to protect your online privacy. But even if your VPN is enabled and running, your private information could still ‘leak’ due to DNS requests escaping the encrypted tunnel. This phenomenon, called a DNS leak, exposes your browsing activity to your internet service provider or anyone monitoring your network.</p>
-<p>This guide explains what DNS leaks are, how and when they happen, how to detect and fix them, and the real limitations of VPN privacy in 2026. Whether you’re using Windows, macOS, Android, iOS, or configuring a router, you’ll find actionable advice for plugging DNS leaks and bolstering your privacy.</p>
+<p>DNS leaks are a common privacy risk that can undermine even the best VPN setups. When a DNS leak occurs, your true browsing history might be exposed to your ISP or network administrator, even if you’re using a VPN. While most modern VPNs promise to prevent these leaks, real-world configurations, device quirks, and human error can cause them to persist undetected.</p>
+<p>This guide explains what a DNS leak is, why it matters for your privacy, and gives you actionable steps to detect and fix leaks. We focus on practical, device-specific solutions—with realistic advice about the technical and privacy limits you may encounter along the way.</p>
 
-<section class="internal-links" aria-label="Recommended reading">
-  <h2>Recommended reading</h2>
-  <ul>
-    <li><a href="/en-gb/blog/best-free-vpn-uk.html">Best free vpn UK</a></li>
-    <li><a href="/en-gb/blog/disadvantages-of-vpn-uk.html">Disadvantages of vpn UK</a></li>
-    <li><a href="/en-gb/blog/free-vpn-uk.html">Free vpn UK</a></li>
-    <li><a href="/en-gb/blog/free-vs-paid-vpn-uk.html">Free vs paid vpn UK</a></li>
-    <li><a href="/en-gb/blog/index.html">Index</a></li>
-  </ul>
-</section>
-
-
-
-<h2>Quick answer</h2>
+<h2>
+<p class="note"><strong>Related:</strong> <a href="/en-gb/blog/best-free-vpn-uk.html">Best free vpn UK</a></p>
+Quick answer: What to do about DNS leaks</h2>
 <ul>
-  <li>A DNS leak occurs when DNS requests bypass your VPN and are visible to your internet provider or other third parties.</li>
-  <li>You can test for DNS leaks using online tools or by inspecting your network traffic.</li>
-  <li>Common DNS leak fixes include enabling VPN ‘kill switches’, modifying network settings, and using DNS leak protection features.</li>
-  <li>Leaks can also occur through IPv6 and WebRTC, requiring additional precautions.</li>
-  <li>Each platform (Windows, macOS, Android, iOS) has unique vulnerabilities and solutions.</li>
+  <li>Run regular DNS leak tests after connecting to your VPN and after any major OS or VPN app update.</li>
+  <li>Watch out for IPv6 and WebRTC leaks—these may bypass VPN protections by default.</li>
+  <li>Fix leaks by changing your DNS server, disabling IPv6, or using built-in VPN leak protection settings.</li>
+  <li>Different platforms (Windows, macOS, Android, iOS, routers) each need specific configuration to prevent leaks.</li>
+  <li>Be aware: No VPN setup can guarantee 100% leak-proof privacy in all scenarios.</li>
 </ul>
-<div class="key-takeaway"><strong>Key takeaway:</strong> DNS leaks are a significant privacy risk, but you can detect and fix them on any device with the right tools and techniques.</div>
+<div class="key-takeaway"><strong>Key takeaway:</strong> DNS leaks expose your activity and should be checked and fixed on every device you use a VPN. There’s no one-size-fits-all solution—active testing and fine-tuning are required.</div>
 
-<h2>When does a DNS leak happen?</h2>
-<p>A DNS leak typically happens when DNS queries bypass the VPN tunnel and are routed through the default DNS servers assigned by your internet service provider (ISP). This can occur in several real-world scenarios:</div>
+<h2>
+<p class="note"><strong>Related:</strong> <a href="/en-gb/blog/disadvantages-of-vpn-uk.html">Disadvantages of vpn UK</a></p>
+When and why do DNS leaks happen?</h2>
+<p>A DNS leak occurs when your device sends DNS queries outside of your encrypted VPN tunnel. This means your internet service provider (ISP) or any upstream network can see the websites you visit, even if they can’t see the exact content.</p>
+<p>Common causes of DNS leaks include:</p>
 <ul>
-  <li><strong>VPN misconfiguration:</strong> The VPN client fails to override system DNS settings, causing some or all requests to use your default DNS.</li>
-  <li><strong>OS-level behaviour:</strong> Some operating systems, especially Windows, may send parallel DNS requests outside the VPN due to ‘Smart Multi-Homed Name Resolution’ or similar features.</li>
-  <li><strong>Manual network changes:</strong> Manually setting custom DNS settings, or disabling a VPN without reapplying correct settings, can cause leaks.</li>
-  <li><strong>Interruption or VPN crash:</strong> If the VPN disconnects unexpectedly, normal DNS routing may resume.</li>
-  <li><strong>Dual-stack networks (IPv4 + IPv6):</strong> If your VPN only secures IPv4, IPv6 traffic (including DNS) may leak.</li>
+  <li>Operating systems using their default DNS settings even when the VPN is active.</li>
+  <li>VPN apps that don’t properly route DNS requests.</li>
+  <li>Split tunneling, incompatible browser extensions, and manual misconfiguration.</li>
+  <li>IPv6 traffic or WebRTC requests leaking outside the VPN tunnel.</li>
 </ul>
-<p>Increasingly, third-party apps and browsers with their own networking capabilities (like certain custom browsers or background services) can also initiate DNS queries that skip the VPN's paths.</div>
-<div class="key-takeaway"><strong>Key takeaway:</strong> DNS leaks are most often caused by operating system or VPN misconfigurations, VPN disconnects, or network features that bypass encrypted tunnels.</div>
-
-<h2>Limitations and edge cases of VPN privacy</h2>
-<p>Even with a properly configured VPN, DNS leaks are only part of the broader privacy puzzle. There are inherent platform limitations and edge cases which every privacy-seeker should be aware of:</div>
-<ul>
-  <li><strong>Operating system influence:</strong> Some operating systems, like Windows, prioritise speed over privacy by resolving DNS queries via multiple interfaces.</li>
-  <li><strong>Browser and app behaviour:</strong> Browsers with ‘secure DNS’ (DNS over HTTPS) or ‘split tunnelling’ features may use different DNS servers.</li>
-  <li><strong>WebRTC leaks:</strong> Even if your DNS requests are secure, WebRTC can reveal your real IP address via STUN requests, particularly in browsers that haven't disabled WebRTC or lack effective privacy controls.</li>
-  <li><strong>IPv6 traffic:</strong> Many VPNs only support IPv4 by default. DNS queries and IP requests using IPv6 might never go through the VPN at all unless explicitly supported or blocked.</li>
-</ul>
+<p>Understanding these triggers is crucial, since preventing DNS leaks is as much about proper setup as it is about the VPN you choose.</p>
 <table>
-  <caption>Common VPN leak types beyond DNS</caption>
+  <caption>Common Causes of DNS Leaks by Platform</caption>
   <thead>
     <tr>
-      <th>Leak type</th>
-      <th>Cause</th>
-      <th>Mitigation</th>
+      <th>Platform</th>
+      <th>Usual Cause</th>
+      <th>Typical Risk Level</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>DNS leak</td>
-      <td>System uses unsafe DNS server</td>
-      <td>Force VPN to assign DNS servers</td>
+      <td>Windows</td>
+      <td>DNS overriding by system or network settings</td>
+      <td>High</td>
     </tr>
     <tr>
-      <td>IPv6 leak</td>
-      <td>VPN does not support IPv6</td>
-      <td>Disable IPv6 locally or use IPv6-capable VPN</td>
+      <td>macOS</td>
+      <td>Fallback to default or unsecured DNS</td>
+      <td>Medium</td>
     </tr>
     <tr>
-      <td>WebRTC leak</td>
-      <td>Browser sends direct STUN requests</td>
-      <td>Disable WebRTC in browser settings</td>
+      <td>Android</td>
+      <td>App-specific or OS-level DNS behaviour</td>
+      <td>Medium</td>
     </tr>
     <tr>
-      <td>Traffic leak</td>
-      <td>VPN disconnects unexpectedly</td>
-      <td>Enable kill-switch or traffic block</td>
+      <td>iOS</td>
+      <td>VPN app limitations on system DNS override</td>
+      <td>Medium</td>
+    </tr>
+    <tr>
+      <td>Routers</td>
+      <td>Incorrect firmware config or device bypass</td>
+      <td>High</td>
     </tr>
   </tbody>
 </table>
-<p>Some VPNs now include leak protections for these threats, but complete anonymity is rarely guaranteed. ISPs, websites, and even local networks may still be able to infer your identity or activity in some situations.</div>
-<div class="key-takeaway"><strong>Key takeaway:</strong> VPNs can protect most DNS queries, but platform quirks, IPv6, WebRTC, and app-level leaks pose ongoing privacy challenges even with a solid VPN setup.</div>
+<div class="key-takeaway"><strong>Key takeaway:</strong> DNS leaks often stem from default system behaviour, not just poor VPN apps. Platform-specific quirks mean you must check each device you use.</div>
 
-<h2>How to test for DNS, IPv6, and WebRTC leaks</h2>
-<p>Testing for leaks is the most reliable way to verify your VPN configuration. A test-driven approach ensures your DNS and IP addresses aren’t being exposed unintentionally. Here’s how to conduct a comprehensive leak test in 2026:</div>
+<h2>Limits and edge cases: What a VPN can—and can’t—do for DNS leaks</h2>
+<p>While VPNs are meant to protect your DNS traffic, they have inherent limitations. Not all VPNs enforce DNS protection equally, and some system or browser features (like IPv6 auto-discovery or WebRTC) can slip through the cracks—even on a respected VPN. Additionally, device manufacturers and ISPs are constantly tweaking their networks, introducing fresh compatibility issues every year.</p>
+<p>It’s critical to understand where VPN protection ends:</p>
+<ul>
+  <li><strong>Shared DNS on public Wi-Fi:</strong> If network-level DNS hijacking occurs, a weak VPN config may not prevent leaks.</li>
+  <li><strong>IPv6 and WebRTC:</strong> Not all VPNs or firewall rules account for these, leaving users exposed.</li>
+  <li><strong>Mobile OS limitations:</strong> iOS and Android may restrict VPN apps from fully managing DNS on all apps or under certain power-saving modes.</li>
+  <li><strong>Manual changes:</strong> User modifications to device settings (such as custom DNS or VPN split tunnelling) can inadvertently re-introduce leaks.</li>
+</ul>
+<p>Technical solutions improve every year, but it's impossible to declare any VPN setup absolutely leak-proof, especially across all devices and networks.</p>
+<table>
+  <caption>Edge Case Scenarios: Where VPN DNS Leak Protection May Fail</caption>
+  <thead>
+    <tr>
+      <th>Scenario</th>
+      <th>Risk</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>IPv6 Leak</td>
+      <td>High</td>
+      <td>Device sends IPv6 DNS requests outside tunnel</td>
+    </tr>
+    <tr>
+      <td>WebRTC Leak</td>
+      <td>Medium</td>
+      <td>Browser exposes true IP via WebRTC peer connection</td>
+    </tr>
+    <tr>
+      <td>Network Fallback</td>
+      <td>Medium</td>
+      <td>VPN drops; OS defaults back to ISP DNS</td>
+    </tr>
+    <tr>
+      <td>Split Tunnelling</td>
+      <td>Variable</td>
+      <td>App or domain intentionally or accidentally excluded from VPN</td>
+    </tr>
+  </tbody>
+</table>
+<div class="key-takeaway"><strong>Key takeaway:</strong> VPNs dramatically reduce DNS leaks, but edge cases and platform quirks mean there’s no such thing as total privacy.</div>
+
+<h2>
+<p class="note"><strong>Related:</strong> <a href="/en-gb/blog/free-vpn-uk.html">Free vpn UK</a></p>
+How to test for DNS, IPv6, and WebRTC leaks</h2>
+<p>Testing for leaks is the only way to know if your setup is working. DNS leaks, IPv6 leaks, and WebRTC leaks are all different and need separate attention.</p>
+<p>Here’s how to do a broad privacy leak check:</p>
 <ol>
-  <li><strong>Connect your VPN</strong> and verify it shows you connected to your chosen server location.</li>
-  <li><strong>Find your VPN-assigned IP and DNS servers.</strong> Open your VPN software and note the IP/DNS addresses in use—these should not match your local ISP details.</li>
-  <li><strong>Use an online leak testing tool.</strong> Browse to a DNS/IP leak checker site that tests for DNS, IPv6, and WebRTC. These typically display a list of server addresses seen from your connection.</li>
-  <li><strong>Interpret the results:</strong>
-    <ul>
-      <li>If any IP or DNS address listed matches your real-world ISP or location, you have a leak.</li>
-      <li>For WebRTC, if your ‘real’ IP (public or local) appears, your browser is leaking this data.</li>
-      <li>If your IPv6 address is visible, and you don’t expect it, your VPN is not protecting IPv6.</li>
-    </ul>
-  </li>
-  <li><strong>Check on different browsers and platforms,</strong> as browser-level behaviour or app DNS overrides may exist.</li>
+  <li>Connect to your VPN. Choose an exit server in a different country for a clear distinction.</li>
+  <li>Search online for 'DNS leak test', 'IPv6 leak test', and 'WebRTC leak test'. Open a leak test site on your primary browser. (If you use multiple browsers, test them all.)</li>
+  <li>Run a 'Standard' and 'Extended' DNS leak test. Note which DNS servers are listed—if you see your ISP or home country, you may have a leak.</li>
+  <li>Check the IPv6 leak test. If it shows your real IPv6 address, or any IPv6 address, while on a VPN that is not meant to support IPv6, that's likely a leak.</li>
+  <li>Run a WebRTC leak test. If you see your real public IP or local IP, you have a WebRTC vulnerability, especially in browsers like Chrome or Firefox.</li>
 </ol>
-<table>
-  <caption>Elements to check in a VPN leak test</caption>
-  <thead>
-    <tr>
-      <th>Leak type</th>
-      <th>Visible Data</th>
-      <th>Should you see it?</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>DNS</td>
-      <td>ISP DNS server IPs</td>
-      <td>No (should show VPN DNS only)</td>
-    </tr>
-    <tr>
-      <td>IPv6</td>
-      <td>Your local or WAN IPv6</td>
-      <td>No, unless VPN supports IPv6</td>
-    </tr>
-    <tr>
-      <td>WebRTC</td>
-      <td>Your real/local IP</td>
-      <td>No (should not reveal any real IP)</td>
-    </tr>
-  </tbody>
-</table>
-<p>Repeat tests after network changes, OS upgrades, or VPN app updates, as new leaks can develop at any time.</div>
-<div class="key-takeaway"><strong>Key takeaway:</strong> Regularly running DNS, IPv6, and WebRTC leak tests across browsers and devices is essential for maintaining VPN privacy.</div>
+<p>You can repeat these tests after changing settings, upgrading your VPN app, or connecting to a different network.</p>
+<div class="key-takeaway"><strong>Key takeaway:</strong> Regular, manual testing is the only sure way to detect DNS, IPv6, or WebRTC leaks—don’t rely on VPN marketing claims alone.</div>
 
-<h2>DNS leak fixes by platform</h2>
-<p>Effective DNS leak prevention looks different across major devices and platforms. Here’s a practical guide to fixes for each:</div>
+<h2>How to fix DNS leaks: Windows, macOS, Android, iOS, and routers</h2>
+<p>The process for fixing DNS leaks differs by platform and device. Here’s how to patch vulnerabilities on each major system:</p>
 
 <h3>Windows</h3>
 <ul>
-  <li>Enable ‘DNS leak protection’ in your VPN client settings wherever possible.</li>
-  <li>Disable ‘Smart Multi-Homed Name Resolution’ via Group Policy or registry edits (causes parallel DNS lookup).</li>
-  <li>Set static DNS servers matching your VPN provider's recommendations.</li>
-  <li>Turn off IPv6 if your VPN does not support it—use the ‘Network and Sharing Center’ panel.</li>
+  <li><strong>Disable IPv6:</strong> Go to Network Connections &rarr; Adapter properties &rarr; Uncheck Internet Protocol Version 6 (TCP/IPv6).</li>
+  <li><strong>Set static DNS:</strong> Manually enter a trusted DNS like 1.1.1.1 or 9.9.9.9 in your network adapter.</li>
+  <li><strong>Use 'Set DNS' features:</strong> Many VPN clients have built-in DNS leak protection—make sure it’s enabled in settings.</li>
+  <li><strong>Block non-VPN traffic:</strong> Activate the VPN app’s firewall or kill switch, where available.</li>
 </ul>
 
 <h3>macOS</h3>
 <ul>
-  <li>Use VPN software that fully integrates with macOS and overwrites DNS settings.</li>
-  <li>Test the VPN both in the app and when configured in the system ‘Network’ panel.</li>
-  <li>Disable IPv6 via the Terminal if unsupported (‘networksetup -setv6off’ command).</li>
+  <li><strong>Force DNS:</strong> In System Preferences &rarr; Network, specify your DNS servers to a VPN provider’s values or public DNS.</li>
+  <li><strong>Flush DNS after connect:</strong> Use "sudo killall -HUP mDNSResponder" in Terminal after connecting the VPN to clear any cached old DNS settings.</li>
+  <li><strong>Disable IPv6 (advanced):</strong> Use Terminal command: "networksetup -setv6off [interface]" for the adapter.</li>
 </ul>
 
 <h3>Android</h3>
 <ul>
-  <li>Choose VPNs supporting ‘Always-on VPN’ or ‘block connections without VPN’ in network settings.</li>
-  <li>Avoid using ‘Private DNS’ with custom entries unless it’s aligned with your VPN provider.</li>
-  <li>Update apps for IPv6 awareness and use browsers with WebRTC control features.</li>
+  <li><strong>Enable 'Always-on VPN':</strong> This blocks apps from bypassing the VPN tunnel by default.</li>
+  <li><strong>Use secure DNS (Private DNS):</strong> In Network & internet settings, configure “Private DNS” with a secure provider (e.g., dns.quad9.net).</li>
+  <li><strong>Test after each system update:</strong> Some Android updates reset DNS or VPN prioritisation.</li>
 </ul>
 
 <h3>iOS</h3>
 <ul>
-  <li>Opt for reputable VPN apps that use the native ‘Tunnel’ or ‘IKEv2’ protocols rather than manual configurations.</li>
-  <li>Test with various Wi-Fi networks to see if DNS requests leak on certain captive portals.</li>
-  <li>Note: Disabling IPv6 is rarely possible without jailbreaking.</li>
+  <li><strong>Use official VPN apps:</strong> Third-party (non-App Store) apps may not manage DNS properly.</li>
+  <li><strong>Disable Local Network Access (where possible):</strong> In iOS privacy settings for each app.</li>
+  <li><strong>Check VPN status bar:</strong> If it disappears, even briefly, DNS could leak before reconnection.</li>
 </ul>
 
-<h3>Router</h3>
+<h3>Routers</h3>
 <ul>
-  <li>Use VPN routers running compatible firmware (like OpenWrt, DD-WRT, or vendor-specific firmware).</li>
-  <li>Set custom DNS entries at the router level, ensuring all LAN clients use the VPN's DNS.</li>
-  <li>Block all outgoing UDP/53 and TCP/53 (DNS) traffic except to your specified DNS servers where possible.</li>
+  <li><strong>Configure router to use VPN DNS:</strong> Set your router to use your VPN provider's DNS or a secure public DNS.</li>
+  <li><strong>Disable IPv6 on router:</strong> Many consumer routers have IPv6 enabled by default—turn it off if your VPN doesn’t support it.</li>
+  <li><strong>Check routing tables:</strong> Ensure all outbound DNS queries are directed via the VPN.</li>
+  <li><strong>Firmware updates:</strong> Outdated firmware may break DNS routing or leak traffic.</li>
 </ul>
-<p>Most modern VPNs add ‘kill switch’ features—ensure this is enabled to prevent any connections if the VPN drops.</div>
-<div class="key-takeaway"><strong>Key takeaway:</strong> DNS leak solutions vary by platform, but centre on correct VPN settings, disabling IPv6 if needed, and ensuring all DNS is resolved within the secure tunnel.</div>
+<div class="key-takeaway"><strong>Key takeaway:</strong> Each OS and router has its own leak risks and fixes—manual intervention and regular retesting are vital for lasting privacy.</div>
 
-<h2>DNS leak troubleshooting checklist</h2>
-<p>If you suspect a DNS (or other) leak, use this structured troubleshooting list to identify and resolve the problem:</div>
-<ol>
-  <li>Run a DNS leak test and record the DNS servers listed.</li>
-  <li>Compare these to your ISP’s and your VPN’s DNS settings.</li>
-  <li>Reconnect your VPN and repeat the test. Clear your browser cache to eliminate old connections.</li>
-  <li>Check VPN app settings for a ‘DNS leak protection’ toggle or similar feature; enable it.</li>
-  <li>If IPv6 addresses appear, disable IPv6 at the operating system or router level unless your VPN supports it.</li>
-  <li>For browser-based WebRTC leaks, disable WebRTC or limit peer connections in browser settings (especially on Chromium-based browsers).</li>
-  <li>Manually configure static DNS within the VPN client or use the app’s custom DNS feature if available.</li>
-  <li>Update your VPN app and firmware regularly to patch known leak vulnerabilities.</li>
-  <li>If the VPN disconnects or reconnects frequently, use a ‘kill switch’ option or firewall rules to block non-VPN DNS.</li>
-  <li>For persistent leaks, contact VPN provider support for guidance, or consider using a different service more compatible with your platform.</li>
-</ol>
-<div class="key-takeaway"><strong>Key takeaway:</strong> Diagnosing DNS leaks is a step-by-step process—test, adjust settings, disable IPv6 or WebRTC if needed, and always keep VPN software updated.</div>
+<h2>
+<p class="note"><strong>Related:</strong> <a href="/en-gb/blog/free-vs-paid-vpn-uk.html">Free vs paid vpn UK</a></p>
+DNS, IPv6, and WebRTC troubleshooting checklist</h2>
+<p>Even after initial fixes, leaks can recur due to updates, app changes, or network switches. If you’re still seeing leaks after following the above solutions, troubleshoot with this checklist:</p>
+<ul>
+  <li>Disconnect and reconnect your VPN, then retest for leaks.</li>
+  <li>Reboot your device to clear cache and DNS settings.</li>
+  <li>Check that only your VPN’s DNS servers are listed in your network settings.</li>
+  <li>Clear browser DNS cache and history.</li>
+  <li>Disable WebRTC in your browser settings or via extensions.</li>
+  <li>Update your VPN app, device OS, and router firmware regularly.</li>
+  <li>Test with another browser or device for comparison.</li>
+  <li>Try a different VPN server location—some servers enforce DNS better than others.</li>
+  <li>Contact your VPN provider if problems persist.</li>
+</ul>
+<div class="key-takeaway"><strong>Key takeaway:</strong> Don’t assume a fix is permanent—repeat leak tests after every major update or network change to maintain privacy.</div>
 
-<h2>FAQ: DNS Leaks and VPN Use in 2026</h2>
+<h2>FAQ: DNS leaks, privacy, and VPN support</h2>
 <dl>
   <dt>What is a DNS leak?</dt>
-  <dd>A DNS leak occurs when your system sends DNS requests outside the VPN tunnel, exposing the websites you visit to your ISP or third parties.</dd>
-  
-  <dt>Can I have a DNS leak even when connected to a VPN?</dt>
-  <dd>Yes, misconfigurations or limitations in VPN apps or operating systems can still route DNS traffic outside the tunnel.</dd>
-  
-  <dt>How do I know if my VPN has a DNS leak?</dt>
-  <dd>Run an online DNS leak test with your VPN connected. If any DNS server listed belongs to your ISP, you have a leak.</dd>
-  
-  <dt>Why does my browser show my real IP despite using a VPN?</dt>
-  <dd>This is likely a WebRTC leak. Disable WebRTC in your browser settings, or use privacy-focused browsers that block WebRTC requests.</dd>
-  
-  <dt>What causes DNS leaks on Windows 11?</dt>
-  <dd>Features like ‘Smart Multi-Homed Name Resolution’ and multiple active network interfaces can send DNS traffic outside the VPN tunnel.</dd>
-  
-  <dt>Does disabling IPv6 stop all DNS leaks?</dt>
-  <dd>No, but it prevents one common leak route. You must still ensure your DNS queries use the VPN-assigned servers over IPv4.</dd>
-  
-  <dt>Is it possible to stop WebRTC leaks on mobile browsers?</dt>
-  <dd>Some mobile browsers offer WebRTC controls in settings, but success varies; try using a privacy-focused browser as needed.</dd>
-  
-  <dt>Can routers have DNS leaks even with a VPN setup?</dt>
-  <dd>Yes, if DNS queries bypass the VPN tunnel, such as if devices use hardcoded DNS or router misconfiguration occurs.</dd>
-  
-  <dt>What is a ‘kill switch’ on a VPN?</dt>
-  <dd>A kill switch blocks all internet access if the VPN disconnects, ensuring no data, including DNS, can leak during outages.</dd>
-  
-  <dt>Do all VPNs provide DNS leak protection by default?</dt>
-  <dd>No—a surprising number require you to enable this feature in the app’s advanced settings.</dd>
-  
-  <dt>Is it enough to set my device’s DNS to a public DNS server (like Google or Cloudflare)?</dt>
-  <dd>No. Public DNS may still expose your queries to third parties unless DNS is routed through the VPN tunnel.</dd>
-  
-  <dt>Will always-on VPN mode stop DNS leaks?</dt>
-  <dd>It helps—especially on Android and iOS—but you still need to test and confirm the VPN handles DNS correctly on your device.</dd>
-</dl>
-<div class="key-takeaway"><strong>Key takeaway:</strong> Regular DNS and WebRTC leak tests, paired with platform-specific solutions, are essential for reliable VPN privacy in 2026.</div>
+  <dd>A DNS leak is when your device sends website lookup requests outside of your VPN tunnel—often to your ISP’s DNS—revealing which sites you visit.</dd>
 
-<h2>Conclusion</h2>
-<p>In 2026, responsible VPN use goes beyond just clicking ‘connect’. DNS leaks and other network vulnerabilities can undermine your privacy, even with top-rated VPN services. A test-driven approach—regularly checking for DNS, IPv6, and WebRTC leaks—empowers you to catch and resolve issues before they compromise your privacy.</div>
-<p>Every platform has unique risks, quirks, and options for plugging leaks. Stay updated on your VPN’s settings, use kill switches, disable unnecessary features like IPv6 and WebRTC when not essential, and always verify your configuration with leak tests. It’s an ongoing process, but essential for privacy-conscious users in a shifting digital landscape.</div>
-<div class="key-takeaway"><strong>Key takeaway:</strong> Detecting and fixing DNS leaks is an ongoing effort that involves regular testing, platform-specific settings adjustments, and staying aware of newer privacy risks as technology evolves.</div>
+  <dt>How often should I do DNS leak tests?</dt>
+  <dd>Run tests after installing your VPN, on first setup, after updates, and anytime you change network environments (home, work, public Wi-Fi).</dd>
+
+  <dt>Which is more serious: DNS, IPv6, or WebRTC leaks?</dt>
+  <dd>All can expose your identity, but DNS leaks are the most universally problematic because they reveal browsing history to third parties by default.</dd>
+
+  <dt>Why do VPNs sometimes fail to protect against DNS leaks?</dt>
+  <dd>Poor app design, OS restrictions, or edge-case network settings can cause a VPN to fail at rerouting DNS queries through encrypted tunnels.</dd>
+
+  <dt>Can a browser extension help?</dt>
+  <dd>Sometimes. Extensions can block WebRTC or force secure DNS in the browser, but they only protect that browser—not the whole device.</dd>
+
+  <dt>Is IPv6 support important for VPNs?</dt>
+  <dd>Yes. If a VPN doesn’t handle IPv6, the device might send IPv6 traffic outside the VPN—and leak your identity.</dd>
+
+  <dt>Do free VPNs prevent DNS leaks?</dt>
+  <dd>Rarely. Free VPNs often lack robust DNS leak protection, and some monetise leaks themselves.</dd>
+
+  <dt>How do I know if my DNS is leaking on my phone?</dt>
+  <dd>Use your phone browser to visit a DNS leak test site while connected to VPN. If your ISP or real location is revealed, you have a leak.</dd>
+
+  <dt>Do routers fix or cause DNS leaks?</dt>
+  <dd>Both. A properly configured VPN router can force all traffic (including DNS) through the VPN. But a misconfigured router can let leaks happen even if devices are secure.</dd>
+  
+  <dt>Should I use public DNS like 1.1.1.1 or 8.8.8.8 with a VPN?</dt>
+  <dd>Using public DNS is safer than using your ISP, but the ideal is to route all DNS through your VPN servers to avoid correlation attacks.</dd>
+
+  <dt>What if I use Smart DNS services?</dt>
+  <dd>Smart DNS intentionally leaks some DNS to let you unblock geo-content, sacrificing privacy for convenience. Avoid if privacy is your priority.</dd>
+
+  <dt>Can I be 100% leak-proof?</dt>
+  <dd>No system is perfect; ongoing vigilance and periodic testing are the only ways to minimise DNS, IPv6, and WebRTC leaks.</dd>
+</dl>
+<div class="key-takeaway"><strong>Key takeaway:</strong> DNS leaks can affect any user, and no setup is immune—regular tests and proactive fixes are the best defence.</div>
+
+<h2>
+<p class="note"><strong>Related:</strong> <a href="/en-gb/blog/index.html">Index</a></p>
+Conclusion</h2>
+<p>DNS leaks are a key weakness in any privacy setup, regardless of your VPN provider or tech skill. System and network oddities, updates, and user error all contribute to the risk. True privacy isn’t a one-time fix: it requires regular DNS (and IPv6/WebRTC) leak tests on every device, after every update or change in network. Each OS and router brings unique challenges, so consult platform-specific practices and remain sceptical of “leak-proof” marketing promises.</p>
+<p>Stay proactive. By following the detection steps, applying the right fixes for your platform, and repeating tests as your environment changes, you can dramatically minimise your leak risk and enjoy the strongest privacy possible under real-world conditions in 2026.</p>
+<div class="key-takeaway"><strong>Key takeaway:</strong> Vigilant testing and device-specific setup are required to keep DNS leaks under control—even for expert VPN users. Make leak-checking a core privacy habit.</div>
         <!-- CONTENT_END -->
       </div>
     </section>
