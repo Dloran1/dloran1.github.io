@@ -290,6 +290,9 @@
         <p>
           VPN (Virtual Private Network) szyfruje ruch i „podmienia” Twój adres IP na adres serwera VPN.
           To realnie podnosi bezpieczeństwo w publicznym Wi-Fi i utrudnia profilowanie na podstawie IP.
+          Jeśli potrzebujesz podstaw i chcesz zrozumieć mechanikę tunelu od A do Z, zacznij od
+          <a href="/blog/co-to-jest-vpn.html">co to jest VPN</a> oraz krótkiego porównania
+          <a href="/blog/proxy-vs-vpn.html">proxy vs VPN</a>.
           Ale VPN nie usuwa wszystkich śladów: loginy, cookies i fingerprinting przeglądarki dalej mogą Cię identyfikować,
           a zła konfiguracja potrafi ujawnić DNS lub IPv6 poza tunelem.
         </p>
@@ -305,8 +308,9 @@
 
         <p>
           Największa wartość VPN jest tam, gdzie ryzyko dotyczy „drogi” danych: publiczne hotspoty,
-          sieci hotelowe, kawiarnie, lotniska. W scenariuszach „tożsamościowych” (konta, cookies, aplikacje)
-          VPN jest tylko jednym elementem układanki.
+          sieci hotelowe, kawiarnie, lotniska. W takich sytuacjach warto podejść do tematu jak do procedury:
+          najpierw <a href="/blog/lista-bezpieczenstwa-wifi.html">lista bezpieczeństwa Wi-Fi</a>, a dopiero potem konfiguracja VPN.
+          W scenariuszach „tożsamościowych” (konta, cookies, aplikacje) VPN jest tylko jednym elementem układanki.
         </p>
 
         <table>
@@ -346,6 +350,11 @@
           </tbody>
         </table>
 
+        <p>
+          Najczęstszy błąd to oczekiwanie, że VPN „załatwi” prywatność w każdej aplikacji. To mit podobny do wielu opisanych w
+          <a href="/blog/mity-o-vpn.html">mity o VPN</a>. Realnie VPN ogranicza ekspozycję IP, ale nie zastąpi dobrych praktyk.
+        </p>
+
         <div class="key-takeaway"><strong>Key takeaway:</strong> VPN świetnie chroni transport danych, ale nie „wyłącza” trackingu w internecie.</div>
 
         <h2>Najważniejsze wady VPN: prędkość, ping i stabilność</h2>
@@ -359,6 +368,8 @@
           Każdy VPN dodaje narzut: szyfrowanie + dodatkową trasę przez serwer.
           To często oznacza spadek prędkości (download/upload) i wzrost opóźnień (ping),
           szczególnie odczuwalny w grach, wideorozmowach i pracy zdalnej.
+          Jeśli chcesz to zmierzyć „po ludzku”, zrób prosty <a href="/blog/test-predkosci-vpn.html">test prędkości VPN</a>
+          na tym samym serwerze (bez VPN i z VPN), a potem powtórz na kilku lokalizacjach.
         </p>
 
         <table>
@@ -392,6 +403,14 @@
             </tr>
           </tbody>
         </table>
+
+        <p>
+          Dwie najszybsze dźwignie optymalizacji to dobór protokołu i serwera:
+          <a href="/blog/protokoly-vpn.html">protokoły VPN</a> oraz
+          <a href="/blog/jaki-serwer-vpn.html">jaki serwer VPN wybrać</a>.
+          Często sama zmiana na bliższy węzeł i nowocześniejszy protokół ogranicza spadki prędkości do poziomu,
+          który nie przeszkadza w codziennym użyciu.
+        </p>
 
         <div class="key-takeaway"><strong>Key takeaway:</strong> Najbardziej „boli” ping i przeciążone serwery — dlatego wybór lokalizacji i protokołu ma kluczowe znaczenie.</div>
 
@@ -440,7 +459,8 @@
           Częsty problem: VPN jest „włączony”, ale część ruchu wychodzi poza tunel.
           Najbardziej znane typy wycieków to DNS, IPv6 oraz WebRTC (w przeglądarce).
           W praktyce — jeśli masz wyciek DNS, to ktoś może widzieć, jakie domeny odwiedzasz,
-          nawet jeśli same treści są szyfrowane.
+          nawet jeśli same treści są szyfrowane. Dlatego traktuj
+          <a href="/blog/wyciek-dns-vpn.html">wyciek DNS VPN</a> jako temat „krytyczny”, a nie kosmetyczny.
         </p>
 
         <table>
@@ -482,6 +502,12 @@
           <strong>Powiązane:</strong>
           <a href="/blog/optymalne-ustawienia-vpn.html">Optymalne ustawienia VPN</a>
         </div>
+
+        <p>
+          Jeśli chcesz, żeby testy były powtarzalne, trzymaj się jednego schematu i spisz ustawienia:
+          serwer, protokół, split tunneling, kill switch. W praktyce najwięcej błędów wynika z nieświadomie włączonego
+          <a href="/blog/vpn-split-tunneling.html">split tunneling</a> albo zmian w systemie po aktualizacji.
+        </p>
 
         <ol>
           <li>Połącz się z serwerem VPN.</li>
@@ -534,7 +560,11 @@
 
         <dl>
           <dt><strong>Windows</strong></dt>
-          <dd>Włącz kill switch, sprawdź DNS, rozważ wyłączenie IPv6, zaktualizuj sterowniki i aplikację VPN.</dd>
+          <dd>
+            Włącz kill switch, sprawdź DNS, rozważ wyłączenie IPv6, zaktualizuj sterowniki i aplikację VPN.
+            Jeśli konfigurujesz ręcznie, trzymaj się sprawdzonych kroków z
+            <a href="/blog/vpn-konfiguracja-windows.html">VPN konfiguracja Windows</a>.
+          </dd>
 
           <dt><strong>Android</strong></dt>
           <dd>Włącz „Zawsze włączona sieć VPN” i blokowanie połączeń bez VPN. Wyłącz oszczędzanie baterii dla aplikacji VPN.</dd>
@@ -543,7 +573,10 @@
           <dd>Sprawdź profil VPN w ustawieniach, aktualizuj aplikację, testuj po zmianie Wi-Fi/5G.</dd>
 
           <dt><strong>Router</strong></dt>
-          <dd>Na słabych routerach spadki prędkości są normalne — wybierz mocniejszy sprzęt lub użyj VPN per-urządzenie.</dd>
+          <dd>
+            Na słabych routerach spadki prędkości są normalne — wybierz mocniejszy sprzęt lub użyj VPN per-urządzenie.
+            Pamiętaj, że przy routerze duże znaczenie mają <a href="/blog/protokoly-vpn.html">protokoły VPN</a> i wydajność CPU.
+          </dd>
         </dl>
 
         <div class="key-takeaway"><strong>Key takeaway:</strong> Killswitch + ochrona przed wyciekami + testy szczelności to absolutne minimum.</div>
@@ -564,6 +597,12 @@
           <li>Zmień protokół i przetestuj ponownie.</li>
           <li>Zaktualizuj aplikację VPN i system, potem restart.</li>
         </ol>
+
+        <p>
+          Jeżeli VPN jest blokowany przez serwis, najczęściej dotyczy to treści regionalnych i bibliotek VOD —
+          wtedy pomocne bywa zrozumienie, jak działają <a href="/blog/bloki-geo-vpn.html">blokady geo</a>
+          oraz jak wygląda praktyka w kategorii <a href="/blog/vpn-streaming.html">VPN streaming</a>.
+        </p>
 
         <table>
           <thead>
@@ -615,7 +654,10 @@
           <dd>Serwisy wykrywają VPN po adresach IP i politykach anty-nadużyć. Pomaga zmiana serwera lub dostawcy.</dd>
 
           <dt>Czy darmowe VPN są bezpieczne?</dt>
-          <dd>Często nie — mogą ograniczać transfer i monetyzować dane. Do wrażliwych rzeczy lepszy jest płatny dostawca.</dd>
+          <dd>
+            Często nie — mogą ograniczać transfer i monetyzować dane. Jeśli chcesz podejść do tego uczciwie,
+            zobacz porównanie <a href="/blog/darmowy-vs-platny-vpn.html">darmowy vs płatny VPN</a>.
+          </dd>
         </dl>
 
         <div class="key-takeaway"><strong>Key takeaway:</strong> VPN działa najlepiej, gdy rozumiesz jego granice i regularnie testujesz szczelność.</div>
@@ -632,6 +674,12 @@
           ale ma realne wady: spadki prędkości, wyższy ping, ryzyko wycieków i blokady usług.
           Jeśli chcesz używać VPN świadomie, trzymaj się checklisty: kill switch, ochrona DNS/IPv6/WebRTC,
           regularne testy i sensowny dobór serwera.
+        </p>
+
+        <p>
+          W praktyce najwięcej zyskują osoby, które łączą VPN z podstawami cyberhigieny (MFA, aktualizacje, ostrożność)
+          oraz dobrym procesem wyboru i konfiguracji. Jeżeli używasz VPN do pracy, zobacz też
+          <a href="/blog/vpn-praca-zdalna.html">VPN praca zdalna</a> — tam najczęściej wychodzą „twarde” wymagania.
         </p>
 
         <div class="key-takeaway"><strong>Key takeaway:</strong> Traktuj VPN jako element strategii bezpieczeństwa — razem z MFA, aktualizacjami i higieną przeglądarki.</div>
