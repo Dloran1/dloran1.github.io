@@ -59,7 +59,7 @@
     .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0}
     .table-scroll table{min-width:860px}
 
-    /* NEW: Related block (dark wide card with green accent) */
+    /* Related block (dark wide card with green accent) */
     .related-wide{
       width:100%;
       background:#0b1220;
@@ -82,7 +82,7 @@
     .related-wide p{margin:0 0 0 12px;color:#eaeaea}
     .related-wide a{color:#9ec4ff;text-decoration:underline;text-underline-offset:3px}
 
-    /* SVG responsive wrapper (no cropping) */
+    /* SVG responsive wrapper (prevents cropping) */
     .svg-card{
       background:#fff;
       border:2px solid #0b1220;
@@ -102,7 +102,7 @@
       width:100%;
       height:auto;
       max-width:1100px;
-      min-width:820px;
+      min-width:880px;
       margin:0 auto;
       color:#000;
     }
@@ -232,22 +232,22 @@
         {
           "@type":"Question",
           "name":"Is split tunneling safe?",
-          "acceptedAnswer":{"@type":"Answer","text":"It can be safe when used deliberately. The key risk is that excluded apps can leak your real IP, DNS, or location. Use a kill switch for tunnelled apps, avoid excluding browsers, and run DNS/IPv6/WebRTC tests after any change."}
-        },
-        {
-          "@type":"Question",
-          "name":"Should I use split tunneling for streaming or gaming?",
-          "acceptedAnswer":{"@type":"Answer","text":"Often yes. You can route the streaming or game app through the VPN while keeping downloads, work tools, or local services direct. The best practice is to keep sensitive apps (banking, email, password managers) inside the VPN tunnel."}
+          "acceptedAnswer":{"@type":"Answer","text":"It can be safe when used deliberately. The key risk is that excluded apps can expose your real IP, DNS, or location. Keep sensitive apps inside the tunnel and run DNS/IPv6/WebRTC tests after any change."}
         },
         {
           "@type":"Question",
           "name":"Does split tunneling cause DNS leaks?",
-          "acceptedAnswer":{"@type":"Answer","text":"It can. If your system DNS resolver is used by excluded apps, your ISP may still see DNS queries. Choose a VPN that supports DNS leak protection and run a DNS leak test after enabling split tunneling."}
+          "acceptedAnswer":{"@type":"Answer","text":"It can. If excluded apps use your ISP DNS resolver, your browsing destinations can be exposed. Enable DNS leak protection in your VPN and retest after enabling split tunneling."}
         },
         {
           "@type":"Question",
           "name":"Which devices support split tunneling?",
-          "acceptedAnswer":{"@type":"Answer","text":"Android commonly supports app-based split tunneling in many VPN apps. Windows and macOS support varies by provider. On routers, split tunneling is typically done via policy-based routing and requires more advanced configuration."}
+          "acceptedAnswer":{"@type":"Answer","text":"Android often supports app-based split tunneling in many VPN apps. Windows and macOS support varies by provider. On routers, split tunneling is usually done via policy-based routing and needs advanced configuration."}
+        },
+        {
+          "@type":"Question",
+          "name":"Should I use split tunneling for streaming or gaming?",
+          "acceptedAnswer":{"@type":"Answer","text":"Often yes. You can route a streaming or specific app through the VPN while keeping other traffic direct. The safest approach is to keep browsers and sensitive apps (banking, email, passwords) inside the VPN tunnel."}
         }
       ]
     },
@@ -256,9 +256,9 @@
       "@id":"https://dloran1.github.io/en-gb/blog/vpn-split-tunneling-uk.html#related",
       "name":"Related guides",
       "itemListElement":[
-        {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html"},
-        {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/en-gb/blog/vpn-kill-switch-uk.html"},
-        {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/en-gb/blog/vpn-protocols-uk.html"}
+        {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/en-gb/blog/what-is-a-vpn-uk.html"},
+        {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html"},
+        {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/en-gb/blog/vpn-router-setup-uk.html"}
       ]
     }
   ]
@@ -302,13 +302,14 @@
 
           <p class="note">
             <strong>Quick answer:</strong>
-            Split tunneling lets you choose which apps use the VPN and which go direct. It can boost speed and fix compatibility — but anything outside the tunnel is not protected, and misconfiguration can cause DNS/IP leaks.
+            Split tunneling lets you choose which apps use the VPN and which go direct. It can boost speed and fix compatibility —
+            but anything outside the tunnel is not protected, and misconfiguration can cause DNS/IP leaks.
           </p>
 
           <p>
-            People usually want split tunneling for one practical reason: <strong>keep the VPN where it matters</strong> (streaming, gaming, remote work)
-            while avoiding VPN side effects elsewhere (local services, certain banking logins, device casting).
-            Done right, it feels “faster and smoother”. Done wrong, it creates invisible privacy gaps.
+            People usually want split tunneling for one practical reason: <strong>keep the VPN where it matters</strong>
+            while avoiding VPN side effects elsewhere. The catch is that you must be intentional. If you exclude the wrong apps,
+            you effectively create a “privacy gap” without noticing.
           </p>
 
           <div class="hero-author">
@@ -329,8 +330,8 @@
           </div>
 
           <ul class="meta-points">
-            <li>Clear definition: app-based vs route-based split tunneling</li>
-            <li>Safe use cases (and risky ones) with simple decision rules</li>
+            <li>App-based vs route-based split tunneling</li>
+            <li>Safe use cases (and risky ones) with decision rules</li>
             <li>Leak tests (DNS/IPv6/WebRTC) + quick fixes</li>
           </ul>
         </div>
@@ -348,21 +349,22 @@
       <div class="container article">
         <!-- CONTENT_START -->
 
-        <div class="related-wide">
-          <p><strong>Related:</strong> <a href="/en-gb/blog/vpn-kill-switch-uk.html">Kill Switch: what it protects (and what it doesn’t)</a></p>
+        <!-- Internal link #1 -->
+        <div class="related-wide" id="related">
+          <p><strong>Related:</strong> <a href="/en-gb/blog/what-is-a-vpn-uk.html">What is a VPN? (UK)</a></p>
         </div>
 
         <h2>What split tunneling actually means (in plain English)</h2>
         <p>
-          A normal VPN setup is “all-or-nothing”: once connected, <strong>all</strong> your traffic goes into the encrypted tunnel.
+          A normal VPN connection is “all or nothing”: once connected, <strong>all</strong> traffic goes through the encrypted tunnel.
           Split tunneling changes that. You define rules like:
         </p>
         <ul>
-          <li><strong>Only these apps use the VPN</strong> (e.g., streaming app, game launcher, torrent client).</li>
-          <li><strong>Everything else goes direct</strong> (e.g., printer discovery, local smart TV casting, work intranet).</li>
+          <li><strong>Only selected apps use the VPN</strong> (for example: a streaming app, a work tool, or a browser profile).</li>
+          <li><strong>Everything else goes direct</strong> (for example: local network devices, printer discovery, or system updates).</li>
         </ul>
 
-        <div class="key-takeaway"><strong>Key takeaway:</strong> Split tunneling is controlled routing. It improves performance and compatibility, but it also creates a “direct lane” that bypasses VPN protection.</div>
+        <div class="key-takeaway"><strong>Key takeaway:</strong> Split tunneling is controlled routing. It improves speed and compatibility, but it creates a direct lane that bypasses VPN protection.</div>
 
         <!-- Diagram 1 -->
         <div class="svg-card">
@@ -391,14 +393,19 @@
           </div>
         </div>
 
+        <!-- Internal link #2 -->
         <div class="related-wide">
-          <p><strong>Related:</strong> <a href="/en-gb/blog/vpn-protocols-uk.html">VPN protocols: WireGuard vs OpenVPN vs IKEv2</a></p>
+          <p><strong>Related:</strong> <a href="/en-gb/blog/vpn-kill-switch-uk.html">Kill Switch: what it protects (and what it doesn’t)</a></p>
         </div>
 
         <h2>When split tunneling is worth using (and when it’s a bad idea)</h2>
         <p>
-          The “right” split tunneling setup depends on what you’re optimising for:
-          speed, compatibility, or privacy. In practice, most users want one of these scenarios:
+          Most people enable split tunneling for two reasons: <strong>performance</strong> (avoid unnecessary overhead)
+          and <strong>compatibility</strong> (some services behave differently behind a VPN).
+          In real life, the most common scenarios are streaming and gaming.
+          If you’re tuning your setup for entertainment, start with
+          <a href="/en-gb/blog/vpn-streaming-uk.html">VPN for streaming</a>
+          and then decide what should stay protected vs direct.
         </p>
 
         <div class="table-scroll" role="region" aria-label="Split tunneling use cases table" tabindex="0">
@@ -414,31 +421,31 @@
             <tbody>
               <tr>
                 <td>Streaming (geo-unlocks)</td>
-                <td>Streaming app / browser profile used for streaming</td>
-                <td>System updates, local devices, work apps</td>
+                <td>Streaming app / dedicated browser profile</td>
+                <td>Updates, local devices, work tools</td>
                 <td>Medium (location signals)</td>
               </tr>
               <tr>
                 <td>Gaming (lower ping)</td>
-                <td>Voice chat or specific game launcher (if needed)</td>
-                <td>Game traffic (if VPN increases latency)</td>
-                <td>Medium (IP visibility to peers)</td>
+                <td>Only what needs VPN (voice/chat, launcher, specific services)</td>
+                <td>Main game traffic (if VPN increases latency)</td>
+                <td>Medium (IP visibility)</td>
               </tr>
               <tr>
                 <td>Remote work</td>
-                <td>Work VPN tools, corporate apps, secure browsers</td>
-                <td>Personal streaming / entertainment</td>
-                <td>Low–Medium (policy compliance)</td>
+                <td>Work tools, secure browser, file sync</td>
+                <td>Personal entertainment traffic</td>
+                <td>Low–Medium (policy)</td>
               </tr>
               <tr>
-                <td>Local network (printers, casting)</td>
-                <td>Browser / non-local traffic</td>
-                <td>Printer discovery, casting, NAS access</td>
+                <td>Local network</td>
+                <td>General internet browsing</td>
+                <td>Printers, casting, NAS discovery</td>
                 <td>Low</td>
               </tr>
               <tr>
                 <td>Banking compatibility</td>
-                <td>Most traffic except the bank app</td>
+                <td>Most traffic except bank app/site</td>
                 <td>Bank app/site (direct)</td>
                 <td>High (sensitive data outside tunnel)</td>
               </tr>
@@ -453,8 +460,8 @@
           VPN apps typically offer one (or both) of these approaches:
         </p>
         <ul>
-          <li><strong>App-based split tunneling:</strong> You tick apps that should use (or bypass) the VPN. Common on Android and Windows.</li>
-          <li><strong>Route-based split tunneling:</strong> You define IP ranges/domains or network routes (often on routers via policy-based routing).</li>
+          <li><strong>App-based split tunneling:</strong> you select apps that should use (or bypass) the VPN. Common on Android and Windows.</li>
+          <li><strong>Route-based split tunneling:</strong> you define IP ranges / network routes (often on routers via policy-based routing).</li>
         </ul>
 
         <!-- Diagram 2 -->
@@ -470,10 +477,10 @@
               <text x="135" y="145" font-size="20">VPN Tunnel (encrypted)</text>
 
               <rect x="120" y="170" width="310" height="50" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
-              <text x="140" y="202" font-size="16">Streaming app / browser profile</text>
+              <text x="145" y="202" font-size="16">Streaming app / browser profile</text>
 
               <rect x="120" y="235" width="310" height="50" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
-              <text x="140" y="267" font-size="16">Remote work tools</text>
+              <text x="175" y="267" font-size="16">Work tools</text>
 
               <rect x="520" y="110" width="380" height="220" rx="18" fill="#fef9c3" stroke="#000" stroke-width="4"/>
               <text x="565" y="145" font-size="20">Direct (no VPN)</text>
@@ -487,20 +494,20 @@
               <line x1="475" y1="220" x2="520" y2="220" stroke="#000" stroke-width="4"/>
               <polygon points="520,220 505,212 505,228" fill="#000"/>
 
-              <text x="60" y="405" font-size="16">Tip: if your VPN has a Kill Switch, confirm it applies to tunnelled apps (or the whole system) after enabling split tunneling.</text>
+              <text x="60" y="405" font-size="16">Tip: verify whether the kill switch covers tunnelled apps (or the whole system) after enabling split tunneling.</text>
             </svg>
           </div>
         </div>
 
+        <!-- Internal link #3 -->
         <div class="related-wide">
           <p><strong>Related:</strong> <a href="/en-gb/blog/vpn-dns-leak-uk.html">DNS leak tests and fixes (UK)</a></p>
         </div>
 
         <h2>The biggest risk: leaks from the “direct lane”</h2>
         <p>
-          Split tunneling itself doesn’t magically create leaks — misconfiguration does.
-          The real issue is simple: when an excluded app goes direct, it can reveal:
-          your real IP, your ISP DNS, your approximate location, or even your local network details.
+          Split tunneling doesn’t automatically “break the VPN”. The real problem is that excluded apps can reveal your real network details:
+          public IP, ISP DNS, and location signals. This matters even more if the excluded app is a browser (because WebRTC and DNS can betray you).
         </p>
 
         <!-- Diagram 3 -->
@@ -538,14 +545,14 @@
               <line x1="640" y1="235" x2="710" y2="210" stroke="#000" stroke-width="4"/>
               <polygon points="710,210 694,205 699,221" fill="#000"/>
 
-              <text x="60" y="400" font-size="16">If a browser is excluded from VPN, WebRTC and DNS can expose your real network details. Test after every change.</text>
+              <text x="60" y="400" font-size="16">If your browser is excluded from VPN, DNS and WebRTC can expose your real network details.</text>
             </svg>
           </div>
         </div>
 
         <h2>3-step safety check (do this every time you change split tunneling rules)</h2>
         <p>
-          This is the quick routine I personally use (because yes, it’s easy to forget one setting, and then spend 40 minutes “debugging the VPN”).
+          This is the routine that prevents “silent leaks”. It takes a few minutes and saves hours of guesswork later.
         </p>
 
         <div class="table-scroll" role="region" aria-label="Three step split tunneling safety check table" tabindex="0">
@@ -567,21 +574,34 @@
               </tr>
               <tr>
                 <td><strong>2) WebRTC leak</strong></td>
-                <td>Test WebRTC IP exposure in your browser</td>
+                <td>Test WebRTC exposure in your browser</td>
                 <td>No local / real public IP shown</td>
-                <td>Disable WebRTC leak exposure settings or use browser hardening</td>
+                <td>Disable WebRTC leak exposure settings or harden the browser</td>
               </tr>
               <tr>
                 <td><strong>3) IPv6 leak</strong></td>
                 <td>Run an IPv6 leak test</td>
-                <td>No IPv6 leak (or IPv6 disabled/handled by VPN)</td>
+                <td>No IPv6 leak (or IPv6 handled by VPN)</td>
                 <td>Disable IPv6 or enable VPN IPv6 support if available</td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <div class="key-takeaway"><strong>Key takeaway:</strong> Split tunneling is “set-and-forget” only if you verify DNS/WebRTC/IPv6 after every change — otherwise you’re guessing.</div>
+        <div class="key-takeaway"><strong>Key takeaway:</strong> Split tunneling is “safe” only if you verify DNS/WebRTC/IPv6 after every change — otherwise you’re guessing.</div>
+
+        <!-- Internal link #4 -->
+        <div class="related-wide">
+          <p><strong>Related:</strong> <a href="/en-gb/blog/vpn-protocols-uk.html">VPN protocols: WireGuard vs OpenVPN vs IKEv2</a></p>
+        </div>
+
+        <h2>Performance vs privacy: how to choose what goes where</h2>
+        <p>
+          The simplest decision rule is: <strong>sensitive apps stay inside the VPN</strong>. Everything you exclude should be a conscious choice.
+          If your main use case is gaming, start with
+          <a href="/en-gb/blog/vpn-for-gaming-uk.html">VPN for gaming</a>
+          and decide whether the VPN helps or harms your ping (it depends on routing and server distance).
+        </p>
 
         <!-- Diagram 4 -->
         <div class="svg-card">
@@ -591,10 +611,10 @@
               <text x="24" y="28" font-size="18">A simple decision tree for split tunneling</text>
 
               <rect x="90" y="70" width="800" height="80" rx="18" fill="#ffffff" stroke="#000" stroke-width="4"/>
-              <text x="140" y="115" font-size="18">Is this app handling sensitive data (banking, email, passwords, work files)?</text>
+              <text x="130" y="115" font-size="18">Is this app handling sensitive data (banking, email, passwords, work files)?</text>
 
               <rect x="170" y="190" width="300" height="80" rx="18" fill="#dcfce7" stroke="#000" stroke-width="4"/>
-              <text x="230" y="235" font-size="18">YES → Keep in VPN</text>
+              <text x="235" y="235" font-size="18">YES → Keep in VPN</text>
 
               <rect x="520" y="190" width="300" height="80" rx="18" fill="#fef9c3" stroke="#000" stroke-width="4"/>
               <text x="560" y="235" font-size="18">NO → Next question</text>
@@ -609,7 +629,7 @@
               <text x="560" y="345" font-size="18">Needs VPN for geo-access?</text>
 
               <rect x="170" y="300" width="300" height="80" rx="18" fill="#fee2e2" stroke="#000" stroke-width="4"/>
-              <text x="215" y="345" font-size="18">Local devices / casting?</text>
+              <text x="205" y="345" font-size="18">Only local devices / LAN?</text>
 
               <line x1="670" y1="270" x2="670" y2="300" stroke="#000" stroke-width="4"/>
               <polygon points="670,300 662,286 678,286" fill="#000"/>
@@ -617,15 +637,20 @@
               <line x1="520" y1="230" x2="470" y2="300" stroke="#000" stroke-width="4"/>
               <polygon points="470,300 472,284 485,292" fill="#000"/>
 
-              <text x="60" y="440" font-size="16">Practical outcome: streamers often go through VPN; local casting and printers often go direct — but verify leaks after changes.</text>
+              <text x="60" y="440" font-size="16">Practical outcome: streamers often go through VPN; LAN services often go direct — but verify leaks after changes.</text>
             </svg>
           </div>
         </div>
 
+        <!-- Internal link #5 -->
+        <div class="related-wide">
+          <p><strong>Related:</strong> <a href="/en-gb/blog/vpn-router-setup-uk.html">Router VPN setup (UK): protect multiple devices</a></p>
+        </div>
+
         <h2>Fixes by platform (Windows, macOS, Android, iOS, routers)</h2>
         <p>
-          Split tunneling looks different depending on your device and VPN provider.
-          Some apps support it natively; others don’t. Use the table below as a practical “what to check” list.
+          Split tunneling looks different depending on your device and VPN provider. Some apps support it natively; others don’t.
+          Use the table below as a practical checklist of what to verify.
         </p>
 
         <div class="table-scroll" role="region" aria-label="Platform split tunneling support and checklist table" tabindex="0">
@@ -648,23 +673,23 @@
               <tr>
                 <td>macOS</td>
                 <td>Provider-dependent</td>
-                <td>Whether the VPN client truly supports exclusions (not just “bypass local”) </td>
+                <td>Whether the VPN client truly supports exclusions (not just “bypass local”)</td>
                 <td>Split rules apply inconsistently across processes</td>
               </tr>
               <tr>
                 <td>Android</td>
                 <td>Often app-based</td>
-                <td>Always-on VPN + “Block connections without VPN” for protected apps</td>
+                <td>Always-on VPN + block connections without VPN for protected apps</td>
                 <td>Battery optimisation breaks tunnelled apps</td>
               </tr>
               <tr>
                 <td>iOS</td>
-                <td>Limited, provider-dependent</td>
+                <td>Limited (provider-dependent)</td>
                 <td>Per-app VPN is rare; focus on leak tests and stability</td>
                 <td>Assuming iOS behaves like Android (it doesn’t)</td>
               </tr>
               <tr>
-                <td>Router</td>
+                <td>Routers</td>
                 <td>Route-based / policy routing</td>
                 <td>Policy rules, DNS settings, device groups</td>
                 <td>DNS still goes via ISP unless forced</td>
@@ -675,18 +700,6 @@
 
         <div class="key-takeaway"><strong>Key takeaway:</strong> Router split tunneling is powerful but easier to misconfigure. Always confirm DNS routing — not just IP routing.</div>
 
-        <h2>Troubleshooting checklist (fast diagnosis)</h2>
-        <ol>
-          <li><strong>Confirm what’s in/out of the tunnel:</strong> check the VPN app’s split tunneling list (apps or routes).</li>
-          <li><strong>Run DNS/WebRTC/IPv6 tests:</strong> do it immediately after any split tunneling change.</li>
-          <li><strong>Check kill switch behaviour:</strong> does it cover only VPN apps, or the whole system?</li>
-          <li><strong>Switch protocol:</strong> if stability is poor, try WireGuard vs OpenVPN vs IKEv2 (depending on provider).</li>
-          <li><strong>Fix “location still detected” issues:</strong> clear cookies, disable location permissions, isolate streaming to a separate browser profile.</li>
-          <li><strong>Streaming errors:</strong> try a different server location and re-test leaks.</li>
-          <li><strong>Gaming latency:</strong> if VPN increases ping, route only specific services through VPN (or keep game traffic direct).</li>
-        </ol>
-        <div class="key-takeaway"><strong>Key takeaway:</strong> Most split tunneling problems are either (1) wrong app selection, or (2) DNS still going to the ISP.</div>
-
         <h2 id="faq">FAQ</h2>
         <dl>
           <dt>What is VPN split tunneling?</dt>
@@ -695,22 +708,24 @@
           <dt>Is split tunneling safe?</dt>
           <dd>It can be safe if you keep sensitive apps inside the tunnel and verify DNS/WebRTC/IPv6 after changes. Anything excluded is not protected by the VPN.</dd>
 
-          <dt>Should I use split tunneling for streaming?</dt>
-          <dd>Often yes: route the streaming app through the VPN and keep other traffic direct for speed and compatibility. Use a separate browser profile and clear cookies if a service still detects location.</dd>
-
           <dt>Does split tunneling cause DNS leaks?</dt>
-          <dd>It can. If excluded apps use your ISP DNS resolver, your browsing destinations can be exposed. Enable DNS leak protection and retest after enabling split rules.</dd>
+          <dd>It can. If excluded apps use your ISP DNS resolver, your browsing destinations can be exposed. Enable DNS leak protection and retest.</dd>
 
           <dt>Which devices support split tunneling?</dt>
           <dd>Android often supports it in many VPN apps. Windows/macOS support varies. Routers typically use policy-based routing rather than per-app selection.</dd>
+
+          <dt>Should I use split tunneling for streaming or gaming?</dt>
+          <dd>Often yes — but keep your main browser and sensitive apps inside the VPN unless you fully understand the trade-off and have tested for leaks.</dd>
         </dl>
+
         <div class="key-takeaway"><strong>Key takeaway:</strong> The safest split tunneling setup is the one you can explain: “these apps are protected, these are intentionally direct, and I tested for leaks.”</div>
 
         <h2>Conclusion</h2>
         <p>
           Split tunneling is one of the most useful VPN features — and one of the easiest to misuse.
           Treat it like a controlled exception, not a permanent “make VPN problems go away” button.
-          Keep sensitive apps inside the tunnel, keep browsers inside unless you have a strong reason, and always run DNS/WebRTC/IPv6 tests after changes.
+          Keep sensitive apps inside the tunnel, keep browsers inside unless you have a strong reason,
+          and run DNS/WebRTC/IPv6 tests after every change.
         </p>
 
         <div class="cta-buttons" aria-label="Affiliate offers (end of article)">
