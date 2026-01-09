@@ -10,9 +10,7 @@
   --shadow: 0 10px 30px rgba(0,0,0,.35);
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 html,
 body {
@@ -24,17 +22,10 @@ body {
   line-height: 1.6;
 }
 
-a {
-  color: var(--brand);
-}
-a:hover {
-  opacity: 0.9;
-}
+a { color: var(--brand); }
+a:hover { opacity: 0.9; }
 
-img {
-  max-width: 100%;
-  height: auto;
-}
+img { max-width: 100%; height: auto; }
 
 .container {
   max-width: 1120px;
@@ -76,10 +67,7 @@ img {
   white-space: nowrap;
 }
 
-.logo {
-  width: 28px;
-  height: 28px;
-}
+.logo { width: 28px; height: 28px; }
 
 .brand-text {
   font-weight: 700;
@@ -93,9 +81,7 @@ img {
   font-weight: 600;
   font-size: 0.9rem;
 }
-.primary-nav a:hover {
-  color: #fff;
-}
+.primary-nav a:hover { color: #fff; }
 
 .lang-switch {
   display: flex;
@@ -109,9 +95,7 @@ img {
   font-weight: 600;
   white-space: nowrap;
 }
-.lang-switch a.active {
-  color: #fff;
-}
+.lang-switch a.active { color: #fff; }
 
 @media (min-width: 769px) {
   .header-inner {
@@ -119,9 +103,7 @@ img {
     align-items: center;
     justify-content: space-between;
   }
-  .lang-switch {
-    justify-content: flex-end;
-  }
+  .lang-switch { justify-content: flex-end; }
 }
 
 /* ===== HERO ===== */
@@ -195,26 +177,19 @@ img {
   flex-direction: column;
   font-size: 0.85rem;
 }
-.hero-author-label {
-  color: var(--muted);
-}
+.hero-author-label { color: var(--muted); }
 .hero-author-name {
   font-weight: 600;
   color: #fff;
 }
 
 /* CTA */
-.cta-row {
-  margin-top: 1rem;
-}
-.cta-row .btn {
-  margin-right: 0.6rem;
-}
+.cta-row { margin-top: 1rem; }
+.cta-row .btn { margin-right: 0.6rem; }
 
 /* ===== CONTENT ===== */
-.section {
-  margin: 2.5rem 0;
-}
+.section { margin: 2.5rem 0; }
+
 .section-alt {
   margin: 2.5rem 0;
   background: var(--panel);
@@ -253,9 +228,7 @@ img {
   border: 1px solid var(--border);
   box-shadow: 0 6px 18px rgba(0,0,0,0.28);
 }
-.card h3 {
-  margin: 0 0 0.4rem;
-}
+.card h3 { margin: 0 0 0.4rem; }
 .card p {
   margin: 0;
   color: var(--muted);
@@ -291,12 +264,8 @@ img {
   padding: 0.7rem 0.8rem;
   text-align: left;
 }
-.comparison-table thead th {
-  background: #111b2c;
-}
-.comparison-table tbody tr:nth-child(even) {
-  background: #0d1726;
-}
+.comparison-table thead th { background: #111b2c; }
+.comparison-table tbody tr:nth-child(even) { background: #0d1726; }
 
 /* CTA BOX */
 .cta-box {
@@ -318,9 +287,7 @@ img {
   color: #fff;
   border: none;
 }
-.btn-primary:hover {
-  background: var(--brand-2);
-}
+.btn-primary:hover { background: var(--brand-2); }
 
 /* NORD / SURFSHARK */
 .cta-buttons {
@@ -349,12 +316,9 @@ img {
   flex-wrap: wrap;
   gap: 1rem;
 }
-.footer-grid a {
-  color: var(--muted);
-}
-.footer-grid a:hover {
-  color: #fff;
-}
+.footer-grid a { color: var(--muted); }
+.footer-grid a:hover { color: #fff; }
+
 .tiny {
   color: var(--muted);
   text-align: center;
@@ -384,15 +348,46 @@ img {
 
 /* MOBILE */
 @media (max-width: 768px) {
-  .hero-inner {
-    padding: 1.4rem 1.2rem 1.6rem;
-  }
+  .hero-inner { padding: 1.4rem 1.2rem 1.6rem; }
+  .hero-copy h1 { font-size: 1.5rem; }
+  .section-alt { padding: 1.4rem 1.3rem; }
+}
 
-  .hero-copy h1 {
-    font-size: 1.5rem;
-  }
+/* ===== SVG / WHITE-CARD READABILITY FIX (VPN World Stage 2.5) ===== */
+/* Any SVG placed on white cards must NOT inherit the site's light text color */
+.svg-card,
+.svg-card * {
+  color: #000 !important;
+}
 
-  .section-alt {
-    padding: 1.4rem 1.3rem;
-  }
+/* Make SVG text always readable (overrides currentColor + theme rules) */
+.svg-card svg {
+  color: #000 !important;
+}
+.svg-card svg text {
+  fill: #000 !important;
+  font-weight: 800 !important;
+}
+
+/* Strong, high-contrast strokes for diagrams */
+.svg-card svg line,
+.svg-card svg path,
+.svg-card svg rect,
+.svg-card svg circle,
+.svg-card svg polyline,
+.svg-card svg polygon {
+  stroke: #000;
+  stroke-width: 3.2;
+}
+
+/* White card helper (optional, for your diagram wrappers) */
+.svg-card {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.10);
+  border-radius: 14px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.06);
+}
+.svg-card h3,
+.svg-card p {
+  color: #000 !important;
 }
