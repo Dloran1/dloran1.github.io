@@ -1,13 +1,19 @@
-<!DOCTYPE html><html lang="de">
+<!DOCTYPE html>
+<html lang="de">
 <head>
-<meta charset="utf-8">
-<title>Vpn Split Tunneling | VPN World</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="index, follow">
-<link rel="icon" href="/favicon.ico">
-<link rel="stylesheet" href="../../assets/css/style.css">
-<link rel="canonical" href="https://dloran1.github.io/de/blog/vpn-split-tunneling.html">
-<link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-split-tunneling.html">
+  <meta charset="utf-8">
+
+  <title>VPN Split-Tunneling (2026): Sicher einrichten, Risiken vermeiden & Leaks testen | VPN World</title>
+  <meta name="description" content="Der praxisnahe Guide 2026: Was Split-Tunneling ist, wann es sinnvoll ist (Streaming, Gaming, Banking), welche Risiken es gibt (DNS/IPv6/WebRTC-Leaks) und wie Sie es auf Windows, macOS, Android, iOS und Router sicher konfigurieren." />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index, follow">
+
+  <link rel="icon" href="/favicon.ico">
+  <link rel="canonical" href="https://dloran1.github.io/de/blog/vpn-split-tunneling.html">
+
+  <!-- HREFLANG (7× + x-default) -->
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-split-tunneling.html">
   <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-split-tunneling-uk.html">
   <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-split-tunneling.html">
   <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-split-tunneling.html">
@@ -16,42 +22,739 @@
   <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-split-tunneling.html">
   <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-split-tunneling-uk.html">
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-RD6M691ZWD');
-</script>
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../assets/css/style.css">
 
+  <!-- Preload hero -->
+  <link rel="preload" as="image" href="../../assets/img/hero/vpn-split-tunneling-uk.webp">
+
+  <!-- Preconnect -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="VPN World">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="nl_BE">
+  <meta property="og:title" content="VPN Split-Tunneling (2026): Sicher einrichten, Risiken vermeiden & Leaks testen">
+  <meta property="og:description" content="Split-Tunneling erklärt: wann es Sinn macht, welche Leaks drohen und wie Sie es auf Windows/macOS/Android/iOS/Router sauber konfigurieren – mit Checklisten und Tests." />
+  <meta property="og:url" content="https://dloran1.github.io/de/blog/vpn-split-tunneling.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-split-tunneling-uk.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="VPN Split-Tunneling (2026): Sicher einrichten & Leaks vermeiden">
+  <meta name="twitter:description" content="Praxisguide: Split-Tunneling richtig nutzen (Streaming, Gaming, Banking) – inklusive DNS/IPv6/WebRTC-Checks und Troubleshooting." />
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-split-tunneling-uk.webp">
+
+  <!-- Page-local helpers (SVG/table wrappers + Related card style) -->
+  <style>
+    .svg-card{background:#fff;border:2px solid #0b1220;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.08);margin:18px 0;overflow:hidden}
+    .svg-card .svg-head{padding:14px 16px;border-bottom:2px solid #0b1220;background:linear-gradient(180deg,#ffffff,#f6f8fb)}
+    .svg-card .svg-head strong{color:#0b1220}
+    .svg-card .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:14px 16px}
+    .svg-card svg{max-width:100%;height:auto;display:block;color:#000}
+    .svg-card svg text{fill:#000 !important;font-weight:800}
+    .svg-card svg .thin{stroke:#000;stroke-width:3;fill:none}
+    .svg-card svg .thick{stroke:#000;stroke-width:4;fill:none}
+    .svg-card svg .box{fill:#fff;stroke:#000;stroke-width:3}
+    .svg-card svg .pill{fill:#fff;stroke:#000;stroke-width:3;rx:14;ry:14}
+    .svg-card svg .accentA{fill:#fff2cc;stroke:#000;stroke-width:3}
+    .svg-card svg .accentB{fill:#d9f2ff;stroke:#000;stroke-width:3}
+    .svg-card svg .accentC{fill:#e6ffe6;stroke:#000;stroke-width:3}
+    .svg-card svg .accentD{fill:#ffe6f2;stroke:#000;stroke-width:3}
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0}
+    .table-scroll table{min-width:760px}
+    .rel-card{margin:14px 0;background:#0b1220;border:1px solid rgba(255,255,255,.16);border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.22);padding:14px 16px;position:relative}
+    .rel-card:before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:6px;border-radius:6px;background:#22c55e}
+    .rel-card p{margin:0;color:#eaeaea}
+    .rel-card a{color:#9ec4ff;text-decoration:underline;text-underline-offset:3px}
+  </style>
+
+  <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    gtag('consent','default', {
+      ad_storage:'denied',
+      ad_user_data:'denied',
+      ad_personalization:'denied',
+      analytics_storage:'denied',
+      functionality_storage:'denied',
+      personalization_storage:'denied',
+      security_storage:'denied'
+    });
+
+    gtag('js', new Date());
+
+    function hideCookieBannerSafely() {
+      var banner = document.getElementById('cookie-banner');
+      if (banner) banner.style.display = 'none';
+    }
+
+    function acceptConsent() {
+      gtag('consent','update', {
+        ad_storage:'granted',
+        ad_user_data:'granted',
+        ad_personalization:'granted',
+        analytics_storage:'granted',
+        functionality_storage:'granted',
+        personalization_storage:'granted',
+        security_storage:'granted'
+      });
+      try { localStorage.setItem('vpnworld_consent','granted'); } catch(e) {}
+      hideCookieBannerSafely();
+      gtag('config','G-RD6M691ZWD');
+    }
+
+    function rejectConsent() {
+      gtag('consent','update', {
+        ad_storage:'denied',
+        ad_user_data:'denied',
+        ad_personalization:'denied',
+        analytics_storage:'denied',
+        functionality_storage:'denied',
+        personalization_storage:'denied',
+        security_storage:'denied'
+      });
+      try { localStorage.setItem('vpnworld_consent','denied'); } catch(e) {}
+      hideCookieBannerSafely();
+    }
+
+    function applyStoredConsentSafely() {
+      try {
+        var c = localStorage.getItem('vpnworld_consent');
+        if (c === 'granted') {
+          gtag('consent','update', {
+            ad_storage:'granted',
+            ad_user_data:'granted',
+            ad_personalization:'granted',
+            analytics_storage:'granted',
+            functionality_storage:'granted',
+            personalization_storage:'granted',
+            security_storage:'granted'
+          });
+          hideCookieBannerSafely();
+          gtag('config','G-RD6M691ZWD');
+        } else if (c === 'denied') {
+          gtag('consent','update', {
+            ad_storage:'denied',
+            ad_user_data:'denied',
+            ad_personalization:'denied',
+            analytics_storage:'denied',
+            functionality_storage:'denied',
+            personalization_storage:'denied',
+            security_storage:'denied'
+          });
+          hideCookieBannerSafely();
+        }
+      } catch(e) {}
+    }
+
+    document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
+  </script>
+
+  <!-- JSON-LD (Stage 2.5): Article + FAQPage + BreadcrumbList + ItemList -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"Article",
+        "@id":"https://dloran1.github.io/de/blog/vpn-split-tunneling.html",
+        "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/de/blog/vpn-split-tunneling.html"},
+        "headline":"VPN Split-Tunneling (2026): Sicher einrichten, Risiken vermeiden & Leaks testen",
+        "description":"Der praxisnahe Guide 2026: Was Split-Tunneling ist, wann es sinnvoll ist (Streaming, Gaming, Banking), welche Risiken es gibt (DNS/IPv6/WebRTC-Leaks) und wie Sie es auf Windows, macOS, Android, iOS und Router sicher konfigurieren.",
+        "image":"https://dloran1.github.io/assets/img/hero/vpn-split-tunneling-uk.webp",
+        "inLanguage":"de",
+        "datePublished":"2026-01-07",
+        "dateModified":"2026-01-07",
+        "author":{"@type":"Person","name":"Denys Shchur","url":"https://dloran1.github.io/de/about-denys-shchur.html"},
+        "publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}}
+      },
+      {
+        "@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"Startseite","item":"https://dloran1.github.io/de/"},
+          {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/de/blog/"},
+          {"@type":"ListItem","position":3,"name":"VPN Split-Tunneling","item":"https://dloran1.github.io/de/blog/vpn-split-tunneling.html"}
+        ]
+      },
+      {
+        "@type":"FAQPage",
+        "@id":"https://dloran1.github.io/de/blog/vpn-split-tunneling.html#faq",
+        "mainEntity":[
+          {
+            "@type":"Question",
+            "name":"Was ist Split-Tunneling bei einem VPN?",
+            "acceptedAnswer":{"@type":"Answer","text":"Split-Tunneling bedeutet, dass nur ausgewählte Apps oder Ziele durch den VPN-Tunnel laufen, während der restliche Datenverkehr normal (ohne VPN) ins Internet geht. So können Sie z.B. Streaming über VPN schicken, aber Online-Banking direkt über den ISP laufen lassen."}
+          },
+          {
+            "@type":"Question",
+            "name":"Ist Split-Tunneling sicher?",
+            "acceptedAnswer":{"@type":"Answer","text":"Es kann sicher sein, wenn Sie es bewusst konfigurieren und anschließend DNS/IPv6/WebRTC auf Leaks testen. Das größte Risiko ist Fehlrouting: Teile des Datenverkehrs oder DNS-Anfragen verlassen ungewollt den Tunnel."}
+          },
+          {
+            "@type":"Question",
+            "name":"Warum funktioniert Split-Tunneling manchmal nicht?",
+            "acceptedAnswer":{"@type":"Answer","text":"Typische Ursachen sind: falsche App-Auswahl (z.B. falscher Prozess), Konflikte mit Firewall/Kill Switch, DNS-Einstellungen, IPv6-Leaks oder das Betriebssystem leitet Teile des Traffics über den Standard-Gateway."}
+          },
+          {
+            "@type":"Question",
+            "name":"Sollte ich Banking über oder außerhalb des VPNs nutzen?",
+            "acceptedAnswer":{"@type":"Answer","text":"Beides ist möglich. Viele Banken mögen stabile, konsistente Logins. Wenn VPN-IPs häufiger geblockt werden, kann es sinnvoll sein, Banking außerhalb des VPNs zu lassen – aber nur, wenn Sie Ihrem Netzwerk vertrauen und trotzdem sichere Standards nutzen (HTTPS, 2FA, aktuelle Geräte)."}
+          },
+          {
+            "@type":"Question",
+            "name":"Gibt es Split-Tunneling auf iOS?",
+            "acceptedAnswer":{"@type":"Answer","text":"iOS ist deutlich eingeschränkter als Android/Windows. Einige Anbieter unterstützen Split-Tunneling nur begrenzt oder gar nicht. Prüfen Sie in Ihrer VPN-App, ob es App- oder Domain-basiertes Split-Tunneling gibt."}
+          },
+          {
+            "@type":"Question",
+            "name":"Welche Tests sollte ich nach der Einrichtung durchführen?",
+            "acceptedAnswer":{"@type":"Answer","text":"Machen Sie mindestens einen DNS-Leak-Test und prüfen Sie IPv6 sowie WebRTC (im Browser). Zusätzlich lohnt sich ein kurzer Speedtest, um sicherzustellen, dass die VPN-Route für die ausgewählten Apps stabil ist."}
+          }
+        ]
+      },
+      {
+        "@type":"ItemList",
+        "@id":"https://dloran1.github.io/de/blog/vpn-split-tunneling.html#related",
+        "name":"Verwandte Guides",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/de/blog/vpn-dns-leak.html"},
+          {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/de/blog/vpn-kill-switch.html"},
+          {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/de/blog/vpn-geo-sperren.html"},
+          {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/de/blog/vpn-streaming.html"}
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
+
 <body>
-<nav class="lang-switch"><a href="/blog/vpn-split-tunneling.html">Polski</a> | <a href="/en-gb/blog/vpn-split-tunneling-uk.html">English (UK)</a> | <a href="/en-us/blog/vpn-split-tunneling.html">English (US)</a> | <a href="/de/blog/vpn-split-tunneling.html" class="active">Deutsch</a> | <a href="/es/blog/vpn-split-tunneling.html">Español</a> | <a href="/fr/blog/vpn-split-tunneling.html">Français</a> | <a href="/nl-be/blog/vpn-split-tunneling.html">Nederlands (BE)</a></nav>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="header-main">
+        <a href="/de/" class="brand">
+          <img src="../../assets/img/logo.png" class="logo" alt="VPN World – Logo">
+          <span class="brand-text">VPN World</span>
+        </a>
 
+        <nav class="primary-nav" aria-label="Hauptnavigation">
+          <a href="/de/blog/">Blog</a>
+        </nav>
+      </div>
 
-<header class="site-header"><div class="container header-inner">
-  <a href="/de/" class="brand"><img src="../../assets/img/logo.png" class="logo" alt=""> <span class="brand-text">VPN World</span></a>
-  
-</div></header>
-<main class="container card" style="padding:18px 0"><h1>Vpn Split Tunneling</h1><p>Content coming soon...</p><!-- RELATED_START -->
-<section class="related-guides" aria-label="Verwandte Ratgeber">
-  <h2>Verwandte Ratgeber</h2>
-  <ul>
-    <li><a href="/de/blog/was-ist-ein-vpn.html">/de/blog/was-ist-ein-vpn.html</a></li>
-    <li><a href="/de/blog/vpn-protokolle.html">/de/blog/vpn-protokolle.html</a></li>
-    <li><a href="/de/blog/proxy-vs-vpn.html">/de/blog/proxy-vs-vpn.html</a></li>
-    <li><a href="/de/blog/vpn-optimale-einstellungen.html">/de/blog/vpn-optimale-einstellungen.html</a></li>
-    <li><a href="/de/blog/vpn-speedtest.html">/de/blog/vpn-speedtest.html</a></li>
-  </ul>
-</section>
-<!-- RELATED_END -->
-</main>
-<footer class="site-footer"><div class="container footer-grid">
-  <div><strong>VPN World</strong><p>Niezależny serwis o prywatności i bezpieczeństwie w sieci.</p></div>
-  <nav><a href="/privacy.html">Privacy</a> <a href="/sitemap.xml">Sitemap</a> <a href="mailto:denger88@gmail.com">Kontakt</a></nav>
-</div><div class="container tiny">© 2025 VPN World</div></footer>
-<script src="../../assets/js/main.js"></script>
-<script src="../../assets/js/cookie-consent.js"></script>
-<div id="privacy-banner" class="privacy-banner">We use cookies. <a href="/privacy.html">Privacy</a> · <button class="btn btn-compact" onclick="this.parentElement.remove()">OK</button></div>
-</body></html>
+      <nav class="lang-switch" aria-label="Sprachumschalter">
+        <a href="/blog/vpn-split-tunneling.html" class="">Polski</a> |
+        <a href="/en-gb/blog/vpn-split-tunneling-uk.html" class="">English (UK)</a> |
+        <a href="/en-us/blog/vpn-split-tunneling.html" class="">English (US)</a> |
+        <a href="/de/blog/vpn-split-tunneling.html" class="active">Deutsch</a> |
+        <a href="/es/blog/vpn-split-tunneling.html" class="">Español</a> |
+        <a href="/fr/blog/vpn-split-tunneling.html" class="">Français</a> |
+        <a href="/nl-be/blog/vpn-split-tunneling.html" class="">Nederlands (BE)</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h1>VPN Split-Tunneling: sicher nutzen, ohne Leaks (2026)</h1>
+
+          <p class="note">
+            <strong>Kurzantwort:</strong>
+            Split-Tunneling ist superpraktisch (z.B. Streaming durch VPN, Banking ohne VPN) – aber nur, wenn Sie danach
+            DNS/IPv6/WebRTC testen. Sonst „leakt“ oft genau das, was eigentlich geschützt sein sollte.
+          </p>
+
+          <p>
+            Dieser Guide ist bewusst praxisnah: klare Regeln, typische Fehlerbilder und ein Setup, das Sie auf
+            Windows/macOS/Android/iOS oder über den Router sauber nachbauen können.
+          </p>
+
+          <div class="hero-author">
+            <img src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur – Autor von VPN World">
+            <div class="hero-author-text">
+              <span class="hero-author-label">Autor</span>
+              <span class="hero-author-name">
+                <a href="/de/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a>
+              </span>
+              <span class="meta">Aktualisiert: 2026-01-07 · 12–18 Min. Lesedauer</span>
+            </div>
+          </div>
+
+          <!-- Early CTA block -->
+          <div class="cta-buttons" aria-label="Partnerangebote">
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN testen — geprüfte No-Logs-Richtlinie</a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark testen — reine RAM-Server</a>
+          </div>
+
+          <ul class="meta-points">
+            <li>Wann Split-Tunneling Sinn macht (und wann nicht)</li>
+            <li>DNS/IPv6/WebRTC-Leaks vermeiden</li>
+            <li>Setups für Streaming, Gaming und Banking</li>
+          </ul>
+        </div>
+
+        <div class="hero-media">
+          <div class="hero-art">
+            <img src="../../assets/img/hero/vpn-split-tunneling-uk.webp" alt="Split-Tunneling – VPN-Routing als Illustration">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="section">
+      <div class="container article">
+        <!-- CONTENT_START -->
+
+        <div class="rel-card">
+          <p><strong>Related:</strong> <a href="/de/blog/was-ist-ein-vpn.html">Was ist ein VPN?</a></p>
+        </div>
+
+        <h2>Was ist Split-Tunneling – einfach erklärt</h2>
+        <p>
+          Ein klassisches VPN ist „Full Tunnel“: <em>alles</em> geht durch den VPN-Tunnel. Split-Tunneling ist das Gegenteil:
+          Sie teilen den Verkehr auf. Bestimmte Apps, Domains oder IPs laufen über VPN – der Rest nutzt die normale Internetverbindung.
+          Das klingt wie ein Detail, ist aber ein echtes Werkzeug für den Alltag: weniger Overhead, weniger Probleme mit
+          Banking-Logins und oft stabileres Streaming.
+        </p>
+
+        <div class="key-takeaway"><strong>Key takeaway:</strong> Split-Tunneling spart VPN-Ressourcen und kann Stabilität erhöhen – aber nur, wenn Sie gezielt steuern, <em>was</em> in den Tunnel darf und <em>was nicht</em>.</div>
+
+        <!-- Diagram 1 (SVG) -->
+        <div class="svg-card" aria-label="Diagramm: Full Tunnel vs Split-Tunneling">
+          <div class="svg-head"><strong>Diagramm 1:</strong> Full Tunnel vs. Split-Tunneling</div>
+          <div class="svg-scroll">
+            <svg viewBox="0 0 980 320" role="img" aria-label="Vergleich Full Tunnel und Split-Tunneling">
+              <rect x="30" y="40" width="920" height="240" class="box" rx="18" ry="18"></rect>
+
+              <rect x="70" y="70" width="390" height="190" class="accentB" rx="18" ry="18"></rect>
+              <text x="265" y="105" text-anchor="middle" font-size="20">Full Tunnel</text>
+              <rect x="100" y="130" width="330" height="54" class="pill"></rect>
+              <text x="265" y="165" text-anchor="middle" font-size="18">Alles über VPN</text>
+              <rect x="100" y="198" width="330" height="54" class="pill"></rect>
+              <text x="265" y="232" text-anchor="middle" font-size="16">Streaming, Apps, Updates, Browser</text>
+
+              <rect x="520" y="70" width="390" height="190" class="accentC" rx="18" ry="18"></rect>
+              <text x="715" y="105" text-anchor="middle" font-size="20">Split-Tunneling</text>
+              <rect x="550" y="130" width="330" height="54" class="pill"></rect>
+              <text x="715" y="165" text-anchor="middle" font-size="18">Nur ausgewählte Apps über VPN</text>
+              <rect x="550" y="198" width="330" height="54" class="pill"></rect>
+              <text x="715" y="232" text-anchor="middle" font-size="16">Rest direkt (ohne VPN)</text>
+
+              <text x="490" y="305" text-anchor="middle" font-size="16">Merksatz: Split-Tunneling = bewusstes Routing statt „alles oder nichts“</text>
+            </svg>
+          </div>
+        </div>
+
+        <h2>Wann Split-Tunneling wirklich Sinn macht</h2>
+        <p>
+          Split-Tunneling ist dann stark, wenn Sie <em>zwei Ziele gleichzeitig</em> haben: Datenschutz für bestimmte Apps – und
+          maximale Stabilität oder „normales Verhalten“ für andere. Typische Szenarien:
+        </p>
+        <ul>
+          <li><strong>Streaming:</strong> VOD-App über VPN, aber System-Updates und andere Dienste ohne VPN (weniger Buffering-Risiko). Siehe auch <a href="/de/blog/vpn-streaming.html">VPN für Streaming</a>.</li>
+          <li><strong>Gaming:</strong> Spiel ohne VPN (niedriger Ping), Voice-Chat/Browser über VPN (Privatsphäre).</li>
+          <li><strong>Online-Banking:</strong> Banking-App ohne VPN (weniger Fraud-Checks), alles andere über VPN. Mehr dazu: <a href="/de/blog/vpn-online-banking.html">VPN & Online-Banking</a>.</li>
+          <li><strong>Arbeit/Remote Work:</strong> Firmen-VPN oder Zero-Trust-Client separat, privates VPN nur für Browser/Tracking-Schutz.</li>
+        </ul>
+
+        <div class="key-takeaway"><strong>Key takeaway:</strong> Split-Tunneling ist am besten, wenn Sie ganz klar sagen können: „Diese App soll geschützt sein – diese App soll stabil sein.“</div>
+
+        <div class="rel-card">
+          <p><strong>Related:</strong> <a href="/de/blog/vpn-kill-switch.html">VPN Kill Switch</a></p>
+        </div>
+
+        <h2>Die häufigsten Risiken (und warum Split-Tunneling „Leaks“ begünstigt)</h2>
+        <p>
+          Split-Tunneling ist kein „unsicheres Feature“ an sich – die Gefahr entsteht durch falsche Annahmen.
+          Viele erwarten, dass „VPN an“ automatisch bedeutet: <em>alles privat</em>. Bei Split-Tunneling stimmt das nicht.
+          Die drei wichtigsten Stolperfallen:
+        </p>
+
+        <div class="table-scroll" aria-label="Tabelle: Split-Tunneling Risiken">
+          <table>
+            <thead>
+              <tr>
+                <th>Risiko</th>
+                <th>Was passiert technisch?</th>
+                <th>Woran merken Sie es?</th>
+                <th>Fix</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>DNS-Leak</td>
+                <td>DNS-Anfragen laufen über den ISP statt über VPN-DNS</td>
+                <td>Streaming/Seiten sehen „falsches“ Land oder melden VPN/Proxy</td>
+                <td>DNS-Leak-Schutz aktivieren + Test machen (Guide: <a href="/de/blog/vpn-dns-leak.html">DNS Leak</a>)</td>
+              </tr>
+              <tr>
+                <td>IPv6-Leak</td>
+                <td>IPv6 geht außerhalb des Tunnels, weil VPN nur IPv4 tunnelt</td>
+                <td>IP-Checks zeigen echte IPv6-Adresse</td>
+                <td>IPv6 im VPN blocken oder im OS deaktivieren</td>
+              </tr>
+              <tr>
+                <td>Kill-Switch Konflikt</td>
+                <td>Kill Switch blockiert Verkehr, den Split-Tunneling „direkt“ lassen soll</td>
+                <td>Apps funktionieren plötzlich gar nicht</td>
+                <td>App-/Route-Ausnahmen korrekt setzen, danach erneut testen</td>
+              </tr>
+              <tr>
+                <td>Falsche App-Auswahl</td>
+                <td>Sie whitelisten den falschen Prozess/Container</td>
+                <td>„Ausnahme“ greift nicht, Traffic geht doch durch VPN</td>
+                <td>App exakt auswählen (z.B. Browser vs Updater getrennt)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="key-takeaway"><strong>Key takeaway:</strong> Die meisten Probleme sind nicht „VPN kaputt“, sondern Routing + DNS. Darum: erst sauber konfigurieren, dann testen.</div>
+
+        <!-- Diagram 2 (SVG) -->
+        <div class="svg-card" aria-label="Diagramm: Split-Tunneling Routing">
+          <div class="svg-head"><strong>Diagramm 2:</strong> So sieht Split-Tunneling-Routing in der Praxis aus</div>
+          <div class="svg-scroll">
+            <svg viewBox="0 0 980 300" role="img" aria-label="Routing: App A über VPN, App B direkt">
+              <rect x="40" y="50" width="280" height="200" class="accentB" rx="18" ry="18"></rect>
+              <text x="180" y="90" text-anchor="middle" font-size="20">Gerät</text>
+              <rect x="80" y="120" width="200" height="58" class="pill"></rect>
+              <text x="180" y="155" text-anchor="middle" font-size="18">App A (VPN)</text>
+              <rect x="80" y="190" width="200" height="58" class="pill"></rect>
+              <text x="180" y="225" text-anchor="middle" font-size="18">App B (direkt)</text>
+
+              <rect x="390" y="95" width="240" height="80" class="accentC" rx="18" ry="18"></rect>
+              <text x="510" y="142" text-anchor="middle" font-size="20">VPN-Tunnel</text>
+
+              <rect x="390" y="195" width="240" height="80" class="accentA" rx="18" ry="18"></rect>
+              <text x="510" y="242" text-anchor="middle" font-size="20">Ohne VPN</text>
+
+              <rect x="700" y="95" width="240" height="80" class="accentD" rx="18" ry="18"></rect>
+              <text x="820" y="142" text-anchor="middle" font-size="20">Ziel 1</text>
+
+              <rect x="700" y="195" width="240" height="80" class="accentD" rx="18" ry="18"></rect>
+              <text x="820" y="242" text-anchor="middle" font-size="20">Ziel 2</text>
+
+              <path d="M280 148 L390 135" class="thick"></path>
+              <polygon points="380,135 365,127 367,144" fill="#000"></polygon>
+
+              <path d="M630 135 L700 135" class="thick"></path>
+              <polygon points="690,135 675,127 675,143" fill="#000"></polygon>
+
+              <path d="M280 218 L390 235" class="thick"></path>
+              <polygon points="380,235 365,227 365,243" fill="#000"></polygon>
+
+              <path d="M630 235 L700 235" class="thick"></path>
+              <polygon points="690,235 675,227 675,243" fill="#000"></polygon>
+
+              <text x="510" y="285" text-anchor="middle" font-size="16">Wichtig: DNS/IPv6 müssen zur Route passen – sonst „verrät“ DNS Ihre echte Region</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="rel-card">
+          <p><strong>Related:</strong> <a href="/de/blog/vpn-geo-sperren.html">VPN & Geo-Sperren</a></p>
+        </div>
+
+        <h2>Split-Tunneling für Streaming: „VPN für die App, Rest normal“</h2>
+        <p>
+          Für Streaming ist Split-Tunneling oft die beste Kombination aus Stabilität und Funktion:
+          Sie schicken nur die Streaming-App (oder den Browser-Tab) durch den Tunnel – und lassen
+          Updates, Smart-Home oder Downloads direkt laufen. Das reduziert Last auf dem VPN und hilft,
+          wenn Ihr VPN-Anbieter in Peak-Zeiten schwankt.
+        </p>
+        <p>
+          Aber: Streaming-Plattformen reagieren empfindlich auf DNS-Inkonsistenzen. Wenn Ihre Video-App
+          über VPN geht, DNS aber über den ISP, wirkt das wie ein „Mismatch“. Das kann zu Katalog-Problemen,
+          Fehlermeldungen oder VPN-Detektion führen. Deshalb gehört ein DNS-Test nach dem Setup Pflichtprogramm dazu.
+        </p>
+
+        <div class="key-takeaway"><strong>Key takeaway:</strong> Für Streaming gilt: Split-Tunneling + sauberes DNS = deutlich weniger „VPN detected“ und weniger Frust.</div>
+
+        <h2>Split-Tunneling für Gaming: Ping vs Privatsphäre</h2>
+        <p>
+          Beim Gaming zählt oft jede Millisekunde. Ein VPN kann – je nach Server, Protokoll und Last – den Ping erhöhen.
+          Mit Split-Tunneling können Sie das Spiel (Matchmaking/Server) direkt laufen lassen, aber
+          Browser, Discord/Voice oder Launcher-Tracker über VPN schicken. Das Ergebnis ist häufig:
+          „Ping bleibt niedrig, Privatsphäre steigt.“
+        </p>
+        <p>
+          Pro-Tipp: Wenn Sie ein modernes Protokoll wie WireGuard (oder NordLynx) nutzen, fällt der Overhead oft gering aus.
+          Trotzdem gilt: erst messen, dann entscheiden. Und ja – ich weiß, testen nervt. Aber 5 Minuten Test sparen Ihnen
+          später eine Stunde „Warum laggt das?“.
+        </p>
+
+        <!-- Table 2 -->
+        <div class="table-scroll" aria-label="Tabelle: Full Tunnel vs Split-Tunneling vs Smart-DNS">
+          <table>
+            <thead>
+              <tr>
+                <th>Modus</th>
+                <th>Privatsphäre</th>
+                <th>Stabilität/Performance</th>
+                <th>Typische Nutzung</th>
+                <th>Haupt-Risiko</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Full Tunnel</td>
+                <td>Hoch (alles durch VPN)</td>
+                <td>Variabel (abhängig vom Server)</td>
+                <td>Öffentliches WLAN, allgemeiner Schutz</td>
+                <td>Mehr Overhead, mehr Blockaden möglich</td>
+              </tr>
+              <tr>
+                <td>Split-Tunneling</td>
+                <td>Gezielt (nur ausgewählte Apps)</td>
+                <td>Oft besser (weniger VPN-Last)</td>
+                <td>Streaming + Banking, Gaming + Browser</td>
+                <td>Fehlrouting / DNS/IPv6-Leaks</td>
+              </tr>
+              <tr>
+                <td>Smart-DNS</td>
+                <td>Niedrig (kein Tunnel)</td>
+                <td>Meist sehr stabil</td>
+                <td>Nur Geo-Freischaltung</td>
+                <td>Keine Verschlüsselung, DNS-Tracking</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Diagram 3 (SVG) -->
+        <div class="svg-card" aria-label="Diagramm: 3-Schritte Check nach Einrichtung">
+          <div class="svg-head"><strong>Diagramm 3:</strong> 3-Schritte Sicherheits-Check nach dem Setup</div>
+          <div class="svg-scroll">
+            <svg viewBox="0 0 980 240" role="img" aria-label="3 Schritte: DNS, WebRTC, IPv6">
+              <rect x="30" y="40" width="920" height="160" class="box" rx="18" ry="18"></rect>
+
+              <rect x="80" y="70" width="260" height="110" class="accentA" rx="18" ry="18"></rect>
+              <text x="210" y="105" text-anchor="middle" font-size="20">01</text>
+              <text x="210" y="135" text-anchor="middle" font-size="18">DNS-Leak-Test</text>
+              <text x="210" y="160" text-anchor="middle" font-size="16">DNS muss zur Route passen</text>
+
+              <rect x="360" y="70" width="260" height="110" class="accentB" rx="18" ry="18"></rect>
+              <text x="490" y="105" text-anchor="middle" font-size="20">02</text>
+              <text x="490" y="135" text-anchor="middle" font-size="18">WebRTC-Check</text>
+              <text x="490" y="160" text-anchor="middle" font-size="16">Browser darf IP nicht verraten</text>
+
+              <rect x="640" y="70" width="260" height="110" class="accentC" rx="18" ry="18"></rect>
+              <text x="770" y="105" text-anchor="middle" font-size="20">03</text>
+              <text x="770" y="135" text-anchor="middle" font-size="18">IPv6 prüfen</text>
+              <text x="770" y="160" text-anchor="middle" font-size="16">IPv6 darf nicht „vorbeilaufen“</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="key-takeaway"><strong>Key takeaway:</strong> Split-Tunneling ohne Leak-Checks ist wie ein Regenschirm mit Loch: man fühlt sich geschützt – bis es wirklich drauf ankommt.</div>
+
+        <h2>So richten Sie Split-Tunneling sicher ein (Windows, macOS, Android, iOS, Router)</h2>
+        <p>
+          Die genauen Menüs unterscheiden sich je nach VPN-App. Das Prinzip ist aber fast immer gleich:
+          Sie wählen <strong>Apps</strong> oder <strong>Websites/Domains</strong>, die <em>in den Tunnel</em> sollen – oder genau andersrum:
+          Sie definieren, was <em>außerhalb</em> des Tunnels läuft (Ausnahme-Liste).
+        </p>
+
+        <h3>Windows</h3>
+        <ul>
+          <li><strong>App-basiert:</strong> Streaming-App/Browser in den VPN-Tunnel, Banking-App/Updater direkt.</li>
+          <li><strong>Firewall/Kill Switch:</strong> Prüfen, ob der Kill Switch Split-Tunneling unterstützt (sonst blockiert er „direkte“ Apps).</li>
+          <li><strong>DNS/IPv6:</strong> DNS-Leak-Schutz aktivieren; wenn nötig IPv6 deaktivieren.</li>
+        </ul>
+
+        <h3>macOS</h3>
+        <ul>
+          <li>Split-Tunneling ist je nach Anbieter eingeschränkt. Wenn verfügbar, bevorzugen Sie <strong>Domain-basiertes</strong> Routing (klarer).</li>
+          <li>Wenn Sie parallel ein Firmen-VPN nutzen: Konflikte sind häufig. Testen Sie zuerst im privaten WLAN.</li>
+        </ul>
+
+        <h3>Android</h3>
+        <ul>
+          <li>Android ist meist am flexibelsten: App-Listen funktionieren gut.</li>
+          <li>Nutzen Sie „Always-on VPN“ nur, wenn Ihre Ausnahme-Regeln sauber sind (sonst schneiden Sie sich ab).</li>
+        </ul>
+
+        <h3>iOS</h3>
+        <ul>
+          <li>iOS ist restriktiver. Viele Anbieter bieten Split-Tunneling nur teilweise oder gar nicht.</li>
+          <li>Wenn Ihr Use-Case „Banking ohne VPN“ ist: prüfen Sie, ob die App-Ausnahme wirklich greift – und testen Sie das Verhalten.</li>
+        </ul>
+
+        <h3>Router</h3>
+        <p>
+          Router-Setups sind mächtig, aber komplex: hier machen Sie Split-Tunneling oft über
+          <strong>Policy-Based Routing</strong> (z.B. bestimmte Geräte oder Ziele über VPN). Das lohnt sich,
+          wenn Sie Smart-TV/Konsole/Apple TV steuern möchten. Guide: <a href="/de/blog/vpn-router-einrichtung.html">VPN Router-Einrichtung</a>.
+        </p>
+
+        <div class="rel-card">
+          <p><strong>Related:</strong> <a href="/de/blog/vpn-2fa-mfa.html">VPN & 2FA/MFA</a></p>
+        </div>
+
+        <h2>Best Practices: Split-Tunneling ohne Bauchschmerzen</h2>
+        <ol>
+          <li><strong>Nur ein Ziel pro Regel:</strong> Erst Streaming, dann Banking. Nicht alles auf einmal konfigurieren.</li>
+          <li><strong>Nach jeder Änderung testen:</strong> DNS/IPv6/WebRTC + kurzer Speedtest. Sonst suchen Sie später ewig.</li>
+          <li><strong>Stabile Logins:</strong> Wenn Sie Banking außerhalb des VPN lassen, aktivieren Sie 2FA/MFA und achten Sie auf Geräteupdates.</li>
+          <li><strong>DNS ist der Dreh- und Angelpunkt:</strong> In der Praxis scheitern 70% der Fälle an DNS/IPv6, nicht am „VPN“.</li>
+          <li><strong>Nicht überoptimieren:</strong> Zwei saubere Regeln sind besser als zehn halbgare.</li>
+        </ol>
+
+        <div class="key-takeaway"><strong>Key takeaway:</strong> Weniger Regeln + saubere Tests = stabiler Alltag. Split-Tunneling ist ein Skalpell, kein Vorschlaghammer.</div>
+
+        <h2 id="faq">FAQ – häufige Fragen</h2>
+        <dl>
+          <dt>Was ist Split-Tunneling bei einem VPN?</dt>
+          <dd>Split-Tunneling teilt den Verkehr: ausgewählte Apps/Ziele über VPN, der Rest direkt ohne VPN.</dd>
+
+          <dt>Ist Split-Tunneling sicher?</dt>
+          <dd>Ja, wenn Sie es bewusst konfigurieren und danach DNS/IPv6/WebRTC testen. Das Hauptrisiko sind Leaks durch Fehlrouting.</dd>
+
+          <dt>Warum funktioniert Split-Tunneling manchmal nicht?</dt>
+          <dd>Meist wegen falscher App-Auswahl, Kill-Switch-Konflikten, DNS-/IPv6-Problemen oder weil das OS Teile des Traffics über den Standard-Gateway leitet.</dd>
+
+          <dt>Banking über oder ohne VPN?</dt>
+          <dd>Beides ist möglich. Wenn Banken VPN-IPs blocken, kann „ohne VPN“ stabiler sein – aber nur in vertrauenswürdigen Netzen und mit starken Sicherheitsstandards.</dd>
+
+          <dt>Gibt es Split-Tunneling auf iOS?</dt>
+          <dd>Teilweise – iOS ist eingeschränkter als Android/Windows. Prüfen Sie die Optionen Ihrer VPN-App.</dd>
+
+          <dt>Welche Tests sollte ich nach der Einrichtung durchführen?</dt>
+          <dd>DNS-Leak-Test, IPv6-Check, WebRTC-Check (Browser) und ein kurzer Speedtest.</dd>
+        </dl>
+
+        <div class="rel-card">
+          <p><strong>Related:</strong> <a href="/de/blog/no-logs-vpn.html">No-Logs VPN</a></p>
+        </div>
+
+        <h2>Fazit</h2>
+        <p>
+          Split-Tunneling ist eines der nützlichsten VPN-Features – wenn Sie es wie ein Werkzeug behandeln, nicht wie Magie.
+          Es kann Streaming stabiler machen, Gaming-Ping schonen und Banking-Logins entspannen. Gleichzeitig ist es
+          unforgiving: DNS/IPv6/WebRTC müssen stimmen, sonst entstehen Leaks oder „komische“ Effekte.
+        </p>
+        <p>
+          Mein pragmatischer Tipp: Starten Sie mit einem einzigen Use-Case (z.B. Streaming über VPN, Rest direkt),
+          testen Sie die Leaks, und erweitern Sie erst dann. Sie werden sich später selbst dankbar sein.
+        </p>
+
+        <div class="key-takeaway"><strong>Key takeaway:</strong> Split-Tunneling bringt Kontrolle – und Verantwortung. Mit Leak-Checks ist es ein Upgrade, ohne Checks ein Risiko.</div>
+
+        <!-- CONTENT_END -->
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <h2>Kurzvideo: VPN-Privatsphäre einfach erklärt (Video auf Englisch)</h2>
+
+        <p class="note">
+          <strong>Wichtig:</strong>
+          Ein VPN trennt <strong>wer Sie sind</strong> (IP, ISP) von <strong>was Sie tun</strong> (Websites/Apps).
+          Eine saubere No-Logs-Umsetzung hilft, diese Brücke später nicht wieder aufzubauen.
+        </p>
+
+        <div class="video-wrap">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&modestbranding=1"
+            title="VPN World — Video"
+            loading="lazy"
+            frameborder="0"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+        </div>
+
+        <p>
+          Falls der Player nicht lädt, auf YouTube ansehen:
+          <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- RELATED_START -->
+
+    <!-- RELATED_END -->
+
+    <section class="section">
+      <div class="container">
+        <div class="author-box">
+          <img src="../../assets/img/author/denys-shchur.webp" alt="Porträt von Denys Shchur" class="author-avatar">
+          <div>
+            <h3>Über den Autor</h3>
+            <p>
+              <strong><a href="/de/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a></strong>
+              ist der Gründer von VPN World und spezialisiert sich auf praxisnahe VPN-Tests, Online-Privatsphäre und sicheres Remote-Working.
+              Er verbringt viel Zeit mit Speedtests und der Analyse von DNS-Leaks, damit Sie es nicht tun müssen.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container article">
+        <div class="cta-box" aria-label="Empfohlenes VPN">
+          <h2>Empfohlenes VPN</h2>
+          <p class="cta-note">Affiliate-Links (nofollow/sponsored).</p>
+
+          <div class="cta-buttons" aria-label="Partnerangebote">
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN testen — geprüfte No-Logs-Richtlinie</a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark testen — reine RAM-Server</a>
+          </div>
+
+          <p class="human-note">Offenlegung: VPN World kann eine Provision erhalten, wenn Sie über diese Links kaufen – ohne Mehrkosten für Sie.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p><strong>VPN World</strong> · Unabhängiges Portal für Privatsphäre, Sicherheit und VPN-Praxis.</p>
+      <p>
+        <a href="/de/privacy.html">Datenschutz</a> ·
+        <a href="/de/disclosure.html">Offenlegung</a> ·
+        <a href="mailto:u1797008805@gmail.com">Kontakt</a>
+      </p>
+      <p>© 2026 VPN World</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/cookie-consent.js"></script>
+
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
+    <p>Analyse-Cookies sind standardmäßig deaktiviert. Sie können der Verwendung zustimmen oder sie ablehnen.</p>
+    <div class="cookie-actions">
+      <button type="button" class="btn btn-compact" onclick="acceptConsent()">Akzeptieren</button>
+      <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Ablehnen</button>
+    </div>
+  </div>
+
+</body>
+</html>
+
+<!-- PAGE: https://dloran1.github.io/de/blog/vpn-split-tunneling.html -->
