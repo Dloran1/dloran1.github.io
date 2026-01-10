@@ -1,13 +1,18 @@
-<!DOCTYPE html><html lang="nl-be">
+<!DOCTYPE html>
+<html lang="nl-be">
 <head>
-<meta charset="utf-8">
-<title>Vpn Openbaar Wifi | VPN World</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="index, follow">
-<link rel="icon" href="/favicon.ico">
-<link rel="stylesheet" href="../../assets/css/style.css">
-<link rel="canonical" href="https://dloran1.github.io/nl-be/blog/vpn-openbaar-wifi.html">
-<link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-publiczne-wifi.html">
+  <meta charset="utf-8">
+
+  <title>VPN voor openbare wifi (2026): veilig internetten, lek-tests & checklist | VPN World</title>
+  <meta name="description" content="Openbare wifi in cafés, stations en luchthavens is vaak een risico (Evil Twin, sniffing, sessie-kaping). Leer hoe een VPN je beschermt, hoe je DNS/IPv6/WebRTC-lekken test, en welke instellingen je best activeert op iPhone, Android, Windows en router (2026)." />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index, follow">
+
+  <link rel="icon" href="/favicon.ico">
+  <link rel="canonical" href="https://dloran1.github.io/nl-be/blog/vpn-openbaar-wifi.html">
+
+  <!-- HREFLANG (7× + x-default) — NE PAS MODIFIER -->
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-publiczne-wifi.html">
   <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-public-wifi-uk.html">
   <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-public-wifi.html">
   <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-oeffentliches-wifi.html">
@@ -16,42 +21,938 @@
   <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-openbaar-wifi.html">
   <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-public-wifi-uk.html">
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-RD6M691ZWD');
-</script>
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../assets/css/style.css">
 
+  <!-- Preload hero -->
+  <link rel="preload" as="image" href="../../assets/img/hero/vpn-public-wifi-uk.webp">
+
+  <!-- Preconnect -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="VPN World">
+  <meta property="og:locale" content="nl_BE">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="fr_FR">
+
+  <meta property="og:title" content="VPN voor openbare wifi (2026): veilig internetten, lek-tests & checklist">
+  <meta property="og:description" content="Openbare wifi: echte risico’s (Evil Twin, sniffing, sessie-kaping). Zo beschermt een VPN je, zo test je DNS/IPv6/WebRTC-lekken, en dit zijn de beste instellingen per toestel (2026).">
+  <meta property="og:url" content="https://dloran1.github.io/nl-be/blog/vpn-openbaar-wifi.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-public-wifi-uk.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Laptop beveiligen op openbare wifi met een versleutelde VPN-tunnel">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="VPN voor openbare wifi (2026): veilig internetten, lek-tests & checklist">
+  <meta name="twitter:description" content="Praktische gids: zo gebruik je een VPN op openbare wifi en test je DNS/IPv6/WebRTC-lekken (2026).">
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-public-wifi-uk.webp">
+
+  <!-- Stage 2.5: SVG + tables readability (HIGH CONTRAST, white/dark safe) -->
+  <style>
+    /* SVG: MUST be readable on white and dark backgrounds */
+    .svg-card{background:#fff; border:1px solid rgba(0,0,0,.15); border-radius:16px; padding:14px; box-shadow:0 8px 24px rgba(0,0,0,.12); margin:16px 0}
+    .svg-card .svg-title{margin:0 0 10px 0; font-weight:800; color:#000}
+    .svg-card .svg-sub{margin:0 0 10px 0; color:#000; opacity:.85}
+    .svg-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch}
+    .svg-scroll svg{display:block; max-width:100%; height:auto; color:#000}
+    .svg-scroll svg text{fill:#000 !important; font-weight:800}
+    .svg-scroll svg .stroke{stroke:#000; stroke-width:4; fill:none}
+    .svg-scroll svg .thin{stroke:#000; stroke-width:3; fill:none}
+    .svg-scroll svg .box{fill:#fff; stroke:#000; stroke-width:4}
+    .svg-scroll svg .pill{fill:#fff; stroke:#000; stroke-width:4}
+    .svg-scroll svg .accent{fill:#eaffea; stroke:#000; stroke-width:4}
+    .svg-scroll svg .danger{fill:#ffecec; stroke:#000; stroke-width:4}
+
+    /* Tables: force contrast even if parent section is dark */
+    .table-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch; margin:14px 0}
+    table.table-card{width:100%; border-collapse:collapse; background:#fff; border-radius:14px; overflow:hidden; border:1px solid rgba(0,0,0,.18)}
+    table.table-card th, table.table-card td{padding:12px 12px; border-bottom:1px solid rgba(0,0,0,.12); vertical-align:top; color:#000 !important}
+    table.table-card th{font-weight:900; text-align:left; background:#f6f7fb}
+    table.table-card tr:last-child td{border-bottom:none}
+    table.table-card tbody tr:nth-child(even) td{background:#fbfcff}
+
+    /* Mobile: keep headers readable (no cut) */
+    @media (max-width:640px){
+      table.table-card th, table.table-card td{white-space:normal; word-break:break-word}
+    }
+
+    /* Related strip (Stage 2.5 standard) */
+    .related-strip{
+      margin:12px 0 18px 0;
+      background:#0b1220;
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:16px;
+      padding:12px 14px 12px 16px;
+      position:relative;
+    }
+    .related-strip:before{
+      content:"";
+      position:absolute;
+      left:10px; top:12px; bottom:12px;
+      width:4px;
+      background:#22c55e;
+      border-radius:999px;
+    }
+    .related-strip p{margin:0; color:#eaeaea}
+    .related-strip a{color:#9ec4ff; text-decoration:underline; text-underline-offset:2px}
+
+    /* TOC */
+    .toc{
+      background:#fff;
+      border:1px solid rgba(0,0,0,.14);
+      border-radius:16px;
+      padding:14px;
+      margin:14px 0 18px 0;
+      box-shadow:0 8px 24px rgba(0,0,0,.10);
+    }
+    .toc h2{margin:0 0 10px 0; font-size:1.1rem; color:#000}
+    .toc ul{margin:0; padding-left:18px}
+    .toc a{color:#0b5bd3; text-decoration:underline; text-underline-offset:2px}
+
+    /* Small anchor offset for sticky header scenarios */
+    .anchor{scroll-margin-top:90px}
+  </style>
+
+  <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    gtag('consent','default', {
+      ad_storage:'denied',
+      ad_user_data:'denied',
+      ad_personalization:'denied',
+      analytics_storage:'denied',
+      functionality_storage:'denied',
+      personalization_storage:'denied',
+      security_storage:'denied'
+    });
+
+    gtag('js', new Date());
+
+    function hideCookieBannerSafely() {
+      var banner = document.getElementById('cookie-banner');
+      if (banner) banner.style.display = 'none';
+    }
+
+    function acceptConsent() {
+      gtag('consent','update', {
+        ad_storage:'granted',
+        ad_user_data:'granted',
+        ad_personalization:'granted',
+        analytics_storage:'granted',
+        functionality_storage:'granted',
+        personalization_storage:'granted',
+        security_storage:'granted'
+      });
+      try { localStorage.setItem('vpnworld_consent','granted'); } catch(e) {}
+      hideCookieBannerSafely();
+      gtag('config','G-RD6M691ZWD');
+    }
+
+    function rejectConsent() {
+      gtag('consent','update', {
+        ad_storage:'denied',
+        ad_user_data:'denied',
+        ad_personalization:'denied',
+        analytics_storage:'denied',
+        functionality_storage:'denied',
+        personalization_storage:'denied',
+        security_storage:'denied'
+      });
+      try { localStorage.setItem('vpnworld_consent','denied'); } catch(e) {}
+      hideCookieBannerSafely();
+    }
+
+    function applyStoredConsentSafely() {
+      try {
+        var c = localStorage.getItem('vpnworld_consent');
+        if (c === 'granted') {
+          gtag('consent','update', {
+            ad_storage:'granted',
+            ad_user_data:'granted',
+            ad_personalization:'granted',
+            analytics_storage:'granted',
+            functionality_storage:'granted',
+            personalization_storage:'granted',
+            security_storage:'granted'
+          });
+          hideCookieBannerSafely();
+          gtag('config','G-RD6M691ZWD');
+        } else if (c === 'denied') {
+          gtag('consent','update', {
+            ad_storage:'denied',
+            ad_user_data:'denied',
+            ad_personalization:'denied',
+            analytics_storage:'denied',
+            functionality_storage:'denied',
+            personalization_storage:'denied',
+            security_storage:'denied'
+          });
+          hideCookieBannerSafely();
+        }
+      } catch(e) {}
+    }
+
+    document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
+  </script>
+
+  <!-- JSON-LD (Stage 2.5): Article + FAQPage + BreadcrumbList + ItemList -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"Article",
+        "@id":"https://dloran1.github.io/nl-be/blog/vpn-openbaar-wifi.html",
+        "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/nl-be/blog/vpn-openbaar-wifi.html"},
+        "headline":"VPN voor openbare wifi (2026): veilig internetten, lek-tests & checklist",
+        "description":"Openbare wifi in cafés, stations en luchthavens is vaak een risico (Evil Twin, sniffing, sessie-kaping). Leer hoe een VPN je beschermt, hoe je DNS/IPv6/WebRTC-lekken test, en welke instellingen je best activeert op iPhone, Android, Windows en router (2026).",
+        "image":"https://dloran1.github.io/assets/img/hero/vpn-public-wifi-uk.webp",
+        "inLanguage":"nl-be",
+        "datePublished":"2026-01-07",
+        "dateModified":"2026-01-07",
+        "author":{"@type":"Person","name":"Denys Shchur","url":"https://dloran1.github.io/nl-be/about-denys-shchur.html"},
+        "publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}}
+      },
+      {
+        "@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"Home","item":"https://dloran1.github.io/nl-be/"},
+          {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/nl-be/blog/"},
+          {"@type":"ListItem","position":3,"name":"VPN voor openbare wifi","item":"https://dloran1.github.io/nl-be/blog/vpn-openbaar-wifi.html"}
+        ]
+      },
+      {
+        "@type":"ItemList",
+        "name":"Gerelateerde gidsen",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/nl-be/blog/wifi-beveiliging.html"},
+          {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/nl-be/blog/wifi-beveiliging-checklist.html"},
+          {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/nl-be/blog/vpn-dns-leak.html"},
+          {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/nl-be/blog/vpn-kill-switch.html"},
+          {"@type":"ListItem","position":5,"url":"https://dloran1.github.io/nl-be/blog/vpn-protocollen.html"},
+          {"@type":"ListItem","position":6,"url":"https://dloran1.github.io/nl-be/blog/no-logs-vpn.html"}
+        ]
+      },
+      {
+        "@type":"FAQPage",
+        "mainEntity":[
+          {
+            "@type":"Question",
+            "name":"Is openbare wifi veilig zonder VPN?",
+            "acceptedAnswer":{"@type":"Answer","text":"Meestal niet. Op een gedeeld netwerk zijn sniffing, Evil Twin (nep-hotspot) en sessie-kaping realistischer. Een VPN versleutelt je verkeer tussen toestel en VPN-server en maakt afluisteren veel moeilijker."}
+          },
+          {
+            "@type":"Question",
+            "name":"Beschermt een VPN tegen een nep-hotspot (Evil Twin)?",
+            "acceptedAnswer":{"@type":"Answer","text":"Grotendeels wel: zelfs op een nep-hotspot loopt je internetverkeer door een versleutelde tunnel. Maar je moet nog altijd opletten met foute SSID’s, verdachte captive portals en malware."}
+          },
+          {
+            "@type":"Question",
+            "name":"Hoe test ik DNS-, IPv6- en WebRTC-lekken?",
+            "acceptedAnswer":{"@type":"Answer","text":"Doe drie tests: (1) DNS: je ziet enkel VPN-DNS, (2) IPv6: je echte IPv6 mag niet zichtbaar zijn, (3) WebRTC: je browser mag je lokale/echte IP niet prijsgeven. Als je een lek ziet: activeer anti-leak en kill switch."}
+          },
+          {
+            "@type":"Question",
+            "name":"Kan ik online bankieren op openbare wifi met VPN?",
+            "acceptedAnswer":{"@type":"Answer","text":"Ja, dat is veiliger met VPN, maar gebruik ook 2FA. Voor gevoelige transacties is 4G/5G vaak nog beter dan een willekeurige hotspot."}
+          },
+          {
+            "@type":"Question",
+            "name":"Welke VPN-instellingen zijn ‘must-have’ op openbare wifi?",
+            "acceptedAnswer":{"@type":"Answer","text":"Kill switch, DNS anti-leak, automatisch verbinden op onbekende netwerken, en een modern protocol (bv. WireGuard). Op Android liefst ook ‘Always-on VPN’ en ‘Block without VPN’."}
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
+
 <body>
-<nav class="lang-switch"><a href="/blog/vpn-publiczne-wifi.html">Polski</a> | <a href="/en-gb/blog/vpn-public-wifi-uk.html">English (UK)</a> | <a href="/en-us/blog/vpn-public-wifi.html">English (US)</a> | <a href="/de/blog/vpn-oeffentliches-wifi.html">Deutsch</a> | <a href="/es/blog/vpn-wifi-publico.html">Español</a> | <a href="/fr/blog/vpn-wifi-public.html">Français</a> | <a href="/nl-be/blog/vpn-openbaar-wifi.html" class="active">Nederlands (BE)</a></nav>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="header-main">
+        <a href="/nl-be/" class="brand">
+          <img src="../../assets/img/logo.png" class="logo" alt="Logo VPN World">
+          <span class="brand-text">VPN World</span>
+        </a>
 
+        <nav class="primary-nav" aria-label="Hoofdnavigatie">
+          <a href="/nl-be/blog/">Blog</a>
+        </nav>
+      </div>
 
-<header class="site-header"><div class="container header-inner">
-  <a href="/nl-be/" class="brand"><img src="../../assets/img/logo.png" class="logo" alt=""> <span class="brand-text">VPN World</span></a>
-  
-</div></header>
-<main class="container card" style="padding:18px 0"><h1>Vpn Openbaar Wifi</h1><p>Content coming soon...</p><!-- RELATED_START -->
-<section class="related-guides" aria-label="Gerelateerde gidsen">
-  <h2>Gerelateerde gidsen</h2>
-  <ul>
-    <li><a href="/nl-be/blog/wifi-beveiliging.html">/nl-be/blog/wifi-beveiliging.html</a></li>
-    <li><a href="/nl-be/blog/no-logs-vpn.html">/nl-be/blog/no-logs-vpn.html</a></li>
-    <li><a href="/nl-be/blog/vpn-kill-switch.html">/nl-be/blog/vpn-kill-switch.html</a></li>
-    <li><a href="/nl-be/blog/vpn-protocollen.html">/nl-be/blog/vpn-protocollen.html</a></li>
-    <li><a href="/nl-be/blog/wat-is-een-vpn.html">/nl-be/blog/wat-is-een-vpn.html</a></li>
-  </ul>
-</section>
-<!-- RELATED_END -->
-</main>
-<footer class="site-footer"><div class="container footer-grid">
-  <div><strong>VPN World</strong><p>Niezależny serwis o prywatności i bezpieczeństwie w sieci.</p></div>
-  <nav><a href="/privacy.html">Privacy</a> <a href="/sitemap.xml">Sitemap</a> <a href="mailto:denger88@gmail.com">Kontakt</a></nav>
-</div><div class="container tiny">© 2025 VPN World</div></footer>
-<script src="../../assets/js/main.js"></script>
-<script src="../../assets/js/cookie-consent.js"></script>
-<div id="privacy-banner" class="privacy-banner">We use cookies. <a href="/privacy.html">Privacy</a> · <button class="btn btn-compact" onclick="this.parentElement.remove()">OK</button></div>
-</body></html>
+      <nav class="lang-switch" aria-label="Taalwisselaar">
+        <a href="/blog/vpn-publiczne-wifi.html">Polski</a> |
+        <a href="/en-gb/blog/vpn-public-wifi-uk.html">English (UK)</a> |
+        <a href="/en-us/blog/vpn-public-wifi.html">English (US)</a> |
+        <a href="/de/blog/vpn-oeffentliches-wifi.html">Deutsch</a> |
+        <a href="/es/blog/vpn-wifi-publico.html">Español</a> |
+        <a href="/fr/blog/vpn-wifi-public.html">Français</a> |
+        <a href="/nl-be/blog/vpn-openbaar-wifi.html" class="active">Nederlands (BE)</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h1>Veilig internetten op openbare wifi met een VPN (2026): checklist, lek-tests & instellingen</h1>
+
+          <p class="note">
+            <strong>Kort antwoord:</strong>
+            Openbare wifi is niet per se “evil”, maar het is vaak een <strong>gedeeld en onbetrouwbaar</strong> netwerk.
+            Met een VPN versleutel je je verkeer (toestel → VPN-server) en maak je sniffing, sessie-kaping en DNS-gefoefel veel moeilijker.
+          </p>
+
+          <p>
+            Dit is een praktische gids, <em>zonder zever</em>: wat is het echte risico, hoe test je lekken (DNS/IPv6/WebRTC),
+            en welke instellingen zet je best aan op iPhone, Android, Windows en zelfs je router.
+          </p>
+
+          <div class="hero-author">
+            <img src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur — auteur van VPN World">
+            <div class="hero-author-text">
+              <span class="hero-author-label">Geschreven door</span>
+              <span class="hero-author-name">
+                <a href="/nl-be/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a>
+              </span>
+              <span class="meta">Bijgewerkt: 2026-01-07 · 12–18 min leestijd</span>
+            </div>
+          </div>
+
+          <!-- Early CTA block -->
+          <div class="cta-buttons" aria-label="Partnerdeals">
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN proberen — geaudite no-logs</a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark proberen — RAM-only servers</a>
+          </div>
+
+          <ul class="meta-points">
+            <li>Risico’s uitgelegd: Evil Twin, sniffing, sessie-kaping</li>
+            <li>DNS/IPv6/WebRTC-lek test in 5 minuten</li>
+            <li>Concrete instellingen per platform + mini-checklist</li>
+          </ul>
+        </div>
+
+        <div class="hero-media">
+          <div class="hero-art">
+            <img src="../../assets/img/hero/vpn-public-wifi-uk.webp" alt="Laptop beveiligen op openbare wifi met een versleutelde VPN-tunnel">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="section">
+      <div class="container article">
+        <!-- CONTENT_START -->
+
+        <div class="toc" role="navigation" aria-label="Inhoudsopgave">
+          <h2>Inhoudsopgave</h2>
+          <ul>
+            <li><a href="#waarom-risico" class="anchor">Waarom openbare wifi riskant is</a></li>
+            <li><a href="#zonder-vs-met-vpn" class="anchor">Zonder VPN vs met VPN: wat verandert er écht?</a></li>
+            <li><a href="#evil-twin" class="anchor">Evil Twin & andere hotspot-trucs</a></li>
+            <li><a href="#lek-tests" class="anchor">Lek-tests: DNS / IPv6 / WebRTC</a></li>
+            <li><a href="#instellingen" class="anchor">Beste instellingen per toestel</a></li>
+            <li><a href="#local-intent" class="anchor">Lokale voorbeelden (BE): trein, luchthaven, café</a></li>
+            <li><a href="#mini-checklist" class="anchor">Mini-checklist vóór je verbinding maakt</a></li>
+            <li><a href="#faq" class="anchor">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div class="related-strip">
+          <p><strong>Related:</strong> <a href="/nl-be/blog/wifi-beveiliging.html">Wifi-beveiliging: basisregels die écht helpen</a></p>
+        </div>
+
+        <h2 id="waarom-risico" class="anchor">Waarom openbare wifi riskant is (zelfs als het “de officiële hotspot” is)</h2>
+        <p>
+          In een café, coworking, hotel of station deel je het netwerk met onbekenden. Dat is niet automatisch een ramp,
+          maar technisch gezien is de drempel lager voor aanvallen zoals <strong>Man-in-the-middle</strong>, sniffing of sessie-kaping.
+          En ja: zelfs wanneer de hotspot “vertrouwd” lijkt (bv. een provider-hotspot of een netwerk in een winkel),
+          blijft het een gedeeld kanaal waar misbruik kan gebeuren.
+        </p>
+        <p>
+          Denk aan klassiekers: je logt in op een account, je toestel bewaart cookies, je browser doet background requests,
+          en iemand op dezelfde hotspot probeert verkeer te onderscheppen of je om te leiden naar een nep-loginpagina.
+          Het is niet Hollywood-hacken — vaak is het gewoon <em>misbruik van slechte defaults</em>.
+        </p>
+
+        <div class="table-scroll" role="region" aria-label="Tabel: risico’s op openbare wifi">
+          <table class="table-card">
+            <thead>
+              <tr>
+                <th>Risico</th>
+                <th>Wat kan er misgaan?</th>
+                <th>Wat doet een VPN?</th>
+                <th>Extra tip</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Sniffing (afluisteren)</td>
+                <td>Metadata en slecht versleuteld verkeer kan bekeken worden</td>
+                <td>Versleutelt toestel → VPN-server (AES/ChaCha20)</td>
+                <td>Gebruik altijd HTTPS en update je browser</td>
+              </tr>
+              <tr>
+                <td>Sessie-kaping</td>
+                <td>Een sessie/cookie kan misbruikt worden (bij zwakke setups)</td>
+                <td>Maakt lokale onderschepping moeilijker</td>
+                <td>Zet 2FA aan op belangrijke accounts</td>
+              </tr>
+              <tr>
+                <td>Evil Twin (nep-hotspot)</td>
+                <td>Je verbindt met een netwerk dat er “exact hetzelfde” uitziet</td>
+                <td>Internetverkeer gaat nog steeds via de VPN-tunnel</td>
+                <td>Zet auto-join uit voor onbekende netwerken</td>
+              </tr>
+              <tr>
+                <td>DNS-manipulatie</td>
+                <td>Je wordt omgeleid naar foute sites (phishing)</td>
+                <td>VPN-DNS + anti-leak helpt</td>
+                <td>Test op DNS-lekken</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="key-takeaway"><strong>Key takeaway:</strong> openbare wifi is vooral riskant door het <strong>gedeelde lokale netwerk</strong>. Een VPN pakt net dat stuk aan: afluisteren en omleiding worden veel moeilijker.</div>
+
+        <div class="related-strip">
+          <p><strong>Related:</strong> <a href="/nl-be/blog/vpn-dns-leak.html">DNS-lek met VPN: detectie & fixes</a></p>
+        </div>
+
+        <h2 id="zonder-vs-met-vpn" class="anchor">Zonder VPN vs met VPN: wat verandert er écht?</h2>
+        <p>
+          De beste manier om het te snappen: stel je openbare wifi voor als een druk kruispunt. Zonder VPN rijdt jouw verkeer
+          “in het zicht” van het lokale netwerk. Met VPN zit je in een <strong>versleutelde tunnel</strong>.
+          De hotspot ziet vooral dat je met een VPN-server praat — niet wat je precies doet (op inhoudsniveau).
+        </p>
+
+        <div class="svg-card">
+          <p class="svg-title">Diagram 1 — Openbare wifi <span aria-hidden="true">zonder VPN</span></p>
+          <p class="svg-sub">Meer zichtbaar verkeer op het lokale netwerk: sniffing, sessie-kaping en DNS-trucs zijn realistischer.</p>
+          <div class="svg-scroll" role="region" aria-label="Diagram: verkeer zonder VPN">
+            <svg viewBox="0 0 980 260" xmlns="http://www.w3.org/2000/svg" aria-label="Openbare wifi zonder VPN">
+              <rect x="20" y="60" width="220" height="120" class="box" rx="18"/>
+              <text x="130" y="120" text-anchor="middle" font-size="22">Jouw toestel</text>
+              <text x="130" y="150" text-anchor="middle" font-size="16">laptop / smartphone</text>
+
+              <rect x="740" y="60" width="220" height="120" class="box" rx="18"/>
+              <text x="850" y="120" text-anchor="middle" font-size="22">Website</text>
+              <text x="850" y="150" text-anchor="middle" font-size="16">account / dienst</text>
+
+              <line x1="240" y1="120" x2="740" y2="120" class="stroke"/>
+              <polygon points="740,120 720,110 720,130" fill="#000"/>
+
+              <text x="490" y="92" text-anchor="middle" font-size="18">Lokaal netwerk = meer “zicht” voor anderen</text>
+
+              <rect x="360" y="150" width="260" height="78" class="danger" rx="18"/>
+              <text x="490" y="185" text-anchor="middle" font-size="18">Risico: sniffing / sessie-kaping</text>
+              <text x="490" y="208" text-anchor="middle" font-size="16">DNS-trucs, phishing, MITM</text>
+
+              <line x1="490" y1="150" x2="490" y2="132" class="thin"/>
+              <polygon points="490,132 480,150 500,150" fill="#000"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="svg-card">
+          <p class="svg-title">Diagram 2 — Openbare wifi <span aria-hidden="true">met VPN-tunnel</span></p>
+          <p class="svg-sub">De hotspot ziet vooral “verbinding naar VPN”. De inhoud blijft versleuteld tot aan de VPN-server.</p>
+          <div class="svg-scroll" role="region" aria-label="Diagram: verkeer met VPN">
+            <svg viewBox="0 0 980 300" xmlns="http://www.w3.org/2000/svg" aria-label="Openbare wifi met VPN-tunnel">
+              <rect x="20" y="90" width="220" height="120" class="box" rx="18"/>
+              <text x="130" y="150" text-anchor="middle" font-size="22">Jouw toestel</text>
+              <text x="130" y="180" text-anchor="middle" font-size="16">VPN aan</text>
+
+              <rect x="380" y="70" width="220" height="160" class="pill" rx="22"/>
+              <text x="490" y="140" text-anchor="middle" font-size="20">VPN-tunnel</text>
+              <text x="490" y="168" text-anchor="middle" font-size="16">versleuteld</text>
+              <text x="490" y="196" text-anchor="middle" font-size="16">toestel → VPN-server</text>
+
+              <rect x="740" y="90" width="220" height="120" class="box" rx="18"/>
+              <text x="850" y="150" text-anchor="middle" font-size="22">VPN-server</text>
+              <text x="850" y="180" text-anchor="middle" font-size="16">exit naar internet</text>
+
+              <line x1="240" y1="150" x2="380" y2="150" class="stroke"/>
+              <polygon points="380,150 360,140 360,160" fill="#000"/>
+              <line x1="600" y1="150" x2="740" y2="150" class="stroke"/>
+              <polygon points="740,150 720,140 720,160" fill="#000"/>
+
+              <rect x="20" y="18" width="940" height="44" class="accent" rx="16"/>
+              <text x="490" y="47" text-anchor="middle" font-size="18">Hotspot: ziet vooral “VPN-verbinding”, niet de inhoud</text>
+
+              <rect x="260" y="242" width="460" height="44" class="accent" rx="16"/>
+              <text x="490" y="270" text-anchor="middle" font-size="18">Resultaat: sniffing/MITM veel moeilijker</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="related-strip">
+          <p><strong>Related:</strong> <a href="/nl-be/blog/vpn-protocollen.html">VPN-protocollen: WireGuard, OpenVPN, IKEv2</a></p>
+        </div>
+
+        <h2 id="evil-twin" class="anchor">Evil Twin & andere hotspot-trucs (dit gebeurt echt)</h2>
+        <p>
+          Een <strong>Evil Twin</strong> is een nep-hotspot met bijna dezelfde naam als de echte (bv. “Airport_Free_WiFi”).
+          Veel toestellen verbinden automatisch met “bekende” SSID’s. Gevolg: je zit op het verkeerde netwerk zonder het te beseffen.
+          Met een VPN is je internetverkeer nog steeds versleuteld, maar je wil dit liefst <strong>voorkomen</strong>:
+          captive portals kunnen je naar phishing sturen en sommige aanvallen mikken op je toestel, niet enkel op je verkeer.
+        </p>
+
+        <div class="svg-card">
+          <p class="svg-title">Diagram 3 — Evil Twin (nep-hotspot): waar zit het gevaar?</p>
+          <p class="svg-sub">VPN helpt enorm, maar controleer de netwerknaam (SSID) en vermijd verdachte portals.</p>
+          <div class="svg-scroll" role="region" aria-label="Diagram: Evil Twin">
+            <svg viewBox="0 0 980 320" xmlns="http://www.w3.org/2000/svg" aria-label="Evil Twin: nep-hotspot">
+              <rect x="40" y="90" width="230" height="120" class="box" rx="18"/>
+              <text x="155" y="150" text-anchor="middle" font-size="22">Jouw toestel</text>
+              <text x="155" y="180" text-anchor="middle" font-size="16">auto-join</text>
+
+              <rect x="360" y="60" width="260" height="80" class="danger" rx="18"/>
+              <text x="490" y="105" text-anchor="middle" font-size="20">Nep-hotspot</text>
+              <text x="490" y="130" text-anchor="middle" font-size="16">Evil Twin / phishing portal</text>
+
+              <rect x="360" y="170" width="260" height="80" class="box" rx="18"/>
+              <text x="490" y="215" text-anchor="middle" font-size="20">Echte hotspot</text>
+              <text x="490" y="240" text-anchor="middle" font-size="16">legitiem netwerk</text>
+
+              <rect x="710" y="90" width="230" height="120" class="box" rx="18"/>
+              <text x="825" y="150" text-anchor="middle" font-size="22">Internet</text>
+              <text x="825" y="180" text-anchor="middle" font-size="16">sites / apps</text>
+
+              <line x1="270" y1="150" x2="360" y2="100" class="stroke"/>
+              <polygon points="360,100 336,96 346,116" fill="#000"/>
+
+              <line x1="270" y1="150" x2="360" y2="210" class="thin"/>
+              <polygon points="360,210 346,190 336,210" fill="#000"/>
+
+              <line x1="620" y1="100" x2="710" y2="150" class="stroke"/>
+              <polygon points="710,150 686,146 696,166" fill="#000"/>
+
+              <line x1="620" y1="210" x2="710" y2="150" class="thin"/>
+              <polygon points="710,150 696,134 686,154" fill="#000"/>
+
+              <rect x="40" y="18" width="900" height="44" class="accent" rx="16"/>
+              <text x="490" y="47" text-anchor="middle" font-size="18">Tip: zet auto-join uit + start VPN vóór je apps opent</text>
+            </svg>
+          </div>
+        </div>
+
+        <h2 id="lek-tests" class="anchor">Lek-tests: DNS / IPv6 / WebRTC (5 minuten, wel doen)</h2>
+        <p>
+          De grootste “facepalm” bij VPN-gebruik: mensen betalen voor een VPN en testen nooit op lekken.
+          Terwijl het net dát is wat je privacy kan torpederen op openbare wifi.
+          Drie tests geven je snel duidelijkheid: <strong>DNS</strong>, <strong>IPv6</strong> en <strong>WebRTC</strong>.
+        </p>
+
+        <div class="table-scroll" role="region" aria-label="Tabel: leak tests en fixes">
+          <table class="table-card">
+            <thead>
+              <tr>
+                <th>Test</th>
+                <th>Wat check je?</th>
+                <th>Rode vlag</th>
+                <th>Snelle fix</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>DNS</td>
+                <td>Naar welke DNS-servers gaan je queries?</td>
+                <td>Je ziet je ISP/hotspot-DNS i.p.v. VPN-DNS</td>
+                <td>Activeer “DNS via VPN” + DNS anti-leak</td>
+              </tr>
+              <tr>
+                <td>IPv6</td>
+                <td>Is je echte IPv6 zichtbaar?</td>
+                <td>Je eigen IPv6 verschijnt</td>
+                <td>IPv6 uitzetten of VPN kiezen met IPv6-support</td>
+              </tr>
+              <tr>
+                <td>WebRTC</td>
+                <td>Leakt je browser lokale/echte IP?</td>
+                <td>Lokale/echte IP wordt getoond</td>
+                <td>WebRTC beperken (browser-instellingen/extensie)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="svg-card">
+          <p class="svg-title">Diagram 4 — DNS-lek: waarom sites je toch kunnen “raden”</p>
+          <p class="svg-sub">Als DNS buiten de tunnel gaat, kan je ISP of hotspot afleiden welke domeinen je bezoekt.</p>
+          <div class="svg-scroll" role="region" aria-label="Diagram: DNS-lek">
+            <svg viewBox="0 0 980 280" xmlns="http://www.w3.org/2000/svg" aria-label="DNS-lek met VPN">
+              <rect x="30" y="80" width="220" height="120" class="box" rx="18"/>
+              <text x="140" y="140" text-anchor="middle" font-size="22">Jouw toestel</text>
+              <text x="140" y="170" text-anchor="middle" font-size="16">VPN aan</text>
+
+              <rect x="380" y="60" width="220" height="70" class="box" rx="18"/>
+              <text x="490" y="104" text-anchor="middle" font-size="18">VPN-server</text>
+
+              <rect x="380" y="150" width="220" height="70" class="danger" rx="18"/>
+              <text x="490" y="194" text-anchor="middle" font-size="18">Hotspot/ISP DNS</text>
+
+              <rect x="730" y="80" width="220" height="120" class="box" rx="18"/>
+              <text x="840" y="140" text-anchor="middle" font-size="22">Website</text>
+              <text x="840" y="170" text-anchor="middle" font-size="16">content</text>
+
+              <line x1="250" y1="110" x2="380" y2="95" class="stroke"/>
+              <polygon points="380,95 360,85 360,105" fill="#000"/>
+              <text x="315" y="78" text-anchor="middle" font-size="14">Versleuteld verkeer</text>
+
+              <line x1="600" y1="95" x2="730" y2="140" class="stroke"/>
+              <polygon points="730,140 706,136 716,156" fill="#000"/>
+
+              <line x1="250" y1="170" x2="380" y2="185" class="stroke"/>
+              <polygon points="380,185 360,175 360,195" fill="#000"/>
+              <text x="315" y="206" text-anchor="middle" font-size="14">DNS query (als er lek is)</text>
+
+              <rect x="30" y="18" width="920" height="44" class="accent" rx="16"/>
+              <text x="490" y="47" text-anchor="middle" font-size="18">Oplossing: VPN-DNS + anti-leak + geen “auto DNS” op hotspots</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="key-takeaway"><strong>Key takeaway:</strong> Doe je DNS/IPv6/WebRTC-test + kill switch aan? Dan heb je al een groot deel van de “openbare wifi ellende” afgedekt.</div>
+
+        <div class="related-strip">
+          <p><strong>Related:</strong> <a href="/nl-be/blog/vpn-kill-switch.html">Kill switch: voorkom IP-lek als je VPN dropt</a></p>
+        </div>
+
+        <h2 id="instellingen" class="anchor">Beste instellingen per toestel (iPhone, Android, Windows, router)</h2>
+        <p>
+          Je hoeft geen security-nerd te zijn om dit goed te doen. Het draait om drie basics:
+          <strong>automatisch verbinden</strong>, <strong>anti-lek</strong> en <strong>kill switch</strong>.
+          En ja: op sommige toestellen is “batterij-optimalisatie” de stille moordenaar van VPN-stabiliteit.
+        </p>
+
+        <div class="table-scroll" role="region" aria-label="Tabel: aanbevolen instellingen per platform">
+          <table class="table-card">
+            <thead>
+              <tr>
+                <th>Platform</th>
+                <th>Must-have instellingen</th>
+                <th>Waar gaat het vaak fout?</th>
+                <th>Handige gids</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>iPhone (iOS)</td>
+                <td>Auto-connect, VPN-DNS, “On Demand” (als stabiel)</td>
+                <td>VPN valt weg bij Wi-Fi/4G switch</td>
+                <td><a href="/nl-be/blog/vpn-iphone-instellen.html">iPhone instellen</a> · <a href="/nl-be/blog/vpn-ios.html">VPN op iOS</a></td>
+              </tr>
+              <tr>
+                <td>Android</td>
+                <td>Always-on VPN + “Block without VPN”, DNS anti-leak</td>
+                <td>App wordt “geslapen” door batterijbeheer</td>
+                <td><a href="/nl-be/blog/vpn-android.html">VPN op Android</a></td>
+              </tr>
+              <tr>
+                <td>Windows</td>
+                <td>Kill switch, DNS protection, modern protocol</td>
+                <td>Split tunneling fout ingesteld</td>
+                <td><a href="/nl-be/blog/vpn-windows-instellen.html">Windows instellen</a> · <a href="/nl-be/blog/vpn-split-tunneling.html">Split tunneling</a></td>
+              </tr>
+              <tr>
+                <td>macOS</td>
+                <td>Auto-reconnect, VPN-DNS, stabiel protocol</td>
+                <td>Netwerkprofielen en apps die omzeilen</td>
+                <td><a href="/nl-be/blog/vpn-macos.html">VPN op macOS</a></td>
+              </tr>
+              <tr>
+                <td>Router</td>
+                <td>VPN op netwerkniveau, goede DNS, firmware up-to-date</td>
+                <td>Te trage router = lagere snelheid</td>
+                <td><a href="/nl-be/blog/vpn-router-instellen.html">Router instellen</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          Tip uit de praktijk: als je vaak onderweg bent, zet dan in je VPN-app een profiel aan dat automatisch verbindt
+          op <em>onbekende wifi</em>. Dat voorkomt het klassieke scenario: je checkt snel je mail op station-wifi,
+          en <strong>pas daarna</strong> denk je “oei, VPN vergeten”.
+        </p>
+
+        <div class="related-strip">
+          <p><strong>Related:</strong> <a href="/nl-be/blog/no-logs-vpn.html">No-logs uitgelegd: wat betekent dat nu écht?</a></p>
+        </div>
+
+        <h2 id="local-intent" class="anchor">Lokale voorbeelden (BE): dezelfde risico’s in café, trein en luchthaven</h2>
+        <p>
+          België heeft overal hotspots: in cafés, op events, in stations, in shopping centers.
+          En of je nu op een “Telenet/Proximus hotspot” zit of op “Gratis_WiFi_2026” in een koffiezaak:
+          het blijft openbare wifi. De risico’s zijn hetzelfde.
+        </p>
+        <p>
+          Concreet: in de trein (NMBS) of op de luchthaven (Brussels Airport/Zaventem) schakelt je toestel vaak tussen netwerken.
+          Als je VPN geen kill switch heeft, kan je IP in een fractie van een seconde “uit de tunnel” vallen. Geen drama,
+          maar als je net dan inlogt op een account… tja, timing is soms wreed.
+        </p>
+
+        <div class="table-scroll" role="region" aria-label="Tabel: snelle beslisser voor onderweg">
+          <table class="table-card">
+            <thead>
+              <tr>
+                <th>Situatie</th>
+                <th>Beste keuze</th>
+                <th>Waarom</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Even scrollen / nieuws lezen</td>
+                <td>VPN aan (standaard)</td>
+                <td>Minder tracking en minder risico op lokale sniffing</td>
+              </tr>
+              <tr>
+                <td>Inloggen op e-mail of werktools</td>
+                <td>VPN + 2FA</td>
+                <td>Beschermt sessies en vermindert MITM-risico</td>
+              </tr>
+              <tr>
+                <td>Online bankieren / betalingen</td>
+                <td>Liefst 4G/5G + 2FA (en VPN als extra)</td>
+                <td>Openbare wifi is het minst voorspelbaar</td>
+              </tr>
+              <tr>
+                <td>Streaming in hotel</td>
+                <td>VPN, maar kies een snelle server</td>
+                <td>Snelheid en stabiliteit zijn belangrijk</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="related-strip">
+          <p><strong>Related:</strong> <a href="/nl-be/blog/vpn-2fa-mfa.html">2FA/MFA: extra bescherming naast VPN</a></p>
+        </div>
+
+        <h2 id="mini-checklist" class="anchor">Mini-checklist vóór je verbinding maakt (simpel, maar goud waard)</h2>
+        <p>
+          Je hoeft geen paranoïde modus te activeren. Deze checklist is “klein werk, groot effect”.
+          Als je dit doet, vermijd je de meeste klassieke problemen op openbare wifi.
+        </p>
+
+        <div class="svg-card">
+          <p class="svg-title">Diagram 5 — Checklist express: 6 stappen die je veel gedoe besparen</p>
+          <p class="svg-sub">Een routine die wérkt: snel, realistisch, en je blijft rustig (geen paniek nodig).</p>
+          <div class="svg-scroll" role="region" aria-label="Diagram: checklist openbare wifi">
+            <svg viewBox="0 0 980 330" xmlns="http://www.w3.org/2000/svg" aria-label="Checklist openbare wifi met VPN">
+              <rect x="20" y="20" width="940" height="60" class="accent" rx="18"/>
+              <text x="490" y="58" text-anchor="middle" font-size="20">Voor je online gaat: 6 snelle checks</text>
+
+              <rect x="40" y="110" width="280" height="70" class="box" rx="18"/>
+              <text x="60" y="152" font-size="18">1) Check SSID (netwerknaam)</text>
+
+              <rect x="340" y="110" width="280" height="70" class="box" rx="18"/>
+              <text x="360" y="152" font-size="18">2) Auto-join uit (onbekend)</text>
+
+              <rect x="640" y="110" width="300" height="70" class="box" rx="18"/>
+              <text x="660" y="152" font-size="18">3) VPN AAN vóór je surft</text>
+
+              <rect x="40" y="200" width="280" height="70" class="box" rx="18"/>
+              <text x="60" y="242" font-size="18">4) Kill switch + DNS anti-leak</text>
+
+              <rect x="340" y="200" width="280" height="70" class="box" rx="18"/>
+              <text x="360" y="242" font-size="18">5) Wantrouw rare portals</text>
+
+              <rect x="640" y="200" width="300" height="70" class="box" rx="18"/>
+              <text x="660" y="242" font-size="18">6) Bankieren: 2FA + 4G/5G</text>
+
+              <line x1="180" y1="180" x2="180" y2="200" class="thin"/>
+              <polygon points="180,200 170,186 190,186" fill="#000"/>
+              <line x1="490" y1="180" x2="490" y2="200" class="thin"/>
+              <polygon points="490,200 480,186 500,186" fill="#000"/>
+              <line x1="790" y1="180" x2="790" y2="200" class="thin"/>
+              <polygon points="790,200 780,186 800,186" fill="#000"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="table-scroll" role="region" aria-label="Tabel: snelle instellingen die je best aanzet">
+          <table class="table-card">
+            <thead>
+              <tr>
+                <th>Instelling</th>
+                <th>Waarom belangrijk?</th>
+                <th>Waar vind je het?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Kill switch</td>
+                <td>Blokkeert internet als VPN wegvalt (geen “blote IP” moment)</td>
+                <td><a href="/nl-be/blog/vpn-kill-switch.html">Kill switch gids</a></td>
+              </tr>
+              <tr>
+                <td>DNS anti-leak</td>
+                <td>Voorkomt dat DNS buiten de tunnel gaat</td>
+                <td><a href="/nl-be/blog/vpn-dns-leak.html">DNS-lek gids</a></td>
+              </tr>
+              <tr>
+                <td>Automatisch verbinden</td>
+                <td>Je vergeet minder vaak je VPN aan te zetten</td>
+                <td><a href="/nl-be/blog/vpn-optimale-instellingen.html">Optimale instellingen</a></td>
+              </tr>
+              <tr>
+                <td>Modern protocol (WireGuard)</td>
+                <td>Snel, stabiel, vaak beter op mobiel</td>
+                <td><a href="/nl-be/blog/vpn-protocollen.html">Protocollen</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="faq" class="anchor">FAQ</h2>
+        <dl>
+          <dt>Is openbare wifi veilig zonder VPN?</dt>
+          <dd>Meestal niet. Het grootste risico is het gedeelde lokale netwerk: sniffing, nep-hotspots en sessie-kaping. Met een VPN versleutel je je verkeer en verlaag je het risico sterk.</dd>
+
+          <dt>Maakt een VPN mij volledig anoniem?</dt>
+          <dd>Nee. Een VPN verbergt je IP en versleutelt je verbinding, maar tracking via cookies, browser fingerprinting en logins blijft bestaan. Combineer VPN met goede browserhygiëne en 2FA.</dd>
+
+          <dt>Waarom krijg ik meer CAPTCHA’s met een VPN?</dt>
+          <dd>Veel VPN-servers gebruiken gedeelde IP’s. Als die IP’s vaak misbruikt werden, tonen sites sneller CAPTCHA’s. Wissel van server of kies een minder drukke locatie.</dd>
+
+          <dt>Kan ik online bankieren op openbare wifi met VPN?</dt>
+          <dd>Ja, dat is veiliger met VPN, maar gebruik zeker 2FA. Voor echt gevoelige transacties is 4G/5G vaak nog beter dan een hotspot.</dd>
+
+          <dt>Welke instellingen zijn “must-have” op openbare wifi?</dt>
+          <dd>Kill switch, DNS anti-leak, auto-connect op onbekende netwerken en een modern protocol. Op Android is “Always-on” + “Block without VPN” een topcombo.</dd>
+        </dl>
+
+        <div class="key-takeaway"><strong>Key takeaway:</strong> De winnende combo op openbare wifi is simpel: <strong>VPN + kill switch + anti-lek + 2FA</strong>. Dat is al “security volwassen” zonder ingewikkelde trucs.</div>
+
+        <div class="related-strip">
+          <p><strong>Related:</strong> <a href="/nl-be/blog/wat-is-een-vpn.html">Wat is een VPN?</a> · <a href="/nl-be/blog/waarom-vpn-2025.html">Waarom VPN (2025/2026)?</a></p>
+        </div>
+
+        <h2>Conclusie</h2>
+        <p>
+          Openbare wifi is handig, maar het is vaak “open terrein”. Met een VPN maak je afluisteren en omleiding een pak moeilijker,
+          zeker als je kill switch en anti-lek aanzet. Voeg daar 2FA en een beetje gezond verstand aan toe
+          (geen verdachte portals, auto-join uit), en je zit al heel stevig.
+          Kortom: geen paniek, maar ook geen naïviteit — dat is de sweet spot.
+        </p>
+
+        <!-- CONTENT_END -->
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <h2>Korte video: VPN-privacy simpel uitgelegd</h2>
+
+        <p class="note">
+          <strong>Key takeaway:</strong>
+          een VPN scheidt <strong>wie je bent</strong> (IP, provider) van <strong>wat je doet</strong> (sites die je bezoekt).
+          Een no-logs aanpak helpt voorkomen dat die brug later weer “teruggebouwd” wordt.
+        </p>
+
+        <div class="video-wrap">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&modestbranding=1"
+            title="Video: VPN privacy uitgelegd"
+            loading="lazy"
+            frameborder="0"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+        </div>
+
+        <p>
+          Als de player niet laadt, bekijk de video op YouTube:
+          <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- RELATED_START -->
+    <!-- (Matrix-generated related block goes here) -->
+    <!-- RELATED_END -->
+
+    <section class="section">
+      <div class="container">
+        <div class="author-box">
+          <img src="../../assets/img/author/denys-shchur.webp" alt="Portret van Denys Shchur" class="author-avatar">
+          <div>
+            <h3>Over de auteur</h3>
+            <p>
+              <strong><a href="/nl-be/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a></strong>
+              is de maker van VPN World en schrijft praktische gidsen op basis van tests (DNS-lekken, snelheid, stabiliteit),
+              zodat jij een VPN kunt gebruiken zonder marketingpraat. Soms pijnlijk eerlijk — maar dat is net de bedoeling.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container article">
+        <div class="cta-box" aria-label="Aanbevolen VPN">
+          <h2>Aanbevolen VPN</h2>
+          <p class="cta-note">Partnerlinks (nofollow/sponsored).</p>
+
+          <div class="cta-buttons" aria-label="Partnerdeals">
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN proberen — geaudite no-logs</a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark proberen — RAM-only servers</a>
+          </div>
+
+          <p class="human-note">Disclosure: VPN World kan een commissie verdienen als je via deze links bestelt — zonder extra kost voor jou.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p><strong>VPN World</strong> · Onafhankelijke site over privacy, security en praktisch VPN-gebruik.</p>
+      <p>
+        <a href="/nl-be/privacy.html">Privacy</a> ·
+        <a href="/nl-be/disclosure.html">Disclosure</a> ·
+        <a href="mailto:u1797008805@gmail.com">Contact</a>
+      </p>
+      <p>© 2026 VPN World</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/cookie-consent.js"></script>
+
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
+    <p>Analytics staat standaard uit. Je kan analyse accepteren of weigeren.</p>
+    <div class="cookie-actions">
+      <button type="button" class="btn btn-compact" onclick="acceptConsent()">Accepteren</button>
+      <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Weigeren</button>
+    </div>
+  </div>
+
+</body>
+</html>
+
+<!-- PAGE: https://dloran1.github.io/nl-be/blog/vpn-openbaar-wifi.html -->
