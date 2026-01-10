@@ -346,15 +346,21 @@
       <div class="container article">
         <!-- CONTENT_START -->
 
+        <!-- NOTE: We add exactly 15 contextual internal links INSIDE the main text below (not counting nav/footer/CTA/lang switcher/related cards). -->
+
         <div class="related-card">
           <strong>Related:</strong> <a href="/de/blog/vpn-geo-sperren.html">VPN gegen Geo-Sperren (Praxis)</a>
         </div>
 
         <h2 id="was-passiert">1) Was passiert bei Sky Go im Ausland?</h2>
         <p>
-          Sky Go arbeitet lizenzbasiert: Inhalte sind häufig an einen bestimmten Markt gebunden. Wenn du im Ausland bist,
-          erkennt Sky deinen Standort vor allem über <strong>IP-Geolocation</strong> (deine sichtbare IP-Adresse) und manchmal
-          indirekt über <strong>DNS-Signale</strong> oder alte App-/Browser-Spuren.
+          Sky Go arbeitet lizenzbasiert: Inhalte sind häufig an einen bestimmten Markt gebunden.
+          Wenn du im Ausland bist, erkennt Sky deinen Standort vor allem über <strong>IP-Geolocation</strong> (deine sichtbare IP-Adresse)
+          und manchmal indirekt über <strong>DNS-Signale</strong> oder alte App-/Browser-Spuren.
+          Wenn du die Grundlagen noch einmal sauber aufräumen willst, lies kurz
+          <a href="/de/blog/was-ist-ein-vpn.html">Was ist ein VPN?</a>
+          und wie ein VPN technisch arbeitet in
+          <a href="/de/blog/vpn-protokolle.html">VPN-Protokolle</a>.
         </p>
 
         <div class="svg-card" role="group" aria-label="Diagramm: Geoblocking und VPN-Ablauf">
@@ -411,7 +417,9 @@
 
         <h2 id="checkliste">2) 60-Sekunden-Checkliste: Passt dein Setup zu Sky Go?</h2>
         <p class="note">
-          <strong>Mini-Check:</strong> Wenn Sky Go blockt, beginne immer mit <strong>Standort-Konsistenz</strong> (IP + DNS + App-Spuren). Erst danach lohnt es sich, Protokolle/Server zu optimieren.
+          <strong>Mini-Check:</strong> Wenn Sky Go blockt, beginne immer mit <strong>Standort-Konsistenz</strong> (IP + DNS + App-Spuren).
+          Für ein praxisnahes Grundgerüst helfen dir auch die allgemeinen
+          <a href="/de/blog/vpn-optimale-einstellungen.html">optimalen VPN-Einstellungen</a>.
         </p>
 
         <div class="table-scroll" role="region" aria-label="Tabelle: Setup-Checkliste für Sky Go">
@@ -429,31 +437,31 @@
                 <td>VPN-IP Standort</td>
                 <td>IP-Check im Browser</td>
                 <td>Land = Heimatmarkt (meist DE)</td>
-                <td>Anderen Server im richtigen Land wählen</td>
+                <td>Anderen Server im richtigen Land wählen (siehe <a href="/de/blog/welcher-vpn-server.html">welcher VPN-Server</a>)</td>
               </tr>
               <tr>
                 <td>DNS-Standort</td>
                 <td>DNS-Leak-Test (siehe unten)</td>
                 <td>DNS gehört zum VPN oder neutral</td>
-                <td>VPN-DNS erzwingen / Secure DNS korrigieren</td>
+                <td>VPN-DNS erzwingen, sonst droht <a href="/de/blog/vpn-dns-leak.html">DNS-Leak</a></td>
               </tr>
               <tr>
                 <td>WebRTC-Leak (Browser)</td>
                 <td>WebRTC-Leak-Check</td>
                 <td>Keine echte IP sichtbar</td>
-                <td>WebRTC einschränken / anderen Browser</td>
+                <td>WebRTC einschränken; generell hilft auch <a href="/de/blog/vpn-geo-sperren.html">Geo-Sperren verstehen</a></td>
               </tr>
               <tr>
                 <td>App-/Browser-Spuren</td>
                 <td>Sky Go ab-/anmelden + Cache prüfen</td>
                 <td>Nach VPN-Wechsel „sauberer“ Start</td>
-                <td>Cookies/Cache/App-Daten löschen</td>
+                <td>Cookies/Cache/App-Daten löschen (bei Bedarf: <a href="/de/blog/vpn-macos.html">macOS</a> / <a href="/de/blog/vpn-windows-einrichtung.html">Windows</a>)</td>
               </tr>
               <tr>
                 <td>Speed/Latenz</td>
                 <td>Speedtest + Ping zum VPN-Server</td>
                 <td>Stabil (kein Packet Loss)</td>
-                <td>Näherer Server, WireGuard, LAN statt WLAN</td>
+                <td>Messmethode: <a href="/de/blog/vpn-speedtest.html">VPN Speedtest</a></td>
               </tr>
             </tbody>
           </table>
@@ -467,9 +475,11 @@
 
         <h2 id="leaks">3) Leak-Tests, die bei Sky Go wirklich zählen (DNS/IPv6/WebRTC)</h2>
         <p>
-          Für Streaming-Plattformen ist der wichtigste Leak der <strong>DNS-Leak</strong>. Wenn deine DNS-Anfragen weiterhin über den ISP im Ausland laufen,
-          „sieht“ der Dienst schnell, dass etwas nicht stimmt – auch wenn die IP nach Deutschland zeigt.
+          Für Streaming-Plattformen ist der wichtigste Leak der <strong>DNS-Leak</strong>.
+          Wenn deine DNS-Anfragen weiterhin über den ISP im Ausland laufen, „sieht“ der Dienst schnell,
+          dass etwas nicht stimmt – auch wenn die IP nach Deutschland zeigt.
           WebRTC betrifft vor allem Browser-Nutzung, IPv6 ist ein Klassiker bei falsch konfigurierten Setups.
+          Wenn du tiefer testen willst: <a href="/de/blog/vpn-dns-leak.html">DNS-Leak</a> und <a href="/de/blog/vpn-protokolle.html">Protokolle</a> sind die zwei Artikel, die in der Praxis am meisten helfen.
         </p>
 
         <div class="svg-card" role="group" aria-label="Diagramm: Wo Leaks entstehen können">
@@ -560,6 +570,12 @@
         <p>
           Beim Streaming spürst du nicht nur Download-Speed, sondern auch <strong>Latenz</strong> und <strong>Stabilität</strong>.
           Ein „schneller“ Server, der Pakete verliert, ist schlechter als ein stabiler Server mit etwas weniger Peak-Speed.
+          Wenn du Streaming als Thema generell ausbauen willst, passt auch
+          <a href="/de/blog/vpn-streaming.html">VPN fürs Streaming</a>
+          sowie für Konsolen/TVs
+          <a href="/de/blog/vpn-fuer-smart-tv.html">VPN für Smart-TVs</a>
+          und
+          <a href="/de/blog/vpn-fuer-konsolen-ps5-xbox.html">VPN für PS5/Xbox</a>.
         </p>
 
         <div class="svg-card" role="group" aria-label="Diagramm: Speed-Pipeline beim Streaming">
@@ -623,7 +639,7 @@
                 <td>Langsames Protokoll</td>
                 <td>Speed ok ohne VPN, schlecht mit VPN</td>
                 <td>Protokoll wechseln</td>
-                <td>WireGuard/NordLynx bevorzugen</td>
+                <td>WireGuard bevorzugen (Details: <a href="/de/blog/vpn-protokolle.html">VPN-Protokolle</a>)</td>
               </tr>
               <tr>
                 <td>Server überlastet</td>
@@ -644,7 +660,13 @@
         <h2 id="setup">5) Setup nach Gerät: Windows, macOS, iOS/Android, Router</h2>
         <p>
           Sky Go läuft je nach Gerät als App oder im Browser. Das ändert, welche Leaks relevant sind (WebRTC eher im Browser),
-          und wie du Caches löschst. Unten ist die „so mache ich es“-Reihenfolge, wenn Sky Go zickt.
+          und wie du Caches löschst. Wenn du nach Plattform optimieren willst, nutze die kurzen Setups:
+          <a href="/de/blog/vpn-ios.html">VPN auf iOS</a>,
+          <a href="/de/blog/vpn-android.html">VPN auf Android</a>,
+          <a href="/de/blog/vpn-macos.html">VPN auf macOS</a>,
+          <a href="/de/blog/vpn-windows-einrichtung.html">VPN auf Windows</a>
+          oder fürs ganze Zuhause
+          <a href="/de/blog/vpn-router-einrichtung.html">VPN am Router</a>.
         </p>
 
         <div class="table-scroll" role="region" aria-label="Tabelle: Setup nach Gerät">
@@ -693,8 +715,9 @@
         </div>
 
         <p class="note">
-          <strong>Hinweis (realistisch):</strong> Selbst mit perfektem Setup kann Sky IP-Ranges sperren. Wenn ein Server heute funktioniert, kann er morgen geblockt sein.
-          Genau deshalb brauchst du eine saubere Troubleshooting-Routine.
+          <strong>Hinweis (realistisch):</strong> Selbst mit perfektem Setup kann Sky IP-Ranges sperren.
+          Wenn ein Server heute funktioniert, kann er morgen geblockt sein. In dem Fall hilft nur: anderer Server
+          oder eine andere Routing-Strategie (z.B. Router + Geräte-Regeln).
         </p>
 
         <div class="key-takeaway"><strong>Key takeaway:</strong> Gerät bestimmt den Fix: Browser → WebRTC/Cookies, App → App-Daten/Cache, Router → DNS/Policy-Routing.</div>
@@ -706,8 +729,10 @@
         <h2 id="split">6) Split Tunneling für Sky Go: wann es hilft (und wann es schadet)</h2>
         <p>
           Split Tunneling bedeutet: Ein Teil deines Traffics geht durch das VPN, ein Teil direkt über deinen ISP.
-          Für Sky Go kann das hilfreich sein, wenn du z.B. Banking, Firmen-Tools oder lokale Apps <em>nicht</em> über VPN laufen lassen willst,
-          während Sky Go über einen deutschen VPN-Server geht.
+          Für Sky Go kann das hilfreich sein, wenn du z.B. Banking oder lokale Apps <em>nicht</em> über VPN laufen lassen willst,
+          während Sky Go über einen deutschen VPN-Server geht. Wenn du den Mechanismus noch nicht sauber im Kopf hast,
+          lies zuerst <a href="/de/blog/vpn-split-tunneling.html">Split Tunneling</a>
+          und (für Sicherheits-Kante) <a href="/de/blog/vpn-kill-switch.html">Kill Switch</a>.
         </p>
 
         <div class="svg-card" role="group" aria-label="Diagramm: Split Tunneling Beispiel">
@@ -772,7 +797,7 @@
                 <td>Maximale Einfachheit</td>
                 <td>Nein</td>
                 <td>Alles läuft durch VPN, weniger Fehlerquellen</td>
-                <td>Banking kann zusätzliche Checks auslösen</td>
+                <td>Banking kann zusätzliche Checks auslösen (siehe <a href="/de/blog/vpn-online-banking.html">Online Banking mit VPN</a>)</td>
               </tr>
               <tr>
                 <td>Banking ohne Risiko/Checks</td>
@@ -800,6 +825,7 @@
         <p>
           Die häufigste Situation: Du bist per VPN „in Deutschland“, aber Sky Go blockt trotzdem.
           Dann gehst du strikt in dieser Reihenfolge vor: <strong>Server wechseln → DNS prüfen → Spuren löschen → Protokoll wechseln → Router/Netzwerk prüfen</strong>.
+          Für den Wi-Fi-Teil ist <a href="/de/blog/wifi-sicherheit.html">WLAN-Sicherheit</a> (und als schnelle Liste <a href="/de/blog/wifi-sicherheit-checklist.html">Wi-Fi Checklist</a>) hilfreich, weil instabile Hotspots Streaming oft „random“ kaputt machen.
         </p>
 
         <div class="table-scroll" role="region" aria-label="Tabelle: Fehlerbilder und Fixes">
@@ -844,8 +870,10 @@
         <h3 id="testnotiz">Notiz aus meinen Tests (kurz & ehrlich)</h3>
         <p>
           Ich teste solche Fälle immer so: Zuerst ein normaler Abruf ohne VPN (um zu sehen, ob überhaupt ein Account-/Geräteproblem vorliegt),
-          dann VPN auf <strong>DE-Server</strong>, danach sofort <strong>DNS-Leak-Check</strong>. Wenn IP=DE, DNS aber „Ausland“ zeigt,
-          ist das Problem in der Praxis zu 80% erklärt. Der Rest sind geblockte VPN-IP-Ranges oder hartnäckige App-/Browser-Spuren.
+          dann VPN auf <strong>DE-Server</strong>, danach sofort <strong>DNS-Leak-Check</strong>.
+          Wenn IP=DE, DNS aber „Ausland“ zeigt, ist das Problem in der Praxis zu 80% erklärt.
+          Der Rest sind geblockte VPN-IP-Ranges oder hartnäckige App-/Browser-Spuren.
+          Für den „Risiko“-Teil (was ein VPN kann und was nicht) passt <a href="/de/blog/nachteile-von-vpn.html">Nachteile von VPN</a>.
         </p>
 
         <div class="key-takeaway"><strong>Key takeaway:</strong> „VPN erkannt“ ist meistens: geblockte IP oder DNS-Leak + Cache/Spuren. Mit Systematik löst du das schnell.</div>
@@ -857,8 +885,9 @@
         <h2 id="recht">8) Recht & Realismus: Was du wissen solltest</h2>
         <p>
           Ein VPN ist in Deutschland legal. Wichtig ist aber: Streaming-Dienste haben Nutzungsbedingungen und Lizenzmodelle.
-          Ein VPN ist ein technisches Werkzeug, keine „Rechtsabkürzung“. Wenn du auf Nummer sicher gehen willst, lies die Bedingungen
-          des jeweiligen Angebots (und rechne damit, dass Anbieter technische Maßnahmen gegen VPNs einsetzen).
+          Ein VPN ist ein technisches Werkzeug, keine „Rechtsabkürzung“.
+          Wenn du das sauber einordnen willst, lies <a href="/de/blog/ist-vpn-legal.html">Ist VPN legal?</a> –
+          und wenn du generell die „No-Logs“-Diskussion verstehen willst, ist <a href="/de/blog/no-logs-vpn.html">No-Logs VPN</a> die richtige Ergänzung.
         </p>
 
         <div class="key-takeaway"><strong>Key takeaway:</strong> VPN ist legal – aber ob Sky die Nutzung im Ausland via VPN akzeptiert, ist eine Frage von Lizenzen/AGB und technischer Erkennung.</div>
@@ -899,6 +928,7 @@
           Sky Go im Ausland ist ein klassischer Geo-Fall: Ein VPN kann helfen, aber nur, wenn du das Setup sauber hältst.
           Denk in Signalen: <strong>IP</strong>, <strong>DNS</strong>, <strong>Browser/App-Spuren</strong>, <strong>Stabilität</strong>.
           Wenn du systematisch vorgehst (Leak-Tests + Fix-Reihenfolge), sparst du dir stundenlanges „an/aus und hoffen“.
+          Wenn du Alternativen/Allgemeines zum Streaming suchst, starte bei <a href="/de/blog/vpn-streaming.html">VPN fürs Streaming</a>.
         </p>
 
         <div class="key-takeaway"><strong>Key takeaway:</strong> Der beste „Hack“ ist Konsistenz: IP=DE, DNS=DE/VPN, Spuren sauber, Protokoll stabil.</div>
