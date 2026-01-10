@@ -139,29 +139,102 @@
     document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
   </script>
 
-  <!-- Stage 2.5 helpers: SVG & tables must be readable everywhere -->
+  <!-- Stage 2.5: DIAGRAMS/TABLES MUST BE READABLE ON WHITE + BLACK -->
   <style>
-    .toc{border:1px solid #111;border-radius:14px;padding:14px;margin:18px 0;background:#fff}
-    .toc strong{display:block;margin-bottom:8px;color:#000}
-    .toc a{color:#000;text-decoration:underline;text-underline-offset:3px}
+    .toc{border:1px solid #000;border-radius:14px;padding:14px;margin:18px 0;background:#fff !important;color:#000 !important}
+    .toc *{color:#000 !important}
+    .toc a{color:#000 !important;text-decoration:underline;text-underline-offset:3px}
     .toc ul{margin:0;padding-left:18px}
-    .key-takeaway{border-left:6px solid #16a34a;padding:12px 14px;background:#fff;border-radius:12px;border:1px solid #111;margin:14px 0;color:#000}
-    .note{border-left:6px solid #111;padding:12px 14px;background:#fff;border-radius:12px;border:1px solid #111;color:#000}
-    .related-strip{margin:16px 0;padding:12px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.18);background:#0b1220;color:#fff;position:relative}
+
+    .key-takeaway{
+      border-left:6px solid #16a34a;
+      padding:12px 14px;
+      background:#fff !important;
+      border-radius:12px;
+      border:1px solid #000;
+      margin:14px 0;
+      color:#000 !important;
+    }
+    .key-takeaway *{color:#000 !important}
+
+    .note{
+      border-left:6px solid #000;
+      padding:12px 14px;
+      background:#fff !important;
+      border-radius:12px;
+      border:1px solid #000;
+      color:#000 !important;
+    }
+    .note *{color:#000 !important}
+
+    /* Related strip (dark bar) */
+    .related-strip{
+      margin:16px 0;padding:12px 14px;border-radius:14px;
+      border:1px solid rgba(255,255,255,.18);
+      background:#0b1220;color:#fff;position:relative
+    }
     .related-strip:before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;border-radius:14px 0 0 14px;background:#22c55e}
     .related-strip a{color:#fff;text-decoration:underline;text-underline-offset:3px}
 
-    .svg-card{background:#fff;border:1px solid #000;border-radius:14px;padding:14px;margin:18px 0;color:#000}
-    .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-    svg{color:#000;max-width:100%;height:auto}
-    svg text{fill:#000 !important;font-weight:800}
+    /* SVG: force readability */
+    .svg-card{
+      background:#fff !important;
+      border:1px solid #000 !important;
+      border-radius:14px;
+      padding:14px;
+      margin:18px 0;
+      color:#000 !important;
+    }
+    .svg-card *{color:#000 !important}
+    .svg-scroll{
+      background:#fff !important;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      border-radius:12px;
+      padding:6px;
+    }
+    .svg-scroll svg{
+      display:block;
+      max-width:100%;
+      height:auto;
+      color:#000 !important;
+      background:#fff !important;
+    }
+    .svg-scroll svg text{
+      fill:#000 !important;
+      font-weight:800 !important;
+    }
     .stroke{stroke:#000;stroke-width:4}
     .thin{stroke:#000;stroke-width:3}
-    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:18px 0}
-    .table-scroll table{min-width:860px;border-collapse:collapse;width:100%;background:#fff;color:#000}
-    .table-scroll th,.table-scroll td{border:1px solid #000;padding:10px;vertical-align:top}
-    .table-scroll th{background:#0f1720;color:#fff}
-    @media(max-width:520px){.table-scroll th{font-size:14px;white-space:normal}}
+
+    /* Tables: force readability */
+    .table-scroll{
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      margin:18px 0;
+    }
+    .table-scroll table{
+      min-width:860px;
+      border-collapse:collapse;
+      width:100%;
+      background:#fff !important;
+      color:#000 !important;
+    }
+    .table-scroll th,.table-scroll td{
+      border:1px solid #000;
+      padding:10px;
+      vertical-align:top;
+      color:inherit !important;
+    }
+    .table-scroll th{
+      background:#0f1720 !important;
+      color:#fff !important;
+    }
+    .table-scroll td a{color:#000 !important;text-decoration:underline;text-underline-offset:3px}
+
+    @media(max-width:520px){
+      .table-scroll th{font-size:14px;white-space:normal}
+    }
   </style>
 
   <!-- JSON-LD (Stage 2.5): Article + FAQPage + BreadcrumbList + ItemList -->
@@ -272,12 +345,12 @@
 
           <p class="note">
             <strong>Réponse rapide :</strong>
-            Sur un Wi-Fi public, un VPN chiffre votre trafic et réduit drastiquement l’espionnage local (sniffing) et les manipulations réseau — à condition d’activer les bonnes options (kill switch, anti-fuites DNS/IPv6/WebRTC).
+            Sur un Wi-Fi public, un VPN chiffre votre trafic et réduit drastiquement l’espionnage local (interception de données / “sniffing”) — à condition d’activer les bonnes options (kill switch, anti-fuites DNS/IPv6/WebRTC).
           </p>
 
           <p>
             Le Wi-Fi gratuit, c’est pratique. Mais entre un café, un hôtel, un TGV, ou un aéroport (CDG, Orly…), vous partagez le réseau avec des inconnus.
-            Et certains ne sont pas là “juste pour checker leurs mails”. Bref : <em>mieux vaut être parano que désolé</em>.
+            Et certains ne sont pas là “juste pour checker Instagram”. Bref : <em>mieux vaut être prudent que surpris</em>.
           </p>
 
           <div class="hero-author">
@@ -320,45 +393,47 @@
         <div class="toc" aria-label="Sommaire">
           <strong>Sommaire</strong>
           <ul>
-            <li><a href="#risques">1) Les risques sur Wi-Fi public (sans mythes)</a></li>
-            <li><a href="#vpn-change">2) Ce que le VPN protège vraiment (et ses limites)</a></li>
-            <li><a href="#tests">3) Tests indispensables : DNS / IPv6 / WebRTC</a></li>
-            <li><a href="#reglages">4) Réglages par appareil : iPhone, Android, Windows, macOS, routeur</a></li>
-            <li><a href="#checklist">5) Checklist express (avant de se connecter)</a></li>
+            <li><a href="#risques">1) Les risques sur Wi-Fi public</a></li>
+            <li><a href="#vpn-change">2) Ce que le VPN protège vraiment</a></li>
+            <li><a href="#tests">3) Tests : DNS / IPv6 / WebRTC</a></li>
+            <li><a href="#reglages">4) Réglages : iPhone, Android, Windows, macOS, routeur</a></li>
+            <li><a href="#checklist">5) Checklist express</a></li>
             <li><a href="#faq">6) FAQ</a></li>
           </ul>
         </div>
 
         <div class="related-strip">
-          Related: <a href="/fr/blog/securite-wifi-checklist.html">Checklist sécurité Wi-Fi (à garder sous le coude)</a>
+          Related: <a href="/fr/blog/securite-wifi-checklist.html">Checklist sécurité Wi-Fi</a>
         </div>
 
         <h2 id="risques">1) Les risques sur Wi-Fi public (sans mythes)</h2>
         <p>
-          Le Wi-Fi public n’est pas “automatiquement mortel”, mais c’est un terrain parfait pour les attaques opportunistes.
-          Et non, ce n’est pas réservé aux films : ça arrive dans les cafés, hôtels, gares, et même dans les trains.
+          Le Wi-Fi public n’est pas “automatiquement dangereux”, mais c’est un terrain parfait pour les attaques opportunistes.
+          Dans un café, un hôtel, un train ou un aéroport, vous partagez le réseau avec des inconnus — et certains peuvent observer ou manipuler le trafic.
         </p>
 
-        <div class="key-takeaway"><strong>Key takeaway :</strong> sur un hotspot public, votre trafic peut être observé ou manipulé au niveau réseau — surtout si le réseau est mal configuré ou imité (Evil Twin).</div>
+        <div class="key-takeaway"><strong>Key takeaway :</strong> sur un hotspot public, votre trafic peut être observé ou manipulé au niveau réseau — surtout si le réseau est imité (Evil Twin).</div>
 
         <div class="svg-card">
-          <h3>Diagramme : trafic sur Wi-Fi public sans VPN</h3>
+          <h3>Diagramme 1 : trafic sur Wi-Fi public sans VPN</h3>
           <div class="svg-scroll">
             <svg viewBox="0 0 1200 320" role="img" aria-label="Trafic sans VPN sur Wi-Fi public">
-              <text x="40" y="40">Wi-Fi public sans VPN</text>
+              <rect x="0" y="0" width="1200" height="320" fill="#ffffff"></rect>
+
+              <text x="40" y="44">Wi-Fi public sans VPN</text>
 
               <rect x="60" y="120" width="260" height="90" rx="14" fill="#dbeafe" class="stroke"/>
               <text x="100" y="175">Votre appareil</text>
 
               <rect x="880" y="120" width="260" height="90" rx="14" fill="#ffedd5" class="stroke"/>
-              <text x="935" y="175">Site web</text>
+              <text x="950" y="175">Site web</text>
 
               <line x1="320" y1="165" x2="880" y2="165" class="stroke"/>
-              <text x="460" y="130">Trafic non chiffré</text>
-              <text x="430" y="205">Interception / modification possible</text>
+              <text x="450" y="130">Trafic exposé sur le réseau</text>
+              <text x="410" y="205">Interception / modification possible</text>
 
-              <rect x="430" y="240" width="340" height="55" rx="12" fill="#fee2e2" class="stroke"/>
-              <text x="455" y="275">Attaques : sniffing, hijacking, DNS spoofing</text>
+              <rect x="390" y="235" width="420" height="60" rx="12" fill="#fee2e2" class="stroke"/>
+              <text x="415" y="270">Interception de données (“sniffing”), DNS spoofing</text>
             </svg>
           </div>
         </div>
@@ -377,35 +452,34 @@
               <tr>
                 <td><strong>Evil Twin</strong></td>
                 <td>Un faux hotspot “Wi-Fi Gratuit” qui imite le vrai</td>
-                <td>Phishing, collecte de identifiants</td>
-                <td>✅ Chiffre le trafic, mais attention aux faux portails</td>
+                <td>Phishing, collecte d’identifiants</td>
+                <td>✅ Trafic chiffré, mais méfiance vis-à-vis des portails</td>
               </tr>
               <tr>
-                <td><strong>Sniffing</strong></td>
-                <td>Interception de données sur le réseau local</td>
-                <td>Tracking, captures, métadonnées</td>
-                <td>✅ Oui (trafic chiffré)</td>
+                <td><strong>Interception (“sniffing”)</strong></td>
+                <td>Capture de trafic sur le réseau local</td>
+                <td>Tracking, métadonnées, tentatives d’attaque</td>
+                <td>✅ Oui (tunnel chiffré)</td>
               </tr>
               <tr>
                 <td><strong>Session hijacking</strong></td>
-                <td>Vol ou fixation de session (cookies)</td>
+                <td>Vol/attaque de session (cookies)</td>
                 <td>Compte compromis</td>
-                <td>✅ Réduit beaucoup, mais gardez 2FA</td>
+                <td>✅ Réduit, mais utilisez aussi la 2FA</td>
               </tr>
               <tr>
                 <td><strong>DNS spoofing</strong></td>
-                <td>Redirection DNS vers un faux site</td>
+                <td>Redirection vers de faux sites</td>
                 <td>Faux login, malware</td>
-                <td>✅ Si DNS passe dans le tunnel VPN</td>
+                <td>✅ Si le DNS passe dans le tunnel VPN</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <p>
-          Pour aller plus loin sur la partie “réseau”, gardez ces pages sous la main :
-          <a href="/fr/blog/securite-wifi.html">sécurité Wi-Fi</a>,
-          <a href="/fr/blog/vpn-dns-leak.html">fuites DNS</a>,
+          Pour approfondir : <a href="/fr/blog/securite-wifi.html">sécurité Wi-Fi</a>,
+          <a href="/fr/blog/vpn-dns-leak.html">fuites DNS</a>, et
           <a href="/fr/blog/protocoles-vpn.html">protocoles VPN</a>.
         </p>
 
@@ -417,55 +491,55 @@
 
         <p>
           Un VPN crée un <strong>tunnel chiffré</strong> entre votre appareil et un serveur VPN.
-          Sur un hotspot public, c’est énorme : même si quelqu’un “écoute” le réseau, il ne voit qu’un flux chiffré.
-          (En gros : “rien à gratter”.)
+          Sur un hotspot public, c’est la base : même si quelqu’un “écoute” le réseau, il ne voit qu’un flux chiffré.
+          En clair : pas de jackpot pour l’attaquant.
         </p>
 
         <div class="svg-card">
-          <h3>Diagramme : trafic avec tunnel VPN</h3>
+          <h3>Diagramme 2 : trafic avec tunnel VPN chiffré</h3>
           <div class="svg-scroll">
-            <svg viewBox="0 0 1200 320" role="img" aria-label="Trafic avec VPN sur Wi-Fi public">
-              <text x="40" y="40">Wi-Fi public avec VPN</text>
+            <svg viewBox="0 0 1200 320" role="img" aria-label="Trafic avec tunnel VPN chiffré">
+              <rect x="0" y="0" width="1200" height="320" fill="#ffffff"></rect>
+
+              <text x="40" y="44">Wi-Fi public avec VPN</text>
 
               <rect x="60" y="120" width="260" height="90" rx="14" fill="#dcfce7" class="stroke"/>
               <text x="100" y="175">Votre appareil</text>
 
               <rect x="470" y="110" width="260" height="110" rx="14" fill="#bfdbfe" class="stroke"/>
-              <text x="505" y="165">Tunnel VPN chiffré</text>
-              <text x="525" y="200">(AES/WireGuard)</text>
+              <text x="505" y="165">Túnel VPN chiffré</text>
+              <text x="525" y="200">(WireGuard / AES)</text>
 
               <rect x="880" y="120" width="260" height="90" rx="14" fill="#ffedd5" class="stroke"/>
-              <text x="930" y="175">Serveur VPN</text>
+              <text x="950" y="175">Serveur VPN</text>
 
               <line x1="320" y1="165" x2="470" y2="165" class="stroke"/>
               <line x1="730" y1="165" x2="880" y2="165" class="stroke"/>
 
-              <rect x="420" y="240" width="360" height="55" rx="12" fill="#e0e7ff" class="stroke"/>
-              <text x="450" y="275">Le hotspot ne voit pas vos sites : seulement du chiffré</text>
+              <rect x="380" y="235" width="440" height="60" rx="12" fill="#e0e7ff" class="stroke"/>
+              <text x="405" y="270">Le hotspot ne voit pas vos sites : seulement du chiffré</text>
             </svg>
           </div>
         </div>
 
         <p>
-          Mais soyons honnêtes : un VPN n’est pas un bouclier magique.
-          Si vous cliquez sur un lien de phishing, ou si votre appareil est infecté, le VPN ne “répare” pas ça.
-          Pour les limites et les vrais inconvénients, voyez :
-          <a href="/fr/blog/inconvenients-du-vpn.html">inconvénients du VPN</a> et
+          Attention : un VPN ne remplace pas un antivirus et ne vous sauvera pas si vous cliquez sur un phishing.
+          Pour les limites : <a href="/fr/blog/inconvenients-du-vpn.html">inconvénients du VPN</a> et
           <a href="/fr/blog/mythes-sur-le-vpn.html">mythes sur le VPN</a>.
         </p>
 
-        <div class="key-takeaway"><strong>Key takeaway :</strong> le VPN protège surtout contre l’espionnage local et cache votre IP — pas contre vos erreurs (phishing) ni les malwares.</div>
+        <div class="key-takeaway"><strong>Key takeaway :</strong> le VPN protège surtout contre l’espionnage local et masque votre IP — pas contre vos erreurs (phishing) ni les malwares.</div>
 
-        <h2 id="tests">3) Tests indispensables : DNS / IPv6 / WebRTC (5 minutes, chrono)</h2>
+        <h2 id="tests">3) Tests indispensables : DNS / IPv6 / WebRTC</h2>
 
         <div class="related-strip">
           Related: <a href="/fr/blog/vpn-dns-leak.html">Tester et corriger les fuites DNS</a>
         </div>
 
         <p>
-          Un VPN “connecté” n’est pas forcément un VPN “propre”.
-          Le piège classique : vous êtes sur Wi-Fi public, le VPN est ON… mais le DNS fuit, ou l’IPv6 passe à côté.
-          Résultat : des traces. Pas cool.
+          “VPN connecté” ne veut pas forcément dire “VPN propre”.
+          Le classique : la connexion VPN est ON… mais le DNS fuit, ou l’IPv6 passe à côté.
+          Résultat : des traces. Pas top.
         </p>
 
         <div class="table-scroll" aria-label="Tests de fuites">
@@ -495,94 +569,76 @@
                 <td>WebRTC</td>
                 <td>Le navigateur révèle-t-il une IP locale ?</td>
                 <td>IP locale/réelle affichée</td>
-                <td>Désactiver WebRTC / extension / réglage navigateur</td>
+                <td>Désactiver WebRTC / réglage navigateur</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <div class="svg-card">
-          <h3>Mini-schéma : fuite DNS (quand ça “sort” du tunnel)</h3>
+          <h3>Diagramme 3 : fuite DNS (quand ça “sort” du tunnel)</h3>
           <div class="svg-scroll">
             <svg viewBox="0 0 1200 340" role="img" aria-label="Schéma fuite DNS">
+              <rect x="0" y="0" width="1200" height="340" fill="#ffffff"></rect>
+
               <rect x="60" y="140" width="260" height="90" rx="14" fill="#dcfce7" class="stroke"/>
               <text x="95" y="195">Votre appareil</text>
 
               <rect x="470" y="130" width="260" height="110" rx="14" fill="#bfdbfe" class="stroke"/>
-              <text x="505" y="185">Tunnel VPN</text>
+              <text x="520" y="185">Tunnel VPN</text>
 
               <rect x="880" y="140" width="260" height="90" rx="14" fill="#ffedd5" class="stroke"/>
-              <text x="935" y="195">Serveur VPN</text>
+              <text x="950" y="195">Serveur VPN</text>
 
               <line x1="320" y1="185" x2="470" y2="185" class="stroke"/>
               <line x1="730" y1="185" x2="880" y2="185" class="stroke"/>
 
               <rect x="420" y="260" width="360" height="60" rx="14" fill="#fee2e2" class="stroke"/>
-              <text x="450" y="295">Fuite DNS : requêtes vers DNS du hotspot</text>
+              <text x="450" y="295">Fuite DNS : requêtes vers le DNS du hotspot</text>
 
-              <line x1="190" y1="230" x2="600" y2="260" class="thin"/>
+              <line x1="200" y1="230" x2="600" y2="260" class="thin"/>
             </svg>
           </div>
         </div>
 
         <p>
-          Pour booster la perf sur mobile (et éviter de rage-quit), faites un test vitesse :
-          <a href="/fr/blog/test-de-vitesse-vpn.html">test de vitesse VPN</a>.
-          Et si vous cherchez un VPN adapté, utilisez :
-          <a href="/fr/blog/quel-serveur-vpn-choisir.html">quel serveur choisir</a> + <a href="/fr/blog/types-de-serveur-vpn.html">types de serveurs</a>.
+          Pour optimiser les performances : <a href="/fr/blog/test-de-vitesse-vpn.html">test de vitesse VPN</a>.
+          Pour choisir : <a href="/fr/blog/quel-serveur-vpn-choisir.html">quel serveur VPN choisir</a> et
+          <a href="/fr/blog/types-de-serveur-vpn.html">types de serveurs</a>.
         </p>
 
         <h2 id="reglages">4) Réglages par appareil : iPhone, Android, Windows, macOS, routeur</h2>
 
-        <div class="key-takeaway"><strong>Key takeaway :</strong> sur Wi-Fi public, activez la reconnexion auto + kill switch + anti-fuites. Sans ça, une coupure réseau peut exposer votre IP.</div>
+        <div class="key-takeaway"><strong>Key takeaway :</strong> sur Wi-Fi public, activez reconnexion auto + kill switch + anti-fuites. Sans ça, une coupure réseau peut exposer votre IP.</div>
 
         <h3>iPhone / iOS</h3>
         <p>
-          Sur iPhone, le point sensible, c’est le passage Wi-Fi → 4G/5G (ou inverse). Un VPN stable limite les fuites pendant la transition.
-          Guide complet :
-          <a href="/fr/blog/configuration-vpn-iphone.html">configuration VPN iPhone</a> et <a href="/fr/blog/vpn-ios.html">VPN iOS</a>.
+          Le point sensible sur iPhone : le passage Wi-Fi → 4G/5G (ou l’inverse). Un VPN stable limite les fuites pendant la transition.
+          Guides : <a href="/fr/blog/configuration-vpn-iphone.html">configuration VPN iPhone</a> et <a href="/fr/blog/vpn-ios.html">VPN iOS</a>.
         </p>
-        <ul>
-          <li>Activez la reconnexion automatique du VPN.</li>
-          <li>Si dispo : “Connexion à la demande”.</li>
-          <li>Testez DNS/IPv6 après chaque mise à jour iOS (oui, ça casse parfois).</li>
-        </ul>
 
         <h3>Android</h3>
         <p>
-          Android a un super truc : “VPN toujours actif” + “Bloquer les connexions sans VPN” (selon la version).
-          Guide :
-          <a href="/fr/blog/vpn-android.html">VPN Android</a>.
+          Android a un “cheat code” : VPN toujours actif + bloquer sans VPN (selon version).
+          Guide : <a href="/fr/blog/vpn-android.html">VPN Android</a>.
         </p>
-        <ul>
-          <li>Activez “Always-on VPN”.</li>
-          <li>Si possible : “Bloquer sans VPN” (ça évite les fuites en cas de crash).</li>
-        </ul>
 
         <h3>Windows</h3>
         <p>
-          Sur Windows, le danger classique : un split tunneling mal réglé, ou un DNS qui n’est pas forcé dans le tunnel.
-          Guide :
-          <a href="/fr/blog/configuration-vpn-windows.html">configuration VPN Windows</a>.
+          Sur Windows : attention au DNS et aux options qui laissent passer du trafic hors tunnel.
+          Guide : <a href="/fr/blog/configuration-vpn-windows.html">configuration VPN Windows</a>.
         </p>
-        <ul>
-          <li>Activez le <a href="/fr/blog/vpn-kill-switch.html">kill switch</a>.</li>
-          <li>Vérifiez la protection DNS dans l’app.</li>
-          <li>Testez WebRTC côté navigateur (Chrome/Edge/Firefox).</li>
-        </ul>
 
         <h3>macOS</h3>
         <p>
-          macOS est plutôt propre, mais les profils réseau et les DNS peuvent surprendre.
-          Guide :
-          <a href="/fr/blog/vpn-macos.html">VPN macOS</a>.
+          macOS est généralement propre, mais vérifiez DNS/IPv6 après mises à jour.
+          Guide : <a href="/fr/blog/vpn-macos.html">VPN macOS</a>.
         </p>
 
         <h3>Routeur</h3>
         <p>
-          Le mode “j’ai un VPN pour toute la maison” est top pour les consoles/TV, mais ça demande un routeur compatible.
-          Guide :
-          <a href="/fr/blog/configuration-vpn-routeur.html">configuration VPN routeur</a>.
+          VPN sur routeur = protection globale (TV/console incluses), mais débit parfois plus bas.
+          Guide : <a href="/fr/blog/configuration-vpn-routeur.html">configuration VPN routeur</a>.
         </p>
 
         <div class="table-scroll" aria-label="Réglages recommandés par plateforme">
@@ -624,25 +680,13 @@
           </table>
         </div>
 
-        <h2 id="checklist">5) Checklist express (avant de se connecter)</h2>
-
-        <div class="related-strip">
-          Related: <a href="/fr/blog/securite-wifi.html">Sécurité Wi-Fi</a> · <a href="/fr/blog/securite-wifi-checklist.html">Checklist</a>
-        </div>
-
-        <ul>
-          <li><strong>1)</strong> Vérifiez le nom exact du réseau (attention aux doublons “FreeWifi_2”).</li>
-          <li><strong>2)</strong> Activez le VPN <em>avant</em> d’ouvrir vos apps sensibles.</li>
-          <li><strong>3)</strong> Kill switch ON. Sans ça, une micro-coupure = IP exposée.</li>
-          <li><strong>4)</strong> Faites un test rapide DNS/IPv6/WebRTC (oui, c’est chiant, mais c’est la réalité).</li>
-          <li><strong>5)</strong> Pour la banque : VPN + 2FA, et si c’est critique… réseau mobile.</li>
-        </ul>
-
         <div class="svg-card">
-          <h3>Diagramme : décision rapide (activer VPN ou pas)</h3>
+          <h3>Diagramme 4 : décision rapide (activer VPN ou pas)</h3>
           <div class="svg-scroll">
             <svg viewBox="0 0 1200 380" role="img" aria-label="Arbre de décision VPN sur Wi-Fi public">
-              <rect x="60" y="40" width="1080" height="300" rx="18" fill="#fff" class="stroke"/>
+              <rect x="0" y="0" width="1200" height="380" fill="#ffffff"></rect>
+
+              <rect x="60" y="40" width="1080" height="300" rx="18" fill="#ffffff" class="stroke"/>
               <text x="90" y="95">Vous êtes sur un Wi-Fi public ?</text>
 
               <rect x="90" y="120" width="420" height="80" rx="14" fill="#fee2e2" class="stroke"/>
@@ -651,37 +695,47 @@
               <rect x="540" y="120" width="520" height="80" rx="14" fill="#dcfce7" class="stroke"/>
               <text x="565" y="165">Non → VPN optionnel selon usage</text>
 
-              <text x="90" y="250">Vous faites une action sensible (banque, mail pro, admin) ?</text>
-              <rect x="90" y="270" width="520" height="60" rx="14" fill="#bfdbfe" class="stroke"/>
+              <text x="90" y="250">Action sensible (banque, mail pro, admin) ?</text>
+              <rect x="90" y="270" width="560" height="60" rx="14" fill="#bfdbfe" class="stroke"/>
               <text x="115" y="310">Oui → VPN + 2FA (ou réseau mobile)</text>
             </svg>
           </div>
         </div>
 
-        <h2 id="faq">6) FAQ</h2>
+        <h2 id="checklist">5) Checklist express (avant de se connecter)</h2>
 
+        <div class="related-strip">
+          Related: <a href="/fr/blog/securite-wifi.html">Sécurité Wi-Fi</a> · <a href="/fr/blog/securite-wifi-checklist.html">Checklist</a>
+        </div>
+
+        <ul>
+          <li><strong>1)</strong> Vérifiez le nom exact du réseau (méfiez-vous des doublons).</li>
+          <li><strong>2)</strong> Activez le VPN <em>avant</em> d’ouvrir vos apps sensibles.</li>
+          <li><strong>3)</strong> Kill switch ON (sinon, une micro-coupure = IP exposée).</li>
+          <li><strong>4)</strong> Test rapide DNS/IPv6/WebRTC (oui, c’est un peu relou, mais c’est la réalité).</li>
+          <li><strong>5)</strong> Banque : VPN + 2FA, et pour du critique… réseau mobile.</li>
+        </ul>
+
+        <h2 id="faq">6) FAQ</h2>
         <dl>
           <dt><strong>Est-ce dangereux d’utiliser un Wi-Fi public sans VPN ?</strong></dt>
-          <dd>Oui. Vous pouvez subir du sniffing, des redirections DNS, ou tomber sur un faux hotspot. Un VPN réduit fortement ces risques.</dd>
+          <dd>Oui. Vous pouvez subir interception, DNS spoofing ou faux hotspot. Un VPN réduit fortement ces risques.</dd>
 
           <dt><strong>Un VPN suffit-il à 100% ?</strong></dt>
-          <dd>Non. Le VPN ne vous protège pas contre le phishing ou les malwares. Il protège surtout votre trafic réseau.</dd>
-
-          <dt><strong>Puis-je faire de la banque en ligne sur Wi-Fi public avec VPN ?</strong></dt>
-          <dd>Oui, c’est plus sûr. Mais gardez la 2FA et, pour une opération critique, privilégiez le réseau mobile.</dd>
+          <dd>Non. Il ne vous protège pas contre le phishing ou les malwares. Il protège surtout votre trafic réseau.</dd>
 
           <dt><strong>Quels protocoles sont les meilleurs sur Wi-Fi public ?</strong></dt>
-          <dd>En général, WireGuard est rapide et stable. OpenVPN reste une valeur sûre. Guide : <a href="/fr/blog/protocoles-vpn.html">protocoles VPN</a>.</dd>
+          <dd>WireGuard est souvent rapide et stable, OpenVPN reste solide. Voir : <a href="/fr/blog/protocoles-vpn.html">protocoles VPN</a>.</dd>
 
-          <dt><strong>Comment choisir un bon serveur VPN ?</strong></dt>
-          <dd>Choisissez proche géographiquement pour la vitesse, ou adapté au besoin (streaming, P2P, obfuscation). Guide : <a href="/fr/blog/quel-serveur-vpn-choisir.html">quel serveur choisir</a>.</dd>
+          <dt><strong>Comment choisir un serveur VPN ?</strong></dt>
+          <dd>Proche = vitesse, spécialisé = usage (streaming/P2P/obfuscation). Voir : <a href="/fr/blog/quel-serveur-vpn-choisir.html">quel serveur VPN choisir</a>.</dd>
         </dl>
 
         <h2>Conclusion</h2>
         <p>
-          Le Wi-Fi public, c’est un peu comme une place publique : pratique, mais pas intime.
-          La bonne news : avec un VPN bien configuré (kill switch + anti-fuites), vous réduisez énormément les risques.
-          Le meilleur combo : VPN + bon sens + 2FA. Simple. Efficace. Sans blabla.
+          Le Wi-Fi public, c’est comme une place publique : pratique, mais pas intime.
+          La bonne nouvelle : avec un VPN bien configuré (kill switch + anti-fuites), vous réduisez énormément les risques.
+          Le combo gagnant : VPN + bon sens + 2FA. Simple. Efficace.
         </p>
 
         <div class="key-takeaway"><strong>Key takeaway :</strong> sur Wi-Fi public, activez toujours votre VPN et testez vos fuites (DNS/IPv6/WebRTC). C’est la différence entre “tranquille” et “oops”.</div>
