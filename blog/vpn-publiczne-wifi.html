@@ -26,43 +26,75 @@
   <link rel="stylesheet" href="../assets/css/style.css">
 
   <!-- Page-only helpers: SVG + tables (high-contrast, responsive) -->
-  <style>
-    /* Make wide tables always scroll safely */
-    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-    .table-scroll table{min-width:760px}
+ <style>
+  /* --- Wide tables always scroll safely --- */
+  .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .table-scroll table{min-width:760px}
 
-    /* SVG cards: responsive + guaranteed readable text on any bg */
-    .svg-card{border:1px solid rgba(255,255,255,.14); border-radius:16px; padding:14px; background:rgba(255,255,255,.04)}
-    .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-    .svg-scroll svg{max-width:100%; height:auto; display:block; color:#000}
-    .svg-scroll svg text{fill:#000 !important; font-weight:800}
-    .svg-scroll svg .stroke{stroke:#000; stroke-width:4; fill:none; stroke-linecap:round; stroke-linejoin:round}
-    .svg-scroll svg .box{fill:#fff; stroke:#000; stroke-width:4}
-    .svg-scroll svg .label{font-size:16px}
-    .svg-scroll svg .small{font-size:14px}
+  /* --- SVG cards: ALWAYS readable (forced white canvas) --- */
+  .svg-card{
+    border:1px solid rgba(255,255,255,.18);
+    border-radius:16px;
+    padding:14px;
+    background:transparent;
+    margin:14px 0;
+  }
+  .svg-scroll{
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    background:#fff;                 /* FIX: hard white canvas */
+    border-radius:14px;              /* keep nice edges */
+    padding:10px;                    /* breathing room */
+  }
+  .svg-scroll svg{
+    max-width:100%;
+    height:auto;
+    display:block;
+    color:#000 !important;           /* FIX: force text color */
+    background:#fff;                 /* FIX: ensure svg canvas is white */
+  }
+  .svg-scroll svg text{
+    fill:#000 !important;            /* FIX: force readable text */
+    font-weight:800 !important;
+  }
+  .svg-scroll svg .stroke{
+    stroke:#000 !important;          /* FIX: force readable strokes */
+    stroke-width:4 !important;
+    fill:none !important;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .svg-scroll svg .box{
+    fill:#fff !important;            /* FIX: keep boxes white */
+    stroke:#000 !important;
+    stroke-width:4 !important;
+  }
+  .svg-scroll svg .label{font-size:16px}
+  .svg-scroll svg .small{font-size:14px}
 
-    /* “Related:” dark wide card like your new standard */
-    .related-wide{
-      background:rgba(0,0,0,.35);
-      border:1px solid rgba(255,255,255,.14);
-      border-radius:16px;
-      padding:12px 14px;
-      margin:10px 0 14px;
-      position:relative;
-    }
-    .related-wide:before{
-      content:"";
-      position:absolute;
-      left:10px;
-      top:10px;
-      bottom:10px;
-      width:4px;
-      border-radius:999px;
-      background:#22c55e;
-    }
-    .related-wide p{margin:0; padding-left:14px}
-    .related-wide a{text-decoration:underline}
-  </style>
+  /* --- “Related:” wide dark card standard --- */
+  .related-wide{
+    background:rgba(0,0,0,.35);
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:16px;
+    padding:12px 14px;
+    margin:10px 0 14px;
+    position:relative;
+  }
+  .related-wide:before{
+    content:"";
+    position:absolute;
+    left:10px;
+    top:10px;
+    bottom:10px;
+    width:4px;
+    border-radius:999px;
+    background:#22c55e;
+  }
+  .related-wide p{margin:0; padding-left:14px}
+  .related-wide a{text-decoration:underline}
+</style>
+
 
   <!-- Preconnect -->
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
