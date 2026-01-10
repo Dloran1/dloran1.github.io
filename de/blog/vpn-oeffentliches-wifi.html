@@ -85,36 +85,53 @@
     .svg-scroll svg{max-width:100%;height:auto;display:block}
 
     /* --- Table scroll --- */
-    .table-scroll{
-      overflow-x:auto;
-      -webkit-overflow-scrolling:touch;
-      border-radius:14px;
-      border:1px solid rgba(0,0,0,.12);
-      background:#fff;
-      margin:16px 0;
-    }
-    .table-scroll table{min-width:780px;border-collapse:collapse;width:100%}
-    .table-scroll th,.table-scroll td{padding:10px 12px;border-bottom:1px solid rgba(0,0,0,.10);text-align:left}
-    .table-scroll th{font-weight:800}
+   .table-scroll{
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.14);
+  background:#ffffff;
+  margin:16px 0;
+}
 
-    /* --- Related strip (dark wide card with green accent) --- */
-    .related-strip{
-      background:#0f1720;
-      border:1px solid rgba(255,255,255,.12);
-      border-radius:16px;
-      padding:14px 16px;
-      position:relative;
-      margin:14px 0 10px;
-      box-shadow:0 10px 24px rgba(0,0,0,.18);
-    }
-    .related-strip:before{
-      content:"";
-      position:absolute;
-      left:10px; top:12px; bottom:12px;
-      width:4px;
-      border-radius:999px;
-      background:#22c55e;
-    }
+/* table itself */
+.table-scroll table{
+  min-width:780px;
+  width:100%;
+  border-collapse:collapse;
+  background:#ffffff;
+  color:#0b1220;                 /* <-- CRITICAL: force dark text */
+}
+
+/* cells */
+.table-scroll th,
+.table-scroll td{
+  padding:10px 12px;
+  border-bottom:1px solid rgba(0,0,0,.10);
+  text-align:left;
+  color:#0b1220 !important;      /* <-- CRITICAL: override dark-theme inheritance */
+}
+
+/* header row */
+.table-scroll thead th{
+  background:#0f1720;
+  color:#ffffff !important;
+  font-weight:900;
+  border-bottom:1px solid rgba(255,255,255,.14);
+}
+
+/* zebra rows for readability */
+.table-scroll tbody tr:nth-child(odd) td{
+  background:#ffffff;
+}
+.table-scroll tbody tr:nth-child(even) td{
+  background:#f6f8fb;
+}
+
+/* optional: stronger first column */
+.table-scroll tbody td:first-child{
+  font-weight:800;
+}
     .related-strip p{margin:0 0 0 12px;color:#eaeaea}
     .related-strip a{color:#eaeaea;text-decoration:underline;text-underline-offset:2px}
   </style>
