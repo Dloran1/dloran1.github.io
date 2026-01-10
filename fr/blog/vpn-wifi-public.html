@@ -59,51 +59,144 @@
 
   <!-- Stage 2.5: SVG + tables readability (HIGH CONTRAST, white/dark safe) -->
   <style>
-    /* SVG: MUST be readable on white and dark backgrounds */
-    .svg-card{background:#fff; border:1px solid rgba(0,0,0,.15); border-radius:16px; padding:14px; box-shadow:0 8px 24px rgba(0,0,0,.12); margin:16px 0}
-    .svg-card .svg-title{margin:0 0 10px 0; font-weight:800; color:#000}
-    .svg-card .svg-sub{margin:0 0 10px 0; color:#000; opacity:.85}
-    .svg-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch}
-    .svg-scroll svg{display:block; max-width:100%; height:auto; color:#000}
-    .svg-scroll svg text{fill:#000 !important; font-weight:800}
-    .svg-scroll svg .stroke{stroke:#000; stroke-width:4; fill:none}
-    .svg-scroll svg .thin{stroke:#000; stroke-width:3; fill:none}
-    .svg-scroll svg .box{fill:#fff; stroke:#000; stroke-width:4}
-    .svg-scroll svg .pill{fill:#fff; stroke:#000; stroke-width:4}
-    .svg-scroll svg .accent{fill:#eaffea; stroke:#000; stroke-width:4}
-    .svg-scroll svg .danger{fill:#ffecec; stroke:#000; stroke-width:4}
+    /* =========================================================
+       Stage 2.5 — CANON READABILITY PATCH
+       Goal: SVG & tables MUST stay readable even inside dark sections
+       Rules:
+       - SVG: color:#000 + text fill:#000 !important + font-weight:800
+       - Strokes: #000, thickness 3–4px
+       - Table: force white background, readable zebra, text always black
+       ========================================================= */
 
-    /* Tables: force contrast even if parent section is dark */
-    .table-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch; margin:14px 0}
-    table.table-card{width:100%; border-collapse:collapse; background:#fff; border-radius:14px; overflow:hidden; border:1px solid rgba(0,0,0,.18)}
-    table.table-card th, table.table-card td{padding:12px 12px; border-bottom:1px solid rgba(0,0,0,.12); vertical-align:top; color:#000 !important}
-    table.table-card th{font-weight:900; text-align:left; background:#f6f7fb}
-    table.table-card tr:last-child td{border-bottom:none}
+    /* --- SVG Cards --- */
+    .svg-card{
+      background:#fff !important;
+      border:1px solid rgba(0,0,0,.16) !important;
+      border-radius:16px !important;
+      padding:14px !important;
+      box-shadow:0 8px 24px rgba(0,0,0,.12) !important;
+      margin:16px 0 !important;
+      color:#000 !important;
+    }
+    .svg-card .svg-title{margin:0 0 10px 0 !important; font-weight:900 !important; color:#000 !important;}
+    .svg-card .svg-sub{margin:0 0 10px 0 !important; color:#000 !important; opacity:.88 !important;}
+    .svg-scroll{overflow-x:auto !important; -webkit-overflow-scrolling:touch !important;}
+    .svg-scroll svg{
+      display:block !important;
+      max-width:100% !important;
+      height:auto !important;
+      background:#fff !important;
+      color:#000 !important; /* KEY */
+    }
+    .svg-scroll svg text,
+    .svg-scroll svg tspan{
+      fill:#000 !important;          /* KEY */
+      font-weight:800 !important;
+      paint-order:stroke fill !important;
+    }
+
+    .svg-scroll svg .stroke{stroke:#000 !important; stroke-width:4 !important; fill:none !important;}
+    .svg-scroll svg .thin{stroke:#000 !important; stroke-width:3 !important; fill:none !important;}
+    .svg-scroll svg .box{fill:#fff !important; stroke:#000 !important; stroke-width:4 !important;}
+    .svg-scroll svg .pill{fill:#fff !important; stroke:#000 !important; stroke-width:4 !important;}
+    .svg-scroll svg .accent{fill:#eaffea !important; stroke:#000 !important; stroke-width:4 !important;}
+    .svg-scroll svg .danger{fill:#ffecec !important; stroke:#000 !important; stroke-width:4 !important;}
+
+    .svg-scroll svg rect,
+    .svg-scroll svg path,
+    .svg-scroll svg line,
+    .svg-scroll svg polyline,
+    .svg-scroll svg polygon,
+    .svg-scroll svg circle,
+    .svg-scroll svg ellipse{
+      vector-effect:non-scaling-stroke;
+    }
+
+    /* --- Tables: FORCE white card + readable zebra --- */
+    .table-scroll{
+      overflow-x:auto !important;
+      -webkit-overflow-scrolling:touch !important;
+      margin:14px 0 !important;
+    }
+
+    table.table-card{
+      width:100% !important;
+      border-collapse:collapse !important;
+      background:#fff !important;
+      border-radius:14px !important;
+      overflow:hidden !important;
+      border:1px solid rgba(0,0,0,.18) !important;
+      min-width:720px; /* prevents ugly squeeze */
+    }
+
+    /* kill any global “dark table” / zebra from style.css */
+    table.table-card thead,
+    table.table-card tbody,
+    table.table-card tr,
+    table.table-card th,
+    table.table-card td{
+      background:transparent;
+    }
+
+    table.table-card thead tr{background:#f6f7fb !important;}
+    table.table-card th{
+      font-weight:900 !important;
+      text-align:left !important;
+      background:#f6f7fb !important;
+      color:#000 !important;
+      padding:12px 12px !important;
+      border-bottom:1px solid rgba(0,0,0,.12) !important;
+      white-space:normal !important;
+      word-break:break-word !important;
+    }
+
+    table.table-card td{
+      padding:12px 12px !important;
+      border-bottom:1px solid rgba(0,0,0,.12) !important;
+      vertical-align:top !important;
+      color:#000 !important;
+      background:#fff !important;
+      white-space:normal !important;
+      word-break:break-word !important;
+    }
+
+    /* Readable zebra (still white-ish) */
+    table.table-card tbody tr:nth-child(even) td{background:#f9fafb !important;}
+    table.table-card tbody tr:nth-child(odd) td{background:#ffffff !important;}
+
+    table.table-card tr:last-child td{border-bottom:none !important;}
+
+    /* links inside tables must remain visible */
+    table.table-card a{color:#0b57d0 !important; text-decoration:underline !important; text-underline-offset:2px !important;}
 
     /* Mobile: keep headers readable (no cut) */
     @media (max-width:640px){
-      table.table-card th, table.table-card td{white-space:normal; word-break:break-word}
+      table.table-card{min-width:640px;}
+      table.table-card th, table.table-card td{
+        white-space:normal !important;
+        word-break:break-word !important;
+      }
     }
 
     /* Related strip (Stage 2.5 standard) */
     .related-strip{
-      margin:12px 0 18px 0;
-      background:#0b1220;
-      border:1px solid rgba(255,255,255,.14);
-      border-radius:16px;
-      padding:12px 14px 12px 16px;
-      position:relative;
+      margin:12px 0 18px 0 !important;
+      background:#0b1220 !important;
+      border:1px solid rgba(255,255,255,.14) !important;
+      border-radius:16px !important;
+      padding:12px 14px 12px 16px !important;
+      position:relative !important;
     }
     .related-strip:before{
-      content:"";
-      position:absolute;
-      left:10px; top:12px; bottom:12px;
-      width:4px;
-      background:#22c55e;
-      border-radius:999px;
+      content:"" !important;
+      position:absolute !important;
+      left:10px !important; top:12px !important; bottom:12px !important;
+      width:4px !important;
+      background:#22c55e !important;
+      border-radius:999px !important;
     }
-    .related-strip p{margin:0; color:#eaeaea}
-    .related-strip a{color:#9ec4ff; text-decoration:underline; text-underline-offset:2px}
+    .related-strip p{margin:0 !important; color:#eaeaea !important;}
+    .related-strip a{color:#9ec4ff !important; text-decoration:underline !important; text-underline-offset:2px !important;}
   </style>
 
   <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
@@ -540,7 +633,7 @@
                 <td>WebRTC</td>
                 <td>Le navigateur révèle-t-il une IP locale ?</td>
                 <td>IP locale/réelle affichée</td>
-                <td>Désactiver WebRTC / réglages navigateur</td>
+                <td>Désactiver WebRTC / réglage navigateur</td>
               </tr>
             </tbody>
           </table>
