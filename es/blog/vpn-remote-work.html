@@ -1,13 +1,19 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-<meta charset="utf-8">
-<title>Vpn Remote Work | VPN World</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="index, follow">
-<link rel="icon" href="/favicon.ico">
-<link rel="stylesheet" href="../../assets/css/style.css">
-<link rel="canonical" href="https://dloran1.github.io/es/blog/vpn-remote-work.html">
-<link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-praca-zdalna.html">
+  <meta charset="utf-8">
+
+  <title>VPN para trabajo remoto (2026): seguridad real en casa, Wi-Fi público y viajes | VPN World</title>
+  <meta name="description" content="Guía 2026 para trabajar en remoto con VPN: protege Zoom/Teams, evita fugas DNS/IPv6/WebRTC, usa WireGuard, configura Kill Switch y blinda tu router. Checklist + pruebas paso a paso." />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index, follow">
+
+  <link rel="icon" href="/favicon.ico">
+  <link rel="canonical" href="https://dloran1.github.io/es/blog/vpn-remote-work.html">
+
+  <!-- HREFLANG (7× + x-default) -->
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-praca-zdalna.html">
   <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-remote-work-uk.html">
   <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-remote-work.html">
   <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-remote-work.html">
@@ -16,42 +22,921 @@
   <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-remote-work.html">
   <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-remote-work-uk.html">
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-RD6M691ZWD');
-</script>
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../assets/css/style.css">
 
+  <!-- Preconnect -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="VPN World">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="nl_BE">
+  <meta property="og:title" content="VPN para trabajo remoto (2026): seguridad real y configuración paso a paso">
+  <meta property="og:description" content="Protege tu trabajo remoto: Wi-Fi seguro, Kill Switch, WireGuard, pruebas de fugas y configuración en Windows/iOS/Android/router." />
+  <meta property="og:url" content="https://dloran1.github.io/es/blog/vpn-remote-work.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-remote-work-uk.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="VPN para trabajo remoto (2026): seguridad real">
+  <meta name="twitter:description" content="Guía práctica: evita fugas, usa WireGuard y configura Kill Switch para trabajar en remoto sin sustos." />
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-remote-work-uk.webp">
+
+  <!-- диаграммы/табlas: hard enforcement (para que SIEMPRE se vean bien) -->
+  <style>
+    /* Responsive wrappers */
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .table-scroll table{min-width:720px}
+    .svg-card{
+      background:#fff;
+      border:1px solid #e5e7eb;
+      border-radius:16px;
+      padding:14px;
+      margin:14px 0;
+      box-shadow:0 6px 18px rgba(0,0,0,.10);
+      color:#000;
+    }
+    .svg-card .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .svg-card svg{max-width:100%;height:auto;display:block;color:#000}
+    .svg-card svg text{fill:#000 !important;font-weight:800;font-family:Inter,system-ui,Arial,sans-serif}
+    .svg-card svg .stroke{stroke:#000;stroke-width:4;fill:none}
+    .svg-card svg .fill{fill:#fff;stroke:#000;stroke-width:4}
+    .svg-card .caption{margin:10px 2px 0;font-size:.95rem;color:#111}
+    .badge-mini{display:inline-block;padding:3px 10px;border:1px solid #000;border-radius:999px;background:#fff;color:#000;font-weight:800;font-size:.78rem}
+    .toc{border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px 16px;margin:18px 0;background:rgba(255,255,255,.04)}
+    .toc h2{margin:0 0 8px;font-size:1.05rem}
+    .toc ul{margin:0;padding-left:18px}
+    .toc a{text-decoration:underline}
+    /* Related стилевой блок (широкая плашка) */
+    .related-wide{
+      margin:14px 0;
+      padding:14px 16px;
+      border-radius:16px;
+      background:rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.12);
+      position:relative;
+    }
+    .related-wide:before{
+      content:"";
+      position:absolute;
+      left:0;top:12px;bottom:12px;
+      width:6px;border-radius:8px;
+      background:#22c55e;
+    }
+    .related-wide strong{display:block;margin-bottom:6px}
+    .related-wide a{text-decoration:underline}
+  </style>
+
+  <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    gtag('consent','default', {
+      ad_storage:'denied',
+      ad_user_data:'denied',
+      ad_personalization:'denied',
+      analytics_storage:'denied',
+      functionality_storage:'denied',
+      personalization_storage:'denied',
+      security_storage:'denied'
+    });
+
+    gtag('js', new Date());
+
+    function hideCookieBannerSafely() {
+      var banner = document.getElementById('cookie-banner');
+      if (banner) banner.style.display = 'none';
+    }
+
+    function acceptConsent() {
+      gtag('consent','update', {
+        ad_storage:'granted',
+        ad_user_data:'granted',
+        ad_personalization:'granted',
+        analytics_storage:'granted',
+        functionality_storage:'granted',
+        personalization_storage:'granted',
+        security_storage:'granted'
+      });
+      try { localStorage.setItem('vpnworld_consent','granted'); } catch(e) {}
+      hideCookieBannerSafely();
+      gtag('config','G-RD6M691ZWD');
+    }
+
+    function rejectConsent() {
+      gtag('consent','update', {
+        ad_storage:'denied',
+        ad_user_data:'denied',
+        ad_personalization:'denied',
+        analytics_storage:'denied',
+        functionality_storage:'denied',
+        personalization_storage:'denied',
+        security_storage:'denied'
+      });
+      try { localStorage.setItem('vpnworld_consent','denied'); } catch(e) {}
+      hideCookieBannerSafely();
+    }
+
+    function applyStoredConsentSafely() {
+      try {
+        var c = localStorage.getItem('vpnworld_consent');
+        if (c === 'granted') {
+          gtag('consent','update', {
+            ad_storage:'granted',
+            ad_user_data:'granted',
+            ad_personalization:'granted',
+            analytics_storage:'granted',
+            functionality_storage:'granted',
+            personalization_storage:'granted',
+            security_storage:'granted'
+          });
+          hideCookieBannerSafely();
+          gtag('config','G-RD6M691ZWD');
+        } else if (c === 'denied') {
+          gtag('consent','update', {
+            ad_storage:'denied',
+            ad_user_data:'denied',
+            ad_personalization:'denied',
+            analytics_storage:'denied',
+            functionality_storage:'denied',
+            personalization_storage:'denied',
+            security_storage:'denied'
+          });
+          hideCookieBannerSafely();
+        }
+      } catch(e) {}
+    }
+    document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
+  </script>
+
+  <!-- JSON-LD (Stage 2.5): Article + FAQPage + BreadcrumbList + ItemList + HowTo -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"Article",
+        "@id":"https://dloran1.github.io/es/blog/vpn-remote-work.html",
+        "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/es/blog/vpn-remote-work.html"},
+        "headline":"VPN para trabajo remoto (2026): seguridad real en casa, Wi-Fi público y viajes",
+        "description":"Guía práctica 2026: cómo usar una VPN para trabajo remoto, configurar Kill Switch, elegir protocolos (WireGuard/OpenVPN) y probar fugas DNS/IPv6/WebRTC.",
+        "image":"https://dloran1.github.io/assets/img/hero/vpn-remote-work-uk.webp",
+        "inLanguage":"es",
+        "datePublished":"2026-01-11",
+        "dateModified":"2026-01-11",
+        "author":{"@type":"Person","name":"Denys Shchur","url":"https://dloran1.github.io/es/about-denys-shchur.html"},
+        "publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}}
+      },
+      {
+        "@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"Inicio","item":"https://dloran1.github.io/es/"},
+          {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/es/blog/"},
+          {"@type":"ListItem","position":3,"name":"VPN para trabajo remoto","item":"https://dloran1.github.io/es/blog/vpn-remote-work.html"}
+        ]
+      },
+      {
+        "@type":"HowTo",
+        "name":"Cómo comprobar fugas DNS/IPv6/WebRTC al trabajar en remoto con VPN",
+        "inLanguage":"es",
+        "step":[
+          {"@type":"HowToStep","name":"Activa la VPN y el Kill Switch","text":"Conéctate a un servidor cercano y activa Kill Switch para bloquear tráfico si la VPN cae."},
+          {"@type":"HowToStep","name":"Comprueba IP pública","text":"Verifica que tu IP/ubicación coinciden con el servidor VPN."},
+          {"@type":"HowToStep","name":"Prueba fugas DNS","text":"Haz un test DNS y confirma que los resolvers pertenecen a la VPN, no a tu ISP."},
+          {"@type":"HowToStep","name":"Prueba IPv6 y WebRTC","text":"Revisa que no se exponga tu IPv6 real ni tu IP a través de WebRTC en el navegador."},
+          {"@type":"HowToStep","name":"Repite tras cambios","text":"Repite tests al cambiar de red (casa → cafetería → hotel) y tras actualizaciones del sistema."}
+        ]
+      },
+      {
+        "@type":"FAQPage",
+        "mainEntity":[
+          {
+            "@type":"Question",
+            "name":"¿Necesito VPN si mi empresa ya usa una VPN corporativa?",
+            "acceptedAnswer":{"@type":"Answer","text":"Depende. La VPN corporativa (por ejemplo, para acceder a intranet y recursos internos) cubre el trabajo, pero una VPN personal puede mejorar tu privacidad fuera de esas apps y protegerte en Wi-Fi público."}
+          },
+          {
+            "@type":"Question",
+            "name":"¿Cuál es el mejor protocolo para videollamadas en 2026?",
+            "acceptedAnswer":{"@type":"Answer","text":"WireGuard suele dar mejor latencia y estabilidad que OpenVPN. Si estás en una red muy restrictiva, OpenVPN puede funcionar mejor."}
+          },
+          {
+            "@type":"Question",
+            "name":"¿Una VPN evita que me rastreen al 100%?",
+            "acceptedAnswer":{"@type":"Answer","text":"No al 100%. La VPN oculta IP y cifra tráfico, pero siguen existiendo cookies, huella del navegador y rastreo dentro de cuentas (Google, Microsoft, etc.)."}
+          },
+          {
+            "@type":"Question",
+            "name":"¿Qué hago si detecto una fuga DNS?",
+            "acceptedAnswer":{"@type":"Answer","text":"Activa protección anti-fugas en la app, usa DNS del proveedor VPN, habilita Kill Switch y revisa IPv6. Si persiste, cambia de protocolo o de servidor y repite pruebas."}
+          }
+        ]
+      },
+      {
+        "@type":"ItemList",
+        "name":"Guías relacionadas",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/es/blog/seguridad-wifi.html"},
+          {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/es/blog/vpn-dns-leak.html"},
+          {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/es/blog/protocolos-vpn.html"},
+          {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/es/blog/ajustes-optimos-vpn.html"}
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
+
 <body>
-<nav class="lang-switch"><a href="/blog/vpn-praca-zdalna.html">Polski</a> | <a href="/en-gb/blog/vpn-remote-work-uk.html">English (UK)</a> | <a href="/en-us/blog/vpn-remote-work.html">English (US)</a> | <a href="/de/blog/vpn-remote-work.html">Deutsch</a> | <a href="/es/blog/vpn-remote-work.html" class="active">Español</a> | <a href="/fr/blog/vpn-remote-work.html">Français</a> | <a href="/nl-be/blog/vpn-remote-work.html">Nederlands (BE)</a></nav>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="header-main">
+        <a href="/es/" class="brand">
+          <img src="../../assets/img/logo.png" class="logo" alt="Logo de VPN World">
+          <span class="brand-text">VPN World</span>
+        </a>
 
+        <nav class="primary-nav" aria-label="Navegación principal">
+          <a href="/es/blog/">Blog</a>
+        </nav>
+      </div>
 
-<header class="site-header"><div class="container header-inner">
-  <a href="/es/" class="brand"><img src="../../assets/img/logo.png" class="logo" alt=""> <span class="brand-text">VPN World</span></a>
-  
-</div></header>
-<main class="container card" style="padding:18px 0"><h1>Vpn Remote Work</h1><p>Content coming soon...</p><!-- RELATED_START -->
-<section class="related-guides" aria-label="Guías relacionadas">
-  <h2>Guías relacionadas</h2>
-  <ul>
-    <li><a href="/es/blog/vpn-para-empresas.html">/es/blog/vpn-para-empresas.html</a></li>
-    <li><a href="/es/blog/no-logs-vpn.html">/es/blog/no-logs-vpn.html</a></li>
-    <li><a href="/es/blog/protocolos-vpn.html">/es/blog/protocolos-vpn.html</a></li>
-    <li><a href="/es/blog/prueba-de-velocidad-vpn.html">/es/blog/prueba-de-velocidad-vpn.html</a></li>
-    <li><a href="/es/blog/que-es-una-vpn.html">/es/blog/que-es-una-vpn.html</a></li>
-  </ul>
-</section>
-<!-- RELATED_END -->
-</main>
-<footer class="site-footer"><div class="container footer-grid">
-  <div><strong>VPN World</strong><p>Niezależny serwis o prywatności i bezpieczeństwie w sieci.</p></div>
-  <nav><a href="/privacy.html">Privacy</a> <a href="/sitemap.xml">Sitemap</a> <a href="mailto:denger88@gmail.com">Kontakt</a></nav>
-</div><div class="container tiny">© 2025 VPN World</div></footer>
-<script src="../../assets/js/main.js"></script>
-<script src="../../assets/js/cookie-consent.js"></script>
-<div id="privacy-banner" class="privacy-banner">We use cookies. <a href="/privacy.html">Privacy</a> · <button class="btn btn-compact" onclick="this.parentElement.remove()">OK</button></div>
-</body></html>
+      <nav class="lang-switch" aria-label="Selector de idioma">
+        <a href="/blog/vpn-praca-zdalna.html">Polski</a> |
+        <a href="/en-gb/blog/vpn-remote-work-uk.html">English (UK)</a> |
+        <a href="/en-us/blog/vpn-remote-work.html">English (US)</a> |
+        <a href="/de/blog/vpn-remote-work.html">Deutsch</a> |
+        <a href="/es/blog/vpn-remote-work.html" class="active">Español</a> |
+        <a href="/fr/blog/vpn-remote-work.html">Français</a> |
+        <a href="/nl-be/blog/vpn-remote-work.html">Nederlands (BE)</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h1>VPN para trabajo remoto (2026): seguridad real en casa, Wi-Fi público y viajes</h1>
+
+          <p class="note">
+            <strong>Respuesta rápida:</strong>
+            una VPN cifra tu conexión y reduce el riesgo de robo de credenciales en Wi-Fi público; para que funcione “de verdad” en 2026,
+            necesitas <strong>Kill Switch</strong>, un protocolo moderno como <strong>WireGuard</strong> y pruebas periódicas de <strong>DNS/IPv6/WebRTC</strong>.
+          </p>
+
+          <p>
+            El trabajo remoto es genial… hasta que te conectas a una Wi-Fi “gratis” de hotel, abres Slack/Zoom y te preguntas:
+            “¿quién más está viendo esto?”. Vamos a poner orden: aquí tienes un plan claro, con pruebas reales y sin humo.
+          </p>
+
+          <div class="hero-author">
+            <img src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur — autor">
+            <div class="hero-author-text">
+              <span class="hero-author-label">Escrito por</span>
+              <span class="hero-author-name">
+                <a href="/es/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a>
+              </span>
+              <span class="meta">Actualizado: 2026-01-11 · 12–18 min de lectura</span>
+            </div>
+          </div>
+
+          <!-- Early CTA block (3 partners) -->
+          <div class="cta-buttons" aria-label="Ofertas afiliadas">
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Probar NordVPN — seguridad premium</a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Probar Surfshark — ideal multi-dispositivo</a>
+            <a href="https://www.dpbolvw.net/click-101525886-15834536" class="protonvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Probar Proton VPN — foco en privacidad</a>
+          </div>
+
+          <ul class="meta-points">
+            <li>Checklist de configuración “anti-sustos”</li>
+            <li>Pruebas de fugas y velocidad (sin magia, solo datos)</li>
+            <li>Guía por plataforma: Windows / iOS / Android / router</li>
+          </ul>
+        </div>
+
+        <div class="hero-media">
+          <div class="hero-art">
+            <img src="../../assets/img/hero/vpn-remote-work-uk.webp" alt="Ilustración: VPN para trabajo remoto">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="section">
+      <div class="container article">
+        <!-- CONTENT_START -->
+
+        <div class="toc" id="toc">
+          <h2>En esta guía</h2>
+          <ul>
+            <li><a href="#modelo-amenazas">Modelo de amenazas real (2026)</a></li>
+            <li><a href="#cuando-ayuda">Cuándo una VPN ayuda de verdad</a></li>
+            <li><a href="#config-rapida">Configuración rápida (10 minutos)</a></li>
+            <li><a href="#pruebas-fugas">Pruebas de fugas: DNS / IPv6 / WebRTC</a></li>
+            <li><a href="#velocidad-latencia">Velocidad y latencia para videollamadas</a></li>
+            <li><a href="#vpn-corporativa">VPN corporativa vs VPN personal</a></li>
+            <li><a href="#router">Router y “casa segura” para todo</a></li>
+            <li><a href="#checklist">Checklist final + errores típicos</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div class="related-wide">
+          <strong>Related:</strong>
+          <a href="/es/blog/seguridad-wifi.html">Seguridad Wi-Fi</a> ·
+          <a href="/es/blog/seguridad-wifi-checklist.html">Checklist de Wi-Fi seguro</a> ·
+          <a href="/es/blog/que-es-una-vpn.html">Qué es una VPN</a>
+        </div>
+
+        <h2 id="modelo-amenazas">Modelo de amenazas real (2026): lo que pasa “de verdad” en trabajo remoto</h2>
+        <p>
+          En 2026, el enemigo no siempre es un “hacker de película”. A menudo es algo más aburrido, pero igual de peligroso:
+          Wi-Fi mal configurado, routers con firmware viejo, extensiones del navegador que espían, o fugas silenciosas de DNS.
+          Si trabajas con documentos, accesos, clientes y herramientas como Teams/Zoom, la frase “a mí no me va a pasar” dura poquito.
+        </p>
+        <div class="key-takeaway">
+          <strong>Key takeaway:</strong> tu prioridad no es “ser invisible”, sino evitar fugas y reducir la superficie de ataque cuando cambias de red.
+        </div>
+
+        <!-- Diagram 1 -->
+        <div class="svg-card" aria-label="Diagrama: flujo de tráfico con y sin VPN">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 980 320" role="img" aria-label="Tráfico remoto con y sin VPN">
+              <rect x="0" y="0" width="980" height="320" class="fill"></rect>
+
+              <rect x="40" y="70" width="210" height="110" rx="18" class="fill"></rect>
+              <text x="65" y="110">Tu portátil</text>
+              <text x="65" y="142" style="font-weight:800">Zoom / Slack / Docs</text>
+
+              <rect x="300" y="70" width="230" height="110" rx="18" class="fill"></rect>
+              <text x="325" y="110">Red (casa / Wi-Fi)</text>
+              <text x="325" y="142">Router / hotspot</text>
+
+              <rect x="580" y="40" width="360" height="70" rx="18" class="fill"></rect>
+              <text x="605" y="82">Sin VPN: ISP / Wi-Fi ve metadatos</text>
+
+              <rect x="580" y="140" width="360" height="130" rx="18" class="fill"></rect>
+              <text x="605" y="182">Con VPN: túnel cifrado</text>
+              <text x="605" y="214">Servidor VPN → Internet</text>
+              <text x="605" y="246">Menos fugas, más control</text>
+
+              <line x1="250" y1="125" x2="300" y2="125" class="stroke"></line>
+              <line x1="530" y1="125" x2="580" y2="75" class="stroke"></line>
+              <line x1="530" y1="125" x2="580" y2="205" class="stroke"></line>
+
+              <text x="610" y="110" class="badge-mini">riesgo</text>
+              <text x="610" y="270" class="badge-mini">mejor práctica</text>
+            </svg>
+          </div>
+          <p class="caption">
+            <strong>Qué mirar:</strong> con VPN, tu red local y el ISP ven menos (pero no “nada”). La clave es evitar fugas y usar Kill Switch.
+          </p>
+        </div>
+
+        <h2 id="cuando-ayuda">Cuándo una VPN ayuda de verdad (y cuándo NO)</h2>
+        <p>
+          Una VPN es brutal para el trabajo remoto cuando cambias de red, compartes pantalla en una cafetería o viajas.
+          Pero no reemplaza el sentido común ni un sistema actualizado. Si tu dispositivo está lleno de malware, la VPN no es un “exorcismo”.
+        </p>
+        <div class="key-takeaway">
+          <strong>Key takeaway:</strong> VPN = protección del tráfico en tránsito. Para el resto necesitas higiene digital (actualizaciones, MFA, y hábitos).
+        </div>
+
+        <div class="table-scroll" aria-label="Tabla: qué protege una VPN en trabajo remoto">
+          <table>
+            <thead>
+              <tr>
+                <th>Situación</th>
+                <th>¿Ayuda una VPN?</th>
+                <th>Por qué importa en remoto</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Wi-Fi público (hotel/café/aeropuerto)</td>
+                <td><strong>Sí</strong></td>
+                <td>Reduce riesgo de sniffing y secuestro de sesiones</td>
+              </tr>
+              <tr>
+                <td>Rastreo del ISP</td>
+                <td><strong>Sí</strong></td>
+                <td>Tu ISP ve menos detalles sobre destinos y tráfico</td>
+              </tr>
+              <tr>
+                <td>Fugas DNS/IPv6/WebRTC</td>
+                <td><strong>Depende</strong></td>
+                <td>Se soluciona con ajustes y pruebas (no por “fe”)</td>
+              </tr>
+              <tr>
+                <td>Malware/Phishing</td>
+                <td><strong>No</strong></td>
+                <td>Un enlace tonto sigue siendo un enlace tonto</td>
+              </tr>
+              <tr>
+                <td>Acceso a servicios geo-bloqueados</td>
+                <td><strong>A veces</strong></td>
+                <td>Algunas plataformas bloquean IPs VPN</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          Si te interesa el lado “pro y contra” sin marketing, lee:
+          <a href="/es/blog/desventajas-de-vpn.html">desventajas de una VPN</a> y
+          <a href="/es/blog/mitos-sobre-vpn.html">mitos sobre VPN</a>.
+          Y si aún estás en modo “qué demonios es esto”, empieza por
+          <a href="/es/blog/que-es-una-vpn.html">qué es una VPN</a>.
+        </p>
+
+        <h2 id="config-rapida">Configuración rápida en 10 minutos (para no liarla)</h2>
+        <p>
+          Esta es la configuración “mínimo viable” para trabajar en remoto sin paranoia, pero con cabeza.
+          Piensa en esto como el “kit de supervivencia”: te cubre el 80% de problemas con el 20% de esfuerzo.
+        </p>
+
+        <ol>
+          <li><strong>Activa Kill Switch</strong> (obligatorio): evita que el tráfico salga sin VPN si se cae la conexión.</li>
+          <li><strong>Usa WireGuard</strong> (o equivalente) para mejor latencia en videollamadas.</li>
+          <li><strong>Activa protección anti-fugas</strong> (DNS + IPv6 si tu VPN lo soporta).</li>
+          <li><strong>Activa MFA</strong> en correo, cuentas y herramientas de trabajo.</li>
+          <li><strong>Prueba fugas</strong> al menos una vez al mes y cada vez que cambies de red.</li>
+        </ol>
+
+        <div class="related-wide">
+          <strong>Related:</strong>
+          <a href="/es/blog/vpn-2fa-mfa.html">VPN + 2FA/MFA</a> ·
+          <a href="/es/blog/ajustes-optimos-vpn.html">Ajustes óptimos de VPN</a> ·
+          <a href="/es/blog/vpn-kill-switch.html">Kill Switch</a>
+        </div>
+
+        <!-- Diagram 2: leakage -->
+        <div class="svg-card" aria-label="Diagrama: dónde se producen fugas típicas">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 980 360" role="img" aria-label="Fugas DNS, IPv6 y WebRTC">
+              <rect x="0" y="0" width="980" height="360" class="fill"></rect>
+
+              <rect x="40" y="70" width="280" height="240" rx="18" class="fill"></rect>
+              <text x="70" y="110">Dispositivo</text>
+              <text x="70" y="142">Apps + navegador</text>
+
+              <rect x="360" y="40" width="580" height="120" rx="18" class="fill"></rect>
+              <text x="390" y="82">Túnel VPN</text>
+              <text x="390" y="114">Ideal: todo el tráfico pasa por aquí</text>
+
+              <rect x="360" y="200" width="580" height="120" rx="18" class="fill"></rect>
+              <text x="390" y="242">Fugas típicas</text>
+              <text x="390" y="274">DNS / IPv6 / WebRTC → exposición de IP</text>
+
+              <line x1="320" y1="150" x2="360" y2="100" class="stroke"></line>
+              <line x1="320" y1="190" x2="360" y2="260" class="stroke"></line>
+
+              <rect x="650" y="220" width="270" height="80" rx="14" class="fill"></rect>
+              <text x="675" y="255">Solución:</text>
+              <text x="675" y="287">pruebas + ajustes</text>
+            </svg>
+          </div>
+          <p class="caption">
+            <strong>Truco rápido:</strong> si tu VPN “funciona” pero tus DNS siguen siendo del ISP, tienes fuga DNS. No discutas con la realidad: arréglalo.
+          </p>
+        </div>
+
+        <h2 id="pruebas-fugas">Pruebas de fugas (DNS / IPv6 / WebRTC) y cómo arreglarlas</h2>
+        <p>
+          Si hay una cosa que separa una guía seria de una guía “copiada”, es esto: <strong>pruebas</strong>.
+          No hay nada peor que pensar “estoy protegido” y estar filtrando IP por WebRTC como si nada.
+        </p>
+
+        <div class="key-takeaway">
+          <strong>Key takeaway:</strong> una VPN no se “cree”, se comprueba. Haz pruebas al cambiar de red, tras updates y al cambiar de protocolo.
+        </div>
+
+        <div class="table-scroll" aria-label="Tabla: pruebas de fugas y arreglos">
+          <table>
+            <thead>
+              <tr>
+                <th>Tipo de fuga</th>
+                <th>Qué se filtra</th>
+                <th>Arreglo típico</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>DNS</td>
+                <td>Dominios que visitas</td>
+                <td>Activar DNS de la VPN + anti-leak; revisa adaptadores</td>
+              </tr>
+              <tr>
+                <td>IPv6</td>
+                <td>Tu IPv6 real</td>
+                <td>Desactivar IPv6 o usar VPN con soporte completo IPv6</td>
+              </tr>
+              <tr>
+                <td>WebRTC</td>
+                <td>IP local/pública</td>
+                <td>Desactivar/limitar WebRTC en navegador; extensiones seguras</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          Para profundizar con pasos claros: <a href="/es/blog/vpn-dns-leak.html">fuga DNS con VPN</a>.
+          Y para la parte “optimización”: <a href="/es/blog/ajustes-optimos-vpn.html">ajustes óptimos de VPN</a>.
+        </p>
+
+        <h2 id="velocidad-latencia">Velocidad y latencia para Zoom/Teams: que no se convierta en “robot mode”</h2>
+        <p>
+          Si haces videollamadas, la métrica importante no es solo “Mbps”: es <strong>latencia</strong> y <strong>estabilidad</strong>.
+          Un servidor VPN lejano puede darte buena velocidad, pero una latencia horrible. Resultado: audio cortado y cámara a trompicones.
+        </p>
+        <div class="key-takeaway">
+          <strong>Key takeaway:</strong> para remoto, elige servidor cercano + WireGuard + prueba velocidad. “Más lejos” rara vez es “mejor”.
+        </div>
+
+        <div class="related-wide">
+          <strong>Related:</strong>
+          <a href="/es/blog/prueba-de-velocidad-vpn.html">Prueba de velocidad de VPN</a> ·
+          <a href="/es/blog/protocolos-vpn.html">Protocolos VPN</a> ·
+          <a href="/es/blog/tipos-de-servidor-vpn.html">Tipos de servidor</a>
+        </div>
+
+        <div class="table-scroll" aria-label="Tabla: latencia recomendada para trabajo remoto">
+          <table>
+            <thead>
+              <tr>
+                <th>Actividad</th>
+                <th>Latencia ideal</th>
+                <th>Notas</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Videollamada (HD)</td>
+                <td>&lt; 60 ms</td>
+                <td>Más importante que “Mbps”</td>
+              </tr>
+              <tr>
+                <td>Compartir pantalla</td>
+                <td>&lt; 80 ms</td>
+                <td>Evita servidores lejanos</td>
+              </tr>
+              <tr>
+                <td>VPN + escritorio remoto</td>
+                <td>&lt; 50 ms</td>
+                <td>Si no, se siente “pesado”</td>
+              </tr>
+              <tr>
+                <td>Subidas grandes (Drive)</td>
+                <td>—</td>
+                <td>Importa más la subida estable</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Diagram 3: split tunneling use -->
+        <div class="svg-card" aria-label="Diagrama: split tunneling en trabajo remoto">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 980 360" role="img" aria-label="Split tunneling: qué va por VPN y qué no">
+              <rect x="0" y="0" width="980" height="360" class="fill"></rect>
+
+              <rect x="40" y="120" width="240" height="120" rx="18" class="fill"></rect>
+              <text x="70" y="165">Tu equipo</text>
+              <text x="70" y="197">Apps de trabajo</text>
+
+              <rect x="340" y="60" width="280" height="90" rx="18" class="fill"></rect>
+              <text x="365" y="100">Ruta A (VPN)</text>
+              <text x="365" y="132">Correo / Drive / CRM</text>
+
+              <rect x="340" y="210" width="280" height="90" rx="18" class="fill"></rect>
+              <text x="365" y="250">Ruta B (Directa)</text>
+              <text x="365" y="282">Streaming local / impresora</text>
+
+              <rect x="690" y="60" width="250" height="90" rx="18" class="fill"></rect>
+              <text x="715" y="105">Servidor VPN</text>
+
+              <rect x="690" y="210" width="250" height="90" rx="18" class="fill"></rect>
+              <text x="715" y="255">Internet / LAN</text>
+
+              <line x1="280" y1="180" x2="340" y2="105" class="stroke"></line>
+              <line x1="280" y1="180" x2="340" y2="255" class="stroke"></line>
+              <line x1="620" y1="105" x2="690" y2="105" class="stroke"></line>
+              <line x1="620" y1="255" x2="690" y2="255" class="stroke"></line>
+
+              <text x="60" y="80" class="badge-mini">opcional</text>
+              <text x="705" y="165" class="badge-mini">objetivo</text>
+            </svg>
+          </div>
+          <p class="caption">
+            <strong>Split tunneling</strong> puede ser útil si necesitas que solo ciertas apps vayan por VPN.
+            Aprende más en <a href="/es/blog/vpn-split-tunneling.html">VPN split tunneling</a>.
+          </p>
+        </div>
+
+        <h2 id="vpn-corporativa">VPN corporativa vs VPN personal: no es lo mismo (y ahí está el truco)</h2>
+        <p>
+          Muchas empresas usan una VPN corporativa para acceder a recursos internos (intranet, servidores, repositorios).
+          Eso está bien, pero su objetivo no es tu privacidad personal: su objetivo es el acceso seguro a recursos de la empresa.
+          Una VPN personal, en cambio, te ayuda con Wi-Fi público, rastreo del ISP y protección fuera del “túnel corporativo”.
+        </p>
+
+        <div class="key-takeaway">
+          <strong>Key takeaway:</strong> si tu empresa ya te da VPN, úsala para el trabajo; pero una VPN personal sigue siendo útil para privacidad y redes inseguras.
+        </div>
+
+        <div class="table-scroll" aria-label="Tabla: VPN corporativa vs VPN personal">
+          <table>
+            <thead>
+              <tr>
+                <th>Tipo</th>
+                <th>Para qué sirve</th>
+                <th>Limitación típica</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>VPN corporativa</td>
+                <td>Acceso a recursos internos</td>
+                <td>No cubre tu navegación personal; políticas estrictas</td>
+              </tr>
+              <tr>
+                <td>VPN personal</td>
+                <td>Privacidad + Wi-Fi seguro</td>
+                <td>Puede ser bloqueada en algunas redes</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          Si trabajas con banca/finanzas, revisa también: <a href="/es/blog/vpn-banca-online.html">VPN y banca online</a>.
+          Y si eres “pro” y necesitas IP fija o segmentación: <a href="/es/blog/vpn-ip-dedicada.html">IP dedicada</a> y
+          <a href="/es/blog/reenvio-de-puertos-vpn.html">reenvío de puertos</a>.
+        </p>
+
+        <h2 id="router">Router: convierte tu casa en una “zona segura” para todo</h2>
+        <p>
+          Configurar VPN en el router es una jugada muy buena para remoto si tienes varios dispositivos:
+          portátil, móvil, tablet, Smart TV, IoT… Lo configuras una vez y listo.
+          Eso sí: requiere un router compatible y un poco de paciencia (no es “clic-clic-ya”).
+        </p>
+
+        <div class="related-wide">
+          <strong>Related:</strong>
+          <a href="/es/blog/configuracion-vpn-router.html">Configuración VPN en router</a> ·
+          <a href="/es/blog/vpn-wifi-publico.html">VPN para Wi-Fi público</a> ·
+          <a href="/es/blog/tipos-de-servidor-vpn.html">Tipos de servidor VPN</a>
+        </div>
+
+        <!-- Diagram 4: router setup -->
+        <div class="svg-card" aria-label="Diagrama: VPN a nivel de router">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 980 360" role="img" aria-label="VPN en router protege varios dispositivos">
+              <rect x="0" y="0" width="980" height="360" class="fill"></rect>
+
+              <rect x="60" y="70" width="240" height="110" rx="18" class="fill"></rect>
+              <text x="85" y="115">Dispositivos</text>
+              <text x="85" y="147">portátil / móvil / IoT</text>
+
+              <rect x="360" y="70" width="260" height="110" rx="18" class="fill"></rect>
+              <text x="385" y="115">Router</text>
+              <text x="385" y="147">VPN configurada</text>
+
+              <rect x="700" y="70" width="240" height="110" rx="18" class="fill"></rect>
+              <text x="725" y="115">Servidor VPN</text>
+              <text x="725" y="147">túnel cifrado</text>
+
+              <rect x="700" y="220" width="240" height="90" rx="18" class="fill"></rect>
+              <text x="725" y="260">Internet</text>
+
+              <line x1="300" y1="125" x2="360" y2="125" class="stroke"></line>
+              <line x1="620" y1="125" x2="700" y2="125" class="stroke"></line>
+              <line x1="820" y1="180" x2="820" y2="220" class="stroke"></line>
+
+              <text x="70" y="220" class="badge-mini">ventaja</text>
+              <text x="70" y="250">Una sola config</text>
+              <text x="70" y="280">Protege toda la red</text>
+            </svg>
+          </div>
+          <p class="caption">
+            Si quieres hacerlo bien (sin romper nada): guía en
+            <a href="/es/blog/configuracion-vpn-router.html">configuración VPN en router</a>.
+          </p>
+        </div>
+
+        <h2 id="checklist">Checklist final (modo “pro”): lo que realmente te deja tranquilo</h2>
+        <p>
+          Vamos al grano. Si quieres que tu setup aguante cafeterías, hoteles y cambios de red sin dramas,
+          este checklist te salva de la mayoría de “momentos WTF”.
+        </p>
+        <div class="key-takeaway">
+          <strong>Key takeaway:</strong> si cumples este checklist, reduces muchísimo el riesgo de fugas y errores humanos (que son el 90% del problema).
+        </div>
+
+        <ul>
+          <li><strong>Kill Switch activado</strong> (siempre).</li>
+          <li><strong>WireGuard</strong> como primera opción; OpenVPN si la red es restrictiva.</li>
+          <li><strong>MFA</strong> en correo, nube y cuentas de trabajo: <a href="/es/blog/vpn-2fa-mfa.html">VPN + 2FA/MFA</a>.</li>
+          <li><strong>Pruebas de fugas</strong> mensuales: <a href="/es/blog/vpn-dns-leak.html">DNS leak</a>.</li>
+          <li><strong>Servidor cercano</strong> para videollamadas: <a href="/es/blog/prueba-de-velocidad-vpn.html">test de velocidad</a>.</li>
+          <li><strong>Actualizaciones</strong> del sistema + navegador + app VPN.</li>
+          <li><strong>Split tunneling</strong> solo si sabes por qué lo activas: <a href="/es/blog/vpn-split-tunneling.html">split tunneling</a>.</li>
+        </ul>
+
+        <!-- Diagram 5: incident response -->
+        <div class="svg-card" aria-label="Diagrama: qué hacer si la VPN falla durante una llamada">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 980 360" role="img" aria-label="Respuesta rápida si la VPN cae">
+              <rect x="0" y="0" width="980" height="360" class="fill"></rect>
+
+              <rect x="60" y="70" width="260" height="90" rx="18" class="fill"></rect>
+              <text x="85" y="110">VPN se cae</text>
+              <text x="85" y="142">¿Kill Switch ON?</text>
+
+              <rect x="380" y="40" width="260" height="90" rx="18" class="fill"></rect>
+              <text x="405" y="80">Sí</text>
+              <text x="405" y="112">Internet bloqueado</text>
+
+              <rect x="380" y="170" width="260" height="110" rx="18" class="fill"></rect>
+              <text x="405" y="210">No</text>
+              <text x="405" y="242">Riesgo de fuga</text>
+              <text x="405" y="274">Corta conexión YA</text>
+
+              <rect x="700" y="40" width="220" height="90" rx="18" class="fill"></rect>
+              <text x="725" y="82">Reconectar</text>
+              <text x="725" y="114">cambiar servidor</text>
+
+              <rect x="700" y="190" width="220" height="90" rx="18" class="fill"></rect>
+              <text x="725" y="232">Revisar fugas</text>
+              <text x="725" y="264">DNS/IPv6/WebRTC</text>
+
+              <line x1="320" y1="115" x2="380" y2="85" class="stroke"></line>
+              <line x1="320" y1="115" x2="380" y2="225" class="stroke"></line>
+              <line x1="640" y1="85" x2="700" y2="85" class="stroke"></line>
+              <line x1="640" y1="225" x2="700" y2="235" class="stroke"></line>
+            </svg>
+          </div>
+          <p class="caption">
+            Esto es exactamente por lo que <strong>Kill Switch</strong> es obligatorio:
+            <a href="/es/blog/vpn-kill-switch.html">guía de Kill Switch</a>.
+          </p>
+        </div>
+
+        <h2 id="faq">FAQ</h2>
+        <dl>
+          <dt>¿Es buena idea usar VPN gratis para trabajo remoto?</dt>
+          <dd>
+            Para trabajo remoto, normalmente no. Las VPN gratis suelen tener límites, menos estabilidad y políticas menos claras.
+            Si aún quieres comparar: <a href="/es/blog/vpn-gratis.html">VPN gratis</a> y <a href="/es/blog/vpn-gratis-vs-de-pago.html">gratis vs de pago</a>.
+          </dd>
+
+          <dt>¿Qué pasa con “no-logs” y la privacidad real?</dt>
+          <dd>
+            Una política no-logs auditada reduce riesgos, pero no hace magia. Tu comportamiento y tu navegador siguen importando.
+            Lee: <a href="/es/blog/no-logs-vpn.html">no-logs VPN</a> y <a href="/es/blog/proxy-vs-vpn.html">proxy vs VPN</a>.
+          </dd>
+
+          <dt>¿Puedo usar la VPN en el móvil y en el portátil a la vez?</dt>
+          <dd>
+            Sí. En remoto, de hecho es lo ideal: el móvil también se conecta a redes dudosas.
+            Guías: <a href="/es/blog/vpn-ios.html">VPN en iOS</a> y <a href="/es/blog/vpn-android.html">VPN en Android</a>.
+          </dd>
+
+          <dt>¿La VPN ayuda si viajo por trabajo?</dt>
+          <dd>
+            Muchísimo, especialmente en hoteles y aeropuertos. Mira: <a href="/es/blog/vpn-para-viajar.html">VPN para viajar</a> y
+            <a href="/es/blog/vpn-wifi-publico.html">VPN para Wi-Fi público</a>.
+          </dd>
+        </dl>
+
+        <h2>Conclusión</h2>
+        <p>
+          Una VPN bien configurada es una de las mejores “actualizaciones” que puedes hacer para trabajar en remoto sin sustos.
+          Pero la palabra clave es <strong>bien configurada</strong>. Si activas Kill Switch, usas un protocolo moderno, haces pruebas de fugas
+          y no te olvidas del MFA, tu setup pasa de “me fío” a “lo tengo controlado”.
+        </p>
+        <p>
+          Y sí, esto no es solo para “gente paranoica”. Es como el cinturón de seguridad: ojalá no lo necesites, pero cuando lo necesitas…
+          lo agradeces.
+        </p>
+
+        <!-- CONTENT_END -->
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <h2>Vídeo corto: privacidad con VPN, explicado en lenguaje humano</h2>
+
+        <p class="note">
+          <strong>Key takeaway:</strong>
+          una VPN separa <strong>quién eres</strong> (tu IP / ISP) de <strong>lo que haces</strong> (sitios y servicios). En remoto, esa separación importa.
+        </p>
+
+        <div class="video-wrap">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&modestbranding=1"
+            title="VPN World — vídeo"
+            loading="lazy"
+            frameborder="0"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+        </div>
+
+        <ul>
+          <li><strong>Idea clave:</strong> cifrado + servidor VPN = menos exposición en redes dudosas.</li>
+          <li><strong>Consejo pro:</strong> servidor cercano + WireGuard para videollamadas.</li>
+          <li><strong>Checklist:</strong> Kill Switch + pruebas de fugas, siempre.</li>
+        </ul>
+
+        <p>
+          Si el reproductor no carga, míralo en YouTube:
+          <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- RELATED_START -->
+    <!-- RELATED_END -->
+
+    <section class="section">
+      <div class="container">
+        <div class="author-box">
+          <img src="../../assets/img/author/denys-shchur.webp" alt="Retrato de Denys Shchur" class="author-avatar">
+          <div>
+            <h3>Sobre el autor</h3>
+            <p>
+              <strong><a href="/es/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a></strong>
+              es el creador de VPN World y se centra en guías prácticas y verificables sobre VPN, privacidad online y seguridad para trabajo remoto.
+              Sí, hace demasiados tests de velocidad y fugas… para que tú no tengas que hacerlo.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container article">
+        <div class="cta-box" aria-label="VPN recomendadas">
+          <h2>VPN recomendadas para trabajo remoto</h2>
+          <p class="cta-note">Enlaces afiliados (nofollow/sponsored).</p>
+
+          <div class="cta-buttons" aria-label="Ofertas afiliadas">
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Probar NordVPN — seguridad premium</a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Probar Surfshark — multi-dispositivo</a>
+            <a href="https://www.dpbolvw.net/click-101525886-15834536" class="protonvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Probar Proton VPN — privacidad</a>
+          </div>
+
+          <p class="human-note">Disclosure: VPN World puede ganar comisión si te registras desde estos enlaces (sin cambiar tu precio).</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p><strong>VPN World</strong> · Servicio independiente sobre privacidad, seguridad y uso práctico de VPN.</p>
+      <p>
+        <a href="/es/privacy.html">Privacidad</a> ·
+        <a href="/es/disclosure.html">Disclosure</a> ·
+        <a href="mailto:u1797008805@gmail.com">Contacto</a>
+      </p>
+      <p>© 2026 VPN World</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/cookie-consent.js"></script>
+
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
+    <p>La analítica está desactivada por defecto. Puedes aceptar o rechazar la analítica.</p>
+    <div class="cookie-actions">
+      <button type="button" class="btn btn-compact" onclick="acceptConsent()">Aceptar</button>
+      <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Rechazar</button>
+    </div>
+  </div>
+
+</body>
+</html>
+
+<!-- PAGE: https://dloran1.github.io/es/blog/vpn-remote-work.html -->
