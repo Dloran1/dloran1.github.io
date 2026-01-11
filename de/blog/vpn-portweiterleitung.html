@@ -11,7 +11,7 @@
   <link rel="icon" href="/favicon.ico">
   <link rel="canonical" href="https://dloran1.github.io/de/blog/vpn-portweiterleitung.html">
 
-  <!-- HREFLANG (7× + x-default) -->
+  <!-- HREFLANG (7× + x-default) — DO NOT TOUCH -->
   <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-przekierowanie-portow.html">
   <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-port-forwarding-uk.html">
   <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-port-forwarding.html">
@@ -202,7 +202,6 @@
     .toc ul{ margin:0; padding-left:18px; }
     .toc li{ margin:6px 0; }
 
-    /* Keep note/takeaway readable on dark shell */
     .note strong{ font-weight:800; }
   </style>
 
@@ -238,32 +237,32 @@
           {
             "@type":"Question",
             "name":"Was ist Portweiterleitung über VPN (Port Forwarding) in einfachen Worten?",
-            "acceptedAnswer":{"@type":"Answer","text":"Portweiterleitung über VPN bedeutet: Ein bestimmter Port (z. B. 51413 für P2P) wird am VPN-Server geöffnet und der eingehende Traffic wird sicher durch den VPN-Tunnel zu deinem Gerät weitergeleitet. So kannst du eingehende Verbindungen nutzen, ohne deine echte IP öffentlich zu machen."}
+            "acceptedAnswer":{"@type":"Answer","text":"Portweiterleitung über VPN bedeutet: Ein bestimmter Port wird am VPN-Server geöffnet und der eingehende Traffic wird durch den VPN-Tunnel zu deinem Gerät weitergeleitet. So kannst du eingehende Verbindungen nutzen, ohne deine echte IP öffentlich zu machen."}
           },
           {
             "@type":"Question",
             "name":"Ist VPN Portweiterleitung sicher?",
-            "acceptedAnswer":{"@type":"Answer","text":"Sie kann sicher sein, wenn du nur die Ports öffnest, die du wirklich brauchst, Firewall-Regeln setzt, Upgrades/Updates aktuell hältst und Leaks (DNS/IPv6/WebRTC) testest. Unsicher wird es, wenn du unnötig viele Ports offen lässt oder Dienste exponierst (z. B. Admin-Panel ohne Schutz)."}
+            "acceptedAnswer":{"@type":"Answer","text":"Sie kann sicher sein, wenn du nur den benötigten Port öffnest, Firewall-Regeln eng setzt, Updates aktuell hältst und Leaks (DNS/IPv6/WebRTC) testest. Unsicher wird es, wenn du unnötig viele Ports offen lässt oder Dienste ohne Schutz exponierst."}
           },
           {
             "@type":"Question",
             "name":"Warum funktioniert Port Forwarding manchmal nicht (CGNAT, NAT-Typ, Router)?",
-            "acceptedAnswer":{"@type":"Answer","text":"Häufige Ursachen sind CGNAT beim ISP, falsche NAT/Firewall-Regeln, eine App, die auf dem falschen Interface lauscht, oder Router-/OS-Firewall blockiert eingehende Verbindungen. Mit VPN-Portweiterleitung brauchst du meist kein Heimrouter-Portforwarding, aber du musst den korrekten Port am VPN aktivieren und lokal erlauben."}
-          },
-          {
-            "@type":"Question",
-            "name":"Brauche ich Port Forwarding wirklich fürs Torrenting?",
-            "acceptedAnswer":{"@type":"Answer","text":"Nicht zwingend, aber es kann die Erreichbarkeit und Peers verbessern. Wenn du P2P nutzt, lies auch die Best Practices zu P2P-Sicherheit und überprüfe Leaks. Port Forwarding ist ein Tool — kein Muss."}
+            "acceptedAnswer":{"@type":"Answer","text":"Häufige Ursachen sind CGNAT beim ISP, falsche Firewall/NAT-Regeln, eine App, die auf dem falschen Interface lauscht, oder blockierende Router-/OS-Firewalls. Bei VPN-Portweiterleitung brauchst du meist kein Heimrouter-Portforwarding, aber du musst den korrekten Port am VPN aktivieren und lokal erlauben."}
           },
           {
             "@type":"Question",
             "name":"Welche Tests sind Pflicht: DNS, IPv6, WebRTC?",
-            "acceptedAnswer":{"@type":"Answer","text":"Ja: DNS-Leak-Test, IPv6-Leak-Test und WebRTC-Leak-Test sind Pflicht, besonders wenn du Ports öffnest und eingehende Verbindungen erwartest. Leaks können sonst deine echte IP oder DNS-Resolver verraten."}
+            "acceptedAnswer":{"@type":"Answer","text":"Ja: DNS-, IPv6- und WebRTC-Leak-Tests sind Pflicht, besonders wenn du Ports öffnest. Leaks können sonst deine echte IP oder DNS-Resolver verraten."}
+          },
+          {
+            "@type":"Question",
+            "name":"Warum ändert sich mein Port bei Proton VPN ständig?",
+            "acceptedAnswer":{"@type":"Answer","text":"Das ist ein Sicherheitsfeature. Statische Ports können dein Gerät über längere Zeiträume trackbar machen. Dynamisches Port Forwarding reduziert dieses Tracking-Risiko, auch wenn du aktiv Ports für P2P öffnest."}
           },
           {
             "@type":"Question",
             "name":"Welche Protokolle eignen sich am besten für Port Forwarding?",
-            "acceptedAnswer":{"@type":"Answer","text":"Praktisch sind moderne Protokolle wie WireGuard oder OpenVPN, weil sie stabil und performant sind. Entscheidend ist aber auch die Implementierung des Providers, Serverqualität und ob Port Forwarding überhaupt angeboten wird."}
+            "acceptedAnswer":{"@type":"Answer","text":"Moderne Protokolle wie WireGuard oder OpenVPN sind meist stabil und performant. Entscheidend ist aber auch die Implementierung des Providers und ob Port Forwarding überhaupt angeboten wird."}
           }
         ]
       },
@@ -298,14 +297,15 @@
         </nav>
       </div>
 
+      <!-- Visible language switcher (required) -->
       <nav class="lang-switch" aria-label="Sprachumschalter">
-        <a href="/blog/vpn-przekierowanie-portow.html" class="">Polski</a> |
-        <a href="/en-gb/blog/vpn-port-forwarding-uk.html" class="">English (UK)</a> |
-        <a href="/en-us/blog/vpn-port-forwarding.html" class="">English (US)</a> |
+        <a href="/blog/vpn-przekierowanie-portow.html">Polski</a> |
+        <a href="/en-gb/blog/vpn-port-forwarding-uk.html">English (UK)</a> |
+        <a href="/en-us/blog/vpn-port-forwarding.html">English (US)</a> |
         <a href="/de/blog/vpn-portweiterleitung.html" class="active">Deutsch</a> |
-        <a href="/es/blog/reenvio-de-puertos-vpn.html" class="">Español</a> |
-        <a href="/fr/blog/redirection-de-port-vpn.html" class="">Français</a> |
-        <a href="/nl-be/blog/vpn-port-forwarding.html" class="">Nederlands (BE)</a>
+        <a href="/es/blog/reenvio-de-puertos-vpn.html">Español</a> |
+        <a href="/fr/blog/redirection-de-port-vpn.html">Français</a> |
+        <a href="/nl-be/blog/vpn-port-forwarding.html">Nederlands (BE)</a>
       </nav>
     </div>
   </header>
@@ -315,16 +315,19 @@
     <section class="hero">
       <div class="container hero-inner">
         <div class="hero-copy">
-          <h1>VPN Portweiterleitung (Port Forwarding): Wie es funktioniert, Risiken & sichere Setups (2026)</h1>
+          <h1>VPN Portweiterleitung (Port Forwarding): Guide, Risiken & sichere Setups (2026)</h1>
 
           <p class="note">
-            <strong>Quick answer:</strong>
-            VPN Portweiterleitung öffnet einen Port am VPN-Server und leitet eingehende Verbindungen durch den verschlüsselten Tunnel zu deinem Gerät. Das ist praktisch für P2P, Self-Hosting oder bessere Erreichbarkeit — aber nur sicher, wenn du Ports, Firewall und Leak-Tests sauber im Griff hast.
+            <strong>Schnelle Antwort:</strong>
+            VPN Portweiterleitung öffnet einen Port am VPN-Server und leitet eingehende Verbindungen durch den Tunnel zu deinem Gerät weiter.
+            Das ist praktisch für P2P, Self-Hosting oder bessere Erreichbarkeit — aber nur sicher, wenn du Ports, Firewall und Leak-Tests sauber im Griff hast.
           </p>
 
           <p>
-            Kein Marketing-Blabla, versprochen. Das hier ist ein praktischer Guide mit Tests, Checklisten und klaren “Mach’s so / lass das lieber”.
-            Wenn du Port Forwarding nur machst, weil “man das halt so macht”: Stopp. Wir klären zuerst, ob du es überhaupt brauchst.
+            <strong>Quick Update 2026:</strong>
+            Viele Anbieter wie NordVPN oder Surfshark unterstützen Port Forwarding aus Sicherheitsgründen nicht.
+            Wenn du Portweiterleitung wirklich brauchst, ist <strong>Proton VPN</strong> in der Praxis oft die erste Wahl,
+            weil es Port-Zuweisung direkt in der App anbietet (statt Bastellösungen) und dabei auf moderne Performance setzt.
           </p>
 
           <div class="hero-author">
@@ -334,20 +337,21 @@
               <span class="hero-author-name">
                 <a href="/de/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a>
               </span>
-              <span class="meta">Aktualisiert: 2026-01-10 · ca. 12–18 Min.</span>
+              <span class="meta">Aktualisiert: 10. Jan 2026 · ca. 12–18 Min.</span>
             </div>
           </div>
 
-          <!-- Early CTA block (2×) -->
+          <!-- Early CTA block (3 partners fixed) -->
           <div class="cta-buttons" aria-label="Affiliate-Angebote">
-            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN testen — geprüfte No-Logs Policy</a>
-            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark testen — RAM-only Server</a>
+            <a href="https://www.dpbolvw.net/click-101525886-15834536" class="protonvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN testen — beste Wahl für Port Forwarding</a>
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN testen — Privacy & Streaming</a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark testen — Preis/Leistung</a>
           </div>
 
           <ul class="meta-points">
-            <li>Klare Entscheidung: Brauchst du Port Forwarding wirklich?</li>
-            <li>Saubere Setups für Router, Windows, macOS</li>
-            <li>Pflicht-Tests: DNS / IPv6 / WebRTC + typische Fehler</li>
+            <li>Wenn Port Forwarding dein Ziel ist: Proton-Fokus + Setup-Guide</li>
+            <li>Risiken, Leaks und “was wirklich schiefgeht” in der Praxis</li>
+            <li>4 Diagramme + Tabellen + Checklisten (ohne Marketing)</li>
           </ul>
         </div>
 
@@ -369,43 +373,45 @@
           <ul>
             <li><a href="#was-ist">1) Was ist VPN Portweiterleitung?</a></li>
             <li><a href="#wann-sinn">2) Wann es Sinn macht (und wann nicht)</a></li>
-            <li><a href="#risiken">3) Risiken & typische Stolperfallen</a></li>
-            <li><a href="#diagramme">4) Diagramme: So fließt der Traffic</a></li>
-            <li><a href="#setup">5) Setup: VPN, Router, Windows, macOS</a></li>
-            <li><a href="#tests">6) Tests: DNS/IPv6/WebRTC + Port Check</a></li>
-            <li><a href="#best-practices">7) Best Practices: minimal offen, maximal sicher</a></li>
-            <li><a href="#faq">8) FAQ</a></li>
-            <li><a href="#fazit">9) Fazit</a></li>
+            <li><a href="#anbieter-2026">3) Anbieter-Check 2026: Wer kann’s wirklich?</a></li>
+            <li><a href="#proton-setup">4) Setup-Guide: Portweiterleitung mit Proton VPN</a></li>
+            <li><a href="#risiken">5) Risiken & Stolperfallen (NAT/Leaks/Expose)</a></li>
+            <li><a href="#diagramme">6) Diagramme: Traffic-Flow & NAT-PMP</a></li>
+            <li><a href="#tests">7) Tests: Port Check + DNS/IPv6/WebRTC</a></li>
+            <li><a href="#best-practices">8) Best Practices: minimal offen, maximal sicher</a></li>
+            <li><a href="#faq">9) FAQ</a></li>
+            <li><a href="#fazit">10) Fazit</a></li>
           </ul>
         </div>
 
         <div class="related-strip">
-          <strong>Related:</strong> <a href="/de/blog/was-ist-ein-vpn.html">Was ist ein VPN? (Grundlagen & Begriffe)</a>
+          <strong>Related:</strong> <a href="/de/blog/was-ist-ein-vpn.html">Was ist ein VPN? (Grundlagen)</a>
         </div>
 
         <h2 id="was-ist">1) Was ist VPN Portweiterleitung (Port Forwarding) — ohne Kopfweh erklärt</h2>
-
         <p>
-          Portweiterleitung klingt nach “Nerd-Keller” — ist aber im Kern simpel: Ein <strong>Port</strong> ist wie eine nummerierte Tür an deinem Gerät.
-          Wenn du einen Dienst nutzt, der <em>eingehende</em> Verbindungen erwartet (z. B. ein Spielserver, ein Remote-Tool, manche P2P-Setups),
-          dann muss dein Gerät “von außen erreichbar” sein. Das ist im Alltag oft blockiert, weil fast alle Heimanschlüsse hinter <strong>NAT</strong> stecken.
+          Ein <strong>Port</strong> ist eine nummerierte “Tür” für ein Programm oder einen Dienst. Wenn du möchtest, dass jemand <em>von außen</em> eine Verbindung
+          zu dir aufbauen kann (z. B. bei P2P, Hosting oder bestimmten Gaming-Szenarien), muss genau diese Tür erreichbar sein.
+          Das scheitert an Heimanschlüssen oft an <strong>NAT</strong> oder sogar <strong>CGNAT</strong>.
         </p>
-
         <p>
-          Bei <strong>VPN Portweiterleitung</strong> wird diese “Tür” nicht an deiner echten IP geöffnet, sondern am <strong>VPN-Server</strong>.
+          Mit <strong>VPN Portweiterleitung</strong> wird der Port nicht an deiner echten IP geöffnet, sondern am <strong>VPN-Server</strong>.
           Der Provider öffnet dir dort einen Port und leitet eingehende Verbindungen durch den verschlüsselten Tunnel zu deinem Gerät weiter.
-          Vorteil: Deine <strong>echte IP</strong> bleibt im Idealfall verborgen, und du kannst trotzdem eingehenden Traffic nutzen.
+          Die Idee ist simpel: <strong>Inbound geht zum VPN-Server</strong>, nicht zu deinem Heimrouter.
         </p>
 
-        <div class="key-takeaway"><strong>Key takeaway:</strong> Portweiterleitung über VPN bedeutet: Der Port ist am VPN-Server offen, nicht an deiner echten IP — der Traffic wird durch den Tunnel zu dir geleitet.</div>
+        <div class="key-takeaway">
+          <strong>Key takeaway:</strong>
+          Port Forwarding über VPN = Port ist am VPN-Server offen, dein Gerät bekommt den Traffic über den Tunnel.
+        </div>
 
-        <div class="table-scroll">
+        <div class="table-scroll" aria-label="Begriffe kurz erklärt">
           <table>
             <thead>
               <tr>
                 <th>Begriff</th>
-                <th>Was es bedeutet</th>
-                <th>Warum es wichtig ist</th>
+                <th>Bedeutung</th>
+                <th>Warum relevant</th>
               </tr>
             </thead>
             <tbody>
@@ -416,160 +422,258 @@
               </tr>
               <tr>
                 <td>NAT</td>
-                <td>Übersetzung zwischen privaten & öffentlichen IPs</td>
+                <td>Adressübersetzung zwischen privat & öffentlich</td>
                 <td>Blockiert oft eingehende Verbindungen</td>
               </tr>
               <tr>
                 <td>CGNAT</td>
-                <td>NAT beim Anbieter (Carrier-Grade NAT)</td>
-                <td>Heimrouter-Portforwarding bringt dann oft nichts</td>
+                <td>NAT beim ISP (Carrier-Grade NAT)</td>
+                <td>Heimrouter-Portforwarding scheitert häufig</td>
               </tr>
               <tr>
-                <td>VPN Port Forwarding</td>
+                <td>VPN Portweiterleitung</td>
                 <td>Port am VPN-Server offen + Weiterleitung zu dir</td>
-                <td>Erreichbarkeit ohne echte IP zu zeigen</td>
+                <td>Inbound ohne deine echte IP offen zu legen</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <p>
-          Wichtig: Port Forwarding ist kein “Sicherheitsfeature”. Es ist ein <strong>Connectivity-Feature</strong>.
-          Du bekommst mehr Erreichbarkeit — und damit (wenn du’s falsch machst) auch mehr Angriffsfläche. Genau darum geht’s in diesem Guide.
+          Wichtig: Port Forwarding ist kein “Privacy-Boost”. Es ist ein <strong>Connectivity-Tool</strong>.
+          Du bekommst bessere Erreichbarkeit — und damit (wenn du’s falsch machst) mehr Angriffsfläche.
         </p>
 
         <div class="related-strip">
-          <strong>Related:</strong> <a href="/de/blog/proxy-vs-vpn.html">Proxy vs. VPN: Unterschiede, Limits & typische Mythen</a>
+          <strong>Related:</strong> <a href="/de/blog/proxy-vs-vpn.html">Proxy vs. VPN: Unterschiede & Limits</a>
         </div>
 
         <h2 id="wann-sinn">2) Wann Portweiterleitung Sinn macht — und wann du es lieber lässt</h2>
-
         <p>
-          Ich sag’s direkt: Viele aktivieren Port Forwarding, weil sie irgendwo gelesen haben “besser für Torrenting” oder “gut für Gaming”.
-          Manchmal stimmt das — manchmal ist es einfach nur extra Risiko. Die wichtigste Frage lautet:
-          <strong>brauchst du eingehende Verbindungen</strong> oder reicht dir ausgehend (Standard) vollkommen?
+          Die Kernfrage ist immer: <strong>brauchst du eingehende Verbindungen?</strong>
+          Wenn du nur surfst, streamst oder “einfach nur privat” sein willst: Port Forwarding bringt dir nichts.
         </p>
 
-        <div class="table-scroll">
+        <div class="table-scroll" aria-label="Use-Cases">
           <table>
             <thead>
               <tr>
                 <th>Use Case</th>
-                <th>Port Forwarding sinnvoll?</th>
-                <th>Kommentar</th>
+                <th>Sinnvoll?</th>
+                <th>Warum</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>P2P / Torrenting</td>
                 <td>Oft ja (optional)</td>
-                <td>Kann Erreichbarkeit verbessern, aber Leak-Tests & Regeln sind Pflicht</td>
+                <td>Bessere Erreichbarkeit/Peers, wenn sauber konfiguriert</td>
               </tr>
               <tr>
                 <td>Self-Hosting (kleiner Dienst)</td>
                 <td>Kommt drauf an</td>
-                <td>Lieber minimal öffnen, zusätzlich Auth/Firewall; oft besser: Reverse Proxy/VPN-Only</td>
+                <td>Nur minimal öffnen + Firewall/Auth sind Pflicht</td>
               </tr>
               <tr>
-                <td>Gaming</td>
-                <td>Selten nötig</td>
-                <td>NAT-Typ/Matchmaking ist komplex; oft reicht Serverwahl + gutes Protokoll</td>
-              </tr>
-              <tr>
-                <td>Remote Work / Admin-Zugriff</td>
-                <td>Meist nein</td>
-                <td>Statt Ports offen: VPN-Only Zugriff, MFA, Zero-Trust-Ansatz</td>
+                <td>Gaming (Open NAT / Hosting)</td>
+                <td>Manchmal</td>
+                <td>Hilft eher bei Hosting/Inbound, nicht automatisch bei Ping</td>
               </tr>
               <tr>
                 <td>Streaming</td>
                 <td>Nein</td>
-                <td>Port Forwarding hilft nicht beim Geoblocking</td>
+                <td>Geoblocking löst man über Server/Standort, nicht Ports</td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <p>
-          Wenn du z. B. im ICE sitzt (ja, ich kenne das DB-WLAN… manchmal fühlt es sich wie 2009 an) und eine Verbindung stabil halten willst,
-          dann ist meistens <strong>Serverwahl</strong> und ein gutes Protokoll wichtiger als Port Forwarding.
-          Schau dir dafür <a href="/de/blog/welcher-vpn-server.html">Welcher VPN-Server ist der richtige?</a> und den Guide zu <a href="/de/blog/vpn-protokolle.html">VPN-Protokollen</a> an.
-        </p>
-
-        <div class="key-takeaway"><strong>Key takeaway:</strong> Port Forwarding ist sinnvoll für echte “Inbound”-Use-Cases (z. B. P2P). Für Streaming ist es nutzlos, für Remote Work oft sogar unnötig riskant.</div>
-
-        <div class="related-strip">
-          <strong>Related:</strong> <a href="/de/blog/vpn-p2p-sicher.html">VPN für P2P sicher nutzen (Leaks, Regeln, Best Practices)</a>
+        <div class="key-takeaway">
+          <strong>Key takeaway:</strong>
+          Wenn du keinen klaren Inbound-Use-Case hast: lass Port Forwarding aus. Weniger Risiko, weniger Aufwand.
         </div>
 
-        <h2 id="risiken">3) Risiken & Stolperfallen: Das sind die echten Probleme (nicht die Marketing-Märchen)</h2>
+        <div class="related-strip">
+          <strong>Related:</strong> <a href="/de/blog/vpn-p2p-sicher.html">VPN für P2P sicher nutzen</a>
+        </div>
 
+        <h2 id="anbieter-2026">3) Anbieter-Check 2026: Wer kann Port Forwarding wirklich?</h2>
         <p>
-          Port Forwarding öffnet eine Tür. Wenn hinter der Tür ein sauber konfigurierter Dienst mit Authentifizierung steht: okay.
-          Wenn dahinter ein vergessener Testdienst läuft oder ein Admin-Panel ohne Schutz: dann wird’s schnell “aua”.
-          Gerade in 2026 gilt: Scan-Bots sind überall. Sekunden nach dem Öffnen kann schon jemand klopfen.
+          “Port Forwarding” ist 2026 kein Standardfeature mehr. Viele große Anbieter verzichten bewusst darauf, weil offene Ports Missbrauch und Support-Aufwand erhöhen.
+          Das ist aus Sicht des Providers rational — für dich heißt das: du musst gezielt auswählen.
         </p>
 
-        <h3>Die häufigsten Risiken in der Praxis</h3>
-        <ul>
-          <li><strong>Zu viele Ports offen:</strong> “Ach komm, ich öffne mal 20 Ports, dann geht’s schon.” — nein.</li>
-          <li><strong>Falscher Dienst exponiert:</strong> App lauscht auf 0.0.0.0, plötzlich ist mehr öffentlich als geplant.</li>
-          <li><strong>Firewall vergessen:</strong> Port ist offen, aber lokale Regeln sind wild oder inkonsistent.</li>
-          <li><strong>Leaks:</strong> DNS/IPv6/WebRTC verraten deine echte Verbindung, obwohl du den VPN-Port nutzt.</li>
-          <li><strong>CGNAT-Missverständnis:</strong> Heimrouter-Portforwarding bringt nichts, du brauchst Provider-/VPN-Lösung.</li>
-        </ul>
-
-        <div class="key-takeaway"><strong>Key takeaway:</strong> Das Risiko ist nicht “Port Forwarding an sich”, sondern “Port offen + falscher Dienst + keine Regeln”. Minimalismus gewinnt.</div>
-
-        <div class="table-scroll">
+        <div class="table-scroll" aria-label="Anbieter-Check 2026">
           <table>
             <thead>
               <tr>
-                <th>Fehler</th>
-                <th>Wie du ihn merkst</th>
-                <th>Fix (kurz)</th>
+                <th>VPN-Anbieter</th>
+                <th>Port Forwarding</th>
+                <th>Besonderheit</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Port offen, aber nichts funktioniert</td>
-                <td>Portcheck “closed”, App läuft</td>
-                <td>Firewall/Interface prüfen, VPN-Port korrekt zugewiesen?</td>
+                <td><strong>Proton VPN</strong></td>
+                <td>✅ Ja (nativ, dynamisch)</td>
+                <td>Beste Integration in der App; Port kann sich ändern</td>
               </tr>
               <tr>
-                <td>Port offen, aber falscher Dienst erreichbar</td>
-                <td>Unerwartete Banner/Antworten</td>
-                <td>Service-Bindings prüfen, nur lokal binden</td>
+                <td>AirVPN</td>
+                <td>✅ Ja (oft statisch/konfigurierbar)</td>
+                <td>Für Profis, mehr Kontrolle (aber mehr Aufwand)</td>
               </tr>
               <tr>
-                <td>IP-Leak trotz VPN</td>
-                <td>Testseiten zeigen echte IP/IPv6</td>
-                <td>IPv6-Handling, WebRTC-Settings, DNS-Schutz</td>
+                <td>Mullvad</td>
+                <td>❌ Nein</td>
+                <td>Port Forwarding aus Sicherheitsgründen eingestellt</td>
               </tr>
               <tr>
-                <td>Geschwindigkeit bricht ein</td>
-                <td>Ping/Throughput schlecht</td>
-                <td>Anderen Server, Protokoll wechseln, <a href="/de/blog/vpn-speedtest.html">VPN Speedtest</a> nutzen</td>
+                <td>NordVPN</td>
+                <td>❌ Nein</td>
+                <td>Alternative: Meshnet (anderer Ansatz, kein klassisches PF)</td>
+              </tr>
+              <tr>
+                <td>Surfshark</td>
+                <td>❌ Nein</td>
+                <td>Fokus auf Privacy/Features statt Inbound-Ports</td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <p>
-          Wenn du generell Wert auf Privatsphäre legst: Port Forwarding ist <em>nicht</em> automatisch kontra Privatsphäre,
-          aber es zwingt dich, sauber zu arbeiten. Dazu gehören “Basics” wie <a href="/de/blog/no-logs-vpn.html">No-Logs</a>,
-          ein konsequenter Kill Switch (<a href="/de/blog/vpn-kill-switch.html">Guide</a>) und regelmäßige Leak-Checks
-          (siehe <a href="/de/blog/vpn-dns-leak.html">DNS Leak</a>).
-        </p>
-
         <div class="related-strip">
-          <strong>Related:</strong> <a href="/de/blog/vpn-dns-leak.html">DNS Leak Test & Fix (2026)</a>
+          <strong>Related:</strong> <a href="/de/blog/welcher-vpn-server.html">Welcher VPN-Server ist der richtige?</a>
         </div>
 
-        <h2 id="diagramme">4) Diagramme: So fließt der Traffic (und wo es schiefgehen kann)</h2>
-
+        <h2 id="proton-setup">4) Setup-Guide: Portweiterleitung mit Proton VPN (Schritt für Schritt)</h2>
         <p>
-          Diagramme helfen, weil Port Forwarding schnell “unsichtbar” wirkt. Du klickst eine Option im VPN-Panel und hoffst.
-          Hier siehst du, was wirklich passiert — und wo die klassischen Fehlerquellen sitzen.
+          Das ist der Teil, den die meisten wirklich suchen: “Wie mache ich Port Forwarding mit Proton?”
+          Das Setup ist angenehm direkt, weil die App Port-Zuweisung übernimmt (keine Bastel-UI im Browser).
+        </p>
+
+        <h3>Schritt 1: Port Forwarding in der App aktivieren</h3>
+        <p>
+          Öffne die Proton VPN App und gehe zu <strong>Settings → Advanced</strong> (oder “Erweitert”).
+          Aktiviere den Schalter <strong>Port Forwarding</strong>.
+        </p>
+
+        <h3>Schritt 2: Einen passenden Server wählen</h3>
+        <p>
+          Verbinde dich mit einem Server, der <strong>P2P</strong> unterstützt (meist in der App markiert, z. B. mit einem P2P-Icon).
+          Für stabile Ergebnisse wähle einen Server mit guter Auslastung und geringer Latenz.
+        </p>
+
+        <h3>Schritt 3: Port auslesen (die 5-stellige Nummer)</h3>
+        <p>
+          Sobald die Verbindung steht, zeigt Proton VPN eine <strong>fünfstellige Portnummer</strong> an. Das ist dein aktueller, aktiver Port.
+        </p>
+
+        <h3>Schritt 4: Port im Client setzen (Beispiel: qBittorrent)</h3>
+        <p>
+          Kopiere den Port in die Einstellungen deines Programms.
+          Beispiel qBittorrent: <strong>Optionen → Verbindung → Listening Port</strong>.
+          Wichtig: Portnummer im Client muss mit dem VPN-Port übereinstimmen.
+        </p>
+
+        <div class="table-scroll" aria-label="Kurzcheck Proton Setup">
+          <table>
+            <thead>
+              <tr>
+                <th>Was</th>
+                <th>Wo</th>
+                <th>Woran du’s erkennst</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Port Forwarding aktiv</td>
+                <td>Proton App → Settings → Advanced</td>
+                <td>Schalter “On”</td>
+              </tr>
+              <tr>
+                <td>P2P Server</td>
+                <td>Serverliste</td>
+                <td>P2P-Markierung/Filter</td>
+              </tr>
+              <tr>
+                <td>Aktiver Port</td>
+                <td>App UI nach Connect</td>
+                <td>5-stellige Nummer</td>
+              </tr>
+              <tr>
+                <td>Port im Client</td>
+                <td>z. B. qBittorrent</td>
+                <td>Port = Port aus Proton</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="note">
+          <strong>Wichtig:</strong> Proton nutzt <strong>dynamische Ports</strong>. Wenn du die Verbindung trennst und neu aufbaust,
+          kann sich die Portnummer ändern. Dann musst du sie im Client kurz aktualisieren.
+        </p>
+
+        <h3>Technischer Hintergrund: NAT-PMP / PCP (warum Proton “anders” arbeitet)</h3>
+        <p>
+          Proton VPN nutzt ein Mapping-Setup (häufig über <strong>NAT-PMP</strong> bzw. verwandte Mechanismen), bei dem die App den Port direkt
+          mit dem Server aushandelt. Im Gegensatz zu alten “manuellen Port-Listen” ist das für dich bequemer und reduziert Konfigurationsfehler —
+          aber die VPN-App muss dafür im Hintergrund aktiv bleiben.
+        </p>
+
+        <div class="key-takeaway">
+          <strong>Key takeaway:</strong>
+          Proton Port Forwarding ist praktisch, weil die App die Port-Zuweisung direkt verhandelt (NAT-PMP/Mapping) — aber Ports sind dynamisch und können wechseln.
+        </div>
+
+        <h2 id="risiken">5) Risiken & Stolperfallen: Das sind die echten Probleme (nicht die Mythen)</h2>
+        <p>
+          Ein offener Port ist eine Einladung für Scanner. Das ist keine Panikmache, sondern Internet-Alltag.
+          Deshalb ist der sichere Weg immer: <strong>nur einen Port</strong>, klare Regeln, regelmäßige Tests.
+        </p>
+
+        <div class="table-scroll" aria-label="Risiken & Fixes">
+          <table>
+            <thead>
+              <tr>
+                <th>Risiko</th>
+                <th>Warum relevant</th>
+                <th>Fix</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Mehr Angriffsfläche</td>
+                <td>Scanner finden offene Ports sehr schnell</td>
+                <td>Nur 1 Port öffnen, wenn nötig</td>
+              </tr>
+              <tr>
+                <td>Falscher Dienst exponiert</td>
+                <td>Ein Dienst lauscht “zu breit”</td>
+                <td>Bindings prüfen, nur Dienst erlauben</td>
+              </tr>
+              <tr>
+                <td>VPN-Drop</td>
+                <td>Traffic kann außerhalb laufen</td>
+                <td>Kill Switch nutzen (Guide: <a href="/de/blog/vpn-kill-switch.html">Kill Switch</a>)</td>
+              </tr>
+              <tr>
+                <td>Leaks</td>
+                <td>DNS/IPv6/WebRTC verraten echte Infos</td>
+                <td><a href="/de/blog/vpn-dns-leak.html">Leak-Tests</a> + saubere Einstellungen</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="related-strip">
+          <strong>Related:</strong> <a href="/de/blog/vpn-dns-leak.html">DNS Leak Test & Fix</a>
+        </div>
+
+        <h2 id="diagramme">6) Diagramme: Traffic-Flow & “Dynamic Tunnel via NAT-PMP”</h2>
+        <p>
+          Hier siehst du den Flow und warum “dynamische Ports” nicht Chaos sind, sondern (oft) ein bewusstes Sicherheitsdesign.
         </p>
 
         <!-- SVG 1 -->
@@ -580,16 +684,16 @@
 
               <rect x="60" y="80" width="230" height="140" rx="14"></rect>
               <text x="175" y="125" text-anchor="middle">Internet-Client</text>
-              <text x="175" y="160" text-anchor="middle">↳ verbindet zu PORT 51413</text>
+              <text x="175" y="160" text-anchor="middle">→ PORT 51413</text>
 
               <rect x="435" y="60" width="230" height="180" rx="14"></rect>
               <text x="550" y="110" text-anchor="middle">VPN-Server</text>
-              <text x="550" y="145" text-anchor="middle">Port offen: 51413</text>
-              <text x="550" y="180" text-anchor="middle">leitet durch Tunnel</text>
+              <text x="550" y="145" text-anchor="middle">Port offen</text>
+              <text x="550" y="180" text-anchor="middle">Weiterleitung</text>
 
               <rect x="810" y="80" width="230" height="140" rx="14"></rect>
               <text x="925" y="125" text-anchor="middle">Dein Gerät</text>
-              <text x="925" y="160" text-anchor="middle">Dienst lauscht lokal</text>
+              <text x="925" y="160" text-anchor="middle">Dienst lauscht</text>
 
               <line x1="290" y1="150" x2="435" y2="150"></line>
               <polyline points="420,135 435,150 420,165"></polyline>
@@ -597,375 +701,189 @@
               <line x1="665" y1="150" x2="810" y2="150"></line>
               <polyline points="795,135 810,150 795,165"></polyline>
 
-              <rect x="380" y="10" width="340" height="40" rx="12"></rect>
-              <text x="550" y="38" text-anchor="middle">VPN-Tunnel (verschlüsselt)</text>
-
-              <line x1="550" y1="50" x2="550" y2="60"></line>
-              <line x1="550" y1="240" x2="550" y2="260"></line>
-              <rect x="420" y="260" width="260" height="30" rx="10"></rect>
-              <text x="550" y="282" text-anchor="middle">Echte IP bleibt verborgen</text>
+              <rect x="360" y="12" width="380" height="44" rx="12"></rect>
+              <text x="550" y="42" text-anchor="middle">Dynamic Tunnel via NAT-PMP</text>
             </svg>
           </div>
-          <p class="svg-caption"><small><strong>Merke:</strong> Der offene Port “lebt” am VPN-Server. Du kontrollierst trotzdem lokal, welcher Dienst antwortet (Firewall/Bindings).</small></p>
+          <p class="svg-caption"><small><strong>Hinweis:</strong> Der Port lebt am VPN-Server. Lokal entscheidest du mit Firewall/Bindings, welcher Dienst antwortet.</small></p>
         </div>
 
         <!-- SVG 2 -->
-        <div class="svg-card" aria-label="Diagramm: Angriffsfläche durch offene Ports">
+        <div class="svg-card" aria-label="Diagramm: Dynamischer Port vs statischer Port (Tracking-Risiko)">
           <div class="svg-scroll">
-            <svg viewBox="0 0 1100 320" role="img" aria-label="Angriffsfläche: minimaler Port vs viele Ports, Risiko steigt">
+            <svg viewBox="0 0 1100 320" role="img" aria-label="Vergleich dynamischer und statischer Ports">
               <rect x="0" y="0" width="1100" height="320" style="fill:#fff;stroke:#000;stroke-width:4"></rect>
-
-              <text x="60" y="55">Offene Ports = Angriffsfläche (vereinfacht)</text>
 
               <rect x="70" y="95" width="420" height="180" rx="14"></rect>
-              <text x="280" y="135" text-anchor="middle">Sicherer Ansatz</text>
-              <text x="280" y="170" text-anchor="middle">1 Port (nur wenn nötig)</text>
-              <text x="280" y="205" text-anchor="middle">Firewall: erlauben nur Dienst</text>
-              <text x="280" y="240" text-anchor="middle">Updates + Leak-Tests</text>
+              <text x="280" y="135" text-anchor="middle">Statischer Port</text>
+              <text x="280" y="170" text-anchor="middle">gleich über lange Zeit</text>
+              <text x="280" y="205" text-anchor="middle">mehr “Pattern” möglich</text>
 
               <rect x="610" y="95" width="420" height="180" rx="14"></rect>
-              <text x="820" y="135" text-anchor="middle">Riskanter Ansatz</text>
-              <text x="820" y="170" text-anchor="middle">Viele Ports “zur Sicherheit”</text>
-              <text x="820" y="205" text-anchor="middle">Unklare Dienste/Bindings</text>
-              <text x="820" y="240" text-anchor="middle">Scanner finden dich schnell</text>
+              <text x="820" y="135" text-anchor="middle">Dynamischer Port</text>
+              <text x="820" y="170" text-anchor="middle">kann wechseln</text>
+              <text x="820" y="205" text-anchor="middle">reduziert Tracking</text>
 
-              <line x1="500" y1="185" x2="610" y2="185"></line>
+              <line x1="490" y1="185" x2="610" y2="185"></line>
               <polyline points="595,170 610,185 595,200"></polyline>
 
-              <rect x="70" y="285" width="960" height="18" rx="9"></rect>
-              <line x1="140" y1="285" x2="140" y2="303"></line>
-              <line x1="300" y1="285" x2="300" y2="303"></line>
-              <line x1="520" y1="285" x2="520" y2="303"></line>
-              <line x1="770" y1="285" x2="770" y2="303"></line>
-              <text x="70" y="278">weniger Risiko</text>
-              <text x="860" y="278">mehr Risiko</text>
+              <text x="70" y="55">Warum Wechsel? Sicherheit & Privatsphäre (vereinfacht)</text>
             </svg>
           </div>
-          <p class="svg-caption"><small><strong>Best Practice:</strong> Öffne so wenig wie möglich. Ein sauberer Port ist besser als zehn “vielleicht braucht man die”.</small></p>
+          <p class="svg-caption"><small><strong>Praxis:</strong> Wenn der Port wechselt, aktualisiere ihn im Client. Das ist kein Bug, sondern oft Absicht.</small></p>
         </div>
 
-        <!-- SVG 3 -->
-        <div class="svg-card" aria-label="Diagramm: Entscheidung Port Forwarding ja oder nein">
-          <div class="svg-scroll">
-            <svg viewBox="0 0 1100 360" role="img" aria-label="Entscheidungsbaum: Brauche ich Portweiterleitung?">
-              <rect x="0" y="0" width="1100" height="360" style="fill:#fff;stroke:#000;stroke-width:4"></rect>
-
-              <rect x="380" y="35" width="340" height="70" rx="14"></rect>
-              <text x="550" y="75" text-anchor="middle">Brauchst du eingehende Verbindungen?</text>
-
-              <line x1="550" y1="105" x2="320" y2="165"></line>
-              <line x1="550" y1="105" x2="780" y2="165"></line>
-
-              <rect x="150" y="165" width="340" height="90" rx="14"></rect>
-              <text x="320" y="205" text-anchor="middle">NEIN</text>
-              <text x="320" y="235" text-anchor="middle">Port Forwarding nicht nötig</text>
-
-              <rect x="610" y="165" width="340" height="90" rx="14"></rect>
-              <text x="780" y="205" text-anchor="middle">JA</text>
-              <text x="780" y="235" text-anchor="middle">z. B. P2P / Self-Hosting</text>
-
-              <line x1="780" y1="255" x2="780" y2="285"></line>
-              <rect x="610" y="285" width="340" height="60" rx="14"></rect>
-              <text x="780" y="322" text-anchor="middle">Dann: Minimaler Port + Regeln + Tests</text>
-
-              <rect x="150" y="285" width="340" height="60" rx="14"></rect>
-              <text x="320" y="322" text-anchor="middle">Fokus: Serverwahl & Protokoll</text>
-            </svg>
-          </div>
-          <p class="svg-caption"><small><strong>Shortcut:</strong> Wenn du keinen konkreten Inbound-Use-Case hast: lass es. Weniger Aufwand, weniger Risiko.</small></p>
-        </div>
-
-        <!-- SVG 4 -->
-        <div class="svg-card" aria-label="Diagramm: Setup-Checkliste in Reihenfolge">
-          <div class="svg-scroll">
-            <svg viewBox="0 0 1100 320" role="img" aria-label="Setup-Reihenfolge: VPN, Port, Firewall, Tests">
-              <rect x="0" y="0" width="1100" height="320" style="fill:#fff;stroke:#000;stroke-width:4"></rect>
-
-              <rect x="70" y="120" width="200" height="90" rx="14"></rect>
-              <text x="170" y="160" text-anchor="middle">1) VPN verbinden</text>
-              <text x="170" y="190" text-anchor="middle">Server wählen</text>
-
-              <rect x="315" y="120" width="200" height="90" rx="14"></rect>
-              <text x="415" y="160" text-anchor="middle">2) Port aktivieren</text>
-              <text x="415" y="190" text-anchor="middle">im VPN-Panel</text>
-
-              <rect x="560" y="120" width="200" height="90" rx="14"></rect>
-              <text x="660" y="160" text-anchor="middle">3) Firewall-Regeln</text>
-              <text x="660" y="190" text-anchor="middle">nur nötig erlauben</text>
-
-              <rect x="805" y="120" width="225" height="90" rx="14"></rect>
-              <text x="918" y="160" text-anchor="middle">4) Tests</text>
-              <text x="918" y="190" text-anchor="middle">Port + DNS/IPv6/WebRTC</text>
-
-              <line x1="270" y1="165" x2="315" y2="165"></line>
-              <polyline points="300,150 315,165 300,180"></polyline>
-              <line x1="515" y1="165" x2="560" y2="165"></line>
-              <polyline points="545,150 560,165 545,180"></polyline>
-              <line x1="760" y1="165" x2="805" y2="165"></line>
-              <polyline points="790,150 805,165 790,180"></polyline>
-
-              <text x="70" y="65">Wenn du die Reihenfolge einhältst, sparst du dir 80% “Warum geht das nicht?!”</text>
-            </svg>
-          </div>
-          <p class="svg-caption"><small><strong>Praxis:</strong> Erst VPN/Port, dann lokale Regeln, dann testen. Nicht andersrum.</small></p>
-        </div>
-
-        <div class="key-takeaway"><strong>Key takeaway:</strong> Port Forwarding ist ein Werkzeug für Inbound-Verbindungen. Sicher wird es durch Minimal-Ports, klare Firewall-Regeln und Leak-Tests.</div>
-
-        <div class="related-strip">
-          <strong>Related:</strong> <a href="/de/blog/vpn-router-einrichtung.html">VPN am Router einrichten (für alle Geräte)</a>
-        </div>
-
-        <h2 id="setup">5) Setup: VPN, Router, Windows, macOS — so machst du es “sauber”</h2>
-
+        <h2 id="tests">7) Tests: Port Check + DNS/IPv6/WebRTC (Pflichtprogramm)</h2>
         <p>
-          Es gibt zwei häufige Missverständnisse:
-          (1) “Ich muss am Heimrouter Port Forwarding machen, wenn ich VPN nutze.” — oft falsch.
-          (2) “Wenn ich Port Forwarding im VPN aktiviere, ist alles automatisch sicher.” — auch falsch.
-        </p>
-
-        <h3>Setup A: Port Forwarding direkt beim VPN-Provider (häufigster Fall)</h3>
-        <ol>
-          <li><strong>VPN-Server wählen</strong> (am besten nahe und stabil; siehe <a href="/de/blog/welcher-vpn-server.html">Serverwahl</a>).</li>
-          <li><strong>Port im VPN-Panel aktivieren</strong> (oder in der App, wenn unterstützt).</li>
-          <li><strong>Lokale Firewall</strong>: Erlaube eingehend nur diesen Port und nur für die benötigte App.</li>
-          <li><strong>App/Service</strong>: Stelle sicher, dass der Dienst korrekt lauscht (nicht “irgendwo”).</li>
-          <li><strong>Tests</strong>: Portcheck + Leak-Checks (DNS/IPv6/WebRTC).</li>
-        </ol>
-
-        <div class="table-scroll">
-          <table>
-            <thead>
-              <tr>
-                <th>Komponente</th>
-                <th>Was du prüfen solltest</th>
-                <th>Warum</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>VPN-Protokoll</td>
-                <td>WireGuard/OpenVPN, stabile Verbindung</td>
-                <td>Abbrüche = Risiko (wenn dein Dienst weiterläuft)</td>
-              </tr>
-              <tr>
-                <td>Kill Switch</td>
-                <td>Aktiviert, getestet</td>
-                <td>Verhindert Traffic außerhalb des Tunnels</td>
-              </tr>
-              <tr>
-                <td>DNS-Schutz</td>
-                <td>Keine Leaks</td>
-                <td>Resolver verraten oft mehr als du denkst</td>
-              </tr>
-              <tr>
-                <td>Firewall</td>
-                <td>Nur Port X, nur App Y</td>
-                <td>Minimiert Angriffsfläche</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h3>Setup B: Heimrouter-Portweiterleitung + VPN (seltener, aber möglich)</h3>
-        <p>
-          Das brauchst du meist nur, wenn du einen speziellen Aufbau hast (z. B. eigener Server zuhause) <em>und</em> du gleichzeitig VPN-Routen nutzt.
-          Dann gilt: Router-Regeln sauber setzen und unbedingt die Router-Doku beachten (siehe <a href="/de/blog/vpn-router-einrichtung.html">Router-Guide</a>).
-          Wenn du hinter CGNAT sitzt, wird Router-Portforwarding oft zur Luftnummer — dann brauchst du eine Lösung vom Anbieter (VPN-Port Forwarding) oder einen externen Server.
-        </p>
-
-        <h3>Windows: typische Stolperfallen (kurz, aber ehrlich)</h3>
-        <ul>
-          <li><strong>Firewall blockiert</strong>: Windows Defender Firewall erlaubt den Port nicht (oder nur für Private/Public falsch).</li>
-          <li><strong>App lauscht auf falschem Interface</strong>: Der Dienst hört “lokal” statt auf dem VPN-Interface.</li>
-          <li><strong>VPN split tunneling</strong>: Teile laufen am VPN vorbei (siehe <a href="/de/blog/vpn-split-tunneling.html">Split Tunneling</a>).</li>
-        </ul>
-        <p>
-          Wenn du tiefer rein willst: <a href="/de/blog/vpn-windows-einrichtung.html">VPN unter Windows einrichten</a> und
-          die <a href="/de/blog/vpn-optimale-einstellungen.html">optimalen VPN-Einstellungen</a> helfen, typische Fehler zu vermeiden.
-        </p>
-
-        <h3>macOS: worauf du achten solltest</h3>
-        <ul>
-          <li><strong>Firewall/Filter</strong> (Little Snitch/ähnlich) kann eingehende Verbindungen killen.</li>
-          <li><strong>IPv6</strong> ist je nach Setup ein Leak-Risiko, wenn nicht sauber gehandhabt.</li>
-          <li><strong>App-Rechte</strong>: Einige Dienste brauchen explizite Rechte/Regeln.</li>
-        </ul>
-        <p>
-          Siehe auch: <a href="/de/blog/vpn-macos.html">VPN auf macOS</a> und <a href="/de/blog/vpn-ios.html">VPN auf iOS</a> (wenn du ähnlich unterwegs bist).
-        </p>
-
-        <div class="key-takeaway"><strong>Key takeaway:</strong> Das Setup ist “VPN + Port + lokale Regeln + Tests”. Wenn du nur einen Teil machst, ist das Ergebnis unzuverlässig oder riskant.</div>
-
-        <div class="related-strip">
-          <strong>Related:</strong> <a href="/de/blog/vpn-protokolle.html">VPN-Protokolle (WireGuard, OpenVPN & Co.)</a>
-        </div>
-
-        <h2 id="tests">6) Tests: Port Check + DNS/IPv6/WebRTC (Pflichtprogramm)</h2>
-
-        <p>
-          Wenn du Port Forwarding aktivierst, solltest du nicht “gefühlt” arbeiten, sondern messen.
-          Ich mache das wie eine Mini-Checkliste: erst Port checken, dann Leaks.
-          Wenn du Leak-Tests überspringst, kannst du am Ende zwar einen offenen Port haben — aber trotzdem deine echte IP verraten. Das wäre dann Peak-Ironie.
+          Wenn Port Forwarding aktiv ist, solltest du nicht “gefühlt” arbeiten, sondern testen: zuerst Port, dann Leaks.
+          Sonst hast du am Ende zwar Connectivity — aber verlierst Privacy durch DNS/IPv6/WebRTC.
         </p>
 
         <h3>Port Check (praktisch)</h3>
         <ol>
-          <li>Starte den Dienst lokal (z. B. P2P-App oder Server).</li>
-          <li>Aktiviere VPN + Port Forwarding.</li>
-          <li>Prüfe mit einem Port-Check-Tool (oder dem Dienst selbst), ob der Port als “open” erscheint.</li>
-          <li>Wenn er “closed” ist: lokale Firewall, Interface-Bindings, VPN-Port-Zuordnung prüfen.</li>
+          <li>Dienst starten (z. B. qBittorrent läuft, Server aktiv).</li>
+          <li>VPN verbinden + Port Forwarding aktiv.</li>
+          <li>Port-Check durchführen (Tool oder Dienst-eigener Check).</li>
+          <li>Wenn “closed”: Firewall/Bindings/VPN-Port prüfen.</li>
         </ol>
 
-        <h3>DNS/IPv6/WebRTC Leak-Tests</h3>
-        <div class="table-scroll">
+        <h3>Leak-Tests (DNS/IPv6/WebRTC)</h3>
+        <div class="table-scroll" aria-label="Leak Tests">
           <table>
             <thead>
               <tr>
                 <th>Test</th>
                 <th>Was du sehen willst</th>
-                <th>Wenn es schiefgeht</th>
+                <th>Fix</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>DNS Leak</td>
-                <td>DNS-Resolver passt zum VPN / keine ISP-Resolver</td>
-                <td>DNS-Schutz aktivieren, App/OS DNS prüfen (Guide: <a href="/de/blog/vpn-dns-leak.html">DNS Leak</a>)</td>
+                <td>Kein ISP-DNS sichtbar</td>
+                <td><a href="/de/blog/vpn-dns-leak.html">DNS Leak Guide</a></td>
               </tr>
               <tr>
                 <td>IPv6 Leak</td>
-                <td>Keine echte IPv6 sichtbar</td>
-                <td>IPv6 Handling im VPN prüfen, ggf. deaktivieren</td>
+                <td>Keine echte IPv6</td>
+                <td>IPv6 Handling prüfen/konfigurieren</td>
               </tr>
               <tr>
                 <td>WebRTC Leak</td>
-                <td>Browser zeigt nicht deine echte IP</td>
-                <td>Browser-Einstellungen/Add-ons prüfen</td>
+                <td>Browser zeigt keine echte IP</td>
+                <td>Browser-Settings/Add-ons prüfen</td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <p>
-          Und ja: Wenn du oft in öffentlichen WLANs unterwegs bist (Café, Hotel, Bahnhof), sind Leak-Tests doppelt wichtig.
-          In der Praxis sehe ich dort am häufigsten “komische” DNS-Konfigurationen oder aggressive Captive Portals.
-          Dazu passt auch: <a href="/de/blog/vpn-oeffentliches-wifi.html">VPN im öffentlichen WLAN</a> und <a href="/de/blog/wifi-sicherheit.html">WLAN-Sicherheit</a>.
-        </p>
-
-        <div class="key-takeaway"><strong>Key takeaway:</strong> Port “open” ist nicht genug. Wenn DNS/IPv6/WebRTC leaken, hast du zwar Connectivity — aber du verlierst Privacy.</div>
-
-        <div class="related-strip">
-          <strong>Related:</strong> <a href="/de/blog/vpn-kill-switch.html">Kill Switch: Warum er bei offenen Ports besonders wichtig ist</a>
+        <div class="key-takeaway">
+          <strong>Key takeaway:</strong>
+          “Port open” reicht nicht. Wenn DNS/IPv6/WebRTC leaken, verrätst du trotzdem deine echte Verbindung.
         </div>
 
-        <h2 id="best-practices">7) Best Practices: Minimal offen, maximal stabil (mein “kein Stress”-Setup)</h2>
+        <div class="related-strip">
+          <strong>Related:</strong> <a href="/de/blog/vpn-kill-switch.html">Kill Switch (besonders wichtig bei offenen Ports)</a>
+        </div>
 
+        <h2 id="best-practices">8) Best Practices: minimal offen, maximal sicher (die “kein Stress”-Regeln)</h2>
         <p>
-          Hier ist mein pragmatischer Ansatz: Ich behandle Port Forwarding wie eine “gefährliche, aber nützliche” Funktion.
-          Nicht, weil Port Forwarding per se böse ist — sondern weil es so leicht ist, sich damit aus Versehen ein Loch zu bohren.
-          Deshalb: <strong>minimal, testbar, dokumentiert</strong>.
+          Ich behandle Port Forwarding wie ein “scharfes Werkzeug”: nützlich, aber nur mit Regeln. Das spart dir echte Probleme.
         </p>
 
-        <h3>Meine Regeln (die wirklich funktionieren)</h3>
         <ul>
-          <li><strong>Nur 1 Port, den du brauchst</strong> (nicht 10 “für später”).</li>
-          <li><strong>Firewall-Regel so eng wie möglich</strong>: Port + App + Profil (privat/öffentlich) sauber setzen.</li>
-          <li><strong>Kill Switch aktiv</strong> (siehe <a href="/de/blog/vpn-kill-switch.html">Guide</a>).</li>
-          <li><strong>Regelmäßig Speed & Stabilität prüfen</strong> (Guide: <a href="/de/blog/vpn-speedtest.html">VPN Speedtest</a>).</li>
-          <li><strong>Protokoll passend wählen</strong> (Guide: <a href="/de/blog/vpn-protokolle.html">Protokolle</a>).</li>
-          <li><strong>Wenn P2P: extra sauber</strong> (Guide: <a href="/de/blog/vpn-p2p-sicher.html">P2P sicher</a>).</li>
+          <li><strong>Nur 1 Port</strong>, den du wirklich brauchst (kein Range).</li>
+          <li><strong>Firewall eng</strong>: Port + App + Profil sauber setzen.</li>
+          <li><strong>Kill Switch an</strong> (siehe <a href="/de/blog/vpn-kill-switch.html">Guide</a>).</li>
+          <li><strong>Updates</strong> und Service-Härtung (Passwörter/MFA, wo möglich).</li>
+          <li><strong>Regelmäßig testen</strong>: Port + Leaks.</li>
         </ul>
 
-        <div class="table-scroll">
+        <div class="table-scroll" aria-label="Best Practices Tabelle">
           <table>
             <thead>
               <tr>
                 <th>Ziel</th>
-                <th>Empfehlung</th>
+                <th>Was du tust</th>
                 <th>Warum</th>
               </tr>
             </thead>
             <tbody>
               <tr>
+                <td>Risiko senken</td>
+                <td>Minimal Ports + Firewall</td>
+                <td>Weniger Angriffsfläche</td>
+              </tr>
+              <tr>
                 <td>Privatsphäre</td>
-                <td>No-Logs + Leak-Tests</td>
-                <td>Ports offen ≠ IP verborgen, wenn Leaks existieren</td>
+                <td>Leak-Tests + No-Logs</td>
+                <td>Ports offen ≠ anonym</td>
               </tr>
               <tr>
                 <td>Stabilität</td>
                 <td>Guter Server + Protokoll</td>
-                <td>Weniger Abbrüche, weniger “random” Probleme</td>
-              </tr>
-              <tr>
-                <td>Risiko reduzieren</td>
-                <td>Minimal Ports + Firewall</td>
-                <td>Weniger Angriffsfläche, weniger Scan-Treffer</td>
+                <td>Weniger Drops, weniger Chaos</td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <p>
-          Kleiner Reality-Check: Wenn dein Ziel “Anonymität” ist, ist Port Forwarding nicht die erste Funktion, die ich aktivieren würde.
-          Fang lieber mit Grundlagen an (z. B. <a href="/de/blog/no-logs-vpn.html">No-Logs</a>, <a href="/de/blog/vpn-mythen.html">VPN-Mythen</a>,
-          sichere Einstellungen, saubere Serverwahl). Port Forwarding ist dann ein “Pro-Tool”, wenn du es wirklich brauchst.
-        </p>
-
-        <div class="key-takeaway"><strong>Key takeaway:</strong> Port Forwarding ist okay — aber nur, wenn du es wie ein Profi behandelst: minimal, geregelt, getestet.</div>
-
-        <h2 id="faq">8) FAQ: Häufige Fragen zur VPN Portweiterleitung</h2>
+        <h2 id="faq">9) FAQ</h2>
         <dl>
-          <dt>Kann ich Port Forwarding nutzen, ohne meine echte IP zu zeigen?</dt>
-          <dd>Ja, wenn der Port am VPN-Server offen ist und du keine Leaks hast. Genau deshalb sind DNS/IPv6/WebRTC-Tests Pflicht.</dd>
+          <dt>Warum ändert sich mein Port bei Proton VPN ständig?</dt>
+          <dd>Das ist ein Sicherheitsfeature: Dynamische Ports reduzieren Tracking-Risiken. Wenn du reconnectest, kann der Port wechseln — dann im Client kurz aktualisieren.</dd>
 
           <dt>Hilft Port Forwarding beim Streaming?</dt>
-          <dd>Nein. Für Streaming sind Standort/Serverqualität und Blockaden relevant. Siehe <a href="/de/blog/vpn-streaming.html">VPN fürs Streaming</a>.</dd>
+          <dd>Nein. Für Streaming zählen Standort/Serverqualität und Blockaden, nicht Ports.</dd>
 
-          <dt>Welche Rolle spielt Split Tunneling?</dt>
-          <dd>Wenn Split Tunneling aktiv ist, kann ein Teil des Traffics am VPN vorbei gehen. Das ist manchmal gewollt, kann aber bei Port Forwarding Chaos machen. Siehe <a href="/de/blog/vpn-split-tunneling.html">Split Tunneling</a>.</dd>
+          <dt>Ist Port Forwarding automatisch sicher, wenn ich ein VPN nutze?</dt>
+          <dd>Nein. Du brauchst Firewall-Regeln, Updates und Leak-Tests (DNS/IPv6/WebRTC). Port Forwarding erhöht immer die Angriffsfläche.</dd>
 
-          <dt>Ist Port Forwarding für Gaming notwendig?</dt>
-          <dd>Meist nicht. Oft hilft bessere Serverwahl, Protokollwechsel oder Router-Optimierung. Siehe <a href="/de/blog/vpn-fuer-gaming.html">VPN fürs Gaming</a>.</dd>
-
-          <dt>Was, wenn mein ISP CGNAT nutzt?</dt>
-          <dd>Dann funktioniert klassisches Heimrouter-Portforwarding oft nicht. VPN-Portweiterleitung oder ein externer Server kann helfen.</dd>
-
-          <dt>Kann ich Port Forwarding auf dem Router machen?</dt>
-          <dd>Ja, aber das Setup ist komplexer. Wenn du alle Geräte schützen willst, schau dir <a href="/de/blog/vpn-router-einrichtung.html">VPN am Router</a> an.</dd>
-
-          <dt>Welche zusätzliche Sicherheit ist sinnvoll?</dt>
-          <dd>MFA/2FA, Updates, Firewall-Regeln und ein Kill Switch. Für MFA: <a href="/de/blog/vpn-2fa-mfa.html">VPN & 2FA/MFA</a>.</dd>
+          <dt>Brauche ich Port Forwarding zwingend fürs Torrenting?</dt>
+          <dd>Nicht zwingend, aber es kann Erreichbarkeit/Peers verbessern. Wenn du P2P nutzt, halte dich an Best Practices (siehe <a href="/de/blog/vpn-p2p-sicher.html">P2P sicher</a>).</dd>
         </dl>
 
-        <h2 id="fazit">9) Fazit: Port Forwarding ist ein Power-Tool — nutz es so</h2>
+        <h2 id="fazit">10) Fazit</h2>
         <p>
-          VPN Portweiterleitung ist super praktisch, wenn du echte Inbound-Verbindungen brauchst. Für P2P kann es helfen, für Self-Hosting kann es sinnvoll sein,
-          und manchmal ist es einfach der Unterschied zwischen “geht” und “geht nicht”.
-          Aber: Ein offener Port ist immer ein Stück Verantwortung. Wenn du minimal öffnest, sauber regelst und Leaks testest,
-          bekommst du die Vorteile ohne den “oh nein”-Moment.
+          Portweiterleitung über VPN ist 2026 ein spezialisiertes Feature. Für reine Privacy/Streaming-Anwendungen ist es unnötig.
+          Wenn du aber echte Inbound-Use-Cases hast (P2P, Hosting), ist Proton VPN wegen der nativen Port-Zuweisung in der App oft die pragmatischste Wahl.
+        </p>
+        <p>
+          Der sichere Weg ist immer derselbe: <strong>minimal öffnen</strong>, <strong>Firewall eng setzen</strong>, <strong>Kill Switch nutzen</strong> und <strong>Leaks testen</strong>.
+          Dann bekommst du die Connectivity-Vorteile ohne den “oh nein”-Moment.
         </p>
 
-        <p>
-          Wenn du unsicher bist, starte konservativ: ohne Port Forwarding, dafür mit stabiler Verbindung, soliden Protokollen und sauberen Einstellungen.
-          Wenn dann wirklich ein Bedarf entsteht, aktivierst du Port Forwarding bewusst — und nicht aus Reflex.
-          Genau so bleibt es kontrollierbar (und du schläfst besser, ehrlich).
-        </p>
+        <div class="key-takeaway">
+          <strong>Key takeaway:</strong>
+          Proton VPN ist für Port Forwarding use-cases meist die beste Wahl — aber Sicherheit kommt aus Regeln + Tests, nicht aus einem Schalter.
+        </div>
 
-        <div class="key-takeaway"><strong>Key takeaway:</strong> Port Forwarding ist kein Muss. Wenn du es nutzt: minimal, geregelt, getestet — dann ist es ein starkes Feature statt ein Risiko.</div>
+        <!-- End CTA (3 partners fixed) -->
+        <section class="section" style="padding-top:0">
+          <div class="cta-box" aria-label="Empfohlene VPNs">
+            <h2>Empfohlene VPNs (nach Ziel)</h2>
+            <p class="cta-note">Affiliate-Links (nofollow/sponsored). VPN World kann eine Provision erhalten — ohne Mehrkosten für dich.</p>
+            <div class="cta-buttons" aria-label="Affiliate-Angebote">
+              <a href="https://www.dpbolvw.net/click-101525886-15834536" class="protonvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN — Port Forwarding (dynamisch) + Privacy-Fokus</a>
+              <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — Streaming/Alltag (kein Port Forwarding)</a>
+              <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — Value/Features (kein Port Forwarding)</a>
+            </div>
+            <p class="human-note">Human note: Wenn du nur streamst, überkompliziere es nicht. Wenn du Inbound brauchst, nimm einen Provider mit Port Forwarding und mach die Checkliste sauber.</p>
+          </div>
+        </section>
 
         <!-- CONTENT_END -->
       </div>
     </section>
 
+    <!-- VIDEO (required) -->
     <section class="section section-alt">
       <div class="container">
         <h2>Kurzes Video: VPN-Privatsphäre einfach erklärt</h2>
 
         <p class="note">
           <strong>Key takeaway:</strong>
-          Ein VPN trennt <strong>wer du bist</strong> (IP/ISP) von <strong>was du machst</strong> (Ziele im Netz). Port Forwarding ist nur dann clean,
-          wenn du diese Trennung nicht durch Leaks wieder kaputt machst.
+          Ein VPN trennt IP/ISP von deinen Zielen im Netz. Port Forwarding ist ein Extra für Inbound-Connectivity — und braucht saubere Regeln.
         </p>
 
         <div class="video-wrap">
@@ -999,6 +917,7 @@
     </section>
     <!-- RELATED_END -->
 
+    <!-- AUTHOR -->
     <section class="section">
       <div class="container">
         <div class="author-box">
@@ -1007,24 +926,10 @@
             <h3>Über den Autor</h3>
             <p>
               <strong><a href="/de/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a></strong>
-              ist der Creator von VPN World und schreibt praktische, testbasierte Guides zu VPNs, Online-Privatsphäre und sicherer Remote-Arbeit.
+              ist der Creator von VPN World und schreibt praktische, testbasierte Guides zu VPNs, Online-Privatsphäre und sicherer Nutzung.
               Er macht Speedtests und Leak-Checks (viel zu oft), damit du’s nicht musst.
             </p>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container article">
-        <div class="cta-box" aria-label="Empfohlene VPNs">
-          <h2>Empfohlene VPNs</h2>
-          <p class="cta-note">Affiliate-Links (nofollow/sponsored).</p>
-          <div class="cta-buttons" aria-label="Affiliate-Angebote">
-            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN testen — geprüfte No-Logs Policy</a>
-            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark testen — RAM-only Server</a>
-          </div>
-          <p class="human-note">Disclosure: VPN World kann eine Provision erhalten, wenn du über diese Links abonnierst — ohne Mehrkosten für dich.</p>
         </div>
       </div>
     </section>
