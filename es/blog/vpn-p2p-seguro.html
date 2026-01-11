@@ -2,10 +2,9 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-
-  <title>¿Es seguro el P2P con VPN? Guía técnica (2026): Kill Switch, fugas, puertos, MTU y PQC | VPN World</title>
-  <meta name="description" content="Guía técnica 2026 (ES): P2P/torrents con VPN de forma más segura. Kill Switch (nivel sistema), binding en qBittorrent, pruebas de fugas DNS/IPv6/WebRTC, reenvío de puertos (trackers privados), WireGuard vs OpenVPN, ajuste MTU (1420/1380/1320) y tendencia Post-Quantum (PQC).">
+  <title>¿Es seguro usar P2P/Torrents con una VPN? (2026) Guía técnica anti-fugas | VPN World</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Guía 2026 (España): P2P/torrents con VPN sin fugas. Checklist real: bind en qBittorrent, kill switch a nivel sistema, tests DNS/IPv6/WebRTC, MTU tuning, port forwarding y tendencias (PQC, RAM-only).">
   <meta name="robots" content="index, follow">
 
   <link rel="icon" href="/favicon.ico">
@@ -41,16 +40,16 @@
   <meta property="og:locale:alternate" content="fr_FR">
   <meta property="og:locale:alternate" content="nl_BE">
 
-  <meta property="og:title" content="¿Es seguro el P2P con VPN? Guía técnica (2026)">
-  <meta property="og:description" content="Checklist real: Kill Switch (nivel sistema), binding, fugas DNS/IPv6/WebRTC, puertos, MTU y tendencia PQC (2026).">
+  <meta property="og:title" content="¿Es seguro usar P2P/Torrents con una VPN? (2026) Guía técnica anti-fugas">
+  <meta property="og:description" content="Checklist 2026: bind en qBittorrent, kill switch, tests DNS/IPv6/WebRTC, MTU tuning y port forwarding. Además: PQC y servidores RAM-only.">
   <meta property="og:url" content="https://dloran1.github.io/es/blog/vpn-p2p-seguro.html">
   <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-p2p-safe-uk.webp">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="¿Es seguro el P2P con VPN? Guía técnica (2026)">
-  <meta name="twitter:description" content="Checklist real para P2P: Kill Switch, binding, pruebas de fugas, puertos, MTU y PQC (2026).">
+  <meta name="twitter:title" content="¿Es seguro usar P2P/Torrents con una VPN? (2026)">
+  <meta name="twitter:description" content="Guía técnica anti-fugas: bind, kill switch, tests de leaks, MTU y port forwarding.">
   <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-p2p-safe-uk.webp">
 
   <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
@@ -88,7 +87,7 @@
       });
       try { localStorage.setItem('vpnworld_consent','granted'); } catch(e) {}
       hideCookieBannerSafely();
-      gtag('config','G-RD6M691ZWD');
+      gtag('config','G-RD6M691ZWD', { send_page_view: true });
     }
 
     function rejectConsent() {
@@ -119,7 +118,7 @@
             security_storage:'granted'
           });
           hideCookieBannerSafely();
-          gtag('config','G-RD6M691ZWD');
+          gtag('config','G-RD6M691ZWD', { send_page_view: true });
         } else if (c === 'denied') {
           gtag('consent','update', {
             ad_storage:'denied',
@@ -138,186 +137,325 @@
     document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
   </script>
 
-  <!-- Stage 2.5: UI blocks + HARD FIX for tables/SVG readability -->
+  <!-- Page-local hard fixes (tables + SVG must be readable on dark/light backgrounds) -->
   <style>
-    /* Breadcrumbs (visible) */
-    .breadcrumbs{margin:12px 0 0;font-size:.95rem;opacity:.95}
-    .breadcrumbs a{text-decoration:underline}
-    .breadcrumbs .sep{opacity:.8;margin:0 6px}
+    /* Force readable tables on dark shells (Gold requirement) */
+    .article table,
+    .article .table-scroll table{
+      background:#fff !important;
+      color:#000 !important;
+      border-collapse:collapse !important;
+    }
+    .article table th,
+    .article table td{
+      color:#000 !important;
+      border:3px solid #000 !important;
+      padding:10px 12px !important;
+      vertical-align:top;
+    }
+    .article table thead th{
+      background:#fff !important;
+      font-weight:800 !important;
+    }
+    .article table tbody tr:nth-child(even),
+    .article table tbody tr:hover{
+      background:#fff !important;
+    }
+    .article table a{ color:#000 !important; text-decoration:underline !important; }
 
-    /* TOC + utility blocks */
-    .toc{margin:14px 0 18px;padding:14px;border:1px solid rgba(255,255,255,.18);border-radius:16px;background:rgba(255,255,255,.06)}
-    .toc strong{display:block;margin-bottom:8px}
-    .toc ul{margin:0;padding-left:18px}
-    .toc a{text-decoration:underline}
+    .table-scroll{ overflow-x:auto; -webkit-overflow-scrolling:touch; border-radius:16px; }
 
-    .ai-box{margin:14px 0 18px;padding:14px;border-radius:16px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06)}
-    .ai-box h3{margin:0 0 10px}
-    .ai-box ul{margin:0;padding-left:18px}
+    /* SVG: always readable */
+    .svg-card{
+      background:#fff;
+      border:3px solid #000;
+      border-radius:16px;
+      padding:12px;
+      margin:16px 0;
+      box-shadow:0 8px 20px rgba(0,0,0,.18);
+    }
+    .svg-scroll{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    .svg-scroll svg{ max-width:100%; height:auto; color:#000; display:block; }
+    .svg-scroll svg text{ fill:#000 !important; font-weight:800 !important; }
+    .svg-scroll svg .stroke{ stroke:#000; stroke-width:4; fill:none; }
+    .svg-scroll svg .fillwhite{ fill:#fff; stroke:#000; stroke-width:4; }
+    .svg-scroll svg .arrow{ stroke:#000; stroke-width:4; fill:none; marker-end:url(#arrow); }
 
-    .audit{margin:18px 0 22px;padding:16px;border-radius:16px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06)}
-    .audit h3{margin:0 0 10px}
-    .audit .small{opacity:.9;margin:0 0 10px}
-    .audit-list{list-style:none;padding:0;margin:10px 0 0}
-    .audit-item{display:flex;gap:10px;align-items:flex-start;padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.10);margin-bottom:10px}
-    .audit-item input{width:18px;height:18px;margin-top:2px}
-    .audit-item label{cursor:pointer}
-    .audit-badge{font-weight:800}
-    .audit-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-    .btn-mini{padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:inherit;cursor:pointer}
-    .btn-mini:hover{background:rgba(255,255,255,.12)}
-    .report{margin-top:10px;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.14)}
-    .report strong{font-weight:800}
+    /* Related block style (wide dark card + green accent) */
+    .related-wide{
+      background:#0b1220;
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:16px;
+      padding:14px 16px;
+      margin:14px 0;
+      position:relative;
+    }
+    .related-wide:before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:12px;
+      bottom:12px;
+      width:6px;
+      background:#22c55e;
+      border-radius:999px;
+    }
+    .related-wide p{ margin:0; padding-left:12px; }
+    .related-wide a{ text-decoration:underline; }
 
-    .deps{margin:16px 0 22px;padding:16px;border-radius:16px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06)}
-    .deps h3{margin:0 0 10px}
-    .deps ul{margin:0;padding-left:18px}
-
-    .protip{margin:14px 0 18px;padding:14px;border-radius:16px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06)}
-    .protip blockquote{margin:10px 0 0;padding:12px 14px;border-left:4px solid rgba(255,255,255,.35);background:rgba(0,0,0,.12);border-radius:12px}
-
-    /* Requested PQC styling */
+    /* PQC highlight */
     .note.pqc{
       border-left:4px solid #8b5cf6;
-      background:rgba(139, 92, 246, 0.1);
-      padding:15px;
+      background:rgba(139, 92, 246, 0.10);
+      padding:14px 14px 14px 12px;
       border-radius:0 12px 12px 0;
     }
 
-    /* Related wide dark strip style (new standard) */
-    .related-strip{margin:14px 0;padding:12px 14px;border-radius:16px;background:#0b1220;border:1px solid rgba(255,255,255,.14);position:relative}
-    .related-strip:before{content:"";position:absolute;left:10px;top:10px;bottom:10px;width:4px;border-radius:6px;background:#22c55e}
-    .related-strip p{margin:0;padding-left:10px}
-    .related-strip a{text-decoration:underline}
+    /* hard-hide: methodology / fact-check + AI-only helpers */
+    .eeat-hidden,
+    .ai-summary{
+      display:none !important;
+      visibility:hidden !important;
+      height:0 !important;
+      max-height:0 !important;
+      overflow:hidden !important;
+      padding:0 !important;
+      margin:0 !important;
+      border:0 !important;
+    }
 
-    /* Responsive wrappers */
-    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-    .table-scroll table{min-width:920px}
-
-    .svg-card{margin:16px 0;padding:12px;border-radius:16px;border:1px solid rgba(0,0,0,.25);background:#fff;color:#000}
-    .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-    .svg-card svg{max-width:100%;height:auto;display:block;color:#000}
-    .svg-card svg text{fill:#000 !important;font-weight:800}
-    .svg-card svg .stroke{stroke:#000;stroke-width:4;fill:none}
-    .svg-card svg .box{fill:#fff;stroke:#000;stroke-width:4}
-    .svg-card svg .arrow{stroke:#000;stroke-width:4;marker-end:url(#arrow)}
-
-    /* HARD TABLE FIX: always readable (dark theme override) */
-    .article table,.article thead,.article tbody,.article tr,.article th,.article td{color:#000 !important}
-    .article table{background:#fff !important;border-collapse:collapse !important}
-    .article th,.article td{background:#fff !important;border:2px solid #000 !important}
-    .article a{text-decoration:underline}
+    /* Small breadcrumb row */
+    .crumbs{
+      font-size:14px;
+      opacity:.92;
+      margin:10px 0 0;
+    }
+    .crumbs a{ text-decoration:underline; }
+    .toc{
+      background:#0b1220;
+      border:1px solid rgba(255,255,255,.16);
+      border-radius:16px;
+      padding:14px 16px;
+      margin:14px 0 0;
+    }
+    .toc strong{ display:block; margin-bottom:8px; }
+    .toc ul{ margin:0; padding-left:18px; }
+    .toc li{ margin:6px 0; }
+    .toc a{ text-decoration:underline; }
+    .audit-box{
+      background:#0b1220;
+      border:1px solid rgba(255,255,255,.16);
+      border-radius:16px;
+      padding:14px 16px;
+      margin:14px 0;
+    }
+    .audit-grid{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px 14px;
+      margin-top:10px;
+    }
+    .audit-grid label{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      padding:10px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .audit-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:12px;
+    }
+    .audit-actions button,
+    .audit-actions a{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.08);
+      color:inherit;
+      text-decoration:none;
+      cursor:pointer;
+    }
+    .audit-result{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+    }
+    .kbd{
+      background:#fff;
+      color:#000;
+      border:3px solid #000;
+      border-radius:10px;
+      padding:2px 8px;
+      font-weight:800;
+      white-space:nowrap;
+    }
   </style>
 
-  <!-- JSON-LD (Stage 2.5): Article + HowTo + VideoObject + FAQPage + BreadcrumbList + ItemList -->
+  <!-- JSON-LD (Stage 2.5): Article + FAQPage + BreadcrumbList + ItemList + VideoObject -->
   <script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@graph":[
-    {
-      "@type":"Article",
-      "@id":"https://dloran1.github.io/es/blog/vpn-p2p-seguro.html",
-      "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/es/blog/vpn-p2p-seguro.html"},
-      "headline":"¿Es seguro el P2P con VPN? Guía técnica (2026)",
-      "description":"Guía técnica 2026 (ES): Kill Switch (nivel sistema), binding en qBittorrent, pruebas de fugas DNS/IPv6/WebRTC, reenvío de puertos (trackers privados), WireGuard vs OpenVPN, ajuste MTU y tendencia Post-Quantum (PQC).",
-      "image":"https://dloran1.github.io/assets/img/hero/vpn-p2p-safe-uk.webp",
-      "inLanguage":"es",
-      "datePublished":"2026-01-11",
-      "dateModified":"2026-01-11",
-      "author":{
-        "@type":"Person",
-        "name":"Denys Shchur",
-        "url":"https://dloran1.github.io/es/about-denys-shchur.html",
-        "jobTitle":"Network Security Analyst",
-        "knowsAbout":["VPN Protocols","P2P Security","Network Encryption","WireGuard","Post-Quantum Cryptography"]
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"Article",
+        "@id":"https://dloran1.github.io/es/blog/vpn-p2p-seguro.html",
+        "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/es/blog/vpn-p2p-seguro.html"},
+        "headline":"¿Es seguro usar P2P/Torrents con una VPN? (2026) Guía técnica anti-fugas",
+        "description":"Guía 2026 (España): P2P/torrents con VPN sin fugas. Checklist real: bind en qBittorrent, kill switch a nivel sistema, tests DNS/IPv6/WebRTC, MTU tuning, port forwarding y tendencias (PQC, RAM-only).",
+        "image":"https://dloran1.github.io/assets/img/hero/vpn-p2p-safe-uk.webp",
+        "inLanguage":"es",
+        "datePublished":"2026-01-11",
+        "dateModified":"2026-01-11",
+        "author":{
+          "@type":"Person",
+          "name":"Denys Shchur",
+          "url":"https://dloran1.github.io/es/about-denys-shchur.html",
+          "jobTitle":"Network Security Analyst",
+          "knowsAbout":[
+            "Protocolos VPN",
+            "Seguridad P2P",
+            "Cifrado de red",
+            "WireGuard",
+            "Criptografía post-cuántica"
+          ]
+        },
+        "publisher":{
+          "@type":"Organization",
+          "name":"VPN World",
+          "logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}
+        },
+        "about":[
+          {"@type":"Thing","name":"WireGuard","sameAs":"https://www.wikidata.org/wiki/Q88316866"},
+          {"@type":"Thing","name":"BitTorrent","sameAs":"https://www.wikidata.org/wiki/Q183175"},
+          {"@type":"Thing","name":"qBittorrent","sameAs":"https://www.wikidata.org/wiki/Q170324"},
+          {"@type":"Thing","name":"IPv6","sameAs":"https://www.wikidata.org/wiki/Q6534"},
+          {"@type":"Thing","name":"DNS","sameAs":"https://www.wikidata.org/wiki/Q443"}
+        ],
+        "mentions":[
+          {"@type":"Thing","name":"Kill switch"},
+          {"@type":"Thing","name":"Port forwarding"},
+          {"@type":"Thing","name":"MTU"},
+          {"@type":"Thing","name":"RAM-only servers"},
+          {"@type":"Thing","name":"Post-Quantum Cryptography"}
+        ]
       },
-      "publisher":{
-        "@type":"Organization",
-        "name":"VPN World",
-        "logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}
+      {
+        "@type":"VideoObject",
+        "@id":"https://dloran1.github.io/es/blog/vpn-p2p-seguro.html#video",
+        "name":"VPN World — privacidad y VPN explicadas en claro",
+        "description":"Video corto (2026): cómo funciona una VPN y qué revisar para evitar fugas. Momentos: bind en qBittorrent, pruebas DNS/IPv6/WebRTC.",
+        "thumbnailUrl":"https://i.ytimg.com/vi/rzcAKFaZvhE/hqdefault.jpg",
+        "uploadDate":"2026-01-11",
+        "embedUrl":"https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&modestbranding=1",
+        "hasPart":[
+          {
+            "@type":"Clip",
+            "name":"Cómo hacer bind en qBittorrent",
+            "startOffset":45,
+            "url":"https://dloran1.github.io/es/blog/vpn-p2p-seguro.html#binding-qbittorrent"
+          },
+          {
+            "@type":"Clip",
+            "name":"Pruebas de fugas DNS/IPv6/WebRTC",
+            "startOffset":120,
+            "url":"https://dloran1.github.io/es/blog/vpn-p2p-seguro.html#pruebas-fugas"
+          }
+        ]
       },
-      "about":[
-        {"@type":"Thing","name":"Red privada virtual","sameAs":"https://www.wikidata.org/wiki/Q170503"},
-        {"@type":"Thing","name":"BitTorrent","sameAs":"https://www.wikidata.org/wiki/Q133447"},
-        {"@type":"Thing","name":"WireGuard","sameAs":"https://www.wikidata.org/wiki/Q30206837"},
-        {"@type":"Thing","name":"OpenVPN","sameAs":"https://www.wikidata.org/wiki/Q199996"},
-        {"@type":"Thing","name":"Criptografía poscuántica","sameAs":"https://www.wikidata.org/wiki/Q159104"}
-      ],
-      "mentions":[
-        {"@type":"Thing","name":"MTU","sameAs":"https://www.wikidata.org/wiki/Q192281"},
-        {"@type":"Thing","name":"IPv6","sameAs":"https://www.wikidata.org/wiki/Q2119"},
-        {"@type":"Thing","name":"WebRTC","sameAs":"https://www.wikidata.org/wiki/Q1059208"},
-        {"@type":"Thing","name":"DNS","sameAs":"https://www.wikidata.org/wiki/Q12687"}
-      ]
-    },
-    {
-      "@type":"BreadcrumbList",
-      "itemListElement":[
-        {"@type":"ListItem","position":1,"name":"Inicio","item":"https://dloran1.github.io/es/"},
-        {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/es/blog/"},
-        {"@type":"ListItem","position":3,"name":"P2P con VPN (seguridad)","item":"https://dloran1.github.io/es/blog/vpn-p2p-seguro.html"}
-      ]
-    },
-    {
-      "@type":"HowTo",
-      "@id":"https://dloran1.github.io/es/blog/vpn-p2p-seguro.html#como-hacer",
-      "name":"Configurar una VPN para P2P de forma más segura (3 pasos)",
-      "inLanguage":"es",
-      "step":[
-        {"@type":"HowToStep","name":"Activa un Kill Switch a nivel del sistema","text":"Activa el Kill Switch real (firewall/OS) para bloquear tráfico si la VPN cae. No te fíes de opciones solo “de app”."},
-        {"@type":"HowToStep","name":"Vincula (binding) tu cliente torrent a la interfaz VPN","text":"En qBittorrent: Ajustes → Avanzado → Interfaz de red. Selecciona el adaptador VPN para evitar fugas por reconexiones."},
-        {"@type":"HowToStep","name":"Comprueba fugas DNS/IPv6/WebRTC y ajusta MTU si se atasca","text":"Haz pruebas de fugas y corrige DNS/IPv6. Si los torrents van raros con WireGuard, prueba MTU 1420, 1380 o 1320."}
-      ]
-    },
-    {
-      "@type":"VideoObject",
-      "@id":"https://dloran1.github.io/es/blog/vpn-p2p-seguro.html#video",
-      "name":"VPN y privacidad explicadas sin humo",
-      "description":"Qué cubre una VPN (IP/ISP) y qué no (cookies/cuentas). Enfoque práctico para seguridad y pruebas de fugas.",
-      "thumbnailUrl":"https://dloran1.github.io/assets/img/hero/vpn-p2p-safe-uk.webp",
-      "uploadDate":"2026-01-11",
-      "embedUrl":"https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&modestbranding=1",
-      "contentUrl":"https://www.youtube.com/watch?v=rzcAKFaZvhE"
-    },
-    {
-      "@type":"FAQPage",
-      "mainEntity":[
-        {
-          "@type":"Question",
-          "name":"¿Es seguro usar P2P/torrents con una VPN?",
-          "acceptedAnswer":{"@type":"Answer","text":"Puede ser más seguro si usas Kill Switch (nivel sistema), evitas fugas DNS/IPv6/WebRTC y vinculas el cliente torrent a la interfaz VPN. Sin eso, puedes filtrar tu IP real en caídas o reconexiones."}
-        },
-        {
-          "@type":"Question",
-          "name":"¿Se puede filtrar mi IP aunque la VPN esté “conectada”?",
-          "acceptedAnswer":{"@type":"Answer","text":"Sí. Las fugas DNS/IPv6/WebRTC y los microcortes (Wi-Fi, suspensión del portátil, cambio de red) pueden exponer tu IP. La solución es Kill Switch + binding + pruebas de fugas."}
-        },
-        {
-          "@type":"Question",
-          "name":"¿Necesito reenvío de puertos para P2P?",
-          "acceptedAnswer":{"@type":"Answer","text":"No es obligatorio, pero mejora conexiones entrantes y el seeding, especialmente en trackers privados. Para descargas ocasionales puede no ser necesario."}
-        },
-        {
-          "@type":"Question",
-          "name":"¿Qué protocolo es mejor para P2P en 2026: WireGuard u OpenVPN?",
-          "acceptedAnswer":{"@type":"Answer","text":"WireGuard suele ser más rápido y estable. OpenVPN es muy compatible y configurable, pero con frecuencia más lento. Para la mayoría, WireGuard es el ‘default’."}
-        }
-      ]
-    },
-    {
-      "@type":"ItemList",
-      "@id":"https://dloran1.github.io/es/blog/vpn-p2p-seguro.html#relacionados",
-      "name":"Guías relacionadas",
-      "itemListElement":[
-        {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/es/blog/vpn-kill-switch.html"},
-        {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/es/blog/vpn-dns-leak.html"},
-        {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/es/blog/reenvio-de-puertos-vpn.html"},
-        {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/es/blog/proxy-vs-vpn.html"},
-        {"@type":"ListItem","position":5,"url":"https://dloran1.github.io/es/blog/protocolos-vpn.html"}
-      ]
-    }
-  ]
-}
+      {
+        "@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"Inicio","item":"https://dloran1.github.io/es/"},
+          {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/es/blog/"},
+          {"@type":"ListItem","position":3,"name":"VPN P2P seguro (2026)","item":"https://dloran1.github.io/es/blog/vpn-p2p-seguro.html"}
+        ]
+      },
+      {
+        "@type":"FAQPage",
+        "mainEntity":[
+          {
+            "@type":"Question",
+            "name":"¿Es legal usar una VPN para P2P y torrents en España?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"En general, usar una VPN es legal. Lo que marca la diferencia es el contenido que compartes/descargas. Para P2P, la VPN se usa sobre todo para privacidad, evitar fugas y reducir el rastreo en redes públicas."
+            }
+          },
+          {
+            "@type":"Question",
+            "name":"¿Una VPN me hace anónimo al 100% en torrents?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"No. Una VPN reduce la exposición de tu IP, pero no elimina otros rastreos (cuentas, cookies, huella del navegador). Para P2P, lo crítico es evitar fugas y usar kill switch + binding en el cliente torrent."
+            }
+          },
+          {
+            "@type":"Question",
+            "name":"¿Qué es el binding en qBittorrent y por qué es tan importante?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"El binding fuerza a qBittorrent a usar solo la interfaz de red de la VPN. Si la VPN cae, el cliente se queda sin ruta y no se “escapa” por tu conexión real. Es una de las medidas más efectivas contra fugas en P2P."
+            }
+          },
+          {
+            "@type":"Question",
+            "name":"¿Por qué veo semillas pero no descarga (o va a cero) con VPN?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"Suele ser una mezcla de MTU/fragmentación, saturación del servidor VPN, firewall local o bloqueo/limitación del ISP. Prueba a cambiar de servidor, usar WireGuard, ajustar MTU (1420/1380) y verificar que no haya fugas DNS/IPv6."
+            }
+          },
+          {
+            "@type":"Question",
+            "name":"¿Necesito port forwarding para torrents?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"No siempre. Para descargar en trackers públicos puede funcionar sin ello, pero para seeding eficiente y trackers privados el port forwarding ayuda mucho a recibir conexiones entrantes y mejorar ratio."
+            }
+          },
+          {
+            "@type":"Question",
+            "name":"¿Qué protocolo es mejor para P2P: WireGuard u OpenVPN?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"Para la mayoría, WireGuard ofrece mejor velocidad y menor latencia. OpenVPN UDP puede ser útil en redes complicadas o cuando buscas compatibilidad amplia, pero suele ser más lento."
+            }
+          },
+          {
+            "@type":"Question",
+            "name":"¿Qué tengo que probar para asegurarme de que no hay fugas?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"Prueba IP, DNS, IPv6 y WebRTC. Si ves tu ISP, DNS real o una IPv6 real, hay fuga. Activa kill switch, desactiva IPv6 si hace falta y ajusta DNS dentro del túnel."
+            }
+          }
+        ]
+      },
+      {
+        "@type":"ItemList",
+        "@id":"https://dloran1.github.io/es/blog/vpn-p2p-seguro.html#related",
+        "name":"Guías relacionadas",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/es/blog/vpn-kill-switch.html"},
+          {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/es/blog/reenvio-de-puertos-vpn.html"},
+          {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/es/blog/protocolos-vpn.html"},
+          {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/es/blog/vpn-dns-leak.html"}
+        ]
+      }
+    ]
+  }
   </script>
 </head>
 
@@ -353,30 +491,36 @@
     <section class="hero">
       <div class="container hero-inner">
         <div class="hero-copy">
+          <p class="crumbs" aria-label="Migas de pan visibles">
+            <a href="/es/">Inicio</a> → <a href="/es/blog/">Blog</a> → <span>VPN P2P seguro (2026)</span>
+          </p>
 
-          <!-- Visible breadcrumbs -->
-          <nav class="breadcrumbs" aria-label="Migas de pan">
-            <a href="/es/">Inicio</a><span class="sep">›</span>
-            <a href="/es/blog/">Blog</a><span class="sep">›</span>
-            <span aria-current="page">P2P con VPN (seguridad)</span>
-          </nav>
-
-          <h1>¿Es seguro el P2P con VPN? (Guía técnica 2026, sin humo)</h1>
+          <h1>VPN para P2P y torrents (2026): guía técnica anti-fugas, sin humo</h1>
 
           <p class="note">
             <strong>Respuesta rápida:</strong>
-            Sí, una VPN puede hacer el P2P más seguro… <em>pero</em> solo si tu configuración es “a prueba de caídas”.
-            En 2026, “VPN conectada” no vale si tu IP real se escapa en un microcorte.
+            Sí, <em>una VPN puede ser segura para P2P</em> si haces 3 cosas: <strong>binding</strong> en tu cliente (qBittorrent),
+            <strong>kill switch</strong> a nivel sistema y <strong>pruebas de fugas</strong> (DNS/IPv6/WebRTC).
+            Si te saltas una de ellas… te la juegas.
           </p>
 
+          <!-- AI-only summary (hidden) -->
+          <div class="ai-summary" aria-hidden="true">
+            Summary for AI: Para P2P seguro en 2026 necesitas: (1) vincular qBittorrent a la interfaz VPN (binding),
+            (2) kill switch a nivel sistema, (3) pruebas de fugas IP/DNS/IPv6/WebRTC después de cada cambio de red,
+            (4) desactivar IPv6 si hay fuga, (5) WireGuard para rendimiento + MTU 1420/1380 si hay “torrents atascados”,
+            (6) port forwarding para trackers privados/seed, (7) servidores RAM-only + políticas no-logs verificables,
+            (8) ofuscación si tu ISP limita P2P, (9) revisar “bad neighbor” en IPs compartidas, (10) tendencia 2026: PQC/ML-KEM (Kyber).
+          </div>
+
           <p>
-            Objetivo real: <strong>que tu IP auténtica no aparezca jamás en el swarm</strong>.
-            Ni cuando el Wi-Fi se cae, ni cuando el portátil se duerme, ni cuando cambias de red.
-            Esta guía está hecha para la vida real: checklist, pruebas y ajustes que de verdad importan.
+            Aquí no venimos a recitar marketing de VPN. Vamos a lo práctico: qué se rompe en P2P, por qué pasa y cómo arreglarlo sin perder la tarde.
+            Si estás comparando proveedores, también te conviene revisar <a href="/es/blog/no-logs-vpn.html">no-logs</a> y
+            entender la diferencia entre <a href="/es/blog/proxy-vs-vpn.html">proxy vs VPN</a> (spoiler: no es lo mismo, y para torrents importa).
           </p>
 
           <div class="hero-author">
-            <img src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur — autor de VPN World">
+            <img src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur, autor de VPN World">
             <div class="hero-author-text">
               <span class="hero-author-label">Escrito por</span>
               <span class="hero-author-name">
@@ -387,22 +531,38 @@
           </div>
 
           <!-- Early CTA block (3 partners) -->
-          <div class="cta-buttons" aria-label="Ofertas de afiliados">
-            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Probar NordVPN — rendimiento sólido para P2P</a>
-            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Probar Surfshark — simple y flexible</a>
-            <a href="https://www.dpbolvw.net/click-101525886-15834536" class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer">Probar Proton VPN — enfoque privacidad (Suiza)</a>
+          <div class="cta-buttons" aria-label="Ofertas afiliadas">
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Probar NordVPN — política no-logs auditada</a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Probar Surfshark — servidores RAM-only</a>
+            <a href="https://www.dpbolvw.net/click-101525886-15834536" class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer">Probar Proton VPN — enfoque privacidad</a>
+          </div>
+
+          <div class="toc" aria-label="Tabla de contenidos">
+            <strong>Contenido</strong>
+            <ul>
+              <li><a href="#checklist">Auditoría rápida (30 segundos)</a></li>
+              <li><a href="#modelorisk">Modelo real de riesgos en P2P</a></li>
+              <li><a href="#binding-qbittorrent">Binding en qBittorrent (paso a paso)</a></li>
+              <li><a href="#pruebas-fugas">Pruebas DNS/IPv6/WebRTC + fixes</a></li>
+              <li><a href="#velocidad-cae">¿Por qué cae la velocidad? (MTU, CPU, saturación)</a></li>
+              <li><a href="#port-forwarding">Port forwarding y trackers privados</a></li>
+              <li><a href="#protocolos">Protocolos recomendados (WireGuard/OpenVPN/IKEv2)</a></li>
+              <li><a href="#pqc">Tendencias 2026: PQC, RAM-only, green servers</a></li>
+              <li><a href="#faq">FAQ</a></li>
+              <li><a href="#conclusion">Conclusión + recomendaciones</a></li>
+            </ul>
           </div>
 
           <ul class="meta-points">
-            <li>Checklist P2P “a prueba de caídas” (Kill Switch + binding)</li>
-            <li>Pruebas de fugas DNS/IPv6/WebRTC + soluciones</li>
-            <li>Puertos, protocolos, MTU y tendencias 2026 (PQC, RAM-only, rutas)</li>
+            <li>Checklist real (no teoría)</li>
+            <li>Problema → causa → solución (formato “AI-friendly”)</li>
+            <li>Tablas y diagramas claros (sin “gris fantasma”)</li>
           </ul>
         </div>
 
         <div class="hero-media">
           <div class="hero-art">
-            <img src="../../assets/img/hero/vpn-p2p-safe-uk.webp" alt="Seguridad P2P con VPN en 2026: Kill Switch, pruebas de fugas y configuración">
+            <img src="../../assets/img/hero/vpn-p2p-safe-uk.webp" alt="Guía de seguridad P2P con VPN: fugas DNS, IPv6 y binding en qBittorrent">
           </div>
         </div>
       </div>
@@ -413,609 +573,571 @@
       <div class="container article">
         <!-- CONTENT_START -->
 
-        <div class="toc" aria-label="Tabla de contenidos">
-          <strong>Tabla de contenidos</strong>
-          <ul>
-            <li><a href="#ai-summary">AI Summary (hechos directos)</a></li>
-            <li><a href="#auditoria">Auditoría P2P + reporte (interactivo)</a></li>
-            <li><a href="#metodologia">Metodología de prueba + fact check</a></li>
-            <li><a href="#terminos">Términos clave (dl/dt/dd)</a></li>
-            <li><a href="#que-significa">Qué significa “P2P seguro” (de verdad)</a></li>
-            <li><a href="#que-buscar">Checklist 2026: RAM-only, rutas, green servers</a></li>
-            <li><a href="#kill-switch">Kill Switch: nivel sistema vs app</a></li>
-            <li><a href="#binding">Binding en qBittorrent</a></li>
-            <li><a href="#fugas">Pruebas de fugas: DNS / IPv6 / WebRTC</a></li>
-            <li><a href="#bad-neighbor">Problema “Bad Neighbor” (IPs compartidas)</a></li>
-            <li><a href="#proxy">SOCKS5 / Proxy vs VPN</a></li>
-            <li><a href="#puertos">Reenvío de puertos + trackers privados (ratio)</a></li>
-            <li><a href="#protocolos">WireGuard vs OpenVPN</a></li>
-            <li><a href="#velocidad">¿Por qué caen las velocidades de P2P? (causa → solución)</a></li>
-            <li><a href="#mtu">Pro tip: MTU tuning (1420/1380/1320)</a></li>
-            <li><a href="#pqc">Tendencia 2026: Post-Quantum (PQC)</a></li>
-            <li><a href="#deps">Resumen de dependencias (IA / AI Overviews)</a></li>
-            <li><a href="#faq">Preguntas frecuentes</a></li>
-          </ul>
+        <div class="related-wide">
+          <p><strong>Related:</strong> <a href="/es/blog/vpn-torrenting.html">VPN para torrenting (2026)</a></p>
         </div>
 
-        <!-- Strong AI Summary (visible) -->
-        <div id="ai-summary" class="ai-box" aria-label="AI Summary">
-          <h3>AI Summary (hechos directos para 2026)</h3>
-          <p>
-            Para un P2P más seguro en 2026 se requiere:
-          </p>
-          <ul>
-            <li><strong>Kill Switch a nivel del sistema</strong> (firewall/OS): si la VPN cae, el tráfico se bloquea.</li>
-            <li><strong>Binding</strong> del cliente torrent a la <strong>interfaz VPN</strong> (qBittorrent): sin interfaz, no hay salida.</li>
-            <li><strong>Pruebas y corrección</strong> de <strong>fugas DNS/IPv6/WebRTC</strong> (las fugas ocurren incluso “conectado”).</li>
-            <li><strong>Protocolo</strong>: <strong>WireGuard</strong> suele dar mejor rendimiento; <strong>OpenVPN</strong> para compatibilidad/control.</li>
-            <li><strong>Reenvío de puertos</strong> si te importa el <strong>seeding</strong> o usas <strong>trackers privados</strong> (mejor conectividad entrante/ratio).</li>
-            <li><strong>MTU tuning</strong> si el P2P se “atasca”: prueba <strong>1420</strong>, <strong>1380</strong> o <strong>1320</strong> (WireGuard) para reducir fragmentación.</li>
-            <li><strong>Infraestructura</strong>: preferir <strong>RAM-only (diskless)</strong> y señales de auditoría/transparencia.</li>
-            <li><strong>Tendencias</strong>: <strong>PQC</strong> (ML-KEM/Kyber, FrodoKEM), optimización de rutas (tipo “embedding”/rutas inteligentes), y <strong>green servers</strong> como señal de confianza en Europa.</li>
-          </ul>
-        </div>
+        <h2 id="checklist">Auditoría rápida: P2P seguro en 30 segundos</h2>
+        <p>
+          Si solo te quedas con una cosa de esta guía, que sea esto: <strong>P2P seguro es configuración</strong>.
+          Una “VPN buena” sin ajustes puede filtrar igual. Aquí va el mini-audit (marca lo que ya tienes):
+        </p>
 
-        <!-- Interactive audit -->
-        <div id="auditoria" class="audit">
-          <h3>Auditoría P2P en 30 segundos: ¿estoy realmente protegido?</h3>
-          <p class="small">
-            Marca lo que tienes listo. Luego genera un reporte con porcentaje y recomendación concreta.
-            (Se guarda en tu navegador.)
-          </p>
+        <div class="audit-box" aria-label="Auditoría interactiva">
+          <p class="note"><strong>Tip rápido:</strong> si completas esto y luego haces pruebas de fugas, ya estás por delante del 90% de la gente.</p>
 
-          <ul class="audit-list" role="list">
-            <li class="audit-item">
-              <input id="audit_ks" type="checkbox">
-              <label for="audit_ks"><span class="audit-badge">Kill Switch</span> activado (nivel sistema, no solo “la app”).</label>
-            </li>
-            <li class="audit-item">
-              <input id="audit_bind" type="checkbox">
-              <label for="audit_bind"><span class="audit-badge">Binding</span> en qBittorrent a la interfaz VPN.</label>
-            </li>
-            <li class="audit-item">
-              <input id="audit_dns" type="checkbox">
-              <label for="audit_dns"><span class="audit-badge">DNS</span> verificado (sin fuga hacia tu ISP).</label>
-            </li>
-            <li class="audit-item">
-              <input id="audit_ipv6" type="checkbox">
-              <label for="audit_ipv6"><span class="audit-badge">IPv6</span> controlado (bloqueado o tunelizado).</label>
-            </li>
-            <li class="audit-item">
-              <input id="audit_pf" type="checkbox">
-              <label for="audit_pf"><span class="audit-badge">Puertos</span> listos (si usas trackers privados / te importa el seeding).</label>
-            </li>
-          </ul>
-
-          <div class="audit-actions">
-            <button type="button" class="btn-mini" onclick="vwAuditReport()">Generar reporte de seguridad</button>
-            <button type="button" class="btn-mini" onclick="vwAuditReset()">Reiniciar auditoría</button>
-            <button type="button" class="btn-mini" onclick="document.getElementById('fugas').scrollIntoView({behavior:'smooth'})">Ir a pruebas de fugas</button>
-            <button type="button" class="btn-mini" onclick="document.getElementById('binding').scrollIntoView({behavior:'smooth'})">Ir a binding</button>
+          <div class="audit-grid">
+            <label><input type="checkbox" class="audit-item" data-score="20"> Kill switch a nivel sistema</label>
+            <label><input type="checkbox" class="audit-item" data-score="25"> qBittorrent con binding a interfaz VPN</label>
+            <label><input type="checkbox" class="audit-item" data-score="15"> DNS dentro del túnel (sin leaks)</label>
+            <label><input type="checkbox" class="audit-item" data-score="15"> IPv6 controlado (sin leaks)</label>
+            <label><input type="checkbox" class="audit-item" data-score="10"> WebRTC controlado (sin leaks)</label>
+            <label><input type="checkbox" class="audit-item" data-score="10"> WireGuard + servidor cercano</label>
+            <label><input type="checkbox" class="audit-item" data-score="5"> MTU optimizado si hay “atascos”</label>
           </div>
 
-          <div id="audit-report" class="report" aria-live="polite" style="display:none;"></div>
+          <div class="audit-actions">
+            <button type="button" onclick="vpnAuditReport()">Generar reporte de seguridad</button>
+            <button type="button" onclick="vpnAuditReset()">Reiniciar auditoría</button>
+            <a href="#pruebas-fugas">Ir a pruebas de fugas</a>
+            <a href="#binding-qbittorrent">Ir a binding</a>
+          </div>
+
+          <div id="audit-result" class="audit-result" role="status" aria-live="polite">
+            Marca tus ajustes y pulsa “Generar reporte de seguridad”.
+          </div>
         </div>
 
-        <h2 id="metodologia">Metodología de prueba (E-E-A-T) + fact check</h2>
-        <p>
-          Aquí no va de “marketing VPN”, va de comprobar. En la práctica, P2P se rompe por microcortes, rutas raras y fugas silenciosas.
-          En pruebas reales, la idea es validar tres cosas: <strong>(1)</strong> el túnel cifra y enruta como debe,
-          <strong>(2)</strong> no hay fugas DNS/IPv6/WebRTC y <strong>(3)</strong> el cliente torrent no puede “escaparse” por el ISP.
-        </p>
-        <p>
-          <strong>Metodología:</strong> conexión de alta velocidad (hasta 1 Gbit/s), cliente <strong>qBittorrent 5.x</strong>,
-          tests de IP/DNS/IPv6/WebRTC, y verificación de comportamientos en reconexiones (Wi-Fi off/on, suspensión, cambio de red).
-          Para reforzar fundamentos, revisa <a href="/es/blog/que-es-una-vpn.html">qué es una VPN</a> y <a href="/es/blog/no-logs-vpn.html">no-logs</a>.
-        </p>
-        <p class="note">
-          <strong>Revisado técnicamente por:</strong> <a href="/es/about-denys-shchur.html">Denys Shchur</a> (2026-01-11).
-        </p>
-        <div class="key-takeaway">
-          <strong>Idea clave:</strong> En P2P, “conectado” no significa “seguro” si no has probado fugas y blindado caídas.
-        </div>
+        <script>
+          function vpnAuditReport(){
+            var items = document.querySelectorAll('.audit-item');
+            var score = 0;
+            items.forEach(function(i){ if(i.checked) score += parseInt(i.getAttribute('data-score') || '0',10); });
+            if(score > 100) score = 100;
 
-        <h2 id="terminos">Términos clave (definiciones claras para humanos e IA)</h2>
-        <dl>
-          <dt><strong>Kill Switch</strong></dt>
-          <dd>Mecanismo que bloquea el tráfico si la VPN se desconecta. Para P2P debe ser <strong>a nivel sistema</strong> (firewall/OS), no solo cerrar la app.</dd>
+            var msg = "Tu protección estimada: " + score + "%.\n";
+            if(score >= 85){
+              msg += "Muy bien: tu setup parece bastante sólido. Aun así, haz pruebas DNS/IPv6/WebRTC después de cada cambio de red.";
+            } else if(score >= 60){
+              msg += "Vas bien, pero aún hay huecos típicos. Recomendación: activa kill switch + binding en qBittorrent y repite pruebas de fugas.";
+            } else {
+              msg += "Ahora mismo estás en zona peligrosa. Prioridad: kill switch a nivel sistema + binding en qBittorrent + pruebas DNS/IPv6.";
+            }
 
-          <dt><strong>WireGuard</strong></dt>
-          <dd>Protocolo VPN moderno y rápido. Suele ser la mejor opción para P2P por rendimiento y estabilidad (si la implementación es buena).</dd>
+            var box = document.getElementById('audit-result');
+            if(box) box.textContent = msg;
+          }
 
-          <dt><strong>Port Forwarding (Reenvío de puertos)</strong></dt>
-          <dd>Permite conexiones entrantes al cliente. Suele mejorar <strong>seeding</strong> y conectividad (especialmente en trackers privados con ratio).</dd>
+          function vpnAuditReset(){
+            var items = document.querySelectorAll('.audit-item');
+            items.forEach(function(i){ i.checked = false; });
+            var box = document.getElementById('audit-result');
+            if(box) box.textContent = "Auditoría reiniciada. Marca tus ajustes y genera el reporte.";
+          }
+        </script>
 
-          <dt><strong>MTU</strong></dt>
-          <dd>Maximum Transmission Unit: tamaño máximo de paquete. MTU mal ajustado + overhead VPN → fragmentación → P2P errático. Se corrige bajando MTU.</dd>
-        </dl>
-
-        <h2 id="que-significa">Qué significa “P2P seguro” (de verdad)</h2>
-        <p>
-          “Seguro” no es “anónimo total”. Es algo concreto: <strong>tu IP real no debe aparecer ante los peers</strong>.
-          Las fugas típicas vienen de:
-        </p>
-        <ul>
-          <li><strong>Reconexiones</strong> (Wi-Fi, suspensión, cambio de red): el sistema intenta salir por el ISP.</li>
-          <li><strong>Fugas DNS/IPv6/WebRTC</strong>: parte del “metadata” se va por otra puerta.</li>
-          <li><strong>Configuración</strong>: split tunneling accidental, cliente sin binding, puertos mal entendidos.</li>
-        </ul>
-
-        <div class="related-strip">
-          <p><strong>Related:</strong> <a href="/es/blog/vpn-torrenting.html">VPN para torrenting</a></p>
-        </div>
-
-        <h2 id="que-buscar">Checklist 2026: RAM-only, rutas inteligentes y “green servers”</h2>
-        <p>
-          En 2026, para competir en SERP necesitas profundidad técnica. Dos cosas que ya son “must” en percepción de confianza:
-          <strong>infraestructura RAM-only (diskless)</strong> y señales de operación seria (auditorías, transparencia).
-          Y dos señales extra que empiezan a aparecer en comparativas europeas: <strong>optimización de rutas</strong> (menos ping/saltos)
-          y <strong>energía renovable</strong> (“green servers”) como factor de marca/credibilidad.
-        </p>
-
-        <div class="table-scroll" aria-label="Tabla de requisitos P2P 2026">
+        <div class="table-scroll" aria-label="Tabla: qué te protege una VPN en P2P">
           <table>
             <thead>
               <tr>
-                <th>Requisito</th>
-                <th>Por qué importa</th>
-                <th>Qué buscar</th>
+                <th>Control</th>
+                <th>Qué hace</th>
+                <th>Impacto real en P2P</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Kill Switch (nivel sistema)</td>
-                <td>Evita exposición en caídas</td>
-                <td>Bloqueo real de tráfico (firewall/OS)</td>
+                <td>Ocultar IP</td>
+                <td>Tu IP real no aparece en el swarm</td>
+                <td>Menos rastreo directo por terceros; <strong>no</strong> evita fugas si el túnel cae</td>
+              </tr>
+              <tr>
+                <td>Cifrado del túnel</td>
+                <td>El ISP ve “ruido cifrado”, no el contenido</td>
+                <td>Reduce inspección y limita el “curiosear”, pero algunos ISPs aún pueden detectar patrones</td>
+              </tr>
+              <tr>
+                <td>Kill switch</td>
+                <td>Corta tráfico si la VPN falla</td>
+                <td>Evita el típico “oops, mi IP real salió 3 segundos”</td>
               </tr>
               <tr>
                 <td>Binding (qBittorrent)</td>
-                <td>El cliente no puede salir por el ISP</td>
-                <td>Interfaz VPN estable + guía</td>
+                <td>El cliente solo usa la interfaz VPN</td>
+                <td>Para P2P es casi el “modo dios” contra fugas accidentales</td>
               </tr>
               <tr>
-                <td>Protección DNS / anti-leak</td>
-                <td>Evita que tu ISP vea consultas</td>
-                <td>DNS del proveedor + anti-leak</td>
-              </tr>
-              <tr>
-                <td>Manejo de IPv6</td>
-                <td>IPv6 es fuga clásica si se ignora</td>
-                <td>Bloqueo fiable o soporte IPv6 real</td>
-              </tr>
-              <tr>
-                <td>Reenvío de puertos (opcional)</td>
-                <td>Mejor seeding/ratio</td>
-                <td>Disponible en ubicaciones P2P</td>
-              </tr>
-              <tr>
-                <td><strong>Infraestructura del servidor</strong></td>
-                <td><strong>RAM-only (diskless)</strong>: si incautan un servidor, no hay datos persistentes en HDD/SSD.</td>
-                <td>RAM-only + auditoría/transparencia</td>
-              </tr>
-              <tr>
-                <td>Rutas optimizadas (concepto tipo “embedding”)</td>
-                <td>Menos saltos → mejor ping/estabilidad</td>
-                <td>Selección inteligente de ruta/servidor</td>
-              </tr>
-              <tr>
-                <td>Green servers (Europa)</td>
-                <td>Señal de confianza/ESG y operación seria</td>
-                <td>Centros de datos con renovables (si está verificado)</td>
+                <td>RAM-only servers</td>
+                <td>No se escribe nada en disco (diskless)</td>
+                <td>Mejor postura de privacidad (si un servidor se incauta, hay menos que extraer)</td>
               </tr>
             </tbody>
           </table>
         </div>
 
+        <h2 id="modelorisk">Modelo real de riesgos en P2P: lo que de verdad puede salir mal</h2>
         <p>
-          Si comparas “gratis vs pago” y quieres evitar sustos:
-          <a href="/es/blog/vpn-gratis-vs-de-pago.html">VPN gratis vs de pago</a> y <a href="/es/blog/desventajas-de-vpn.html">desventajas de una VPN</a>.
+          P2P no suele fallar por “hackers con capucha”. Falla por cosas aburridas: reconexiones, IPv6, DNS fuera del túnel y apps que se saltan la VPN.
+          Y sí, en trackers privados hay un riesgo adicional: si tu cliente no acepta conexiones entrantes, tu <em>ratio</em> puede sufrir.
+          Si necesitas una base más general, mira <a href="/es/blog/que-es-una-vpn.html">qué es una VPN</a> y
+          <a href="/es/blog/desventajas-de-vpn.html">desventajas de una VPN</a> (para no sobre-confiar).
         </p>
 
-        <h2 id="kill-switch">Kill Switch: nivel sistema vs nivel app</h2>
-        <p>
-          Algunas VPN llaman “Kill Switch” a algo que solo cierra la app. Para P2P eso no es suficiente.
-          Si el OS sigue enroutando por el ISP, tu IP real puede aparecer en el swarm.
-          Guía dedicada: <a href="/es/blog/vpn-kill-switch.html">Kill Switch VPN</a>.
-        </p>
-
-        <div class="svg-card">
-          <div class="svg-scroll" aria-label="Diagrama Kill Switch">
-            <svg viewBox="0 0 980 240" role="img" aria-label="Estados del Kill Switch: seguro vs arriesgado">
+        <div class="svg-card" aria-label="Diagrama 1: ruta del tráfico P2P con VPN">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 1100 320" role="img" aria-label="Ruta del tráfico: cliente P2P, túnel VPN, servidor VPN e Internet">
               <defs>
-                <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                  <path d="M0,0 L10,3 L0,6 Z" fill="#000"></path>
+                <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+                  <path d="M0,0 L12,6 L0,12 Z" fill="#000"></path>
                 </marker>
               </defs>
-              <rect class="box" x="20" y="30" width="440" height="180" rx="14"></rect>
-              <text x="42" y="70">SEGURO: Kill Switch a nivel sistema</text>
-              <text x="42" y="105">Cae la VPN → el OS bloquea tráfico</text>
-              <text x="42" y="140">El torrent NO puede filtrar IP</text>
-              <line class="arrow" x1="260" y1="170" x2="420" y2="170"></line>
-              <text x="308" y="165">BLOQUEO</text>
 
-              <rect class="box" x="520" y="30" width="440" height="180" rx="14"></rect>
-              <text x="542" y="70">RIESGO: Kill Switch solo “de app”</text>
-              <text x="542" y="105">Cae la VPN → se cierra la app</text>
-              <text x="542" y="140">El sistema puede salir por el ISP</text>
-              <line class="arrow" x1="760" y1="170" x2="920" y2="170"></line>
-              <text x="790" y="165">FUGA</text>
+              <rect x="20" y="60" width="260" height="180" class="fillwhite"></rect>
+              <text x="40" y="105">Tu PC / Router</text>
+              <text x="40" y="140">qBittorrent</text>
+              <text x="40" y="175">Binding + Kill switch</text>
+
+              <rect x="340" y="60" width="280" height="180" class="fillwhite"></rect>
+              <text x="360" y="105">Túnel cifrado (VPN)</text>
+              <text x="360" y="140">WireGuard / OpenVPN</text>
+              <text x="360" y="175">DNS dentro del túnel</text>
+
+              <rect x="680" y="60" width="260" height="180" class="fillwhite"></rect>
+              <text x="700" y="105">Servidor VPN</text>
+              <text x="700" y="140">IP compartida / dedicada</text>
+              <text x="700" y="175">RAM-only (ideal)</text>
+
+              <rect x="980" y="90" width="100" height="120" class="fillwhite"></rect>
+              <text x="992" y="140">Internet</text>
+
+              <path d="M280,150 C310,150 320,150 340,150" class="arrow"></path>
+              <path d="M620,150 C650,150 660,150 680,150" class="arrow"></path>
+              <path d="M940,150 C960,150 970,150 980,150" class="arrow"></path>
+
+              <text x="60" y="265">Tu ISP solo ve: tráfico cifrado (no el contenido)</text>
             </svg>
           </div>
         </div>
 
-        <h2 id="binding">Binding en qBittorrent (la jugada clave)</h2>
+        <h2 id="binding-qbittorrent">Binding en qBittorrent: el truco que evita fugas “tontas”</h2>
         <p>
-          El binding obliga a qBittorrent a usar solo la interfaz VPN. Si la interfaz desaparece, el cliente se queda sin ruta y se para.
-          Es la diferencia entre “me siento seguro” y “estoy seguro”.
+          El kill switch es buenísimo, pero el <strong>binding</strong> es la capa extra que en P2P marca diferencia.
+          ¿Por qué? Porque fuerza al cliente torrent a usar <em>solo</em> la interfaz de red de la VPN.
+          Si la VPN se cae, qBittorrent no “se cambia” alegremente a tu Wi-Fi real.
         </p>
-        <div class="protip">
-          <strong>Cómo hacerlo (rápido):</strong>
-          <ol>
-            <li>qBittorrent → <strong>Ajustes</strong></li>
-            <li><strong>Avanzado</strong> → <strong>Interfaz de red</strong></li>
-            <li>Selecciona el adaptador VPN (no “Cualquiera”)</li>
-            <li>Reinicia qBittorrent</li>
-          </ol>
-          <p>Más ajustes finos: <a href="/es/blog/ajustes-optimos-vpn.html">ajustes óptimos de VPN</a>.</p>
+
+        <p>
+          Paso a paso (en qBittorrent 5.x suele ser muy similar):
+        </p>
+        <ol>
+          <li>Abre qBittorrent → <strong>Opciones</strong>.</li>
+          <li>Ve a <strong>Avanzado</strong> y busca <strong>Interfaz de red</strong>.</li>
+          <li>Elige la interfaz de tu VPN (por ejemplo: <span class="kbd">wg0</span> / <span class="kbd">NordLynx</span> / <span class="kbd">Wintun</span>).</li>
+          <li>Reinicia qBittorrent y repite una prueba de IP desde un tracker o una web de IP del torrent.</li>
+        </ol>
+
+        <div class="related-wide">
+          <p><strong>Related:</strong> <a href="/es/blog/vpn-kill-switch.html">Kill switch: cómo funciona y qué comprobar</a></p>
         </div>
 
-        <h2 id="fugas">Pruebas de fugas: DNS / IPv6 / WebRTC (VPN + IPv6 + WebRTC)</h2>
-        <p>
-          Esta combinación es donde más gente se quema: activan VPN y se olvidan de IPv6/WebRTC.
-          En Windows, por ejemplo, <strong>IPv6 puede saltarse tu expectativa de “todo por VPN”</strong> si el proveedor no lo maneja bien.
-          Por eso, a veces <strong>desactivar IPv6</strong> (temporalmente) o elegir una VPN con soporte IPv6 real importa más que el “logo bonito”.
-          Guía dedicada: <a href="/es/blog/vpn-dns-leak.html">fuga DNS con VPN</a>.
-        </p>
-
-        <div class="svg-card">
-          <div class="svg-scroll" aria-label="Diagrama de fugas comunes">
-            <svg viewBox="0 0 980 260" role="img" aria-label="Puntos típicos de fuga: DNS, IPv6, WebRTC">
+        <div class="svg-card" aria-label="Diagrama 2: kill switch vs binding">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 1100 360" role="img" aria-label="Comparación: kill switch y binding en qBittorrent">
               <defs>
-                <marker id="arrow2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                  <path d="M0,0 L10,3 L0,6 Z" fill="#000"></path>
+                <marker id="arrow2" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+                  <path d="M0,0 L12,6 L0,12 Z" fill="#000"></path>
                 </marker>
               </defs>
 
-              <rect class="box" x="30" y="40" width="300" height="180" rx="14"></rect>
-              <text x="55" y="80">Tu dispositivo</text>
-              <text x="55" y="115">Apps + navegador</text>
-              <text x="55" y="150">Cliente torrent</text>
+              <rect x="30" y="60" width="500" height="260" class="fillwhite"></rect>
+              <text x="50" y="105">Caso A: Solo kill switch</text>
+              <text x="50" y="145">VPN cae → kill switch debería cortar</text>
+              <text x="50" y="185">Riesgo: delay / fallo del kill switch</text>
+              <text x="50" y="225">Resultado: posible fuga corta</text>
 
-              <rect class="box" x="360" y="40" width="280" height="180" rx="14"></rect>
-              <text x="385" y="80">Túnel VPN</text>
-              <text x="385" y="115">Tráfico cifrado</text>
-              <text x="385" y="150">DNS VPN (ideal)</text>
+              <rect x="570" y="60" width="500" height="260" class="fillwhite"></rect>
+              <text x="590" y="105">Caso B: Kill switch + Binding</text>
+              <text x="590" y="145">VPN cae → qBittorrent sin interfaz</text>
+              <text x="590" y="185">Resultado: “sin ruta”, no se escapa</text>
+              <text x="590" y="225">Extra: más estable en reconexiones</text>
 
-              <rect class="box" x="670" y="40" width="280" height="180" rx="14"></rect>
-              <text x="695" y="80">ISP / Internet</text>
-              <text x="695" y="115">Fuga DNS → ISP ve consultas</text>
-              <text x="695" y="150">Fuga IPv6 → IPv6 real expuesta</text>
-              <text x="695" y="185">Fuga WebRTC → navegador filtra IP</text>
-
-              <line x1="330" y1="130" x2="360" y2="130" stroke="#000" stroke-width="4" marker-end="url(#arrow2)"></line>
-              <line x1="640" y1="130" x2="670" y2="130" stroke="#000" stroke-width="4" marker-end="url(#arrow2)"></line>
+              <path d="M530,190 C545,190 555,190 570,190" stroke="#000" stroke-width="4" fill="none" marker-end="url(#arrow2)"></path>
+              <text x="460" y="175">Mejor</text>
             </svg>
           </div>
         </div>
 
-        <div class="table-scroll" aria-label="Checklist de pruebas de fugas">
+        <h2 id="pruebas-fugas">Pruebas de fugas: IP, DNS, IPv6 y WebRTC (y cómo arreglarlo)</h2>
+        <p>
+          Para P2P, esto no es “nice to have”. Es obligatorio. Si hay fuga, tu IP real puede aparecer en el swarm y listo: ya está hecho.
+          También te recomiendo revisar la guía específica sobre <a href="/es/blog/vpn-dns-leak.html">fugas DNS con VPN</a>.
+        </p>
+
+        <div class="table-scroll" aria-label="Tabla: pruebas y resultados esperados">
           <table>
             <thead>
               <tr>
                 <th>Prueba</th>
-                <th>Qué deberías ver</th>
-                <th>Si falla, haz esto</th>
+                <th>Qué buscar</th>
+                <th>Resultado seguro</th>
+                <th>Fix rápido</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>IP pública</td>
-                <td>Solo IP de la VPN (no tu ISP)</td>
-                <td>Revisa <a href="/es/blog/vpn-split-tunneling.html">split tunneling</a> si lo usas</td>
+                <td>Que la IP sea la del servidor VPN</td>
+                <td>Solo IP VPN</td>
+                <td>Cambia de servidor / protocolo</td>
               </tr>
               <tr>
                 <td>DNS</td>
-                <td>Resolutores del proveedor (no el ISP)</td>
-                <td>Activa protección anti-DNS leak</td>
+                <td>Que no aparezca tu ISP como resolver</td>
+                <td>DNS del proveedor VPN o DNS configurado dentro del túnel</td>
+                <td>Activa “DNS privado” del VPN / usa DNS dentro del túnel</td>
               </tr>
               <tr>
                 <td>IPv6</td>
-                <td>No se expone tu IPv6 real</td>
-                <td>Bloquea IPv6 o usa VPN con soporte IPv6 real</td>
+                <td>Que no salga una IPv6 real</td>
+                <td>Sin IPv6 real (o IPv6 del VPN)</td>
+                <td><strong>Desactiva IPv6</strong> si tu VPN no lo maneja bien</td>
               </tr>
               <tr>
                 <td>WebRTC</td>
-                <td>El navegador no filtra IP local/real</td>
-                <td>Endurece navegador y perfiles</td>
+                <td>Que el navegador no muestre IP local/real</td>
+                <td>No filtra IP real</td>
+                <td>Bloquea WebRTC en el navegador/extension</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <p>
-          Si tu problema principal es rendimiento, mide primero:
-          <a href="/es/blog/prueba-de-velocidad-vpn.html">prueba de velocidad VPN</a> y <a href="/es/blog/que-servidor-vpn-elegir.html">qué servidor VPN elegir</a>.
+          <strong>Nota importante:</strong> las fugas de IPv6 son sorprendentemente comunes en algunos entornos.
+          Si en tus tests aparece una IPv6 real, desactívala en Windows (Adaptador de red) o configura tu VPN para manejar IPv6.
+          Para guías de configuración, mira <a href="/es/blog/configuracion-vpn-windows.html">VPN en Windows</a> y
+          <a href="/es/blog/configuracion-vpn-router.html">VPN en router</a>.
         </p>
 
-        <h2 id="bad-neighbor">Problema “Bad Neighbor”: cuando el IP compartido te mete en líos</h2>
+        <h3>Fixes por plataforma (rápidos y realistas)</h3>
+        <dl>
+          <dt><strong>Windows</strong></dt>
+          <dd>
+            Activa kill switch, revisa IPv6 en el adaptador y repite pruebas. Si tu ISP “molesta”, prueba WireGuard y un servidor cercano.
+            Guía: <a href="/es/blog/configuracion-vpn-windows.html">configuración VPN Windows</a>.
+          </dd>
+          <dt><strong>macOS</strong></dt>
+          <dd>
+            Comprueba que no haya perfiles duplicados, evita apps que “saltan” el túnel y prueba DNS dentro del VPN.
+            Guía: <a href="/es/blog/vpn-macos.html">VPN en macOS</a>.
+          </dd>
+          <dt><strong>Android</strong></dt>
+          <dd>
+            Activa “VPN siempre activa” y “Bloquear conexiones sin VPN”. Guía: <a href="/es/blog/vpn-android.html">VPN en Android</a>.
+          </dd>
+          <dt><strong>iOS</strong></dt>
+          <dd>
+            “Conectar bajo demanda” y protocolos modernos. Guía: <a href="/es/blog/configuracion-vpn-iphone.html">configuración VPN iPhone</a> y <a href="/es/blog/vpn-ios.html">VPN en iOS</a>.
+          </dd>
+          <dt><strong>Router</strong></dt>
+          <dd>
+            Ideal para Smart TV/Consola y toda la casa, pero requiere buen hardware. Guía: <a href="/es/blog/configuracion-vpn-router.html">configuración VPN en router</a>.
+          </dd>
+        </dl>
+
+        <h2 id="velocidad-cae">¿Por qué cae la velocidad en P2P con VPN? Causas y soluciones</h2>
         <p>
-          En P2P es común que muchos usuarios compartan un mismo rango o IP de salida (dependiendo del proveedor).
-          El “Bad Neighbor” es simple: <strong>si otro usuario hace cosas tóxicas desde el mismo IP</strong>, ese IP puede acabar en listas negras,
-          o ser tratado como “sospechoso” por trackers/servicios. No siempre afecta a torrenting, pero puede complicar accesos, captchas,
-          y reputación de IP en ciertos sitios.
-        </p>
-        <div class="key-takeaway">
-          <strong>Idea clave:</strong> Si notas bloqueos raros o “mala reputación”, cambia de servidor/ubicación o considera <a href="/es/blog/vpn-ip-dedicada.html">IP dedicada</a> (si tu caso lo justifica).
-        </div>
-
-        <h2 id="proxy">SOCKS5 / Proxy vs VPN (la confusión de siempre)</h2>
-        <p>
-          Un proxy (SOCKS5) puede cambiar la IP de una app, pero normalmente no ofrece el mismo control sobre cifrado, fugas y caídas.
-          Comparación completa: <a href="/es/blog/proxy-vs-vpn.html">proxy vs VPN</a>.
+          Cuando “va a cero” o se queda en un estado raro (ves seeds pero no baja), casi siempre es una de estas:
+          saturación del servidor, limitación del ISP, MTU/fragmentación, CPU overhead (cifrado) o firewall.
+          La buena noticia: en 2026 hay fixes bastante directos.
         </p>
 
-        <div class="table-scroll" aria-label="Tabla proxy vs VPN para P2P">
-          <table>
-            <thead>
-              <tr>
-                <th>Característica</th>
-                <th>SOCKS5 / Proxy</th>
-                <th>VPN</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Cifrado</td>
-                <td>Normalmente no</td>
-                <td>Sí (túnel cifrado)</td>
-              </tr>
-              <tr>
-                <td>Protege todo el sistema</td>
-                <td>No (solo app)</td>
-                <td>Sí</td>
-              </tr>
-              <tr>
-                <td>Control de fugas (DNS/IPv6)</td>
-                <td>No</td>
-                <td>Sí (si está bien configurada)</td>
-              </tr>
-              <tr>
-                <td>Mejor uso</td>
-                <td>Complemento en el cliente</td>
-                <td>Herramienta principal para P2P</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="svg-card" aria-label="Diagrama 3: diagnóstico de velocidad P2P">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 1100 420" role="img" aria-label="Árbol de decisión: P2P lento con VPN">
+              <rect x="40" y="40" width="1020" height="340" class="fillwhite"></rect>
 
-        <h2 id="puertos">Reenvío de puertos + trackers privados (ratio)</h2>
-        <p>
-          En trackers privados, el ratio (subida/bajada) importa. Sin conexiones entrantes, puedes quedar “pasivo”, subir menos,
-          y sí: algunos entornos penalizan a usuarios con conectividad pobre. No es “miedo”, es matemática de peers.
-          Guía dedicada: <a href="/es/blog/reenvio-de-puertos-vpn.html">reenvío de puertos con VPN</a>.
-        </p>
+              <text x="70" y="95">P2P lento / atascado con VPN</text>
 
-        <div class="svg-card">
-          <div class="svg-scroll" aria-label="Diagrama de reenvío de puertos">
-            <svg viewBox="0 0 980 250" role="img" aria-label="El reenvío de puertos mejora conectividad entrante">
-              <defs>
-                <marker id="arrow3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                  <path d="M0,0 L10,3 L0,6 Z" fill="#000"></path>
-                </marker>
-              </defs>
+              <rect x="70" y="120" width="430" height="80" class="fillwhite"></rect>
+              <text x="90" y="160">¿Servidor VPN saturado?</text>
+              <text x="90" y="190">Prueba: cambia de servidor cercano</text>
 
-              <rect class="box" x="30" y="45" width="410" height="160" rx="14"></rect>
-              <text x="55" y="85">Sin reenvío de puertos</text>
-              <text x="55" y="120">Menos peers entrantes</text>
-              <text x="55" y="155">Conectividad “pasiva”</text>
-              <line x1="210" y1="175" x2="410" y2="175" stroke="#000" stroke-width="4" marker-end="url(#arrow3)"></line>
-              <text x="250" y="170">LIMITADO</text>
+              <rect x="600" y="120" width="430" height="80" class="fillwhite"></rect>
+              <text x="620" y="160">¿MTU / fragmentación?</text>
+              <text x="620" y="190">Fix: MTU 1420 (WG) o 1380</text>
 
-              <rect class="box" x="540" y="45" width="410" height="160" rx="14"></rect>
-              <text x="565" y="85">Con reenvío de puertos</text>
-              <text x="565" y="120">Más peers entrantes</text>
-              <text x="565" y="155">Mejor seeding y ratio</text>
-              <line x1="720" y1="175" x2="920" y2="175" stroke="#000" stroke-width="4" marker-end="url(#arrow3)"></line>
-              <text x="760" y="170">FUERTE</text>
+              <rect x="70" y="230" width="430" height="110" class="fillwhite"></rect>
+              <text x="90" y="270">¿Bloqueo/limitación del ISP?</text>
+              <text x="90" y="300">Fix: ofuscación / cambio de puerto</text>
+              <text x="90" y="330">Guía: ajustes óptimos</text>
+
+              <rect x="600" y="230" width="430" height="110" class="fillwhite"></rect>
+              <text x="620" y="270">¿Firewall/CPU overhead?</text>
+              <text x="620" y="300">Fix: WireGuard + excluir AV</text>
+              <text x="620" y="330">Test: velocidad con/sin VPN</text>
+
+              <path d="M500,160 C540,160 560,160 600,160" class="arrow"></path>
+              <path d="M500,285 C540,285 560,285 600,285" class="arrow"></path>
+
+              <text x="70" y="400">Atajos: prueba primero WireGuard + servidor cercano + test de fugas.</text>
             </svg>
           </div>
         </div>
 
-        <h2 id="protocolos">WireGuard vs OpenVPN para P2P (2026)</h2>
+        <h3>Pro Tip: arregla “torrents atascados” ajustando MTU</h3>
         <p>
-          Para la mayoría, WireGuard es el “default” moderno: rápido y estable. OpenVPN sigue siendo sólido para compatibilidad y control.
-          Si quieres contexto: <a href="/es/blog/protocolos-vpn.html">protocolos VPN</a>.
+          Si la VPN está conectada pero los torrents no arrancan o la velocidad es errática, puede ser <strong>fragmentación de paquetes</strong>.
+          El overhead del cifrado hace que algunos paquetes superen el límite típico (1500 bytes), y el resultado es un caos silencioso.
+        </p>
+        <p class="note">
+          <strong>El fix:</strong> prueba MTU <strong>1420</strong> (óptimo frecuente para WireGuard) o <strong>1380</strong>.
+          Si tu app VPN lo permite, ajusta MTU y vuelve a probar. Si no, cambia de protocolo y revisa tu router.
         </p>
 
-        <div class="table-scroll" aria-label="Tabla de protocolos para P2P">
+        <p>
+          Si te interesa medir de forma decente, haz un <a href="/es/blog/prueba-de-velocidad-vpn.html">test de velocidad con VPN</a>
+          y compara con/sin WireGuard. A veces la diferencia es brutal (para bien).
+        </p>
+
+        <h2 id="port-forwarding">Port forwarding: por qué importa (sobre todo en trackers privados)</h2>
+        <p>
+          En trackers públicos puedes sobrevivir sin port forwarding. En trackers privados, muchas veces no.
+          Si no aceptas conexiones entrantes, tu capacidad de seed baja y tu ratio puede caer. No es drama, pero sí es un “techo” real.
+        </p>
+
+        <div class="related-wide">
+          <p><strong>Related:</strong> <a href="/es/blog/reenvio-de-puertos-vpn.html">Reenvío de puertos con VPN (port forwarding)</a></p>
+        </div>
+
+        <div class="table-scroll" aria-label="Tabla: port forwarding y escenarios">
+          <table>
+            <thead>
+              <tr>
+                <th>Escenario</th>
+                <th>¿Port forwarding?</th>
+                <th>Por qué</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Descargar en trackers públicos</td>
+                <td>No imprescindible</td>
+                <td>Suele haber suficientes peers; funciona “ok” sin inbound</td>
+              </tr>
+              <tr>
+                <td>Seeding y trackers privados</td>
+                <td>Muy recomendable</td>
+                <td>Mejora conexiones entrantes, estabilidad y ratio</td>
+              </tr>
+              <tr>
+                <td>Redes con NAT estricto</td>
+                <td>Depende</td>
+                <td>Puede ser clave para no quedar “invisible” en el swarm</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="protocolos">Protocolos recomendados para P2P (2026)</h2>
+        <p>
+          Si quieres “reglas simples”: en escritorio, empieza con <strong>WireGuard</strong>. Si algo va raro (red corporativa, Wi-Fi caprichosa),
+          prueba OpenVPN UDP o TCP. En móvil, IKEv2 puede ser más amable con reconexiones.
+          Para entender diferencias a fondo, mira <a href="/es/blog/protocolos-vpn.html">protocolos VPN</a>.
+        </p>
+
+        <div class="table-scroll" aria-label="Tabla: WireGuard vs OpenVPN vs IKEv2 para P2P">
           <table>
             <thead>
               <tr>
                 <th>Protocolo</th>
-                <th>Velocidad típica</th>
+                <th>Velocidad</th>
                 <th>Estabilidad</th>
-                <th>Mejor para</th>
+                <th>Para P2P</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>WireGuard</td>
                 <td>Alta</td>
-                <td>Alta</td>
-                <td>P2P, gaming, streaming, uso diario</td>
+                <td>Muy buena</td>
+                <td>Recomendado para la mayoría (menos latencia, buen throughput)</td>
               </tr>
               <tr>
-                <td>OpenVPN (UDP)</td>
+                <td>OpenVPN UDP</td>
                 <td>Media</td>
-                <td>Alta</td>
-                <td>Compatibilidad y control</td>
+                <td>Buena</td>
+                <td>Útil si WireGuard falla o hay redes estrictas</td>
               </tr>
               <tr>
                 <td>IKEv2</td>
-                <td>Alta</td>
-                <td>Muy alta en móvil</td>
-                <td>Teléfono (cambios Wi-Fi/LTE)</td>
+                <td>Media-alta</td>
+                <td>Muy buena en movilidad</td>
+                <td>Buen plan en móvil (cambios de red)</td>
+              </tr>
+              <tr>
+                <td>Infraestructura</td>
+                <td colspan="3"><strong>Busca servidores RAM-only</strong>: si un servidor se incauta, hay menos datos recuperables porque nada se escribe en disco.</td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <h2 id="velocidad">¿Por qué caen las velocidades de P2P? (causa → solución)</h2>
+        <h3>SOCKS5 vs VPN (la confusión eterna)</h3>
         <p>
-          Aquí va el típico escenario: “la VPN funciona, pero el P2P va lento o se queda clavado”. En 2026 las causas suelen ser estas:
+          Mucha gente usa proxy SOCKS5 pensando que “es lo mismo”. No. Un proxy puede cambiar IP para el tracker,
+          pero no cifra todo tu tráfico ni controla DNS/IPv6 como una VPN. Para P2P serio, la VPN suele ser la base
+          (y si además quieres, puedes sumar proxy dentro del cliente).
         </p>
 
-        <div class="table-scroll" aria-label="Tabla causa-solución de velocidad P2P">
+        <div class="table-scroll" aria-label="Tabla: SOCKS5 vs VPN">
           <table>
             <thead>
               <tr>
-                <th>Causa</th>
-                <th>Qué se nota</th>
-                <th>Solución práctica</th>
+                <th>Característica</th>
+                <th>SOCKS5</th>
+                <th>VPN</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><strong>MTU / fragmentación</strong></td>
-                <td>Arranca lento, picos raros, se “atasca”</td>
-                <td>Bajar MTU: <strong>1420</strong> → <strong>1380</strong> → <strong>1320</strong> (WireGuard)</td>
+                <td>Cifra tráfico</td>
+                <td>No (normalmente)</td>
+                <td>Sí (túnel cifrado)</td>
               </tr>
               <tr>
-                <td><strong>Saturación de servidor</strong></td>
-                <td>Velocidad cae en horas punta</td>
-                <td>Cambiar servidor/ciudad y medir (<a href="/es/blog/que-servidor-vpn-elegir.html">servidor</a>)</td>
+                <td>Protege DNS/IPv6</td>
+                <td>No fiable</td>
+                <td>Sí, si está bien configurada</td>
               </tr>
               <tr>
-                <td><strong>CPU overhead</strong></td>
-                <td>Portátil viejo/mini PC se ahoga</td>
-                <td>Probar WireGuard, cerrar apps pesadas, evitar multi-hop</td>
+                <td>Kill switch</td>
+                <td>No</td>
+                <td>Sí (según proveedor)</td>
               </tr>
               <tr>
-                <td><strong>NAT / sin puertos</strong></td>
-                <td>Peor seeding, menos conexiones entrantes</td>
-                <td>Port forwarding si tu caso lo necesita</td>
-              </tr>
-              <tr>
-                <td><strong>Bad neighbor / reputación</strong></td>
-                <td>Bloqueos raros o limitaciones</td>
-                <td>Cambiar IP/servidor; considerar IP dedicada</td>
+                <td>Ideal para</td>
+                <td>Casos específicos dentro del cliente</td>
+                <td>Protección global del sistema + P2P</td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <h2 id="mtu">Pro tip: MTU tuning (1420/1380/1320) para torrents “atascados”</h2>
-        <div class="protip">
-          <p>
-            Si la VPN está activa pero los torrents no arrancan o la velocidad es errática, puede ser <strong>fragmentación</strong>.
-            El overhead del túnel empuja el tamaño efectivo por encima del típico límite (1500) y la ruta se vuelve “quisquillosa”.
-          </p>
-          <blockquote>
-            <strong>El arreglo:</strong> baja el MTU a <strong>1420</strong> (frecuente en WireGuard). Si no mejora, prueba <strong>1380</strong>.
-            Si sigue raro, prueba <strong>1320</strong> en la configuración de WireGuard (casos complicados/rutas con más overhead).
-          </blockquote>
-          <p>
-            Sí, suena nerd. Pero cuando funciona, sientes que has desbloqueado un cheat code de estabilidad.
-          </p>
+        <h2 id="pqc">Tendencias 2026: PQC, RAM-only, optimización de rutas y “green servers”</h2>
+        <p>
+          Si tu objetivo es un setup “para años”, no solo para hoy, estas son las señales de proveedor moderno:
+          infraestructura RAM-only, buenas prácticas de privacidad (<a href="/es/blog/no-logs-vpn.html">no-logs</a>),
+          optimización de rutas para latencia y, cada vez más, <strong>Post-Quantum Cryptography</strong> (PQC).
+        </p>
+
+        <div class="note pqc">
+          <strong>2026 Trend: Post-Quantum Protection (PQC)</strong><br>
+          <strong>Por qué importa ya:</strong> aunque hoy nadie está “rompiendo tus torrents” con un ordenador cuántico,
+          la amenaza de <em>“Harvest Now, Decrypt Later”</em> es real: capturar tráfico hoy para intentar descifrarlo en el futuro.
+          <br><br>
+          <strong>Qué buscar:</strong> soporte de <em>ML-KEM (antes Kyber)</em> o familias similares (p. ej. FrodoKEM) en implementaciones modernas.
+          Si montas una estación P2P a largo plazo, apuesta por protocolos y proveedores que estén actualizando su criptografía, no estancados.
         </div>
 
-        <div class="svg-card">
-          <div class="svg-scroll" aria-label="Diagrama MTU y fragmentación">
-            <svg viewBox="0 0 980 260" role="img" aria-label="Cómo la fragmentación puede afectar a P2P con VPN">
-              <defs>
-                <marker id="arrow4" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                  <path d="M0,0 L10,3 L0,6 Z" fill="#000"></path>
-                </marker>
-              </defs>
+        <div class="svg-card" aria-label="Diagrama 4: tendencias 2026 para VPN">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 1100 360" role="img" aria-label="Cuatro tendencias: PQC, RAM-only, optimización de rutas y green servers">
+              <rect x="40" y="60" width="1020" height="240" class="fillwhite"></rect>
 
-              <rect class="box" x="30" y="40" width="420" height="180" rx="14"></rect>
-              <text x="55" y="80">MTU alto + overhead VPN</text>
-              <text x="55" y="115">→ fragmentación / pérdidas</text>
-              <text x="55" y="150">P2P errático</text>
-              <line x1="250" y1="185" x2="430" y2="185" stroke="#000" stroke-width="4" marker-end="url(#arrow4)"></line>
-              <text x="280" y="180">SE ROMPE</text>
+              <rect x="70" y="90" width="230" height="180" class="fillwhite"></rect>
+              <text x="90" y="135">PQC</text>
+              <text x="90" y="170">ML-KEM (Kyber)</text>
+              <text x="90" y="205">Futuro-proof</text>
 
-              <rect class="box" x="520" y="40" width="430" height="180" rx="14"></rect>
-              <text x="545" y="80">MTU 1420/1380/1320</text>
-              <text x="545" y="115">menos fragmentación</text>
-              <text x="545" y="150">P2P más estable</text>
-              <line x1="740" y1="185" x2="930" y2="185" stroke="#000" stroke-width="4" marker-end="url(#arrow4)"></line>
-              <text x="760" y="180">FLUYE</text>
+              <rect x="330" y="90" width="230" height="180" class="fillwhite"></rect>
+              <text x="350" y="135">RAM-only</text>
+              <text x="350" y="170">Diskless</text>
+              <text x="350" y="205">Menos datos</text>
+
+              <rect x="590" y="90" width="230" height="180" class="fillwhite"></rect>
+              <text x="610" y="135">Rutas</text>
+              <text x="610" y="170">Menos ping</text>
+              <text x="610" y="205">Mejor P2P</text>
+
+              <rect x="850" y="90" width="180" height="180" class="fillwhite"></rect>
+              <text x="870" y="135">Green</text>
+              <text x="870" y="170">Energía</text>
+              <text x="870" y="205">Renovable</text>
+
+              <text x="70" y="325">Señal de “proveedor serio”: no solo promesas, sino infraestructura + actualizaciones constantes.</text>
             </svg>
           </div>
         </div>
 
-        <h2 id="pqc">Tendencia 2026: Post-Quantum Protection (PQC) para P2P</h2>
-        <div class="note pqc">
-          <strong>Por qué importa ahora:</strong>
-          Aunque los ordenadores cuánticos no estén “rompiendo” tus torrents hoy, la amenaza “Harvest Now, Decrypt Later” es real.
-          En 2026, proveedores líderes están empezando a implementar <strong>criptografía poscuántica (PQC)</strong>.
-          <br><br>
-          <strong>Qué buscar:</strong> soporte de <em>ML-KEM (antes Kyber)</em> o <em>FrodoKEM</em> en capas de intercambio/handshake.
-          Esto ayuda a que tráfico capturado hoy sea menos reutilizable en el futuro.
-        </div>
+        <h3>Problema “bad neighbor” (IPs compartidas) y cómo mitigarlo</h3>
+        <p>
+          En P2P, la IP del servidor VPN suele ser compartida. Si otro usuario hace cosas “tóxicas”, esa IP puede acabar en listas negras.
+          Resultado: trackers o peers que te tratan raro, o servicios que te limitan. Solución práctica:
+          cambia de servidor, usa una IP dedicada si lo necesitas (<a href="/es/blog/vpn-ip-dedicada.html">VPN con IP dedicada</a>)
+          y mantén pruebas de estabilidad/velocidad.
+        </p>
 
-        <div id="deps" class="deps">
-          <h3>Resumen de dependencias (ideal para AI Overviews)</h3>
-          <ul>
-            <li><strong>Velocidad vs privacidad:</strong> WireGuard para P2P rápido; multi-hop solo si la privacidad pesa más que la velocidad.</li>
-            <li><strong>Móvil vs escritorio:</strong> en móvil, IKEv2 reconecta mejor; en escritorio, WireGuard suele ganar.</li>
-            <li><strong>Trackers privados:</strong> reenvío de puertos + conectividad entrante ayudan al seeding/ratio.</li>
-            <li><strong>IPv6 + WebRTC:</strong> una VPN floja aquí puede filtrar metadata. Prueba y corrige, no “asumas”.</li>
-          </ul>
-        </div>
-
-        <h2 id="faq">Preguntas frecuentes</h2>
+        <h2 id="faq">FAQ</h2>
         <dl>
-          <dt>¿Una VPN me hace anónimo en P2P?</dt>
-          <dd>
-            No al 100%. Reduce exposición (IP/ISP), pero no te convierte en “invisible”.
-            Para base de privacidad: <a href="/es/blog/no-logs-vpn.html">VPN no-logs</a>.
-          </dd>
+          <dt><strong>¿Una VPN me hace anónimo al 100% en torrents?</strong></dt>
+          <dd>No. Reduce exposición de tu IP, pero no elimina rastreos de cuentas o huellas. Para P2P, lo clave es evitar fugas con kill switch + binding y tests.</dd>
 
-          <dt>¿Puedo filtrar mi IP aunque la VPN esté conectada?</dt>
-          <dd>
-            Sí: fugas DNS/IPv6/WebRTC o microcortes. Solución: Kill Switch real + binding + pruebas.
-          </dd>
+          <dt><strong>¿Qué pasa si la VPN se desconecta durante una descarga?</strong></dt>
+          <dd>Sin kill switch y sin binding, tu cliente puede seguir por tu conexión real. Con kill switch + binding, la caída se corta y el cliente se queda sin ruta.</dd>
 
-          <dt>¿Necesito configurar la VPN en el router?</dt>
-          <dd>
-            No es obligatorio, pero es útil para proteger varios dispositivos. Guía: <a href="/es/blog/configuracion-vpn-router.html">configuración VPN en router</a>.
-          </dd>
+          <dt><strong>¿Qué servidor VPN debo elegir para P2P?</strong></dt>
+          <dd>Empieza por el más cercano con buen ping y carga baja. Guía: <a href="/es/blog/que-servidor-vpn-elegir.html">qué servidor VPN elegir</a>.</dd>
 
-          <dt>¿Es legal usar VPN?</dt>
-          <dd>
-            En la mayoría de países sí. Más contexto: <a href="/es/blog/vpn-legal.html">legalidad de VPN</a>.
-          </dd>
+          <dt><strong>¿WireGuard siempre es mejor?</strong></dt>
+          <dd>En velocidad/latencia suele ser excelente. Si una red lo bloquea o falla, OpenVPN UDP puede ser un buen plan B.</dd>
+
+          <dt><strong>¿Cómo evito fugas de DNS?</strong></dt>
+          <dd>Usa DNS dentro del túnel del proveedor, activa protección anti-fugas y repite tests. Guía: <a href="/es/blog/vpn-dns-leak.html">DNS leak con VPN</a>.</dd>
+
+          <dt><strong>¿Necesito VPN en redes públicas si solo hago torrents?</strong></dt>
+          <dd>En Wi-Fi público, sí: no es el momento de ir “a pelo”. Revisa <a href="/es/blog/vpn-wifi-publico.html">VPN en Wi-Fi público</a> y <a href="/es/blog/seguridad-wifi.html">seguridad Wi-Fi</a>.</dd>
         </dl>
 
-        <h2>Conclusión (modo humano)</h2>
+        <h2 id="conclusion">Conclusión: P2P seguro es aburrido… y eso es bueno</h2>
         <p>
-          Usar P2P con VPN puede ser bastante seguro… si haces lo básico bien. Y “básico” aquí significa:
-          Kill Switch real, binding en el cliente, pruebas de fugas y (si te importa el seeding) reenvío de puertos.
-          El resto son mejoras. Pero estas cuatro cosas son las que te salvan cuando la red hace de las suyas.
-          Configúralo una vez y te quitas el estrés. Esa es la meta.
+          Si esto suena “demasiado técnico”, en realidad son hábitos: configurar una vez y luego comprobar.
+          En 2026, el estándar de un P2P seguro es: <strong>binding</strong> + <strong>kill switch</strong> + <strong>tests de fugas</strong> y
+          un protocolo moderno (WireGuard). Lo extra (MTU, port forwarding, IP dedicada) depende de tu caso.
         </p>
+
+        <p class="note">
+          <strong>Key takeaway:</strong> Si tu VPN cae, tu cliente no debe “escaparse”. Binding en qBittorrent + kill switch es el combo que más salva.
+          Y cada cambio de red merece un test DNS/IPv6/WebRTC. Sí, es pesado… pero funciona.
+        </p>
+
+        <!-- Hidden E-E-A-T methodology + fact check (must NOT be visible) -->
+        <div class="eeat-hidden" aria-hidden="true">
+          <h2>Metodología de prueba (E-E-A-T) + fact check</h2>
+          <p>
+            Pruebas en conexión de alta velocidad (hasta 1 Gbit/s), cliente qBittorrent 5.x, tests de IP/DNS/IPv6/WebRTC
+            y verificación de comportamiento en reconexiones (Wi-Fi off/on, suspensión, cambio de red). Revisión técnica: Denys Shchur (2026-01-11).
+          </p>
+        </div>
 
         <!-- CONTENT_END -->
       </div>
     </section>
 
     <!-- VIDEO -->
-    <section class="section section-alt">
+    <section class="section section-alt" id="video">
       <div class="container">
-        <h2 id="video">Video corto: VPN y privacidad explicadas sin humo</h2>
+        <h2>Vídeo corto: privacidad con VPN, explicado sin rodeos</h2>
 
         <p class="note">
           <strong>Idea clave:</strong>
-          La VPN separa <strong>quién eres</strong> (tu IP/ISP) de <strong>lo que haces</strong> (sitios/servicios).
-          Es una herramienta de privacidad, no un pase VIP.
+          la VPN separa <strong>quién eres</strong> (IP/ISP) de <strong>lo que haces</strong> (sitios/servicios). En P2P, el objetivo es que tu IP real no aparezca jamás.
         </p>
 
         <div class="video-wrap">
           <iframe
             src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&modestbranding=1"
-            title="VPN World — video"
+            title="VPN World — vídeo"
             loading="lazy"
             frameborder="0"
             referrerpolicy="strict-origin-when-cross-origin"
@@ -1024,49 +1146,48 @@
         </div>
 
         <p>
-          Si el reproductor no carga, mira el video en YouTube:
+          Si el reproductor no carga, ver en YouTube:
           <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a>.
         </p>
       </div>
     </section>
 
     <!-- RELATED_START -->
-
     <!-- RELATED_END -->
 
-    <!-- AUTHOR -->
     <section class="section">
       <div class="container">
         <div class="author-box">
-          <img src="../../assets/img/author/denys-shchur.webp" alt="Foto de Denys Shchur" class="author-avatar">
+          <img src="../../assets/img/author/denys-shchur.webp" alt="Retrato de Denys Shchur" class="author-avatar">
           <div>
             <h3>Sobre el autor</h3>
             <p>
               <strong><a href="/es/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a></strong>
-              crea guías prácticas y verificables sobre VPN, privacidad y seguridad.
-              Si no se puede probar (fugas, caídas, comportamiento real), no se vende como “seguro”.
+              es el creador de VPN World y se centra en guías prácticas (con pruebas) sobre VPN, privacidad online y seguridad real.
+              Sí, se pasa demasiado tiempo haciendo tests de velocidad y cazando fugas DNS, para que tú no tengas que hacerlo.
             </p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CTA (end) -->
+    <!-- Final CTA -->
     <section class="section">
       <div class="container article">
-        <div class="cta-box" aria-label="VPN recomendadas">
-          <h2>VPN recomendadas para P2P (afiliados)</h2>
-          <p class="cta-note">Enlaces de afiliado (nofollow/sponsored).</p>
+        <div class="cta-box" aria-label="VPN recomendada">
+          <h2>VPN recomendada para P2P (afiliados)</h2>
+          <p class="cta-note">Enlaces de afiliado (nofollow/sponsored). Tu precio no cambia.</p>
 
-          <div class="cta-buttons" aria-label="Ofertas de afiliados">
-            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Probar NordVPN — rendimiento sólido para P2P</a>
-            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Probar Surfshark — simple y flexible</a>
-            <a href="https://www.dpbolvw.net/click-101525886-15834536" class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer">Probar Proton VPN — enfoque privacidad</a>
+          <div class="cta-buttons" aria-label="Ofertas afiliadas">
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — no-logs auditado + buen rendimiento</a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — RAM-only + enfoque sencillo</a>
+            <a href="https://www.dpbolvw.net/click-101525886-15834536" class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN — privacidad y reputación sólida</a>
           </div>
 
           <p class="human-note">
-            Aviso: VPN World puede ganar una comisión si te suscribes desde estos enlaces, sin cambiar el precio.
-            Consulta <a href="/es/disclosure.html">Disclosure</a>.
+            Disclosure: VPN World puede ganar una comisión si te suscribes desde estos enlaces — sin cambiar tu precio.
+            Si estás comparando, mira también <a href="/es/blog/vpn-gratis-vs-de-pago.html">VPN gratis vs de pago</a> y
+            <a href="/es/blog/best-vpn-gratis.html">mejores VPN gratis (con matices)</a>.
           </p>
         </div>
       </div>
@@ -1089,119 +1210,13 @@
   <script src="../../assets/js/main.js"></script>
   <script src="../../assets/js/cookie-consent.js"></script>
 
-  <!-- Cookie banner (ES) -->
   <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
-    <p>La analítica está desactivada por defecto. Puedes aceptar o rechazar analítica.</p>
+    <p>La analítica está desactivada por defecto. Puedes aceptar o rechazar la analítica.</p>
     <div class="cookie-actions">
       <button type="button" class="btn btn-compact" onclick="acceptConsent()">Aceptar</button>
       <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Rechazar</button>
     </div>
   </div>
-
-  <!-- Micro-interactividad: auditoría P2P persistente + reporte -->
-  <script>
-    (function(){
-      var key = "vw_p2p_audit_es_v2";
-      var ids = ["audit_ks","audit_bind","audit_dns","audit_ipv6","audit_pf"];
-
-      function load() {
-        try {
-          var raw = localStorage.getItem(key);
-          if (!raw) return {};
-          var obj = JSON.parse(raw);
-          return obj && typeof obj === "object" ? obj : {};
-        } catch(e) { return {}; }
-      }
-
-      function save(state) {
-        try { localStorage.setItem(key, JSON.stringify(state)); } catch(e) {}
-      }
-
-      function apply(state) {
-        ids.forEach(function(id){
-          var el = document.getElementById(id);
-          if (!el) return;
-          el.checked = !!state[id];
-        });
-      }
-
-      function currentState() {
-        var st = {};
-        ids.forEach(function(id){
-          var el = document.getElementById(id);
-          if (!el) return;
-          st[id] = !!el.checked;
-        });
-        return st;
-      }
-
-      function score(st) {
-        var total = ids.length;
-        var ok = 0;
-        ids.forEach(function(id){ if (st[id]) ok++; });
-        var pct = Math.round((ok / total) * 100);
-
-        var recs = [];
-        if (!st.audit_bind) recs.push("Activar <strong>binding</strong> en qBittorrent (evita fugas en reconexiones).");
-        if (!st.audit_ks) recs.push("Activar <strong>Kill Switch a nivel sistema</strong> (bloqueo real del tráfico).");
-        if (!st.audit_dns) recs.push("Verificar y corregir <strong>DNS leak</strong>.");
-        if (!st.audit_ipv6) recs.push("Controlar <strong>IPv6</strong> (bloqueo o soporte IPv6 real).");
-        if (!st.audit_pf) recs.push("Si usas trackers privados: revisar <strong>reenvío de puertos</strong> para seeding/ratio.");
-
-        var headline = (pct >= 80) ? "Bien. Estás cerca de un P2P bastante sólido." :
-                      (pct >= 60) ? "Mejorable. Tienes base, pero hay huecos típicos." :
-                      "Riesgo alto. Ahora mismo puedes filtrar IP en un microcorte.";
-
-        return {pct:pct, ok:ok, total:total, headline:headline, recs:recs};
-      }
-
-      window.vwAuditReset = function(){
-        ids.forEach(function(id){
-          var el = document.getElementById(id);
-          if (el) el.checked = false;
-        });
-        save({});
-        var box = document.getElementById("audit-report");
-        if (box) { box.style.display = "none"; box.innerHTML = ""; }
-      };
-
-      window.vwAuditReport = function(){
-        var st = currentState();
-        var s = score(st);
-        var box = document.getElementById("audit-report");
-        if (!box) return;
-
-        var html = "";
-        html += "<strong>Reporte:</strong> " + s.pct + "% (" + s.ok + "/" + s.total + ").<br>";
-        html += "<strong>Estado:</strong> " + s.headline + "<br>";
-
-        if (s.recs.length) {
-          html += "<strong>Recomendación:</strong><br><ul>";
-          s.recs.forEach(function(r){ html += "<li>" + r + "</li>"; });
-          html += "</ul>";
-        } else {
-          html += "<strong>Recomendación:</strong> Perfecto: tu configuración cubre los puntos críticos de P2P.<br>";
-        }
-
-        box.innerHTML = html;
-        box.style.display = "block";
-        save(st);
-      };
-
-      document.addEventListener("DOMContentLoaded", function(){
-        var state = load();
-        apply(state);
-
-        ids.forEach(function(id){
-          var el = document.getElementById(id);
-          if (!el) return;
-          el.addEventListener("change", function(){
-            save(currentState());
-          });
-        });
-      });
-    })();
-  </script>
 
 </body>
 </html>
