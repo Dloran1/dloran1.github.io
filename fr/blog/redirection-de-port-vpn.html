@@ -338,11 +338,14 @@
           La redirection de port (port forwarding) via VPN, c’est l’idée suivante :
           <strong>un port “public” sur le serveur VPN</strong> est redirigé vers <strong>un port sur ton appareil</strong>,
           à travers le tunnel chiffré.
+          Si tu veux une base claire sur le fonctionnement général avant d’attaquer la partie “ports”, commence par
+          <a href="/fr/blog/quest-ce-quun-vpn.html">qu’est-ce qu’un VPN</a>.
         </p>
         <p>
           Pourquoi c’est spécial ? Parce que, sans ça, la plupart des utilisateurs “grand public” ne peuvent pas recevoir
           de connexions entrantes depuis Internet (merci NAT et surtout CGNAT). Résultat : en P2P tu es moins joignable,
-          et en gaming tu peux tomber sur un NAT strict qui fait rager.
+          et en gaming tu peux tomber sur un NAT strict qui fait rager. Et si tu veux verrouiller les fuites avant de jouer avec les ports,
+          jette un œil à <a href="/fr/blog/vpn-dns-leak.html">VPN DNS leak</a>.
         </p>
         <div class="key-takeaway"><strong>Key takeaway :</strong> la redirection de port VPN sert à <strong>recevoir</strong> des connexions entrantes, ce que le NAT/CGNAT bloque souvent par défaut.</div>
 
@@ -352,6 +355,9 @@
           Avec un NAT classique, tu peux parfois ouvrir un port sur la box… à condition d’avoir une vraie IP publique.
           Avec le <strong>CGNAT</strong> (Carrier-Grade NAT), c’est encore pire : ton opérateur te met derrière un NAT partagé,
           et tu n’as <em>pas</em> d’IP publique dédiée. Donc ta redirection de port “maison” ne peut jamais être atteinte depuis Internet.
+          Si tu veux aller plus loin sur le choix d’infrastructure, tu peux comparer
+          <a href="/fr/blog/types-de-serveur-vpn.html">les types de serveurs VPN</a> et voir
+          <a href="/fr/blog/quel-serveur-vpn-choisir.html">quel serveur VPN choisir</a>.
         </p>
 
         <div class="table-scroll">
@@ -392,7 +398,9 @@
         <h2 id="quand">Quand ça vaut le coup (et quand c’est inutile)</h2>
         <p>
           Soyons francs : la redirection de port, ce n’est pas un “boost magique” pour tout.
-          C’est un outil spécifique pour des cas précis.
+          C’est un outil spécifique pour des cas précis. Pour le P2P, le contexte complet est ici :
+          <a href="/fr/blog/vpn-p2p-securise.html">VPN P2P sécurisé</a>, et si tu es précisément sur le sujet “torrents” :
+          <a href="/fr/blog/vpn-torrenting.html">VPN torrenting</a>.
         </p>
 
         <div class="table-scroll">
@@ -443,6 +451,7 @@
         <p class="note">
           <strong>Petit slang utile :</strong> si ton besoin c’est juste “être plus privé”, le port forwarding c’est overkill.
           Mais si tu veux que les connexions <em>entrent</em> chez toi (P2P / certains jeux), là ça devient intéressant.
+          Pour l’aspect gaming, tu peux aussi lire <a href="/fr/blog/vpn-pour-jeux.html">VPN pour jeux</a>.
         </p>
 
         <div class="related-card">
@@ -560,6 +569,9 @@
         <p>
           Oui : la redirection de port peut être risquée. En gros, tu crées une “porte” vers ton appareil.
           Bonne nouvelle : tu peux limiter le risque très efficacement avec des règles simples.
+          Pour une hygiène réseau solide (surtout si tu utilises du Wi-Fi public), garde sous la main
+          <a href="/fr/blog/securite-wifi-checklist.html">la checklist sécurité Wi-Fi</a> et le guide
+          <a href="/fr/blog/securite-wifi.html">sécurité Wi-Fi</a>.
         </p>
 
         <div class="table-scroll">
@@ -610,6 +622,9 @@
           Chaque fournisseur a son interface, mais le principe est le même :
           <strong>le VPN t’attribue un port</strong> (statique ou dynamique),
           et tu dois le mettre dans l’application qui a besoin de connexions entrantes.
+          Si tu veux optimiser la stabilité (latence/serveur/protocole), complète avec
+          <a href="/fr/blog/protocoles-vpn.html">protocoles VPN</a> et
+          <a href="/fr/blog/parametres-optimaux-vpn.html">paramètres optimaux VPN</a>.
         </p>
 
         <h3>Étapes universelles</h3>
@@ -659,7 +674,7 @@
         </div>
 
         <div class="related-card">
-          <p><strong>Related:</strong> <a href="/fr/blog/configuration-vpn-iphone.html">Configuration VPN iPhone</a></p>
+          <p><strong>Related:</strong> <a href="/fr/blog/configuration-vpn-windows.html">Configuration VPN Windows</a></p>
         </div>
 
         <h2 id="test">Comment tester si le port est ouvert</h2>
@@ -667,6 +682,8 @@
           Le test le plus simple : un service de vérification de port (ex. canyouseeme).
           Mais il y a une condition : <strong>une application doit écouter sur le port</strong>.
           Si ton client torrent est fermé, le test répond “closed” et tu vas croire que tout est cassé (classique…).
+          Si tu veux mesurer proprement l’impact sur le débit, tu peux comparer avec
+          <a href="/fr/blog/test-de-vitesse-vpn.html">test de vitesse VPN</a>.
         </p>
 
         <h3>Procédure fiable</h3>
@@ -681,6 +698,7 @@
         <p>
           Depuis un autre réseau, tu peux tester une connexion vers l’IP/port du serveur VPN (selon le modèle du fournisseur).
           Sur certains setups, le port est exposé côté serveur VPN et redirigé vers toi — donc le test “externe” est le plus parlant.
+          Et si tu utilises un split tunneling, vérifie aussi <a href="/fr/blog/vpn-split-tunneling.html">VPN split tunneling</a> pour éviter une appli qui sort hors tunnel.
         </p>
 
         <div class="table-scroll">
@@ -725,7 +743,7 @@
         <div class="key-takeaway"><strong>Key takeaway :</strong> 8 fois sur 10, le problème vient d’un “port pas écouté” ou d’un pare-feu qui bloque. Commence par là.</div>
 
         <div class="related-card">
-          <p><strong>Related:</strong> <a href="/fr/blog/best-vpn-gratuit.html">Best VPN gratuit</a></p>
+          <p><strong>Related:</strong> <a href="/fr/blog/vpn-torrent.html">VPN torrent</a></p>
         </div>
 
         <h2 id="faq">FAQ</h2>
@@ -751,7 +769,8 @@
           La redirection de port VPN, c’est un outil puissant… mais pas un mode “à laisser allumé pour faire joli”.
           Si tu fais du P2P/torrenting ou que tu veux améliorer ta connectivité dans certains jeux, ça peut vraiment aider,
           surtout si tu es en CGNAT. Mais la règle reste la même : <strong>limiter l’exposition</strong>, garder le pare-feu actif,
-          et tester proprement.
+          et tester proprement. Et si tu veux un rappel des limites d’un VPN (sans vendre du rêve), lis aussi
+          <a href="/fr/blog/inconvenients-du-vpn.html">inconvénients du VPN</a>.
         </p>
         <div class="key-takeaway"><strong>Key takeaway :</strong> active le port forwarding uniquement quand tu en as besoin, teste, puis coupe. Simple, efficace, moins risqué.</div>
 
