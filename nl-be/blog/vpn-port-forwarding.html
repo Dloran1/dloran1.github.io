@@ -1,13 +1,19 @@
-<!DOCTYPE html><html lang="nl-be">
+<!DOCTYPE html>
+<html lang="nl-be">
 <head>
-<meta charset="utf-8">
-<title>Vpn Port Forwarding | VPN World</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="index, follow">
-<link rel="icon" href="/favicon.ico">
-<link rel="stylesheet" href="../../assets/css/style.css">
-<link rel="canonical" href="https://dloran1.github.io/nl-be/blog/vpn-port-forwarding.html">
-<link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-przekierowanie-portow.html">
+  <meta charset="utf-8">
+
+  <title>VPN port forwarding (2026): torrents, gaming &amp; CGNAT in België | VPN World</title>
+  <meta name="description" content="Wat is VPN port forwarding en wanneer heb je het nodig? Praktische gids voor torrents, gaming en CGNAT in België — met risico’s, testen en veilige instellingen (2026).">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index, follow">
+
+  <link rel="icon" href="/favicon.ico">
+  <link rel="canonical" href="https://dloran1.github.io/nl-be/blog/vpn-port-forwarding.html">
+
+  <!-- HREFLANG (7× + x-default) -->
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-przekierowanie-portow.html">
   <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-port-forwarding-uk.html">
   <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-port-forwarding.html">
   <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-portweiterleitung.html">
@@ -16,42 +22,834 @@
   <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-port-forwarding.html">
   <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-port-forwarding-uk.html">
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-RD6M691ZWD');
-</script>
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../assets/css/style.css">
 
+  <!-- Preconnect -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="VPN World">
+  <meta property="og:locale" content="nl_BE">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:title" content="VPN port forwarding (2026): torrents, gaming & CGNAT in België">
+  <meta property="og:description" content="Praktische gids: wanneer port forwarding via VPN nuttig is, hoe je het veilig gebruikt, en hoe je test of je poort écht open is.">
+  <meta property="og:url" content="https://dloran1.github.io/nl-be/blog/vpn-port-forwarding.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-port-forwarding-uk.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="VPN port forwarding (2026): torrents, gaming & CGNAT in België">
+  <meta name="twitter:description" content="Port forwarding via VPN uitgelegd: wanneer je het nodig hebt, risico’s, testen en instellingen.">
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-port-forwarding-uk.webp">
+
+  <!-- Extra (Gold Standard): high-contrast SVG + responsive tables -->
+  <style>
+    .svg-card{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:16px;margin:16px 0;box-shadow:0 6px 16px rgba(0,0,0,.08)}
+    .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .svg-card svg{max-width:100%;height:auto;color:#000}
+    .svg-card svg text{fill:#000 !important;font-weight:800}
+    .svg-card svg line,
+    .svg-card svg rect,
+    .svg-card svg path,
+    .svg-card svg polygon{stroke:#000;stroke-width:4;fill:none}
+    .svg-card .svg-bg{fill:#fff;stroke:#000;stroke-width:4}
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
+    .table-scroll table{min-width:820px}
+    .table-scroll th,.table-scroll td{color:#0b1220}
+    .mini-muted{opacity:.85}
+    .toc{border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:14px 16px;margin:18px 0}
+    .toc a{text-decoration:none}
+    .toc ul{margin:10px 0 0 18px}
+    .related-wide{background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:14px 16px;margin:18px 0}
+    .related-wide .accent{display:inline-block;width:8px;height:24px;background:#22c55e;border-radius:6px;vertical-align:middle;margin-right:10px}
+    .related-wide a{text-decoration:underline}
+  </style>
+
+  <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    gtag('consent','default', {
+      ad_storage:'denied',
+      ad_user_data:'denied',
+      ad_personalization:'denied',
+      analytics_storage:'denied',
+      functionality_storage:'denied',
+      personalization_storage:'denied',
+      security_storage:'denied'
+    });
+
+    gtag('js', new Date());
+
+    function hideCookieBannerSafely() {
+      var banner = document.getElementById('cookie-banner');
+      if (banner) banner.style.display = 'none';
+    }
+
+    function acceptConsent() {
+      gtag('consent','update', {
+        ad_storage:'granted',
+        ad_user_data:'granted',
+        ad_personalization:'granted',
+        analytics_storage:'granted',
+        functionality_storage:'granted',
+        personalization_storage:'granted',
+        security_storage:'granted'
+      });
+      try { localStorage.setItem('vpnworld_consent','granted'); } catch(e) {}
+      hideCookieBannerSafely();
+      gtag('config','G-RD6M691ZWD');
+    }
+
+    function rejectConsent() {
+      gtag('consent','update', {
+        ad_storage:'denied',
+        ad_user_data:'denied',
+        ad_personalization:'denied',
+        analytics_storage:'denied',
+        functionality_storage:'denied',
+        personalization_storage:'denied',
+        security_storage:'denied'
+      });
+      try { localStorage.setItem('vpnworld_consent','denied'); } catch(e) {}
+      hideCookieBannerSafely();
+    }
+
+    function applyStoredConsentSafely() {
+      try {
+        var c = localStorage.getItem('vpnworld_consent');
+        if (c === 'granted') {
+          gtag('consent','update', {
+            ad_storage:'granted',
+            ad_user_data:'granted',
+            ad_personalization:'granted',
+            analytics_storage:'granted',
+            functionality_storage:'granted',
+            personalization_storage:'granted',
+            security_storage:'granted'
+          });
+          hideCookieBannerSafely();
+          gtag('config','G-RD6M691ZWD');
+        } else if (c === 'denied') {
+          gtag('consent','update', {
+            ad_storage:'denied',
+            ad_user_data:'denied',
+            ad_personalization:'denied',
+            analytics_storage:'denied',
+            functionality_storage:'denied',
+            personalization_storage:'denied',
+            security_storage:'denied'
+          });
+          hideCookieBannerSafely();
+        }
+      } catch(e) {}
+    }
+
+    document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
+  </script>
+
+  <!-- JSON-LD (Stage 2.5): Article + FAQPage + BreadcrumbList + ItemList -->
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"Article",
+      "@id":"https://dloran1.github.io/nl-be/blog/vpn-port-forwarding.html",
+      "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/nl-be/blog/vpn-port-forwarding.html"},
+      "headline":"VPN port forwarding (2026): torrents, gaming & CGNAT in België",
+      "description":"Wat is VPN port forwarding en wanneer heb je het nodig? Praktische gids voor torrents, gaming en CGNAT in België — met risico’s, testen en veilige instellingen (2026).",
+      "image":"https://dloran1.github.io/assets/img/hero/vpn-port-forwarding-uk.webp",
+      "inLanguage":"nl-BE",
+      "datePublished":"2026-01-07",
+      "dateModified":"2026-01-07",
+      "author":{"@type":"Person","name":"Denys Shchur","url":"https://dloran1.github.io/nl-be/about-denys-shchur.html"},
+      "publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}}
+    },
+    {
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://dloran1.github.io/nl-be/"},
+        {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/nl-be/blog/"},
+        {"@type":"ListItem","position":3,"name":"VPN port forwarding","item":"https://dloran1.github.io/nl-be/blog/vpn-port-forwarding.html"}
+      ]
+    },
+    {
+      "@type":"ItemList",
+      "name":"Gerelateerde gidsen",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/nl-be/blog/vpn-torrenting.html"},
+        {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/nl-be/blog/vpn-p2p-veilig.html"},
+        {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/nl-be/blog/vpn-para-gaming.html"},
+        {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/nl-be/blog/vpn-dns-leak.html"},
+        {"@type":"ListItem","position":5,"url":"https://dloran1.github.io/nl-be/blog/vpn-kill-switch.html"}
+      ]
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {
+          "@type":"Question",
+          "name":"Wat is port forwarding via een VPN?",
+          "acceptedAnswer":{"@type":"Answer","text":"Port forwarding via een VPN laat inkomende verbindingen toe via een VPN-server. Dit kan nuttig zijn voor torrents/P2P en sommige games, vooral wanneer je achter CGNAT zit."}
+        },
+        {
+          "@type":"Question",
+          "name":"Heb je port forwarding nodig voor streaming?",
+          "acceptedAnswer":{"@type":"Answer","text":"Nee. Streaming (Netflix, DAZN, BBC iPlayer, enz.) heeft meestal geen port forwarding nodig. Het draait vooral om locatie en stabiele verbinding, niet om inkomende poorten."}
+        },
+        {
+          "@type":"Question",
+          "name":"Is port forwarding gevaarlijk?",
+          "acceptedAnswer":{"@type":"Answer","text":"Het kan riskant zijn, omdat je een inkomende poort openzet. Gebruik een willekeurige hoge poort, houd het tijdelijk, en combineer met een firewall en een kill switch."}
+        },
+        {
+          "@type":"Question",
+          "name":"Werkt port forwarding als ik CGNAT heb bij mijn provider?",
+          "acceptedAnswer":{"@type":"Answer","text":"Klassieke port forwarding op je router werkt vaak niet onder CGNAT. Een VPN met port forwarding kan in veel gevallen wél helpen, omdat de VPN-server publiek bereikbaar is."}
+        },
+        {
+          "@type":"Question",
+          "name":"Hoe test ik of mijn poort echt open staat?",
+          "acceptedAnswer":{"@type":"Answer","text":"Je kan testen met een online port checker (vanaf een extern netwerk) of met tools zoals netcat. Belangrijk: de app (bv. torrent-client) moet actief luisteren op die poort tijdens de test."}
+        }
+      ]
+    }
+  ]
+}
+  </script>
 </head>
+
 <body>
-<nav class="lang-switch"><a href="/blog/vpn-przekierowanie-portow.html">Polski</a> | <a href="/en-gb/blog/vpn-port-forwarding-uk.html">English (UK)</a> | <a href="/en-us/blog/vpn-port-forwarding.html">English (US)</a> | <a href="/de/blog/vpn-portweiterleitung.html">Deutsch</a> | <a href="/es/blog/reenvio-de-puertos-vpn.html">Español</a> | <a href="/fr/blog/redirection-de-port-vpn.html">Français</a> | <a href="/nl-be/blog/vpn-port-forwarding.html" class="active">Nederlands (BE)</a></nav>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="header-main">
+        <a href="/nl-be/" class="brand">
+          <img src="../../assets/img/logo.png" class="logo" alt="VPN World logo">
+          <span class="brand-text">VPN World</span>
+        </a>
 
+        <nav class="primary-nav" aria-label="Hoofdnavigatie">
+          <a href="/nl-be/blog/">Blog</a>
+        </nav>
+      </div>
 
-<header class="site-header"><div class="container header-inner">
-  <a href="/nl-be/" class="brand"><img src="../../assets/img/logo.png" class="logo" alt=""> <span class="brand-text">VPN World</span></a>
-  
-</div></header>
-<main class="container card" style="padding:18px 0"><h1>Vpn Port Forwarding</h1><p>Content coming soon...</p><!-- RELATED_START -->
-<section class="related-guides" aria-label="Gerelateerde gidsen">
-  <h2>Gerelateerde gidsen</h2>
-  <ul>
-    <li><a href="/nl-be/blog/vpn-p2p-veilig.html">/nl-be/blog/vpn-p2p-veilig.html</a></li>
-    <li><a href="/nl-be/blog/vpn-protocollen.html">/nl-be/blog/vpn-protocollen.html</a></li>
-    <li><a href="/nl-be/blog/vpn-optimale-instellingen.html">/nl-be/blog/vpn-optimale-instellingen.html</a></li>
-    <li><a href="/nl-be/blog/vpn-snelheidstest.html">/nl-be/blog/vpn-snelheidstest.html</a></li>
-    <li><a href="/nl-be/blog/wat-is-een-vpn.html">/nl-be/blog/wat-is-een-vpn.html</a></li>
-  </ul>
-</section>
-<!-- RELATED_END -->
-</main>
-<footer class="site-footer"><div class="container footer-grid">
-  <div><strong>VPN World</strong><p>Niezależny serwis o prywatności i bezpieczeństwie w sieci.</p></div>
-  <nav><a href="/privacy.html">Privacy</a> <a href="/sitemap.xml">Sitemap</a> <a href="mailto:denger88@gmail.com">Kontakt</a></nav>
-</div><div class="container tiny">© 2025 VPN World</div></footer>
-<script src="../../assets/js/main.js"></script>
-<script src="../../assets/js/cookie-consent.js"></script>
-<div id="privacy-banner" class="privacy-banner">We use cookies. <a href="/privacy.html">Privacy</a> · <button class="btn btn-compact" onclick="this.parentElement.remove()">OK</button></div>
-</body></html>
+      <nav class="lang-switch" aria-label="Taalwisselaar">
+        <a href="/blog/vpn-przekierowanie-portow.html" class="">Polski</a> |
+        <a href="/en-gb/blog/vpn-port-forwarding-uk.html" class="">English (UK)</a> |
+        <a href="/en-us/blog/vpn-port-forwarding.html" class="">English (US)</a> |
+        <a href="/de/blog/vpn-portweiterleitung.html" class="">Deutsch</a> |
+        <a href="/es/blog/reenvio-de-puertos-vpn.html" class="">Español</a> |
+        <a href="/fr/blog/redirection-de-port-vpn.html" class="">Français</a> |
+        <a href="/nl-be/blog/vpn-port-forwarding.html" class="active">Nederlands (BE)</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h1>VPN port forwarding: wat het is en wanneer je het écht nodig hebt (2026)</h1>
+
+          <p class="note">
+            <strong>Snel antwoord:</strong>
+            Port forwarding via een VPN maakt inkomende verbindingen mogelijk via de VPN-server.
+            Dat is vooral nuttig voor <strong>torrents/P2P</strong> en sommige <strong>games</strong> — maar voor “gewoon surfen” is het meestal overkill.
+          </p>
+
+          <p>
+            In België zit je vaak achter <strong>CGNAT</strong> (zeker op mobiele netwerken). Dan kan je op je eigen router geen poorten “openzetten”
+            richting internet. Een VPN met port forwarding kan dat omzeilen, omdat de <strong>VPN-server</strong> wél een publiek IP heeft.
+            Klinkt simpel… maar je wil het wel veilig doen. Geen stress: we maken er een checklist van.
+          </p>
+
+          <div class="hero-author">
+            <img src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur – auteur van VPN World">
+            <div class="hero-author-text">
+              <span class="hero-author-label">Geschreven door</span>
+              <span class="hero-author-name">
+                <a href="/nl-be/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a>
+              </span>
+              <span class="meta">Bijgewerkt: 2026-01-07 · 12–18 min leestijd</span>
+            </div>
+          </div>
+
+          <!-- Early CTA block (3 partners) -->
+          <div class="cta-buttons" aria-label="Affiliate aanbiedingen">
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — sterke allround privacy</a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — beste prijs/kwaliteit</a>
+            <a href="https://www.dpbolvw.net/click-101525886-15834536" class="protonvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN — port forwarding</a>
+          </div>
+
+          <ul class="meta-points">
+            <li>Helder: NAT, CGNAT en waarom “poort open” soms niet kan</li>
+            <li>Praktisch: torrents, games, remote toegang (zonder marketingbla)</li>
+            <li>Veilig: risico’s + testen (DNS/IPv6/WebRTC) + kill switch</li>
+          </ul>
+        </div>
+
+        <div class="hero-media">
+          <div class="hero-art">
+            <img src="../../assets/img/hero/vpn-port-forwarding-uk.webp" alt="Diagram: VPN port forwarding en verbindingen via VPN-server">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="section">
+      <div class="container article">
+        <!-- CONTENT_START -->
+
+        <div class="toc" aria-label="Inhoudsopgave">
+          <strong>Inhoud</strong>
+          <ul>
+            <li><a href="#wat-is-port-forwarding">Wat is port forwarding via VPN?</a></li>
+            <li><a href="#wanneer-nodig">Wanneer heb je het nodig?</a></li>
+            <li><a href="#nat-cgnat">NAT vs CGNAT in België</a></li>
+            <li><a href="#veiligheid">Risico’s & veilige instellingen</a></li>
+            <li><a href="#instellen">Stap-voor-stap instellen</a></li>
+            <li><a href="#testen">Testen: poort open + leaks</a></li>
+            <li><a href="#platforms">Windows / macOS / Android / iOS / router</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div class="related-wide">
+          <span class="accent" aria-hidden="true"></span>
+          Related: <a href="/nl-be/blog/vpn-torrenting.html">VPN voor torrenting</a>
+        </div>
+
+        <h2 id="wat-is-port-forwarding">Wat is port forwarding via een VPN?</h2>
+        <p>
+          Normaal gezien kan een apparaat op internet jou niet zomaar “van buitenaf” bereiken, omdat je achter NAT zit (je router “verbergt” je).
+          Port forwarding betekent: <strong>je laat inkomende connecties toe</strong> op een specifieke poort.
+          Bij een VPN gebeurt dat niet op je router, maar via de <strong>VPN-server</strong>.
+          De VPN-server krijgt een poort (of jij kiest er één), en die wordt doorgezet naar jouw device/torrent-client.
+        </p>
+
+        <div class="key-takeaway"><strong>Key takeaway:</strong> VPN port forwarding = inkomend verkeer via de VPN-server naar jouw app. Handig voor P2P, maar je opent wel een deur (dus: slim gebruiken).</div>
+
+        <!-- SVG 1: Basic flow -->
+        <div class="svg-card">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 980 260" role="img" aria-label="Schema: internet naar VPN-server met port forwarding, door naar jouw toestel">
+              <rect class="svg-bg" x="20" y="30" width="280" height="200"></rect>
+              <text x="160" y="95" text-anchor="middle">Internet</text>
+              <text x="160" y="135" text-anchor="middle" class="mini-muted">Inkomende connectie</text>
+              <text x="160" y="170" text-anchor="middle">Poort 54321</text>
+
+              <rect class="svg-bg" x="350" y="30" width="280" height="200"></rect>
+              <text x="490" y="95" text-anchor="middle">VPN-server</text>
+              <text x="490" y="135" text-anchor="middle">Port forwarding</text>
+              <text x="490" y="170" text-anchor="middle" class="mini-muted">Publiek IP</text>
+
+              <rect class="svg-bg" x="680" y="30" width="280" height="200"></rect>
+              <text x="820" y="95" text-anchor="middle">Jouw toestel</text>
+              <text x="820" y="135" text-anchor="middle">Torrent-client</text>
+              <text x="820" y="170" text-anchor="middle" class="mini-muted">Luistert op 54321</text>
+
+              <line x1="300" y1="130" x2="350" y2="130"></line>
+              <line x1="630" y1="130" x2="680" y2="130"></line>
+
+              <path d="M310 120 L335 130 L310 140"></path>
+              <path d="M640 120 L665 130 L640 140"></path>
+            </svg>
+          </div>
+        </div>
+
+        <h2 id="wanneer-nodig">Wanneer heb je VPN port forwarding écht nodig?</h2>
+        <p>
+          Eerlijk? Voor 80% van de mensen: <strong>nope</strong>. Voor streaming of “privacy op wifi” is het niet nodig.
+          Maar als je actief bezig bent met torrents of je wilt een betere P2P-connectiviteit, dan kan het een verschil maken.
+          Als je vooral privacy zoekt: lees ook <a href="/nl-be/blog/no-logs-vpn.html">no-logs VPN</a> en <a href="/nl-be/blog/vpn-kill-switch.html">kill switch</a>.
+        </p>
+
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Scenario</th>
+                <th>Port forwarding nodig?</th>
+                <th>Wat win je?</th>
+                <th>Alternatief</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Torrents / P2P</td>
+                <td>Vaak: ja</td>
+                <td>Meer peers, betere seeding, stabielere connecties</td>
+                <td><a href="/nl-be/blog/vpn-p2p-veilig.html">P2P veilig gebruiken</a></td>
+              </tr>
+              <tr>
+                <td>Online gaming</td>
+                <td>Soms</td>
+                <td>Beter NAT-type / matchmaking (niet altijd)</td>
+                <td><a href="/nl-be/blog/vpn-para-gaming.html">VPN voor gaming</a></td>
+              </tr>
+              <tr>
+                <td>Streaming (Netflix/DAZN)</td>
+                <td>Nee</td>
+                <td>Geen voordeel</td>
+                <td><a href="/nl-be/blog/vpn-streaming.html">VPN voor streaming</a></td>
+              </tr>
+              <tr>
+                <td>Remote toegang (NAS)</td>
+                <td>Alleen indien specifiek</td>
+                <td>Kan werken, maar risico’s hoog</td>
+                <td><a href="/nl-be/blog/vpn-op-reis.html">VPN op reis</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="key-takeaway"><strong>Key takeaway:</strong> Port forwarding is een “power user” feature. Gebruik het voor P2P/torrents of specifieke setups — niet omdat het “cool klinkt”.</div>
+
+        <div class="related-wide">
+          <span class="accent" aria-hidden="true"></span>
+          Related: <a href="/nl-be/blog/vpn-gratis-vs-betaalde-vpn.html">Gratis vs betaalde VPN</a>
+        </div>
+
+        <h2 id="nat-cgnat">NAT vs CGNAT in België: waarom je router-truc soms faalt</h2>
+        <p>
+          Klassieke port forwarding op je router werkt enkel als je een publiek IPv4-adres hebt.
+          Met <strong>CGNAT</strong> deelt je provider één publiek IP met meerdere klanten. Resultaat:
+          inkomend verkeer kan niet “naar jou” gerouteerd worden, want jij hebt geen uniek publiek IP.
+          Dit is precies waarom sommige mensen port forwarding via VPN gebruiken: de VPN-server heeft wél een publiek IP.
+          Voor basisveiligheid op openbare netwerken: <a href="/nl-be/blog/vpn-openbaar-wifi.html">VPN op openbaar wifi</a> en <a href="/nl-be/blog/vpn-wifi-publico.html">wifi in de praktijk</a>.
+        </p>
+
+        <!-- SVG 2: NAT vs CGNAT -->
+        <div class="svg-card">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 1040 310" role="img" aria-label="Schema: NAT versus CGNAT">
+              <rect class="svg-bg" x="20" y="30" width="480" height="250"></rect>
+              <text x="260" y="70" text-anchor="middle">NAT (thuis)</text>
+
+              <rect class="svg-bg" x="60" y="110" width="160" height="120"></rect>
+              <text x="140" y="175" text-anchor="middle">Jij</text>
+
+              <rect class="svg-bg" x="300" y="110" width="160" height="120"></rect>
+              <text x="380" y="165" text-anchor="middle">Router</text>
+              <text x="380" y="195" text-anchor="middle" class="mini-muted">poort kan door</text>
+
+              <line x1="220" y1="170" x2="300" y2="170"></line>
+
+              <rect class="svg-bg" x="540" y="30" width="480" height="250"></rect>
+              <text x="780" y="70" text-anchor="middle">CGNAT (provider)</text>
+
+              <rect class="svg-bg" x="580" y="110" width="150" height="120"></rect>
+              <text x="655" y="175" text-anchor="middle">Jij</text>
+
+              <rect class="svg-bg" x="760" y="110" width="220" height="120"></rect>
+              <text x="870" y="160" text-anchor="middle">CGNAT ISP</text>
+              <text x="870" y="195" text-anchor="middle" class="mini-muted">geen directe route</text>
+
+              <line x1="730" y1="170" x2="760" y2="170"></line>
+
+              <text x="520" y="295" text-anchor="middle">➡</text>
+            </svg>
+          </div>
+        </div>
+
+        <h2 id="veiligheid">Veiligheid: wat zijn de risico’s (en hoe beperk je die)?</h2>
+        <p>
+          Port forwarding kan je “zichtbaarder” maken op internet. Niet dramatisch, maar wel echt.
+          Denk: scanners die poorten afgaan. Daarom: <strong>minimaal openzetten</strong>, willekeurige hoge poort, en kill switch aan.
+          Als je nog niet zeker bent hoe je VPN veilig instelt: <a href="/nl-be/blog/vpn-optimale-instellingen.html">optimale instellingen</a> en <a href="/nl-be/blog/vpn-dns-leak.html">DNS-lek gids</a>.
+        </p>
+
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Risico</th>
+                <th>Wat kan er misgaan?</th>
+                <th>Fix (praktisch)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Open aanvalsvlak</td>
+                <td>Scans op je poort / ongewenste connecties</td>
+                <td>Gebruik een hoge willekeurige poort (bv. 49152–65535) + zet het uit wanneer klaar</td>
+              </tr>
+              <tr>
+                <td>Leak bij VPN-drop</td>
+                <td>Je echte IP komt bloot te liggen</td>
+                <td><a href="/nl-be/blog/vpn-kill-switch.html">Kill switch</a> + “always-on” waar mogelijk</td>
+              </tr>
+              <tr>
+                <td>DNS/IPv6/WebRTC leaks</td>
+                <td>Sites zien je echte netwerkinfo</td>
+                <td>Regelmatig testen (DNS/IPv6/WebRTC) + instellingen fixen</td>
+              </tr>
+              <tr>
+                <td>Verkeerde app-config</td>
+                <td>De app luistert niet op juiste poort</td>
+                <td>Poort instellen in app (torrent-client) + check “listening port”</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- SVG 3: Risk surface -->
+        <div class="svg-card">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 980 260" role="img" aria-label="Schema: port forwarding vergroot aanvalsvlak, mitigatie met firewall en kill switch">
+              <rect class="svg-bg" x="20" y="40" width="300" height="180"></rect>
+              <text x="170" y="90" text-anchor="middle">Port open</text>
+              <text x="170" y="130" text-anchor="middle" class="mini-muted">meer zichtbaarheid</text>
+              <text x="170" y="170" text-anchor="middle">scan mogelijk</text>
+
+              <rect class="svg-bg" x="360" y="40" width="260" height="180"></rect>
+              <text x="490" y="90" text-anchor="middle">Firewall</text>
+              <text x="490" y="130" text-anchor="middle" class="mini-muted">beperk verkeer</text>
+              <text x="490" y="170" text-anchor="middle">regels</text>
+
+              <rect class="svg-bg" x="660" y="40" width="300" height="180"></rect>
+              <text x="810" y="90" text-anchor="middle">Kill switch</text>
+              <text x="810" y="130" text-anchor="middle" class="mini-muted">blokkeert bij drop</text>
+              <text x="810" y="170" text-anchor="middle">geen IP-lek</text>
+
+              <line x1="320" y1="130" x2="360" y2="130"></line>
+              <line x1="620" y1="130" x2="660" y2="130"></line>
+            </svg>
+          </div>
+        </div>
+
+        <div class="key-takeaway"><strong>Key takeaway:</strong> Veilig port forwarden = hoge poort + firewall + kill switch + regelmatig leak-tests. Geen magie, gewoon discipline.</div>
+
+        <div class="related-wide">
+          <span class="accent" aria-hidden="true"></span>
+          Related: <a href="/nl-be/blog/proxy-vs-vpn.html">Proxy vs VPN</a>
+        </div>
+
+        <h2 id="instellen">Stap-voor-stap: port forwarding via VPN instellen</h2>
+        <p>
+          Het exacte menu verschilt per provider, maar de logica is altijd hetzelfde:
+          je krijgt een poort toegewezen op de VPN-server, en je zet je app (bv. qBittorrent) zo dat die op die poort luistert.
+          Wil je eerst je basis-VPN goed zetten? Check: <a href="/nl-be/blog/vpn-windows-instellen.html">VPN op Windows</a>, <a href="/nl-be/blog/vpn-iphone-instellen.html">VPN op iPhone</a>, <a href="/nl-be/blog/vpn-linux-instellen.html">VPN op Linux</a>.
+        </p>
+
+        <ol>
+          <li><strong>Verbind met een VPN-server</strong> die port forwarding ondersteunt.</li>
+          <li><strong>Activeer port forwarding</strong> in de app (of in je account-dashboard) en noteer de poort.</li>
+          <li><strong>Stel die poort in</strong> in je torrent-client (luisterpoort / listening port).</li>
+          <li><strong>Schakel kill switch in</strong> zodat je IP niet lekt bij een drop.</li>
+          <li><strong>Test</strong> of de poort écht open is (zie volgende sectie).</li>
+        </ol>
+
+        <!-- SVG 4: Steps -->
+        <div class="svg-card">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 1040 220" role="img" aria-label="Stappen: verbinden met VPN, poort krijgen, instellen in app, kill switch, testen">
+              <rect class="svg-bg" x="20" y="60" width="180" height="110"></rect>
+              <text x="110" y="115" text-anchor="middle">1) VPN aan</text>
+
+              <rect class="svg-bg" x="240" y="60" width="180" height="110"></rect>
+              <text x="330" y="105" text-anchor="middle">2) Poort</text>
+              <text x="330" y="140" text-anchor="middle">krijgen</text>
+
+              <rect class="svg-bg" x="460" y="60" width="180" height="110"></rect>
+              <text x="550" y="105" text-anchor="middle">3) In app</text>
+              <text x="550" y="140" text-anchor="middle">instellen</text>
+
+              <rect class="svg-bg" x="680" y="60" width="180" height="110"></rect>
+              <text x="770" y="115" text-anchor="middle">4) Kill switch</text>
+
+              <rect class="svg-bg" x="900" y="60" width="120" height="110"></rect>
+              <text x="960" y="115" text-anchor="middle">5) Test</text>
+
+              <line x1="200" y1="115" x2="240" y2="115"></line>
+              <line x1="420" y1="115" x2="460" y2="115"></line>
+              <line x1="640" y1="115" x2="680" y2="115"></line>
+              <line x1="860" y1="115" x2="900" y2="115"></line>
+            </svg>
+          </div>
+        </div>
+
+        <h2 id="testen">Testen: is de poort echt open? + leak-checks</h2>
+        <p>
+          Belangrijk detail dat mensen vergeten: je poort is “open” alleen als er effectief een app luistert op die poort.
+          Start dus je torrent-client voordat je test. En check meteen leaks, anders ben je “open” én je IP kan lekken — dubbel pech.
+          Voor de snelheid/latency-kant: <a href="/nl-be/blog/vpn-snelheid-test.html">VPN snelheidstest</a>.
+        </p>
+
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Wat test je?</th>
+                <th>Waarom</th>
+                <th>Praktische aanpak</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Poort open</td>
+                <td>Inkomende connecties werken</td>
+                <td>Externe port checker (alleen testen als app luistert)</td>
+              </tr>
+              <tr>
+                <td>DNS leak</td>
+                <td>Je provider ziet je DNS</td>
+                <td><a href="/nl-be/blog/vpn-dns-leak.html">DNS-lek gids</a> + testsite</td>
+              </tr>
+              <tr>
+                <td>IPv6 leak</td>
+                <td>Je echte IPv6 kan zichtbaar worden</td>
+                <td>IPv6 testen, eventueel uitschakelen als nodig</td>
+              </tr>
+              <tr>
+                <td>WebRTC leak</td>
+                <td>Browser kan IP tonen</td>
+                <td>Browser instelling / extension (als nodig)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="key-takeaway"><strong>Key takeaway:</strong> Test port forwarding alleen als je app luistert op de poort. En doe meteen leak-tests — anders maak je jezelf zichtbaar voor niks.</div>
+
+        <div class="related-wide">
+          <span class="accent" aria-hidden="true"></span>
+          Related: <a href="/nl-be/blog/vpn-2fa-mfa.html">VPN + 2FA/MFA</a>
+        </div>
+
+        <h2 id="platforms">Instellingen per platform</h2>
+        <p>
+          Port forwarding draait vooral om de VPN-app en je specifieke applicatie (torrent-client). Toch zijn er platform-dingen die je beter goed zet.
+          Wil je een complete setup? Start met <a href="/nl-be/blog/que-es-una-vpn.html">wat is een VPN</a> en <a href="/nl-be/blog/quel-serveur-vpn-elegir.html">welke VPN-server kies je</a>.
+        </p>
+
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Platform</th>
+                <th>Wat je zeker checkt</th>
+                <th>Link</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Windows</td>
+                <td>Kill switch + firewall regels + juiste luisterpoort</td>
+                <td><a href="/nl-be/blog/vpn-windows-instellen.html">VPN op Windows</a></td>
+              </tr>
+              <tr>
+                <td>macOS</td>
+                <td>VPN permissions + geen split-tunnel voor torrent-app</td>
+                <td><a href="/nl-be/blog/vpn-macos.html">VPN op macOS</a></td>
+              </tr>
+              <tr>
+                <td>Android</td>
+                <td>Always-on VPN + blokkeer “zonder VPN”</td>
+                <td><a href="/nl-be/blog/vpn-android.html">VPN op Android</a></td>
+              </tr>
+              <tr>
+                <td>iOS</td>
+                <td>On-demand/always-on, let op app-gedrag</td>
+                <td><a href="/nl-be/blog/vpn-ios.html">VPN op iOS</a></td>
+              </tr>
+              <tr>
+                <td>Router</td>
+                <td>Niet ideaal voor port forwarding via VPN; focus op stability</td>
+                <td><a href="/nl-be/blog/vpn-na-routerze.html">VPN op router</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- SVG 5: Torrent connectivity (active vs passive) -->
+        <div class="svg-card">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 1040 300" role="img" aria-label="Schema: torrents zonder en met port forwarding (passief vs actief)">
+              <rect class="svg-bg" x="20" y="40" width="490" height="240"></rect>
+              <text x="265" y="80" text-anchor="middle">Zonder port forwarding</text>
+              <text x="265" y="120" text-anchor="middle" class="mini-muted">Passief: minder inkomende peers</text>
+              <rect class="svg-bg" x="90" y="160" width="160" height="90"></rect>
+              <text x="170" y="215" text-anchor="middle">Jij</text>
+              <rect class="svg-bg" x="310" y="160" width="160" height="90"></rect>
+              <text x="390" y="215" text-anchor="middle">Peers</text>
+              <line x1="250" y1="205" x2="310" y2="205"></line>
+              <path d="M260 195 L285 205 L260 215"></path>
+
+              <rect class="svg-bg" x="530" y="40" width="490" height="240"></rect>
+              <text x="775" y="80" text-anchor="middle">Met port forwarding</text>
+              <text x="775" y="120" text-anchor="middle" class="mini-muted">Actief: meer inkomend verkeer mogelijk</text>
+              <rect class="svg-bg" x="600" y="160" width="160" height="90"></rect>
+              <text x="680" y="215" text-anchor="middle">Jij</text>
+              <rect class="svg-bg" x="820" y="160" width="160" height="90"></rect>
+              <text x="900" y="215" text-anchor="middle">Peers</text>
+              <line x1="760" y1="205" x2="820" y2="205"></line>
+              <path d="M770 195 L795 205 L770 215"></path>
+              <line x1="820" y1="180" x2="760" y2="180"></line>
+              <path d="M810 170 L785 180 L810 190"></path>
+            </svg>
+          </div>
+        </div>
+
+        <h2 id="faq">FAQ — veelgestelde vragen</h2>
+
+        <dl>
+          <dt>Wat is port forwarding via een VPN?</dt>
+          <dd>Je krijgt een poort op de VPN-server die wordt doorgestuurd naar jouw toestel/app. Daardoor kunnen andere peers jou van buitenaf bereiken.</dd>
+
+          <dt>Heb ik port forwarding nodig voor Netflix/DAZN/BBC iPlayer?</dt>
+          <dd>Nee. Voor streaming draait het vooral om locatie en stabiliteit. Zie: <a href="/nl-be/blog/vpn-netflix.html">VPN voor Netflix</a>, <a href="/nl-be/blog/vpn-dazn.html">VPN voor DAZN</a>, <a href="/nl-be/blog/vpn-bbc-iplayer.html">VPN voor BBC iPlayer</a>.</dd>
+
+          <dt>Is port forwarding gevaarlijk?</dt>
+          <dd>Het kan riskant zijn als je het achteloos laat aanstaan. Gebruik een willekeurige hoge poort, houd het tijdelijk, en zet kill switch + firewall aan.</dd>
+
+          <dt>Werkt port forwarding als ik CGNAT heb?</dt>
+          <dd>Router-port-forwarding meestal niet. VPN-port-forwarding kan wel werken, omdat de VPN-server een publiek IP heeft.</dd>
+
+          <dt>Hoe test ik of mijn poort open is?</dt>
+          <dd>Gebruik een port checker vanaf een extern netwerk, maar zorg dat je app echt luistert op die poort tijdens de test. Als de app niet luistert, lijkt de poort “gesloten” — zelfs als je alles goed instelde.</dd>
+
+          <dt>Wat als mijn VPN-verbinding wegvalt?</dt>
+          <dd>Dan kan je echte IP lekken. Daarom is <a href="/nl-be/blog/vpn-kill-switch.html">kill switch</a> geen “nice to have”, maar een must bij P2P.</dd>
+        </dl>
+
+        <div class="key-takeaway"><strong>Key takeaway:</strong> Port forwarding is nuttig voor P2P, maar alleen als je het veilig doet: kill switch + firewall + leak-tests.</div>
+
+        <!-- Mid/late CTA -->
+        <section class="section">
+          <div class="cta-box" aria-label="Aanbevolen VPN’s">
+            <h2>Aanbevolen VPN’s</h2>
+            <p class="cta-note">Affiliate links (nofollow/sponsored).</p>
+
+            <div class="cta-buttons" aria-label="Affiliate aanbiedingen">
+              <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — privacy &amp; veiligheid</a>
+              <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — beste deal</a>
+              <a href="https://www.dpbolvw.net/click-101525886-15834536" class="protonvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN — port forwarding</a>
+            </div>
+
+            <p class="human-note">Disclosure: VPN World kan een commissie verdienen via deze links — zonder dat jouw prijs stijgt.</p>
+          </div>
+        </section>
+
+        <h2>Conclusie</h2>
+        <p>
+          VPN port forwarding is geen feature voor “iedereen altijd”.
+          Maar als je achter CGNAT zit en je wil betere P2P-connectiviteit (torrents), dan kan het écht helpen.
+          Doe het wel slim: kill switch, firewall, hoge poort, en test op leaks.
+          En als je vooral privacy wil op wifi: <a href="/nl-be/blog/vpn-openbaar-wifi.html">VPN op openbaar wifi</a> blijft de snelste win.
+        </p>
+
+        <!-- CONTENT_END -->
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <h2>Korte video: VPN privacy simpel uitgelegd</h2>
+
+        <p class="note">
+          <strong>Key takeaway:</strong>
+          het belangrijkste effect van een VPN is dat het <strong>wie je bent</strong> (IP/ISP) scheidt van <strong>wat je doet</strong> (websites die je bezoekt).
+        </p>
+
+        <div class="video-wrap">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&modestbranding=1"
+            title="VPN World — video"
+            loading="lazy"
+            frameborder="0"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+        </div>
+
+        <p>
+          Als de player niet laadt, bekijk op YouTube:
+          <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- RELATED_START -->
+
+    <!-- RELATED_END -->
+
+    <section class="section">
+      <div class="container">
+        <div class="author-box">
+          <img src="../../assets/img/author/denys-shchur.webp" alt="Portret van Denys Shchur" class="author-avatar">
+          <div>
+            <h3>Over de auteur</h3>
+            <p>
+              <strong><a href="/nl-be/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a></strong>
+              is de maker van VPN World en focust op praktische, test-gedreven gidsen over VPN’s, online privacy en veilig remote werken.
+              Hij spendeert véél te veel tijd aan speedtests en leak-checks, zodat jij dat niet hoeft te doen.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container article">
+        <div class="cta-box" aria-label="Recommended VPN">
+          <h2>Recommended VPN</h2>
+          <p class="cta-note">Affiliate links (nofollow/sponsored).</p>
+
+          <div class="cta-buttons" aria-label="Affiliate aanbiedingen">
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — sterke allround keuze</a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — budgetvriendelijk</a>
+            <a href="https://www.dpbolvw.net/click-101525886-15834536" class="protonvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN — port forwarding</a>
+          </div>
+
+          <p class="human-note">Disclosure: VPN World kan een commissie verdienen via deze links — zonder dat jouw prijs stijgt.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p><strong>VPN World</strong> · Onafhankelijke gidsen over privacy, beveiliging en praktisch VPN-gebruik.</p>
+      <p>
+        <a href="/nl-be/privacy.html">Privacy</a> ·
+        <a href="/nl-be/disclosure.html">Disclosure</a> ·
+        <a href="mailto:u1797008805@gmail.com">Contact</a>
+      </p>
+      <p>© 2026 VPN World</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/cookie-consent.js"></script>
+
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
+    <p>Analytics staat standaard uit. Je kan analytics accepteren of weigeren.</p>
+    <div class="cookie-actions">
+      <button type="button" class="btn btn-compact" onclick="acceptConsent()">Accepteren</button>
+      <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Weigeren</button>
+    </div>
+  </div>
+
+</body>
+</html>
+
+<!-- PAGE: https://dloran1.github.io/nl-be/blog/vpn-port-forwarding.html -->
