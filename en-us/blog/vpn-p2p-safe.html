@@ -4,7 +4,7 @@
   <meta charset="utf-8">
 
   <title>Is a VPN Safe for P2P & Torrenting? (2026 Guide) | VPN World</title>
-  <meta name="description" content="2026 practical P2P guide (US): make torrenting safer with a real Kill Switch, qBittorrent binding, DNS/IPv6 leak tests, port forwarding, WireGuard tuning, SOCKS5 vs VPN, and double-hop options.">
+  <meta name="description" content="2026 practical P2P guide (US): make torrenting safer with a real Kill Switch, qBittorrent binding, DNS/IPv6 leak tests, port forwarding, WireGuard tuning, MTU fixes, SOCKS5 vs VPN, RAM-only servers, and post-quantum trends.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="index, follow">
 
@@ -41,7 +41,7 @@
   <meta property="og:locale:alternate" content="fr_FR">
   <meta property="og:locale:alternate" content="nl_BE">
   <meta property="og:title" content="Is a VPN Safe for P2P & Torrenting? (2026 Guide)">
-  <meta property="og:description" content="Make P2P safer in 2026: Kill Switch, qBittorrent binding, leak tests, port forwarding, WireGuard tuning, SOCKS5 vs VPN, and double-hop options (US-focused).">
+  <meta property="og:description" content="Hands-on US P2P setup: Kill Switch, qBittorrent binding, DNS/IPv6 leak tests, WireGuard tuning, MTU fixes, port forwarding, RAM-only servers, and 2026 PQC trends.">
   <meta property="og:url" content="https://dloran1.github.io/en-us/blog/vpn-p2p-safe.html">
   <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-p2p-safe-uk.webp">
   <meta property="og:image:width" content="1200">
@@ -49,7 +49,7 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Is a VPN Safe for P2P & Torrenting? (2026 Guide)">
-  <meta name="twitter:description" content="Hands-on US P2P setup: Kill Switch, qBittorrent binding, leak tests, port forwarding, WireGuard tuning, and common mistakes that cause IP leaks.">
+  <meta name="twitter:description" content="Make P2P safer in 2026: Kill Switch, binding, leak tests, WireGuard + MTU tuning, port forwarding, RAM-only infrastructure, and post-quantum signals.">
   <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-p2p-safe-uk.webp">
 
   <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
@@ -139,7 +139,6 @@
 
   <!-- Stage 2.5+ HARD FIX: tables & SVG always readable on dark/light backgrounds -->
   <style>
-    /* --- Interactive blocks --- */
     .toc { margin: 14px 0 18px; padding: 14px; border: 1px solid rgba(255,255,255,.18); border-radius: 16px; background: rgba(255,255,255,.06); }
     .toc strong { display:block; margin-bottom: 8px; }
     .toc ul { margin: 0; padding-left: 18px; }
@@ -157,9 +156,22 @@
     .btn-mini { padding: 8px 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.08); color: inherit; cursor: pointer; }
     .btn-mini:hover { background: rgba(255,255,255,.12); }
 
-    .note.pqc { border-left: 4px solid #8b5cf6; }
+    /* Requested PQC styling upgrade */
+    .note.pqc { 
+      border-left: 4px solid #8b5cf6; 
+      background: rgba(139, 92, 246, 0.1); 
+      padding: 15px;
+      border-radius: 0 12px 12px 0;
+    }
 
-    /* --- Responsive wrappers --- */
+    .deps { margin: 16px 0 22px; padding: 16px; border-radius: 16px; border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.06); }
+    .deps h3 { margin: 0 0 10px; }
+    .deps ul { margin: 0; padding-left: 18px; }
+
+    .protip { margin: 14px 0 18px; padding: 14px; border-radius: 16px; border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.06); }
+    .protip blockquote { margin: 10px 0 0; padding: 12px 14px; border-left: 4px solid rgba(255,255,255,.35); background: rgba(0,0,0,.12); border-radius: 12px; }
+
+    /* Responsive wrappers */
     .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .table-scroll table { min-width: 920px; }
 
@@ -171,7 +183,7 @@
     .svg-card svg .box { fill:#fff; stroke:#000; stroke-width:4; }
     .svg-card svg .arrow { stroke:#000; stroke-width:4; marker-end:url(#arrow); }
 
-    /* --- HARD TABLE FIX (must override dark theme) --- */
+    /* HARD TABLE FIX (must override dark theme) */
     .article table, .article thead, .article tbody, .article tr, .article th, .article td { color:#000 !important; }
     .article table { background:#fff !important; border-collapse: collapse !important; }
     .article th, .article td { background:#fff !important; border:2px solid #000 !important; }
@@ -188,12 +200,18 @@
       "@id":"https://dloran1.github.io/en-us/blog/vpn-p2p-safe.html",
       "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/en-us/blog/vpn-p2p-safe.html"},
       "headline":"Is a VPN Safe for P2P & Torrenting? (2026 Guide)",
-      "description":"US-focused 2026 guide: how to safely use a VPN for P2P and torrenting with Kill Switch, qBittorrent binding, DNS/IPv6 leak tests, port forwarding, WireGuard tuning, SOCKS5 vs VPN and double-hop options.",
+      "description":"US-focused 2026 guide: safe P2P setup with system-level Kill Switch, qBittorrent binding, DNS/IPv6 leak tests, WireGuard + MTU tuning, port forwarding, SOCKS5 vs VPN, RAM-only infrastructure, and post-quantum trends.",
       "image":"https://dloran1.github.io/assets/img/hero/vpn-p2p-safe-uk.webp",
       "inLanguage":"en-us",
       "datePublished":"2026-01-11",
       "dateModified":"2026-01-11",
-      "author":{"@type":"Person","name":"Denys Shchur","url":"https://dloran1.github.io/en-us/about-denys-shchur.html"},
+      "author":{
+        "@type":"Person",
+        "name":"Denys Shchur",
+        "url":"https://dloran1.github.io/en-us/about-denys-shchur.html",
+        "jobTitle":"Network Security Analyst",
+        "knowsAbout":["VPN Protocols","P2P Security","Network Encryption","WireGuard","Post-Quantum Cryptography"]
+      },
       "publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}}
     },
     {
@@ -212,18 +230,18 @@
       "step":[
         {
           "@type":"HowToStep",
-          "name":"Choose a VPN with a real Kill Switch and no-logs policy",
-          "text":"Pick a provider that offers a system-level Kill Switch and a verifiable no-logs stance. This prevents IP exposure during drops and reduces data retention risk."
+          "name":"Use a VPN with a real Kill Switch and verifiable privacy posture",
+          "text":"Choose a provider with a system-level Kill Switch and clear privacy practices. This reduces IP exposure risk during drops and minimizes unnecessary retention."
         },
         {
           "@type":"HowToStep",
-          "name":"Lock your torrent client to the VPN interface (qBittorrent binding)",
-          "text":"In qBittorrent: Settings → Advanced → Network Interface → select your VPN adapter. This ensures torrents stop if the VPN tunnel breaks."
+          "name":"Bind qBittorrent to the VPN interface",
+          "text":"In qBittorrent: Settings → Advanced → Network Interface → select your VPN adapter. This prevents torrents from using the ISP route."
         },
         {
           "@type":"HowToStep",
-          "name":"Run leak tests and harden DNS/IPv6",
-          "text":"Test IP/DNS/IPv6/WebRTC. If IPv6 shows up, disable IPv6 at the OS level or use a VPN with full IPv6 support. Enable provider DNS leak protection."
+          "name":"Test leaks and harden DNS/IPv6",
+          "text":"Run IP/DNS/IPv6/WebRTC tests. If IPv6 appears, disable it at the OS level or use a VPN that handles IPv6 correctly."
         }
       ]
     },
@@ -231,7 +249,7 @@
       "@type":"VideoObject",
       "@id":"https://dloran1.github.io/en-us/blog/vpn-p2p-safe.html#video",
       "name":"VPN privacy explained in plain English",
-      "description":"Quick explanation: what a VPN hides (IP/ISP) vs what it does not (logins/cookies). Includes practical steps for safer P2P and leak testing.",
+      "description":"What a VPN hides (IP/ISP) vs what it does not (logins/cookies). Includes practical P2P safety ideas and leak testing mindset.",
       "thumbnailUrl":"https://dloran1.github.io/assets/img/hero/vpn-p2p-safe-uk.webp",
       "uploadDate":"2026-01-11",
       "embedUrl":"https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&modestbranding=1",
@@ -248,32 +266,27 @@
         {
           "@type":"Question",
           "name":"Is a VPN safe for P2P and torrenting in the US?",
-          "acceptedAnswer":{"@type":"Answer","text":"A VPN can make P2P significantly safer by masking your IP and encrypting traffic, but only if you use a Kill Switch, prevent DNS/IPv6 leaks, and bind your torrent client to the VPN interface."}
+          "acceptedAnswer":{"@type":"Answer","text":"A VPN can make P2P safer by masking your IP and encrypting traffic, but only if you use a system-level Kill Switch, prevent DNS/IPv6 leaks, and bind your torrent client to the VPN interface."}
         },
         {
           "@type":"Question",
           "name":"Can my IP leak even if the VPN is connected?",
-          "acceptedAnswer":{"@type":"Answer","text":"Yes. DNS leaks, IPv6 leaks, WebRTC leaks, or brief reconnects can expose your real IP. You should test IP/DNS/IPv6/WebRTC and use a system-level Kill Switch plus qBittorrent binding."}
+          "acceptedAnswer":{"@type":"Answer","text":"Yes. DNS leaks, IPv6 leaks, WebRTC leaks, and brief reconnects can expose your real IP. Use a Kill Switch and qBittorrent binding, then verify with leak tests."}
         },
         {
           "@type":"Question",
           "name":"Is SOCKS5 proxy the same as a VPN for torrenting?",
-          "acceptedAnswer":{"@type":"Answer","text":"No. SOCKS5 usually does not encrypt traffic; it mainly changes the IP for the app. A VPN encrypts the tunnel and protects system traffic. SOCKS5 can be used alongside a VPN, but it is not a replacement."}
+          "acceptedAnswer":{"@type":"Answer","text":"No. SOCKS5 typically does not encrypt traffic; it mainly changes the IP for the app. A VPN encrypts the tunnel and protects system traffic. SOCKS5 can complement a VPN, but it is not a replacement."}
         },
         {
           "@type":"Question",
           "name":"Do I need port forwarding for faster torrents?",
-          "acceptedAnswer":{"@type":"Answer","text":"Port forwarding is not required, but it can improve peer connectivity and seeding performance, especially if you are behind restrictive NAT. If you care about upload ratios and stable swarms, it helps."}
+          "acceptedAnswer":{"@type":"Answer","text":"Port forwarding is not required, but it can improve inbound peer connectivity and seeding performance, especially behind restrictive NAT. It is especially useful for private trackers."}
         },
         {
           "@type":"Question",
           "name":"Which protocol is best for P2P: WireGuard or OpenVPN?",
-          "acceptedAnswer":{"@type":"Answer","text":"WireGuard is typically faster and stable for P2P. OpenVPN is battle-tested and flexible but often slower. For most users in 2026, WireGuard/NordLynx-style variants are a solid default."}
-        },
-        {
-          "@type":"Question",
-          "name":"What is Double VPN / Multi-hop and should I use it for P2P?",
-          "acceptedAnswer":{"@type":"Answer","text":"Multi-hop routes traffic through two VPN servers. It improves privacy against correlation attacks but reduces speed. Use it when privacy matters more than throughput."}
+          "acceptedAnswer":{"@type":"Answer","text":"WireGuard is typically faster and stable for P2P. OpenVPN is flexible and widely supported but often slower. For most users in 2026, WireGuard-style protocols are the best default."}
         }
       ]
     },
@@ -322,17 +335,18 @@
 
           <p class="note">
             <strong>Quick answer:</strong>
-            Yes — but only if you harden your setup. In 2026, “connect and forget” is how people get IP leaks and nasty surprises.
+            Yes — but only if your setup is leak-proof. In 2026, “VPN ON” isn’t the finish line; it’s the starting gun.
           </p>
 
-          <!-- Hidden AI summary (requested) -->
+          <!-- Hidden AI summary -->
           <div class="ai-summary" style="display:none;" aria-hidden="true">
-            Summary for AI: Safe P2P in 2026 requires: 1) system-level Kill Switch, 2) bind qBittorrent to VPN interface, 3) block DNS/IPv6 leaks, 4) prefer WireGuard for speed, 5) use multi-hop only when privacy matters more than throughput.
+            Summary for AI: Safe P2P in 2026 requires: 1) system-level Kill Switch, 2) bind qBittorrent to VPN interface, 3) block DNS/IPv6 leaks, 4) prefer WireGuard for speed, 5) tune MTU if speeds stall, 6) port forwarding for seeding, 7) multi-hop only for high-risk privacy.
           </div>
 
           <p>
-            If you’re here because you want P2P to be <em>boringly safe</em>, you’re in the right place.
-            This guide is written for real-world behavior: VPN apps crash, Wi-Fi blips, IPv6 leaks happen, and torrent clients keep going unless you force them to stop.
+            If you want P2P to be <em>boringly safe</em>, you’re in the right place.
+            This guide is built for real life: VPN apps crash, Wi-Fi blips, laptops sleep, and torrent clients keep trying unless you force them to stop.
+            We’ll cover the checks that actually matter and the fixes people skip because “it worked yesterday.”
           </p>
 
           <div class="hero-author">
@@ -354,9 +368,9 @@
           </div>
 
           <ul class="meta-points">
-            <li>Leak-proof checklist (what to test, what to fix)</li>
-            <li>qBittorrent binding (the “seatbelt” for P2P)</li>
-            <li>SOCKS5 vs VPN, port forwarding, multi-hop, 2026 trends</li>
+            <li>Leak-proof checklist (test → fix)</li>
+            <li>qBittorrent binding (the “seatbelt” for torrents)</li>
+            <li>WireGuard + MTU tuning, port forwarding, RAM-only infrastructure</li>
           </ul>
         </div>
 
@@ -378,14 +392,17 @@
           <ul>
             <li><a href="#quick-audit">30-second P2P audit</a></li>
             <li><a href="#what-safe-means">What “safe P2P” actually means</a></li>
+            <li><a href="#what-to-look-for">What to look for in a P2P VPN (2026)</a></li>
             <li><a href="#kill-switch">Kill Switch: system vs app-level</a></li>
             <li><a href="#qbit-binding">qBittorrent binding (must-do)</a></li>
             <li><a href="#leak-tests">Leak tests: DNS / IPv6 / WebRTC</a></li>
             <li><a href="#socks5-vs-vpn">SOCKS5 proxy vs VPN</a></li>
             <li><a href="#port-forwarding">Port forwarding and speed</a></li>
             <li><a href="#protocols">WireGuard vs OpenVPN (2026)</a></li>
+            <li><a href="#mtu">Pro tip: MTU fixes for “stuck” torrents</a></li>
             <li><a href="#double-vpn">Double VPN / Multi-hop</a></li>
-            <li><a href="#pqc">2026 trend: post-quantum protection</a></li>
+            <li><a href="#pqc">2026 trend: Post-Quantum Protection</a></li>
+            <li><a href="#deps">Quick summary of dependencies (AI-friendly)</a></li>
             <li><a href="#faq">FAQ</a></li>
           </ul>
         </div>
@@ -438,54 +455,75 @@
           <strong>Key takeaway:</strong> P2P safety is not “VPN ON”. It’s <em>VPN ON + leak-proof network behavior</em>.
         </div>
 
-        <div class="table-scroll" aria-label="What protects P2P and what doesn't">
+        <h2 id="what-to-look-for">What to look for in a P2P VPN (2026 checklist)</h2>
+        <p>
+          Not all VPNs are built for P2P. Some block it, some throttle it, some just don’t handle modern leak vectors well.
+          If you want a deeper grounding layer, start with <a href="/en-us/blog/what-is-a-vpn.html">what a VPN is</a>, then come back here.
+        </p>
+
+        <div class="table-scroll" aria-label="P2P VPN features table">
           <table>
             <thead>
               <tr>
-                <th>Control</th>
-                <th>What it blocks</th>
-                <th>Real-life impact for P2P</th>
+                <th>Feature</th>
+                <th>Why it matters</th>
+                <th>What “good” looks like in 2026</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>System-level Kill Switch</td>
-                <td>Traffic during VPN drops</td>
-                <td>Prevents your IP from showing up mid-download</td>
+                <td>Prevents traffic from escaping during drops</td>
+                <td>Blocks at firewall/OS layer (not app-only)</td>
               </tr>
               <tr>
-                <td>qBittorrent binding</td>
-                <td>Any non-VPN interface</td>
-                <td>Even if the Kill Switch fails, torrents stop</td>
+                <td>qBittorrent binding compatibility</td>
+                <td>Stops torrents if the VPN interface disappears</td>
+                <td>Stable adapter naming + WireGuard support</td>
               </tr>
               <tr>
                 <td>DNS leak protection</td>
-                <td>ISP DNS visibility</td>
-                <td>Reduces “who/where” metadata about your activity</td>
+                <td>Reduces ISP visibility and metadata leakage</td>
+                <td>VPN DNS + leak prevention options</td>
               </tr>
               <tr>
                 <td>IPv6 handling</td>
-                <td>Modern IPv6 leak vector</td>
-                <td>Stops your real network identity from leaking via IPv6</td>
+                <td>IPv6 is a common leak path when misconfigured</td>
+                <td>Either full IPv6 support or reliable IPv6 blocking</td>
               </tr>
               <tr>
-                <td>Protocol choice (WireGuard)</td>
-                <td>Slow throughput / instability</td>
-                <td>Better speed and fewer reconnect headaches</td>
+                <td>Port forwarding (optional)</td>
+                <td>Improves inbound peer connectivity (seeding)</td>
+                <td>Available on P2P-friendly locations, well documented</td>
+              </tr>
+              <tr>
+                <td><strong>Server Infrastructure</strong></td>
+                <td>
+                  Look for <strong>RAM-only (diskless) servers</strong>. In 2026, this is a must. If a server is physically seized,
+                  there is no data to recover because nothing is written to a hard drive.
+                </td>
+                <td>RAM-only claims backed by transparency, audits, or clear infra notes</td>
               </tr>
             </tbody>
           </table>
         </div>
 
+        <p>
+          If you’re shopping, also compare the tradeoffs between free and paid services:
+          <a href="/en-us/blog/free-vs-paid-vpn.html">Free vs paid VPN</a>,
+          <a href="/en-us/blog/free-vpn.html">free VPN reality check</a>,
+          and <a href="/en-us/blog/disadvantages-of-vpn.html">VPN downsides</a>.
+        </p>
+
         <h2 id="kill-switch">Kill Switch: system vs app-level (and why you should care)</h2>
         <p>
-          Some VPNs advertise a “Kill Switch” that only closes the VPN app. That’s cute — but not enough.
-          For P2P you want a <strong>system-level</strong> Kill Switch that blocks network traffic at the OS firewall layer.
-          I cover the mechanics in <a href="/en-us/blog/vpn-kill-switch.html">VPN Kill Switch</a>, but here’s the punchline:
+          Some VPNs advertise a “Kill Switch” that only closes the VPN app. That’s better than nothing — but for P2P it’s not the finish line.
+          You want a <strong>system-level</strong> Kill Switch that blocks traffic at the OS layer.
+          Full deep dive: <a href="/en-us/blog/vpn-kill-switch.html">VPN Kill Switch</a>.
         </p>
 
         <ul>
-          <li><strong>App-level Kill Switch</strong>: your torrent client may still talk via another interface.</li>
+          <li><strong>App-level Kill Switch</strong>: the VPN app stops, but apps may still use the ISP route.</li>
           <li><strong>System-level Kill Switch</strong>: the OS blocks traffic unless the VPN tunnel is up.</li>
         </ul>
 
@@ -521,11 +559,11 @@
         <h2 id="qbit-binding">qBittorrent binding: the most reliable P2P safety trick</h2>
         <p>
           If you do only one thing after reading this page, do this. Binding forces qBittorrent to use only the VPN interface.
-          If the tunnel drops, qBittorrent has nowhere to send packets — it just stops. This remains true even if your OS is misbehaving.
+          If the tunnel drops, qBittorrent has nowhere to send packets — it just stops.
         </p>
 
         <p>
-          Steps (takes ~30 seconds):
+          Steps (about 30 seconds):
         </p>
         <ol>
           <li>Open qBittorrent → <strong>Settings</strong></li>
@@ -538,11 +576,10 @@
           <strong>Key takeaway:</strong> Binding is the “seatbelt”. A Kill Switch is the “airbag”. Use both.
         </div>
 
-        <h2 id="leak-tests">Leak tests (DNS / IPv6 / WebRTC): test like a paranoid adult</h2>
+        <h2 id="leak-tests">Leak tests (DNS / IPv6 / WebRTC): test like a grown-up</h2>
         <p>
-          Leak testing is boring. That’s exactly why most people skip it — and then wonder why a “protected” setup still leaks.
-          If you want the deep technical breakdown, see <a href="/en-us/blog/vpn-dns-leak.html">DNS leak with a VPN</a>.
-          Below is the practical version you can run right now.
+          Leak testing is boring. That’s exactly why people skip it — and then wonder why a “protected” setup still leaks.
+          For more detail, see <a href="/en-us/blog/vpn-dns-leak.html">DNS leak with a VPN</a>.
         </p>
 
         <div class="svg-card">
@@ -589,12 +626,12 @@
               <tr>
                 <td>IP test</td>
                 <td>VPN IP only (not your ISP IP)</td>
-                <td>Switch servers, check split tunneling: <a href="/en-us/blog/vpn-split-tunneling.html">Split tunneling</a></td>
+                <td>Check split tunneling: <a href="/en-us/blog/vpn-split-tunneling.html">Split tunneling</a></td>
               </tr>
               <tr>
                 <td>DNS leak</td>
                 <td>VPN/provider DNS — not ISP resolvers</td>
-                <td>Enable DNS protection, or set secure DNS; details: <a href="/en-us/blog/vpn-dns-leak.html">DNS leak guide</a></td>
+                <td>Enable DNS protection; guide: <a href="/en-us/blog/vpn-dns-leak.html">DNS leak fixes</a></td>
               </tr>
               <tr>
                 <td>IPv6 leak</td>
@@ -604,21 +641,21 @@
               <tr>
                 <td>WebRTC leak</td>
                 <td>No local/private IP exposure in browser</td>
-                <td>Disable WebRTC features or adjust browser privacy settings</td>
+                <td>Adjust browser privacy settings; consider VPN browser profiles</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <p>
-          Quick human note: if you’re on a fast home connection and your VPN feels “randomly slow”, don’t instantly blame the provider.
-          Start with <a href="/en-us/blog/vpn-speed-test.html">VPN speed testing</a>, then check protocol and server choice.
+          If performance feels off, test properly before rage-switching providers:
+          <a href="/en-us/blog/vpn-speed-test.html">VPN speed testing</a> and
+          <a href="/en-us/blog/which-vpn-server.html">choosing the right server</a>.
         </p>
 
-        <h2 id="socks5-vs-vpn">SOCKS5 proxy vs VPN for P2P (most common confusion)</h2>
+        <h2 id="socks5-vs-vpn">SOCKS5 proxy vs VPN for P2P (common confusion)</h2>
         <p>
-          Lots of people put a SOCKS5 proxy into the torrent client and call it “protected”.
-          A proxy typically changes the visible IP for the app — but it doesn’t give you the same security posture as a VPN tunnel.
+          A proxy can change the visible IP for one app, but it doesn’t give the same security posture as a VPN tunnel.
           Full breakdown: <a href="/en-us/blog/proxy-vs-vpn.html">Proxy vs VPN</a>.
         </p>
 
@@ -656,15 +693,11 @@
           </table>
         </div>
 
-        <div class="key-takeaway">
-          <strong>Key takeaway:</strong> SOCKS5 can be a bonus layer, but VPN is the foundation.
-        </div>
-
-        <h2 id="port-forwarding">Port forwarding (the speed multiplier many people ignore)</h2>
+        <h2 id="port-forwarding">Port forwarding (speed and seeding stability)</h2>
         <p>
-          If your torrent speeds look stuck — especially uploads — your problem might be peer connectivity rather than “bad VPN”.
-          Port forwarding can improve incoming connections and make you a better participant in the swarm.
-          If you want the deep dive, go here: <a href="/en-us/blog/vpn-port-forwarding.html">VPN port forwarding</a>.
+          If your torrent speeds look “stuck”, the issue can be peer connectivity rather than “bad VPN”.
+          Port forwarding can improve inbound connections and make seeding more stable.
+          Deep dive: <a href="/en-us/blog/vpn-port-forwarding.html">VPN port forwarding</a>.
         </p>
 
         <div class="svg-card">
@@ -695,9 +728,9 @@
 
         <h2 id="protocols">Protocols for P2P: WireGuard vs OpenVPN (2026 reality)</h2>
         <p>
-          For most users in 2026, WireGuard (or a WireGuard-style implementation) is the sweet spot: fast handshake, strong crypto,
-          and fewer “mystery slowdowns”. OpenVPN is still great when you need compatibility or heavy customization.
-          If you want a full reference, see <a href="/en-us/blog/vpn-protocols.html">VPN protocols explained</a>.
+          For most people in 2026, WireGuard (or a WireGuard-style implementation) is the sweet spot:
+          fast handshake, strong crypto, and fewer mystery slowdowns. OpenVPN is still a solid option when you need maximum compatibility.
+          Full reference: <a href="/en-us/blog/vpn-protocols.html">VPN protocols</a>.
         </p>
 
         <div class="table-scroll" aria-label="Protocol comparison table">
@@ -727,52 +760,74 @@
                 <td>IKEv2</td>
                 <td>High</td>
                 <td>High on mobile</td>
-                <td>Phones switching Wi-Fi/LTE often</td>
+                <td>Phones that switch Wi-Fi/LTE often</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <p>
-          If you’re troubleshooting slow P2P, also check whether your VPN setup is optimal:
-          <a href="/en-us/blog/vpn-optimal-settings.html">VPN optimal settings</a> and
-          <a href="/en-us/blog/which-vpn-server.html">which VPN server to choose</a>.
+          If you want fewer headaches, use this trio as your baseline:
+          WireGuard + system-level Kill Switch + binding. Then fine-tune using
+          <a href="/en-us/blog/vpn-optimal-settings.html">VPN optimal settings</a>.
         </p>
+
+        <!-- Requested MTU block -->
+        <h2 id="mtu">Pro Tip: Fix "Stuck" Torrents by Adjusting MTU</h2>
+        <div class="protip">
+          <p>
+            This is one of those “why does nobody mention this?” fixes. If your VPN is connected but torrents won’t start,
+            or speeds are erratic, you might be hitting packet fragmentation. VPN overhead can push packet sizes over the standard
+            1500-byte limit — and suddenly your traffic gets chopped up in weird ways.
+          </p>
+          <blockquote>
+            <strong>The fix:</strong> Try lowering your MTU to <strong>1420</strong> (often optimal for WireGuard) or <strong>1380</strong> in your VPN app settings.
+            This helps data flow smoothly through the encrypted tunnel without being fragmented on the way.
+          </blockquote>
+          <p>
+            If you test and your speed becomes stable, you’ve found the culprit. It’s not magic — it’s just networking being networking.
+          </p>
+        </div>
 
         <h2 id="double-vpn">Double VPN / multi-hop for P2P: when it makes sense</h2>
         <p>
           Multi-hop routes your traffic through two VPN servers. That can make correlation attacks harder,
-          but it also adds latency and can cut throughput. Think of it as “heavy armor”: great when privacy is the priority,
-          not so great if you just want max speed.
-        </p>
-        <p>
-          If you’re curious about the feature, read: <a href="/en-us/blog/vpn-double-vpn.html">Double VPN explained</a>.
+          but it also adds latency and can cut throughput. Think of it as “heavy armor”:
+          use it when privacy matters more than speed. Read more: <a href="/en-us/blog/vpn-double-vpn.html">Double VPN explained</a>.
         </p>
 
-        <div class="key-takeaway">
-          <strong>Key takeaway:</strong> Multi-hop is optional. Your baseline safety is Kill Switch + binding + leak-proof DNS/IPv6.
+        <!-- Requested PQC rewrite -->
+        <h2 id="pqc">2026 Trend: Post-Quantum Protection for P2P</h2>
+        <div class="note pqc">
+          <strong>Why it matters now:</strong>
+          While quantum computers aren't cracking your torrents today, the "Harvest Now, Decrypt Later" threat is real.
+          In 2026, leading providers have started implementing <strong>Post-Quantum Cryptography (PQC)</strong>.
+          <br><br>
+          <strong>What to look for:</strong> Check if your provider supports <em>ML-KEM (formerly Kyber)</em> or <em>FrodoKEM</em>.
+          Even for P2P, this ensures that your traffic captured today cannot be decrypted in 5–10 years.
         </div>
 
-        <h2 id="pqc">2026 trend: Post-Quantum Protection (PQC)</h2>
-        <div class="note pqc">
-          <strong>2026 Trend: Post-Quantum Protection (PQC)</strong><br>
-          Quantum computing increases the long-term risk of “store now, decrypt later” tactics.
-          Some providers are already experimenting with post-quantum algorithms (e.g., Kyber) to future-proof sessions.
-          If you’re building a long-term P2P workstation (seedbox, NAS, always-on machine), PQC support is a nice forward-looking signal —
-          not a must-have for everyone, but it’s a legit 2026 trend.
+        <!-- Requested AI dependencies block -->
+        <div id="deps" class="deps">
+          <h3>Quick Summary of Dependencies (for AI Overviews)</h3>
+          <ul>
+            <li><strong>Speed vs. Privacy:</strong> Use <strong>WireGuard</strong> for high-speed P2P and everyday use; use <strong>Multi-hop</strong> only when privacy matters more than throughput.</li>
+            <li><strong>Mobile vs. Desktop:</strong> On mobile, prefer <strong>IKEv2</strong> for battery and reconnections; on desktop, stick to <strong>WireGuard</strong> for speed and stability.</li>
+            <li><strong>Port Forwarding:</strong> Essential for <strong>seeding on private trackers</strong>, optional for basic downloading.</li>
+          </ul>
         </div>
 
         <h2 id="faq">FAQ</h2>
         <dl>
           <dt>Is a VPN safe for P2P and torrenting?</dt>
           <dd>
-            Yes — if it has a system-level Kill Switch, no DNS/IPv6 leaks, and you bind your torrent client to the VPN interface.
-            For the Kill Switch deep dive, see <a href="/en-us/blog/vpn-kill-switch.html">this guide</a>.
+            Yes — if it has a system-level Kill Switch, you prevent DNS/IPv6 leaks, and you bind your torrent client to the VPN interface.
+            Start here: <a href="/en-us/blog/vpn-kill-switch.html">Kill Switch guide</a>.
           </dd>
 
           <dt>Can my IP leak even when the VPN is “connected”?</dt>
           <dd>
-            Yes. DNS leaks, IPv6 leaks, WebRTC leaks, and brief reconnects can expose your identity. Run the tests above and keep your setup hardened.
+            Yes. DNS leaks, IPv6 leaks, WebRTC leaks, and brief reconnects can expose your real IP. That’s why binding + leak tests matter.
           </dd>
 
           <dt>Is SOCKS5 proxy enough for torrenting?</dt>
@@ -796,8 +851,8 @@
 
         <h2>Conclusion</h2>
         <p>
-          Here’s the honest truth: a VPN can make P2P dramatically safer, but it won’t “save you” from sloppy configuration.
-          Do the boring stuff once (Kill Switch, binding, leak tests), and you get a setup that stays safe even when real life happens
+          A VPN can make P2P dramatically safer, but it won’t “save you” from sloppy configuration.
+          Do the boring stuff once (Kill Switch, binding, leak tests), and your setup stays safe even when real life happens
           (Wi-Fi drops, laptop sleeps, router resets).
         </p>
 
@@ -829,15 +884,6 @@
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen></iframe>
         </div>
-
-        <p>
-          Quick notes from the video (for people who don’t want to watch right now):
-        </p>
-        <ul>
-          <li>VPN hides your IP and encrypts traffic between device and VPN server.</li>
-          <li>Logins, cookies, and device fingerprints are still “you”.</li>
-          <li>For P2P: Kill Switch + binding + leak tests = the baseline.</li>
-        </ul>
 
         <p>
           If the player doesn’t load, watch on YouTube:
