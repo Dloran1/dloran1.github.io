@@ -40,7 +40,7 @@
   <meta property="og:locale:alternate" content="fr_FR">
   <meta property="og:locale:alternate" content="nl_BE">
   <meta property="og:title" content="VPN fürs Home Office & Remote Work (2026): Sicherheit, DSGVO, Leaks, Setup-Checkliste">
-  <meta property="og:description" content="Praxis-Guide 2026: sichere Remote-Work-Setups mit VPN, Leak-Tests, Kill Switch, Split-Tunneling, Protokolle und Troubleshooting." />
+  <meta property="og:description" content="Praxis-Guide 2026: sichere Remote-Work-Setups mit VPN, Leak-Tests, Kill Switch, Protokolle und Troubleshooting." />
   <meta property="og:url" content="https://dloran1.github.io/de/blog/vpn-remote-work.html">
   <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-remote-work-uk.webp">
   <meta property="og:image:width" content="1200">
@@ -402,17 +402,17 @@
               <tr>
                 <td>Öffentliches WLAN (Café, Hotel, Bahn)</td>
                 <td><strong>Ja</strong></td>
-                <td>Verschlüsselung im Transport; reduziert Risiko von „Mitlesen“ im lokalen Netz.</td>
+                <td>Verschlüsselung im Transport; reduziert Risiko von „Mitlesen“ im lokalen Netz. Mehr dazu in <a href="/de/blog/vpn-oeffentliches-wifi.html">VPN im öffentlichen WLAN</a>.</td>
               </tr>
               <tr>
                 <td>Zugriff auf Firmenressourcen (Intranet, Git, Admin-Panels)</td>
                 <td><strong>Oft ja</strong></td>
-                <td>Hängt davon ab, ob deine Firma ein eigenes VPN/Zero-Trust nutzt. Private VPNs sind nicht immer erlaubt.</td>
+                <td>Hängt davon ab, ob deine Firma ein eigenes VPN/Zero-Trust nutzt. Private VPNs sind nicht immer erlaubt — siehe <a href="/de/blog/vpn-fuer-unternehmen.html">VPN für Unternehmen</a>.</td>
               </tr>
               <tr>
                 <td>Tracking durch Cookies/Fingerprinting</td>
                 <td><strong>Teilweise</strong></td>
-                <td>IP wird verborgen, aber Tracking über Browser bleibt. Browser-Hygiene + getrennte Profile helfen.</td>
+                <td>IP wird verborgen, aber Tracking über Browser bleibt. Ein VPN ersetzt keine Browser-Privacy; als Einordnung hilft <a href="/de/blog/nachteile-von-vpn.html">Nachteile von VPN</a>.</td>
               </tr>
               <tr>
                 <td>Malware / infizierte Anhänge</td>
@@ -454,7 +454,7 @@
 
               <rect x="690" y="140" width="250" height="90" rx="16" fill="#ffffff" stroke="#000000" stroke-width="4"></rect>
               <text x="815" y="178" text-anchor="middle" font-size="20">Firmenressourcen</text>
-              <text x="815" y="208" text-anchor="middle" font-size="18">(z. B. Git, VPN, SSO)</text>
+              <text x="815" y="208" text-anchor="middle" font-size="18">(z. B. Git, Admin, SSO)</text>
 
               <line x1="270" y1="130" x2="330" y2="130" stroke="#000000" stroke-width="4"></line>
               <polygon points="330,130 316,122 316,138" fill="#000000"></polygon>
@@ -474,6 +474,7 @@
           Der VPN-Tunnel schützt vor vielen Angreifern „zwischen dir und dem Ziel“. Aber er schützt nicht vor allem.
           Wenn du dich z. B. in deinen Firmen-Account einloggst, bist du identifizierbar. Wenn du eine Phishing-Seite öffnest,
           ist das Problem nicht die IP, sondern der Klick. (Ja, passiert den Besten. Genau deshalb: Prozesse + Tools.)
+          Für die Grundlagen (und wann ein VPN nicht reicht) ist auch <a href="/de/blog/proxy-vs-vpn.html">Proxy vs VPN</a> hilfreich.
         </p>
 
         <div class="related-strip">
@@ -488,6 +489,7 @@
           Wenn du nur eine Sache aus diesem Guide mitnimmst: <strong>Kill Switch + Leak-Schutz</strong>.
           Ohne Kill Switch kann ein kurzer VPN-Aussetzer reichen, um echte IP/DNS „durchrutschen“ zu lassen.
           Und ja — genau dann, wenn du gerade im Call bist und „nur kurz“ was pushen willst. Timing ist immer mies. 😅
+          Wenn du tiefer einsteigen willst: <a href="/de/blog/vpn-kill-switch.html">Kill Switch erklärt</a>.
         </p>
 
         <div class="table-scroll" aria-label="Remote-Work VPN Setup Checkliste (Tabelle)">
@@ -513,7 +515,7 @@
               <tr>
                 <td>Protokoll</td>
                 <td><strong>WireGuard</strong> (oder OpenVPN, wenn nötig)</td>
-                <td>WireGuard ist oft schneller und stabil, OpenVPN ist kompatibel und flexibel.</td>
+                <td>WireGuard ist oft schneller und stabil, OpenVPN ist kompatibel und flexibel. Details in <a href="/de/blog/vpn-protokolle.html">VPN-Protokolle</a>.</td>
               </tr>
               <tr>
                 <td>Auto-Connect</td>
@@ -523,7 +525,12 @@
               <tr>
                 <td>2FA/MFA</td>
                 <td><strong>Pflicht</strong> für Firmenkonten</td>
-                <td>VPN schützt Transport — 2FA schützt Accounts.</td>
+                <td>VPN schützt Transport — 2FA schützt Accounts. Einstieg: <a href="/de/blog/vpn-2fa-mfa.html">VPN & 2FA/MFA</a>.</td>
+              </tr>
+              <tr>
+                <td>No-Logs & Vertrauen</td>
+                <td><strong>Transparenz</strong> prüfen</td>
+                <td>Der VPN-Anbieter ist eine Vertrauenskomponente. Als Basis: <a href="/de/blog/no-logs-vpn.html">No-Logs VPN</a>.</td>
               </tr>
               <tr>
                 <td>Updates</td>
@@ -562,7 +569,7 @@
         <p>
           Split Tunneling bedeutet: Ein Teil deines Traffics läuft durch das VPN, ein Teil direkt ins Internet.
           Das kann sinnvoll sein (z. B. Videocalls ohne Umweg, lokale Drucker, Banking ohne „VPN-Standort“),
-          kann aber auch zum Leck werden, wenn du es schlampig konfigurierst.
+          kann aber auch zum Leck werden, wenn du es schlampig konfigurierst. Mehr Praxis dazu: <a href="/de/blog/vpn-split-tunneling.html">Split Tunneling Guide</a>.
         </p>
         <p class="key-takeaway"><strong>Key takeaway:</strong> Split Tunneling ist ein Tool — kein „Default“. Nutze es bewusst und teste danach Leaks (DNS/WebRTC/IPv6).</p>
 
@@ -612,7 +619,7 @@
         <h2 id="leak-tests">DNS/IPv6/WebRTC-Leaks testen & beheben</h2>
         <p>
           Leaks sind der Grund, warum manche VPN-Setups „gefühlt“ aktiv sind, aber technisch nicht sauber.
-          Gute Nachricht: Das kann man testen — und meistens fixen.
+          Gute Nachricht: Das kann man testen — und meistens fixen. Für DNS-Leaks im Detail: <a href="/de/blog/vpn-dns-leak.html">VPN DNS Leak</a>.
         </p>
 
         <div class="table-scroll" aria-label="Leak Tests Checkliste (Tabelle)">
@@ -704,27 +711,27 @@
               <tr>
                 <td>Windows</td>
                 <td>DNS-Leaks / instabile Verbindung nach Sleep</td>
-                <td>DNS-Leak-Schutz aktivieren, Treiber/Client updaten, Auto-Reconnect einschalten</td>
+                <td>DNS-Leak-Schutz aktivieren, Treiber/Client updaten, Auto-Reconnect einschalten — Setup: <a href="/de/blog/vpn-windows-einrichtung.html">VPN Windows Einrichtung</a>.</td>
               </tr>
               <tr>
                 <td>macOS</td>
                 <td>VPN trennt im Standby / Captive Portal (Hotel)</td>
-                <td>Nach Portal-Login VPN neu verbinden, „Reconnect“ aktivieren</td>
+                <td>Nach Portal-Login VPN neu verbinden, „Reconnect“ aktivieren — Setup: <a href="/de/blog/vpn-macos.html">VPN auf macOS</a>.</td>
               </tr>
               <tr>
                 <td>Android</td>
                 <td>Apps umgehen VPN / aggressive Battery-Optimierung</td>
-                <td>Always-on-VPN, Battery-Optimierung für VPN-App deaktivieren</td>
+                <td>Always-on-VPN, Battery-Optimierung für VPN-App deaktivieren — Setup: <a href="/de/blog/vpn-android.html">VPN auf Android</a>.</td>
               </tr>
               <tr>
                 <td>iOS</td>
                 <td>VPN droppt bei Netzwechsel</td>
-                <td>IKEv2/WireGuard testen, Auto-Connect an, Gerät/Client aktualisieren</td>
+                <td>IKEv2/WireGuard testen, Auto-Connect an, Gerät/Client aktualisieren — Setup: <a href="/de/blog/vpn-ios.html">VPN auf iOS</a>.</td>
               </tr>
               <tr>
                 <td>Router</td>
                 <td>Langsam / CPU am Limit</td>
-                <td>Stärkere Hardware, WireGuard bevorzugen, Standort/Server optimieren</td>
+                <td>Stärkere Hardware, WireGuard bevorzugen, Standort/Server optimieren — Setup: <a href="/de/blog/vpn-router-einrichtung.html">VPN Router Einrichtung</a>.</td>
               </tr>
             </tbody>
           </table>
