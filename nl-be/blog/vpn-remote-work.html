@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
 
-  <title>VPN voor thuiswerken (2026): veiligheid, Teams/Zoom & DNS-lekken | VPN World</title>
-  <meta name="description" content="Hoe veilig is je VPN tijdens het thuiswerken in België? Leer DNS/IPv6/WebRTC-lekken testen, Teams optimaliseren (split-tunneling), en de beste VPN-instellingen kiezen voor Windows, macOS en iOS — met Belgische voorbeelden (Telenet/Proximus)." />
+  <title>VPN voor thuiswerken (2026): veiligheid, Teams/Zoom & DNS-lekken in België | VPN World</title>
+  <meta name="description" content="Thuiswerken in België in 2026? Leer hoe je VPN lektests (DNS/IPv6/WebRTC) doet, Teams/Zoom optimaliseert met split-tunneling en je verbinding beveiligt bij Telenet/Proximus — inclusief router-tips, Double VPN en AI-tools." />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="index, follow">
@@ -41,16 +41,15 @@
   <meta property="og:locale:alternate" content="de_DE">
   <meta property="og:locale:alternate" content="es_ES">
   <meta property="og:locale:alternate" content="fr_FR">
-  <meta property="og:title" content="VPN voor thuiswerken (2026): veiligheid, Teams/Zoom & DNS-lekken">
-  <meta property="og:description" content="Praktische checklist voor België: test DNS/IPv6/WebRTC-lekken, activeer noodstopschakelaar (kill switch), optimaliseer Teams/Zoom met split-tunneling en kies de juiste VPN-instellingen." />
+  <meta property="og:title" content="VPN voor thuiswerken (2026): veiligheid, Teams/Zoom & DNS-lekken in België">
+  <meta property="og:description" content="Praktische checklist voor veilig thuiswerken in België: lektests, Teams/Zoom optimalisatie, router-tips (Telenet/Proximus), Double VPN en AI-tools.">
   <meta property="og:url" content="https://dloran1.github.io/nl-be/blog/vpn-remote-work.html">
   <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-remote-work-uk.webp">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="VPN voor thuiswerken (2026): veiligheid, Teams/Zoom & DNS-lekken">
-  <meta name="twitter:description" content="Belgische gids 2026: VPN + Teams/Zoom, leak-tests (DNS/IPv6/WebRTC), noodstopschakelaar en split-tunneling.">
+  <meta name="twitter:title" content="VPN voor thuiswerken (2026): veiligheid, Teams/Zoom & DNS-lekken in België">
+  <meta name="twitter:description" content="Leertests + concrete fixes (DNS/IPv6/WebRTC), split-tunneling voor Teams/Zoom, router-realiteit bij Telenet/Proximus.">
   <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-remote-work-uk.webp">
 
   <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
@@ -87,8 +86,7 @@
         security_storage:'granted'
       });
       try { localStorage.setItem('vpnworld_consent','granted'); } catch(e) {}
-      hideCookieBannerSafely;
-      hideCookieBannerSafely();
+      hideCookieBannerSafely(); /* ✅ критический фикс: ВЫЗОВ, не ссылка */
       gtag('config','G-EMR8C4TLVM', { send_page_view: true });
     }
 
@@ -139,89 +137,46 @@
     document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
   </script>
 
-  <!-- Stage 2.5: HARD FIX for tables + SVG readability (MUST be after style.css) -->
+  <!-- ✅ GOLD FIX: tables + SVG must be 100% readable on dark & light -->
   <style>
-    /* ===== GLOBAL HARD FIX: TABLES (always readable on dark/light) ===== */
-    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-    .table-scroll table{min-width:760px}
+    /* Responsive wrappers */
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
+    .table-scroll table{min-width:820px}
+    .svg-card{background:#fff;border:4px solid #000;border-radius:16px;padding:14px;margin:18px 0;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+    .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .svg-scroll svg{display:block;max-width:980px;width:980px;height:auto}
+    @media (max-width:980px){.svg-scroll svg{width:980px}}
 
+    /* Hard readability (override any theme/zebra/hover) */
     .article table,
     .article table *{
-      color:#000 !important;
       background:#fff !important;
+      color:#000 !important;
     }
     .article table{
-      width:100%;
       border-collapse:collapse !important;
       border:4px solid #000 !important;
     }
-    .article th,
-    .article td{
+    .article th,.article td{
       border:3px solid #000 !important;
-      padding:12px 12px !important;
+      padding:12px 14px !important;
       vertical-align:top !important;
-      text-align:left !important;
-      line-height:1.5 !important;
+      font-weight:700 !important;
     }
-    .article thead th{
-      font-weight:900 !important;
-      background:#fff !important;
-    }
-    .article tbody tr,
-    .article tbody tr:nth-child(even),
+    .article thead th{font-weight:900 !important}
     .article tbody tr:nth-child(odd),
+    .article tbody tr:nth-child(even),
     .article tbody tr:hover{
       background:#fff !important;
-    }
-    .article table a{
-      color:#0645ad !important;
-      text-decoration:underline !important;
-      font-weight:800 !important;
-    }
-
-    /* ===== GLOBAL HARD FIX: SVG (always readable) ===== */
-    .svg-card{
-      background:#fff !important;
-      border:4px solid #000 !important;
-      border-radius:16px;
-      padding:14px;
-      margin:16px 0;
-      box-shadow:none !important;
       color:#000 !important;
     }
-    .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-    .svg-scroll svg{max-width:100%;height:auto;display:block;color:#000 !important}
-    .svg-scroll svg text{fill:#000 !important;font-weight:800 !important}
-    .svg-scroll svg .s{stroke:#000;stroke-width:4;fill:none}
-    .svg-scroll svg .b{fill:#fff;stroke:#000;stroke-width:4}
-    .svg-scroll svg .h{fill:#eaffea;stroke:#000;stroke-width:4}
-    .svg-caption{margin:8px 0 0;color:#000 !important;font-weight:800}
-    .svg-caption small{display:block;font-weight:700;color:#000 !important;opacity:1}
+    .article table a{color:#000 !important;text-decoration:underline !important}
 
-    /* ===== Related band (dark wide card, green accent) ===== */
-    .related-band{
-      background:#0b1220;
-      border:1px solid rgba(255,255,255,.18);
-      border-radius:16px;
-      padding:14px 14px 14px 18px;
-      margin:16px 0;
-      position:relative;
-      box-shadow:0 10px 26px rgba(0,0,0,.22);
-    }
-    .related-band:before{
-      content:"";
-      position:absolute;
-      left:10px; top:12px; bottom:12px;
-      width:4px;
-      border-radius:4px;
-      background:#3ddc84;
-    }
-    .related-band strong{color:#eaeaea}
-    .related-band a{
-      color:#a7f3d0;
-      text-decoration:underline;
-      font-weight:800;
-    }
+    svg{color:#000 !important}
+    svg text{fill:#000 !important;font-weight:800 !important}
+    svg .line{stroke:#000 !important;stroke-width:4 !important;fill:none}
+    svg .box{stroke:#000 !important;stroke-width:4 !important;fill:#fff !important}
+    svg .arrow{stroke:#000 !important;stroke-width:4 !important;fill:none;marker-end:url(#arrow)}
   </style>
 
   <!-- JSON-LD (Stage 2.5): Article + FAQPage + BreadcrumbList + ItemList -->
@@ -233,8 +188,8 @@
         "@type":"Article",
         "@id":"https://dloran1.github.io/nl-be/blog/vpn-remote-work.html",
         "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/nl-be/blog/vpn-remote-work.html"},
-        "headline":"VPN en thuiswerken: de ultieme gids voor veiligheid in 2026",
-        "description":"Belgische gids 2026: waarom een VPN bij thuiswerken belangrijk is, hoe je DNS/IPv6/WebRTC-lekken test, Teams/Zoom optimaliseert met split-tunneling, en de beste instellingen kiest voor Windows, macOS en iOS.",
+        "headline":"VPN voor thuiswerken (2026): veiligheid, Teams/Zoom & DNS-lekken in België",
+        "description":"Thuiswerken in België in 2026? Leer hoe je VPN lektests (DNS/IPv6/WebRTC) doet, Teams/Zoom optimaliseert met split-tunneling en je verbinding beveiligt bij Telenet/Proximus — inclusief router-tips, Double VPN en AI-tools.",
         "image":"https://dloran1.github.io/assets/img/hero/vpn-remote-work-uk.webp",
         "inLanguage":"nl-BE",
         "datePublished":"2026-01-11",
@@ -247,7 +202,18 @@
         "itemListElement":[
           {"@type":"ListItem","position":1,"name":"Start","item":"https://dloran1.github.io/nl-be/"},
           {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/nl-be/blog/"},
-          {"@type":"ListItem","position":3,"name":"VPN en thuiswerken (2026)","item":"https://dloran1.github.io/nl-be/blog/vpn-remote-work.html"}
+          {"@type":"ListItem","position":3,"name":"VPN voor thuiswerken","item":"https://dloran1.github.io/nl-be/blog/vpn-remote-work.html"}
+        ]
+      },
+      {
+        "@type":"ItemList",
+        "name":"Gerelateerde gidsen",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/nl-be/blog/vpn-dns-leak.html"},
+          {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/nl-be/blog/vpn-split-tunneling.html"},
+          {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/nl-be/blog/vpn-kill-switch.html"},
+          {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/nl-be/blog/vpn-router-instellen.html"},
+          {"@type":"ListItem","position":5,"url":"https://dloran1.github.io/nl-be/blog/vpn-dedicated-ip.html"}
         ]
       },
       {
@@ -256,39 +222,23 @@
           {
             "@type":"Question",
             "name":"Is een VPN legaal in België voor thuiswerk?",
-            "acceptedAnswer":{"@type":"Answer","text":"Ja. Het gebruik van een VPN is legaal in België. Veel bedrijven raden het zelfs aan (of verplichten het) om bedrijfsdata te beschermen op onbeveiligde netwerken."}
+            "acceptedAnswer":{"@type":"Answer","text":"Ja. In België is het gebruik van een VPN legaal. Veel bedrijven verplichten of adviseren een VPN om bedrijfsgegevens te beschermen op onbeveiligde netwerken."}
           },
           {
             "@type":"Question",
-            "name":"Waarom haperen Teams/Zoom-gesprekken soms met een VPN?",
-            "acceptedAnswer":{"@type":"Answer","text":"Meestal door serverkeuze, drukte of een minder geschikte instellingen. Kies een nabijgelegen server, gebruik WireGuard en overweeg split-tunneling zodat videobellen niet onnodig door de tunnel gaat."}
+            "name":"Waarom haperen Teams/Zoom-gesprekken met een VPN?",
+            "acceptedAnswer":{"@type":"Answer","text":"Meestal door hogere latency, packet loss of een te ver weg gekozen server. Gebruik een nabijgelegen server (BE/NL) en split-tunneling zodat Teams/Zoom via de VPN kan gaan terwijl zware downloads/streaming buiten de tunnel blijven."}
           },
           {
             "@type":"Question",
-            "name":"Kan mijn echte IP lekken via WebRTC, zelfs met VPN?",
-            "acceptedAnswer":{"@type":"Answer","text":"Ja, in sommige browsers kan WebRTC je lokale of echte IP prijsgeven. Test dit (WebRTC-lek test) en beperk WebRTC of gebruik een betrouwbare content blocker."}
+            "name":"Hoe weet ik of mijn VPN lekt (DNS/WebRTC/IPv6)?",
+            "acceptedAnswer":{"@type":"Answer","text":"Test je IP en DNS na verbinding met de VPN. Zie je nog Telenet/Proximus/Scarlet als ISP of België als locatie, dan is er een lek of verkeerde configuratie. Gebruik daarnaast WebRTC-leaktests en schakel IPv6 uit als je VPN dit niet volledig ondersteunt."}
           },
           {
             "@type":"Question",
-            "name":"Hoe herken ik een DNS-lek in één minuut?",
-            "acceptedAnswer":{"@type":"Answer","text":"Zet de VPN aan, ga naar een leak-test (bv. ipleak.net) en check je DNS/ISP. Zie je België of je provider (Telenet/Proximus/Scarlet) als DNS? Dan moet je DNS-lekbescherming/instellingen aanpassen."}
-          },
-          {
-            "@type":"Question",
-            "name":"Blokkeren AI-tools soms VPN-IP’s?",
-            "acceptedAnswer":{"@type":"Answer","text":"Soms wel. Sommige diensten blokkeren gedeelde VPN-IP’s. Oplossing: wissel server, kies een minder drukke locatie of gebruik een dedicated IP als je constante toegang nodig hebt."}
+            "name":"Kan een VPN problemen geven met AI-tools zoals ChatGPT of Claude?",
+            "acceptedAnswer":{"@type":"Answer","text":"Ja. Sommige AI-platforms blokkeren gedeelde VPN-IP’s. Als je ‘Access denied’ of veel captcha’s ziet, gebruik dan een Dedicated IP of wissel van server."}
           }
-        ]
-      },
-      {
-        "@type":"ItemList",
-        "name":"Gerelateerde gidsen",
-        "itemListElement":[
-          {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/nl-be/blog/wat-is-een-vpn.html"},
-          {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/nl-be/blog/wifi-beveiliging.html"},
-          {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/nl-be/blog/vpn-kill-switch.html"},
-          {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/nl-be/blog/vpn-dns-leak.html"},
-          {"@type":"ListItem","position":5,"url":"https://dloran1.github.io/nl-be/blog/vpn-optimale-instellingen.html"}
         ]
       }
     ]
@@ -305,19 +255,18 @@
           <img src="../../assets/img/logo.png" class="logo" alt="VPN World logo">
           <span class="brand-text">VPN World</span>
         </a>
-
         <nav class="primary-nav" aria-label="Hoofdnavigatie">
           <a href="/nl-be/blog/">Blog</a>
         </nav>
       </div>
 
       <nav class="lang-switch" aria-label="Taalwisselaar">
-        <a href="/blog/vpn-praca-zdalna.html" class="">Polski</a> |
-        <a href="/en-gb/blog/vpn-remote-work-uk.html" class="">English (UK)</a> |
-        <a href="/en-us/blog/vpn-remote-work.html" class="">English (US)</a> |
-        <a href="/de/blog/vpn-remote-work.html" class="">Deutsch</a> |
-        <a href="/es/blog/vpn-remote-work.html" class="">Español</a> |
-        <a href="/fr/blog/vpn-remote-work.html" class="">Français</a> |
+        <a href="/blog/vpn-praca-zdalna.html">Polski</a> |
+        <a href="/en-gb/blog/vpn-remote-work-uk.html">English (UK)</a> |
+        <a href="/en-us/blog/vpn-remote-work.html">English (US)</a> |
+        <a href="/de/blog/vpn-remote-work.html">Deutsch</a> |
+        <a href="/es/blog/vpn-remote-work.html">Español</a> |
+        <a href="/fr/blog/vpn-remote-work.html">Français</a> |
         <a href="/nl-be/blog/vpn-remote-work.html" class="active">Nederlands (BE)</a>
       </nav>
     </div>
@@ -328,48 +277,45 @@
     <section class="hero">
       <div class="container hero-inner">
         <div class="hero-copy">
-          <h1>VPN en thuiswerken: de ultieme gids voor veiligheid in 2026</h1>
+          <h1>VPN voor thuiswerken in België (2026): veilig, snel en zonder leks</h1>
 
           <p class="note">
             <strong>Snel antwoord:</strong>
-            het minimum “veilig en chill” voor thuiswerk is <strong>VPN aan + noodstopschakelaar (kill switch) + leak-tests (DNS/IPv6/WebRTC)</strong>.
-            Werk je met admin-toegang, klantendata of financiële systemen? Overweeg <strong>Double VPN (multi-hop)</strong> of <strong>dedicated IP</strong>.
+            Voor betrouwbaar thuiswerk heb je minimaal nodig: <strong>WireGuard</strong>, <strong>Kill Switch</strong>, en een
+            <strong>lek-test (DNS/IPv6/WebRTC)</strong>. Als Teams “blokkerig” wordt: gebruik <strong>split-tunneling</strong>.
           </p>
 
           <p>
-            Thuiswerken is zalig… tot je in een café in Brussel (hello Panos) op “gratis wifi” hangt en je meeting ineens begint te haperen.
-            In België zie ik dezelfde klassiekers terugkomen: providerrouter (B-box/Telenet Hub), dubbele NAT, rommelige DNS-instellingen,
-            en apps die “random” disconnecten. Dit artikel is geen theorie-les, maar een checklist die je vandaag nog kan toepassen.
+            Thuiswerken klinkt chill — tot je op een Wi-Fi in een café (denk: Panos in Brussel) je bedrijfslogin verstuurt.
+            Een goede VPN maakt je verkeer onleesbaar en verbergt je echte IP, maar alleen als je ‘m correct instelt.
           </p>
 
           <div class="hero-author">
-            <img src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur — auteur">
+            <img src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur – auteur van VPN World">
             <div class="hero-author-text">
               <span class="hero-author-label">Geschreven door</span>
-              <span class="hero-author-name">
-                <a href="/nl-be/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a>
-              </span>
+              <span class="hero-author-name"><a href="/nl-be/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a></span>
               <span class="meta">Bijgewerkt: 2026-01-11 · 12–18 min leestijd</span>
             </div>
           </div>
 
-          <!-- Early CTA block (3 partners) -->
-          <div class="cta-buttons" aria-label="Partnerdeals">
-            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Bescherm je thuiswerk met NordVPN (sterk bij Telenet/Proximus)</a>
-            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark voor thuiswerk (split-tunneling & snelle servers)</a>
-            <a href="https://www.dpbolvw.net/click-101525886-15834536" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN (privacy-first, goede reputatie in EU)</a>
+          <!-- CTA (3 partners) -->
+          <div class="cta-buttons" aria-label="Affiliate aanbiedingen">
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — beste allround voor thuiswerk</a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — sterk voor split-tunneling</a>
+            <a href="https://www.dpbolvw.net/click-101525886-15834536" class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN — privacy-first in EU</a>
           </div>
 
           <ul class="meta-points">
-            <li>Teams/Zoom zonder “blokjeshoofd” (split-tunneling + juiste protocol)</li>
-            <li>Leak-check in 60 seconden (DNS/IPv6/WebRTC)</li>
-            <li>Belgische context: Telenet, Proximus, Scarlet + providerrouters</li>
+            <li>Belgische context (Telenet / Proximus / Scarlet)</li>
+            <li>Teams/Zoom fixes zonder “lag”</li>
+            <li>3-stappen lektest met FAIL/SUCCESS</li>
           </ul>
         </div>
 
         <div class="hero-media">
           <div class="hero-art">
-            <img src="../../assets/img/hero/vpn-remote-work-uk.webp" alt="Illustratie: VPN voor thuiswerken">
+            <img src="../../assets/img/hero/vpn-remote-work-uk.webp" alt="Illustratie: veilig thuiswerken met VPN in België">
           </div>
         </div>
       </div>
@@ -380,417 +326,347 @@
       <div class="container article">
         <!-- CONTENT_START -->
 
-        <nav class="toc" aria-label="Inhoud">
-          <h2>Inhoud</h2>
-          <ul>
-            <li><a href="#belgie">Waarom een VPN bij thuiswerken in België écht helpt</a></li>
-            <li><a href="#risicos">Risico’s + wat een VPN wel/niet oplost (tabel)</a></li>
-            <li><a href="#teams">Teams/Zoom/Slack: snelheid, latency & split-tunneling</a></li>
-            <li><a href="#leak-check">Leak-check (DNS/IPv6/WebRTC) in 3 stappen</a></li>
-            <li><a href="#webrtc">WebRTC: de stille IP-lek-killer in je browser</a></li>
-            <li><a href="#protocols">WireGuard vs OpenVPN vs IKEv2 (tabel)</a></li>
-            <li><a href="#router">Router, dubbele NAT (B-box/Telenet Hub) & wat je dan doet</a></li>
-            <li><a href="#advanced">Double VPN, AES-256, no-logs, dedicated IP (E-E-A-T)</a></li>
-            <li><a href="#ai">AI-tools (ChatGPT/Claude): toegang, blokkades & dedicated IP</a></li>
-            <li><a href="#faq">FAQ</a></li>
-          </ul>
-        </nav>
+        <h2 id="toc">Inhoud</h2>
+        <ul>
+          <li><a href="#waarom">Waarom een VPN voor thuiswerken?</a></li>
+          <li><a href="#teams">Teams/Zoom/Slack: snelheid zonder frustratie</a></li>
+          <li><a href="#leak">Lektests: DNS/IPv6/WebRTC + FAIL/SUCCESS</a></li>
+          <li><a href="#router">Router-realiteit in België (Telenet/Proximus)</a></li>
+          <li><a href="#double">Double VPN & extra gevoelige data</a></li>
+          <li><a href="#ai">AI-tools (ChatGPT/Claude) + Dedicated IP</a></li>
+          <li><a href="#checklist">Checklist (10 punten)</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
 
-        <div class="related-band">
-          <strong>Gerelateerd:</strong> <a href="/nl-be/blog/wat-is-een-vpn.html">Wat is een VPN?</a>
-          <span style="display:block;color:#9aa7b2;margin-top:6px;">Als je de basis snel wil snappen (zonder marketingpraat): start hier.</span>
+        <!-- Related style (dark wide plaque) -->
+        <div class="note" style="background:#0b1220;border:1px solid #1b2432;border-left:6px solid #22c55e;border-radius:16px;padding:14px 16px;margin:16px 0">
+          <strong>Gerelateerd:</strong> <a href="/nl-be/blog/wat-is-een-vpn.html" style="text-decoration:underline;">Wat is een VPN?</a> ·
+          <a href="/nl-be/blog/waarom-vpn-2025.html" style="text-decoration:underline;">Waarom VPN (2025/2026)</a> ·
+          <a href="/nl-be/blog/proxy-vs-vpn.html" style="text-decoration:underline;">Proxy vs VPN</a>
         </div>
 
-        <h2 id="belgie">Waarom een VPN bij thuiswerken in België écht helpt</h2>
+        <h2 id="waarom">Waarom een VPN voor thuiswerken?</h2>
         <p>
-          In België zijn de basics hetzelfde als overal: je wil je verkeer beschermen op wifi, en je wil minder “zichtbaarheid”
-          voor je provider. Maar er zijn ook lokale pijnpunten. Providers zoals <strong>Telenet</strong>, <strong>Proximus</strong> en <strong>Scarlet</strong>
-          kunnen (bewust of onbewust) piekverkeer anders behandelen — zeker als je dag vol Teams/Zoom calls zit en je cloud-sync op de achtergrond draait.
+          Als je thuiswerkt, draai je eigenlijk een mini-kantoor op je eigen verbinding. Dat betekent: e-mail, cloud, interne tools,
+          soms zelfs admin-toegang. In België willen veel mensen vooral weten: “Kan mijn provider (Telenet/Proximus/Scarlet) dit zien?”
+          Het antwoord: zonder VPN zien ze <em>meer</em> dan je denkt (metadata, DNS-verkeer, timing).
         </p>
         <p>
-          Een VPN maakt je verkeer minder herkenbaar voor je provider (die ziet vooral: “VPN aan”), en kan helpen als je merkt dat
-          bepaalde routes/servers zonder VPN net iets “crappier” aanvoelen. Verwacht geen magie: als je wifi slecht is, blijft het slecht.
-          Maar je haalt wel een hoop risico weg, vooral op openbaar netwerk. Zie ook: <a href="/nl-be/blog/wifi-beveiliging.html">wifi-beveiliging</a> en
-          <a href="/nl-be/blog/wifi-beveiliging-checklist.html">wifi-beveiliging checklist</a>.
+          Een VPN maakt een versleutelde tunnel (AES-256 of vergelijkbaar) tussen jouw toestel en de VPN-server. Daardoor kan je provider
+          niet zomaar “meekijken” of je verkeer categoriseren. En ja: dat kan ook helpen tegen throttling bij zware video calls,
+          al is dat niet magisch — je moet de juiste server en instellingen kiezen.
         </p>
 
-        <div class="key-takeaway"><strong>Belangrijkste inzicht:</strong> Een VPN is vooral “transportbeveiliging” + minder providerzichtbaarheid. Niet alles, maar wel een stevige basis voor thuiswerk.</div>
+        <!-- VISUAL 1: SVG flow -->
+        <div class="svg-card" aria-label="Diagram: VPN tunnel voor thuiswerken">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 980 240" role="img" aria-labelledby="svg1t svg1d">
+              <title id="svg1t">VPN tunnel bij thuiswerken</title>
+              <desc id="svg1d">Schema met toestel, versleutelde tunnel, VPN server en bedrijfsdiensten.</desc>
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#000"></path>
+                </marker>
+              </defs>
 
-        <h2 id="risicos">Risico’s bij thuiswerken: wat een VPN wel (en niet) oplost</h2>
+              <rect class="box" x="30" y="50" width="210" height="140" rx="18"></rect>
+              <text x="60" y="95">Laptop / PC</text>
+              <text x="60" y="130">Teams · Mail · VPN</text>
 
-        <div class="table-scroll" role="region" aria-label="Tabel: thuiswerk risico’s en VPN">
-          <table>
-            <thead>
-              <tr>
-                <th>Thuiswerk-risico</th>
-                <th>Helpt een VPN?</th>
-                <th>Wat je ernaast nodig hebt</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Openbare wifi (station, café, coworking)</td>
-                <td><strong>Ja</strong> (versleutelt verkeer)</td>
-                <td><a href="/nl-be/blog/vpn-openbaar-wifi.html">VPN op openbare wifi</a> + updates</td>
-              </tr>
-              <tr>
-                <td>Providerprofilering (Telenet/Proximus/Scarlet)</td>
-                <td><strong>Gedeeltelijk</strong> (minder inzicht in bestemmingen)</td>
-                <td><a href="/nl-be/blog/no-logs-vpn.html">no-logs</a> + sterke DNS-instellingen</td>
-              </tr>
-              <tr>
-                <td>VPN valt weg → echte IP zichtbaar</td>
-                <td><strong>Alleen</strong> met noodstopschakelaar</td>
-                <td><a href="/nl-be/blog/vpn-kill-switch.html">Kill switch (noodstopschakelaar)</a></td>
-              </tr>
-              <tr>
-                <td>DNS/IPv6/WebRTC-lekken</td>
-                <td><strong>Afhankelijk</strong> van configuratie</td>
-                <td><a href="/nl-be/blog/vpn-dns-leak.html">DNS-lek fix</a> + browsercheck</td>
-              </tr>
-              <tr>
-                <td>Phishing/malware</td>
-                <td><strong>Nee</strong></td>
-                <td><a href="/nl-be/blog/vpn-2fa-mfa.html">2FA/MFA</a> + gezonde paranoia</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+              <rect class="box" x="385" y="50" width="210" height="140" rx="18"></rect>
+              <text x="410" y="95">Versleutelde</text>
+              <text x="410" y="130">VPN-tunnel</text>
 
-        <div class="key-takeaway"><strong>Belangrijkste inzicht:</strong> Voor thuiswerk is de “minimum safe setup” simpel: VPN + noodstopschakelaar + leak-tests. De rest is optimalisatie.</div>
+              <rect class="box" x="735" y="50" width="215" height="140" rx="18"></rect>
+              <text x="760" y="95">VPN-server</text>
+              <text x="760" y="130">BE/NL dicht bij</text>
 
-        <h2 id="teams">Teams/Zoom/Slack: de echte killer in 2026 is niet security, maar haperende calls</h2>
-        <p>
-          Real talk: iedereen praat over privacy, maar in 2026 vloekt men vooral omdat Teams plots je gezicht in blokjes zet.
-          Dat heeft vaak te maken met <strong>latency</strong>, <strong>packet loss</strong> en serverkeuze. Veel VPN’s gebruiken snelle routes,
-          maar als je server te ver staat of te druk is, krijg je gedoe.
-        </p>
-        <p>
-          Mijn praktische aanpak voor België:
-          <strong>kies een server dichtbij</strong> (BE/NL/FR/DE), gebruik <strong>WireGuard</strong> (vaak de beste balans),
-          en zet <a href="/nl-be/blog/vpn-split-tunneling.html">split-tunneling</a> slim in.
-          Bijvoorbeeld: laat je <strong>videobel-app</strong> buiten de tunnel als je merkt dat het haperig wordt,
-          maar stuur je <strong>mail, browser en admin-tools</strong> wél door de VPN.
-        </p>
+              <path class="arrow" d="M 240 120 L 385 120"></path>
+              <path class="arrow" d="M 595 120 L 735 120"></path>
 
-        <div class="svg-card">
-          <div class="svg-scroll" role="img" aria-label="Diagram: split-tunneling voor Teams en werkapps">
-            <svg viewBox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg">
-              <rect x="0" y="0" width="1200" height="420" fill="#fff"/>
-              <rect class="b" x="60" y="140" width="320" height="180" rx="18"/>
-              <text x="220" y="195" text-anchor="middle" font-size="28">Laptop</text>
-              <text x="220" y="235" text-anchor="middle" font-size="20">Teams / Zoom</text>
-              <text x="220" y="265" text-anchor="middle" font-size="20">Browser / Mail</text>
-
-              <rect class="b" x="460" y="80" width="300" height="120" rx="18"/>
-              <text x="610" y="130" text-anchor="middle" font-size="24">Via VPN</text>
-              <text x="610" y="165" text-anchor="middle" font-size="18">Browser + mail + admin</text>
-
-              <rect class="b" x="460" y="240" width="300" height="120" rx="18"/>
-              <text x="610" y="290" text-anchor="middle" font-size="24">Buiten VPN</text>
-              <text x="610" y="325" text-anchor="middle" font-size="18">Videobel als het hapert</text>
-
-              <rect class="b" x="860" y="140" width="280" height="180" rx="18"/>
-              <text x="1000" y="195" text-anchor="middle" font-size="28">Internet</text>
-              <text x="1000" y="235" text-anchor="middle" font-size="20">Cloud + tools</text>
-              <text x="1000" y="265" text-anchor="middle" font-size="20">Meeting servers</text>
-
-              <path class="s" d="M380 200 L460 140"/>
-              <path class="s" d="M380 240 L460 300"/>
-              <path class="s" d="M760 140 L860 230"/>
-              <path class="s" d="M760 300 L860 230"/>
-
-              <rect class="h" x="60" y="30" width="1080" height="38" rx="12"/>
-              <text x="600" y="57" text-anchor="middle" font-size="18">Doel: beveilig werkverkeer via VPN, maar behoud stabiliteit voor calls als je netwerk gevoelig is</text>
+              <text x="260" y="165">ISP ziet enkel “versleuteld verkeer”</text>
             </svg>
           </div>
-          <div class="svg-caption">
-            Split-tunneling = minder drama bij calls, zonder je hele beveiliging weg te gooien.
-            <small>Meer tips: <a href="/nl-be/blog/vpn-optimale-instellingen.html">optimale VPN-instellingen</a> en <a href="/nl-be/blog/vpn-snelheidstest.html">VPN-snelheidstest</a>.</small>
-          </div>
         </div>
 
-        <h2 id="leak-check">Leak-check in 3 stappen (visual check die je meteen kan doen)</h2>
+        <div class="key-takeaway"><strong>Belangrijkste inzicht:</strong> Een VPN helpt vooral tegen afluisteren en lekken op onveilige netwerken, maar “perfecte privacy” bestaat niet — je instellingen en lektests maken het verschil.</div>
+
+        <h2 id="teams">Teams/Zoom/Slack: snelheid zonder frustratie</h2>
         <p>
-          Dit is mijn favoriete “snelle reality check”. Geen theorie, gewoon doen.
-          Als je dit één keer per maand doet (of na updates), ben je al beter bezig dan 90% van het internet.
-        </p>
-
-        <div class="table-scroll" role="region" aria-label="Tabel: leak-check stappenplan">
-          <table>
-            <thead>
-              <tr>
-                <th>Stap</th>
-                <th>Wat je doet</th>
-                <th>Waarop je let</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>1</strong></td>
-                <td>VPN aanzetten (server dichtbij)</td>
-                <td>IP moet veranderen (niet je echte BE-IP)</td>
-              </tr>
-              <tr>
-                <td><strong>2</strong></td>
-                <td>Ga naar een leak-test (bv. ipleak.net)</td>
-                <td>Zie je “Belgium” + Telenet/Proximus/Scarlet in DNS? Dan is het fout</td>
-              </tr>
-              <tr>
-                <td><strong>3</strong></td>
-                <td>Test WebRTC (browserlek)</td>
-                <td>Als je lokale/echte IP zichtbaar is: WebRTC beperken</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="related-band">
-          <strong>Gerelateerd:</strong> <a href="/nl-be/blog/vpn-dns-leak.html">DNS-lek</a> ·
-          <a href="/nl-be/blog/vpn-kill-switch.html">noodstopschakelaar</a> ·
-          <a href="/nl-be/blog/vpn-openbaar-wifi.html">VPN op openbare wifi</a>
-        </div>
-
-        <h2 id="webrtc">WebRTC: de stille IP-lek-killer in je browser</h2>
-        <p>
-          Zelfs met VPN kan je echte IP soms “lekken” via de browser (WebRTC).
-          Vooral bij Chrome/Edge zie je dit vaker. Als je regelmatig met gevoelige tools werkt (admin panels, klantportalen),
-          is dit geen detail maar een echte “ow nee”-categorie.
-        </p>
-        <p>
-          Praktische fix: gebruik een degelijke content blocker (bv. uBlock Origin) en test opnieuw.
-          In sommige setups helpt het ook om WebRTC te beperken via browserinstellingen/beleid.
-          Combineer dit met <a href="/nl-be/blog/vpn-edge.html">VPN op Edge</a> als je Edge intensief gebruikt.
-        </p>
-
-        <div class="svg-card">
-          <div class="svg-scroll" role="img" aria-label="Diagram: WebRTC-lek kan echte IP tonen">
-            <svg viewBox="0 0 1200 360" xmlns="http://www.w3.org/2000/svg">
-              <rect x="0" y="0" width="1200" height="360" fill="#fff"/>
-              <rect class="b" x="60" y="95" width="340" height="170" rx="18"/>
-              <text x="230" y="145" text-anchor="middle" font-size="26">Browser</text>
-              <text x="230" y="178" text-anchor="middle" font-size="18">WebRTC API</text>
-              <text x="230" y="212" text-anchor="middle" font-size="18">kan IP-info lekken</text>
-
-              <rect class="b" x="460" y="95" width="280" height="170" rx="18"/>
-              <text x="600" y="145" text-anchor="middle" font-size="26">VPN-tunnel</text>
-              <text x="600" y="178" text-anchor="middle" font-size="18">verkeer versleuteld</text>
-
-              <rect class="b" x="800" y="95" width="340" height="170" rx="18"/>
-              <text x="970" y="145" text-anchor="middle" font-size="26">Website</text>
-              <text x="970" y="178" text-anchor="middle" font-size="18">ziet soms lokale IP</text>
-              <text x="970" y="212" text-anchor="middle" font-size="18">via WebRTC</text>
-
-              <path class="s" d="M400 180 L460 180"/>
-              <path class="s" d="M740 180 L800 180"/>
-
-              <rect class="h" x="60" y="20" width="1080" height="44" rx="12"/>
-              <text x="600" y="50" text-anchor="middle" font-size="18">Fix: test WebRTC-lek + beperk WebRTC / gebruik content blocker + her-test</text>
-            </svg>
-          </div>
-          <div class="svg-caption">
-            WebRTC is niet “altijd slecht”, maar wél een veelvoorkomende bron van IP-lekken.
-            <small>Zie ook: <a href="/nl-be/blog/vpn-dns-leak.html">DNS-lek guide</a> (dezelfde mindset: eerst testen, dan fixen).</small>
-          </div>
-        </div>
-
-        <h2 id="protocols">WireGuard vs OpenVPN vs IKEv2 (wat werkt het best voor thuiswerk)</h2>
-        <p>
-          Voor thuiswerk in 2026 raad ik meestal <strong>WireGuard</strong> aan: licht, snel, vaak lagere latency.
-          OpenVPN is solide, maar soms zwaarder. IKEv2 is handig op mobiel omdat het goed “meeschakelt” tussen wifi en 4G/5G.
-          Meer detail: <a href="/nl-be/blog/vpn-protocollen.html">VPN-protocollen</a>.
-        </p>
-
-        <div class="table-scroll" role="region" aria-label="Tabel: protocol vergelijking voor thuiswerken">
-          <table>
-            <thead>
-              <tr>
-                <th>Protocol</th>
-                <th>Snelheid/latency</th>
-                <th>Stabiliteit</th>
-                <th>Beste use-case</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>WireGuard</strong></td>
-                <td>Meestal top (vaak &lt;10% verlies)</td>
-                <td>Heel goed</td>
-                <td>Teams/Zoom, cloud, dagelijks werk</td>
-              </tr>
-              <tr>
-                <td><strong>OpenVPN</strong></td>
-                <td>Goed, maar kan zwaarder zijn</td>
-                <td>Goed</td>
-                <td>Compatibiliteit, lastige netwerken</td>
-              </tr>
-              <tr>
-                <td><strong>IKEv2/IPsec</strong></td>
-                <td>Goed</td>
-                <td>Uitstekend op mobiel</td>
-                <td>iOS/Android bij wisselende netwerken</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="key-takeaway"><strong>Belangrijkste inzicht:</strong> Voor Windows-laptops: kies WireGuard boven OpenVPN als je veel videobelt. Minder overhead = minder haperingen.</div>
-
-        <h2 id="router">Router, dubbele NAT (B-box/Telenet Hub) & wat je dan doet</h2>
-        <p>
-          Veel Belgische setups draaien op providerhardware: <strong>Proximus B-box</strong> of <strong>Telenet Hub</strong>.
-          Die toestellen zijn prima voor “internet werkt”, maar niet altijd fijn als je een VPN op router-niveau wil.
-          Soms kan het niet, soms kan het wel maar met beperkingen, en soms krijg je dubbele NAT als je nog een eigen router erachter hangt.
-        </p>
-        <p>
-          Als je geen VPN op je router kan zetten: focus op app-niveau.
-          Zet op je laptop de <strong>noodstopschakelaar</strong> aan, kies een modern protocol en test je lekken.
-          Wil je wél router-niveau? Dan is <a href="/nl-be/blog/vpn-router-instellen.html">VPN router instellen</a> je startpunt.
-          En als je netwerk supergevoelig is, hou <a href="/nl-be/blog/vpn-optimale-instellingen.html">optimale instellingen</a> bij de hand.
-        </p>
-
-        <div class="svg-card">
-          <div class="svg-scroll" role="img" aria-label="Diagram: providerrouter + eigen router (dubbele NAT) en VPN opties">
-            <svg viewBox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg">
-              <rect x="0" y="0" width="1200" height="420" fill="#fff"/>
-
-              <rect class="b" x="60" y="160" width="310" height="160" rx="18"/>
-              <text x="215" y="210" text-anchor="middle" font-size="22">Providerrouter</text>
-              <text x="215" y="240" text-anchor="middle" font-size="18">B-box / Telenet Hub</text>
-              <text x="215" y="270" text-anchor="middle" font-size="18">beperkte VPN opties</text>
-
-              <rect class="b" x="445" y="160" width="310" height="160" rx="18"/>
-              <text x="600" y="210" text-anchor="middle" font-size="22">Eigen router</text>
-              <text x="600" y="240" text-anchor="middle" font-size="18">extra NAT laag</text>
-              <text x="600" y="270" text-anchor="middle" font-size="18">kan VPN wél ondersteunen</text>
-
-              <rect class="b" x="830" y="160" width="310" height="160" rx="18"/>
-              <text x="985" y="210" text-anchor="middle" font-size="22">Toestellen</text>
-              <text x="985" y="240" text-anchor="middle" font-size="18">laptop / tv / printer</text>
-              <text x="985" y="270" text-anchor="middle" font-size="18">werken via netwerk</text>
-
-              <path class="s" d="M370 240 L445 240"/>
-              <path class="s" d="M755 240 L830 240"/>
-
-              <rect class="h" x="60" y="40" width="1080" height="84" rx="18"/>
-              <text x="600" y="78" text-anchor="middle" font-size="18">Als VPN op router niet kan: zet kill switch + leak-bescherming aan op je laptop (Windows/macOS)</text>
-              <text x="600" y="108" text-anchor="middle" font-size="18">Als VPN op router wél kan: handig voor Smart TV’s en toestellen zonder VPN-app</text>
-            </svg>
-          </div>
-          <div class="svg-caption">
-            Dubbele NAT is geen einde van de wereld, maar het maakt router-VPN soms lastig.
-            <small>Voor router-setup: <a href="/nl-be/blog/vpn-router-instellen.html">VPN router instellen</a> en <a href="/nl-be/blog/vpn-servertypes.html">VPN servertypes</a>.</small>
-          </div>
-        </div>
-
-        <h2 id="advanced">E-E-A-T blok: wat “goede VPN” in 2026 echt betekent</h2>
-        <p>
-          Een VPN kiezen is niet alleen “werkt Netflix?” (al is dat ook een ding:
-          <a href="/nl-be/blog/vpn-netflix.html">VPN voor Netflix</a> en <a href="/nl-be/blog/vpn-streaming.html">VPN voor streaming</a>).
-          Voor thuiswerk kijk ik naar drie pijlers:
+          In 2026 is de grootste VPN-pijn niet “veiligheid”, maar <strong>haperende video calls</strong>. Als je gezicht blokkerig wordt in Teams,
+          is dat vaak een mix van latency + packet loss + te verre server. Bonus-irritatie: je denkt dat de VPN “slecht” is, maar je zit gewoon
+          op de verkeerde setup.
         </p>
         <ul>
-          <li><strong>Versleuteling:</strong> AES-256 (bankniveau) of modern equivalent (afhankelijk van protocol). Niet fancy, gewoon degelijk.</li>
-          <li><strong>Leak-bescherming:</strong> DNS/IPv6/WebRTC moet testbaar en fixbaar zijn (geen “trust me bro”).</li>
-          <li><strong>Beleid en vertrouwen:</strong> no-logs die geloofwaardig is (liefst audit), transparante infrastructuur.</li>
+          <li><strong>Kies een nabije server:</strong> België of Nederland werkt vaak het best voor lage ping.</li>
+          <li><strong>Gebruik WireGuard:</strong> meestal sneller dan OpenVPN voor calls (zie <a href="/nl-be/blog/vpn-protocollen.html">VPN-protocollen</a>).</li>
+          <li><strong>Split-tunneling slim inzetten:</strong> zet werkapps via VPN, maar laat zware downloads/streaming buiten de tunnel.
+            Zie <a href="/nl-be/blog/vpn-split-tunneling.html">split-tunneling</a>.</li>
         </ul>
-        <p>
-          Als je echt gevoelige data verwerkt: <a href="/nl-be/blog/vpn-double-vpn.html">Double VPN (multi-hop)</a> kan extra geruststelling geven.
-          En als je constante toegang nodig hebt (work tools die IP’s whitelisten): <a href="/nl-be/blog/vpn-dedicated-ip.html">dedicated IP</a>.
-        </p>
 
-        <div class="related-band">
-          <strong>Gerelateerd:</strong> <a href="/nl-be/blog/no-logs-vpn.html">no-logs VPN</a> ·
-          <a href="/nl-be/blog/vpn-voor-bedrijven.html">VPN voor bedrijven</a> ·
-          <a href="/nl-be/blog/proxy-vs-vpn.html">proxy vs VPN</a>
+        <!-- VISUAL 2: Table (Teams optimization) -->
+        <div class="table-scroll" role="region" aria-label="Tabel: Teams/Zoom optimalisatie met VPN">
+          <table>
+            <thead>
+              <tr>
+                <th>Probleem</th>
+                <th>Waarschijnlijke oorzaak</th>
+                <th>Fix</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Teams “blokkerig”</td>
+                <td>Hoge latency / server te ver</td>
+                <td>BE/NL server kiezen + WireGuard</td>
+              </tr>
+              <tr>
+                <td>Audio “robot”</td>
+                <td>Packet loss (Wi-Fi, druk kanaal)</td>
+                <td>LAN-kabel of 5 GHz, router herstart</td>
+              </tr>
+              <tr>
+                <td>Call dropt</td>
+                <td>VPN reconnect zonder kill switch</td>
+                <td><a href="/nl-be/blog/vpn-kill-switch.html">Kill Switch</a> aanzetten</td>
+              </tr>
+              <tr>
+                <td>Trage upload</td>
+                <td>Throttling / congestie</td>
+                <td>Andere VPN server + split-tunneling</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
-        <h2 id="ai">AI-tools in 2026: VPN, toegang en “waarom word ik geblokkeerd?”</h2>
+        <div class="note" style="background:#0b1220;border:1px solid #1b2432;border-left:6px solid #22c55e;border-radius:16px;padding:14px 16px;margin:16px 0">
+          <strong>Pro-tip:</strong> Gebruik niet dezelfde “flow” voor werk en entertainment. Laat Netflix buiten de VPN en stuur je werkapps door de tunnel.
+          Dat is letterlijk het verschil tussen “smooth” en “waarom haat Teams mij?” 😅
+        </div>
+
+        <h2 id="leak">Lektests: DNS/IPv6/WebRTC + FAIL/SUCCESS</h2>
         <p>
-          Steeds meer thuiswerk draait rond AI-tools (denk aan ChatGPT/Claude) voor tekst, code of samenvattingen.
-          Soms blokkeren platforms gedeelde VPN-IP’s of vragen ze extra verificatie. Dat is irritant, maar meestal oplosbaar:
-          wissel server, kies een minder drukke locatie, of gebruik een <a href="/nl-be/blog/vpn-dedicated-ip.html">dedicated IP</a> als je écht stabiliteit nodig hebt.
+          Een VPN zonder lektest is zoals een fietshelm die je nooit opzet: het voelt veilig, maar je hebt geen idee of het werkt.
+          De top-drie lekken: <strong>DNS</strong>, <strong>IPv6</strong> en <strong>WebRTC</strong>. Meer details: <a href="/nl-be/blog/vpn-dns-leak.html">DNS-lek met VPN</a>.
+        </p>
+
+        <!-- VISUAL 3: SVG leak check -->
+        <div class="svg-card" aria-label="Diagram: FAIL vs SUCCESS lektest">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 980 280" role="img" aria-labelledby="svg2t svg2d">
+              <title id="svg2t">FAIL vs SUCCESS bij lektests</title>
+              <desc id="svg2d">Twee kolommen met wat je ziet bij ipleak.net: FAIL met Telenet/België, SUCCESS met VPN provider/Nederland.</desc>
+              <defs>
+                <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#000"></path>
+                </marker>
+              </defs>
+
+              <rect class="box" x="40" y="55" width="420" height="170" rx="18"></rect>
+              <text x="70" y="95">❌ FAIL</text>
+              <text x="70" y="130">ISP: Telenet / Proximus / Scarlet</text>
+              <text x="70" y="165">Locatie: België</text>
+              <text x="70" y="200">Betekenis: tunnel lekt of DNS niet goed</text>
+
+              <rect class="box" x="520" y="55" width="420" height="170" rx="18"></rect>
+              <text x="550" y="95">✅ SUCCESS</text>
+              <text x="550" y="130">ISP: VPN Provider</text>
+              <text x="550" y="165">Locatie: NL/DE/FR (gekozen server)</text>
+              <text x="550" y="200">Betekenis: verkeer correct getunneld</text>
+
+              <path class="line" d="M 470 140 L 520 140" marker-end="url(#arrow2)"></path>
+              <text x="410" y="250">Doel: van FAIL naar SUCCESS</text>
+            </svg>
+          </div>
+        </div>
+
+        <ol>
+          <li>Verbind met je VPN (kies BE/NL server).</li>
+          <li>Open ipleak.net of een vergelijkbare testsite.</li>
+          <li><strong>Controleer ISP + locatie:</strong> zie je nog “Telenet/Proximus/Scarlet” of België? Dan is het <strong>FAIL</strong>.</li>
+        </ol>
+
+        <p>
+          Voor WebRTC: Edge/Chrome kunnen je echte IP lekken via browser-features. Gebruik een degelijke blocker (zoals uBlock Origin)
+          en beperk WebRTC waar mogelijk. Als je vaak via Edge werkt: zie <a href="/nl-be/blog/vpn-edge.html">VPN op Edge</a>.
+        </p>
+
+        <h2 id="router">Router-realiteit in België (Telenet/Proximus)</h2>
+        <p>
+          Veel Belgische thuiswerkers zitten op provider-hardware: <strong>Proximus B-box</strong> of <strong>Telenet Internet Box</strong>.
+          Die ondersteunen meestal geen “VPN op router” zoals je het in tutorials ziet. Kortom: je kan niet altijd alles centraal beveiligen.
         </p>
         <p>
-          En ja: een VPN kan ook helpen als je tijdelijk in het buitenland werkt (of in de trein met <strong>SNCB wifi</strong>).
-          Zie: <a href="/nl-be/blog/vpn-op-reis.html">VPN op reis</a>.
+          Als je geen VPN op je router kan zetten, focus dan op app-niveau:
+          installeer de VPN op elk toestel en zet de <a href="/nl-be/blog/vpn-kill-switch.html">Kill Switch</a> aan.
+          Zo voorkom je dat je verkeer “uit de tunnel valt” als de VPN even reconnect.
         </p>
+        <p>
+          Wil je echt alles (smart tv, printer, console) achter één VPN? Dan heb je een eigen router nodig (OpenWRT/DD-WRT) of een compatibel model.
+          Zie: <a href="/nl-be/blog/vpn-router-instellen.html">VPN router instellen</a> en <a href="/nl-be/blog/welke-vpn-server-kiezen.html">welke VPN server kiezen</a>.
+        </p>
+
+        <!-- VISUAL 4: Table router options -->
+        <div class="table-scroll" role="region" aria-label="Tabel: Router opties voor België">
+          <table>
+            <thead>
+              <tr>
+                <th>Setup</th>
+                <th>Voor wie</th>
+                <th>Pluspunten</th>
+                <th>Minpunten</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>VPN per toestel (app)</td>
+                <td>Meeste thuiswerkers</td>
+                <td>Snel op te zetten, werkt met Telenet/Proximus router</td>
+                <td>Je moet elk toestel apart beheren</td>
+              </tr>
+              <tr>
+                <td>Eigen router met VPN</td>
+                <td>Power users / veel apparaten</td>
+                <td>Alles achter één VPN, minder “vergeten VPN aan te zetten”</td>
+                <td>Meer setup, soms extra hardware nodig</td>
+              </tr>
+              <tr>
+                <td>Hybrid: router + split-tunneling</td>
+                <td>Teams/Zoom + streaming apart</td>
+                <td>Stabiel voor calls, controle over verkeer</td>
+                <td>Iets complexer, vraagt discipline</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="double">Double VPN & extra gevoelige data</h2>
+        <p>
+          Werk je met financiële gegevens, admin-panelen of gevoelige klantdata? Dan kan een standaard tunnel “oké” zijn,
+          maar je kan een stap verder gaan met <a href="/nl-be/blog/vpn-double-vpn.html">Double VPN</a> (multi-hop).
+          Dat ketent twee servers, waardoor correlatie lastiger wordt (maar: je snelheid daalt meestal).
+        </p>
+        <div class="key-takeaway"><strong>Belangrijkste inzicht:</strong> Double VPN is een “paranoia-modus” voor specifieke situaties, niet iets dat je 24/7 nodig hebt voor elke Teams-call.</div>
+
+        <h2 id="ai">AI-tools (ChatGPT/Claude) + Dedicated IP</h2>
+        <p>
+          AI-tools zijn ondertussen werktools. Maar sommige platforms zijn strenger geworden met gedeelde IP’s (VPN’s).
+          Zie je “Access denied” of extra captcha’s? Dat is vaak geen bug van jou — het is reputatie-filtering op IP-niveau.
+        </p>
+        <p>
+          Oplossing: gebruik een <a href="/nl-be/blog/vpn-dedicated-ip.html">Dedicated IP</a>. Je krijgt dan een uniek IP dat niet gedeeld wordt met duizenden anderen.
+          Dat vermindert de kans dat je als “verdacht verkeer” wordt gezien.
+        </p>
+
+        <!-- VISUAL 5: SVG decision map -->
+        <div class="svg-card" aria-label="Diagram: Welke VPN setup kies ik?">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 980 320" role="img" aria-labelledby="svg3t svg3d">
+              <title id="svg3t">Beslisdiagram: VPN setup voor thuiswerk</title>
+              <desc id="svg3d">Keuze tussen standaard VPN, split-tunneling, dedicated IP en double VPN op basis van scenario.</desc>
+              <defs>
+                <marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#000"></path>
+                </marker>
+              </defs>
+
+              <rect class="box" x="40" y="40" width="280" height="90" rx="18"></rect>
+              <text x="70" y="85">Start: thuiswerken</text>
+
+              <rect class="box" x="360" y="40" width="280" height="90" rx="18"></rect>
+              <text x="385" y="75">Teams/Zoom hapert?</text>
+              <text x="385" y="105">→ split-tunneling</text>
+
+              <rect class="box" x="680" y="40" width="260" height="90" rx="18"></rect>
+              <text x="705" y="75">AI blokkeert?</text>
+              <text x="705" y="105">→ Dedicated IP</text>
+
+              <rect class="box" x="220" y="190" width="300" height="90" rx="18"></rect>
+              <text x="245" y="225">Gevoelige data / admin?</text>
+              <text x="245" y="255">→ Double VPN (optioneel)</text>
+
+              <path class="arrow" d="M 320 85 L 360 85" marker-end="url(#arrow3)"></path>
+              <path class="arrow" d="M 640 85 L 680 85" marker-end="url(#arrow3)"></path>
+              <path class="arrow" d="M 180 130 L 330 190" marker-end="url(#arrow3)"></path>
+            </svg>
+          </div>
+        </div>
+
+        <h2 id="checklist">Checklist (10 punten) voor veilig thuiswerken</h2>
+        <ol>
+          <li>Kies WireGuard waar mogelijk (<a href="/nl-be/blog/vpn-protocollen.html">protocollen</a>).</li>
+          <li>Zet <a href="/nl-be/blog/vpn-kill-switch.html">Kill Switch</a> aan.</li>
+          <li>Doe een lektest (DNS/IPv6/WebRTC) na installatie.</li>
+          <li>Kies een nabije server (BE/NL) voor lage latency.</li>
+          <li>Gebruik <a href="/nl-be/blog/vpn-split-tunneling.html">split-tunneling</a> voor Teams/Zoom als je problemen hebt.</li>
+          <li>Vermijd gratis VPN’s voor werkdata (<a href="/nl-be/blog/gratis-vpn.html">gratis VPN</a>).</li>
+          <li>Als AI tools blokkeren: overweeg <a href="/nl-be/blog/vpn-dedicated-ip.html">Dedicated IP</a>.</li>
+          <li>Werk je op openbare netwerken: check <a href="/nl-be/blog/vpn-openbaar-wifi.html">openbaar Wi-Fi</a> en <a href="/nl-be/blog/wifi-beveiliging-checklist.html">wifi checklist</a>.</li>
+          <li>Gebruik 2FA/MFA voor werkaccounts (<a href="/nl-be/blog/vpn-2fa-mfa.html">2FA/MFA</a>).</li>
+          <li>Test je snelheid af en toe (<a href="/nl-be/blog/vpn-snelheidstest.html">snelheidstest</a>).</li>
+        </ol>
+
+        <!-- Video -->
+        <section class="section section-alt" style="margin-top:24px">
+          <h2>Korte video: VPN-privacy simpel uitgelegd</h2>
+          <p class="note"><strong>Belangrijkste inzicht:</strong> een VPN helpt je identiteit (IP/ISP) los te koppelen van je browse-gedrag — zolang je lekken voorkomt.</p>
+
+          <div class="video-wrap">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&modestbranding=1"
+              title="VPN World — video"
+              loading="lazy"
+              frameborder="0"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+
+          <p>
+            Werkt de player niet? Bekijk op YouTube:
+            <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a>.
+          </p>
+        </section>
 
         <h2 id="faq">FAQ</h2>
         <dl>
           <dt>Is een VPN legaal in België voor thuiswerk?</dt>
-          <dd>Ja. Een VPN is legaal in België. Het wordt vaak gebruikt om bedrijfsdata te beschermen en veilig te werken op onbeveiligde netwerken.</dd>
+          <dd>Ja. Een VPN is legaal in België en wordt vaak aangeraden of zelfs vereist door bedrijven.</dd>
 
-          <dt>Wat is de beste snelle setup voor Teams/Zoom?</dt>
-          <dd>WireGuard + server dichtbij (BE/NL/FR/DE) + <a href="/nl-be/blog/vpn-split-tunneling.html">split-tunneling</a> als je calls haperen. Test je snelheid via <a href="/nl-be/blog/vpn-snelheidstest.html">VPN-snelheidstest</a>.</dd>
+          <dt>Waarom haperen Teams/Zoom-gesprekken met een VPN?</dt>
+          <dd>Meestal door latency of packet loss. Kies een nabije server, gebruik WireGuard en zet split-tunneling in.</dd>
 
-          <dt>Wat is een noodstopschakelaar (kill switch) en waarom is die belangrijk?</dt>
-          <dd>Als de VPN wegvalt, blokkeert de kill switch direct je internet zodat je echte IP niet “lekkert”. Meer: <a href="/nl-be/blog/vpn-kill-switch.html">kill switch</a>.</dd>
+          <dt>Hoe weet ik of mijn VPN lekt?</dt>
+          <dd>Als ipleak.net nog je provider (Telenet/Proximus/Scarlet) of België toont, is het FAIL. Test ook DNS en WebRTC.</dd>
 
-          <dt>Hoe weet ik of ik een DNS-lek heb?</dt>
-          <dd>VPN aan → leak-test → kijk naar DNS/ISP. Zie je België of je provider (Telenet/Proximus/Scarlet) bij DNS? Dan fixen via <a href="/nl-be/blog/vpn-dns-leak.html">DNS-lek gids</a>.</dd>
-
-          <dt>Gratis VPN voor thuiswerk: slim of gevaarlijk?</dt>
-          <dd>Meestal gevaarlijk voor werk: sommige gratis diensten verdienen aan data of hebben harde limieten. Start hier: <a href="/nl-be/blog/gratis-vs-betaalde-vpn.html">gratis vs betaalde VPN</a> en <a href="/nl-be/blog/best-gratis-vpn.html">beste gratis VPN</a>.</dd>
-
-          <dt>VPN van mijn bedrijf vs commerciële VPN: welke beschermt mij tegen providertracking?</dt>
-          <dd>Een bedrijfs-VPN geeft vooral toegang tot interne resources. Een commerciële VPN is gericht op privacy en het afschermen van je verkeer voor je provider. Dat verschil wordt vaak verkeerd begrepen.</dd>
+          <dt>Kan een VPN problemen geven met ChatGPT/Claude?</dt>
+          <dd>Ja. Gedeelde VPN-IP’s kunnen geblokkeerd worden. Gebruik dan Dedicated IP of wissel server.</dd>
         </dl>
 
-        <div class="key-takeaway"><strong>Belangrijkste inzicht:</strong> Echte top-resultaten komen van “doen en testen”: kies protocol, test lekken, activeer kill switch, en optimaliseer Teams met split-tunneling.</div>
+        <h2>Conclusie</h2>
+        <p>
+          Een VPN is een sterke basis voor veilig thuiswerken, maar alleen als je hem “af” instelt:
+          Kill Switch, lektest, juiste server en (indien nodig) split-tunneling. In België is het extra relevant omdat veel mensen op provider-routers zitten
+          die geen VPN op router-niveau toelaten. Dan is app-niveau + discipline de winst.
+        </p>
 
-        <!-- Mid/late CTA (3 partners) -->
-        <div class="cta-box" aria-label="Aanbevolen VPN voor thuiswerk">
-          <h2>Aanbevolen VPN voor thuiswerk (België)</h2>
-          <p class="cta-note">Partnerlinks (nofollow/sponsored). Geen extra kost voor jou.</p>
-          <div class="cta-buttons" aria-label="Partnerdeals">
-            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — beste allround voor thuiswerk (Telenet/Proximus)</a>
-            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — handig voor split-tunneling & multi-device</a>
-            <a href="https://www.dpbolvw.net/click-101525886-15834536" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN — privacy-first keuze (EU-friendly)</a>
+        <!-- CTA (3 partners) near end -->
+        <section class="section">
+          <div class="cta-box" aria-label="Aanbevolen VPN">
+            <h2>Aanbevolen VPN (editor’s picks)</h2>
+            <p class="cta-note">Affiliate links (nofollow/sponsored).</p>
+            <div class="cta-buttons" aria-label="Affiliate aanbiedingen">
+              <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — beste allround voor thuiswerk</a>
+              <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — split-tunneling & multi-device</a>
+              <a href="https://www.dpbolvw.net/click-101525886-15834536" class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN — privacy-first keuze</a>
+            </div>
+            <p class="human-note">Disclosure: VPN World kan een commissie verdienen via deze links — zonder dat jouw prijs stijgt.</p>
           </div>
-          <p class="human-note">Tip: kies een server dichtbij en test je calls. Als het nog hapert: split-tunneling is je beste vriend.</p>
-        </div>
-
-        <div class="related-band">
-          <strong>Gerelateerd:</strong> <a href="/nl-be/blog/waarom-vpn-2025.html">waarom VPN</a> ·
-          <a href="/nl-be/blog/nadelen-van-vpn.html">nadelen van VPN</a> ·
-          <a href="/nl-be/blog/is-vpn-legaal.html">is VPN legaal?</a>
-        </div>
+        </section>
 
         <!-- CONTENT_END -->
       </div>
     </section>
-
-    <section class="section section-alt">
-      <div class="container">
-        <h2>Korte video: VPN-privacy uitgelegd zonder gedoe</h2>
-
-        <p class="note">
-          <strong>Belangrijkste inzicht:</strong>
-          een VPN scheidt <strong>wie je bent</strong> (IP, provider) van <strong>wat je doet</strong> (sites en tools).
-          Met een sterke <a href="/nl-be/blog/no-logs-vpn.html">no-logs</a> aanpak wordt die brug minder snel opnieuw gebouwd.
-        </p>
-
-        <div class="video-wrap">
-          <iframe
-            src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&modestbranding=1"
-            title="VPN World — video"
-            loading="lazy"
-            frameborder="0"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
-        </div>
-
-        <p>
-          Als de speler niet laadt, bekijk op YouTube:
-          <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a>.
-        </p>
-      </div>
-    </section>
-
-    <!-- RELATED_START -->
-    <!-- RELATED_END -->
 
     <section class="section">
       <div class="container">
@@ -800,8 +676,8 @@
             <h3>Over de auteur</h3>
             <p>
               <strong><a href="/nl-be/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a></strong>
-              is de maker van VPN World en schrijft praktische, test-gedreven gidsen over VPN’s, online privacy en veilig thuiswerken.
-              Hij doet de saaie leak-tests en snelheidschecks — zodat jij gewoon veilig kan werken zonder verrassingen.
+              is de maker van VPN World en focust op praktische, testgedreven gidsen over VPN’s, online privacy en veilig thuiswerken.
+              Hij draait (veel te veel) speedtests en lektests zodat jij dat niet elke week hoeft te doen.
             </p>
           </div>
         </div>
@@ -812,7 +688,7 @@
 
   <footer class="site-footer">
     <div class="container">
-      <p><strong>VPN World</strong> · Onafhankelijke service over privacy, security en praktisch VPN-gebruik.</p>
+      <p><strong>VPN World</strong> · Onafhankelijke service over privacy, security en praktische VPN-toepassing.</p>
       <p>
         <a href="/nl-be/privacy.html">Privacy</a> ·
         <a href="/nl-be/disclosure.html">Disclosure</a> ·
