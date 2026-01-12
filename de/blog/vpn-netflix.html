@@ -276,8 +276,48 @@
     .note.accent-green{border:3px solid #16a34a}
     .note.accent-purple{border:3px solid #7c3aed}
     .note.accent-red{border:3px solid #ef4444}
-
+    
     .key-takeaway{max-width:72ch}
+ /* FIX: key-takeaway accent blocks must be black-on-white (override dark theme inheritance) */
+.key-takeaway.accent-blue,
+.key-takeaway.accent-green,
+.key-takeaway.accent-orange,
+.key-takeaway.accent-purple,
+.key-takeaway.accent-red{
+  background:#fff !important;
+  color:#000 !important;
+  border-radius:16px;
+  padding:12px;
+}
+
+/* Force all nested text (ul/li/strong) to be readable */
+.key-takeaway.accent-blue *,
+.key-takeaway.accent-green *,
+.key-takeaway.accent-orange *,
+.key-takeaway.accent-purple *,
+.key-takeaway.accent-red *{
+  color:#000 !important;
+}
+
+/* Bullet markers can inherit odd colors on some themes — force them too */
+.key-takeaway.accent-blue li::marker,
+.key-takeaway.accent-green li::marker,
+.key-takeaway.accent-orange li::marker,
+.key-takeaway.accent-purple li::marker,
+.key-takeaway.accent-red li::marker{
+  color:#000 !important;
+}
+
+/* Links inside must remain high-contrast */
+.key-takeaway.accent-blue a,
+.key-takeaway.accent-green a,
+.key-takeaway.accent-orange a,
+.key-takeaway.accent-purple a,
+.key-takeaway.accent-red a{
+  color:#000 !important;
+  text-decoration:underline;
+}
+
   </style>
 </head>
 
