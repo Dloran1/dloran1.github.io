@@ -1,6 +1,12 @@
 /* VPN World — style.css (FINAL, drop-in replacement)
-   Includes: responsive SVG/table wrappers, readable SVG text on white cards,
-   video wrap, author box, cookie banner, related block (dark wide card w/ green accent)
+   Includes:
+   - responsive SVG/table wrappers
+   - SVG text always readable (black on white card)
+   - VIDEO wrap
+   - author box
+   - cookie banner
+   - related block (dark wide card w/ green accent)
+   - HARD TABLE FIX (white background + black text) + CAPTION fix (so captions never go black-on-black)
 */
 
 :root{
@@ -13,6 +19,13 @@
   --card:#0d1726;
   --border:#1e3352;
   --shadow:0 10px 30px rgba(0,0,0,.35);
+
+  /* hard table palette (always readable on dark theme) */
+  --t-bg:#ffffff;
+  --t-text:#000000;
+  --t-border:rgba(0,0,0,.18);
+  --t-head:#f3f4f6;
+  --t-zebra:#fafafa;
 }
 
 /* ===== Base ===== */
@@ -231,20 +244,40 @@ img{max-width:100%;height:auto}
 .card h3{margin:0 0 .4rem}
 .card p{margin:0;color:var(--muted)}
 
-/* ===== Tables (base) ===== */
-table{
+/* =======================================================================
+   TABLES — HARD FIX (ALWAYS READABLE)
+   - Always render tables on white background with black text
+   - Works in dark theme shells
+   - Fixes "caption/title not visible on black" issue
+   ======================================================================= */
+
+/* Base table reset (outside wrappers) */
+.article table{
   width:100%;
   border-collapse:collapse;
   margin:1.2rem 0;
   font-size:.95rem;
+  background:var(--t-bg) !important;
+  color:var(--t-text) !important;
+  border:1px solid var(--t-border);
+  border-radius:12px;
+  overflow:hidden;
 }
-th,td{
-  border:1px solid var(--border);
-  padding:.7rem .8rem;
+.article th,.article td{
+  border:1px solid var(--t-border) !important;
+  padding:.75rem .85rem;
   text-align:left;
+  color:var(--t-text) !important;
+  background:var(--t-bg) !important;
 }
-thead th{background:#111b2c}
-tbody tr:nth-child(even){background:#0d1726}
+.article thead th{
+  background:var(--t-head) !important;
+  font-weight:900;
+}
+.article tbody tr:nth-child(even) td{
+  background:var(--t-zebra) !important;
+}
+.article table a{color:#0b63ff}
 
 /* Keep your existing class working */
 .comparison-table{width:100%}
@@ -254,23 +287,56 @@ tbody tr:nth-child(even){background:#0d1726}
   overflow-x:auto;
   -webkit-overflow-scrolling:touch;
   border-radius:12px;
-  border:1px solid var(--border);
-  background:rgba(10,18,32,.55);
+  border:1px solid var(--t-border) !important;
+  background:var(--t-bg) !important; /* critical: white surface */
   margin:1.2rem 0;
 }
+
+/* If table is inside wrapper, keep it consistent */
 .table-scroll table{
   margin:0;
   width:100%;
   border-collapse:collapse;
+  background:var(--t-bg) !important;
+  color:var(--t-text) !important;
 }
 .table-scroll th,.table-scroll td{
-  border:1px solid var(--border);
+  border:1px solid var(--t-border) !important;
   padding:.75rem .85rem;
   text-align:left;
+  color:var(--t-text) !important;
+  background:var(--t-bg) !important;
   white-space:nowrap;
 }
-.table-scroll thead th{background:#111b2c}
-.table-scroll tbody tr:nth-child(even){background:#0d1726}
+.table-scroll thead th{
+  background:var(--t-head) !important;
+  font-weight:900;
+}
+.table-scroll tbody tr:nth-child(even) td{
+  background:var(--t-zebra) !important;
+}
+.table-scroll a{color:#0b63ff}
+
+/* ===== Caption fix (the bug you showed) ===== */
+.table-scroll caption,
+.article table > caption{
+  caption-side:top;
+  text-align:left;
+  color:var(--t-text) !important;     /* never black-on-black */
+  background:var(--t-bg) !important;  /* white label */
+  font-weight:900;
+  padding:10px 12px;
+  border:1px solid var(--t-border);
+  border-bottom:none;
+  border-radius:12px 12px 0 0;
+  margin:0;
+}
+
+/* Avoid double border line between caption and table */
+.table-scroll caption + thead th,
+.article table > caption + thead th{
+  border-top:none !important;
+}
 
 /* ===== CTA buttons ===== */
 .cta-buttons{
@@ -281,7 +347,7 @@ tbody tr:nth-child(even){background:#0d1726}
 }
 .cta-buttons a{
   padding:.8rem 1.4rem;
-  font-weight:800;
+  font-weight:900;
   border-radius:12px;
   text-decoration:none;
   border:1px solid rgba(255,255,255,.12);
@@ -294,6 +360,11 @@ tbody tr:nth-child(even){background:#0d1726}
 .cta-buttons a.surfshark{
   background:rgba(38,231,166,.16);
   color:#eafff7;
+}
+/* proton button class support */
+.cta-buttons a.proton{
+  background:rgba(176,107,255,.16);
+  color:#f3ecff;
 }
 .cta-buttons a:hover{transform:translateY(-1px)}
 
@@ -347,7 +418,7 @@ tbody tr:nth-child(even){background:#0d1726}
 .author-box p{margin:0;color:var(--muted)}
 .author-box a{color:#fff;text-decoration:none}
 
-/* ===== Related block (NEW STANDARD) =====
+/* ===== Related block (NEW STANDARD)
    Dark full-width card with light border + green accent left line
 */
 .related-strip{
@@ -374,15 +445,10 @@ tbody tr:nth-child(even){background:#0d1726}
 }
 .related-strip a{
   color:#eafff7;
-  font-weight:800;
+  font-weight:900;
   text-decoration:underline;
   text-decoration-thickness:2px;
 }
-
-/* Optional: if you still use <p class="note"><strong>Related:</strong> ...</p>
-   you can wrap it as:
-   <div class="related-strip"><span class="related-label">Related:</span><a ...>Title</a></div>
-*/
 
 /* ===== SVG / White-card readability + responsiveness (MANDATORY) ===== */
 .svg-card{
@@ -458,7 +524,7 @@ tbody tr:nth-child(even){background:#0d1726}
   color:#fff;
   padding:.55rem .9rem;
   border-radius:10px;
-  font-weight:800;
+  font-weight:900;
   cursor:pointer;
 }
 .btn:hover{transform:translateY(-1px)}
