@@ -1,13 +1,17 @@
-<!DOCTYPE html><html lang="fr">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
-<meta charset="utf-8">
-<title>Vpn Netflix | VPN World</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="index, follow">
-<link rel="icon" href="/favicon.ico">
-<link rel="stylesheet" href="../../assets/css/style.css">
-<link rel="canonical" href="https://dloran1.github.io/fr/blog/vpn-netflix.html">
-<link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-netflix.html">
+  <meta charset="utf-8">
+  <title>VPN pour Netflix (2026) : corriger “Proxy/VPN détecté”, éviter le buffering 4K, serveurs & réglages | VPN World</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Guide 2026 (tests réels) : débloquer Netflix avec un VPN, corriger l’erreur Proxy/VPN détecté, limiter le buffering 4K (MTU/MSS), vérifier les fuites DNS/IPv6/WebRTC, et configurer Apple TV, Smart TV et routeur." />
+  <meta name="robots" content="index, follow">
+
+  <link rel="icon" href="/favicon.ico">
+  <link rel="canonical" href="https://dloran1.github.io/fr/blog/vpn-netflix.html">
+
+  <!-- HREFLANG (7× + x-default) -->
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-netflix.html">
   <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-netflix-uk.html">
   <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-netflix.html">
   <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-netflix.html">
@@ -16,42 +20,957 @@
   <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-netflix.html">
   <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-netflix-uk.html">
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-RD6M691ZWD');
-</script>
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../assets/css/style.css">
 
+  <!-- Preconnect -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="VPN World">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="nl_BE">
+  <meta property="og:title" content="VPN pour Netflix (2026) : corriger “Proxy détecté”, éviter le buffering 4K | VPN World">
+  <meta property="og:description" content="Guide 2026 (tests réels) : débloquer Netflix avec un VPN, corriger l’erreur Proxy/VPN détecté, régler MTU/MSS, vérifier les fuites DNS/IPv6/WebRTC, et configurer Apple TV, Smart TV et routeur.">
+  <meta property="og:url" content="https://dloran1.github.io/fr/blog/vpn-netflix.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-netflix-uk.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="VPN pour Netflix (2026) : corriger “Proxy détecté”, éviter le buffering 4K | VPN World">
+  <meta name="twitter:description" content="Guide 2026 : serveurs, protocoles, MTU/MSS, tests DNS/IPv6/WebRTC, Apple TV/Smart TV/routeur.">
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-netflix-uk.webp">
+
+  <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    gtag('consent','default', {
+      ad_storage:'denied',
+      ad_user_data:'denied',
+      ad_personalization:'denied',
+      analytics_storage:'denied',
+      functionality_storage:'denied',
+      personalization_storage:'denied',
+      security_storage:'denied'
+    });
+
+    gtag('js', new Date());
+
+    function hideCookieBannerSafely() {
+      var banner = document.getElementById('cookie-banner');
+      if (banner) banner.style.display = 'none';
+    }
+
+    function acceptConsent() {
+      gtag('consent','update', {
+        ad_storage:'granted',
+        ad_user_data:'granted',
+        ad_personalization:'granted',
+        analytics_storage:'granted',
+        functionality_storage:'granted',
+        personalization_storage:'granted',
+        security_storage:'granted'
+      });
+      try { localStorage.setItem('vpnworld_consent','granted'); } catch(e) {}
+      hideCookieBannerSafely();
+      gtag('config','G-RD6M691ZWD');
+    }
+
+    function rejectConsent() {
+      gtag('consent','update', {
+        ad_storage:'denied',
+        ad_user_data:'denied',
+        ad_personalization:'denied',
+        analytics_storage:'denied',
+        functionality_storage:'denied',
+        personalization_storage:'denied',
+        security_storage:'denied'
+      });
+      try { localStorage.setItem('vpnworld_consent','denied'); } catch(e) {}
+      hideCookieBannerSafely();
+    }
+
+    function applyStoredConsentSafely() {
+      try {
+        var c = localStorage.getItem('vpnworld_consent');
+        if (c === 'granted') {
+          gtag('consent','update', {
+            ad_storage:'granted',
+            ad_user_data:'granted',
+            ad_personalization:'granted',
+            analytics_storage:'granted',
+            functionality_storage:'granted',
+            personalization_storage:'granted',
+            security_storage:'granted'
+          });
+          hideCookieBannerSafely();
+          gtag('config','G-RD6M691ZWD');
+        } else if (c === 'denied') {
+          gtag('consent','update', {
+            ad_storage:'denied',
+            ad_user_data:'denied',
+            ad_personalization:'denied',
+            analytics_storage:'denied',
+            functionality_storage:'denied',
+            personalization_storage:'denied',
+            security_storage:'denied'
+          });
+          hideCookieBannerSafely();
+        }
+      } catch(e) {}
+    }
+
+    document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
+  </script>
+
+  <!-- Local hard-fixes: tables/CTA/SVG always readable on dark theme -->
+  <style>
+    /* =========================================================
+       VPN WORLD — DARK THEME VISIBILITY FIX (FINAL, HARD)
+       Tables + captions + CTA + SVG readability
+       ========================================================= */
+    .cta-box, .cta-buttons, .cta-box *, .cta-buttons * { color:#ffffff !important; }
+    .cta-box { background:#0b1220 !important; border:1px solid #1f2a3a !important; }
+    .cta-buttons a { color:#ffffff !important; font-weight:800; text-decoration:none; }
+    .cta-buttons a.nordvpn{ background:#2563eb !important; }
+    .cta-buttons a.surfshark{ background:#0f766e !important; }
+    .cta-buttons a.protonvpn{ background:#4c1d95 !important; }
+
+    table{ background:#ffffff !important; color:#000000 !important; border-collapse:collapse; }
+    table caption{ color:#ffffff !important; font-weight:800; padding:8px 0; text-align:left; }
+    table thead th{ background:#ffffff !important; color:#000000 !important; border:2px solid #000000 !important; }
+    table tbody td{ color:#000000 !important; border:2px solid #000000 !important; }
+    table tbody tr:nth-child(even), table tbody tr:hover { background:#ffffff !important; }
+
+    .table-scroll{ overflow-x:auto; -webkit-overflow-scrolling:touch; border-radius:12px; }
+    .table-scroll table{ min-width:720px; }
+
+    /* SVG: high contrast, responsive wrapper */
+    .svg-card{
+      background:#ffffff;
+      border:2px solid #000;
+      border-radius:14px;
+      padding:12px;
+      margin:14px 0;
+      box-shadow:none;
+    }
+    .svg-scroll{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    .svg-card svg{ max-width:100%; height:auto; display:block; color:#000; }
+    .svg-card svg text{ fill:#000 !important; font-weight:800; }
+    .svg-card svg .stroke{ stroke:#000; stroke-width:4; fill:none; }
+    .svg-card svg .box{ stroke:#000; stroke-width:4; fill:#fff; }
+    .svg-card svg .arrow{ stroke:#000; stroke-width:4; fill:none; marker-end:url(#arrowHead); }
+
+    /* “Related” dark wide card style (green accent) */
+    .related-wide{
+      background:#0b1220;
+      border:1px solid #1f2a3a;
+      border-radius:16px;
+      padding:12px 14px;
+      margin:10px 0 14px;
+      position:relative;
+    }
+    .related-wide:before{
+      content:"";
+      position:absolute;
+      left:10px;
+      top:10px;
+      bottom:10px;
+      width:4px;
+      border-radius:6px;
+      background:#22c55e;
+    }
+    .related-wide p{ margin:0; padding-left:14px; color:#eaeaea; }
+    .related-wide a{ color:#eaeaea; text-decoration:underline; font-weight:800; }
+    .related-wide strong{ color:#eaeaea; }
+
+    /* Minor UI bits */
+    .toc{
+      background:#0b1220;
+      border:1px solid #1f2a3a;
+      border-radius:16px;
+      padding:14px;
+      margin:14px 0 18px;
+    }
+    .toc h2{ margin:0 0 8px; font-size:1.05rem; }
+    .toc ul{ margin:0; padding-left:18px; }
+    .toc a{ text-decoration:underline; }
+    .tagline{
+      opacity:.95;
+    }
+    .callout{
+      border:1px solid #1f2a3a;
+      border-radius:16px;
+      padding:14px;
+      margin:14px 0;
+      background:#0b1220;
+    }
+    .callout .k{ font-weight:800; }
+    .pill{
+      display:inline-block;
+      padding:4px 10px;
+      border-radius:999px;
+      border:1px solid #1f2a3a;
+      margin-right:8px;
+      margin-bottom:6px;
+      background:#0f1720;
+      color:#eaeaea;
+      font-weight:800;
+      font-size:.9rem;
+    }
+    /* Cookie banner (FR) */
+    #cookie-banner p{ margin:0 0 10px; }
+  </style>
+
+  <!-- JSON-LD (Stage 2.5): Organization + Article + BreadcrumbList + FAQPage + HowTo + ItemList -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"Organization",
+        "@id":"https://dloran1.github.io/#organization",
+        "name":"VPN World",
+        "url":"https://dloran1.github.io/",
+        "logo":{
+          "@type":"ImageObject",
+          "url":"https://dloran1.github.io/assets/img/logo.png"
+        }
+      },
+      {
+        "@type":"Article",
+        "@id":"https://dloran1.github.io/fr/blog/vpn-netflix.html#article",
+        "mainEntityOfPage":{
+          "@type":"WebPage",
+          "@id":"https://dloran1.github.io/fr/blog/vpn-netflix.html"
+        },
+        "headline":"VPN pour Netflix (2026) : corriger “Proxy/VPN détecté”, éviter le buffering 4K, Apple TV/Smart TV/routeur",
+        "description":"Guide 2026 (tests réels) : débloquer Netflix avec un VPN, corriger l’erreur Proxy/VPN détecté, régler MTU/MSS, vérifier les fuites DNS/IPv6/WebRTC, et configurer Apple TV, Smart TV et routeur.",
+        "image":"https://dloran1.github.io/assets/img/hero/vpn-netflix-uk.webp",
+        "inLanguage":"fr",
+        "datePublished":"2026-01-12",
+        "dateModified":"2026-01-12",
+        "author":{
+          "@type":"Person",
+          "name":"Denys Shchur",
+          "url":"https://dloran1.github.io/fr/about-denys-shchur.html"
+        },
+        "publisher":{
+          "@id":"https://dloran1.github.io/#organization"
+        }
+      },
+      {
+        "@type":"BreadcrumbList",
+        "@id":"https://dloran1.github.io/fr/blog/vpn-netflix.html#breadcrumbs",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"Accueil","item":"https://dloran1.github.io/fr/"},
+          {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/fr/blog/"},
+          {"@type":"ListItem","position":3,"name":"VPN pour Netflix","item":"https://dloran1.github.io/fr/blog/vpn-netflix.html"}
+        ]
+      },
+      {
+        "@type":"HowTo",
+        "@id":"https://dloran1.github.io/fr/blog/vpn-netflix.html#howto-proxy-error",
+        "name":"Corriger l’erreur Netflix “Proxy/VPN détecté”",
+        "inLanguage":"fr",
+        "step":[
+          {"@type":"HowToStep","name":"Couper et nettoyer","text":"Déconnectez le VPN, fermez Netflix, puis effacez cookies/cache du navigateur ou de l’application."},
+          {"@type":"HowToStep","name":"Changer de serveur","text":"Reconnectez-vous à un autre serveur (idéalement “Streaming” ou obfusqué) et évitez les serveurs surchargés."},
+          {"@type":"HowToStep","name":"Changer de protocole","text":"Passez sur WireGuard (ou NordLynx) pour réduire la latence et stabiliser le flux 4K."},
+          {"@type":"HowToStep","name":"Tester les fuites","text":"Vérifiez DNS/IPv6/WebRTC. Une fuite suffit à déclencher un blocage ou un mauvais catalogue."},
+          {"@type":"HowToStep","name":"Ajuster MTU si buffering","text":"Si la 4K “saccade” sur 5G/Starlink, essayez une MTU de 1400 ou 1320 (si votre client VPN le permet)."}
+        ]
+      },
+      {
+        "@type":"FAQPage",
+        "@id":"https://dloran1.github.io/fr/blog/vpn-netflix.html#faq",
+        "mainEntity":[
+          {
+            "@type":"Question",
+            "name":"Pourquoi Netflix affiche “Proxy/VPN détecté” ?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"Le plus souvent, l’IP du serveur VPN est déjà connue ou “fatiguée” (trop d’utilisateurs), ou votre appareil fuit des infos de localisation (DNS, IPv6, WebRTC). Changer de serveur et vérifier les fuites règle la majorité des cas."
+            }
+          },
+          {
+            "@type":"Question",
+            "name":"Quel protocole VPN est le plus stable pour Netflix en 2026 ?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"WireGuard (ou NordLynx) est généralement le plus stable pour le streaming grâce à une latence plus faible et un meilleur comportement sur réseaux mobiles. OpenVPN peut dépanner si vous avez besoin de “furtivité”, mais il peut être plus sensible au jitter."
+            }
+          },
+          {
+            "@type":"Question",
+            "name":"Pourquoi j’ai du buffering 4K alors que mon débit est bon ?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"Le débit brut n’est pas tout : la latence, le jitter et la fragmentation (MTU) comptent énormément. Sur 5G/Starlink, réduire la MTU (1400/1320) ou utiliser WireGuard améliore souvent la stabilité."
+            }
+          },
+          {
+            "@type":"Question",
+            "name":"Apple TV supporte-t-il un VPN nativement ?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"Oui : sur tvOS moderne, vous pouvez installer l’app VPN depuis l’App Store (selon le fournisseur). Sinon, la solution universelle reste la configuration sur routeur."
+            }
+          },
+          {
+            "@type":"Question",
+            "name":"Un VPN change-t-il le catalogue Netflix ?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"Oui, si Netflix “voit” votre localisation via l’IP. Mais si des fuites DNS/IPv6/WebRTC révèlent votre pays réel, vous pouvez rester bloqué sur le catalogue local ou déclencher une erreur proxy."
+            }
+          }
+        ]
+      },
+      {
+        "@type":"ItemList",
+        "@id":"https://dloran1.github.io/fr/blog/vpn-netflix.html#related",
+        "name":"Guides associés",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/fr/blog/vpn-streaming.html"},
+          {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/fr/blog/vpn-dns-leak.html"},
+          {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/fr/blog/proxy-vs-vpn.html"},
+          {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/fr/blog/protocoles-vpn.html"}
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
+
 <body>
-<nav class="lang-switch"><a href="/blog/vpn-netflix.html">Polski</a> | <a href="/en-gb/blog/vpn-netflix-uk.html">English (UK)</a> | <a href="/en-us/blog/vpn-netflix.html">English (US)</a> | <a href="/de/blog/vpn-netflix.html">Deutsch</a> | <a href="/es/blog/vpn-netflix.html">Español</a> | <a href="/fr/blog/vpn-netflix.html" class="active">Français</a> | <a href="/nl-be/blog/vpn-netflix.html">Nederlands (BE)</a></nav>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="header-main">
+        <a href="/fr/" class="brand">
+          <img src="../../assets/img/logo.png" class="logo" alt="Logo VPN World">
+          <span class="brand-text">VPN World</span>
+        </a>
 
+        <nav class="primary-nav" aria-label="Navigation principale">
+          <a href="/fr/blog/">Blog</a>
+        </nav>
+      </div>
 
-<header class="site-header"><div class="container header-inner">
-  <a href="/fr/" class="brand"><img src="../../assets/img/logo.png" class="logo" alt=""> <span class="brand-text">VPN World</span></a>
-  
-</div></header>
-<main class="container card" style="padding:18px 0"><h1>Vpn Netflix</h1><p>Content coming soon...</p><!-- RELATED_START -->
-<section class="related-guides" aria-label="Guides associés">
-  <h2>Guides associés</h2>
-  <ul>
-    <li><a href="/fr/blog/vpn-streaming.html">/fr/blog/vpn-streaming.html</a></li>
-    <li><a href="/fr/blog/blocages-geographiques-vpn.html">/fr/blog/blocages-geographiques-vpn.html</a></li>
-    <li><a href="/fr/blog/vpn-bbc-iplayer.html">/fr/blog/vpn-bbc-iplayer.html</a></li>
-    <li><a href="/fr/blog/vpn-pour-smart-tv.html">/fr/blog/vpn-pour-smart-tv.html</a></li>
-    <li><a href="/fr/blog/quest-ce-quun-vpn.html">/fr/blog/quest-ce-quun-vpn.html</a></li>
-  </ul>
-</section>
-<!-- RELATED_END -->
-</main>
-<footer class="site-footer"><div class="container footer-grid">
-  <div><strong>VPN World</strong><p>Niezależny serwis o prywatności i bezpieczeństwie w sieci.</p></div>
-  <nav><a href="/privacy.html">Privacy</a> <a href="/sitemap.xml">Sitemap</a> <a href="mailto:denger88@gmail.com">Kontakt</a></nav>
-</div><div class="container tiny">© 2025 VPN World</div></footer>
-<script src="../../assets/js/main.js"></script>
-<script src="../../assets/js/cookie-consent.js"></script>
-<div id="privacy-banner" class="privacy-banner">We use cookies. <a href="/privacy.html">Privacy</a> · <button class="btn btn-compact" onclick="this.parentElement.remove()">OK</button></div>
-</body></html>
+      <nav class="lang-switch" aria-label="Sélecteur de langue">
+        <a href="/blog/vpn-netflix.html" class="">Polski</a> |
+        <a href="/en-gb/blog/vpn-netflix-uk.html" class="">English (UK)</a> |
+        <a href="/en-us/blog/vpn-netflix.html" class="">English (US)</a> |
+        <a href="/de/blog/vpn-netflix.html" class="">Deutsch</a> |
+        <a href="/es/blog/vpn-netflix.html" class="">Español</a> |
+        <a href="/fr/blog/vpn-netflix.html" class="active">Français</a> |
+        <a href="/nl-be/blog/vpn-netflix.html" class="">Nederlands (BE)</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h1>VPN pour Netflix (2026) : débloquer, corriger “Proxy détecté” et stabiliser la 4K</h1>
+
+          <p class="note">
+            <strong>Réponse rapide :</strong>
+            si Netflix bloque votre VPN, changez de serveur (idéalement “Streaming/obfusqué”), passez sur <strong>WireGuard</strong>,
+            puis vérifiez <strong>DNS/IPv6/WebRTC</strong>. Et si la 4K “micro-bug” sur <strong>5G/Starlink</strong>, l’ajustement <strong>MTU</strong> (1400/1320)
+            peut vraiment faire la différence.
+          </p>
+
+          <p class="tagline">
+            Ici, pas de blabla : on va droit aux causes fréquentes (blocage d’IP, fuites, réglages réseau) et aux correctifs qui marchent
+            en vrai — que vous regardiez Netflix sur Windows, iPhone, Apple TV ou une Smart TV.
+          </p>
+
+          <div class="hero-author">
+            <img src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur – auteur VPN World">
+            <div class="hero-author-text">
+              <span class="hero-author-label">Écrit par</span>
+              <span class="hero-author-name">
+                <a href="/fr/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a>
+              </span>
+              <span class="meta">Mise à jour : 2026-01-12 · ~14–20 min de lecture</span>
+            </div>
+          </div>
+
+          <!-- Early CTA block -->
+          <div class="cta-buttons" aria-label="Offres partenaires">
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — streaming stable + serveurs spécialisés</a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — bon rapport qualité/prix</a>
+            <a href="https://www.dpbolvw.net/click-101525886-15834536" class="protonvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN — confidentialité (Suisse) + Secure Core</a>
+          </div>
+
+          <ul class="meta-points">
+            <li>Solutions concrètes pour “Proxy/VPN détecté”</li>
+            <li>Checklist anti-fuites (DNS/IPv6/WebRTC)</li>
+            <li>Réglages streaming 4K : protocole + MTU</li>
+          </ul>
+        </div>
+
+        <div class="hero-media">
+          <div class="hero-art">
+            <img src="../../assets/img/hero/vpn-netflix-uk.webp" alt="Illustration : VPN pour Netflix, streaming sécurisé et stable (2026)">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="section">
+      <div class="container article">
+        <!-- CONTENT_START -->
+
+        <div class="toc" id="sommaire">
+          <h2>Sommaire</h2>
+          <ul>
+            <li><a href="#pourquoi-netflix-bloque">Pourquoi Netflix bloque les VPN</a></li>
+            <li><a href="#plan-express">Plan express en 5 minutes</a></li>
+            <li><a href="#entity-summary">Résumé des notions clés (utile pour comprendre vite)</a></li>
+            <li><a href="#tests-fuites">Tests indispensables : DNS, IPv6, WebRTC</a></li>
+            <li><a href="#mtu-mss">Buffering 4K : MTU & MSS (le “hack” propre)</a></li>
+            <li><a href="#plateformes">Correctifs par plateforme : Apple TV, Smart TV, routeur, mobile</a></li>
+            <li><a href="#tableau-choix">Choisir un serveur Netflix : vitesse, latence, stabilité</a></li>
+            <li><a href="#cas-reel">Cas réel (janvier 2026) : le détail qui casse tout</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+
+        <h2 id="pourquoi-netflix-bloque">Pourquoi Netflix bloque les VPN (et pourquoi ça change tout le temps)</h2>
+
+        <div class="related-wide">
+          <p><strong>Related :</strong> <a href="/fr/blog/vpn-streaming.html">VPN pour le streaming : réglages et pièges classiques</a></p>
+        </div>
+
+        <p>
+          Netflix ne “déteste” pas les VPN par principe. Le problème, c’est l’abus : quand un même serveur VPN sert
+          des centaines (ou milliers) de spectateurs, l’adresse IP devient <strong>très visible</strong>. Résultat :
+          Netflix classe l’IP comme “datacenter”, “partagée”, ou “suspecte”, et vous colle l’erreur
+          <strong>“Proxy/VPN détecté”</strong> ou vous renvoie vers un catalogue différent.
+        </p>
+        <p>
+          En 2026, le blocage ne repose plus uniquement sur l’IP : Netflix surveille aussi des signaux “comportementaux”
+          (latence, régularité du trafic, patterns de connexion). Concrètement : si vous faites tout “bien” côté VPN,
+          mais que votre appareil fuit encore la localisation via <strong>DNS</strong>, <strong>IPv6</strong> ou <strong>WebRTC</strong>,
+          Netflix peut quand même flairer le truc.
+        </p>
+
+        <div class="callout">
+          <span class="pill">À retenir</span>
+          <span class="pill">IP</span>
+          <span class="pill">Fuites</span>
+          <span class="pill">Protocole</span>
+          <p style="margin-top:10px;">
+            <span class="k">Le trio gagnant :</span> serveur Netflix “propre” + protocole rapide (WireGuard) + zéro fuite DNS/IPv6/WebRTC.
+            Si vous cochez ces 3 cases, vous êtes déjà loin devant 90% des setups “au pif”.
+          </p>
+        </div>
+
+        <h2 id="plan-express">Plan express (5 minutes) : quoi faire quand Netflix bloque votre VPN</h2>
+
+        <div class="related-wide">
+          <p><strong>Related :</strong> <a href="/fr/blog/vpn-dns-leak.html">Fuite DNS avec un VPN : test & correctifs</a></p>
+        </div>
+
+        <ol>
+          <li><strong>Déconnectez le VPN</strong>, fermez Netflix, puis effacez <strong>cookies/cache</strong> (navigateur ou appli).</li>
+          <li><strong>Reconnectez-vous</strong> mais sur un <strong>autre serveur</strong> (idéalement “Streaming/obfusqué”).</li>
+          <li><strong>Changez de protocole</strong> : testez <strong>WireGuard</strong> d’abord.</li>
+          <li><strong>Testez les fuites</strong> (DNS/IPv6/WebRTC). Corrigez avant de retester Netflix.</li>
+          <li>Si la vidéo “saccade” en 4K sur 5G/Starlink : tentez une <strong>MTU 1400</strong> (ou <strong>1320</strong>).</li>
+        </ol>
+
+        <div class="callout">
+          <p style="margin:0;">
+            <span class="k">Astuce simple mais efficace :</span> si vous enchaînez les échecs, arrêtez de vous battre sur un serveur.
+            Changez. Un serveur “fatigué” reste fatigué. C’est comme insister sur une caisse bloquée au supermarché : vous perdez du temps.
+          </p>
+        </div>
+
+        <h2 id="entity-summary">Résumé des notions clés (pour comprendre vite)</h2>
+        <div class="callout" style="border-left:5px solid #2563eb;">
+          <p style="margin:0 0 10px;"><strong>Architecture pratique (2026) :</strong></p>
+          <ul style="margin:0; padding-left:18px;">
+            <li><strong>Services :</strong> Netflix (streaming), FAI/ISP (votre fournisseur Internet), serveur VPN (sortie).</li>
+            <li><strong>Protocoles :</strong> WireGuard (rapide), OpenVPN (TCP/UDP), IKEv2 (mobile solide).</li>
+            <li><strong>Causes fréquentes du blocage :</strong> réputation d’IP, fuites DNS, IPv6 non géré, fuite WebRTC.</li>
+            <li><strong>Stabilité streaming :</strong> latence + jitter + MTU (fragmentation) comptent autant que le débit.</li>
+          </ul>
+        </div>
+
+        <h2 id="tests-fuites">Tests indispensables : DNS, IPv6, WebRTC (sinon vous jouez à l’aveugle)</h2>
+
+        <div class="related-wide">
+          <p><strong>Related :</strong> <a href="/fr/blog/proxy-vs-vpn.html">Proxy vs VPN : différences (et pourquoi Netflix les traite différemment)</a></p>
+        </div>
+
+        <p>
+          Quand Netflix vous bloque “alors que le VPN est connecté”, le coupable n’est pas toujours Netflix.
+          Parfois, c’est votre appareil qui “parle trop” (DNS/IPv6/WebRTC). Voici une façon simple de vérifier.
+        </p>
+
+        <div class="table-scroll">
+          <table>
+            <caption>Table : tests de fuites (ce qu’il faut vérifier avant d’accuser Netflix)</caption>
+            <thead>
+              <tr>
+                <th>Test</th>
+                <th>Où regarder</th>
+                <th>Résultat attendu</th>
+                <th>Action si échec</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>DNS</td>
+                <td>dnsleaktest.com</td>
+                <td>DNS du VPN (pas votre FAI)</td>
+                <td>Activer “DNS du VPN”, changer de serveur DNS dans l’appli</td>
+              </tr>
+              <tr>
+                <td>IPv6</td>
+                <td>test-ipv6.com</td>
+                <td>IPv6 non exposée (ou tunnelisée)</td>
+                <td>Désactiver IPv6 ou activer le support IPv6 du VPN</td>
+              </tr>
+              <tr>
+                <td>WebRTC</td>
+                <td>browserleaks.com/webrtc</td>
+                <td>Pas d’IP réelle / locale exposée</td>
+                <td>Désactiver WebRTC (ou limiter via paramètres/extension)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="svg-card" aria-label="Schéma : fuite de localisation et conséquences">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 1100 320" role="img" aria-label="Schéma : comment une fuite DNS ou WebRTC peut déclencher un blocage Netflix">
+              <defs>
+                <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+                  <path d="M0,0 L8,3 L0,6 Z" fill="#000"></path>
+                </marker>
+              </defs>
+
+              <rect x="20" y="20" width="320" height="110" class="box"></rect>
+              <text x="40" y="60">Votre appareil</text>
+              <text x="40" y="92">Navigateur / App Netflix</text>
+
+              <rect x="420" y="20" width="320" height="110" class="box"></rect>
+              <text x="440" y="60">Tunnel VPN</text>
+              <text x="440" y="92">Trafic chiffré vers serveur VPN</text>
+
+              <rect x="820" y="20" width="260" height="110" class="box"></rect>
+              <text x="840" y="60">Netflix</text>
+              <text x="840" y="92">Analyse IP + signaux</text>
+
+              <path d="M340 75 L420 75" class="arrow"></path>
+              <path d="M740 75 L820 75" class="arrow"></path>
+
+              <rect x="20" y="180" width="420" height="110" class="box"></rect>
+              <text x="40" y="220">Fuite possible</text>
+              <text x="40" y="252">DNS / IPv6 / WebRTC → pays réel</text>
+
+              <rect x="520" y="180" width="560" height="110" class="box"></rect>
+              <text x="540" y="220">Conséquence</text>
+              <text x="540" y="252">Catalogue local ou erreur “Proxy/VPN détecté”</text>
+
+              <path d="M440 235 L520 235" class="arrow"></path>
+            </svg>
+          </div>
+        </div>
+
+        <p>
+          Si vous voulez une méthode pas prise de tête : testez après <strong>chaque</strong> changement important (protocole, serveur, routeur).
+          C’est un peu comme vérifier vos pneus après une crevaison : ça prend 2 minutes et ça évite une journée de galère.
+        </p>
+
+        <h2 id="mtu-mss">Buffering 4K : MTU & MSS (le “hack” propre quand la connexion a l’air parfaite)</h2>
+
+        <div class="related-wide">
+          <p><strong>Related :</strong> <a href="/fr/blog/test-de-vitesse-vpn.html">Test de vitesse VPN : interpréter débit, ping et jitter</a></p>
+        </div>
+
+        <p>
+          Vous avez 300 Mbps, et pourtant Netflix fait du yoyo en 4K ? Oui, c’est rageant. Le débit brut n’explique pas tout :
+          <strong>latence</strong>, <strong>jitter</strong> et surtout <strong>fragmentation</strong> peuvent casser le flux.
+          Sur 5G, Wi-Fi “capricieux” et Starlink, l’overhead du VPN peut pousser certains paquets à se fragmenter.
+        </p>
+
+        <div class="callout">
+          <p style="margin:0;">
+            <span class="k">Réglage pratique :</span> si votre client VPN permet la MTU, testez <strong>1400</strong> puis <strong>1320</strong>.
+            Et si vous êtes sur routeur, cherchez l’option <strong>MSS clamping</strong> (ça évite les paquets trop gros sans vous faire
+            plonger dans un labyrinthe de paramètres).
+          </p>
+        </div>
+
+        <div class="svg-card" aria-label="Schéma : MTU, fragmentation et streaming 4K">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 1100 360" role="img" aria-label="Schéma : pourquoi réduire la MTU peut stabiliser Netflix en 4K sur 5G/Starlink">
+              <defs>
+                <marker id="arrowHead2" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+                  <path d="M0,0 L8,3 L0,6 Z" fill="#000"></path>
+                </marker>
+              </defs>
+
+              <rect x="30" y="30" width="480" height="120" class="box"></rect>
+              <text x="50" y="70">MTU trop haute</text>
+              <text x="50" y="104">Paquets → fragmentation</text>
+              <text x="50" y="138">Jitter → buffering</text>
+
+              <rect x="590" y="30" width="480" height="120" class="box"></rect>
+              <text x="610" y="70">MTU ajustée (1400/1320)</text>
+              <text x="610" y="104">Moins de fragmentation</text>
+              <text x="610" y="138">Flux plus stable</text>
+
+              <path d="M510 90 L590 90" style="stroke:#000;stroke-width:4;fill:none;marker-end:url(#arrowHead2)"></path>
+
+              <rect x="30" y="210" width="1040" height="120" class="box"></rect>
+              <text x="50" y="250">MSS clamping (sur routeur / pare-feu)</text>
+              <text x="50" y="284">Réduit automatiquement la taille des segments TCP → évite les paquets trop gros</text>
+              <text x="50" y="318">Résultat : moins de micro-coupures, surtout sur réseaux mobiles et satellite</text>
+            </svg>
+          </div>
+        </div>
+
+        <p>
+          Petite note “terrain” : sur Starlink, <strong>WireGuard</strong> a souvent un comportement plus doux que certains profils OpenVPN
+          (moins d’à-coups, moins de micro-coupures). Si vous regardez Netflix sur un réseau qui “bouge”, c’est un choix simple.
+        </p>
+
+        <h2 id="plateformes">Correctifs par plateforme : Apple TV, Smart TV, routeur, Windows/iOS/Android</h2>
+
+        <div class="related-wide">
+          <p><strong>Related :</strong> <a href="/fr/blog/vpn-apple-tv.html">VPN sur Apple TV : app, réglages et alternatives</a></p>
+        </div>
+
+        <p>
+          Netflix ne se vit pas uniquement sur un PC. En 2026, la majorité des gens regardent sur TV ou boîtier.
+          Voici les solutions les plus fiables, sans bricolage inutile.
+        </p>
+
+        <h3>Apple TV (tvOS)</h3>
+        <p>
+          Sur tvOS moderne, vous pouvez souvent <strong>installer l’app VPN directement</strong> depuis l’App Store (selon le fournisseur).
+          C’est la méthode la plus propre : moins de hacks DNS, moins de surprises. Si l’app n’est pas dispo ou si vous voulez protéger
+          toute la maison : passez au routeur.
+        </p>
+
+        <h3>Smart TV (Samsung / LG)</h3>
+        <div class="related-wide">
+          <p><strong>Related :</strong> <a href="/fr/blog/vpn-pour-smart-tv.html">VPN pour Smart TV : routeur, DNS, et pièges</a></p>
+        </div>
+        <p>
+          La plupart des Smart TV ne gèrent pas les VPN “comme un téléphone”. Dans ce cas :
+          <strong>VPN sur routeur</strong> (solution universelle) ou <strong>routeur de voyage</strong> (GL.iNet, etc.).
+          Si vous voulez du “plug & play” en déplacement, un petit routeur de voyage est souvent plus simple que de se battre avec la TV.
+        </p>
+
+        <h3>Routeur (maison / voyage)</h3>
+        <div class="related-wide">
+          <p><strong>Related :</strong> <a href="/fr/blog/configuration-vpn-routeur.html">Configuration VPN sur routeur : guide pas à pas</a></p>
+        </div>
+        <p>
+          Le routeur a un avantage énorme : il protège tout (TV, console, tablette) d’un coup. L’inconvénient : le débit dépend
+          de la puissance du routeur. Pour Netflix 4K, privilégiez un routeur correct et un protocole efficace.
+        </p>
+
+        <h3>Windows / macOS</h3>
+        <div class="related-wide">
+          <p><strong>Related :</strong> <a href="/fr/blog/configuration-vpn-windows.html">Configuration VPN sur Windows : fuites & kill switch</a></p>
+        </div>
+        <p>
+          Sur PC, vous avez le plus de contrôle : protocole, DNS, pare-feu. Si Netflix bloque :
+          changez de serveur, puis vérifiez <strong>Secure DNS / DNS chiffré</strong> dans le navigateur (Chrome/Brave/Edge).
+          C’est un “détail” qui peut contourner votre tunnel.
+        </p>
+
+        <h3>iOS / Android</h3>
+        <div class="related-wide">
+          <p><strong>Related :</strong> <a href="/fr/blog/configuration-vpn-iphone.html">VPN sur iPhone : réglages qui évitent les surprises</a></p>
+        </div>
+        <p>
+          Sur mobile : activez <strong>“Toujours actif”</strong> et le <strong>kill switch</strong> si disponible. Sur 5G,
+          WireGuard est souvent le plus stable. Et oui, un simple changement de réseau (4G→5G→Wi-Fi) peut casser Netflix :
+          dans ce cas, déconnectez/reconnectez le VPN avant de relancer la lecture.
+        </p>
+
+        <h2 id="tableau-choix">Choisir un serveur Netflix : vitesse, ping, stabilité (et pas juste “le plus proche”)</h2>
+
+        <div class="related-wide">
+          <p><strong>Related :</strong> <a href="/fr/blog/quel-serveur-vpn-choisir.html">Quel serveur VPN choisir : critères simples et efficaces</a></p>
+        </div>
+
+        <p>
+          Pour Netflix, le meilleur serveur n’est pas toujours le plus proche. Il faut un combo :
+          <strong>IP pas bloquée</strong> + <strong>charge faible</strong> + <strong>latence correcte</strong>.
+          En pratique, testez 2–3 serveurs et gardez celui qui tient la route.
+        </p>
+
+        <div class="table-scroll">
+          <table>
+            <caption>Mini résultats (exemple de tests) : ping, débit et lecture 4K</caption>
+            <thead>
+              <tr>
+                <th>Serveur (exemple)</th>
+                <th>Ping</th>
+                <th>Débit</th>
+                <th>Résultat Netflix</th>
+                <th>Remarque</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>New York (NordVPN)</td>
+                <td>~85 ms</td>
+                <td>~120 Mbps</td>
+                <td>4K OK</td>
+                <td>Stable après passage WireGuard</td>
+              </tr>
+              <tr>
+                <td>Londres (Surfshark)</td>
+                <td>~40 ms</td>
+                <td>~150 Mbps</td>
+                <td>4K OK</td>
+                <td>Très bon pour catalogue UK</td>
+              </tr>
+              <tr>
+                <td>Zurich (Proton VPN)</td>
+                <td>~35–55 ms</td>
+                <td>~90–140 Mbps</td>
+                <td>4K OK / variable</td>
+                <td>Selon charge serveur & heure</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="svg-card" aria-label="Schéma : niveaux de confidentialité (VPN, navigateur, habitudes)">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 1100 360" role="img" aria-label="Schéma : niveaux de confidentialité — VPN seul vs VPN + hygiène navigateur">
+              <defs>
+                <marker id="arrowHead3" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+                  <path d="M0,0 L8,3 L0,6 Z" fill="#000"></path>
+                </marker>
+              </defs>
+
+              <rect x="30" y="40" width="320" height="120" class="box"></rect>
+              <text x="50" y="80">Niveau 1</text>
+              <text x="50" y="112">VPN seul</text>
+              <text x="50" y="144">IP masquée, trafic chiffré</text>
+
+              <rect x="390" y="40" width="320" height="120" class="box"></rect>
+              <text x="410" y="80">Niveau 2</text>
+              <text x="410" y="112">VPN + zéro fuite</text>
+              <text x="410" y="144">DNS / IPv6 / WebRTC OK</text>
+
+              <rect x="750" y="40" width="320" height="120" class="box"></rect>
+              <text x="770" y="80">Niveau 3</text>
+              <text x="770" y="112">+ hygiène navigateur</text>
+              <text x="770" y="144">Cookies / Secure DNS / profil</text>
+
+              <path d="M350 100 L390 100" style="stroke:#000;stroke-width:4;fill:none;marker-end:url(#arrowHead3)"></path>
+              <path d="M710 100 L750 100" style="stroke:#000;stroke-width:4;fill:none;marker-end:url(#arrowHead3)"></path>
+
+              <rect x="30" y="220" width="1040" height="110" class="box"></rect>
+              <text x="50" y="260">Important :</text>
+              <text x="50" y="294">Un VPN améliore la confidentialité, mais ne remplace pas les bons réglages (cookies, DNS chiffré, extensions).</text>
+            </svg>
+          </div>
+        </div>
+
+        <h2 id="cas-reel">Cas réel (janvier 2026) : le détail invisible qui bloquait tout</h2>
+        <p>
+          Un utilisateur à Madrid n’arrivait pas à regarder Netflix US malgré ~300 Mbps. Test de vitesse nickel, VPN connecté,
+          et pourtant : <strong>erreur proxy</strong> persistante. Le “twist” : son navigateur (Brave) avait activé un
+          <strong>DNS sécurisé</strong> qui passait <em>à côté</em> du tunnel VPN.
+        </p>
+        <p>
+          Solution : désactiver “Secure DNS” dans le navigateur, puis passer sur <strong>WireGuard</strong>. Résultat :
+          lecture 4K quasi immédiate. Moralité : quand ça bloque, ce n’est pas toujours “le VPN”. Parfois, c’est un réglage
+          discret qui casse la cohérence de votre localisation.
+        </p>
+
+        <h2>Comparatif rapide : VPN vs proxy (pour Netflix)</h2>
+
+        <div class="related-wide">
+          <p><strong>Related :</strong> <a href="/fr/blog/proxy-vs-vpn.html">Proxy vs VPN : lequel choisir et quand</a></p>
+        </div>
+
+        <div class="table-scroll">
+          <table>
+            <caption>Table : VPN vs Proxy (sécurité, stabilité et usage sur Netflix)</caption>
+            <thead>
+              <tr>
+                <th>Outil</th>
+                <th>Chiffre le trafic</th>
+                <th>Change l’IP</th>
+                <th>Stabilité Netflix</th>
+                <th>Quand ça vaut le coup</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>VPN</td>
+                <td>Oui</td>
+                <td>Oui</td>
+                <td>Élevée (si serveur non bloqué)</td>
+                <td>Streaming + Wi-Fi public + confidentialité pratique</td>
+              </tr>
+              <tr>
+                <td>Proxy</td>
+                <td>Parfois</td>
+                <td>Oui</td>
+                <td>Moyenne / faible</td>
+                <td>Cas ponctuels, pas pour la sécurité</td>
+              </tr>
+              <tr>
+                <td>Tor</td>
+                <td>Oui</td>
+                <td>Oui</td>
+                <td>Très faible</td>
+                <td>Confidentialité forte (pas pour Netflix)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="faq">FAQ</h2>
+        <dl>
+          <dt>Pourquoi Netflix affiche “Proxy/VPN détecté” ?</dt>
+          <dd>Souvent parce que l’IP du serveur VPN est déjà repérée, ou parce que votre appareil fuit la localisation via DNS/IPv6/WebRTC. Changez de serveur, testez les fuites, puis retentez.</dd>
+
+          <dt>Quel protocole est le plus stable pour le streaming ?</dt>
+          <dd>Dans la majorité des cas : WireGuard (ou NordLynx). Sur des réseaux très instables, OpenVPN peut dépanner, mais il peut être plus sensible au jitter.</dd>
+
+          <dt>Pourquoi la 4K buffer alors que mon débit est bon ?</dt>
+          <dd>La latence, le jitter et la fragmentation (MTU) peuvent casser le flux. Sur 5G/Starlink, réduire la MTU (1400/1320) améliore souvent la stabilité.</dd>
+
+          <dt>Apple TV supporte-t-il un VPN nativement ?</dt>
+          <dd>Oui sur tvOS moderne (selon le fournisseur). Sinon, la configuration sur routeur reste la solution la plus universelle.</dd>
+
+          <dt>Est-ce légal d’utiliser un VPN avec Netflix ?</dt>
+          <dd>Un VPN est légal dans la plupart des pays, mais l’accès à un catalogue différent peut aller à l’encontre des conditions d’utilisation du service. Le plus sûr : utiliser un VPN pour la confidentialité et la sécurité, pas uniquement pour “changer de pays”.</dd>
+        </dl>
+
+        <div class="key-takeaway">
+          <strong>Key takeaway :</strong>
+          Pour Netflix, ce n’est pas “juste un bouton VPN” : serveur propre + WireGuard + zéro fuite DNS/IPv6/WebRTC = la combinaison la plus fiable.
+        </div>
+
+        <!-- CONTENT_END -->
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <h2>Vidéo courte : VPN & confidentialité (explication simple)</h2>
+
+        <p class="note">
+          <strong>À retenir :</strong>
+          un VPN sépare <strong>qui vous êtes</strong> (IP/FAI) de <strong>ce que vous faites</strong> (sites consultés).
+          Pour Netflix, l’objectif pratique est aussi d’éviter les incohérences de localisation (fuites DNS/IPv6/WebRTC).
+        </p>
+
+        <div class="video-wrap">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&modestbranding=1"
+            title="VPN World — vidéo"
+            loading="lazy"
+            frameborder="0"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+        </div>
+
+        <p>
+          Si le lecteur ne charge pas, regardez sur YouTube :
+          <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- RELATED_START -->
+
+    <!-- RELATED_END -->
+
+    <section class="section">
+      <div class="container">
+        <div class="author-box">
+          <img src="../../assets/img/author/denys-shchur.webp" alt="Portrait de Denys Shchur" class="author-avatar">
+          <div>
+            <h3>À propos de l’auteur</h3>
+            <p>
+              <strong><a href="/fr/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a></strong>
+              est le créateur de VPN World et publie des guides pratiques sur les VPN, la confidentialité et les réglages “qui évitent les mauvaises surprises”.
+              Son passe-temps préféré : traquer les fuites DNS et les réglages réseau tordus… pour que vous n’ayez pas à le faire.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container article">
+        <div class="cta-box" aria-label="VPN recommandés">
+          <h2>VPN recommandés</h2>
+          <p class="cta-note">Liens partenaires (nofollow/sponsored).</p>
+          <div class="cta-buttons" aria-label="Offres partenaires">
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — streaming stable + serveurs spécialisés</a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — bon rapport qualité/prix</a>
+            <a href="https://www.dpbolvw.net/click-101525886-15834536" class="protonvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN — confidentialité (Suisse) + Secure Core</a>
+          </div>
+          <p class="human-note">Divulgation : VPN World peut toucher une commission si vous vous abonnez via ces liens — sans changer votre prix.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p><strong>VPN World</strong> · Service indépendant sur la confidentialité, la sécurité et l’usage pratique des VPN.</p>
+      <p>
+        <a href="/fr/privacy.html">Confidentialité</a> ·
+        <a href="/fr/disclosure.html">Divulgation</a> ·
+        <a href="mailto:u1797008805@gmail.com">Contact</a>
+      </p>
+      <p>© 2026 VPN World</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/cookie-consent.js"></script>
+
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
+    <p>Les statistiques (analytics) sont désactivées par défaut. Vous pouvez accepter ou refuser.</p>
+    <div class="cookie-actions">
+      <button type="button" class="btn btn-compact" onclick="acceptConsent()">Accepter</button>
+      <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Refuser</button>
+    </div>
+  </div>
+
+</body>
+</html>
+
+<!-- PAGE: https://dloran1.github.io/fr/blog/vpn-netflix.html -->
