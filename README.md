@@ -6,7 +6,7 @@
 - Full hreflang (7 + x-default) and visible language switchers
 - Zero internal 404 (assets included, hero without external image)
 - Localized homepages and blog under `/LOCALE/blog/`
-- `robots.txt`, `sitemap.xml` (with alternates), `rss.xml` per locale
+- `robots.txt`, `sitemap.xml` (with alternates), `rss.xml` per locale 
 - Privacy pages + cookie banner
 - Canonical + OG/Twitter meta on all pages
 
