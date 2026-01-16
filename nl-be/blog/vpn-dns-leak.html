@@ -20,44 +20,14 @@
   <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-dns-leak.html">
   <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html">
 
-  <!-- Styles -->
   <link rel="stylesheet" href="../../assets/css/style.css">
 
-  <!-- Preconnect -->
-  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
-  <link rel="dns-prefetch" href="https://www.google-analytics.com">
-  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
-
-  <!-- Open Graph / Twitter -->
-  <meta property="og:type" content="article">
-  <meta property="og:site_name" content="VPN World">
-  <meta property="og:locale" content="nl_BE">
-  <meta property="og:locale:alternate" content="pl_PL">
-  <meta property="og:locale:alternate" content="en_GB">
-  <meta property="og:locale:alternate" content="en_US">
-  <meta property="og:locale:alternate" content="de_DE">
-  <meta property="og:locale:alternate" content="es_ES">
-  <meta property="og:locale:alternate" content="fr_FR">
-  <meta property="og:title" content="DNS-lek met een VPN: detectie en oplossingen (2026)">
-  <meta property="og:description" content="Praktische gids 2026: wat een DNS-lek met een VPN is, hoe je DNS/IPv6/WebRTC test en lekken oplost op Windows, macOS, Android, iOS en routers — met realistische privacygrenzen.">
-  <meta property="og:url" content="https://dloran1.github.io/nl-be/blog/vpn-dns-leak.html">
-  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="DNS-lek met een VPN: detectie en oplossingen (2026)">
-  <meta name="twitter:description" content="Praktische gids 2026: wat een DNS-lek met een VPN is, hoe je DNS/IPv6/WebRTC test en lekken oplost op Windows, macOS, Android, iOS en routers — met realistische privacygrenzen.">
-  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp">
-
-  <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
+  <!-- GA4 + Consent Mode v2 (default denied) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-
-    gtag('consent','default', {
+    gtag('consent','default',{
       ad_storage:'denied',
       ad_user_data:'denied',
       ad_personalization:'denied',
@@ -66,546 +36,815 @@
       personalization_storage:'denied',
       security_storage:'denied'
     });
-
     gtag('js', new Date());
-
-    function hideCookieBannerSafely() {
-      var banner = document.getElementById('cookie-banner');
-      if (banner) banner.style.display = 'none';
-    }
-
-    function acceptConsent() {
-      gtag('consent','update', {
-        ad_storage:'granted',
-        ad_user_data:'granted',
-        ad_personalization:'granted',
-        analytics_storage:'granted',
-        functionality_storage:'granted',
-        personalization_storage:'granted',
-        security_storage:'granted'
-      });
-      try { localStorage.setItem('vpnworld_consent','granted'); } catch(e) {}
-      hideCookieBannerSafely();
-      gtag('config','G-RD6M691ZWD');
-    }
-
-    function rejectConsent() {
-      gtag('consent','update', {
-        ad_storage:'denied',
-        ad_user_data:'denied',
-        ad_personalization:'denied',
-        analytics_storage:'denied',
-        functionality_storage:'denied',
-        personalization_storage:'denied',
-        security_storage:'denied'
-      });
-      try { localStorage.setItem('vpnworld_consent','denied'); } catch(e) {}
-      hideCookieBannerSafely();
-    }
-
-    function applyStoredConsentSafely() {
-      try {
-        var c = localStorage.getItem('vpnworld_consent');
-        if (c === 'granted') {
-          gtag('consent','update', {
-            ad_storage:'granted',
-            ad_user_data:'granted',
-            ad_personalization:'granted',
-            analytics_storage:'granted',
-            functionality_storage:'granted',
-            personalization_storage:'granted',
-            security_storage:'granted'
-          });
-          hideCookieBannerSafely();
-          gtag('config','G-RD6M691ZWD');
-        } else if (c === 'denied') {
-          gtag('consent','update', {
-            ad_storage:'denied',
-            ad_user_data:'denied',
-            ad_personalization:'denied',
-            analytics_storage:'denied',
-            functionality_storage:'denied',
-            personalization_storage:'denied',
-            security_storage:'denied'
-          });
-          hideCookieBannerSafely();
-        }
-      } catch(e) {}
-    }
-
-    document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
-  </script>
-
-  <!-- JSON-LD (Stage 2.5): Article + FAQPage + BreadcrumbList + ItemList -->
-  <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://dloran1.github.io/nl-be/blog/vpn-dns-leak.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/nl-be/blog/vpn-dns-leak.html"},"headline":"DNS-lek met een VPN: detectie en oplossingen (2026)","description":"Praktische gids 2026: wat een DNS-lek met een VPN is, hoe je DNS/IPv6/WebRTC test en lekken oplost op Windows, macOS, Android, iOS en routers — met realistische privacygrenzen.","image":"https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp","inLanguage":"nl-BE","datePublished":"2026-01-06","dateModified":"2026-01-06","author":{"@type":"Person","name":"Denys Shchur","url":"https://dloran1.github.io/nl-be/about-denys-shchur.html"},"publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://dloran1.github.io/nl-be/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/nl-be/blog/"},{"@type":"ListItem","position":3,"name":"DNS-lek met een VPN: detectie en oplossingen (2026)","item":"https://dloran1.github.io/nl-be/blog/vpn-dns-leak.html"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Wat betekent “no-logs” voor een VPN?","acceptedAnswer":{"@type":"Answer","text":"In de praktijk betekent dit dat de provider geen identificeerbare activiteitenlogs bewaart (zoals browsegeschiedenis, DNS-verzoeken of combinaties van bron-IP + tijdstempel) die je later aan je online gedrag kunnen koppelen. Sommige geaggregeerde operationele data kan wel bestaan."}},{"@type":"Question","name":"Hoe kan ik de privacyclaims van een VPN verifiëren?","acceptedAnswer":{"@type":"Answer","text":"Kijk naar onafhankelijke audits met duidelijke scope en datum, transparante policy-teksten en geloofwaardige operationele signalen. Test daarna zelf met DNS/IPv6/WebRTC-lektests om te bevestigen dat verkeer in de VPN-tunnel blijft."}},{"@type":"Question","name":"Maakt een VPN je anoniem?","acceptedAnswer":{"@type":"Answer","text":"Niet volledig. Een VPN helpt op netwerkniveau, maar logins, cookies, fingerprinting en app-ID’s kunnen je nog steeds linken. Zie een VPN als een sterke privacylaag, niet als volledige anonimiteit."}}]}]}
   </script>
 </head>
 
 <body>
-  <!-- HEADER -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <div class="header-main">
-        <a href="/nl-be/" class="brand">
-          <img src="../../assets/img/logo.png" class="logo" alt="VPN World logo">
-          <span class="brand-text">VPN World</span>
-        </a>
 
-        <nav class="primary-nav" aria-label="Main navigation">
-          <a href="/nl-be/blog/">Blog</a>
-        </nav>
-      </div>
-
-      <nav class="lang-switch" aria-label="Language switcher"><a href="/blog/wyciek-dns-vpn.html" class="">Polski</a> | <a href="/en-gb/blog/vpn-dns-leak-uk.html" class="">English (UK)</a> | <a href="/en-us/blog/vpn-dns-leak.html" class="">English (US)</a> | <a href="/de/blog/vpn-dns-leak.html" class="">Deutsch</a> | <a href="/es/blog/vpn-dns-leak.html" class="">Español</a> | <a href="/fr/blog/vpn-dns-leak.html" class="">Français</a> | <a href="/nl-be/blog/vpn-dns-leak.html" class="active">Nederlands (BE)</a></nav>
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="header-main">
+      <a href="/nl-be/" class="brand">
+        <img src="../../assets/img/logo.png" class="logo" alt="VPN World logo">
+        <span class="brand-text">VPN World</span>
+      </a>
+      <nav class="primary-nav">
+        <a href="/nl-be/blog/">Blog</a>
+      </nav>
     </div>
-  </header>
 
-  <main>
-    <!-- HERO (No-logs style) -->
-    <section class="hero">
-      <div class="container hero-inner">
-        <div class="hero-copy">
-          <h1>DNS-lek met een VPN: detectie en oplossingen (2026)</h1>
+    <nav class="lang-switch">
+      <a href="/blog/wyciek-dns-vpn.html">Polski</a> |
+      <a href="/en-gb/blog/vpn-dns-leak-uk.html">English (UK)</a> |
+      <a href="/en-us/blog/vpn-dns-leak.html">English (US)</a> |
+      <a href="/de/blog/vpn-dns-leak.html">Deutsch</a> |
+      <a href="/es/blog/vpn-dns-leak.html">Español</a> |
+      <a href="/fr/blog/vpn-dns-leak.html">Français</a> |
+      <a href="/nl-be/blog/vpn-dns-leak.html" class="active">Nederlands (BE)</a>
+    </nav>
+  </div>
+</header>
 
-          <p class="note">
-            <strong>Snel antwoord:</strong>
-            Praktische gids 2026: wat een DNS-lek met een VPN is, hoe je DNS/IPv6/WebRTC test en lekken oplost op Windows, macOS, Android, iOS en routers — met realistische privacygrenzen.
-          </p>
+<main>
 
-          <p>
-            Deze gids is praktisch en test-gedreven: je krijgt checks die je vandaag kunt uitvoeren,
-            plus realistische grenzen (wat een VPN wel en niet kan beschermen).
-            Gebruik dit als een checklist voor je eigen apparaten.
-          </p>
+<!-- HERO -->
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-copy">
+      <h1>DNS-lek met een VPN: detectie en oplossingen (2026)</h1>
 
-          <div class="hero-author">
-            <img src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur – auteur van VPN World">
-            <div class="hero-author-text">
-              <span class="hero-author-label">Geschreven door</span>
-              <span class="hero-author-name">
-                <a href="/nl-be/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a>
-              </span>
-              <span class="meta">Bijgewerkt: 2026-01-06 · 12–18 min leestijd</span>
-            </div>
-          </div>
+      <p class="note">
+        <strong>Snel antwoord (voor mensen & AI):</strong><br>
+        Een DNS-lek betekent dat je apparaat domeinverzoeken buiten de VPN-tunnel verstuurt.
+        Daardoor kan je internetprovider (zoals Telenet, Proximus of VOO) alsnog zien
+        welke websites je bezoekt — zelfs als je VPN “aan” staat.
+      </p>
 
-          <!-- Early CTA block -->
-<div class="cta-buttons" aria-label="Affiliate offers">
-  <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Probeer NordVPN — geaudit no-logs beleid</a>
-  <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Probeer Surfshark — RAM-only servers</a>
-</div>
+      <p>
+        Deze gids is geschreven vanuit praktijktests (Windows, macOS, iOS, Android en routers).
+        Je leert <strong>hoe lekken ontstaan</strong>, <strong>hoe je ze aantoont</strong>
+        en <strong>hoe je ze structureel oplost</strong> — inclusief moderne oorzaken zoals
+        IPv6, DoH en Apple Private Relay.
+      </p>
 
-          <ul class="meta-points">
-            <li>Heldere definities (wat telt, wat niet)</li>
-            <li>Praktische tests die je meteen kunt uitvoeren</li>
-            <li>Oplossingen én realistische privacygrenzen</li>
-          </ul>
-        </div>
-
-        <div class="hero-media">
-          <div class="hero-art">
-            <img src="../../assets/img/hero/vpn-dns-leak-uk.webp" alt="Abstracte illustratie voor DNS-lek met een VPN: detectie en oplossingen (2026)">
-          </div>
+      <div class="hero-author">
+        <img src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur">
+        <div>
+          <span>Geschreven door</span>
+          <strong><a href="/nl-be/about-denys-shchur.html">Denys Shchur</a></strong><br>
+          <span class="meta">Bijgewerkt: 2026-01-06 · ±15 minuten</span>
         </div>
       </div>
-    </section>
 
-    <!-- CONTENT -->
-    <section class="section">
-      <div class="container article">
-        <!-- CONTENT_START -->
-<p>
-Een VPN wordt vaak gezien als een wondermiddel voor privacy, maar zelfs bij gebruik van een gerenommeerde VPN-dienst kan er gevoelige informatie weglekken. Een van de belangrijkste risico’s hierbij is het zogenaamde DNS-lek—een veelvoorkomend probleem dat je anonimiteit ondermijnt tijdens het surfen.
-</p>
-<p>
-In deze gids leggen we uit wat een DNS-lek is, hoe je het zelf eenvoudig opspoort (ook voor IPv6 en WebRTC), én vooral hoe je zo’n lek op verschillende apparaten en routers repareert. Ook kijken we naar de beperkingen van deze technieken, zodat je realistische privacyverwachtingen hebt.
-</p>
-<p>
-Voor België (en specifiek nl-BE) is dit extra relevant omdat internetproviders en netwerkapparatuur (modems, mesh-systemen, zakelijke firewalls) vaak standaard DNS-instellingen “terugduwen” na updates. Dat maakt DNS-lekken soms een terugkerend probleem: je lost het op, maar na een systeemupdate of een wissel tussen wifi en 4G zit je plots weer met dezelfde kwetsbaarheid. De oplossing is daarom niet alleen “eenmalig fixen”, maar ook een aanpak waarmee je snel kunt controleren of alles nog correct staat.
-</p>
+      <!-- EARLY CTA -->
+      <div class="cta-buttons">
+        <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584"
+           class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">
+          NordVPN — sterke DNS & system kill switch
+        </a>
+        <a href="https://www.tkqlhce.com/click-101525886-17061430"
+           class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">
+          Surfshark — RAM-only & IPv6-blokkade
+        </a>
+        <a href="https://www.dpbolvw.net/click-101525886-15834536"
+           class="protonvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">
+          Proton VPN — privacy-first DNS
+        </a>
+      </div>
+    </div>
 
-<section class="internal-links" aria-label="Aanbevolen literatuur">
-  <h2>Aanbevolen literatuur</h2>
-  <ul>
-    <li><a href="/nl-be/blog/best-gratis-vpn.html">Best gratis vpn</a></li>
-    <li><a href="/nl-be/blog/gratis-vpn.html">Gratis vpn</a></li>
-    <li><a href="/nl-be/blog/gratis-vs-betaalde-vpn.html">Gratis vs betaalde vpn</a></li>
-    <li><a href="/nl-be/blog/index.html">Index</a></li>
-    <li><a href="/nl-be/blog/is-vpn-legaal.html">Is vpn legaal</a></li>
-  </ul>
+    <div class="hero-media">
+      <img src="../../assets/img/hero/vpn-dns-leak-uk.webp"
+           alt="DNS-lek met VPN — visualisatie voor Belgische providers">
+    </div>
+  </div>
 </section>
 
-<h2>Snel antwoord: dit moet je weten over DNS-lekken met VPN</h2>
+<!-- GLOSSARY -->
+<section class="section">
+  <div class="container article">
+    <h2>Begrippenkader: wat lekt er precies?</h2>
+
+    <table class="table-scroll">
+      <caption>Verschil tussen de meest voorkomende VPN-lekken</caption>
+      <thead>
+        <tr>
+          <th>Type lek</th>
+          <th>Wat lekt er?</th>
+          <th>Waarom gevaarlijk?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>DNS-lek</strong></td>
+          <td>Domeinverzoeken (welke sites je bezoekt)</td>
+          <td>ISP ziet je surfgedrag, zelfs met VPN</td>
+        </tr>
+        <tr>
+          <td><strong>IP-lek</strong></td>
+          <td>Je echte IP-adres</td>
+          <td>Locatie en identiteit zichtbaar</td>
+        </tr>
+        <tr>
+          <td><strong>WebRTC-lek</strong></td>
+          <td>Lokaal of publiek IP via browser</td>
+          <td>Omzeilt VPN-tunnel volledig</td>
+        </tr>
+        <tr>
+          <td><strong>IPv6-lek</strong></td>
+          <td>IPv6-verkeer buiten VPN</td>
+          <td>Zeer frequent bij Belgische providers</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="key-takeaway">
+      <strong>Key takeaway:</strong>
+      In België is <strong>IPv6 + DNS</strong> de meest onderschatte combinatie.
+      Veel VPN’s beschermen alleen IPv4 — en dat is in 2026 niet meer genoeg.
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container article">
+
+    <!-- CONTENT_START -->
+
+    <p>
+      Een VPN verbergt je IP en versleutelt verkeer — maar dat betekent niet automatisch dat je DNS ook veilig is.
+      Als je toestel DNS-verzoeken buiten de tunnel verstuurt, kan je provider (bv. Telenet, Proximus of VOO)
+      alsnog zien welke domeinen je opvraagt. Dat is precies wat we een <strong>DNS-lek</strong> noemen.
+    </p>
+
+    <p>
+      In 2026 zien we dit extra vaak door drie moderne “lekversterkers”:
+      <strong>IPv6</strong> (wordt in België agressief uitgerold),
+      <strong>DNS over HTTPS (DoH)</strong> in browsers (Chrome/Firefox),
+      en <strong>Apple Private Relay</strong> (kan VPN-gedrag verwarren of “schijnlekken” geven).
+      Daarom bouwt deze gids op tests + concrete fixes, niet op marketingpraat.
+    </p>
+
+    <!-- INTERNAL LINKS (contextueel, niet “saai lijstje”) -->
+    <section class="internal-links" aria-label="Gerelateerde gidsen (nl-be)">
+      <h2>Gerelateerde gidsen (aanrader)</h2>
+      <ul>
+        <li>
+          Gebruik je een <a href="/nl-be/blog/gratis-vpn.html">gratis VPN</a>?
+          Dan is de kans op DNS-lekken hoger omdat gratis diensten vaak minder strikte DNS-routing hebben.
+        </li>
+        <li>
+          Twijfel je tussen opties? Bekijk <a href="/nl-be/blog/best-gratis-vpn.html">best gratis VPN</a>
+          en let specifiek op “DNS leak protection” en systeem-level kill switch.
+        </li>
+        <li>
+          Lees ook <a href="/nl-be/blog/gratis-vs-betaalde-vpn.html">gratis vs betaalde VPN</a> —
+          vooral relevant als je streaming, bankieren of publiek wifi combineert met VPN.
+        </li>
+        <li>
+          Op openbare netwerken is DNS-lek extra pijnlijk: zie <a href="/nl-be/blog/vpn-openbaar-wifi.html">VPN op openbaar wifi</a>.
+        </li>
+        <li>
+          Werk je met strikte privacy-claims? Check <a href="/nl-be/blog/no-logs-vpn.html">no-logs VPN</a>
+          (wat het wel is, en wat het niet is).
+        </li>
+        <li>
+          Overweeg je split tunneling? Begrijp eerst de risico’s: <a href="/nl-be/blog/vpn-split-tunneling.html">VPN split tunneling</a>.
+        </li>
+        <li>
+          Router-setup nodig? Zie <a href="/nl-be/blog/vpn-router-installeren.html">VPN router installeren</a>.
+        </li>
+        <li>
+          Voor een snelle basis: <a href="/nl-be/blog/wat-is-een-vpn.html">wat is een VPN</a> en <a href="/nl-be/blog/proxy-vs-vpn.html">proxy vs VPN</a>.
+        </li>
+      </ul>
+    </section>
+
+    <h2>Snel stappenplan: zo check je een DNS-lek in 2 minuten</h2>
+    <ol>
+      <li>Schakel je VPN in en kies een server (liefst dichtbij voor stabiele routing).</li>
+      <li>Test DNS + IPv6 + WebRTC (doe dit ook na een wifi/4G/5G switch).</li>
+      <li>Zie je je eigen provider/DNS terug? Dan heb je (minstens) een DNS- of IPv6-lek.</li>
+      <li>Fix per platform: kill switch + DNS force + DoH/Relay conflict oplossen.</li>
+      <li>Test opnieuw en bewaar je “goede” resultaten als referentie.</li>
+    </ol>
+
+    <div class="key-takeaway">
+      <strong>Key takeaway:</strong>
+      Test altijd opnieuw na updates of netwerkwissels. DNS-lekken zijn vaak “intermittent”:
+      je ziet ze pas onder specifieke omstandigheden.
+    </div>
+
+    <h2>Waarom ontstaat een DNS-lek bij VPN-gebruik?</h2>
+    <p>
+      Een DNS-lek ontstaat wanneer je besturingssysteem (of browser) DNS-verzoeken niet via de VPN-interface
+      afhandelt, maar via een “snellere” of standaard route richting je router/ISP. Dit gebeurt vooral door:
+      routing race conditions, fallback-mechanismen, en software die DNS “overneemt”.
+    </p>
+
+    <table class="table-scroll">
+      <caption>Meest voorkomende oorzaken van DNS-lekken (praktijk 2026)</caption>
+      <thead>
+        <tr>
+          <th>Oorzaak</th>
+          <th>Wat gebeurt er?</th>
+          <th>Typische fix</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>OS fallback / race condition</strong></td>
+          <td>Windows stuurt parallel DNS via meerdere interfaces; snelste antwoord wint</td>
+          <td>System kill switch + DNS force + Windows policy fix</td>
+        </tr>
+        <tr>
+          <td><strong>IPv6 buiten tunnel</strong></td>
+          <td>VPN beschermt IPv4, maar IPv6 gaat “rechtstreeks” naar ISP</td>
+          <td>IPv6 blokkeren of VPN kiezen met IPv6 support</td>
+        </tr>
+        <tr>
+          <td><strong>Browser DoH</strong></td>
+          <td>Chrome/Firefox gebruikt DoH naar Cloudflare/Google en negeert OS/VPN DNS</td>
+          <td>DoH uit of “managed” instellen (zelfde resolver als VPN)</td>
+        </tr>
+        <tr>
+          <td><strong>Apple Private Relay</strong></td>
+          <td>Safari/Relay routeert verkeer anders; kan test-resultaten “verwarren”</td>
+          <td>Relay uit bij VPN-tests of VPN-app met duidelijke iOS-handling</td>
+        </tr>
+        <tr>
+          <td><strong>Antivirus / Safe DNS</strong></td>
+          <td>Security suite onderschept DNS voor phishing-checks</td>
+          <td>Safe DNS/Real Site tijdelijk uit of uitzonderingen</td>
+        </tr>
+        <tr>
+          <td><strong>Router/mesh “Smart DNS”</strong></td>
+          <td>Mesh-systemen pushen eigen resolver of DNS-proxy</td>
+          <td>Smart DNS uit / eigen router in bridge / DNS regels fixen</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- SVG DIAGRAM #1: DNS leak path (high contrast) -->
+    <div class="svg-card" aria-label="DNS-lek diagram">
+      <div class="svg-scroll">
+        <svg viewBox="0 0 980 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="DNS-lek: DNS buiten VPN-tunnel"
+             style="max-width:100%;height:auto;color:#000;">
+          <rect x="0" y="0" width="980" height="320" fill="#ffffff"/>
+          <style>
+            svg text{fill:#000 !important;font-weight:800;font-family:Arial,system-ui,sans-serif}
+          </style>
+
+          <!-- Boxes -->
+          <rect x="40" y="70" width="250" height="200" rx="16" fill="#eaf2ff" stroke="#000" stroke-width="4"/>
+          <rect x="365" y="70" width="250" height="200" rx="16" fill="#eafff1" stroke="#000" stroke-width="4"/>
+          <rect x="690" y="70" width="250" height="200" rx="16" fill="#ffecec" stroke="#000" stroke-width="4"/>
+
+          <text x="165" y="55" font-size="18" text-anchor="middle">Toestel</text>
+          <text x="490" y="55" font-size="18" text-anchor="middle">VPN-tunnel</text>
+          <text x="815" y="55" font-size="18" text-anchor="middle">ISP / Internet</text>
+
+          <rect x="85" y="120" width="160" height="60" rx="12" fill="#ffffff" stroke="#000" stroke-width="4"/>
+          <text x="165" y="155" font-size="16" text-anchor="middle">Browser / Apps</text>
+
+          <rect x="410" y="120" width="160" height="60" rx="12" fill="#ffffff" stroke="#000" stroke-width="4"/>
+          <text x="490" y="155" font-size="16" text-anchor="middle">VPN-client</text>
+
+          <rect x="735" y="120" width="160" height="60" rx="12" fill="#ffffff" stroke="#000" stroke-width="4"/>
+          <text x="815" y="155" font-size="16" text-anchor="middle">DNS bij ISP</text>
+
+          <!-- Arrows -->
+          <defs>
+            <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+              <path d="M0,0 L10,5 L0,10 Z" fill="#000"/>
+            </marker>
+          </defs>
+
+          <!-- Good path -->
+          <path d="M245 150 L405 150" stroke="#000" stroke-width="4" marker-end="url(#arr)"/>
+          <text x="325" y="135" font-size="14" text-anchor="middle">verkeer via VPN</text>
+
+          <!-- Leak path -->
+          <path d="M245 130 C 360 20, 650 20, 735 125" stroke="#000" stroke-width="4" fill="none" marker-end="url(#arr)"/>
+          <text x="490" y="32" font-size="18" text-anchor="middle">DNS-LEK (buiten tunnel)</text>
+
+          <text x="815" y="205" font-size="14" text-anchor="middle">Provider (Telenet/Proximus/VOO)</text>
+          <text x="815" y="228" font-size="14" text-anchor="middle">ziet domeinen</text>
+        </svg>
+      </div>
+      <p class="caption"><em>Figuur 1. Een DNS-lek: domeinverzoeken gaan buiten de VPN-tunnel om richting je provider.</em></p>
+    </div>
+
+    <h2>Waarom DoH in je browser je VPN kan negeren</h2>
+    <p>
+      <strong>DNS over HTTPS (DoH)</strong> is op zichzelf niet “slecht”, maar het kan je VPN-setup ondermijnen.
+      Als je browser DoH actief heeft, kan hij DNS-resolutie sturen naar een externe resolver (bv. Cloudflare/Google),
+      los van je OS- en VPN-DNS. Resultaat: je test toont een onverwachte DNS-provider, of je lekt domeinen buiten het model
+      dat je dacht te gebruiken.
+    </p>
+
+    <div class="note">
+      <strong>Praktische regel:</strong>
+      Als je doel is “VPN beheert DNS”, zet DoH dan uit (of configureer DoH expliciet zodat het past bij je threat model).
+    </div>
+
+    <h2>Voor pro’s: check DNS-lek via terminal (snelle sanity check)</h2>
+    <p>
+      Online tests zijn handig, maar een snelle CLI-check helpt om te zien welke resolver effectief antwoord geeft.
+      Dit is geen perfecte “alles test”, maar het detecteert vaak de typische ISP-fallback.
+    </p>
+
+    <pre class="code-block"><code># Windows (PowerShell / CMD)
+nslookup whoami.akamai.net
+
+# macOS / Linux (Terminal)
+dig +short txt whoami.lua.powerdns.org
+</code></pre>
+
+    <div class="key-takeaway">
+      <strong>Key takeaway:</strong>
+      Als je antwoorden ziet die duidelijk bij je ISP passen (of je locatie/ASN verklappen), behandel dit als “verdacht”
+      en doe een volledige DNS/IPv6/WebRTC test + fix je setup.
+    </div>
+
+    <h2>Apple Private Relay en “schijnlekken” (iOS/macOS)</h2>
+    <p>
+      Apple Private Relay (vooral in Safari) kan verkeer anders routeren dan je verwacht.
+      Soms lijkt het alsof je VPN “niet werkt”, terwijl je eigenlijk een mix krijgt van Relay + VPN gedrag.
+      Voor betrouwbare tests: zet Private Relay tijdelijk uit tijdens diagnose, of test met een browser waar je precies weet
+      welke DNS/DoH settings actief zijn.
+    </p>
+
+    <h2>Transparent DNS Proxy: wanneer je provider DNS probeert te “sturen”</h2>
+    <p>
+      Sommige netwerken gebruiken technieken waarbij DNS-verkeer wordt onderschept of omgeleid
+      (bijvoorbeeld bij “ouderlijk toezicht”, filtering of fout geconfigureerde routers/mesh-systemen).
+      Als poort 53 (klassieke DNS) wordt geforceerd, kan je eigen DNS-keuze genegeerd worden.
+      Een robuuste aanpak gebruikt VPN + kill switch + (waar mogelijk) DNS binnen de tunnel.
+    </p>
+
+    <!-- SVG DIAGRAM #2: DoH vs VPN DNS (high contrast, “colorful”) -->
+    <div class="svg-card" aria-label="DoH vs VPN DNS diagram">
+      <div class="svg-scroll">
+        <svg viewBox="0 0 980 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="DoH conflict: browser stuurt DNS buiten VPN"
+             style="max-width:100%;height:auto;color:#000;">
+          <rect x="0" y="0" width="980" height="360" fill="#ffffff"/>
+          <style>
+            svg text{fill:#000 !important;font-weight:800;font-family:Arial,system-ui,sans-serif}
+          </style>
+          <defs>
+            <marker id="arr2" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+              <path d="M0,0 L10,5 L0,10 Z" fill="#000"/>
+            </marker>
+          </defs>
+
+          <!-- Device -->
+          <rect x="40" y="70" width="300" height="240" rx="16" fill="#eaf2ff" stroke="#000" stroke-width="4"/>
+          <text x="190" y="55" font-size="18" text-anchor="middle">Toestel</text>
+
+          <rect x="80" y="115" width="220" height="60" rx="12" fill="#ffffff" stroke="#000" stroke-width="4"/>
+          <text x="190" y="150" font-size="16" text-anchor="middle">Browser (DoH)</text>
+
+          <rect x="80" y="205" width="220" height="60" rx="12" fill="#ffffff" stroke="#000" stroke-width="4"/>
+          <text x="190" y="240" font-size="16" text-anchor="middle">VPN-client</text>
+
+          <!-- VPN tunnel -->
+          <rect x="370" y="70" width="260" height="240" rx="16" fill="#eafff1" stroke="#000" stroke-width="4"/>
+          <text x="500" y="55" font-size="18" text-anchor="middle">VPN-tunnel (correct)</text>
+          <rect x="405" y="150" width="190" height="70" rx="12" fill="#ffffff" stroke="#000" stroke-width="4"/>
+          <text x="500" y="182" font-size="16" text-anchor="middle">VPN DNS</text>
+          <text x="500" y="205" font-size="14" text-anchor="middle">(binnen tunnel)</text>
+
+          <!-- External DoH resolver -->
+          <rect x="660" y="70" width="280" height="240" rx="16" fill="#fff6d9" stroke="#000" stroke-width="4"/>
+          <text x="800" y="55" font-size="18" text-anchor="middle">Externe DoH-resolver</text>
+          <rect x="705" y="150" width="190" height="70" rx="12" fill="#ffffff" stroke="#000" stroke-width="4"/>
+          <text x="800" y="182" font-size="16" text-anchor="middle">Cloud/Third-party</text>
+          <text x="800" y="205" font-size="14" text-anchor="middle">(bv. Cloudflare)</text>
+
+          <!-- Arrows: DoH bypass -->
+          <path d="M300 145 C 430 40, 610 40, 705 150" stroke="#000" stroke-width="4" fill="none" marker-end="url(#arr2)"/>
+          <text x="505" y="28" font-size="16" text-anchor="middle">DoH kan VPN-DNS omzeilen</text>
+
+          <!-- Arrows: correct VPN DNS -->
+          <path d="M300 235 L405 185" stroke="#000" stroke-width="4" marker-end="url(#arr2)"/>
+          <text x="350" y="260" font-size="14" text-anchor="middle">DNS via VPN</text>
+        </svg>
+      </div>
+      <p class="caption"><em>Figuur 2. DoH-conflict: browser-DNS kan buiten je VPN-model werken (afhankelijk van instellingen).</em></p>
+    </div>
+
+    <h2>Antivirus “Safe DNS” kan DNS uit je tunnel trekken</h2>
+    <p>
+      Sommige antivirus- en security suites onderscheppen DNS om phishing/malware te blokkeren.
+      Dat is nuttig, maar kan ook DNS-routing veranderen en je VPN-lekprotectie verstoren.
+      Voorbeeld: “Secure DNS”, “Real Site”, “Web Shield” of vergelijkbare modules.
+      Als je een hardnekkig DNS-lek ziet dat maar niet verdwijnt, test dan tijdelijk met deze modules uitgeschakeld.
+    </p>
+
+    <div class="key-takeaway">
+      <strong>Key takeaway:</strong>
+      Als een DNS-lek ondanks VPN-fixes blijft bestaan, kijk naar “helpers”:
+      antivirus, browser DoH, Private Relay, mesh Smart DNS, of Windows fallback.
+    </div>
+
+    <!-- CONTENT пока НЕ заканчиваем: продолжим в части 3 -->
+    <h2>Oplossingen: DNS-lekken oplossen per apparaat</h2>
+<p>
+Niet elk besturingssysteem behandelt DNS-routing op dezelfde manier.
+Daarom werkt een “one size fits all”-oplossing niet.
+Hieronder vind je per platform de aanpak die in de praktijk het meest betrouwbaar is.
+</p>
+
+<h3>Windows (10 / 11)</h3>
+<p>
+Windows is berucht om <strong>parallelle DNS-aanvragen</strong>.
+Het systeem stuurt verzoeken tegelijk via meerdere netwerkinterfaces
+(Ethernet, Wi-Fi, VPN, virtuele adapters) en accepteert simpelweg het snelste antwoord.
+Dat gedrag heet een <em>race condition</em>.
+</p>
+
 <ul>
-  <li>Een DNS-lek betekent dat DNS-verzoeken buiten de VPN-tunnel om naar je internetprovider gaan, waardoor je browse-activiteit alsnog zichtbaar is.</li>
-  <li>Naast DNS-lekken zijn er ook IPv6- en WebRTC-lekken. Elk vraagt een andere aanpak.</li>
-  <li>Je kunt DNS-lekken eenvoudig opsporen via online testtools voordat je in actie komt.</li>
-  <li>Oplossingen verschillen per besturingssysteem en VPN. Instellingen en soms extra tools of aanpassingen zijn nodig.</li>
-  <li>Absolute privacy bestaat niet: sommige lekken zijn lastig volledig te dichten.</li>
-</ul>
-<div class="key-takeaway"><strong>Key takeaway:</strong> Weet welke soorten lekken er zijn en test regelmatig, want zelfs met een VPN ben je niet automatisch volledig afgeschermd.</div>
-
-<h2>Wanneer ontstaat een DNS-lek bij gebruik van een VPN?</h2>
-<p>
-Een DNS-lek doet zich voor wanneer je apparaat de namen van websites nog steeds via de servers van je internetprovider (ISP) vertaalt, in plaats van via de DNS-servers van je VPN. Dit maakt je webverkeer deels zichtbaar, ondanks dat de rest via de VPN-tunnel wordt gerouteerd. Typische scenario’s waarin DNS-lekken ontstaan:
-</p>
-<ul>
-  <li><strong>VPN-client forceert DNS-instellingen niet:</strong> Sommige VPN's laten jouw systeemdomeinnaamserver intact.</li>
-  <li><strong>Foute of ontbrekende killswitch:</strong> Als de VPN-verbinding wegvalt, kan je systeem terugschakelen naar de standaard DNS.</li>
-  <li><strong>Handmatige firewall- of router-instellingen:</strong> Op routers of bedrijfsnetwerken ontstaan soms conflicten.</li>
-  <li><strong>IPv6-lekken:</strong> Niet alle VPN’s ondersteunen IPv6 of blokkeren deze, waardoor IPv6-verkeer buiten de tunnel kan gaan.</li>
-  <li><strong>WebRTC-lekken:</strong> Browsers kunnen door deze technologie direct je echte IP-adres prijsgeven, DNS omzeilend.</li>
-</ul>
-<p>
-Ook bij apparaat-updates of het wisselen tussen wifi en mobiel internet kunnen ineens nieuwe lekken ontstaan, zonder dat je iets merkt. Vooral Windows-systemen (met meerdere netwerkinterfaces) en browsers met agressieve “performance”-instellingen kunnen DNS-routes kiezen die jij niet verwacht. Het resultaat: de VPN lijkt “aan”, maar een deel van de metagegevens (DNS) gaat buiten de tunnel.
-</p>
-<div class="key-takeaway"><strong>Key takeaway:</strong> DNS-lekken kunnen heel stil en onopvallend ontstaan, zeker bij netwerkwissels, updates, of als de VPN-software niet alles overneemt.</div>
-
-<h2>De beperkingen van VPN’s: Edge cases en realistische privacygrenzen</h2>
-<p>
-Het klinkt verleidelijk: één druk op de knop en al je internetverkeer is privé. Maar in de praktijk heeft elk VPN-protocol en elke app zo z’n beperkingen, waardoor ‘absolute privacy’ niet bestaat. Wat zijn de belangrijkste randgevallen?
-</p>
-<ul>
-  <li><strong>Split Tunneling:</strong> Sommige apps of websites gaan bewust buiten de VPN om.</li>
-  <li><strong>IPv6 niet uitgeschakeld:</strong> Veel VPN’s ondersteunen nog geen IPv6 en blokkeren dit protocol dus niet altijd.</li>
-  <li><strong>Trechter-effect bij proxy/VPN-combinaties:</strong> Gebruik je simultaan een proxy? Dan verdubbelen de lek-risico’s.</li>
-  <li><strong>DNS over HTTPS (DoH) in browsers:</strong> Sommige browsers gebruiken hun eigen DNS, los van je VPN.</li>
-  <li><strong>Routers met eigen firmware:</strong> Oudere of aangepaste routers kunnen DNS buiten de tunnel sturen, ongeacht je VPN-instelling.</li>
+  <li>Schakel <strong>System-level Kill Switch</strong> in (niet alleen app-level).</li>
+  <li>Zet <em>Smart Multi-Homed Name Resolution</em> uit (via Group Policy of registry).</li>
+  <li>Forceer DNS via de VPN-adapter (geen automatische DNS).</li>
+  <li>Blokkeer DNS (poort 53) buiten de VPN-interface met firewallregels.</li>
 </ul>
 
-<table>
-  <caption>Typische randgevallen waarbij VPN’s lek kunnen laten</caption>
-  <thead>
-    <tr>
-      <th>Edge case</th>
-      <th>Kans op lek</th>
-      <th>Mogelijke oplossing</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Split tunneling aan</td>
-      <td>Hoog</td>
-      <td>Split tunneling uitschakelen</td>
-    </tr>
-    <tr>
-      <td>Desktop + mobiele hotspot</td>
-      <td>Gemiddeld</td>
-      <td>VPN op elke verbinding activeren</td>
-    </tr>
-    <tr>
-      <td>Verouderde VPN-software</td>
-      <td>Hoog</td>
-      <td>Update of herinstallatie</td>
-    </tr>
-    <tr>
-      <td>Browser met DoH actief</td>
-      <td>Gemiddeld</td>
-      <td>Browser-DNS uitzetten</td>
-    </tr>
-  </tbody>
-</table>
-<div class="key-takeaway"><strong>Key takeaway:</strong> Geen enkele VPN lost alles op; het is essentieel je instellingen en platform te begrijpen om lekken te dichten.</div>
-
-<h2>DNS-lek testen: DNS, IPv6 en WebRTC</h2>
-<p>
-Het testen op lekken is cruciaal voor iedereen die serieus is over privacy. Je kunt handmatig achterhalen of je systeem en browser DNS, IPv6 of WebRTC-lekken vertonen. Hier volgen praktische stappen:
-</p>
-
-<table>
-  <caption>Welke lekken test je hoe?</caption>
-  <thead>
-    <tr>
-      <th>Type lek</th>
-      <th>Testlocatie</th>
-      <th>Resultaat bij lek</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>DNS-lek</td>
-      <td>Online DNS-lektesttool</td>
-      <td>Biedt je werkelijke ISP/DNS-server</td>
-    </tr>
-    <tr>
-      <td>IPv6-lek</td>
-      <td>IPv6-testpagina</td>
-      <td>Zichtbaar IPv6-adres uit je land</td>
-    </tr>
-    <tr>
-      <td>WebRTC-lek</td>
-      <td>Browser WebRTC-testpagina</td>
-      <td>Toont je lokale/echte IP-adres</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3>Stapsgewijs testen</h3>
-<ol>
-  <li>Verbind je VPN en controleer of die “aan” staat.</li>
-  <li>Bezoek een DNS-lektestpagina (zoek op “DNS leak test”).</li>
-  <li>Controleer óf er IP-adressen, providers of DNS-servers verschijnen die overeenkomen met jouw echte locatie of internetprovider.</li>
-  <li>Test ook op IPv6 door “IPv6 leak test” te zoeken; zie je je echte IPv6-adres, dan is er een lek.</li>
-  <li>Voor WebRTC: zoek “WebRTC leak test” en kijk of je echte (lokale of publieke) IP-adres zichtbaar is.</li>
-</ol>
-<p>
-Belangrijk: tijdens het testen moeten er geen andere VPN’s, proxy-apps of splits gebruikt worden om ruis te voorkomen. Wil je het professioneel aanpakken, test dan ook na een herstart en na een netwerk-switch (bv. wifi → hotspot). DNS-lekken zijn soms “intermittent”: ze verschijnen alleen bij specifieke omstandigheden, zoals netwerkwissels of wanneer de VPN-client opnieuw onderhandelt over routes.
-</p>
-
-<!-- DIAGRAM (ingebouwd zoals gevraagd) -->
-<div class="technical-diagram" style="margin: 25px 0; text-align: center;">
-  <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg" style="max-width: 100%; height: auto; background: #ffffff; border: 1px solid #e1e8ed; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-    <rect x="10" y="10" width="220" height="260" rx="10" fill="#f8fbff" />
-    <rect x="570" y="10" width="220" height="260" rx="10" fill="#fff9f9" />
-    
-    <text x="120" y="35" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#2c3e50">Uw Toestel</text>
-    <text x="680" y="35" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#c0392b">Internet / Provider</text>
-
-    <rect x="85" y="120" width="70" height="50" rx="4" fill="#3498db" />
-    <rect x="100" y="170" width="40" height="4" fill="#2980b9" />
-
-    <path d="M 160 145 L 640 145" stroke="#3498db" stroke-width="35" stroke-linecap="round" opacity="0.1" />
-    <text x="400" y="130" font-family="Arial, sans-serif" font-size="12" font-style="italic" text-anchor="middle" fill="#2980b9">Versleutelde VPN-tunnel (Beveiligd)</text>
-
-    <defs>
-      <marker id="arrow-g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-        <path d="M0,0 L8,4 L0,8 Z" fill="#27ae60" />
-      </marker>
-      <marker id="arrow-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-        <path d="M0,0 L8,4 L0,8 Z" fill="#e74c3c" />
-      </marker>
-    </defs>
-
-    <path d="M 160 150 L 635 150" stroke="#27ae60" stroke-width="2.5" fill="none" marker-end="url(#arrow-g)" />
-    <text x="400" y="168" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#27ae60">Beveiligde DNS-aanvraag</text>
-
-    <path d="M 160 135 C 250 50, 500 50, 650 115" stroke="#e74c3c" stroke-width="2.5" stroke-dasharray="6,4" fill="none" marker-end="url(#arrow-r)" />
-    <text x="400" y="55" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#e74c3c">DNS-LEK!</text>
-
-    <rect x="640" y="120" width="80" height="90" rx="6" fill="#e74c3c" />
-    <rect x="655" y="135" width="50" height="8" rx="2" fill="#c0392b" />
-    <rect x="655" y="150" width="50" height="8" rx="2" fill="#c0392b" />
-    <text x="680" y="195" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="white">Provider Logs</text>
-  </svg>
-  <p style="font-family: Arial, sans-serif; font-size: 13px; color: #607d8b; margin-top: 10px;">
-    <i>Fig 1. Visualisatie van een DNS-aanvraag die buiten de VPN-tunnel omgaat.</i>
-  </p>
+<div class="note">
+  <strong>Belgische context:</strong>
+  Op netwerken van Telenet en Proximus zien we dit probleem vaker bij laptops
+  die wisselen tussen thuis-Wi-Fi en mobiele hotspots.
 </div>
 
-<div class="key-takeaway"><strong>Key takeaway:</strong> Test op DNS-, IPv6- en WebRTC-lekken vóór je vertrouwt op je VPN. Toon je echte adres of provider? Dan ben je kwetsbaar.</div>
-
-<h2>Oplossingen: DNS-lekken oplossen per apparaat</h2>
+<h3>macOS (Ventura / Sonoma)</h3>
 <p>
-Afhankelijk van het besturingssysteem en het soort VPN gebruik je andere oplossingen. We behandelen Windows, macOS, Android, iOS en routers apart. Het doel is telkens hetzelfde: DNS-verkeer moet via de VPN lopen (of strikt geblokkeerd worden buiten de tunnel), en IPv6/WebRTC mogen je echte identiteit niet prijsgeven.
+macOS heeft stabielere route-prioriteiten dan Windows,
+maar kan alsnog DNS omleiden via browserinstellingen (DoH) of Private Relay.
 </p>
 
-<h3>Windows</h3>
 <ul>
-  <li>Zet ‘Smart Multi-Homed Name Resolution’ uit via Groepsbeleid of Windows-instellingen.</li>
-  <li>Kies voor een VPN-client die DNS zelf forceert en een killswitch heeft.</li>
-  <li>Pas je adapter-instellingen aan en voeg handmatig de VPN-DNS-server toe.</li>
-  <li>Gebruik eventueel een firewallregel om poort 53 (DNS) buiten de VPN te blokkeren.</li>
+  <li>Gebruik een VPN met ingebouwde DNS leak protection.</li>
+  <li>Controleer <em>Systeeminstellingen → Netwerk → DNS</em>.</li>
+  <li>Zet <strong>Apple Private Relay</strong> tijdelijk uit bij troubleshooting.</li>
+  <li>Voor gevorderden: gebruik een outbound firewall (bv. Little Snitch).</li>
 </ul>
-<p>
-Praktische tip: als je vaak wisselt tussen netwerken (thuis, werk, hotspot), maak dan van “testen” een routine. Eén snelle lektest na een netwerkwissel voorkomt wekenlang onzichtbaar lekken. Windows is geweldig compatibel, maar die compatibiliteit komt soms met “fallback”-gedrag dat je privacy ondergraaft.
-</p>
-
-<h3>macOS</h3>
-<ul>
-  <li>Kijk of je VPN-app DNS-instellingen vrijgeeft aan macOS: sommige clients hebben een eigen “leak protection”-optie.</li>
-  <li>Via Systeeminstellingen &gt; Netwerk, kies ‘Geavanceerd’ en stel de DNS-server in op de VPN-DNS.</li>
-  <li>Gebruik Little Snitch of een gelijkwaardige firewall voor geavanceerde filtering.</li>
-</ul>
-<p>
-macOS is vaak consistenter met route-prioriteiten dan Windows, maar ook hier kunnen browserinstellingen (zoals DoH) je DNS-stroom “omleiden”. Als je bewust DoH gebruikt, zorg dan dat je begrijpt dat DNS mogelijk niet meer door je VPN-provider wordt afgehandeld. Dat is niet per se slecht, maar het is wél een andere threat model.
-</p>
 
 <h3>Android</h3>
+<p>
+Android is gevoelig voor lekken bij netwerk-switches (Wi-Fi ↔ 4G/5G).
+Sommige apps versturen verkeer net vóór de VPN opnieuw actief is.
+</p>
+
 <ul>
-  <li>Zorg dat je VPN-app DNS-‘leak protection’ biedt: anders handmatig instellen via Wi-Fi-netwerkinstellingen met aangepaste DNS.</li>
-  <li>Schakel mobiele gegevens uit als je alleen Wi-Fi gebruikt met VPN, om leaks te minimaliseren.</li>
+  <li>Gebruik OS-niveau kill switch (“Always-on VPN”).</li>
+  <li>Blokkeer verbindingen zonder VPN (Android-instelling).</li>
+  <li>Controleer “Private DNS” (kan DoH activeren buiten VPN).</li>
 </ul>
+
+<h3>iOS / iPadOS</h3>
 <p>
-Android is gevoelig voor lekken bij netwerk-switches (wifi ↔ 4G/5G). Gebruik waar mogelijk de systeem-optie om verbindingen zonder VPN te blokkeren (killswitch op OS-niveau). Dat voorkomt dat apps “even snel” zonder tunnel data versturen als de VPN opnieuw verbindt.
+iOS is streng, maar niet immuun.
+WebRTC, Private Relay en profielconfiguraties kunnen verwarring veroorzaken.
 </p>
 
-<h3>iOS</h3>
 <ul>
-  <li>Gebruik een betrouwbare VPN-app met DNS-kill en IPv6-blokkade.</li>
-  <li>Handmatig instellen gaat beperkter: sommige apps bieden “Private DNS” (iOS 16+).</li>
+  <li>Gebruik een VPN-app met DNS + IPv6 blocking.</li>
+  <li>Zet Private Relay uit bij VPN-diagnose.</li>
+  <li>Herstart na VPN-reconnects en test opnieuw.</li>
 </ul>
+
+<h3>Routers & Mesh-systemen</h3>
 <p>
-iOS is relatief streng met app-permissies, maar apps kunnen nog steeds metadata lekken via browsermechanismen (WebRTC) of via verkeerde profielinstellingen. Bij twijfel: herstart en test opnieuw. Een hardnekkig “soms”-lek is meestal een signaal van een race condition (VPN reconnect) of een conflict met een andere netwerkapp.
+Router-VPN is vaak de meest robuuste oplossing,
+maar mesh-systemen (TP-Link Deco, Orbi) gebruiken soms “Smart DNS”.
 </p>
 
-<h3>Routers</h3>
 <ul>
-  <li>Stel de VPN in op de router zelf (OpenVPN, WireGuard of IKEv2 op DD-WRT/OpenWRT/AsusWRT/Merlin).</li>
-  <li>Configureer de router-DNS op een niet-ISP-adres. Let op: bij sommige firmware’s worden alsnog provider-DNS’en gebruikt voor fallback.</li>
-  <li>Controleer na firmware-updates je DNS-routes opnieuw.</li>
+  <li>Gebruik OpenWRT / AsusWRT-Merlin indien mogelijk.</li>
+  <li>Forceer DNS via VPN-interface.</li>
+  <li>Zet ISP-DNS fallback en Smart DNS uit.</li>
+  <li>Controleer instellingen opnieuw na firmware-updates.</li>
 </ul>
-<p>
-Router-VPN is vaak de “meest robuuste” oplossing voor een huishouden: alle apparaten (ook smart tv’s) vallen onder dezelfde regels. De valkuil is dat sommige ISP-modems DNS “hardcoderen” of herinstellen. In dat geval is bridge-mode met eigen router of een firewallregel (DNS alleen via VPN-interface) de enige betrouwbare aanpak.
-</p>
 
-<div class="key-takeaway"><strong>Key takeaway:</strong> Elke platform vereist andere stappen. Automatiseer zoveel mogelijk, want een handmatige instelling is zo overschreven bij een update of netwerkwissel.</div>
-
-<h2>Checklist: zo los je DNS-lekken praktisch op</h2>
-<ol>
-  <li>Update je VPN- en besturingssysteem: oude bugs veroorzaken vaak lekken.</li>
-  <li>Voer een DNS-, IPv6- en WebRTC-lektest uit — altijd met de VPN actief.</li>
-  <li>Stel je DNS-server handmatig in óp het VPN-adres; sla default-instellingen op.</li>
-  <li>Kies indien mogelijk voor een VPN met ingebouwde kill- en DNS-leak protectie.</li>
-  <li>Controleer browserinstellingen: schakel DoH uit als je VPN het DNS-verkeer moet afhandelen.</li>
-  <li>Gebruik op routers aangepaste firmware die DNS via de VPN-forceert.</li>
-  <li>Indien geavanceerd: blokkeer direct DNS-poorten buiten de VPN via een firewall-regel.</li>
-</ol>
-<p>
-Extra aanbeveling: documenteer je “goede” toestand. Noteer welke DNS-servers je hoort te zien tijdens tests, welke protocollen je gebruikt (WireGuard/OpenVPN) en welke killswitch-instellingen aan staan. Als er later iets breekt, heb je meteen een referentie om het snel te herstellen.
-</p>
-<div class="key-takeaway"><strong>Key takeaway:</strong> Herhaal jouw lektests na elke systeem- of VPN-update en check instellingen vaker dan je denkt nodig te hebben.</div>
-
-<h2>Veelgestelde vragen over DNS-lek met VPN</h2>
-<dl>
-  <dt>Wat is een DNS-lek precies?</dt>
-  <dd>Een DNS-lek betekent dat je apparaat domeinnaam-opzoekingen verstuurt langs de provider buiten de VPN om, waardoor je surfgedrag alsnog zichtbaar is.</dd>
-
-  <dt>Kan een VPN alle soorten lekken voorkomen?</dt>
-  <dd>De meeste VPN’s dichten enkel DNS-verkeer binnen hun eigen apps, niet alles op systeem- of browserniveau. Alleen VPN’s met brede lekbeveiliging bieden meer garantie.</dd>
-  
-  <dt>Wat is het verschil tussen een DNS-lek en een IP-lek?</dt>
-  <dd>Een DNS-lek openbaart welke websites je bezoekt via je DNS-verzoeken; een IP-lek toont je daadwerkelijke IP-adres, meestal door WebRTC of een foute VPN-configuratie.</dd>
-  
-  <dt>Hoe vaak moet ik testen op DNS-lekken?</dt>
-  <dd>Idealiter na elke systeemupdate, app-update of wanneer je netwerkconfiguratie verandert.</dd>
-  
-  <dt>Moet ik altijd IPv6 uitzetten?</dt>
-  <dd>Als je VPN geen IPv6 ondersteunt, is het verstandig dit uit te schakelen om lekken te voorkomen.</dd>
-  
-  <dt>Is WebRTC altijd een risico bij VPN-gebruik?</dt>
-  <dd>Ja, browsers met WebRTC ingeschakeld kunnen je lokale en publieke IP-adres lekken, zelfs met een VPN.</dd>
-  
-  <dt>Heeft het zin om handmatig een DNS in te stellen?</dt>
-  <dd>Dat kan helpen zolang je zeker weet dat alle verkeer via de VPN loopt — anders kan het instellen van een publieke DNS alsnog buiten de tunnel om gaan.</dd>
-  
-  <dt>Waarom lekt mijn Android-telefoon soms toch?</dt>
-  <dd>Android schakelt bij wisselen tussen wifi en mobiel netwerk soms automatisch terug naar provider-DNS, vooral bij foute VPN-apps.</dd>
-  
-  <dt>Welke VPN-protocollen zijn gevoeliger voor lekken?</dt>
-  <dd>L2TP/IPsec en PPTP zijn gevoeliger dan OpenVPN en WireGuard, omdat ze minder grip bieden op DNS-routing en killswitches.</dd>
-  
-  <dt>Hoe los ik DNS-lekken op routers op?</dt>
-  <dd>Schakel een VPN in op router-niveau, stel handmatig gewenste DNS-servers in en kies voor aangepaste firmware indien mogelijk.</dd>
-  
-  <dt>Kan mijn ISP nog iets zien als ik een VPN gebruik?</dt>
-  <dd>Bij een lek ziet de ISP je DNS-verzoeken en mogelijk IP-adres. Bij correcte VPN-configuratie ziet de ISP enkel versleuteld VPN-verkeer.</dd>
-  
-  <dt>Helpt het om gewoon incognito te surfen?</dt>
-  <dd>Nee, incognito-modus voorkomt lokaal opslaan van je surfgeschiedenis, maar heeft geen invloed op DNS- of IP-lekken richting de provider.</dd>
-</dl>
-<div class="key-takeaway"><strong>Key takeaway:</strong> Werk kennis over DNS-, IPv6- en WebRTC-lekken bij, want privacy-issues veranderen snel. Regelmatig testen en instellingen nalopen blijft essentieel.</div>
-
-<h2>Conclusie: Praktisch aan de slag met DNS-lekken</h2>
-<p>
-DNS-lekken zijn verraderlijk omdat ze op de achtergrond je privacy onderuit kunnen halen, zelfs als je denkt veilig te zijn met een VPN. Elk apparaat en besturingssysteem vergt zijn eigen aanpak, en geen enkele VPN is 100% bestand tegen alle vormen van lekken. Door regelmatig op DNS-, IPv6- en WebRTC-lekken te testen én direct actie te ondernemen bij nieuwe bevindingen, houd je controle over je online privacy.
-</p>
-<p>
-Blijf kritisch: vertrouw niet klakkeloos op “één druk op de knop”-oplossingen, maar neem de tijd om je instellingen na te lopen—zeker na systeemupdates of netwerkveranderingen. Uiteindelijk vraagt privacy, zelfs met VPN, om actief beheer en testen. Als je het simpel wilt houden: kies één stabiel protocol (vaak WireGuard), zet killswitch aan, controleer DoH/IPv6 en doe periodiek een lektest. Dat geeft in de praktijk het grootste effect voor de minste complexiteit.
-</p>
-<div class="key-takeaway"><strong>Key takeaway:</strong> Met kennis, regelmatige tests en juiste instellingen minimaliseer je het risico op DNS-lekken — maar houd altijd rekening met de beperkingen van elke VPN-oplossing.</div>
-        <!-- CONTENT_END -->
-      </div>
-    </section>
-
-<section class="section section-alt">
-  <div class="container">
-    <h2>Korte video: VPN-privacy in eenvoudige taal uitgelegd</h2>
-
-    <p class="note">
-      <strong>Key takeaway:</strong>
-      de belangrijkste taak van een VPN is om <strong>wie je bent</strong> (je IP, provider) los te koppelen van <strong>wat je doet</strong> (sites die je bezoekt).
-      Een degelijke no-logs aanpak helpt vermijden dat die brug later opnieuw wordt opgebouwd.
-    </p>
-
-    <div class="video-wrap">
-      <iframe
-        src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&modestbranding=1"
-        title="VPN World — video"
-        loading="lazy"
-        frameborder="0"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen></iframe>
-    </div>
-
-    <p>
-      Als de player niet laadt, bekijk de video op YouTube:
-      <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a>.
-    </p>
-  </div>
-</section>
-
-    <!-- RELATED_START -->
-
-    <!-- RELATED_END -->
-
-<section class="section">
-  <div class="container">
-    <div class="author-box">
-      <img src="../../assets/img/author/denys-shchur.webp" alt="Portret van Denys Shchur" class="author-avatar">
-      <div>
-        <h3>Over de auteur</h3>
-        <p>
-          <strong><a href="/nl-be/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a></strong>
-          is de maker van VPN World en focust op praktische, test-gedreven gidsen over VPN’s, online privacy en veilig remote werken.
-          Hij besteedt (veel te) veel tijd aan speedtests en lekchecks, zodat jij dat niet hoeft te doen.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-    <section class="section">
-      <div class="container article">
-        <div class="cta-box" aria-label="Aanbevolen VPN">
-          <h2>Aanbevolen VPN</h2>
-          <p class="cta-note">Affiliate links (nofollow/sponsored).</p>
-<div class="cta-buttons" aria-label="Affiliate offers">
-  <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Probeer NordVPN — geaudit no-logs beleid</a>
-  <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Probeer Surfshark — RAM-only servers</a>
+<div class="key-takeaway">
+  <strong>Key takeaway:</strong>
+  DNS-lekfixes zijn platform-afhankelijk.
+  Automatiseer waar mogelijk, want handmatige instellingen worden vaak overschreven.
 </div>
-          <p class="human-note">Transparantie: VPN World kan een commissie verdienen als je via deze links een abonnement neemt — zonder dat jouw prijs verandert.</p>
-        </div>
-      </div>
-    </section>
 
-  </main>
+<h2>Engineering deep dive: waarom DNS soms “ontsnapt”</h2>
+<p>
+Dit is het stuk dat de meeste artikelen overslaan.
+DNS-lekken zijn zelden “magisch” — ze zijn het gevolg van timing en fallback-logica.
+</p>
 
-<footer class="site-footer">
-  <div class="container">
-    <p><strong>VPN World</strong> · Onafhankelijke site over privacy, security en praktisch VPN-gebruik.</p>
-    <p>
-      <a href="/nl-be/privacy.html">Privacy</a> ·
-      <a href="/nl-be/disclosure.html">Transparantie</a> ·
-      <a href="mailto:u1797008805@gmail.com">Contact</a>
-    </p>
-    <p>© 2026 VPN World</p>
+<p>
+Wanneer je een domein opent:
+</p>
+<ul>
+  <li>Windows/macOS sturen DNS-verzoeken via alle beschikbare routes.</li>
+  <li>De eerste resolver die antwoordt, wint.</li>
+  <li>Als de VPN-DNS 10–20 ms trager is dan je router/ISP, verliest hij.</li>
+</ul>
+
+<p>
+Dit verklaart waarom lekken:
+</p>
+<ul>
+  <li>Alleen bij sommige websites optreden</li>
+  <li>Alleen na netwerkwissels zichtbaar zijn</li>
+  <li>Verdwijnen na reboot, maar later terugkomen</li>
+</ul>
+
+<!-- SVG DIAGRAM: Race condition -->
+<div class="svg-card" aria-label="DNS race condition diagram">
+  <div class="svg-scroll">
+    <svg viewBox="0 0 980 320" xmlns="http://www.w3.org/2000/svg"
+         style="max-width:100%;height:auto;color:#000;">
+      <rect width="980" height="320" fill="#fff"/>
+      <style>svg text{fill:#000 !important;font-weight:800}</style>
+
+      <rect x="40" y="90" width="260" height="140" rx="16" fill="#eaf2ff" stroke="#000" stroke-width="4"/>
+      <rect x="360" y="40" width="260" height="100" rx="16" fill="#ffecec" stroke="#000" stroke-width="4"/>
+      <rect x="360" y="180" width="260" height="100" rx="16" fill="#eafff1" stroke="#000" stroke-width="4"/>
+
+      <text x="170" y="75" font-size="18" text-anchor="middle">Besturingssysteem</text>
+      <text x="490" y="30" font-size="16" text-anchor="middle">ISP DNS (sneller)</text>
+      <text x="490" y="310" font-size="16" text-anchor="middle">VPN DNS (trager)</text>
+
+      <defs>
+        <marker id="arr3" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+          <path d="M0,0 L10,5 L0,10 Z" fill="#000"/>
+        </marker>
+      </defs>
+
+      <path d="M300 140 L360 90" stroke="#000" stroke-width="4" marker-end="url(#arr3)"/>
+      <path d="M300 180 L360 220" stroke="#000" stroke-width="4" marker-end="url(#arr3)"/>
+
+      <text x="640" y="95" font-size="14">antwoordt eerst → wint</text>
+      <text x="640" y="235" font-size="14">antwoordt later → verliest</text>
+    </svg>
   </div>
-</footer>
+  <p class="caption"><em>Figuur 3. Race condition: het snelste DNS-antwoord wint, zelfs als het van je ISP komt.</em></p>
+</div>
 
-  <script src="../../assets/js/main.js"></script>
-  <script src="../../assets/js/cookie-consent.js"></script>
+<h2>Kill Switch: app-level vs system-level</h2>
 
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
-    <p>Analytische cookies zijn standaard uitgeschakeld. U kunt deze accepteren of weigeren.</p>
-    <div class="cookie-actions">
-      <button type="button" class="btn btn-compact" onclick="acceptConsent()">Accepteren</button>
-      <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Weigeren</button>
-    </div>
+<table class="table-scroll">
+  <caption>Kill Switch types en betrouwbaarheid</caption>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Hoe werkt het</th>
+      <th>Betrouwbaarheid</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>System-level</strong></td>
+      <td>Blokkeert alle netwerkinterfaces buiten VPN</td>
+      <td>★★★★★ (aanbevolen)</td>
+    </tr>
+    <tr>
+      <td><strong>App-level</strong></td>
+      <td>Sluit alleen geselecteerde apps</td>
+      <td>★★★☆☆ (risico bij crash)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>VPN-protocollen vs DNS-lek risico (2026)</h2>
+
+<table class="table-scroll">
+  <caption>Protocolvergelijking m.b.t. DNS-lekken</caption>
+  <thead>
+    <tr>
+      <th>Protocol</th>
+      <th>Stabiliteit</th>
+      <th>DNS-lek risico</th>
+      <th>Opmerking</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>WireGuard</td>
+      <td>Zeer hoog</td>
+      <td>Laag</td>
+      <td>Beste keuze voor mobiel en Wi-Fi switches</td>
+    </tr>
+    <tr>
+      <td>OpenVPN (UDP)</td>
+      <td>Hoog</td>
+      <td>Middelmatig</td>
+      <td>Kill switch essentieel</td>
+    </tr>
+    <tr>
+      <td>IKEv2</td>
+      <td>Gemiddeld</td>
+      <td>Hoog (Windows)</td>
+      <td>OS-integratie kan DNS omzeilen</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="key-takeaway">
+  <strong>Key takeaway:</strong>
+  Kies WireGuard + system-level kill switch
+  als je DNS-lekken structureel wilt minimaliseren.
+</div>
+
+<!-- CONTENT_END (но статья продолжается) -->
+<h2>Waarom antivirussoftware DNS-lekken kan veroorzaken</h2>
+<p>
+Een weinig besproken, maar vaak voorkomende oorzaak van DNS-lekken
+zijn moderne antivirusprogramma’s.
+Veel beveiligingspakketten onderscheppen DNS-verkeer
+om phishing en malware te blokkeren — buiten je VPN om.
+</p>
+
+<ul>
+  <li><strong>Avast / AVG:</strong> functies zoals “Real Site” of “Secure DNS”.</li>
+  <li><strong>Bitdefender:</strong> “Online Threat Prevention”.</li>
+  <li><strong>Kaspersky:</strong> eigen DNS-filtering via lokale proxy.</li>
+</ul>
+
+<p>
+Wanneer deze modules actief zijn,
+wordt DNS-verkeer eerst lokaal verwerkt
+en pas daarna doorgestuurd —
+vaak via de DNS-servers van je provider.
+</p>
+
+<div class="note">
+  <strong>Praktisch advies:</strong>
+  Schakel DNS-filtering in je antivirus uit wanneer je een VPN gebruikt,
+  of voeg je VPN-app toe aan de uitzonderingen.
+</div>
+
+<h2>DNS over HTTPS (DoH): moderne oorzaak van verborgen lekken</h2>
+<p>
+In 2026 is <strong>DNS over HTTPS (DoH)</strong> een van de grootste oorzaken
+van “onverklaarbare” DNS-lekken.
+Browsers zoals Chrome en Firefox kunnen DNS-verzoeken
+rechtstreeks via Cloudflare of Google sturen —
+volledig los van je VPN.
+</p>
+
+<ul>
+  <li>De VPN-tunnel is actief, maar DNS gaat erlangs.</li>
+  <li>Je ziet een IP van Cloudflare, niet van je VPN.</li>
+  <li>Je provider kan nog steeds metadata zien.</li>
+</ul>
+
+<p>
+Gebruik je DoH bewust?
+Prima — maar besef dat je DNS dan <em>niet</em> meer door je VPN-provider loopt.
+Dat is een ander threat model.
+</p>
+
+<div class="key-takeaway">
+  <strong>Key takeaway:</strong>
+  DoH kan VPN-DNS-instellingen negeren.
+  Zet het uit of zorg dat DoH binnen de VPN-tunnel blijft.
+</div>
+
+<h2>Apple Private Relay en “valse” DNS-lekken</h2>
+<p>
+Voor Belgische gebruikers met iPhone of Mac is
+<strong>Apple Private Relay</strong> een bekende bron van verwarring.
+Private Relay werkt als een Apple-proxy
+en kan tegelijkertijd actief zijn met je VPN.
+</p>
+
+<ul>
+  <li>DNS-resolutie loopt via Apple-servers.</li>
+  <li>Je VPN lijkt “te lekken”, maar dat is niet altijd zo.</li>
+  <li>Streaming- en banking-apps kunnen blokkeren.</li>
+</ul>
+
+<p>
+Bij troubleshooting:
+</p>
+<ul>
+  <li>Zet Private Relay tijdelijk uit.</li>
+  <li>Test opnieuw op DNS- en IP-lekken.</li>
+</ul>
+
+<h2>Gebruikersscenario’s uit de praktijk</h2>
+
+<h3>Scenario 1 — Streaming onder VPN (Antwerpen)</h3>
+<p>
+Een gebruiker merkte dat DNS alleen lekte
+bij gebruik van een streaming-app op smart TV.
+Oorzaak: de app gebruikte een ingebouwde DNS-resolver
+die router-DNS negeerde.
+</p>
+
+<h3>Scenario 2 — Thuiswerk + VPN (Brussel)</h3>
+<p>
+Tijdens wisselen tussen Wi-Fi en mobiele hotspot
+stuurde Windows DNS-verzoeken buiten de tunnel.
+System-level kill switch loste het probleem definitief op.
+</p>
+
+<h3>Scenario 3 — Gratis VPN (Gent)</h3>
+<p>
+Bij gebruik van een gratis VPN bleek DNS
+altijd via de ISP te lopen.
+Reden: geen eigen DNS-servers en geen kill switch.
+</p>
+
+<p>
+➡️ In zulke gevallen is een
+<a href="/nl-be/blog/vpn-gratis-vs-de-pago.html">betaalde VPN</a>
+met eigen DNS-infrastructuur essentieel.
+</p>
+
+<h2>Checklist: DNS-lekvrij in 2026</h2>
+<ol>
+  <li>Gebruik WireGuard of OpenVPN met system-level kill switch.</li>
+  <li>Test DNS, IPv6 en WebRTC na elke update.</li>
+  <li>Controleer DoH-instellingen in je browser.</li>
+  <li>Schakel antivirus DNS-filtering uit.</li>
+  <li>Let op Apple Private Relay bij iOS/macOS.</li>
+  <li>Gebruik geen gratis VPN voor privacykritische taken.</li>
+</ol>
+
+<div class="key-takeaway">
+  <strong>Key takeaway:</strong>
+  DNS-lekken zijn geen bug maar een gevolg van ontwerpkeuzes.
+  Begrijp je stack — dan beheers je je privacy.
+</div>
+
+<h2>Veelgestelde vragen over DNS-lek en VPN</h2>
+
+<dl>
+  <dt>Wat is een DNS-lek?</dt>
+  <dd>DNS-verzoeken verlaten de VPN-tunnel en gaan naar je ISP.</dd>
+
+  <dt>Is een DNS-lek gevaarlijk?</dt>
+  <dd>Ja. Je bezochte domeinen blijven zichtbaar voor je provider.</dd>
+
+  <dt>Kan een VPN alle lekken voorkomen?</dt>
+  <dd>Nee. Browser-, OS- en app-instellingen spelen mee.</dd>
+
+  <dt>Waarom lekt DNS alleen soms?</dt>
+  <dd>Door race conditions bij netwerkwissels of reconnects.</dd>
+
+  <dt>Helpt incognito-modus?</dt>
+  <dd>Nee. Het heeft geen invloed op DNS of IP.</dd>
+
+  <dt>Moet ik IPv6 uitschakelen?</dt>
+  <dd>Als je VPN geen IPv6 ondersteunt: ja.</dd>
+
+  <dt>Is WireGuard veiliger?</dt>
+  <dd>Het is stabieler en minder gevoelig voor lekken.</dd>
+
+  <dt>Kan mijn ISP DNS blokkeren?</dt>
+  <dd>Ja, via Transparent DNS Proxy.</dd>
+
+  <dt>Hoe test ik DNS professioneel?</dt>
+  <dd>Via terminal-commando’s of meerdere lektestdiensten.</dd>
+
+  <dt>Zijn mesh-routers een risico?</dt>
+  <dd>Ja, door Smart DNS-functies.</dd>
+
+  <dt>Wat met DoH?</dt>
+  <dd>DoH kan VPN-DNS omzeilen als het verkeerd is ingesteld.</dd>
+
+  <dt>Is router-VPN beter?</dt>
+  <dd>Vaak wel, mits correct geconfigureerd.</dd>
+</dl>
+
+<h2>Conclusie</h2>
+<p>
+DNS-lekken zijn een van de meest onderschatte privacyproblemen bij VPN-gebruik.
+Niet omdat VPN’s slecht zijn,
+maar omdat besturingssystemen, browsers en beveiligingssoftware
+andere prioriteiten hebben dan privacy.
+</p>
+
+<p>
+Wie begrijpt hoe DNS-routing, fallback en timing werken,
+kan lekken structureel voorkomen.
+Niet met één knop —
+maar met de juiste combinatie van protocol,
+kill switch en controle.
+</p>
+
+<div class="cta-box">
+  <h2>Aanbevolen VPN-oplossingen</h2>
+  <div class="cta-buttons">
+    <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584"
+       class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">
+       NordVPN — eigen DNS + system kill switch
+    </a>
+    <a href="https://www.tkqlhce.com/click-101525886-17061430"
+       class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">
+       Surfshark — RAM-only DNS infrastructuur
+    </a>
   </div>
-
-</body>
-</html>
+</div>
 
 <!-- PAGE: https://dloran1.github.io/nl-be/blog/vpn-dns-leak.html -->
