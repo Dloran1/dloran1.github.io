@@ -1,267 +1,126 @@
 <!doctype html>
-<html lang="en-US">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>VPN for Smart TV (US, 2026): Hulu, Max & Netflix US Without Buffering | VPN World</title>
+  <meta name="description" content="US 2026 guide: set up a VPN on Smart TV to stream Hulu, Max, Peacock, Paramount+, Disney+ and Netflix US. Solve the Roku limitation (no VPN apps), choose Smart DNS vs router VPN, and stop DNS/IPv6 leaks for stable 4K." />
   <meta name="robots" content="index, follow" />
 
-  <title>VPN for Smart TV (USA, 2026): Stream Hulu, Max, Peacock & Netflix in 4K (No Buffering) | VPN World</title>
-  <meta name="description" content="2026 US guide to VPN on Smart TVs: stream Hulu, Max, Peacock, Disney+ and Netflix US in 4K with fewer buffering issues. Includes Roku workarounds, Smart DNS vs VPN router, Fire TV setup, speed tips and leak checks." />
-
-  <link rel="icon" href="/favicon.ico" />
   <link rel="canonical" href="https://dloran1.github.io/en-us/blog/vpn-for-smart-tv.html" />
-
-  <!-- HREFLANG (7× + x-default) -->
-  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-na-smart-tv.html" />
-  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-for-smart-tv-uk.html" />
-  <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-for-smart-tv.html" />
-  <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-fuer-smart-tv.html" />
-  <link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/vpn-para-smart-tv.html" />
-  <link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/vpn-pour-smart-tv.html" />
-  <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-voor-smart-tv.html" />
-  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-for-smart-tv-uk.html" />
-
-  <!-- Styles -->
+  <link rel="icon" href="/favicon.ico" />
   <link rel="stylesheet" href="../../assets/css/style.css" />
 
-  <!-- Page-only helpers: SVG + tables (high-contrast, responsive) + colourful accents -->
-  <style>
-    /* Wide tables always scroll safely */
-    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-    .table-scroll table{min-width:760px}
-
-    /* HARD table readability fix (dark theme safe) */
-    .table-scroll, .table-scroll table{background:#fff !important; color:#000 !important}
-    .table-scroll th, .table-scroll td{color:#000 !important}
-    .table-scroll thead th{background:#071023 !important; color:#fff !important}
-    .table-scroll tbody tr{background:#fff !important}
-    .table-scroll tbody tr:nth-child(even){background:#f6f7fb !important}
-    .table-scroll tbody tr:hover{background:#eef4ff !important}
-    .table-scroll a{color:#0b57d0 !important}
-
-    /* SVG cards: ALWAYS readable (forced white canvas) */
-    .svg-card{
-      border:1px solid rgba(255,255,255,.18);
-      border-radius:16px;
-      padding:14px;
-      background:transparent;
-      margin:14px 0;
-    }
-    .svg-card h3{margin:6px 0 10px}
-    .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:14px;padding:10px}
-    .svg-scroll svg{max-width:100%;height:auto;display:block;color:#000 !important;background:#fff}
-    .svg-scroll svg text{fill:#000 !important;font-weight:800 !important}
-    .svg-scroll svg .stroke{stroke:#000 !important;stroke-width:4 !important;fill:none !important;stroke-linecap:round;stroke-linejoin:round}
-    .svg-scroll svg .box{fill:#fff !important;stroke:#000 !important;stroke-width:4 !important}
-    .svg-scroll svg .label{font-size:16px}
-    .svg-scroll svg .small{font-size:13px}
-
-    /* Colour accents (keep text black) */
-    .svg-scroll svg .fill-blue{fill:#e6f1ff !important}
-    .svg-scroll svg .fill-green{fill:#e9fff3 !important}
-    .svg-scroll svg .fill-yellow{fill:#fff7db !important}
-    .svg-scroll svg .fill-red{fill:#ffe9ea !important}
-    .svg-scroll svg .fill-purple{fill:#f1eaff !important}
-
-    /* UK alert box (no inline styles in content) */
-    .uk-alert{
-      border:2px solid #e63946;
-      background:#fff5f5;
-      padding:18px;
-      border-radius:14px;
-      margin:14px 0;
-      color:#0b1220;
-    }
-    .uk-alert h2{margin:0 0 10px; color:#b4232a}
-    .uk-alert .inner{background:#fff;border-radius:12px;padding:12px;border:1px solid rgba(0,0,0,.08)}
-
-    /* “Related:” wide dark card standard */
-    .related-wide{
-      background:rgba(0,0,0,.35);
-      border:1px solid rgba(255,255,255,.14);
-      border-radius:16px;
-      padding:12px 14px;
-      margin:10px 0 14px;
-      position:relative;
-    }
-    .related-wide:before{content:"";position:absolute;left:10px;top:10px;bottom:10px;width:4px;border-radius:999px;background:#22c55e}
-    .related-wide p{margin:0;padding-left:14px}
-    .related-wide a{text-decoration:underline}
-
-    /* Video */
-    .video-wrap{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;background:#000}
-    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-
-    /* Small badges */
-    .badge{display:inline-block;padding:2px 10px;border-radius:999px;font-weight:800;font-size:12px;line-height:1.6}
-    .b-red{background:#ffe9ea;color:#7a0a0f}
-    .b-blue{background:#e6f1ff;color:#073b8c}
-    .b-green{background:#e9fff3;color:#0b6b3a}
-    .b-yellow{background:#fff7db;color:#6a4a00}
-  </style>
-
-  <!-- Preconnect -->
-  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
-  <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
-  <link rel="dns-prefetch" href="https://www.youtube-nocookie.com" />
-
-  <!-- Open Graph / Twitter -->
+  <!-- Open Graph -->
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="VPN World" />
+  <meta property="og:title" content="VPN for Smart TV (US, 2026): Hulu, Max & Netflix US Without Buffering" />
+  <meta property="og:description" content="US 2026 Smart TV VPN guide: the Roku workaround (no VPN apps), Smart DNS vs router VPN, and DNS/IPv6 leak fixes for stable 4K streaming." />
+  <meta property="og:url" content="https://dloran1.github.io/en-us/blog/vpn-for-smart-tv.html" />
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-for-smart-tv-uk.webp" />
+  <meta property="og:image:alt" content="VPN for Smart TV (US, 2026)" />
   <meta property="og:locale" content="en_US" />
-  <meta property="og:locale:alternate" content="en_GB" />
   <meta property="og:locale:alternate" content="pl_PL" />
+  <meta property="og:locale:alternate" content="en_GB" />
   <meta property="og:locale:alternate" content="de_DE" />
   <meta property="og:locale:alternate" content="es_ES" />
   <meta property="og:locale:alternate" content="fr_FR" />
   <meta property="og:locale:alternate" content="nl_BE" />
-  <meta property="og:title" content="VPN for Smart TV (USA, 2026): Hulu, Max, Peacock & Netflix US" />
-  <meta property="og:description" content="Roku workaround + Smart DNS vs VPN router + Fire TV setup. Stream US apps in 4K with fewer buffering issues." />
-  <meta property="og:url" content="https://dloran1.github.io/en-us/blog/vpn-for-smart-tv.html" />
-  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-for-smart-tv-uk.webp" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
 
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="VPN for Smart TV (USA, 2026): Stream Hulu, Max, Peacock & Netflix in 4K" />
-  <meta name="twitter:description" content="Roku workaround + Smart DNS vs VPN router + Fire TV setup. Stream US apps in 4K with fewer buffering issues." />
+  <meta name="twitter:title" content="VPN for Smart TV (US, 2026): Hulu, Max & Netflix US Without Buffering" />
+  <meta name="twitter:description" content="Roku workaround, Smart DNS vs router VPN, and DNS/IPv6 leak fixes for stable US streaming." />
   <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-for-smart-tv-uk.webp" />
+  <meta name="twitter:image:alt" content="VPN for Smart TV (US, 2026)" />
 
-  <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+  <!-- HREFLANG (7× + x-default) -->
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-for-smart-tv.html" />
+  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-for-smart-tv-uk.html" />
+  <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-for-smart-tv.html" />
+  <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-for-smart-tv.html" />
+  <link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/vpn-for-smart-tv.html" />
+  <link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/vpn-for-smart-tv.html" />
+  <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-for-smart-tv.html" />
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-for-smart-tv-uk.html" />
+
+  <!-- Performance hints -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+  <link rel="preconnect" href="https://www.youtube.com" crossorigin />
+  <link rel="preconnect" href="https://i.ytimg.com" crossorigin />
+
+  <!-- Consent Mode v2 + GA4 (default denied) -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
 
-    gtag('consent','default', {
-      ad_storage:'denied',
-      ad_user_data:'denied',
-      ad_personalization:'denied',
-      analytics_storage:'denied',
-      functionality_storage:'denied',
-      personalization_storage:'denied',
-      security_storage:'denied'
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'denied',
+      'personalization_storage': 'denied',
+      'security_storage': 'denied'
     });
 
-    gtag('js', new Date());
-
-    function hideCookieBannerSafely(){
-      var b = document.getElementById('cookie-banner');
-      if (b) b.style.display = 'none';
-    }
-
     function acceptConsent(){
-      gtag('consent','update', {
-        ad_storage:'granted',
-        ad_user_data:'granted',
-        ad_personalization:'granted',
-        analytics_storage:'granted',
-        functionality_storage:'granted',
-        personalization_storage:'granted',
-        security_storage:'granted'
+      gtag('consent', 'update', {
+        'ad_storage': 'granted',
+        'ad_user_data': 'granted',
+        'ad_personalization': 'granted',
+        'analytics_storage': 'granted',
+        'functionality_storage': 'granted',
+        'personalization_storage': 'granted',
+        'security_storage': 'granted'
       });
-      try{ localStorage.setItem('vpnworld_consent','granted'); }catch(e){}
-      hideCookieBannerSafely();
-      gtag('config','G-RD6M691ZWD', { anonymize_ip:true });
+      localStorage.setItem('vpnworld_consent','granted');
+
+      if(!window.__gaLoaded){
+        window.__gaLoaded = true;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-EMR8C4TLVM';
+        document.head.appendChild(s);
+        gtag('js', new Date());
+        gtag('config','G-EMR8C4TLVM', { 'anonymize_ip': true });
+        gtag('event','page_view');
+      }
+
+      var b = document.getElementById('cookie-banner');
+      if(b) b.style.display = 'none';
     }
 
-    function rejectConsent(){
-      gtag('consent','update', {
-        ad_storage:'denied',
-        ad_user_data:'denied',
-        ad_personalization:'denied',
-        analytics_storage:'denied',
-        functionality_storage:'denied',
-        personalization_storage:'denied',
-        security_storage:'denied'
-      });
-      try{ localStorage.setItem('vpnworld_consent','denied'); }catch(e){}
-      hideCookieBannerSafely();
+    function declineConsent(){
+      localStorage.setItem('vpnworld_consent','denied');
+      var b = document.getElementById('cookie-banner');
+      if(b) b.style.display = 'none';
     }
 
-    function applyStoredConsentSafely(){
-      try{
-        var c = localStorage.getItem('vpnworld_consent');
-        if (c === 'granted'){
-          gtag('consent','update', {
-            ad_storage:'granted',
-            ad_user_data:'granted',
-            ad_personalization:'granted',
-            analytics_storage:'granted',
-            functionality_storage:'granted',
-            personalization_storage:'granted',
-            security_storage:'granted'
-          });
-          hideCookieBannerSafely();
-          gtag('config','G-RD6M691ZWD', { anonymize_ip:true });
-        } else if (c === 'denied'){
-          hideCookieBannerSafely();
-        }
-      }catch(e){}
-    }
-
-    document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
+    document.addEventListener('DOMContentLoaded', function(){
+      var saved = localStorage.getItem('vpnworld_consent');
+      if(saved === 'granted'){
+        acceptConsent();
+      }
+    });
   </script>
 
-  <!-- JSON-LD (Stage 2.5): Article + FAQPage + BreadcrumbList + ItemList -->
-  <script type="application/ld+json">
+  
+<script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://dloran1.github.io/en-us/blog/vpn-for-smart-tv.html"
-  },
-  "headline": "VPN for Smart TV (USA, 2026): Stream Hulu, Max, Peacock & Netflix in 4K (No Buffering)",
-  "description": "2026 US guide to VPN on Smart TVs: stream Hulu, Max, Peacock, Disney+ and Netflix US in 4K with fewer buffering issues. Includes Roku workarounds, Smart DNS vs VPN router, Fire TV setup, speed tips and leak checks.",
-  "image": ["https://dloran1.github.io/assets/img/hero/vpn-for-smart-tv-uk.webp"],
-  "author": {
-    "@type": "Person",
-    "name": "Denys Shchur",
-    "url": "https://dloran1.github.io/en-us/about-denys-shchur.html"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "VPN World",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://dloran1.github.io/assets/img/logo.png"
-    }
-  },
-  "datePublished": "2026-01-16",
-  "dateModified": "2026-01-16"
+  "@context":"https://schema.org",
+  "@type":"Article",
+  "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/en-us/blog/vpn-for-smart-tv.html"},
+  "headline":"VPN for Smart TV (US, 2026): stream Hulu, Max & Netflix US without buffering",
+  "description":"US 2026 guide: set up a VPN on Smart TV to stream Hulu, Max, Peacock, Paramount+, Disney+ and Netflix US. Solve the Roku limitation (no VPN apps), choose between Smart DNS and router VPN, and stop DNS/IPv6 leaks for stable 4K.",
+  "image":"https://dloran1.github.io/assets/img/hero/vpn-for-smart-tv-uk.webp",
+  "author":{"@type":"Person","name":"Denys Shchur"},
+  "publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}},
+  "datePublished":"2026-01-16",
+  "dateModified":"2026-01-16"
 }
 </script>
-
-
-<!-- SVG MOBILE READABILITY FIX (FINAL) -->
-<style>
-.svg-scroll{
-  overflow-x:auto;
-  -webkit-overflow-scrolling:touch;
-  background:#fff;
-  border-radius:14px;
-  padding:10px;
-}
-.svg-scroll svg{
-  display:block;
-  height:auto;
-  max-width:none !important;
-  min-width:1120px;
-  width:1120px;
-  color:#000 !important;
-  background:#fff;
-}
-.svg-scroll svg text{
-  fill:#000 !important;
-  font-weight:900 !important;
-  letter-spacing:.2px;
-}
-.svg-scroll svg .label{font-size:20px}
-.svg-scroll svg .small{font-size:16px}
-</style>
 
 <script type="application/ld+json">
 {
@@ -273,7 +132,7 @@
       "name": "Can I install a VPN directly on my Roku TV?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. Roku does not support VPN apps. To use a VPN with Roku, configure the VPN on your router or use Smart DNS on your router so the Roku inherits those settings."
+        "text": "No. Roku does not support VPN apps. To use a VPN with Roku, configure the VPN on your router or use a Smart DNS service to unblock apps like Hulu or Max."
       }
     },
     {
@@ -281,748 +140,521 @@
       "name": "Which VPN is best for Hulu and Max in 2026?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Premium VPNs with frequently refreshed US IP pools tend to work best. If Hulu or Max blocks you, rotate US servers, clear the app cache, and verify you have no DNS/IPv6 leaks."
+        "text": "For US streaming in 2026, NordVPN and Surfshark are strong options because they maintain streaming-optimized US servers and fast WireGuard performance. Proton VPN is a solid alternative if you prioritize privacy-first design."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I bypass local sports blackouts with a VPN?",
+      "name": "Why does streaming work on my phone but fail on my Smart TV?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Connect to a VPN server in a different US city (for example, switch from New York to Miami), then reopen the sports app. This can bypass city-level blackout rules when the service uses location checks."
+        "text": "The most common causes are DNS leaks, IPv6 leaks, or cached location data inside the TV app. Clear the app cache, restart your TV/router, re-test DNS, and rotate to a different US server."
       }
     }
   ]
 }
 </script>
+
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "VPN World",
-      "item": "https://dloran1.github.io/en-us/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Blog",
-      "item": "https://dloran1.github.io/en-us/blog/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "VPN for Smart TV (USA)",
-      "item": "https://dloran1.github.io/en-us/blog/vpn-for-smart-tv.html"
-    }
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://dloran1.github.io/en-us/"},
+    {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/en-us/blog/"},
+    {"@type":"ListItem","position":3,"name":"VPN for Smart TV","item":"https://dloran1.github.io/en-us/blog/vpn-for-smart-tv.html"}
   ]
 }
 </script>
+
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  "name": "Related guides",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "url": "https://dloran1.github.io/en-us/blog/vpn-streaming.html"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "url": "https://dloran1.github.io/en-us/blog/vpn-router-setup.html"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "url": "https://dloran1.github.io/en-us/blog/vpn-speed-test.html"
-    },
-    {
-      "@type": "ListItem",
-      "position": 4,
-      "url": "https://dloran1.github.io/en-us/blog/vpn-dns-leak.html"
-    }
+  "@context":"https://schema.org",
+  "@type":"ItemList",
+  "name":"Related guides",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/en-us/blog/vpn-router-setup.html"},
+    {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/en-us/blog/vpn-dns-leak.html"},
+    {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/en-us/blog/vpn-streaming.html"},
+    {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/en-us/blog/vpn-netflix.html"},
+    {"@type":"ListItem","position":5,"url":"https://dloran1.github.io/en-us/blog/vpn-geo-blocks.html"}
   ]
 }
 </script>
+
 </head>
 <body>
-
-  <!-- Language switcher (visible) -->
-  <nav class="lang-switch" aria-label="Language switcher">
-    <a href="/blog/vpn-na-smart-tv.html">Polski</a> |
-    <a href="/en-gb/blog/vpn-for-smart-tv-uk.html" class="active">English (UK)</a> |
-    <a href="/en-us/blog/vpn-for-smart-tv.html">English (US)</a> |
-    <a href="/de/blog/vpn-fuer-smart-tv.html">Deutsch</a> |
-    <a href="/es/blog/vpn-para-smart-tv.html">Español</a> |
-    <a href="/fr/blog/vpn-pour-smart-tv.html">Français</a> |
-    <a href="/nl-be/blog/vpn-voor-smart-tv.html">Nederlands (BE)</a>
-  </nav>
-
   <header class="site-header">
     <div class="container header-inner">
-      <a href="/en-gb/" class="brand">
-        <img src="../../assets/img/logo.png" class="logo" alt="VPN World" />
-        <span class="brand-text">VPN World</span>
-      </a>
+      <div class="header-main">
+        <a class="brand" href="/en-us/" aria-label="VPN World home">
+          <img class="logo" src="../../assets/img/logo.png" alt="VPN World" />
+          <span class="brand-text">VPN World</span>
+        </a>
+        <nav class="primary-nav" aria-label="Primary">
+          <a href="/en-us/blog/">Blog</a>
+          <a href="/en-us/privacy.html">Privacy</a>
+          <a href="/en-us/disclosure.html">Disclosure</a>
+          <a href="mailto:u1797008805@gmail.com">Contact</a>
+        </nav>
+      </div>
+
+      <div class="lang-switch" aria-label="Language switcher">
+        <a href="/blog/vpn-for-smart-tv.html">PL</a>
+        <a href="/en-gb/blog/vpn-for-smart-tv-uk.html">EN-GB</a>
+        <a class="active" href="/en-us/blog/vpn-for-smart-tv.html">EN-US</a>
+        <a href="/de/blog/vpn-for-smart-tv.html">DE</a>
+        <a href="/es/blog/vpn-for-smart-tv.html">ES</a>
+        <a href="/fr/blog/vpn-for-smart-tv.html">FR</a>
+        <a href="/nl-be/blog/vpn-for-smart-tv.html">NL-BE</a>
+      </div>
     </div>
   </header>
 
-  <main class="container card" style="padding:18px 0">
+  
+<main class="container" id="main">
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <h1>VPN for Smart TV (US, 2026): stream Hulu, Max & Netflix US without buffering</h1>
+        <p>In 2026, US streaming apps don’t just look at your IP. They also check DNS behavior, app fingerprints and IPv6 routes. This guide shows what actually works on Smart TVs (including the <strong>Roku problem</strong>) and how to keep 4K stable without random “not available in your region” errors.</p>
 
-    <article class="article">
-      <section class="hero">
-        <div class="hero-grid">
-          <div class="hero-copy">
-            <h1>VPN for Smart TV (UK, 2026): stream BBC iPlayer, ITVX & 4K content without buffering</h1>
-
-            <p class="note">
-              <strong>Quick answer:</strong>
-              If you’re in the UK and your Smart TV VPN “doesn’t work”, the culprit is often your <strong>broadband provider’s filters</strong> (BT/Sky/Virgin/TalkTalk) — not the VPN app.
-              Disable ISP parental controls first, then pick the right setup: <strong>VPN app</strong> (best on Android/Google TV), <strong>router VPN</strong> (best overall), or <strong>Smart DNS</strong> (fast, but not private).
-            </p>
-
-            <p>
-              The UK is the “high league” of streaming blocks: BBC iPlayer and ITVX are strict, ads are heavy, and ISP-level web protection can break VPN traffic.
-              This guide is written for real telly setups: Samsung/LG, Fire TV, Apple TV, Android/Google TV, plus UK-specific kit like <strong>Sky Glass</strong> and <strong>Sky Stream</strong>.
-              We’ll focus on reliability (no buffering), not fairy-tale promises.
-            </p>
-
-            <div class="hero-author">
-              <img src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur – VPN testing and privacy author" loading="lazy" />
-              <div class="hero-author-text">
-                <span class="hero-author-label">Written by</span>
-                <span class="hero-author-name"><a href="/en-us/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a></span>
-                <span class="meta">Updated: 2026-01-16 · ~16–22 min read</span>
-              </div>
-            </div>
-
-            <!-- Early CTA block (3 partners) -->
-            <div class="cta-buttons" aria-label="Affiliate offers">
-              <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — strong UK streaming stability</a>
-              <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — great value for families</a>
-              <a href="https://www.dpbolvw.net/click-101525886-15834536" class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN — privacy-first option</a>
-            </div>
-
-            <ul class="meta-points">
-              <li><strong>Step 0:</strong> turn off ISP parental filters (BT/Sky/Virgin/TalkTalk)</li>
-              <li>BBC iPlayer & ITVX: cache, IPv6 leak fixes, best server choices</li>
-              <li>Smart DNS vs router VPN vs apps: what works on each TV platform</li>
-            </ul>
-          </div>
-
-          <div class="hero-media">
-            <div class="hero-art">
-              <img src="../../assets/img/hero/vpn-for-smart-tv-uk.webp" alt="Smart TV streaming via VPN: US apps and stable 4K connection" loading="eager" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Entity-first definition (AI-friendly, human-readable) -->
-      <section class="section">
-        <h2 id="entity">Entity-first definition (what this page is about)</h2>
-        <p>
-          <strong>VPN for Smart TV (UK)</strong> means routing your television’s internet traffic through an encrypted tunnel to a chosen location.
-          In practice, it’s used to: <span class="badge b-blue">avoid ISP tracking</span>, <span class="badge b-green">reduce DNS/IPv6 leaks</span>, and <span class="badge b-yellow">access location-restricted programmes</span>
-          when you’re on holiday or travelling.
-        </p>
-        <p class="tip"><strong>Key takeaway:</strong> A Smart TV setup succeeds or fails on three things: <strong>ISP filters</strong>, <strong>DNS/IPv6 leak control</strong>, and <strong>latency</strong> (server distance + protocol).</p>
-      </section>
-
-      <!-- TOC -->
-      <nav class="toc" aria-label="Table of contents">
-        <h2>Contents</h2>
-        <ol>
-          <li><a href="#step0">Step 0: Disable ISP Parental Filters</a></li>
-          <li><a href="#methods">Methods that actually work in 2026</a></li>
-          <li><a href="#iplayer-itvx">BBC iPlayer & ITVX: unblock checklist</a></li>
-          <li><a href="#devices">Device-specific setup (Samsung/LG/Android/Apple TV/Fire TV/Sky)</a></li>
-          <li><a href="#router">Router reality in the UK (BT Smart Hub, Virgin Hub, Sky)</a></li>
-          <li><a href="#speed">Speed & buffering: UK fibre matrix</a></li>
-          <li><a href="#leaks">DNS/IPv6 leaks: quick tests and fixes</a></li>
-          <li><a href="#legal">Is this legal in the UK?</a></li>
-          <li><a href="#faq">FAQ</a></li>
-        </ol>
-      </nav>
-
-      <!-- UK critical warning block (from your brief, adapted to site styles) -->
-      <section class="section" id="step0">
-        <div class="uk-alert">
-          <h2>Step 0: Disable ISP Parental Filters (the “Broadband Shield” problem)</h2>
-          <p>
-            In the UK, major broadband providers like <strong>BT</strong>, <strong>Sky</strong>, <strong>Virgin Media</strong>, and <strong>TalkTalk</strong>
-            often enable “Parental Controls”, “Web Protection”, or “Broadband Shield” features.
-            These can block VPN endpoints and interfere with Smart DNS.
-          </p>
-          <div class="inner">
-            <strong>How to fix it:</strong>
-            <ul>
-              <li>Log in to your ISP account (for example: <strong>My BT</strong> or <strong>My Sky</strong>).</li>
-              <li>Open <strong>Broadband settings</strong> and find <strong>Parental Controls / Shield / Web Protect</strong>.</li>
-              <li>Switch it <strong>Off</strong> (or allow your VPN provider if your ISP supports whitelisting).</li>
-              <li>Restart your router, then reconnect the VPN on your Smart TV.</li>
-            </ul>
-          </div>
-          <p style="margin:10px 0 0"><strong>Key takeaway:</strong> If iPlayer/ITVX works on mobile data but fails on home broadband, ISP filters are a top suspect.</p>
-        </div>
-
-        <div class="svg-card">
-          <h3>Diagram: why UK ISP filters break Smart TV VPN traffic</h3>
-          <div class="svg-scroll" role="img" aria-label="Flow diagram showing ISP filters blocking VPN or Smart DNS before reaching streaming services">
-            <svg viewBox="0 0 1120 280" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect class="box fill-blue" x="20" y="40" width="220" height="90" rx="18" />
-              <text x="130" y="82" text-anchor="middle" class="label">Smart TV / Telly</text>
-              <text x="130" y="108" text-anchor="middle" class="small">BBC iPlayer · ITVX</text>
-
-              <rect class="box fill-yellow" x="300" y="40" width="240" height="90" rx="18" />
-              <text x="420" y="82" text-anchor="middle" class="label">Home Router</text>
-              <text x="420" y="108" text-anchor="middle" class="small">BT · Sky · Virgin Hub</text>
-
-              <rect class="box fill-red" x="600" y="25" width="260" height="120" rx="18" />
-              <text x="730" y="72" text-anchor="middle" class="label">ISP Filters</text>
-              <text x="730" y="98" text-anchor="middle" class="small">Broadband Shield · Web Protect</text>
-              <text x="730" y="122" text-anchor="middle" class="small">May block VPN/Smart DNS</text>
-
-              <rect class="box fill-green" x="920" y="40" width="180" height="90" rx="18" />
-              <text x="1010" y="82" text-anchor="middle" class="label">Streaming</text>
-              <text x="1010" y="108" text-anchor="middle" class="small">UK services</text>
-
-              <path class="stroke" d="M240 85 L300 85" />
-              <path class="stroke" d="M540 85 L600 85" />
-              <path class="stroke" d="M860 85 L920 85" />
-
-              <path class="stroke" d="M690 170 C690 205, 520 220, 420 190" />
-              <text x="580" y="240" class="small">Fix: disable ISP controls, then retry VPN / Smart DNS</text>
-            </svg>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="methods">
-        <h2>Methods that actually work on Smart TV (UK, 2026)</h2>
-        <p>
-          There isn’t one “best” setup for everyone.
-          In 2026, streaming apps check more than your IP: they look at DNS behaviour, IPv6 routes, app fingerprints and connection patterns.
-          Your goal is to choose a method that fits your telly platform and doesn’t fall apart after two programmes.
-        </p>
-
-        <div class="table-scroll" aria-label="Comparison table of Smart TV VPN methods">
-          <table>
-            <caption>Smart TV VPN methods (UK): reliability vs effort</caption>
-            <thead>
-              <tr>
-                <th>Method</th>
-                <th>Works on</th>
-                <th>Best for</th>
-                <th>Typical issues</th>
-                <th>Reality check</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>VPN app</strong> <span class="badge b-green">best UX</span></td>
-                <td>Android / Google TV (Sony, TCL, Chromecast), some Fire TV</td>
-                <td>Quick setup, daily use</td>
-                <td>ISP filters, wrong server, app cache issues</td>
-                <td>If you can install an app, start here.</td>
-              </tr>
-              <tr>
-                <td><strong>Router VPN</strong> <span class="badge b-blue">best coverage</span></td>
-                <td>Any Smart TV + whole home</td>
-                <td>Stable streaming across devices</td>
-                <td>ISP router limitations; needs secondary router</td>
-                <td>Most reliable long-term method.</td>
-              </tr>
-              <tr>
-                <td><strong>Smart DNS</strong> <span class="badge b-yellow">fast</span></td>
-                <td>Samsung (Tizen), LG (webOS), consoles</td>
-                <td>Unblocking without encryption</td>
-                <td>Doesn’t protect privacy; ISP DNS interference</td>
-                <td>Good “plan B” for iPlayer abroad.</td>
-              </tr>
-              <tr>
-                <td><strong>HDMI from laptop</strong></td>
-                <td>Any TV with HDMI</td>
-                <td>Travel + hotel Wi-Fi</td>
-                <td>Clunky controls; battery/power issues</td>
-                <td>Works when TV platform is locked down.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <p class="tip"><strong>Key takeaway:</strong> If your TV is Samsung/LG and doesn’t support VPN apps, plan for <strong>router VPN</strong> or <strong>Smart DNS</strong> from day one.</p>
-
-        <div class="related-wide">
-          <p>Related: <a href="/en-gb/blog/vpn-streaming-uk.html">VPN for Streaming (UK) — stability, servers and 4K tips</a></p>
-        </div>
-      </section>
-
-      <section class="section" id="iplayer-itvx">
-        <h2>Unblocking BBC iPlayer & ITVX in 2026</h2>
-        <p>
-          BBC iPlayer has some of the strongest VPN detection you’ll see.
-          ITVX is less strict, but it often reveals your real location via <strong>IPv6 leaks</strong> or DNS behaviour.
-          The goal is boring reliability: connect, press play, watch.
-        </p>
-
-        <div class="table-scroll" aria-label="Table of platform tips for UK streaming apps">
-          <table>
-            <caption>2026-tested tips: iPlayer/ITVX and UK catch-up apps</caption>
-            <thead>
-              <tr>
-                <th>Platform</th>
-                <th>Top tip for 2026</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>BBC iPlayer</strong></td>
-                <td>Use <strong>London</strong> or <strong>Manchester</strong> servers labelled for streaming. After connecting, clear iPlayer cache (or reinstall the app) before retrying.</td>
-              </tr>
-              <tr>
-                <td><strong>ITVX</strong></td>
-                <td>Disable <strong>IPv6</strong> on your router or TV network settings. ITVX often catches IPv6 leaks even when IPv4 looks “UK”.</td>
-              </tr>
-              <tr>
-                <td><strong>Channel 4 / My5</strong></td>
-                <td>Use a fast protocol like <strong>WireGuard</strong> (or NordLynx). It helps with ad-heavy streams and reduces loading stalls.</td>
-              </tr>
-              <tr>
-                <td><strong>NOW / Sky Go</strong></td>
-                <td>These platforms can be sensitive to IP reputation. If you get repeated blocks, switch to another UK server cluster or try router VPN + fresh DNS.</td>
-              </tr>
-              <tr>
-                <td><strong>TNT Sports</strong> (ex BT Sport)</td>
-                <td>Prioritise low latency: choose the closest UK server and avoid multi-hop features while streaming live sport.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <p>
-          If you want a deeper iPlayer-only playbook (server strategy, cache routines, common error screens), see:
-          <a href="/en-gb/blog/vpn-bbc-iplayer-uk.html">VPN for BBC iPlayer (UK)</a>.
-        </p>
-
-        <div class="svg-card">
-          <h3>Diagram: app cache + DNS route is why iPlayer keeps blocking you</h3>
-          <div class="svg-scroll" role="img" aria-label="Diagram showing iPlayer using cached location data and DNS, requiring cache clear and IPv6/DNS fixes">
-            <svg viewBox="0 0 1120 320" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect class="box fill-purple" x="20" y="40" width="300" height="110" rx="18" />
-              <text x="170" y="86" text-anchor="middle" class="label">BBC iPlayer App</text>
-              <text x="170" y="112" text-anchor="middle" class="small">Caches region signals</text>
-
-              <rect class="box fill-yellow" x="380" y="40" width="330" height="110" rx="18" />
-              <text x="545" y="78" text-anchor="middle" class="label">DNS / IPv6 Route</text>
-              <text x="545" y="104" text-anchor="middle" class="small">Wrong resolver or IPv6 leak</text>
-              <text x="545" y="128" text-anchor="middle" class="small">= “not available”</text>
-
-              <rect class="box fill-green" x="770" y="40" width="330" height="110" rx="18" />
-              <text x="935" y="78" text-anchor="middle" class="label">Fix routine</text>
-              <text x="935" y="104" text-anchor="middle" class="small">1) Disable ISP filters</text>
-              <text x="935" y="128" text-anchor="middle" class="small">2) UK streaming server</text>
-
-              <path class="stroke" d="M320 95 L380 95" />
-              <path class="stroke" d="M710 95 L770 95" />
-
-              <rect class="box fill-blue" x="140" y="200" width="840" height="90" rx="18" />
-              <text x="560" y="242" text-anchor="middle" class="label">3) Clear iPlayer cache · 4) Disable IPv6 · 5) Re-test DNS leak</text>
-              <text x="560" y="268" text-anchor="middle" class="small">If it still blocks: rotate UK server cluster and restart TV/router</text>
-
-              <path class="stroke" d="M935 150 L935 200" />
-            </svg>
+        <div class="hero-author">
+          <img src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur" />
+          <div class="hero-author-text">
+            <span class="hero-author-label">Written by</span>
+            <span class="hero-author-name"><a href="/en-us/about-denys-shchur.html">Denys Shchur</a></span>
+            <span class="meta">Published: 2026-01-16 • Updated: 2026-01-16</span>
           </div>
         </div>
 
-        <!-- YouTube (official author channel) -->
-        <div class="svg-card">
-          <h3>Video: quick VPN basics (so the rest makes sense)</h3>
-          <div class="video-wrap">
-            <iframe src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE" title="VPN World video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          </div>
-          <p class="meta" style="margin:10px 0 0">If the embed doesn’t load, open on YouTube: <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">watch the video</a>.</p>
-        </div>
-      </section>
-
-      <section class="section" id="devices">
-        <h2>Device-specific setup (UK)</h2>
-
-        <h3>Android TV / Google TV (Sony, TCL, Chromecast)</h3>
-        <p>
-          This is the easiest platform for VPN streaming because you can install a VPN app directly from Google Play.
-          For iPlayer/ITVX stability, prioritise <strong>WireGuard/NordLynx</strong>, disable IPv6 if you see location errors, and avoid far-away servers.
-        </p>
-        <ol>
-          <li>Turn off ISP filters (Step 0 above), then restart the router.</li>
-          <li>Install the VPN app from Google Play and sign in.</li>
-          <li>Choose a <strong>UK streaming</strong> server (London/Manchester). Try another UK cluster if it blocks.</li>
-          <li>Enable leak protection: DNS protection + kill switch (if available).</li>
-          <li>Clear iPlayer/ITVX cache if you previously tried without a VPN.</li>
-        </ol>
-
-        <h3>Samsung (Tizen) and LG (webOS)</h3>
-        <p>
-          Most Samsung/LG TVs don’t support full VPN apps. Your two realistic options are:
-          <strong>router VPN</strong> (best) or <strong>Smart DNS</strong> (fast, but not private).
-        </p>
-        <p>
-          If you go Smart DNS, treat it as an unblocking tool, not a privacy tool.
-          Your ISP can still see your traffic metadata, and some apps react badly if DNS is inconsistent.
-        </p>
-
-        <h3>Apple TV</h3>
-        <p>
-          Apple TV is best served by <strong>router VPN</strong> or Smart DNS.
-          For practical steps, see: <a href="/en-gb/blog/vpn-apple-tv-uk.html">VPN for Apple TV (UK)</a>.
-        </p>
-
-        <h3>Fire TV / Fire Stick</h3>
-        <p>
-          Fire TV often supports VPN apps, but results vary by model and app quality.
-          If buffering appears after 10–20 minutes, it’s usually ISP filtering, server overload, or DNS instability.
-        </p>
-
-        <h3>Sky Glass / Sky Stream</h3>
-        <p>
-          These devices are UK-specific and don’t behave like generic Android TVs.
-          If you want UK streaming while abroad, the most reliable approach is a <strong>VPN-configured router</strong> (or a secondary router) rather than relying on an app.
-        </p>
-
-        <div class="related-wide">
-          <p>Related: <a href="/en-gb/blog/vpn-router-setup-uk.html">VPN Router Setup (UK) — the “secondary router” method explained</a></p>
-        </div>
-      </section>
-
-      <section class="section" id="router">
-        <h2>Router reality in the UK: BT Smart Hub, Virgin Media Hub and Sky routers</h2>
-        <p>
-          A common UK headache: many ISP routers don’t support VPN clients natively.
-          That doesn’t mean you can’t use a router VPN — it just means you should set up a <strong>secondary router</strong>
-          (or use a VPN router behind your ISP hub).
-        </p>
-
-        <div class="svg-card">
-          <h3>Diagram: the “secondary VPN router” setup (UK homes)</h3>
-          <div class="svg-scroll" role="img" aria-label="Network topology: ISP hub to secondary VPN router to Smart TV">
-            <svg viewBox="0 0 1120 340" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect class="box fill-yellow" x="30" y="60" width="290" height="110" rx="18" />
-              <text x="175" y="102" text-anchor="middle" class="label">ISP Hub</text>
-              <text x="175" y="128" text-anchor="middle" class="small">BT Smart Hub / Virgin Hub / Sky</text>
-
-              <rect class="box fill-blue" x="410" y="40" width="320" height="150" rx="18" />
-              <text x="570" y="88" text-anchor="middle" class="label">Secondary Router</text>
-              <text x="570" y="114" text-anchor="middle" class="small">VPN client (WireGuard/OpenVPN)</text>
-              <text x="570" y="140" text-anchor="middle" class="small">Own Wi-Fi: “VPN-Home”</text>
-
-              <rect class="box fill-green" x="810" y="60" width="280" height="110" rx="18" />
-              <text x="950" y="102" text-anchor="middle" class="label">Devices</text>
-              <text x="950" y="128" text-anchor="middle" class="small">Smart TV · Apple TV · Fire TV</text>
-
-              <path class="stroke" d="M320 115 L410 115" />
-              <path class="stroke" d="M730 115 L810 115" />
-
-              <rect class="box fill-red" x="410" y="220" width="680" height="90" rx="18" />
-              <text x="750" y="260" text-anchor="middle" class="label">Benefit: whole-home VPN + stable DNS/IPv6 control</text>
-              <text x="750" y="286" text-anchor="middle" class="small">Works even when the TV has no VPN app</text>
-
-              <path class="stroke" d="M570 190 L570 220" />
-            </svg>
-          </div>
-        </div>
-
-        <div class="table-scroll" aria-label="Router compatibility table">
-          <table>
-            <caption>UK router compatibility (practical)</caption>
-            <thead>
-              <tr>
-                <th>Router / hub</th>
-                <th>VPN client support</th>
-                <th>Best approach</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>BT Smart Hub</strong></td>
-                <td>Limited / not designed for full VPN client</td>
-                <td>Keep as modem/router + add a VPN router behind it</td>
-              </tr>
-              <tr>
-                <td><strong>Virgin Media Hub</strong></td>
-                <td>Limited; router mode is restrictive</td>
-                <td>Use modem mode (if available) + secondary VPN router</td>
-              </tr>
-              <tr>
-                <td><strong>Sky Broadband router</strong></td>
-                <td>Limited; VPN often needs secondary device</td>
-                <td>Secondary VPN router or Smart DNS for unblocking</td>
-              </tr>
-              <tr>
-                <td><strong>Third-party VPN router</strong></td>
-                <td>Full (depends on firmware)</td>
-                <td>Best long-term: stable streaming + privacy</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <p class="tip"><strong>Key takeaway:</strong> If your ISP hub can’t run a VPN, don’t fight it — add a secondary router and keep the hub as-is.</p>
-      </section>
-
-      <section class="section" id="speed">
-        <h2>Speed & buffering: UK fibre matrix (2026)</h2>
-        <p>
-          UK “fibre” is great when it’s stable, but VPN speed depends on the protocol and server load.
-          For live sport (TNT Sports / NOW) and 4K, prioritise low latency and modern protocols.
-          If you’re new to this, the best starting point is <a href="/en-gb/blog/vpn-optimal-settings-uk.html">VPN optimal settings (UK)</a>.
-        </p>
-
-        <div class="table-scroll" aria-label="UK fibre speed matrix">
-          <table>
-            <caption>Estimated streaming quality (UK broadband, 2026)</caption>
-            <thead>
-              <tr>
-                <th>Connection type</th>
-                <th>VPN protocol</th>
-                <th>Typical result</th>
-                <th>What to watch for</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Virgin Media Gig1</strong></td>
-                <td>WireGuard</td>
-                <td><strong>8K / very high bitrate</strong></td>
-                <td>Server load is the limiter, not the line</td>
-              </tr>
-              <tr>
-                <td><strong>BT Full Fibre 100</strong></td>
-                <td>NordLynx / WireGuard</td>
-                <td><strong>4K (stable)</strong></td>
-                <td>Pick London/Manchester; avoid long routes</td>
-              </tr>
-              <tr>
-                <td><strong>Standard broadband</strong></td>
-                <td>OpenVPN</td>
-                <td><strong>HD / 1080p</strong></td>
-                <td>Expect buffering if server is busy</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="svg-card">
-          <h3>Diagram: latency beats “raw Mbps” for live sport</h3>
-          <div class="svg-scroll" role="img" aria-label="Simple chart comparing latency impact on streaming quality">
-            <svg viewBox="0 0 1120 320" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect class="box" x="40" y="40" width="1040" height="240" rx="18" />
-
-              <text x="80" y="86" class="label">Lower latency = smoother streaming (especially live sport)</text>
-
-              <rect class="box fill-green" x="120" y="130" width="700" height="44" rx="12" />
-              <text x="130" y="160" class="small">20–35 ms (UK server, WireGuard) → 4K / live sport stable</text>
-
-              <rect class="box fill-yellow" x="120" y="190" width="520" height="44" rx="12" />
-              <text x="130" y="220" class="small">40–70 ms (busy server / longer route) → 1080p–4K mixed</text>
-
-              <rect class="box fill-red" x="120" y="250" width="360" height="44" rx="12" />
-              <text x="130" y="280" class="small">80+ ms (far server) → buffering and quality drops</text>
-            </svg>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="leaks">
-        <h2>DNS/IPv6 leaks: quick tests and fixes</h2>
-        <p>
-          Smart TVs are notorious for “helpful” network behaviour.
-          Some models keep using ISP DNS even when you think you’re protected.
-          Others prefer IPv6 routes. If you get location errors on ITVX or Channel 4, treat leaks as a first-class suspect.
-        </p>
-
-        <div class="related-wide">
-          <p>Related: <a href="/en-gb/blog/vpn-dns-leak-uk.html">DNS leak test (UK) — what to check and how to fix it</a></p>
-        </div>
-
-        <div class="svg-card">
-          <h3>Diagram: what a leak looks like (DNS vs IPv6)</h3>
-          <div class="svg-scroll" role="img" aria-label="Diagram showing VPN tunnel with side leaks via DNS or IPv6">
-            <svg viewBox="0 0 1120 340" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect class="box fill-blue" x="40" y="70" width="260" height="110" rx="18" />
-              <text x="170" y="112" text-anchor="middle" class="label">Smart TV</text>
-              <text x="170" y="138" text-anchor="middle" class="small">App requests</text>
-
-              <rect class="box fill-green" x="360" y="50" width="360" height="150" rx="18" />
-              <text x="540" y="94" text-anchor="middle" class="label">VPN tunnel (good)</text>
-              <text x="540" y="120" text-anchor="middle" class="small">Encrypted traffic to UK server</text>
-              <text x="540" y="146" text-anchor="middle" class="small">Stable streaming route</text>
-
-              <rect class="box fill-red" x="360" y="230" width="360" height="80" rx="18" />
-              <text x="540" y="260" text-anchor="middle" class="label">Leak (bad)</text>
-              <text x="540" y="286" text-anchor="middle" class="small">DNS/IPv6 goes to ISP</text>
-
-              <rect class="box fill-yellow" x="780" y="70" width="300" height="110" rx="18" />
-              <text x="930" y="112" text-anchor="middle" class="label">Streaming service</text>
-              <text x="930" y="138" text-anchor="middle" class="small">Sees mixed signals</text>
-
-              <path class="stroke" d="M300 125 L360 125" />
-              <path class="stroke" d="M720 125 L780 125" />
-              <path class="stroke" d="M300 200 C360 240, 400 240, 360 270" />
-
-              <text x="80" y="320" class="small">Fix: disable IPv6, enable VPN DNS protection, reboot TV/router, re-test leaks.</text>
-            </svg>
-          </div>
-        </div>
-
-        <div class="table-scroll" aria-label="Troubleshooting table">
-          <table>
-            <caption>Smart TV VPN troubleshooting (UK)</caption>
-            <thead>
-              <tr>
-                <th>Problem</th>
-                <th>Most common cause</th>
-                <th>Fix that works</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>VPN connects but apps won’t load</td>
-                <td>ISP parental filters or DNS blocking</td>
-                <td>Disable ISP web protection, restart router, switch VPN server</td>
-              </tr>
-              <tr>
-                <td>BBC iPlayer “not available”</td>
-                <td>Blocked IP + app cache</td>
-                <td>Change UK server cluster, clear app cache, test DNS leak</td>
-              </tr>
-              <tr>
-                <td>ITVX blocks even on UK VPN</td>
-                <td>IPv6 leak</td>
-                <td>Disable IPv6 on router/TV, reconnect VPN, retry</td>
-              </tr>
-              <tr>
-                <td>Buffering during sport</td>
-                <td>High latency or busy server</td>
-                <td>WireGuard/NordLynx, nearest UK server, avoid multi-hop</td>
-              </tr>
-              <tr>
-                <td>TV has no VPN app</td>
-                <td>Platform limitation</td>
-                <td>Router VPN or Smart DNS (Samsung/LG), or HDMI from laptop</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="section" id="legal">
-        <h2>Is using a VPN for streaming legal in the UK?</h2>
-        <p>
-          Using a VPN is generally legal in the UK.
-          The important nuance is the <strong>terms of service</strong> of each platform and basic copyright rules.
-          A VPN can help with privacy and safer connections, but it’s not a loophole to pirate content.
-        </p>
-        <p class="note"><strong>Key takeaway:</strong> VPN use is legal, but you should respect platform rules and the law. If you want the full breakdown, see the legal guide: <a href="/en-gb/blog/vpn-legal-uk.html">Is VPN legal in the UK?</a></p>
-      </section>
-
-      <!-- Late CTA block (3 partners) -->
-      <section class="section" aria-label="Recommended VPNs">
-        <h2>Recommended VPN options for Smart TV (quick picks)</h2>
-        <p>
-          If your priority is <strong>BBC iPlayer reliability</strong>, choose a premium provider with UK streaming servers and fast protocols.
-          For travel or households with multiple TVs, router coverage matters more than fancy features.
-        </p>
-        <div class="cta-buttons" aria-label="Affiliate offers">
-          <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — UK streaming servers + fast protocol</a>
-          <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — good on a budget for family devices</a>
-          <a href="https://www.dpbolvw.net/click-101525886-15834536" class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN — strong privacy approach</a>
-        </div>
-        <p class="meta">Disclosure: links may be affiliate links. See <a href="/en-gb/disclosure.html">Disclosure</a>.</p>
-      </section>
-
-      <section class="section" id="faq">
-        <h2>FAQ</h2>
-
-        <h3>Why does my VPN work on my phone but not on my Smart TV?</h3>
-        <p>
-          Phones often have different DNS/IPv6 behaviour and may use mobile data.
-          On home broadband, ISP filters and router DNS settings can block VPN traffic or reveal your location.
-          Start with Step 0 (disable ISP parental controls), then test DNS/IPv6 leaks.
-        </p>
-
-        <h3>Is Smart DNS enough for BBC iPlayer abroad?</h3>
-        <p>
-          Sometimes, yes — but it’s not guaranteed.
-          Smart DNS can be fast, but it doesn’t encrypt traffic and can be disrupted by ISP DNS behaviour.
-          If reliability matters, router VPN is usually the steadier approach.
-        </p>
-
-        <h3>What server should I pick for UK streaming?</h3>
-        <p>
-          Start with UK servers closest to you in the provider’s list (London/Manchester).
-          If iPlayer blocks you, rotate to another UK cluster rather than switching countries.
-        </p>
-      </section>
-
-      <!-- RELATED_START -->
-      <section class="related-guides" aria-label="Related Guides">
-        <h2>Related Guides</h2>
-        <ul>
-          <li><a href="/en-gb/blog/vpn-streaming-uk.html">/en-gb/blog/vpn-streaming-uk.html</a></li>
-          <li><a href="/en-gb/blog/vpn-bbc-iplayer-uk.html">/en-gb/blog/vpn-bbc-iplayer-uk.html</a></li>
-          <li><a href="/en-gb/blog/vpn-geo-blocks-uk.html">/en-gb/blog/vpn-geo-blocks-uk.html</a></li>
-          <li><a href="/en-gb/blog/vpn-router-setup-uk.html">/en-gb/blog/vpn-router-setup-uk.html</a></li>
-          <li><a href="/en-gb/blog/vpn-dns-leak-uk.html">/en-gb/blog/vpn-dns-leak-uk.html</a></li>
+        <ul class="meta-points" aria-label="Quick facts">
+          <li>Works for: Hulu, Max, Peacock, Paramount+, Disney+</li>
+          <li>Key blockers: DNS/IPv6 leaks, app cache, device limits</li>
+          <li>Critical device: Roku (no VPN apps)</li>
         </ul>
-      </section>
-      <!-- RELATED_END -->
+      </div>
+      <div class="hero-media">
+        <div class="hero-art">
+          <img src="https://dloran1.github.io/assets/img/hero/vpn-for-smart-tv-uk.webp" alt="VPN for Smart TV (US)" loading="eager" />
+        </div>
+      </div>
+    </div>
+  </section>
 
-      <!-- Privacy block (visible) -->
-      <section class="section" aria-label="Privacy notice">
-        <h2>Privacy</h2>
-        <p>
-          VPN World is an independent informational site. We use cookies only after consent for analytics to improve pages like this guide.
-          Read more in our <a href="/en-gb/privacy.html">Privacy Policy</a> and <a href="/en-gb/disclosure.html">Disclosure</a>.
-        </p>
-      </section>
+  <section class="section">
+    <div class="note"><strong>Quick answer:</strong> For most US Smart TVs, the best setup is a <strong>VPN app</strong> on Android/Google TV or Fire TV. If you use <strong>Roku</strong>, you must use <strong>Smart DNS</strong> or a <strong>VPN router</strong> (Roku does not support VPN apps).</div>
+    
+<div class="cta-box" role="note" aria-label="VPN partner options">
+  <h2>Best VPNs for Smart TV streaming in the US (2026)</h2>
+  <p class="cta-note">If you want Hulu/Max to work reliably, choose a VPN with strong US streaming servers and fast WireGuard performance.</p>
+  <div class="cta-buttons">
+    <a class="nordvpn" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">Get NordVPN (US streaming)</a>
+    <a class="surfshark" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Get Surfshark (best value)</a>
+    <a class="proton" href="https://www.dpbolvw.net/click-101525886-15834536" target="_blank" rel="nofollow sponsored noopener noreferrer">Get Proton VPN (privacy)</a>
+  </div>
+</div>
 
-    </article>
-  </main>
+  </section>
+
+  <section class="section" aria-label="Table of contents">
+    <h2>Table of contents</h2>
+    <ul>
+      <li><a href="#why">Why Smart TV streaming blocks VPNs (US reality)</a></li>
+      <li><a href="#methods">Methods that actually work on Smart TV (US, 2026)</a></li>
+      <li><a href="#roku">Roku &amp; VPN: the workaround</a></li>
+      <li><a href="#devices">Device-specific setup (Fire TV, Google TV, Apple TV, Samsung/LG)</a></li>
+      <li><a href="#sports">Sports blackouts (ESPN+, NBA, MLB) — what a VPN can and can’t do</a></li>
+      <li><a href="#leaks">DNS &amp; IPv6 checks (stop the silent failures)</a></li>
+      <li><a href="#speed">Speed tips for 4K in apartments and on fiber</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+  </section>
+
+  <section class="section" id="why">
+    <h2>Why Smart TV streaming blocks VPNs (US reality)</h2>
+    <div class="key-takeaway"><strong>Key takeaway:</strong> When Hulu/Max blocks you, it’s usually not “the VPN is bad” — it’s <strong>DNS/IPv6</strong>, cached location signals, or a device that can’t run a VPN app.</div>
+
+    <p>In the US, most streaming apps combine multiple signals: IP reputation, DNS resolvers, IPv6 routes, and app fingerprints. That’s why a simple proxy (or a random free VPN) fails quickly — especially on <strong>Hulu</strong> and <strong>Max</strong>, which update detection rules frequently.</p>
+
+    <p>If you want the deeper technical version, see <a href="/en-us/blog/vpn-geo-blocks.html">VPN &amp; geo-blocks</a> and our practical troubleshooting guide for <a href="/en-us/blog/vpn-streaming.html">VPN streaming</a>.</p>
+
+    
+<div class="svg-card">
+  <h3>Diagram: how Smart TV streaming checks your connection</h3>
+  <p>A clean mental model: apps validate DNS and routes, not just your IP.</p>
+  <div class="svg-scroll" role="img" aria-label="Diagram: how Smart TV streaming checks your connection">
+    <svg viewBox="0 0 1100 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="max-width:1100px;">
+  <rect x="10" y="10" width="1080" height="240" rx="18" fill="#fff" stroke="#000" stroke-width="4"/>
+  <rect x="40" y="60" width="270" height="95" rx="16" fill="#eaf3ff" stroke="#000" stroke-width="4"/>
+  <text x="175" y="95" text-anchor="middle" font-size="24" font-weight="800">Smart TV app</text>
+  <text x="175" y="125" text-anchor="middle" font-size="18" font-weight="800">Hulu • Max • Peacock</text>
+
+  <rect x="415" y="48" width="270" height="120" rx="16" fill="#f6fff8" stroke="#000" stroke-width="4"/>
+  <text x="550" y="88" text-anchor="middle" font-size="24" font-weight="800">DNS / IPv6 route</text>
+  <text x="550" y="118" text-anchor="middle" font-size="18" font-weight="800">wrong resolver = geo error</text>
+  <text x="550" y="145" text-anchor="middle" font-size="18" font-weight="800">IPv6 leak = “not available”</text>
+
+  <rect x="790" y="60" width="270" height="95" rx="16" fill="#fff4ee" stroke="#000" stroke-width="4"/>
+  <text x="925" y="92" text-anchor="middle" font-size="24" font-weight="800">Fix routine</text>
+  <text x="925" y="122" text-anchor="middle" font-size="18" font-weight="800">1) Switch US server</text>
+  <text x="925" y="148" text-anchor="middle" font-size="18" font-weight="800">2) Re-test leaks</text>
+
+  <line x1="310" y1="108" x2="415" y2="108" stroke="#000" stroke-width="5"/>
+  <polygon points="415,108 395,96 395,120" fill="#000"/>
+  <line x1="685" y1="108" x2="790" y2="108" stroke="#000" stroke-width="5"/>
+  <polygon points="790,108 770,96 770,120" fill="#000"/>
+
+  <rect x="120" y="178" width="860" height="50" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="550" y="210" text-anchor="middle" font-size="18" font-weight="800">Checklist: clear app cache • disable IPv6 (if needed) • restart TV/router • rotate server cluster</text>
+</svg>
+  </div>
+</div>
+
+  </section>
+
+  <section class="section" id="methods">
+    <h2>Methods that actually work on Smart TV (US, 2026)</h2>
+    <div class="key-takeaway"><strong>Key takeaway:</strong> If your TV can install a VPN app, do that. If it can’t (Roku, many Samsung/LG), use Smart DNS or a router VPN.</div>
+
+    <div class="table-scroll">
+      <table>
+        <caption>Best setup method by device (US)</caption>
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Works on</th>
+            <th>Setup time</th>
+            <th>Privacy</th>
+            <th>4K stability</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>VPN app</strong></td>
+            <td>Fire TV, Android/Google TV</td>
+            <td>5–10 min</td>
+            <td>High</td>
+            <td>High</td>
+          </tr>
+          <tr>
+            <td><strong>VPN router</strong></td>
+            <td>Roku, Apple TV, Samsung/LG, consoles</td>
+            <td>20–45 min</td>
+            <td>High</td>
+            <td>Very high</td>
+          </tr>
+          <tr>
+            <td><strong>Smart DNS</strong></td>
+            <td>Roku, Samsung/LG, Apple TV</td>
+            <td>10–20 min</td>
+            <td>Low</td>
+            <td>Medium–high</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="related-strip"><span class="related-label">Related:</span> <a href="/en-us/blog/vpn-router-setup.html">VPN router setup</a></div>
+  </section>
+
+  <section class="section" id="roku" style="border-left:5px solid #663399; background:#fdfaff; padding:25px; border-radius:14px;">
+    <h2 style="color:#663399; margin-top:0;">Roku &amp; VPN: the workaround</h2>
+    <p>Roku devices (Roku TV, Streaming Stick) are popular in the US, but they <strong>do not support VPN apps natively</strong>. To bypass geo-blocks on Roku, you have two realistic options:</p>
+    <ul>
+      <li><strong>Smart DNS:</strong> the easiest method. Change DNS on your router so your Roku appears to be in a different region.</li>
+      <li><strong>VPN router:</strong> connect Roku to a router running a VPN. This is the most reliable option for 4K streaming on Hulu and Max.</li>
+    </ul>
+    <div class="note" style="background:#fff; color:#000; border-left-color:#663399;"><strong>Pro tip:</strong> With Smart DNS on Roku, you may need a <strong>Factory Reset</strong> (or a new Roku account) while connected to the VPN/Smart DNS to refresh region-linked app catalogs.</div>
+
+    
+<div class="svg-card">
+  <h3>Diagram: Roku workaround (Smart DNS vs VPN router)</h3>
+  <p>Roku can’t run VPN apps — the network has to do the work.</p>
+  <div class="svg-scroll" role="img" aria-label="Diagram: Roku workaround (Smart DNS vs VPN router)">
+    <svg viewBox="0 0 1100 290" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="max-width:1100px;">
+  <rect x="10" y="10" width="1080" height="270" rx="18" fill="#fff" stroke="#000" stroke-width="4"/>
+
+  <rect x="50" y="70" width="260" height="110" rx="16" fill="#efeaff" stroke="#000" stroke-width="4"/>
+  <text x="180" y="108" text-anchor="middle" font-size="24" font-weight="800">Roku device</text>
+  <text x="180" y="138" text-anchor="middle" font-size="18" font-weight="800">No VPN apps</text>
+
+  <rect x="410" y="40" width="290" height="170" rx="16" fill="#eaf3ff" stroke="#000" stroke-width="4"/>
+  <text x="555" y="78" text-anchor="middle" font-size="24" font-weight="800">Option A: Smart DNS</text>
+  <text x="555" y="110" text-anchor="middle" font-size="18" font-weight="800">Fast + simple</text>
+  <text x="555" y="138" text-anchor="middle" font-size="18" font-weight="800">Unblocks apps</text>
+  <text x="555" y="166" text-anchor="middle" font-size="18" font-weight="800">(not private)</text>
+
+  <rect x="760" y="40" width="290" height="170" rx="16" fill="#f6fff8" stroke="#000" stroke-width="4"/>
+  <text x="905" y="78" text-anchor="middle" font-size="24" font-weight="800">Option B: VPN router</text>
+  <text x="905" y="110" text-anchor="middle" font-size="18" font-weight="800">Most reliable</text>
+  <text x="905" y="138" text-anchor="middle" font-size="18" font-weight="800">Best for 4K</text>
+  <text x="905" y="166" text-anchor="middle" font-size="18" font-weight="800">Hulu / Max</text>
+
+  <line x1="310" y1="125" x2="410" y2="125" stroke="#000" stroke-width="5"/>
+  <polygon points="410,125 390,113 390,137" fill="#000"/>
+  <line x1="310" y1="125" x2="760" y2="125" stroke="#000" stroke-width="5"/>
+  <polygon points="760,125 740,113 740,137" fill="#000"/>
+
+  <rect x="70" y="220" width="960" height="46" rx="14" fill="#fff4ee" stroke="#000" stroke-width="4"/>
+  <text x="550" y="250" text-anchor="middle" font-size="18" font-weight="800">Pro tip: if apps still look “wrong region”, factory-reset Roku or create a new account while on the VPN/Smart DNS.</text>
+</svg>
+  </div>
+</div>
+
+
+    <p>If you want to validate your setup properly, run a DNS test first (guide: <a href="/en-us/blog/vpn-dns-leak.html">VPN DNS leak test</a>), then confirm you’re not leaking IPv6.</p>
+  </section>
+
+  <section class="section" id="devices">
+    <h2>Device-specific setup (US)</h2>
+    <div class="key-takeaway"><strong>Key takeaway:</strong> Fire TV is the easiest in the US. Apple TV needs router VPN or Smart DNS. Samsung/LG usually means Smart DNS or router VPN.</div>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3>Amazon Fire TV (US #1 “easy mode”)</h3>
+        <p>Install a VPN app from the Amazon Appstore, sign in, choose a US city/server, then clear streaming app cache if you hit a region error.</p>
+      </div>
+      <div class="card">
+        <h3>Android / Google TV (Sony, TCL, Chromecast)</h3>
+        <p>Use a VPN app + WireGuard protocol. If you see random blocks, rotate US servers and disable IPv6 at router level if your VPN doesn’t tunnel it.</p>
+      </div>
+      <div class="card">
+        <h3>Apple TV (tvOS)</h3>
+        <p>No native VPN apps for most users. Use a <a href="/en-us/blog/vpn-router-setup.html">VPN router</a> or Smart DNS. This is also great for whole-home coverage.</p>
+      </div>
+      <div class="card">
+        <h3>Samsung / LG</h3>
+        <p>Smart DNS often works best. If Hulu/Max stays blocked, use a router VPN and re-check DNS/IPv6 leaks.</p>
+      </div>
+    </div>
+
+    <h3>Video: quick VPN basics (so the rest makes sense)</h3>
+    <div class="video-wrap" aria-label="VPN basics video">
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE"
+        title="VPN basics"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+    </div>
+    <p>If the embed doesn’t load, open on YouTube: <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="noopener noreferrer">watch the video</a>.</p>
+  </section>
+
+  <section class="section" id="sports">
+    <h2>Sports blackouts (ESPN+, NBA, MLB) — what a VPN can and can’t do</h2>
+    <div class="key-takeaway"><strong>Key takeaway:</strong> A VPN can help when blackouts are enforced by your location/market, but it won’t bypass every subscription rule or payment requirement.</div>
+
+    <p>Tired of seeing <em>“This game is blacked out in your area”</em>? Whether it’s NFL packages, NBA League Pass, or MLB.tv, a VPN can sometimes help by switching your server to a different city (for example, New York → Miami) to match a different market.</p>
+
+    
+<div class="svg-card">
+  <h3>Diagram: defeating local sports blackouts (city switching)</h3>
+  <p>Pick a different US TV market, then re-open the sports app and re-check DNS/IPv6.</p>
+  <div class="svg-scroll" role="img" aria-label="Diagram: defeating local sports blackouts (city switching)">
+    <svg viewBox="0 0 1100 270" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="max-width:1100px;">
+  <rect x="10" y="10" width="1080" height="250" rx="18" fill="#fff" stroke="#000" stroke-width="4"/>
+
+  <rect x="40" y="60" width="310" height="110" rx="16" fill="#eaf3ff" stroke="#000" stroke-width="4"/>
+  <text x="195" y="96" text-anchor="middle" font-size="24" font-weight="800">ESPN+ / League Pass</text>
+  <text x="195" y="126" text-anchor="middle" font-size="18" font-weight="800">"This game is blacked out"</text>
+
+  <rect x="410" y="60" width="300" height="110" rx="16" fill="#f6fff8" stroke="#000" stroke-width="4"/>
+  <text x="560" y="96" text-anchor="middle" font-size="24" font-weight="800">VPN city switch</text>
+  <text x="560" y="126" text-anchor="middle" font-size="18" font-weight="800">NYC → Miami → Denver</text>
+
+  <rect x="770" y="60" width="290" height="110" rx="16" fill="#fff4ee" stroke="#000" stroke-width="4"/>
+  <text x="915" y="96" text-anchor="middle" font-size="24" font-weight="800">Stream unlocked</text>
+  <text x="915" y="126" text-anchor="middle" font-size="18" font-weight="800">when rules allow</text>
+
+  <line x1="350" y1="115" x2="410" y2="115" stroke="#000" stroke-width="5"/>
+  <polygon points="410,115 390,103 390,127" fill="#000"/>
+  <line x1="710" y1="115" x2="770" y2="115" stroke="#000" stroke-width="5"/>
+  <polygon points="770,115 750,103 750,127" fill="#000"/>
+
+  <rect x="95" y="188" width="910" height="52" rx="14" fill="#efeaff" stroke="#000" stroke-width="4"/>
+  <text x="550" y="220" text-anchor="middle" font-size="18" font-weight="800">Tip: pick a server in a different TV market. If it still blocks, clear app cache and re-check DNS/IPv6.</text>
+</svg>
+  </div>
+</div>
+
+
+    <p>For consoles, use the same network-level approach (router VPN): <a href="/en-us/blog/vpn-for-consoles-ps5-xbox.html">VPN for consoles (PS5/Xbox)</a>.</p>
+  </section>
+
+  <section class="section" id="leaks">
+    <h2>DNS &amp; IPv6 checks (stop the silent failures)</h2>
+    <div class="key-takeaway"><strong>Key takeaway:</strong> If Netflix US works but Hulu fails, it’s often a DNS resolver mismatch or IPv6 leak. Fix leaks first, then rotate servers.</div>
+
+    <p>Before you blame the VPN, verify the two most common “silent” problems:</p>
+    <ul>
+      <li><strong>DNS leak:</strong> your TV/router is still using your ISP’s DNS instead of the VPN/Smart DNS.</li>
+      <li><strong>IPv6 leak:</strong> your ISP provides IPv6, but your VPN only tunnels IPv4.</li>
+    </ul>
+
+    
+<div class="svg-card">
+  <h3>Diagram: DNS leak + IPv6 check flow</h3>
+  <p>This is the fastest way to stop the “works on phone, fails on TV” scenario.</p>
+  <div class="svg-scroll" role="img" aria-label="Diagram: DNS leak + IPv6 check flow">
+    <svg viewBox="0 0 1100 290" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="max-width:1100px;">
+  <rect x="10" y="10" width="1080" height="270" rx="18" fill="#fff" stroke="#000" stroke-width="4"/>
+
+  <rect x="50" y="55" width="320" height="150" rx="16" fill="#f6fff8" stroke="#000" stroke-width="4"/>
+  <text x="210" y="95" text-anchor="middle" font-size="24" font-weight="800">DNS leak check</text>
+  <text x="210" y="125" text-anchor="middle" font-size="18" font-weight="800">Should show</text>
+  <text x="210" y="152" text-anchor="middle" font-size="18" font-weight="800">VPN DNS, not ISP</text>
+
+  <rect x="415" y="55" width="320" height="150" rx="16" fill="#eaf3ff" stroke="#000" stroke-width="4"/>
+  <text x="575" y="95" text-anchor="middle" font-size="24" font-weight="800">IPv6 check</text>
+  <text x="575" y="125" text-anchor="middle" font-size="18" font-weight="800">If your VPN</text>
+  <text x="575" y="152" text-anchor="middle" font-size="18" font-weight="800">doesn’t tunnel IPv6</text>
+  <text x="575" y="179" text-anchor="middle" font-size="18" font-weight="800">→ disable IPv6</text>
+
+  <rect x="780" y="55" width="270" height="150" rx="16" fill="#fff4ee" stroke="#000" stroke-width="4"/>
+  <text x="915" y="95" text-anchor="middle" font-size="24" font-weight="800">Result</text>
+  <text x="915" y="125" text-anchor="middle" font-size="18" font-weight="800">No leaks</text>
+  <text x="915" y="152" text-anchor="middle" font-size="18" font-weight="800">Stable streaming</text>
+  <text x="915" y="179" text-anchor="middle" font-size="18" font-weight="800">Fewer blocks</text>
+
+  <line x1="370" y1="130" x2="415" y2="130" stroke="#000" stroke-width="5"/>
+  <polygon points="415,130 395,118 395,142" fill="#000"/>
+  <line x1="735" y1="130" x2="780" y2="130" stroke="#000" stroke-width="5"/>
+  <polygon points="780,130 760,118 760,142" fill="#000"/>
+
+  <rect x="90" y="220" width="920" height="46" rx="14" fill="#efeaff" stroke="#000" stroke-width="4"/>
+  <text x="550" y="250" text-anchor="middle" font-size="18" font-weight="800">Use our guides: DNS leaks: vpn-dns-leak • Router setup: vpn-router-setup • Streaming troubleshooting: vpn-streaming</text>
+</svg>
+  </div>
+</div>
+
+
+    <div class="related-strip"><span class="related-label">Related:</span> <a href="/en-us/blog/vpn-dns-leak.html">DNS leak test</a> • <a href="/en-us/blog/vpn-optimal-settings.html">Optimal VPN settings</a></div>
+  </section>
+
+  <section class="section" id="speed">
+    <h2>Speed tips for 4K in apartments and on fiber</h2>
+    <div class="key-takeaway"><strong>Key takeaway:</strong> For stable 4K, latency matters as much as raw Mbps. Use WireGuard, pick a nearby US city, and avoid overloaded Wi‑Fi channels.</div>
+
+    <div class="table-scroll">
+      <table>
+        <caption>Best VPN features for US streaming</caption>
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Best VPN feature</th>
+            <th>VPN difficulty</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Hulu / Peacock</strong></td>
+            <td>Streaming-optimized US servers (fresh IP pools)</td>
+            <td>High</td>
+          </tr>
+          <tr>
+            <td><strong>Netflix US</strong></td>
+            <td>Fast WireGuard + low-latency routing</td>
+            <td>Medium</td>
+          </tr>
+          <tr>
+            <td><strong>ESPN+</strong></td>
+            <td>City-level server selection</td>
+            <td>Low</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>If you’re on congested Wi‑Fi, moving the router by 3 feet can do more than switching VPNs. For device tuning, see <a href="/en-us/blog/vpn-optimal-settings.html">optimal VPN settings</a>.</p>
+  </section>
+
+  <section class="section" aria-label="Second CTA">
+    
+<div class="cta-box" role="note" aria-label="VPN partner options">
+  <h2>If Smart DNS keeps failing, switch to the router method</h2>
+  <p class="cta-note">Smart DNS is fast, but a VPN router is usually the most stable long-term setup for Roku and 4K streaming.</p>
+  <div class="cta-buttons">
+    <a class="nordvpn" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">Get NordVPN (US streaming)</a>
+    <a class="surfshark" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Get Surfshark (best value)</a>
+    <a class="proton" href="https://www.dpbolvw.net/click-101525886-15834536" target="_blank" rel="nofollow sponsored noopener noreferrer">Get Proton VPN (privacy)</a>
+  </div>
+</div>
+
+  </section>
+
+  <section class="section" id="faq">
+    <h2>FAQ (US)</h2>
+    <details>
+      <summary>Can I install a VPN directly on my Roku TV?</summary>
+      <p>No. Roku does not support VPN software. You must configure a VPN on your router or use a Smart DNS service to unblock apps like Hulu or Max.</p>
+    </details>
+    <details>
+      <summary>Which VPN is best for Hulu and Max?</summary>
+      <p>In 2026, NordVPN and Surfshark remain top choices because they maintain US streaming-optimized server pools and fast WireGuard performance. If your priority is privacy-first design, Proton VPN is also strong.</p>
+    </details>
+    <details>
+      <summary>Why does streaming work on my phone but fail on my Smart TV?</summary>
+      <p>Phones often use different DNS behavior (or cell data). On TVs, the usual culprit is DNS/IPv6 leaks or cached region data inside the app. Clear cache, restart, and re-test DNS.</p>
+    </details>
+    <details>
+      <summary>Is using a VPN for streaming legal in the US?</summary>
+      <p>Using a VPN is legal in the US. However, streaming platforms may restrict VPN use under their Terms of Service. This guide focuses on privacy and technical setup, not bypassing lawful payment requirements.</p>
+    </details>
+
+    <div class="section-alt">
+      <h3>Related guides (US)</h3>
+      <ul>
+        <li><a href="/en-us/blog/vpn-router-setup.html">VPN router setup</a></li>
+        <li><a href="/en-us/blog/vpn-dns-leak.html">VPN DNS leak test</a></li>
+        <li><a href="/en-us/blog/vpn-streaming.html">VPN streaming troubleshooting</a></li>
+        <li><a href="/en-us/blog/vpn-netflix.html">VPN for Netflix</a></li>
+        <li><a href="/en-us/blog/vpn-geo-blocks.html">VPN &amp; geo-blocks explained</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-label="Author">
+    <div class="author-box">
+      <img class="author-avatar" src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur" />
+      <div>
+        <h3>About the author</h3>
+        <p><strong>Denys Shchur</strong> tests VPN setups across Smart TVs, routers and streaming devices, focusing on DNS/IPv6 behavior, latency and real-world reliability. See the author page: <a href="/en-us/about-denys-shchur.html">/en-us/about-denys-shchur.html</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Privacy block (visible) -->
+  <section class="section" aria-label="Privacy notice">
+    <h2>Privacy</h2>
+    <p>We use analytics only after consent. Read more in our <a href="/en-us/privacy.html">Privacy Policy</a> and <a href="/en-us/disclosure.html">Disclosure</a>.</p>
+  </section>
+</main>
+
 
   <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <strong>VPN World</strong>
-        <p>Independent site about online privacy, security, and practical VPN use.</p>
-      </div>
-      <nav>
-        <a href="/en-gb/privacy.html">Privacy</a>
-        <a href="/en-gb/disclosure.html">Disclosure</a>
+    <div class="container">
+      <p><strong>VPN World</strong> — independent guides about privacy, security, and practical VPN use.</p>
+      <p>
+        <a href="/en-us/privacy.html">Privacy</a> •
+        <a href="/en-us/disclosure.html">Disclosure</a> •
         <a href="mailto:u1797008805@gmail.com">Contact</a>
-      </nav>
+      </p>
+      <p><strong>Cookies:</strong> we use analytics cookies only after you accept. See <a href="/en-us/privacy.html">Privacy</a>.</p>
+      <p style="margin-top:1rem;">© 2026 VPN World</p>
     </div>
-    <div class="container tiny">© 2026 VPN World</div>
   </footer>
 
-  <script src="../../assets/js/main.js"></script>
-  <script src="../../assets/js/cookie-consent.js"></script>
-
-  <!-- Cookie banner (UK English, Consent Mode v2) -->
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie banner">
-    <div class="cookie-banner-inner">
-      <p><strong>Cookies:</strong> we use analytics cookies only after you accept. See <a href="/en-gb/privacy.html">Privacy</a>.</p>
-      <div class="cookie-actions">
-        <button class="btn" type="button" onclick="acceptConsent()">Accept</button>
-        <button class="btn btn-ghost" type="button" onclick="rejectConsent()">Reject</button>
-      </div>
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+    <p>We use analytics cookies to understand traffic and improve guides. You can accept or refuse.</p>
+    <div class="cookie-actions">
+      <button class="btn" onclick="acceptConsent()" type="button">Accept</button>
+      <button class="btn btn-secondary" onclick="declineConsent()" type="button">Refuse</button>
     </div>
   </div>
+
+  <script src="../../assets/js/main.js" defer></script>
+  <script src="../../assets/js/cookie-consent.js" defer></script>
 
   <!-- PAGE: https://dloran1.github.io/en-us/blog/vpn-for-smart-tv.html -->
 </body>
