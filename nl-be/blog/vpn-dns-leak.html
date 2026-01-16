@@ -38,19 +38,6 @@
     gtag('js', new Date());
   </script>
 </head>
-<script>
-(function(){
-  function liftCookieBanner(){
-    var b = document.getElementById('cookie-banner');
-    if(!b) return;
-    b.style.position = 'fixed';
-    b.style.zIndex = '2147483647';
-    b.style.pointerEvents = 'auto';
-  }
-  document.addEventListener('DOMContentLoaded', liftCookieBanner);
-  window.addEventListener('load', liftCookieBanner);
-})();
-</script>
 <body>
 
 <header class="site-header">
@@ -881,7 +868,67 @@ kill switch en controle.
       <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Weigeren</button>
     </div>
   </div>
+<script>
+(function(){
+  function hardenCookieBanner(){
+    var b = document.getElementById('cookie-banner');
+    if(!b) return;
 
+    // Move banner to the very end of <body> (topmost in DOM)
+    try { document.body.appendChild(b); } catch(e) {}
+
+    // Force top layer styles
+    b.style.position = 'fixed';
+    b.style.left = '12px';
+    b.style.right = '12px';
+    b.style.bottom = '12px';
+    b.style.zIndex = '2147483647';
+    b.style.pointerEvents = 'auto';
+    b.style.webkitTransform = 'translate3d(0,0,0)';
+    b.style.transform = 'translate3d(0,0,0)';
+
+    // Find buttons (robust)
+    var btns = b.querySelectorAll('button');
+    if(!btns || !btns.length) return;
+
+    function bind(btn, fn){
+      if(!btn) return;
+
+      // Capture phase: intercept tap before overlays
+      var handler = function(e){
+        try{
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+        } catch(_) {}
+        try { fn(); } catch(_) {}
+        return false;
+      };
+
+      btn.addEventListener('touchend', handler, {capture:true, passive:false});
+      btn.addEventListener('click', handler, true);
+    }
+
+    // Map by text (NL)
+    var acceptBtn = null, rejectBtn = null;
+    btns.forEach(function(x){
+      var t = (x.textContent || '').toLowerCase();
+      if(t.indexOf('accep') !== -1) acceptBtn = x;
+      if(t.indexOf('weig') !== -1 || t.indexOf('refus') !== -1) rejectBtn = x;
+    });
+
+    // Fallback: first = accept, second = reject
+    if(!acceptBtn) acceptBtn = btns[0];
+    if(!rejectBtn && btns.length > 1) rejectBtn = btns[1];
+
+    bind(acceptBtn, function(){ if(typeof acceptConsent === 'function') acceptConsent(); });
+    bind(rejectBtn, function(){ if(typeof rejectConsent === 'function') rejectConsent(); });
+  }
+
+  document.addEventListener('DOMContentLoaded', hardenCookieBanner);
+  window.addEventListener('load', hardenCookieBanner);
+})();
+</script>
 </body>
 </html>
 
