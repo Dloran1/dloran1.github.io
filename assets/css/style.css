@@ -627,32 +627,5 @@ main::before, main::after,
   stroke: #000;
   stroke-width: 3.5;
 }
-/* === SVG mobile readability: prevent shrink + bigger labels (FINAL) === */
-.svg-scroll{
-  overflow-x:auto !important;
-  -webkit-overflow-scrolling:touch !important;
-}
 
-/* Default: keep responsive on desktop */
-.svg-scroll svg{
-  height:auto !important;
-  display:block !important;
-  color:#000 !important;
-}
 
-/* Force readable text size everywhere */
-.svg-scroll svg text{
-  fill:#000 !important;
-  font-weight:900 !important;
-  font-size:16px !important;   /* ключевое */
-  letter-spacing:.2px !important;
-}
-
-/* On phones: DO NOT SCALE DOWN — keep a fixed "canvas" and scroll */
-@media (max-width:680px){
-  .svg-scroll svg{
-    width:980px !important;    /* под мобильный скролл */
-    max-width:none !important; /* важнее всего: запретить shrink */
-    min-width:980px !important;
-  }
-}
