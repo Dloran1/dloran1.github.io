@@ -246,12 +246,8 @@ img{max-width:100%;height:auto}
 
 /* =======================================================================
    TABLES — HARD FIX (ALWAYS READABLE)
-   - Always render tables on white background with black text
-   - Works in dark theme shells
-   - Fixes "caption/title not visible on black" issue
    ======================================================================= */
 
-/* Base table reset (outside wrappers) */
 .article table{
   width:100%;
   border-collapse:collapse;
@@ -278,21 +274,16 @@ img{max-width:100%;height:auto}
   background:var(--t-zebra) !important;
 }
 .article table a{color:#0b63ff}
-
-/* Keep your existing class working */
 .comparison-table{width:100%}
 
-/* ===== Responsive tables wrapper (MANDATORY) ===== */
 .table-scroll{
   overflow-x:auto;
   -webkit-overflow-scrolling:touch;
   border-radius:12px;
   border:1px solid var(--t-border) !important;
-  background:var(--t-bg) !important; /* critical: white surface */
+  background:var(--t-bg) !important;
   margin:1.2rem 0;
 }
-
-/* If table is inside wrapper, keep it consistent */
 .table-scroll table{
   margin:0;
   width:100%;
@@ -317,13 +308,12 @@ img{max-width:100%;height:auto}
 }
 .table-scroll a{color:#0b63ff}
 
-/* ===== Caption fix (the bug you showed) ===== */
 .table-scroll caption,
 .article table > caption{
   caption-side:top;
   text-align:left;
-  color:var(--t-text) !important;     /* never black-on-black */
-  background:var(--t-bg) !important;  /* white label */
+  color:var(--t-text) !important;
+  background:var(--t-bg) !important;
   font-weight:900;
   padding:10px 12px;
   border:1px solid var(--t-border);
@@ -331,8 +321,6 @@ img{max-width:100%;height:auto}
   border-radius:12px 12px 0 0;
   margin:0;
 }
-
-/* Avoid double border line between caption and table */
 .table-scroll caption + thead th,
 .article table > caption + thead th{
   border-top:none !important;
@@ -361,7 +349,6 @@ img{max-width:100%;height:auto}
   background:rgba(38,231,166,.16);
   color:#eafff7;
 }
-/* proton button class support */
 .cta-buttons a.proton{
   background:rgba(176,107,255,.16);
   color:#f3ecff;
@@ -418,9 +405,7 @@ img{max-width:100%;height:auto}
 .author-box p{margin:0;color:var(--muted)}
 .author-box a{color:#fff;text-decoration:none}
 
-/* ===== Related block (NEW STANDARD)
-   Dark full-width card with light border + green accent left line
-*/
+/* ===== Related block (NEW STANDARD) ===== */
 .related-strip{
   margin:1.05rem 0 1.25rem;
   padding:.8rem 1rem;
@@ -469,13 +454,12 @@ img{max-width:100%;height:auto}
   display:block;
   max-width:100%;
   height:auto;
-  color:#000 !important; /* critical: don't inherit theme text color */
+  color:#000 !important;
 }
 .svg-scroll svg text{
   fill:#000 !important;
   font-weight:800 !important;
 }
-/* strong, high-contrast strokes */
 .svg-scroll svg line,
 .svg-scroll svg path,
 .svg-scroll svg rect,
@@ -498,7 +482,7 @@ img{max-width:100%;height:auto}
 .site-footer a{color:var(--muted);text-decoration:none}
 .site-footer a:hover{color:#fff}
 
-/* ===== Cookie banner (supports your current HTML id/class) ===== */
+/* ===== Cookie banner (base) ===== */
 .cookie-banner,
 .privacy-banner{
   position:fixed;
@@ -547,7 +531,12 @@ img{max-width:100%;height:auto}
   .svg-card{padding:14px}
   th,td{padding:.65rem .7rem}
 }
-/* === COOKIE BANNER: iOS / overlay hard-fix === */
+
+/* =======================================================================
+   COOKIE BANNER: iOS / overlay hard-fix (UPDATED)
+   - Ensures banner is always on top and tappable
+   - Fixes "buttons look disabled" on white banner
+   ======================================================================= */
 #cookie-banner{
   position: fixed !important;
   left: 12px !important;
@@ -557,34 +546,64 @@ img{max-width:100%;height:auto}
   z-index: 2147483647 !important;
   pointer-events: auto !important;
 
-  transform: translate3d(0,0,0) !important; /* iOS stacking fix */
+  transform: translate3d(0,0,0) !important;
   -webkit-transform: translate3d(0,0,0) !important;
   isolation: isolate !important;
 
-  background: #fff !important;
-  color: #000 !important;
+  background: #ffffff !important;
+  color: #000000 !important;
   border: 1px solid #e5e7eb !important;
   border-radius: 14px !important;
   box-shadow: 0 12px 40px rgba(0,0,0,.35) !important;
 }
 
+/* text inside banner must be readable */
+#cookie-banner p{
+  color:#000 !important;
+  margin:0 0 .75rem !important;
+}
+
+/* everything inside must be tappable */
 #cookie-banner *{
   pointer-events: auto !important;
 }
 
+/* actions row */
 #cookie-banner .cookie-actions{
   display:flex !important;
   gap:10px !important;
   flex-wrap:wrap !important;
 }
 
-#cookie-banner button{
+/* IMPORTANT: fix "disabled-looking" buttons on white banner */
+#cookie-banner button,
+#cookie-banner .btn{
+  appearance:none !important;
+  -webkit-appearance:none !important;
+  border:1px solid rgba(0,0,0,.18) !important;
+  background:#e8f3ff !important;
+  color:#000 !important;
+  font-weight:900 !important;
+  border-radius:10px !important;
+  padding:.55rem .95rem !important;
   cursor:pointer !important;
-  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+  opacity:1 !important;
+  filter:none !important;
   touch-action: manipulation !important;
+  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+}
+#cookie-banner button:active,
+#cookie-banner .btn:active{
+  transform: translateY(1px) !important;
 }
 
-/* Часто клики ворует псевдо-оверлей на секциях/hero */
+/* secondary button */
+#cookie-banner .btn-secondary{
+  background:#f3f4f6 !important;
+  color:#000 !important;
+}
+
+/* Often taps are stolen by pseudo overlays */
 .hero::before, .hero::after,
 .section::before, .section::after,
 main::before, main::after,
