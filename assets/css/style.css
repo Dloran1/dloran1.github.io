@@ -547,3 +547,47 @@ img{max-width:100%;height:auto}
   .svg-card{padding:14px}
   th,td{padding:.65rem .7rem}
 }
+/* === COOKIE BANNER: iOS / overlay hard-fix === */
+#cookie-banner{
+  position: fixed !important;
+  left: 12px !important;
+  right: 12px !important;
+  bottom: 12px !important;
+
+  z-index: 2147483647 !important;
+  pointer-events: auto !important;
+
+  transform: translate3d(0,0,0) !important; /* iOS stacking fix */
+  -webkit-transform: translate3d(0,0,0) !important;
+  isolation: isolate !important;
+
+  background: #fff !important;
+  color: #000 !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 14px !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,.35) !important;
+}
+
+#cookie-banner *{
+  pointer-events: auto !important;
+}
+
+#cookie-banner .cookie-actions{
+  display:flex !important;
+  gap:10px !important;
+  flex-wrap:wrap !important;
+}
+
+#cookie-banner button{
+  cursor:pointer !important;
+  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+  touch-action: manipulation !important;
+}
+
+/* Часто клики ворует псевдо-оверлей на секциях/hero */
+.hero::before, .hero::after,
+.section::before, .section::after,
+main::before, main::after,
+.site-header::before, .site-header::after{
+  pointer-events: none !important;
+}
