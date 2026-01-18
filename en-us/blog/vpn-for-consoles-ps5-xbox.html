@@ -289,80 +289,40 @@
         ]
       }
     ]
-    }
-  /* === CTA BUTTONS PATCH (VPN World visual standard) === */
-/* Put this AFTER style.css (page <style> at the bottom or in /assets/css/style.css at the end) */
-
-.cta-row{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  margin:14px 0 10px;
-}
-
-a.cta{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-
-  padding:12px 14px;
-  border-radius:12px;
-
-  font-weight:800;
-  letter-spacing:.2px;
-  line-height:1.15;
-
-  text-decoration:none !important;
-  border:1px solid rgba(255,255,255,.14);
-  box-shadow:0 10px 26px rgba(0,0,0,.25);
-  cursor:pointer;
-
-  transition:transform .12s ease, filter .12s ease, box-shadow .12s ease;
-}
-
-a.cta:hover{
-  transform:translateY(-1px);
-  filter:brightness(1.03);
-  box-shadow:0 14px 34px rgba(0,0,0,.32);
-}
-
-a.cta:active{ transform:translateY(0); }
-a.cta:focus-visible{
-  outline:3px solid rgba(157,215,255,.55);
-  outline-offset:3px;
-}
-
-/* Primary / Secondary / Tertiary */
-a.cta-primary{
-  color:#ffffff !important;
-  border-color:rgba(31,111,235,.55);
-  background:linear-gradient(135deg,#1f6feb 0%, #3291ff 100%);
-}
-
-a.cta-secondary{
-  color:#ffffff !important;
-  border-color:rgba(34,197,94,.45);
-  background:linear-gradient(135deg,#16a34a 0%, #22c55e 100%);
-}
-
-a.cta-tertiary{
-  color:#0b1220 !important;
-  border-color:rgba(255,255,255,.18);
-  background:linear-gradient(135deg,#ffffff 0%, #e9eef6 100%);
-}
-
-/* Make sure CTA text is not faded by any global styles */
-a.cta, a.cta *{ opacity:1 !important; }
-
-/* Mobile-friendly: full width */
-@media (max-width:560px){
-  .cta-row{ flex-direction:column; }
-  a.cta{ width:100%; }
-}
-/* === END CTA BUTTONS PATCH === */
-
+  }
   </script>
+
+<!-- CTA_BUTTON_FIX_START -->
+<style>
+  /* Force affiliate CTAs to look like buttons (VPN World visual standard) */
+  .cta-row{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin-top:14px}
+  .cta{
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:12px 14px;border-radius:12px;
+    font-weight:800;letter-spacing:.2px;
+    text-decoration:none !important;
+    border:1px solid rgba(0,0,0,.14);
+    box-shadow:0 10px 24px rgba(0,0,0,.18);
+    line-height:1.2;
+  }
+  .cta:focus{outline:3px solid rgba(31,111,235,.35);outline-offset:2px}
+  .cta-primary{background:linear-gradient(90deg,#1f6feb,#3291ff);color:#fff !important;border-color:rgba(0,0,0,.08)}
+  .cta-secondary{background:#ffffff;color:#0b1220 !important;border-color:rgba(31,111,235,.35)}
+  .cta-tertiary{background:#ffffff;color:#0b1220 !important;border-color:rgba(34,197,94,.45)}
+  .cta:hover{transform:translateY(-1px)}
+  .cta-primary:hover{filter:brightness(1.03)}
+  .cta-secondary:hover,.cta-tertiary:hover{background:#f6f8ff}
+
+  /* Ensure link color rules don't override CTA text */
+  .cta-row a.cta{color:inherit}
+
+  @media (max-width:720px){
+    .cta-row{flex-direction:column}
+    .cta{width:100%}
+  }
+</style>
+<!-- CTA_BUTTON_FIX_END -->
+
 </head>
 
 <body>
