@@ -24,7 +24,65 @@
   <!-- Styles -->
   <link rel="stylesheet" href="../../assets/css/style.css" />
 
-  <!-- DNS/Preconnect -->
+  <!-- Page-only helpers: keep visuals readable on dark theme (tables + SVG + light callouts) -->
+  <style>
+    /* Tables (hard fix) */
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .table-scroll table{min-width:760px}
+
+    .table-scroll, .table-scroll table{background:#fff !important; color:#000 !important}
+    .table-scroll th, .table-scroll td{color:#000 !important}
+    .table-scroll thead th{background:#071023 !important; color:#fff !important}
+    .table-scroll tbody tr{background:#fff !important}
+    .table-scroll tbody tr:nth-child(even){background:#f6f7fb !important}
+    .table-scroll tbody tr:hover{background:#eef4ff !important}
+    .table-scroll a{color:#0b57d0 !important}
+
+    /* SVG cards: white canvas + black text/lines */
+    .svg-card{border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:14px;background:transparent;margin:14px 0}
+    .svg-card h3{margin:6px 0 10px}
+    .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:14px;padding:10px}
+    .svg-scroll svg{max-width:100%;height:auto;display:block;color:#000 !important;background:#fff}
+    .svg-scroll svg text{fill:#000 !important;font-weight:800 !important}
+    .svg-scroll svg .stroke{stroke:#000 !important;stroke-width:4 !important;fill:none !important;stroke-linecap:round;stroke-linejoin:round}
+    .svg-scroll svg .box{fill:#fff !important;stroke:#000 !important;stroke-width:4 !important}
+    .svg-scroll svg .label{font-size:16px}
+    .svg-scroll svg .small{font-size:13px}
+
+    /* Colour accents (text stays black) */
+    .svg-scroll svg .fill-blue{fill:#e6f1ff !important}
+    .svg-scroll svg .fill-green{fill:#e9fff3 !important}
+    .svg-scroll svg .fill-yellow{fill:#fff7db !important}
+    .svg-scroll svg .fill-red{fill:#ffe9ea !important}
+    .svg-scroll svg .fill-purple{fill:#f1eaff !important}
+
+    /* “Related:” wide dark card standard */
+    .related-wide{background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:12px 14px;margin:10px 0 14px;position:relative}
+    .related-wide:before{content:"";position:absolute;left:10px;top:10px;bottom:10px;width:4px;border-radius:999px;background:#22c55e}
+    .related-wide p{margin:0;padding-left:14px}
+    .related-wide a{text-decoration:underline}
+
+    /* Video */
+    .video-wrap{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;background:#000}
+    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+    /* Small badges */
+    .badge{display:inline-block;padding:2px 10px;border-radius:999px;font-weight:800;font-size:12px;line-height:1.6}
+    .b-yellow{background:#fff7db;color:#6a4a00}
+    .b-blue{background:#e6f1ff;color:#073b8c}
+    .b-green{background:#e9fff3;color:#0b6b3a}
+
+    /* Method 1 (Smart DNS) — light card, readable text */
+    .method-box{background:#fffdf5;border-left:5px solid #ffce00;border-radius:12px;padding:18px;color:#0b1220}
+    .method-box *{color:#0b1220}
+    .method-box a{color:#005eb8;text-decoration:underline}
+
+    /* Fix any accidental “faded” text on light surfaces */
+    main .card-lite, main .card-lite *{opacity:1 !important}
+    main .note, main .note *, main .tip, main .tip *{opacity:1 !important}
+  </style>
+
+  <!-- Preconnect -->
   <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
   <link rel="dns-prefetch" href="https://www.google-analytics.com" />
@@ -42,7 +100,7 @@
   <meta property="og:locale:alternate" content="fr_FR" />
   <meta property="og:locale:alternate" content="nl_BE" />
   <meta property="og:title" content="VPN für PS5 &amp; Xbox (2026): Einrichtung, Ping &amp; Streaming" />
-  <meta property="og:description" content="Konsolen ohne VPN-App? Kein Problem. Smart DNS für Streaming, Router-VPN für Gaming &amp; Datenschutz, plus PC/Mac-Bridge – mit Tipps für Telekom/Vodafone-Routing." />
+  <meta property="og:description" content="So nutzen Sie VPN auf PS5 &amp; Xbox: Smart DNS fürs Streaming, Router‑VPN fürs Gaming, PC/Mac‑Bridge ohne Router‑Änderung. Mit Praxis‑Checks für Ping, Jitter &amp; DNS‑Leaks." />
   <meta property="og:url" content="https://dloran1.github.io/de/blog/vpn-fuer-konsolen-ps5-xbox.html" />
   <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-for-consoles-ps5-xbox-uk.webp" />
   <meta property="og:image:width" content="1200" />
@@ -50,14 +108,14 @@
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="VPN für PS5 &amp; Xbox (2026): Einrichtung, Ping &amp; Streaming" />
-  <meta name="twitter:description" content="Smart DNS, Router-VPN oder PC/Mac-Bridge: So nutzen Sie VPN auf PS5 &amp; Xbox in Deutschland – inklusive Ping- und Datenschutz-Tipps." />
+  <meta name="twitter:description" content="Deutsche Anleitung 2026: Router‑VPN, Smart DNS &amp; PC/Mac‑Bridge — inkl. Telekom/Vodafone Routing‑Tipps, DDoS‑Schutz und Streaming unterwegs." />
   <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-for-consoles-ps5-xbox-uk.webp" />
 
   <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);} 
+    function gtag(){dataLayer.push(arguments);}
 
     gtag('consent','default', {
       ad_storage:'denied',
@@ -129,74 +187,6 @@
     document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
   </script>
 
-  <!-- Page-only helpers: tables + SVG must be readable on dark theme -->
-  <style>
-    /* =========================================================
-       VPN World (Stage 2.5) – visual standard (NL-BE reference)
-       HARD readability rules for light cards, tables and SVG.
-       ========================================================= */
-
-    /* Buttons: ensure they are buttons, not naked links */
-    .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0 8px}
-    .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 16px;border-radius:12px;font-weight:900;text-decoration:none;box-shadow:0 10px 24px rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.12)}
-    .cta-primary{background:linear-gradient(135deg,#1f6feb,#3291ff);color:#fff}
-    .cta-secondary{background:linear-gradient(135deg,#00b3a4,#2dd4bf);color:#06231f}
-    .cta-tertiary{background:linear-gradient(135deg,#ffd000,#ffb703);color:#231900}
-    .cta:focus{outline:3px solid rgba(255,255,255,.35);outline-offset:2px}
-
-    /* Light cards/boxes must be black-on-white and fully opaque */
-    .method-box, .method-box *,
-    .card-lite, .card-lite *,
-    .mini.card-lite, .mini.card-lite *,
-    .quick, .quick *,
-    .note, .note *,
-    .tip, .tip *,
-    details, details *{
-      color:#0b1220 !important;
-      opacity:1 !important;
-    }
-    .method-box strong, .card-lite strong, .quick strong{color:#0b1220 !important;font-weight:900}
-    .method-box a, .card-lite a, .quick a, details a{color:#1f6feb !important;text-decoration:underline}
-
-    /* Tables: always readable */
-    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-    .table-scroll table{min-width:760px;width:100%;border-collapse:separate;border-spacing:0;background:#fff !important;color:#000 !important;border:1px solid rgba(0,0,0,.18);border-radius:14px;overflow:hidden}
-    .table-scroll caption{caption-side:top;text-align:left;padding:10px 12px;font-weight:900;color:#000 !important}
-    .table-scroll thead th{background:#071023 !important;color:#fff !important;font-weight:900;border-bottom:1px solid rgba(255,255,255,.18)}
-    .table-scroll th, .table-scroll td{padding:12px 12px;vertical-align:top;border-right:1px solid rgba(0,0,0,.10)}
-    .table-scroll th:last-child, .table-scroll td:last-child{border-right:0}
-    .table-scroll tbody td{background:#fff !important;color:#000 !important}
-    .table-scroll tbody tr:nth-child(even) td{background:#f6f7fb !important}
-    .table-scroll tbody tr:hover td{background:#eef4ff !important}
-    .table-scroll a{color:#0b63ce !important;text-decoration:underline}
-
-    /* SVG cards (white canvas + black text/lines) */
-    .svg-card{border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:12px;margin:14px 0;background:transparent}
-    .svg-card h3{margin:6px 0 10px}
-    .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:14px;padding:12px}
-    .svg-scroll svg{max-width:100%;height:auto;display:block;color:#000 !important;background:#fff}
-    .svg-scroll svg text{fill:#000 !important;font-weight:800 !important}
-    .svg-scroll svg .stroke{stroke:#000 !important;stroke-width:4 !important;fill:none !important;stroke-linecap:round;stroke-linejoin:round}
-    .svg-scroll svg .box{fill:#fff !important;stroke:#000 !important;stroke-width:4 !important}
-
-    /* Related wide dark card standard */
-    .related-wide{background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:12px 14px;margin:10px 0 14px;position:relative}
-    .related-wide:before{content:"";position:absolute;left:10px;top:10px;bottom:10px;width:4px;border-radius:999px;background:#22c55e}
-    .related-wide .related-label{font-weight:900;margin-right:8px}
-    .related-wide a{text-decoration:underline}
-
-    /* Video */
-    .video-wrap{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;background:#000}
-    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-
-    /* Small colour badges */
-    .badge{display:inline-block;padding:2px 10px;border-radius:999px;font-weight:900;font-size:12px;line-height:1.6;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}
-    .pill{display:inline-block;padding:4px 10px;border-radius:999px;font-weight:900;font-size:12px;line-height:1.6;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}
-
-    /* Ensure hero img behaves like the reference */
-    .hero-media img{border-radius:16px;box-shadow:0 16px 40px rgba(0,0,0,.35)}
-  </style>
-
   <!-- JSON-LD: Article + FAQPage + BreadcrumbList + ItemList -->
   <script type="application/ld+json">
   {
@@ -207,7 +197,7 @@
         "@id":"https://dloran1.github.io/de/blog/vpn-fuer-konsolen-ps5-xbox.html",
         "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/de/blog/vpn-fuer-konsolen-ps5-xbox.html"},
         "headline":"VPN für PS5 & Xbox (2026): Einrichtung, Ping & Streaming",
-        "description":"Anleitung 2026: So nutzen Sie VPN auf PS5 & Xbox. Smart DNS für Netflix & Sky, Schutz vor DDoS und besseres Routing für deutsche Gamer (Telekom, Vodafone).",
+        "description":"Anleitung 2026: VPN auf PS5 & Xbox via Smart DNS, Router‑VPN oder PC/Mac‑Bridge. Mit Fokus auf Telekom/Vodafone‑Routing, Datenschutz und Streaming unterwegs.",
         "image":"https://dloran1.github.io/assets/img/hero/vpn-for-consoles-ps5-xbox-uk.webp",
         "inLanguage":"de",
         "author":{"@type":"Person","name":"Denys Shchur"},
@@ -229,134 +219,29 @@
           {
             "@type":"Question",
             "name":"Ist ein VPN auf der Konsole in Deutschland legal?",
-            "acceptedAnswer":{"@type":"Answer","text":"Ja, die Nutzung eines VPNs ist in Deutschland legal. Viele Menschen verwenden es für Datenschutz, Sicherheit und besseres Routing. Beim Umgehen von Geoblocking oder Blackouts kann jedoch die Nutzungsbedingungen einzelner Dienste verletzt werden."}
+            "acceptedAnswer":{"@type":"Answer","text":"Ja, die Nutzung eines VPNs ist in Deutschland völlig legal und wird für den Datenschutz und die Sicherheit im Internet empfohlen."}
           },
           {
             "@type":"Question",
             "name":"Hilft ein VPN gegen Lags bei der Telekom?",
-            "acceptedAnswer":{"@type":"Answer","text":"Ja, manchmal. Wenn das Peering/Routing Ihres Providers ungünstig ist, kann ein VPN-Server (z. B. Frankfurt am Main) einen direkteren Weg zu Spielservern bieten und die Latenz stabilisieren. Ergebnisse variieren je nach Spiel und Server."}
-          },
-          {
-            "@type":"Question",
-            "name":"Brauche ich Smart DNS oder ein echtes VPN für Streaming?",
-            "acceptedAnswer":{"@type":"Answer","text":"Für reines Streaming ist Smart DNS oft der schnellste Weg, weil es kaum extra Ping erzeugt. Für Datenschutz, DDoS-Schutz und sichere Verbindungen ist ein echtes VPN (z. B. via Router) die bessere Wahl."}
+            "acceptedAnswer":{"@type":"Answer","text":"Ja, ein VPN kann helfen, wenn das Peering Ihres Providers zu den Spielservern schlecht ist. Mit einem VPN‑Server in Frankfurt am Main wird oft ein direkterer Weg gewählt, was Ping und Stabilität verbessern kann."}
           }
         ]
       },
       {
         "@type":"ItemList",
-        "name":"Ähnliche Guides",
+        "name":"Related guides",
         "itemListElement":[
           {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/de/blog/vpn-fuer-gaming.html"},
-          {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/de/blog/vpn-router-einrichtung.html"},
-          {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/de/blog/vpn-dns-leak.html"},
-          {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/de/blog/vpn-streaming.html"},
-          {"@type":"ListItem","position":5,"url":"https://dloran1.github.io/de/blog/proxy-vs-vpn.html"}
+          {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/de/blog/vpn-speedtest.html"},
+          {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/de/blog/vpn-router-einrichtung.html"},
+          {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/de/blog/welcher-vpn-server.html"},
+          {"@type":"ListItem","position":5,"url":"https://dloran1.github.io/de/blog/ist-vpn-legal.html"}
         ]
       }
     ]
   }
   </script>
-  <style>
-    main section.note, main section.tip, main .method-box, main .card-lite, main .mini{background:#fff !important;color:#0b1220 !important;}
-    main section.note *, main section.tip *, main .method-box *, main .card-lite *, main .mini *{color:#0b1220 !important;opacity:1 !important;}
-  </style>
-
-
-<!-- CONTRAST_FIX_START -->
-<style>
-/* =========================================================
-   VPN World (Visual Standard: NL-BE vpn-voor-smart-tv.html)
-   Targeted readability fixes (NO global force-black on dark cards)
-   - Tables & SVG: always black-on-white
-   - Light boxes (method-box): black text on light bg
-   - Dark callouts (note/tip): keep light text
-   ========================================================= */
-
-/* ---- Light boxes (Smart DNS etc.) ---- */
-.method-box{
-  background:#fff !important;
-  color:#0b1220 !important;
-}
-.method-box *{ color:#0b1220 !important; opacity:1 !important; }
-.method-box a{ color:#005eb8 !important; text-decoration:underline; }
-.method-box strong{ color:#0b1220 !important; font-weight:800 !important; }
-
-/* ---- Dark callouts used inside dark cards (must stay readable) ---- */
-.note, .tip, .callout, .note-box, .tip-box{
-  background:#071023 !important;
-  color:#eaeaea !important;
-  border:1px solid rgba(255,255,255,.14) !important;
-  border-left:4px solid #22c55e !important;
-  border-radius:14px !important;
-  padding:14px 14px !important;
-}
-.note *, .tip *, .callout *, .note-box *, .tip-box *{
-  color:#eaeaea !important;
-  opacity:1 !important;
-}
-.note a, .tip a, .callout a, .note-box a, .tip-box a{
-  color:#9dd7ff !important;
-  text-decoration:underline;
-}
-
-/* ---- Tables: ALWAYS readable (white bg, black text) ---- */
-.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-.table-scroll table{
-  width:100%;
-  min-width:760px;
-  border-collapse:separate;
-  border-spacing:0;
-  background:#fff !important;
-  color:#000 !important;
-  border:1px solid rgba(0,0,0,.18);
-  border-radius:14px;
-  overflow:hidden;
-}
-.table-scroll caption{
-  caption-side:top;
-  text-align:left;
-  padding:10px 12px;
-  font-weight:800;
-  color:#000 !important;
-}
-.table-scroll th, .table-scroll td{
-  color:#000 !important;
-  background:#fff !important;
-  border-right:1px solid rgba(0,0,0,.10);
-  padding:12px 12px;
-  vertical-align:top;
-}
-.table-scroll th:last-child, .table-scroll td:last-child{border-right:0}
-.table-scroll thead th{
-  background:#071023 !important;
-  color:#fff !important;
-  border-bottom:1px solid rgba(255,255,255,.18);
-}
-.table-scroll tbody tr:nth-child(even) td{background:#f6f7fb !important}
-.table-scroll tbody tr:hover td{background:#eef4ff !important}
-.table-scroll a{color:#005eb8 !important; text-decoration:underline}
-
-/* ---- SVG: ALWAYS readable (white canvas + black text/lines) ---- */
-.svg-card{border-radius:16px}
-.svg-card .svg-scroll{
-  overflow-x:auto;
-  -webkit-overflow-scrolling:touch;
-  background:#fff;
-  border:1px solid rgba(0,0,0,.18);
-  border-radius:16px;
-  padding:14px;
-}
-.svg-card svg{max-width:100%;height:auto;display:block;color:#000 !important;background:#fff}
-.svg-card svg text{fill:#000 !important;font-weight:800 !important}
-.svg-card svg .stroke{stroke:#000 !important;stroke-width:4 !important}
-.svg-card svg .box{fill:#fff !important;stroke:#000 !important;stroke-width:4 !important}
-
-/* ---- Safety: prevent faded text anywhere in content ---- */
-.card p, .card li, .card td, .card th{opacity:1 !important}
-</style>
-<!-- CONTRAST_FIX_END -->
-
 </head>
 
 <body>
@@ -390,28 +275,28 @@
     <section class="hero">
       <div class="hero-inner">
         <div class="hero-text">
-          <div class="breadcrumbs"><a href="/de/">Start</a> <span>›</span> <a href="/de/blog/">Blog</a> <span>›</span> VPN auf Konsolen</div>
+          <div class="breadcrumbs"><a href="/de/">Start</a> <span>›</span> <a href="/de/blog/">Blog</a> <span>›</span> VPN für Konsolen</div>
           <h1>VPN für PS5 &amp; Xbox (2026): Einrichtung, Ping &amp; Streaming</h1>
-          <p class="lead">PS5 und Xbox haben (noch) keine „VPN-App installieren“-Taste. Aber keine Panik: Mit <strong>Smart DNS</strong>, <strong>Router-VPN</strong> oder einer <strong>PC/Mac-Bridge</strong> bekommen Sie das trotzdem sauber hin. In diesem Guide geht’s um weniger <strong>Lag</strong>, stabileren <strong>Ping</strong>, <strong>Datenschutz</strong> – und um den Klassiker, den in Deutschland niemand will: Stress wegen <strong>Abmahnungen</strong> oder offenen Verbindungen.</p>
+          <p class="lead">Kein VPN‑Button auf der Konsole? Willkommen im echten Leben. 😅 Die gute Nachricht: Es gibt <strong>drei saubere Setups</strong>, die in Deutschland wirklich funktionieren — egal ob Sie <strong>Streaming im Ausland</strong> wollen, <strong>Routing‑Chaos</strong> bei Telekom/Vodafone glätten oder einfach ruhiger schlafen möchten (Stichwort: <strong>Datenschutz</strong> &amp; Abmahn‑Panik bei P2P).</p>
 
           <div class="meta-line">
             <span class="badge">Aktualisiert: 18. Januar 2026</span>
             <span class="dot">•</span>
             <span>Locale: <strong>Deutsch (DE)</strong></span>
             <span class="dot">•</span>
-            <a class="author-link" href="/de/about-denys-shchur.html">Von Denys Shchur</a>
+            <a class="author-link" href="/about-denys-shchur.html">Von Denys Shchur</a>
           </div>
 
           <div class="badges">
             <span class="pill">Smart DNS (Streaming)</span>
-            <span class="pill">Router-VPN (Allround)</span>
-            <span class="pill">PC/Mac-Bridge</span>
-            <span class="pill">DDoS-Schutz</span>
-            <span class="pill">WireGuard</span>
+            <span class="pill">Router‑VPN (Allround)</span>
+            <span class="pill">PC/Mac‑Bridge</span>
+            <span class="pill">DDoS‑Schutz</span>
+            <span class="pill">Datenschutz</span>
           </div>
         </div>
 
-        <figure class="hero-media" aria-label="VPN auf Konsolen">
+        <figure class="hero-media" aria-label="Konsole mit VPN Setup">
           <img src="/assets/img/hero/vpn-for-consoles-ps5-xbox-uk.webp" alt="VPN für PS5 und Xbox einrichten (Deutschland)" width="1200" height="630" loading="eager" />
         </figure>
       </div>
@@ -420,131 +305,134 @@
     <section class="toc card">
       <h2>Auf dieser Seite</h2>
       <ol>
-        <li><a href="#quick">Schnelle Antwort</a></li>
-        <li><a href="#why">Warum deutsche Gamer VPNs nutzen</a></li>
-        <li><a href="#methods">3 funktionierende Methoden (ohne VPN-App)</a></li>
-        <li><a href="#legal">Rechtliche Sicherheit &amp; Abmahnung: was ein VPN kann</a></li>
-        <li><a href="#router">Methode 2 im Detail: VPN auf dem Router</a></li>
-        <li><a href="#bridge">Methode 3 im Detail: PC/Mac-Bridge</a></li>
+        <li><a href="#quick-answer">Schnelle Antwort</a></li>
+        <li><a href="#why-de">Warum deutsche Gamer VPNs nutzen</a></li>
+        <li><a href="#methods">3 Methoden (ohne VPN‑App auf der Konsole)</a></li>
+        <li><a href="#router">Methode 2 im Detail: Router‑VPN</a></li>
+        <li><a href="#bridge">Methode 3 im Detail: PC/Mac‑Bridge</a></li>
+        <li><a href="#streaming">Streaming unterwegs: Netflix US/UK, ARD/ZDF</a></li>
         <li><a href="#performance">Performance: Ping, Jitter &amp; Packet Loss</a></li>
-        <li><a href="#troubleshooting">Troubleshooting-Checkliste</a></li>
+        <li><a href="#checks">Checks: DNS‑Leak, Geo‑Sperren &amp; typische Fehler</a></li>
         <li><a href="#faq">FAQ</a></li>
       </ol>
     </section>
 
-    <section id="quick" class="card">
+    <section id="quick-answer" class="card">
       <h2>Schnelle Antwort</h2>
       <div class="quick">
-        <p><strong>Beste Allround-Lösung:</strong> <a href="/de/blog/vpn-router-einrichtung.html">VPN auf dem Router</a> (schützt die ganze Konsole, Streaming + Gaming + Downloads). <strong>Für Streaming ohne extra Ping:</strong> Smart DNS (schnell, aber ohne Verschlüsselung). <strong>Wenn Sie den Router nicht anfassen dürfen:</strong> PC/Mac-Bridge via LAN oder Hotspot.</p>
-        <p class="note"><strong>Real Talk:</strong> Ein VPN ist kein Zauberstab. Wenn die Server gerade brennen oder Ihr WLAN komplett überlaufen ist, hilft nur begrenzt. Für saubere Grundlagen lohnt sich auch <a href="/de/blog/was-ist-ein-vpn.html">Was ist ein VPN?</a> und <a href="/de/blog/vpn-protokolle.html">VPN-Protokolle</a>.</p>
+        <p><strong>Bestes Allround‑Setup:</strong> <a href="/de/blog/vpn-router-einrichtung.html">Router‑VPN</a> (schützt die ganze Konsole + andere Geräte). <strong>Für Streaming:</strong> Smart DNS (schnell, aber ohne Verschlüsselung). <strong>Wenn Sie am Router nichts ändern können:</strong> PC/Mac‑Bridge per LAN oder Hotspot.</p>
+        <p class="note"><strong>Real Talk:</strong> Ein VPN kann Routing stabilisieren, DDoS‑Risiken senken und mehr Datenschutz bringen. Es ist aber kein Zauberstab: Wenn der Gameserver brennt, brennt er — VPN hin oder her.</p>
       </div>
 
       <div class="cta-row" aria-label="Partnerangebote">
-        <a class="cta cta-primary" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" rel="nofollow sponsored noopener noreferrer" target="_blank">NordVPN (Allround)</a>
-        <a class="cta cta-secondary" href="https://www.tkqlhce.com/click-101525886-17061430" rel="nofollow sponsored noopener noreferrer" target="_blank">Surfshark (Preis/Leistung)</a>
-        <a class="cta cta-tertiary" href="https://www.dpbolvw.net/click-101525886-15834536" rel="nofollow sponsored noopener noreferrer" target="_blank">Proton VPN (Datenschutz)</a>
+        <a class="cta cta-primary" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" rel="nofollow sponsored noopener noreferrer" target="_blank">NordVPN holen (Allround)</a>
+        <a class="cta cta-secondary" href="https://www.tkqlhce.com/click-101525886-17061430" rel="nofollow sponsored noopener noreferrer" target="_blank">Surfshark holen (Preis/Leistung)</a>
+        <a class="cta cta-tertiary" href="https://www.dpbolvw.net/click-101525886-15834536" rel="nofollow sponsored noopener noreferrer" target="_blank">Proton VPN holen (Datenschutz)</a>
       </div>
-      <p class="disclosure">Hinweis: Wenn Sie über unsere Links kaufen, erhalten wir ggf. eine Provision – ohne Mehrkosten für Sie.</p>
+      <p class="disclosure">Hinweis: Wenn Sie über unsere Links kaufen, erhalten wir ggf. eine Provision — ohne Mehrkosten für Sie.</p>
+
+      <div class="related-wide">
+        <p><strong>Related:</strong> <a href="/de/blog/was-ist-ein-vpn.html">Was ist ein VPN?</a> (in 5 Minuten verstanden)</p>
+      </div>
     </section>
 
-    <section id="why" class="card">
+    <section id="why-de" class="card">
       <h2>Warum deutsche Gamer VPNs nutzen</h2>
       <p>Im Jahr 2026 nutzen deutsche Gamer VPNs vor allem, um das Routing zu optimieren. Anbieter wie die <strong>Deutsche Telekom</strong> oder <strong>Vodafone</strong> haben oft überlastete Knotenpunkte zu den Servern von EA oder Activision. Ein VPN mit <strong>WireGuard</strong> kann hier die Latenz (Ping) spürbar stabilisieren.</p>
-      <p>Der zweite große Punkt ist <strong>Datenschutz</strong>: Viele möchten schlicht nicht, dass jeder Hotspot oder jede Hotel-WLAN-Box ihren Traffic im Klartext „mitliest“. Dazu kommt das Thema <strong>Rechtssicherheit</strong> – besonders, wenn irgendwo P2P, Downloads oder geteilte Netzwerke im Spiel sind. Ein Router-VPN ist hier für viele der entspannte „einmal einrichten, Ruhe haben“-Move.</p>
+      <p>Dazu kommt das deutsche „Abmahn‑Mindset“: Viele wollen nicht mal <em>aus Versehen</em> in problematische Zonen rutschen (P2P, falsche Apps, dubiose Downloads). Ein sauber eingerichtetes Router‑VPN gibt vielen einfach ein Stück Ruhe — gerade, wenn im Haushalt mehrere Geräte laufen.</p>
 
       <div class="table-scroll">
-        <table>
-          <caption>Typische VPN-Szenarien auf PS5/Xbox in Deutschland (2026)</caption>
+        <table class="hc-table">
+          <caption>Typische Szenarien in Deutschland: wann ein Konsolen‑VPN wirklich hilft (2026)</caption>
           <thead>
             <tr>
-              <th>Szenario</th>
+              <th>Situation</th>
               <th>Symptom</th>
-              <th>Beste Methode</th>
-              <th>Warum es hilft</th>
+              <th>Empfohlene Methode</th>
+              <th>Warum das hilft</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Patchday bei CoD/FIFA</td>
-              <td>Download bricht ein, Ping wird wild</td>
-              <td>Router-VPN / Bridge</td>
-              <td>Verschlüsselter Traffic ist schwerer zu „shapen“</td>
+              <td>Telekom/Vodafone Peering‑Chaos</td>
+              <td>Ping schwankt abends / „Lag‑Spikes“</td>
+              <td>Router‑VPN (WireGuard)</td>
+              <td>Andere Route über ein besseres Peering (oft via Frankfurt)</td>
             </tr>
             <tr>
-              <td>Gaming im Wohnheim/Hotel</td>
-              <td>Unsicheres WLAN, Captive Portals</td>
-              <td>Bridge / Router-VPN</td>
-              <td>Mehr Sicherheit, weniger Sniffing</td>
+              <td>DDoS‑Risiko in Ranked/Competitive</td>
+              <td>Plötzliche Disconnects / IP‑Exposure</td>
+              <td>Router‑VPN oder Bridge</td>
+              <td>IP wird versteckt; Traffic ist verschlüsselt</td>
             </tr>
             <tr>
               <td>Streaming im Ausland</td>
-              <td>ZDF/ARD oder Netflix-Katalog gesperrt</td>
-              <td>Smart DNS / Router-VPN</td>
-              <td>Region wirkt „zu Hause“</td>
+              <td>ARD/ZDF gesperrt, Mediathek lädt nicht</td>
+              <td>Smart DNS oder Router‑VPN</td>
+              <td>Region wird passend „umgesetzt“</td>
             </tr>
             <tr>
-              <td>Privatsphäre im Haushalt</td>
-              <td>Viele Geräte, viel Traffic</td>
-              <td>Router-VPN</td>
-              <td>Alle Geräte laufen über einen sicheren Tunnel</td>
+              <td>Public Wi‑Fi (Hotel/Campus)</td>
+              <td>Unsicheres Netz, Captive Portals</td>
+              <td>Bridge oder Router‑VPN</td>
+              <td>Verschlüsselung schützt vor Mitschnitt/Manipulation</td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <div class="related-wide">
-        <span class="related-label">Related:</span>
-        <a href="/de/blog/vpn-fuer-gaming.html">VPN fürs Gaming: Ping, DDoS-Schutz &amp; beste Einstellungen</a>
+        <p><strong>Related:</strong> <a href="/de/blog/vpn-fuer-gaming.html">VPN fürs Gaming</a> (Ping, DDoS, Settings)</p>
       </div>
     </section>
 
     <section id="methods" class="card">
-      <h2>3 funktionierende Methoden (ohne VPN-App)</h2>
+      <h2>3 Methoden (ohne VPN‑App auf der Konsole)</h2>
 
-      <section class="method-box" style="border-left: 5px solid #ffce00; background: #fffdf5; padding: 20px; border-radius: 12px; margin: 20px 0;">
+      <section class="method-box">
         <h3>Methode 1: Smart DNS – Ideal für Streaming</h3>
-        <p>Da Konsolen keine nativen VPN-Apps erlauben, ist Smart DNS oft der schnellste Weg, um <strong>Netflix US</strong> oder deutsches Fernsehen (<strong>ZDF Mediathek, ARD</strong>) im Ausland freizuschalten. Der Vorteil: fast kein zusätzlicher Ping – weil es nicht die ganze Verbindung verschlüsselt.</p>
+        <p>Da Konsolen keine nativen VPN‑Apps erlauben, ist Smart DNS oft der schnellste Weg, um <strong>Netflix US</strong> oder deutsches Fernsehen (<strong>ZDF Mediathek, ARD</strong>) im Ausland freizuschalten. Der große Vorteil: <strong>keine zusätzliche Verzögerung</strong> wie bei starker Verschlüsselung — perfekt, wenn Sie nur streamen wollen.</p>
         <ul>
-          <li><strong>Schritt 1:</strong> Aktivieren Sie Smart DNS im Kundenbereich Ihres VPN-Anbieters.</li>
+          <li><strong>Schritt 1:</strong> Aktivieren Sie Smart DNS im Kundenbereich Ihres VPN‑Anbieters.</li>
           <li><strong>Schritt 2:</strong> Gehen Sie in die Netzwerkeinstellungen Ihrer PS5 oder Xbox.</li>
-          <li><strong>Schritt 3:</strong> Wählen Sie „Manuelle DNS-Einstellungen“ und geben Sie die bereitgestellten Adressen ein.</li>
+          <li><strong>Schritt 3:</strong> Wählen Sie „Manuelle DNS‑Einstellungen“ und geben Sie die bereitgestellten Adressen ein.</li>
         </ul>
-        <p class="tip"><strong>Tipp:</strong> Smart DNS ist super fürs Streaming, aber es ist <em>kein</em> voller Schutz. Für DDoS-Schutz, Datenschutz und sichere Matches brauchen Sie ein echtes VPN (Methode 2 oder 3).</p>
+        <p class="tip"><strong>Pro‑Tipp:</strong> Smart DNS ist Streaming‑Gold, aber es verschlüsselt nichts. Für Datenschutz, DDoS‑Schutz oder Public‑Wi‑Fi: Methode 2 oder 3.</p>
       </section>
 
       <section class="card-lite">
-        <h3>Methode 2: VPN auf dem Router (beste Allround-Lösung)</h3>
-        <p>Router-VPN ist der No-Brainer, wenn Sie es einmal sauber einrichten: Die Konsole verbindet sich „normal“, aber der Router schickt den gesamten Traffic durch den VPN-Tunnel. Das heißt: Gaming, Party-Chat, Store-Downloads und Streaming laufen geschützt – ohne dass Sie auf der Konsole irgendwas installieren müssen.</p>
-        <p class="note">Wenn Sie das noch nie gemacht haben: <a href="/de/blog/vpn-router-einrichtung.html">VPN-Router-Einrichtung</a>. Für Feintuning (MTU, DNS, Protokolle) hilft <a href="/de/blog/vpn-optimale-einstellungen.html">Optimale VPN-Einstellungen</a>.</p>
+        <h3>Methode 2: Router‑VPN (der „No‑Brainer“)</h3>
+        <p>Router‑VPN ist der Klassiker: Sie konfigurieren den Router einmal, danach läuft die Konsole ganz normal — nur eben durch den VPN‑Tunnel. Das heißt: Gaming, Party‑Chat, Store‑Downloads und Streaming sind geschützt, ohne dass Sie auf der Konsole irgendwas installieren müssen.</p>
+        <p class="note">Wenn Sie das noch nie gemacht haben: <a href="/de/blog/vpn-router-einrichtung.html">VPN‑Router‑Einrichtung</a>. Für Feintuning (MTU, DNS, Protokolle) hilft <a href="/de/blog/vpn-optimale-einstellungen.html">Optimale VPN‑Einstellungen</a>.</p>
       </section>
 
       <section class="card-lite">
-        <h3>Methode 3: PC/Mac-Bridge (LAN oder Hotspot)</h3>
-        <p>Sie wohnen in einer WG, nutzen einen gemieteten Router oder dürfen nichts ändern? Dann ist die Bridge-Lösung goldwert: VPN auf dem PC/Mac aktivieren und die Verbindung per <strong>LAN-Kabel</strong> (stabil) oder <strong>Hotspot</strong> (flexibel) an die Konsole weitergeben. Klingt nach Basteln – läuft aber erstaunlich zuverlässig, wenn’s einmal steht.</p>
+        <h3>Methode 3: PC/Mac‑Bridge (LAN oder Hotspot)</h3>
+        <p>Sie wohnen in einer WG, nutzen einen gemieteten Router oder dürfen nichts ändern? Dann ist die Bridge‑Lösung Ihr Joker. VPN auf dem PC/Mac aktivieren und die Verbindung per <strong>LAN‑Kabel</strong> (stabil) oder <strong>Hotspot</strong> (flexibel) an die Konsole weitergeben. Klingt nach Basteln — läuft aber erstaunlich zuverlässig, wenn’s einmal steht.</p>
       </section>
 
       <div class="svg-card">
-        <h3>So funktioniert die PC/Mac-Bridge (Übersicht)</h3>
+        <h3>So funktioniert die PC/Mac‑Bridge (Übersicht)</h3>
         <div class="svg-scroll">
-          <svg viewBox="0 0 980 260" role="img" aria-label="Diagramm: PC oder Mac als VPN-Bridge zur Konsole" style="max-width:100%;height:auto;color:#000">
+          <svg viewBox="0 0 980 260" role="img" aria-label="PC oder Mac VPN Bridge Diagramm" style="max-width:100%;height:auto;color:#000">
             <rect x="10" y="10" width="960" height="240" rx="14" class="box" />
 
-            <rect x="45" y="70" width="250" height="120" rx="12" fill="#e6f2ff" stroke="#000" stroke-width="4" />
-            <text x="85" y="110" font-size="18" font-weight="800">Internet</text>
-            <text x="74" y="140" font-size="14" font-weight="800">(Glasfaser)</text>
+            <rect x="45" y="70" width="250" height="120" rx="12" class="box fill-blue" />
+            <text x="85" y="110" class="label">Internet</text>
+            <text x="70" y="140" class="small">(Glasfaser)</text>
 
-            <rect x="365" y="60" width="260" height="140" rx="12" fill="#eaffea" stroke="#000" stroke-width="4" />
-            <text x="420" y="105" font-size="18" font-weight="800">PC / Mac</text>
-            <text x="430" y="132" font-size="14" font-weight="800">(VPN Aktiv)</text>
+            <rect x="365" y="60" width="260" height="140" rx="12" class="box fill-green" />
+            <text x="420" y="105" class="label">PC / Mac</text>
+            <text x="420" y="132" class="small">(VPN Aktiv)</text>
 
-            <rect x="695" y="70" width="240" height="120" rx="12" fill="#fff2cc" stroke="#000" stroke-width="4" />
-            <text x="735" y="110" font-size="18" font-weight="800">Konsole</text>
-            <text x="712" y="138" font-size="14" font-weight="800">(PS5 / Xbox)</text>
+            <rect x="695" y="70" width="240" height="120" rx="12" class="box fill-yellow" />
+            <text x="735" y="110" class="label">Konsole</text>
+            <text x="730" y="138" class="small">(PS5 / Xbox)</text>
 
             <line x1="295" y1="130" x2="365" y2="130" class="stroke" marker-end="url(#arrow)" />
             <line x1="625" y1="130" x2="695" y2="130" class="stroke" marker-end="url(#arrow)" />
 
-            <text x="390" y="210" font-size="14" font-weight="800">LAN-Kabel oder Hotspot</text>
+            <text x="430" y="210" class="small">LAN-Kabel oder Hotspot</text>
 
             <defs>
               <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
@@ -555,98 +443,41 @@
         </div>
       </div>
 
-      <div class="svg-card">
-        <h3>Was „mehr Datenschutz“ hier praktisch bedeutet</h3>
-        <div class="svg-scroll">
-          <svg viewBox="0 0 980 300" role="img" aria-label="Diagramm: Datenfluss ohne VPN und mit VPN" style="max-width:100%;height:auto;color:#000">
-            <rect x="10" y="10" width="960" height="280" rx="14" class="box" />
-            <text x="40" y="60" font-size="18" font-weight="800">Ohne VPN vs. mit VPN</text>
-
-            <rect x="40" y="95" width="420" height="170" rx="14" fill="#ffe9ea" stroke="#000" stroke-width="4" />
-            <text x="70" y="130" font-size="16" font-weight="800">Ohne VPN</text>
-            <text x="70" y="158" font-size="13" font-weight="800">• ISP sieht Ziele/Traffic-Typ</text>
-            <text x="70" y="182" font-size="13" font-weight="800">• Hotspots können mitlesen</text>
-            <text x="70" y="206" font-size="13" font-weight="800">• Mehr Risiko für Tracking</text>
-
-            <rect x="520" y="95" width="420" height="170" rx="14" fill="#e9fff3" stroke="#000" stroke-width="4" />
-            <text x="550" y="130" font-size="16" font-weight="800">Mit VPN (AES-256 / WireGuard)</text>
-            <text x="550" y="158" font-size="13" font-weight="800">• Traffic ist verschlüsselt</text>
-            <text x="550" y="182" font-size="13" font-weight="800">• Weniger Snooping im WLAN</text>
-            <text x="550" y="206" font-size="13" font-weight="800">• Stabileres Routing möglich</text>
-
-            <line x1="460" y1="180" x2="520" y2="180" class="stroke" marker-end="url(#arr2)" />
-            <defs>
-              <marker id="arr2" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
-                <path d="M0,0 L12,6 L0,12 z" fill="#000" />
-              </marker>
-            </defs>
-          </svg>
-        </div>
-      </div>
-
       <div class="related-wide">
-        <span class="related-label">Related:</span>
-        <a href="/de/blog/vpn-streaming.html">VPN fürs Streaming: Setup, Fehlerquellen &amp; praktische Tipps</a>
-      </div>
-    </section>
-
-    <section id="legal" class="card">
-      <h2>Rechtliche Sicherheit &amp; Abmahnung: was ein VPN kann</h2>
-      <p>In Deutschland ist das Wort <strong>Abmahnung</strong> für viele ein echter Trigger. Wichtig: Ein VPN ist kein „Freifahrtschein“, aber es ist ein ziemlich guter Sicherheitsgurt – vor allem, wenn Sie unterwegs sind oder in geteilten Netzwerken hängen. Ein sauber eingerichtetes VPN (am besten auf dem Router) sorgt dafür, dass Ihr Traffic verschlüsselt ist und nicht in Klartext durch fremde WLANs fliegt.</p>
-      <p>Wenn Sie sich für die rechtliche Seite interessieren, lesen Sie auch <a href="/de/blog/ist-vpn-legal.html">Ist VPN legal?</a> und – falls P2P ein Thema ist – <a href="/de/blog/vpn-p2p-sicher.html">VPN für P2P sicher nutzen</a>. Der Punkt ist: In der Praxis wollen viele Gamer einfach Ruhe und weniger Angriffsfläche. Genau dafür ist ein VPN da.</p>
-
-      <div class="table-scroll">
-        <table>
-          <caption>VPN-Funktionen, die in Deutschland besonders wichtig sind</caption>
-          <thead>
-            <tr>
-              <th>Feature</th>
-              <th>Warum es zählt</th>
-              <th>Worauf achten</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>No-Logs-Policy</td>
-              <td>Mehr Privatsphäre (weniger Metadaten)</td>
-              <td>Transparente Infos, idealerweise Audits</td>
-            </tr>
-            <tr>
-              <td>AES-256 / moderne Kryptografie</td>
-              <td>Starker Schutz gegen Mitlesen</td>
-              <td>In Apps/Docs klar beschrieben</td>
-            </tr>
-            <tr>
-              <td>DNS-Leak-Schutz</td>
-              <td>Verhindert Standort-/Provider-Leaks</td>
-              <td>Nach Setup testen</td>
-            </tr>
-            <tr>
-              <td>Kill Switch</td>
-              <td>Kein „Leak“ bei VPN-Drop</td>
-              <td>Auf Gerät/Router sinnvoll aktivieren</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="related-wide">
-        <span class="related-label">Related:</span>
-        <a href="/de/blog/no-logs-vpn.html">No-Logs-VPN: woran man echte Datenschutz-VPNs erkennt</a>
+        <p><strong>Related:</strong> <a href="/de/blog/welcher-vpn-server.html">Welcher VPN‑Server?</a> (Speed vs. Datenschutz vs. Streaming)</p>
       </div>
     </section>
 
     <section id="router" class="card">
-      <h2>Methode 2 im Detail: VPN auf dem Router</h2>
-      <p>Router-VPN ist der „einmal machen, dann läuft’s“-Ansatz. Genau deshalb lieben ihn viele deutsche Haushalte: Die Konsole verhält sich wie immer, aber der Router übernimmt die Arbeit. Für Streaming, Gaming und Downloads ist das die stabilste und bequemste Lösung.</p>
+      <h2>Methode 2 im Detail: Router‑VPN</h2>
+      <p>Wenn Sie nur <em>eine</em> Methode sauber lernen wollen, dann diese. Router‑VPN ist ideal für Haushalte: einmal konfigurieren, danach ist’s einfach „an“. Gerade in Deutschland ist das auch psychologisch angenehm — weil Sie nicht jedes Gerät einzeln anfassen müssen.</p>
+
+      <div class="grid-2">
+        <div class="card-lite">
+          <h3>Vorteile</h3>
+          <ul>
+            <li>Schützt die gesamte Konsole (und weitere Geräte)</li>
+            <li>Gut für Gaming, Streaming und Downloads</li>
+            <li>Kann Routing‑Spikes abfedern</li>
+          </ul>
+        </div>
+        <div class="card-lite">
+          <h3>Nachteile</h3>
+          <ul>
+            <li>Sie brauchen kompatible Firmware/Router</li>
+            <li>Falsche Settings können Ping verschlechtern</li>
+            <li>Server‑Wahl ist entscheidend</li>
+          </ul>
+        </div>
+      </div>
 
       <div class="table-scroll">
-        <table>
-          <caption>Router-VPN Tuning für Deutschland (Ping &amp; Stabilität)</caption>
+        <table class="hc-table">
+          <caption>Router‑VPN Feintuning (Deutschland): schnell &amp; stabil</caption>
           <thead>
             <tr>
               <th>Einstellung</th>
-              <th>Empfohlen</th>
+              <th>Empfehlung</th>
               <th>Warum</th>
             </tr>
           </thead>
@@ -654,17 +485,17 @@
             <tr>
               <td>Protokoll</td>
               <td>WireGuard</td>
-              <td>Top Balance aus Speed und geringer Verzögerung</td>
+              <td>Top Speed/Latency‑Balance (Gaming)</td>
             </tr>
             <tr>
-              <td>Server-Standort</td>
-              <td>Frankfurt / nahe Region</td>
-              <td>Kürzerer Weg = weniger Ping</td>
+              <td>Serverstandort</td>
+              <td>Frankfurt am Main oder nahe Region</td>
+              <td>Kürzerer Weg = stabilerer Ping</td>
             </tr>
             <tr>
               <td>DNS</td>
-              <td>VPN-DNS oder sichere DNS</td>
-              <td>Weniger Leaks, weniger Hijacking</td>
+              <td>VPN‑DNS oder sicherer DNS</td>
+              <td>Weniger DNS‑Leaks &amp; Hijacking</td>
             </tr>
             <tr>
               <td>Split Tunneling</td>
@@ -675,56 +506,22 @@
         </table>
       </div>
 
-      <p class="note">Mehr Hintergrund zu Router-Setup und kompatiblen Firmware-Optionen finden Sie hier: <a href="/de/blog/vpn-router-einrichtung.html">VPN-Router-Einrichtung</a>. Wenn Sie unsicher sind, ob ein Server „zu weit weg“ ist, hilft <a href="/de/blog/welcher-vpn-server.html">Welcher VPN-Server?</a>.</p>
-
-      <div class="svg-card">
-        <h3>Ping-Falle vermeiden: „zu weit weg“ kostet Matches</h3>
-        <div class="svg-scroll">
-          <svg viewBox="0 0 980 280" role="img" aria-label="Diagramm: Nähe des VPN-Servers und Ping" style="max-width:100%;height:auto;color:#000">
-            <rect x="10" y="10" width="960" height="260" rx="14" class="box" />
-            <text x="40" y="60" font-size="18" font-weight="800">Server-Nähe = weniger Verzögerung</text>
-
-            <rect x="40" y="95" width="280" height="140" rx="14" fill="#e6f2ff" stroke="#000" stroke-width="4" />
-            <text x="70" y="128" font-size="16" font-weight="800">Nah (Frankfurt)</text>
-            <text x="70" y="156" font-size="13" font-weight="800">• stabiler Ping</text>
-            <text x="70" y="180" font-size="13" font-weight="800">• weniger Jitter</text>
-
-            <rect x="350" y="95" width="280" height="140" rx="14" fill="#fff7db" stroke="#000" stroke-width="4" />
-            <text x="380" y="128" font-size="16" font-weight="800">Mittel (EU)</text>
-            <text x="380" y="156" font-size="13" font-weight="800">• ok für Streaming</text>
-            <text x="380" y="180" font-size="13" font-weight="800">• Gaming testen</text>
-
-            <rect x="660" y="95" width="280" height="140" rx="14" fill="#ffe9ea" stroke="#000" stroke-width="4" />
-            <text x="690" y="128" font-size="16" font-weight="800">Weit weg (US/Asia)</text>
-            <text x="690" y="156" font-size="13" font-weight="800">• Ping steigt</text>
-            <text x="690" y="180" font-size="13" font-weight="800">• mehr Lag-Spikes</text>
-
-            <line x1="320" y1="165" x2="350" y2="165" class="stroke" marker-end="url(#a3)" />
-            <line x1="630" y1="165" x2="660" y2="165" class="stroke" marker-end="url(#a3)" />
-            <defs>
-              <marker id="a3" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
-                <path d="M0,0 L12,6 L0,12 z" fill="#000" />
-              </marker>
-            </defs>
-          </svg>
-        </div>
-      </div>
+      <p class="note"><strong>Abmahn‑Kontext:</strong> Ein VPN macht Sie nicht „unsichtbar“, aber es reduziert Risiken durch verschlüsselte Verbindung und schützt Ihre IP. Wenn Sie sich für P2P interessieren, lesen Sie unbedingt <a href="/de/blog/vpn-p2p-sicher.html">VPN für P2P (sicher)</a> und achten Sie auf <a href="/de/blog/no-logs-vpn.html">No‑Logs</a>.</p>
 
       <div class="related-wide">
-        <span class="related-label">Related:</span>
-        <a href="/de/blog/vpn-optimale-einstellungen.html">Optimale VPN-Einstellungen: WireGuard, DNS, MTU &amp; Praxis-Tuning</a>
+        <p><strong>Related:</strong> <a href="/de/blog/vpn-portweiterleitung.html">Portweiterleitung &amp; Gaming</a> (wann es Sinn macht)</p>
       </div>
     </section>
 
     <section id="bridge" class="card">
-      <h2>Methode 3 im Detail: PC/Mac-Bridge (LAN oder Hotspot)</h2>
-      <p>Wenn Sie am Router nichts ändern können (z. B. Mietrouter, Campus-Netz, WG-Regeln), ist die Bridge-Lösung Ihr Joker. Ideal ist <strong>LAN</strong> – weil WLAN in vielen Wohnungen einfach „Funk-Chaos“ ist. Hotspot geht auch, aber nehmen Sie nach Möglichkeit 5 GHz.</p>
+      <h2>Methode 3 im Detail: PC/Mac‑Bridge (LAN oder Hotspot)</h2>
+      <p>Wenn Sie am Router nichts ändern können (z. B. Mietrouter, Campus‑Netz, WG‑Regeln), ist die Bridge‑Lösung Ihr Joker. Ideal ist <strong>LAN</strong> — weil WLAN in vielen Wohnungen einfach „Funk‑Chaos“ ist. Hotspot geht auch, aber nehmen Sie nach Möglichkeit 5 GHz.</p>
 
       <section class="note">
         <h3>Kurzanleitung: Windows</h3>
         <ol>
           <li>VPN verbinden (WireGuard, wenn möglich).</li>
-          <li>Internet Connection Sharing (ICS) auf den Ethernet-Adapter aktivieren.</li>
+          <li>Internet Connection Sharing (ICS) auf den Ethernet‑Adapter aktivieren.</li>
           <li>Konsole per LAN anschließen und Verbindung testen.</li>
         </ol>
         <p>Kompletter Guide: <a href="/de/blog/vpn-windows-einrichtung.html">VPN unter Windows</a>.</p>
@@ -733,26 +530,104 @@
       <section class="note">
         <h3>Kurzanleitung: macOS</h3>
         <ol>
-          <li>VPN-App verbinden (native Builds bevorzugen).</li>
+          <li>VPN‑App verbinden (native Builds bevorzugen).</li>
           <li>Systemeinstellungen → Netzwerk → Teilen/Hotspot konfigurieren.</li>
           <li>Konsole per LAN oder Hotspot verbinden und testen.</li>
         </ol>
         <p>Kompletter Guide: <a href="/de/blog/vpn-macos.html">VPN auf macOS</a>.</p>
       </section>
 
-      <p class="tip"><strong>Pro-Tipp:</strong> Wenn Sie beim Zocken plötzlich „Rubberbanding“ spüren, checken Sie zuerst Packet Loss. Oft ist nicht das VPN schuld, sondern das WLAN oder ein überforderter Router.</p>
+      <p class="tip"><strong>Pro‑Tipp:</strong> Wenn Sie beim Zocken plötzlich „Rubberbanding“ spüren, checken Sie zuerst Packet Loss. Oft ist nicht das VPN schuld, sondern das WLAN oder ein überforderter Router.</p>
+
+      <div class="video-wrap" aria-label="YouTube Video">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE"
+          title="VPN World — Official video"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+      <p class="note">Wenn das Video nicht lädt: <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" rel="nofollow noopener noreferrer" target="_blank">auf YouTube öffnen</a>.</p>
+    </section>
+
+    <section id="streaming" class="card">
+      <h2>Streaming unterwegs: Netflix US/UK, ARD/ZDF</h2>
+      <p>Viele nutzen ihre Konsole längst als Wohnzimmer‑Hub. Und ja — es ist frustrierend, wenn im Ausland plötzlich die Mediathek streikt. Smart DNS ist hier oft die schnellste Option, weil es <strong>keine spürbare Verzögerung</strong> hinzufügt. Für Netflix hängt der Erfolg stark von IP‑Reputation und Server‑Rotation ab; manchmal klappt’s direkt, manchmal braucht’s 2–3 Serverwechsel (kein Drama, eher Normalzustand).</p>
+
+      <div class="table-scroll">
+        <table class="hc-table">
+          <caption>Streaming‑Setup auf Konsolen: was passt zu welchem Ziel?</caption>
+          <thead>
+            <tr>
+              <th>Ziel</th>
+              <th>Beste Methode</th>
+              <th>Warum</th>
+              <th>Worauf achten</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ARD/ZDF im Ausland</td>
+              <td>Smart DNS</td>
+              <td>Schnell, minimaler Overhead</td>
+              <td>DNS korrekt setzen, Cache neu starten</td>
+            </tr>
+            <tr>
+              <td>Netflix US/UK testen</td>
+              <td>Router‑VPN</td>
+              <td>Mehr Kontrolle über Exit‑Region</td>
+              <td>Server wechseln, nicht zu weit weg</td>
+            </tr>
+            <tr>
+              <td>Sky / Sport Streaming</td>
+              <td>Smart DNS oder Router‑VPN</td>
+              <td>Je nach App‑Checks</td>
+              <td>Bei Problemen DNS‑Leak prüfen</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="related-wide">
+        <p><strong>Related:</strong> <a href="/de/blog/vpn-streaming.html">VPN fürs Streaming</a> (typische Sperren &amp; Lösungen)</p>
+      </div>
     </section>
 
     <section id="performance" class="card">
       <h2>Performance: Ping, Jitter &amp; Packet Loss</h2>
-      <p>„VPN ist schnell“ bringt Ihnen auf der Konsole wenig, wenn der Ping wackelt. Für Shooter und Racing sind <strong>Latenz</strong>, <strong>Jitter</strong> und <strong>Packet Loss</strong> die drei Werte, die über „GG“ oder „tilt“ entscheiden. Und ja: Ein VPN kann helfen – aber nur, wenn Sie den richtigen Server wählen und Ihre Basics stimmen.</p>
+      <p>Für Konsolen zählt nicht „Speedtest‑Mbps“, sondern <strong>Latenz</strong>, <strong>Jitter</strong> und <strong>Packet Loss</strong>. Ein VPN kann Routing verbessern — aber wenn Ihr VPN‑Exit 800 km entfernt ist, zahlen Sie das mit Verzögerung. Deshalb gilt: <strong>nah dran bleiben</strong> und bei Problemen sofort Server wechseln.</p>
+
+      <div class="svg-card">
+        <h3>Ping‑Falle vermeiden: „zu weit weg“ kostet Matches</h3>
+        <div class="svg-scroll">
+          <svg viewBox="0 0 980 300" role="img" aria-label="Ping Falle Diagramm" style="max-width:100%;height:auto;color:#000">
+            <rect x="10" y="10" width="960" height="280" rx="14" class="box" />
+            <text x="40" y="60" class="label">Was Ihre Matches wirklich beeinflusst</text>
+
+            <rect x="40" y="90" width="280" height="170" rx="12" class="box fill-red" />
+            <text x="70" y="125" class="label">Ping</text>
+            <text x="70" y="152" class="small">Zeit zum Server &amp; zurück</text>
+            <text x="70" y="178" class="small">Niedriger = besser</text>
+
+            <rect x="350" y="90" width="280" height="170" rx="12" class="box fill-green" />
+            <text x="380" y="125" class="label">Jitter</text>
+            <text x="380" y="152" class="small">Konstanz des Ping</text>
+            <text x="380" y="178" class="small">Spikes fühlen sich wie Lag an</text>
+
+            <rect x="660" y="90" width="280" height="170" rx="12" class="box fill-blue" />
+            <text x="690" y="125" class="label">Packet Loss</text>
+            <text x="690" y="152" class="small">Verlorene Pakete</text>
+            <text x="690" y="178" class="small">Rubberbanding / Hit-Reg</text>
+          </svg>
+        </div>
+      </div>
 
       <div class="table-scroll">
-        <table>
-          <caption>Praktische Zielwerte für Konsolen (Gaming)</caption>
+        <table class="hc-table">
+          <caption>Praktische Zielwerte (Konsole + VPN)</caption>
           <thead>
             <tr>
-              <th>Metrik</th>
+              <th>Messwert</th>
               <th>Gut</th>
               <th>Warnung</th>
               <th>Fix</th>
@@ -763,111 +638,103 @@
               <td>Ping</td>
               <td>&lt; 40 ms</td>
               <td>&gt; 80 ms</td>
-              <td>Server näher wählen, WireGuard nutzen</td>
+              <td>Server näher wählen / WireGuard / Region wechseln</td>
             </tr>
             <tr>
               <td>Jitter</td>
               <td>&lt; 10 ms</td>
               <td>&gt; 25 ms</td>
-              <td>LAN statt WLAN, Provider/Server wechseln</td>
+              <td>LAN nutzen, WLAN entlasten, Provider/Server wechseln</td>
             </tr>
             <tr>
               <td>Packet Loss</td>
               <td>0–0,5%</td>
               <td>&gt; 1%</td>
-              <td>Router/Modem reboot, Kanal wechseln, ISP prüfen</td>
+              <td>Router reboot, Kanal wechseln, ISP‑Störung prüfen</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <p>Wenn Sie das sauber messen wollen: <a href="/de/blog/vpn-speedtest.html">VPN Speedtest</a>. Und wenn Ihnen bei Begriffen wie „Protokoll“ oder „Handshake“ die Augen glasig werden: <a href="/de/blog/vpn-protokolle.html">VPN-Protokolle</a> erklärt’s ohne Buzzwords.</p>
-
-      <div class="svg-card">
-        <h3>Mini-Check: Warum sich „Lag“ manchmal wie Teleport anfühlt</h3>
-        <div class="svg-scroll">
-          <svg viewBox="0 0 980 300" role="img" aria-label="Diagramm: Ping, Jitter und Packet Loss" style="max-width:100%;height:auto;color:#000">
-            <rect x="10" y="10" width="960" height="280" rx="14" class="box" />
-            <text x="40" y="60" font-size="18" font-weight="800">Was Ihr Match wirklich kaputt macht</text>
-
-            <rect x="40" y="90" width="280" height="170" rx="12" fill="#ffe9ea" stroke="#000" stroke-width="4" />
-            <text x="70" y="125" font-size="16" font-weight="800">Ping</text>
-            <text x="70" y="150" font-size="13" font-weight="800">Zeit zum Server &amp; zurück</text>
-            <text x="70" y="176" font-size="13" font-weight="800">Niedriger = besser</text>
-
-            <rect x="350" y="90" width="280" height="170" rx="12" fill="#e9fff3" stroke="#000" stroke-width="4" />
-            <text x="380" y="125" font-size="16" font-weight="800">Jitter</text>
-            <text x="380" y="150" font-size="13" font-weight="800">Schwankungen im Ping</text>
-            <text x="380" y="176" font-size="13" font-weight="800">Spikes fühlen sich wie Lag an</text>
-
-            <rect x="660" y="90" width="280" height="170" rx="12" fill="#e6f2ff" stroke="#000" stroke-width="4" />
-            <text x="690" y="125" font-size="16" font-weight="800">Packet Loss</text>
-            <text x="690" y="150" font-size="13" font-weight="800">Daten gehen verloren</text>
-            <text x="690" y="176" font-size="13" font-weight="800">Rubberbanding / Disconnects</text>
-          </svg>
-        </div>
-      </div>
+      <p>Wenn Sie messen wollen wie ein Pro (ohne sich selbst zu verarschen): <a href="/de/blog/vpn-speedtest.html">VPN‑Speedtest richtig machen</a>. Für Grundlagen zu Protokollen: <a href="/de/blog/vpn-protokolle.html">VPN‑Protokolle</a>.</p>
     </section>
 
-    <section id="troubleshooting" class="card">
-      <h2>Troubleshooting-Checkliste</h2>
-      <ul>
-        <li><strong>Streaming ist trotzdem gesperrt:</strong> Server wechseln, Konsole neu starten, Smart DNS testen.</li>
-        <li><strong>Ping wurde schlechter:</strong> VPN-Exit ist zu weit weg – Frankfurt/nahe Region wählen, Double VPN vermeiden.</li>
-        <li><strong>Random Disconnects:</strong> LAN bevorzugen, WLAN-Kanal prüfen, Protokoll wechseln.</li>
-        <li><strong>DNS-Leaks:</strong> nach der Einrichtung mit <a href="/de/blog/vpn-dns-leak.html">DNS-Leak-Test</a> prüfen.</li>
-        <li><strong>Mehr Grundlagen:</strong> <a href="/de/blog/vpn-fuer-smart-tv.html">VPN für Smart TV</a> und <a href="/de/blog/vpn-streaming.html">VPN fürs Streaming</a>.</li>
-      </ul>
+    <section id="checks" class="card">
+      <h2>Checks: DNS‑Leak, Geo‑Sperren &amp; typische Fehler</h2>
+      <p>Wenn Streaming nicht klappt oder der Service Sie „zurück nach Deutschland“ zieht, ist es oft kein Drama, sondern ein Leak oder Cache‑Problem. Gehen Sie diese Liste durch, bevor Sie stundenlang an Settings schrauben.</p>
+
+      <div class="table-scroll">
+        <table class="hc-table">
+          <caption>Fix‑Reihenfolge: erst die schnellen Wins</caption>
+          <thead>
+            <tr>
+              <th>Schritt</th>
+              <th>Was tun?</th>
+              <th>Warum</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Server wechseln (DE ↔ Frankfurt ↔ nahe Region)</td>
+              <td>Andere IP/Route, oft sofortiger Effekt</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Konsole komplett neu starten</td>
+              <td>Apps speichern Regionsdaten</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Smart DNS testen (statt Full VPN)</td>
+              <td>Manche Apps blocken VPN‑IPs, erlauben DNS‑Routing</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>DNS‑Leaks prüfen</td>
+              <td>Leak = Service sieht Ihren echten ISP</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="note">DNS‑Leak Guide: <a href="/de/blog/vpn-dns-leak.html">DNS‑Leak mit VPN</a>. Und wenn’s um Geo‑Sperren generell geht: <a href="/de/blog/vpn-geo-sperren.html">VPN &amp; Geo‑Sperren</a>.</p>
 
       <div class="cta-row" aria-label="Partnerangebote unten">
         <a class="cta cta-primary" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" rel="nofollow sponsored noopener noreferrer" target="_blank">NordVPN für Konsolen</a>
         <a class="cta cta-secondary" href="https://www.tkqlhce.com/click-101525886-17061430" rel="nofollow sponsored noopener noreferrer" target="_blank">Surfshark fürs Streaming</a>
-        <a class="cta cta-tertiary" href="https://www.dpbolvw.net/click-101525886-15834536" rel="nofollow sponsored noopener noreferrer" target="_blank">Proton für Datenschutz</a>
+        <a class="cta cta-tertiary" href="https://www.dpbolvw.net/click-101525886-15834536" rel="nofollow sponsored noopener noreferrer" target="_blank">Proton VPN für Datenschutz</a>
       </div>
-    </section>
-
-    <section class="card">
-      <h2>Video: Konsolen-Setup &amp; typische Fehler (kurz &amp; praktisch)</h2>
-      <p>Wenn Sie lieber einmal sehen wollen, wie das Ganze in der Praxis aussieht: Hier ist ein kurzes offizielles Video (ohne Tracking-Cookies), das die wichtigsten Basics erklärt.</p>
-      <div class="video-wrap" aria-label="YouTube Video">
-        <iframe src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE" title="VPN setup basics" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      <p class="note">Falls das Embed blockiert ist: <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" rel="nofollow noopener noreferrer" target="_blank">Video auf YouTube öffnen</a>.</p>
     </section>
 
     <section id="faq" class="card">
       <h2>FAQ</h2>
       <details>
         <summary>Ist ein VPN auf der Konsole in Deutschland legal?</summary>
-        <p>Ja. VPNs sind in Deutschland legal und werden oft für Datenschutz und Sicherheit empfohlen. Beim Umgehen von Geoblocking können aber die Regeln einzelner Dienste greifen – das ist eher ein ToS-Thema als ein Strafrechts-Thema.</p>
+        <p>Ja. Ein VPN zu nutzen ist in Deutschland legal. Es ist ein Werkzeug für Datenschutz und Sicherheit — ähnlich wie HTTPS im Browser, nur für die Verbindung.</p>
       </details>
       <details>
-        <summary>Hilft ein VPN gegen Lags bei der Telekom oder Vodafone?</summary>
-        <p>Manchmal ja – vor allem bei schlechtem Peering/Routing. Ein VPN-Server in Frankfurt kann einen direkteren Weg wählen und Ping-Spikes reduzieren. Testen Sie mehrere Server und messen Sie Jitter/Packet Loss.</p>
+        <summary>Hilft ein VPN gegen Lags bei der Telekom?</summary>
+        <p>Kann es. Wenn das Peering/Routing Ihres Providers zu den Gameservern mies ist, kann ein VPN (z. B. mit Server in Frankfurt) eine bessere Route nehmen. Ergebnis hängt vom Spiel und der Tageszeit ab.</p>
       </details>
       <details>
-        <summary>Reicht Smart DNS für Netflix &amp; Streaming?</summary>
-        <p>Für Streaming kann Smart DNS reichen, weil es kaum zusätzlichen Ping erzeugt. Es verschlüsselt aber nicht Ihren gesamten Traffic. Für Public Wi‑Fi, DDoS-Schutz und Privatsphäre ist ein echtes VPN besser.</p>
+        <summary>Reicht Smart DNS fürs Streaming?</summary>
+        <p>Für viele: ja. Smart DNS ist schnell und unkompliziert. Es verschlüsselt aber nicht. Wenn Sie auf Public Wi‑Fi spielen/streamen oder DDoS‑Risiken haben: Router‑VPN oder Bridge nutzen.</p>
       </details>
       <details>
-        <summary>Welche VPN-Eigenschaft ist für Konsolen am wichtigsten?</summary>
-        <p>Für Gaming: stabiler WireGuard-Tunnel + Server in der Nähe. Für Streaming: zuverlässige Endpunkte und Smart DNS. Für Sicherheit: Leak-Schutz und (wenn möglich) Kill Switch.</p>
+        <summary>Welche Verschlüsselung ist „gut genug“?</summary>
+        <p>In der Praxis reicht bei seriösen VPNs AES‑256 (oder ChaCha20 bei WireGuard) völlig. Entscheidend sind eher stabile Server, DNS‑Leak‑Schutz und sinnvolle Settings.</p>
       </details>
 
       <div class="related-guides">
-        <h3>Ähnliche Guides</h3>
+        <h2>Related Guides</h2>
         <ul>
           <li><a href="/de/blog/vpn-fuer-gaming.html">VPN fürs Gaming</a></li>
-          <li><a href="/de/blog/vpn-router-einrichtung.html">VPN-Router-Einrichtung</a></li>
+          <li><a href="/de/blog/vpn-speedtest.html">VPN‑Speedtest</a></li>
+          <li><a href="/de/blog/vpn-router-einrichtung.html">VPN‑Router‑Einrichtung</a></li>
           <li><a href="/de/blog/proxy-vs-vpn.html">Proxy vs VPN</a></li>
-          <li><a href="/de/blog/was-ist-ein-vpn.html">Was ist ein VPN?</a></li>
-          <li><a href="/de/blog/vpn-dns-leak.html">DNS-Leak: testen &amp; beheben</a></li>
+          <li><a href="/de/blog/ist-vpn-legal.html">Ist VPN legal?</a></li>
         </ul>
-      </div>
-
-      <div class="card-lite" style="margin-top:14px">
-        <h3>Über den Autor</h3>
-        <p><strong>Denys Shchur</strong> schreibt praxisnahe Guides zu VPN, Datenschutz und Sicherheit. Fokus: echte Setups, klare Checklisten und keine Märchen. Mehr: <a href="/de/about-denys-shchur.html">Autor-Seite</a>.</p>
       </div>
     </section>
   </main>
@@ -876,12 +743,12 @@
     <div class="container footer-grid">
       <div>
         <strong>VPN World</strong>
-        <p>Unabhängige Seite über Privatsphäre, Sicherheit und praktische VPN-Nutzung.</p>
+        <p>Independent site about privacy and online security.</p>
       </div>
-      <nav aria-label="Footer-Links">
+      <nav aria-label="Footer links">
         <a href="/privacy.html">Privacy</a>
         <a href="/de/disclosure.html">Disclosure</a>
-        <a href="mailto:u1797008805@gmail.com">Kontakt</a>
+        <a href="mailto:u1797008805@gmail.com">Contact</a>
       </nav>
     </div>
     <div class="container tiny">© 2026 VPN World</div>
@@ -893,8 +760,8 @@
   <!-- Cookie banner (DE) -->
   <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Cookie-Einwilligung">
     <p>
-      Wir verwenden Cookies für Messung und zur Verbesserung der Seite. Sie können zustimmen oder ablehnen.
-      Siehe <a href="/privacy.html">Privacy</a> und <a href="/de/disclosure.html">Disclosure</a>.
+      Wir verwenden Cookies zur Messung und um die Seite zu verbessern. Sie können akzeptieren oder ablehnen. Siehe
+      <a href="/privacy.html">Privacy</a> und <a href="/de/disclosure.html">Disclosure</a>.
     </p>
     <div class="cookie-actions">
       <button class="btn" type="button" onclick="acceptConsent()">Akzeptieren</button>
