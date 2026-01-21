@@ -996,32 +996,89 @@
   <script src="../../assets/js/cookie-consent.js"></script>
 
   <!-- Cookie banner -->
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Cookie consent">
-    <div class="cookie-inner">
-      <p><strong>Cookies:</strong> We use cookies to improve your experience. You can accept or decline their use. See <a href="/en-gb/privacy.html">Privacy</a>.</p>
-      <div class="cookie-actions">
-        <button type="button" id="cookie-accept" class="btn btn-primary" type="button" onclick="acceptConsent()">Accept</button>
-        <button type="button" id="cookie-reject" class="btn btn-ghost" type="button" onclick="rejectConsent()">Decline</button>
-      </div>
+  
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
+    <p>Analytics is off by default. You can accept or decline analytics cookies.</p>
+    <div class="cookie-actions">
+      <button type="button" class="btn btn-compact" onclick="acceptConsent()">Accept</button>
+      <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Decline</button>
     </div>
   </div>
 
+<style>
+/* Cookie banner — force on top & clickable (iOS safe) */
+.cookie-banner{position:fixed;left:12px;right:12px;bottom:12px;z-index:2147483647;pointer-events:auto}
+.cookie-banner *{pointer-events:auto}
+</style>
+
+
 <script>
-(function(){
-  function safe(fn){ try{ fn && fn(); }catch(e){ console.warn('consent click error', e); } }
-  function bind(){
-    var a=document.getElementById('cookie-accept');
-    var r=document.getElementById('cookie-reject');
-    if(a){
-      a.addEventListener('click', function(ev){ ev.preventDefault(); ev.stopPropagation(); safe(window.acceptConsent); }, {passive:false});
-      a.addEventListener('touchstart', function(ev){ ev.preventDefault(); ev.stopPropagation(); safe(window.acceptConsent); }, {passive:false});
-    }
-    if(r){
-      r.addEventListener('click', function(ev){ ev.preventDefault(); ev.stopPropagation(); safe(window.rejectConsent); }, {passive:false});
-      r.addEventListener('touchstart', function(ev){ ev.preventDefault(); ev.stopPropagation(); safe(window.rejectConsent); }, {passive:false});
+/* Consent Mode v2 — VPN World (robust, page-local) */
+(function () {
+  var KEY = 'vpnw_consent_v2';
+  function $(id){ return document.getElementById(id); }
+  function hideBanner(){
+    var b = $('cookie-banner');
+    if (b) b.style.display = 'none';
+  }
+  function showBanner(){
+    var b = $('cookie-banner');
+    if (b) b.style.display = 'block';
+  }
+  function consentUpdate(state){
+    // state: 'granted' | 'denied'
+    var granted = (state === 'granted');
+    if (typeof window.gtag === 'function') {
+      window.gtag('consent', 'update', {
+        ad_storage: granted ? 'granted' : 'denied',
+        ad_user_data: granted ? 'granted' : 'denied',
+        ad_personalization: granted ? 'granted' : 'denied',
+        analytics_storage: granted ? 'granted' : 'denied',
+        functionality_storage: granted ? 'granted' : 'denied',
+        personalization_storage: granted ? 'granted' : 'denied',
+        security_storage: granted ? 'granted' : 'denied'
+      });
+      if (granted) {
+        // fire page_view only after consent
+        window.gtag('event', 'page_view');
+      }
     }
   }
-  if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', bind); } else { bind(); }
+
+  // Public handlers used by onclick
+  window.acceptConsent = function () {
+    try { localStorage.setItem(KEY, 'granted'); } catch (e) {}
+    consentUpdate('granted');
+    hideBanner();
+  };
+  window.rejectConsent = function () {
+    try { localStorage.setItem(KEY, 'denied'); } catch (e) {}
+    consentUpdate('denied');
+    hideBanner();
+  };
+
+  // On load: apply stored choice, otherwise show banner
+  var choice = null;
+  try { choice = localStorage.getItem(KEY); } catch (e) {}
+  if (choice === 'granted' || choice === 'denied') {
+    consentUpdate(choice);
+    hideBanner();
+  } else {
+    showBanner();
+  }
+
+  // iOS tap reliability: ensure buttons always receive pointer events
+  document.addEventListener('DOMContentLoaded', function () {
+    var b = $('cookie-banner');
+    if (!b) return;
+    b.style.pointerEvents = 'auto';
+    b.style.zIndex = '2147483647';
+    var btns = b.querySelectorAll('button');
+    btns.forEach(function(btn){
+      btn.style.pointerEvents = 'auto';
+      btn.style.touchAction = 'manipulation';
+    });
+  });
 })();
 </script>
 
