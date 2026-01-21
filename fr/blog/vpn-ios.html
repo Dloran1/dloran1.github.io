@@ -273,6 +273,13 @@
             Sur Wi‑Fi public (SNCF/RATP/cafés), un VPN réduit nettement le risque d'interception.
           </p>
 
+          <div class="cta-buttons" style="margin-top:18px">
+            <a class="btn" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — rapide &amp; sécurisé</a>
+            <a class="btn" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — meilleur prix</a>
+            <a class="btn" href="https://www.dpbolvw.net/click-101525886-15834536" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN — confidentialité</a>
+          </div>
+
+
           <div class="live-status" role="status" aria-live="polite">
             <span class="live-dot" aria-hidden="true"><span></span><span></span></span>
             <p><strong>Statut en direct :</strong> Serveurs optimisés pour <strong>Canal+, TF1 et 6play</strong> vérifiés aujourd'hui. Brouillage (obfuscation) disponible sur iOS pour limiter les blocages.</p>
@@ -994,6 +1001,62 @@
       <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Refuser</button>
     </div>
   </div>
+
+  <script>
+    (function(){
+      const KEY = 'vpnworld_cookie_consent';
+      const banner = document.getElementById('cookie-banner');
+
+      function hide(){ if(banner) banner.style.display='none'; }
+      function show(){ if(banner) banner.style.display='block'; }
+
+      function setConsent(state){
+        try{ localStorage.setItem(KEY, state); }catch(e){}
+      }
+
+      window.acceptConsent = function(){
+        if (typeof gtag === 'function') {
+          gtag('consent','update',{
+            ad_storage:'denied',
+            ad_user_data:'denied',
+            ad_personalization:'denied',
+            analytics_storage:'granted',
+            functionality_storage:'granted',
+            personalization_storage:'denied',
+            security_storage:'granted'
+          });
+          // send page_view only after consent
+          gtag('event','page_view');
+        }
+        setConsent('accepted');
+        hide();
+      };
+
+      window.rejectConsent = function(){
+        if (typeof gtag === 'function') {
+          gtag('consent','update',{
+            ad_storage:'denied',
+            ad_user_data:'denied',
+            ad_personalization:'denied',
+            analytics_storage:'denied',
+            functionality_storage:'denied',
+            personalization_storage:'denied',
+            security_storage:'granted'
+          });
+        }
+        setConsent('rejected');
+        hide();
+      };
+
+      document.addEventListener('DOMContentLoaded', function(){
+        let state = null;
+        try{ state = localStorage.getItem(KEY); }catch(e){}
+        if(state === 'accepted' || state === 'rejected'){ hide(); }
+        else { show(); }
+      });
+    })();
+  </script>
+
 </body>
 </html>
 
