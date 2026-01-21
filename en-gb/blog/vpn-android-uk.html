@@ -95,6 +95,61 @@
 #cookie-banner, #cookie-banner *{ pointer-events: auto !important; }
 #cookie-banner button, #cookie-banner .btn{ cursor: pointer !important; }
 </style>
+<style id="cookie-banner-override">
+  /* Hard override: keep cookie banner clickable on iOS (above overlays & safe-area) */
+  #cookie-banner{
+    position: fixed !important;
+    left: 12px !important;
+    right: 12px !important;
+    bottom: calc(12px + env(safe-area-inset-bottom)) !important;
+    z-index: 2147483647 !important;
+    pointer-events: auto !important;
+    isolation: isolate;
+    background: #fff !important;
+    color: #000 !important;
+    border: 1px solid #1b2432 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 12px 32px rgba(0,0,0,.35) !important;
+    padding: 12px 12px !important;
+  }
+  #cookie-banner, #cookie-banner * { pointer-events: auto !important; }
+  #cookie-banner .cookie-banner__inner{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  #cookie-banner .cookie-banner__text{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    line-height: 1.35;
+  }
+  #cookie-banner .cookie-banner__links{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  #cookie-banner a{
+    color: #0b63ce !important;
+    text-decoration: underline !important;
+    text-underline-offset: 2px;
+  }
+  #cookie-banner .cookie-banner__actions{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  #cookie-banner .btn{
+    cursor: pointer !important;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  }
+</style>
+
 
   <!-- GA4 + Consent Mode v2 (default denied) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-EMR8C4TLVM"></script>
