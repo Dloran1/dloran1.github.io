@@ -232,6 +232,12 @@
     ]
   }
   </script>
+<style>
+/* Cookie banner hard-fix (iOS clickability) */
+#cookie-banner, #cookie-banner *{pointer-events:auto !important;}
+#cookie-banner{position:fixed !important; left:16px !important; right:16px !important; bottom:16px !important; touch-action:manipulation; -webkit-tap-highlight-color: rgba(0,0,0,0);}
+#cookie-banner button{touch-action:manipulation;}
+</style>
 </head>
 
 <body>
@@ -939,10 +945,30 @@
     <div class="cookie-inner">
       <p><strong>Cookies:</strong> We use cookies to improve your experience. You can accept or decline their use. See <a href="/en-gb/privacy.html">Privacy</a>.</p>
       <div class="cookie-actions">
-        <button class="btn btn-primary" type="button" onclick="acceptConsent()">Accept</button>
-        <button class="btn btn-ghost" type="button" onclick="rejectConsent()">Decline</button>
+        <button type="button" id="cookie-accept" class="btn btn-primary" type="button" onclick="acceptConsent()">Accept</button>
+        <button type="button" id="cookie-reject" class="btn btn-ghost" type="button" onclick="rejectConsent()">Decline</button>
       </div>
     </div>
   </div>
+
+<script>
+(function(){
+  function safe(fn){ try{ fn && fn(); }catch(e){ console.warn('consent click error', e); } }
+  function bind(){
+    var a=document.getElementById('cookie-accept');
+    var r=document.getElementById('cookie-reject');
+    if(a){
+      a.addEventListener('click', function(ev){ ev.preventDefault(); ev.stopPropagation(); safe(window.acceptConsent); }, {passive:false});
+      a.addEventListener('touchstart', function(ev){ ev.preventDefault(); ev.stopPropagation(); safe(window.acceptConsent); }, {passive:false});
+    }
+    if(r){
+      r.addEventListener('click', function(ev){ ev.preventDefault(); ev.stopPropagation(); safe(window.rejectConsent); }, {passive:false});
+      r.addEventListener('touchstart', function(ev){ ev.preventDefault(); ev.stopPropagation(); safe(window.rejectConsent); }, {passive:false});
+    }
+  }
+  if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', bind); } else { bind(); }
+})();
+</script>
+
 </body>
 </html>
