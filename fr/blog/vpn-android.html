@@ -827,16 +827,51 @@
   </footer>
 
   <script src="../../assets/js/main.js"></script>
-  <script src="../../assets/js/cookie-consent.js"></script>
-
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
-    <p>Nous utilisons des cookies pour améliorer votre expérience. Vous pouvez accepter ou refuser leur utilisation. <a href="/fr/privacy.html">Confidentialité</a>.</p>
+  <script src="../../assets/js/cookie-consent.js"></<!-- Cookie consent layer (hard-fix for iOS tap / overlays) -->
+<div id="cookie-consent-layer" class="cookie-consent-layer" role="dialog" aria-live="polite" aria-label="Consentement aux cookies">
+  <div id="cookie-banner" class="cookie-banner">
+    <p>
+      Nous utilisons des cookies pour améliorer votre expérience.
+      Vous pouvez accepter ou refuser leur utilisation.
+      <a href="/fr/privacy.html">Confidentialité</a>.
+    </p>
     <div class="cookie-actions">
-      <button type="button" class="btn btn-compact" id="cookie-accept" onclick="acceptConsent()">Accepter</button>
-      <button type="button" class="btn btn-compact btn-secondary" id="cookie-reject" onclick="rejectConsent()">Refuser</button>
+      <button type="button" class="btn btn-compact" id="cookie-accept">Accepter</button>
+      <button type="button" class="btn btn-compact btn-secondary" id="cookie-reject">Refuser</button>
     </div>
   </div>
-  <style>
+</div>
+
+<style>
+/* === COOKIE CONSENT HARD FIX (mobile tap safe) === */
+#cookie-consent-layer.cookie-consent-layer{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:2147483647 !important;
+  display:none;                 /* shown by JS only when needed */
+  pointer-events:auto !important;
+  background:rgba(0,0,0,.0);    /* transparent, but blocks taps behind */
+}
+
+#cookie-consent-layer .cookie-banner{
+  position:fixed !important;
+  left:16px !important;
+  right:16px !important;
+  bottom:16px !important;
+  z-index:2147483647 !important;
+  pointer-events:auto !important;
+}
+
+#cookie-consent-layer,
+#cookie-consent-layer *{
+  pointer-events:auto !important;
+}
+
+#cookie-consent-layer button{
+  touch-action:manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+</style>
     /* Force clickability (matches etalon behaviour) */
     #cookie-banner.cookie-banner{position:fixed !important;left:16px;right:16px;bottom:16px;z-index:2147483647 !important;pointer-events:auto !important;}
     #cookie-banner.cookie-banner *{pointer-events:auto !important;}
