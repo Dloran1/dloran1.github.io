@@ -1039,13 +1039,28 @@
   <script src="../../assets/js/cookie-consent.js"></script>
 
   <!-- Cookie banner (etalon ids; JS hooks in cookie-consent.js) -->
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" style="display:none">
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
     <p><strong>Cookies &amp; Privacy</strong> — We gebruiken cookies om je ervaring te verbeteren. <a href="/nl-be/privacy.html">Meer info</a>.</p>
     <div class="cookie-actions">
       <button type="button" class="btn btn-compact" id="cookie-accept" onclick="acceptConsent()">Accepteren</button>
       <button type="button" class="btn btn-compact btn-secondary" id="cookie-reject" onclick="rejectConsent()">Weigeren</button>
     </div>
   </div>
+  <script>
+  // Show cookie banner only when no decision is stored (GDPR-friendly)
+  (function(){
+    var v = null;
+    try { v = localStorage.getItem('vw_cookie_consent'); } catch(e){}
+    var b = document.getElementById('cookie-banner');
+    if(!b) return;
+    if(v === 'accepted' || v === 'rejected') {
+      b.style.display = 'none';
+    } else {
+      b.style.display = 'block';
+    }
+  })();
+  </script>
+
 
   <!-- JSON-LD (Article + FAQPage + BreadcrumbList + ItemList) -->
   <script type="application/ld+json">
