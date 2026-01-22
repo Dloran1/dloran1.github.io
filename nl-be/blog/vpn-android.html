@@ -58,13 +58,15 @@
       analytics_storage: 'denied',
       functionality_storage: 'denied',
       personalization_storage: 'denied',
-      security_storage: 'granted',
+      security_storage: 'denied',
       wait_for_update: 500
     });
 
     function safeHideCookieBanner() {
       var b = document.getElementById('cookie-banner');
       if (b) b.style.display = 'none';
+      var l = document.getElementById('cookie-consent-layer');
+      if (l) l.style.display = 'none';
     }
 
     function enableGA() {
@@ -83,7 +85,7 @@
         analytics_storage: 'granted',
         functionality_storage: 'granted',
         personalization_storage: 'granted',
-        security_storage: 'granted'
+        security_storage: 'denied'
       });
       enableGA();
       safeHideCookieBanner();
@@ -98,7 +100,7 @@
         analytics_storage: 'denied',
         functionality_storage: 'denied',
         personalization_storage: 'denied',
-        security_storage: 'granted'
+        security_storage: 'denied'
       });
       safeHideCookieBanner();
     }
@@ -249,6 +251,55 @@
   </style>
 
   <!-- PAGE: /nl-be/blog/vpn-android.html -->
+<!-- GA4 + Consent Mode v2 (default denied; fire GA only after consent) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+
+  // Consent Mode v2 defaults (GDPR-friendly)
+  
+
+  function acceptConsent(){
+    try { localStorage.setItem('vw_cookie_consent', 'accepted'); } catch(e){}
+    gtag('consent','update',{
+      ad_storage:'granted',
+      ad_user_data:'granted',
+      ad_personalization:'granted',
+      analytics_storage:'granted',
+      functionality_storage:'granted',
+      personalization_storage:'granted',
+      security_storage: 'denied'
+    });
+    gtag('js', new Date());
+    gtag('config','G-RD6M691ZWD',{ anonymize_ip:true, send_page_view:true });
+    var layer=document.getElementById('cookie-consent-layer');
+    if(layer) layer.style.display='none';
+  }
+
+  function rejectConsent(){
+    try { localStorage.setItem('vw_cookie_consent', 'rejected'); } catch(e){}
+    gtag('consent','update',{
+      ad_storage:'denied',
+      ad_user_data:'denied',
+      ad_personalization:'denied',
+      analytics_storage:'denied',
+      functionality_storage:'denied',
+      personalization_storage:'denied',
+      security_storage:'denied'
+    });
+    var layer=document.getElementById('cookie-consent-layer');
+    if(layer) layer.style.display='none';
+  }
+
+  (function initConsent(){
+    var v=null;
+    try { v = localStorage.getItem('vw_cookie_consent'); } catch(e){}
+    if(v === 'accepted'){ acceptConsent(); }
+    else if(v === 'rejected'){ rejectConsent(); }
+    // else banner will be shown after DOMContentLoaded
+  })();
+</script>
 </head>
 <body>
 
@@ -1130,6 +1181,68 @@
     ]
   }
   </script>
+
+<div id="cookie-consent-layer" class="cookie-consent-layer" role="dialog" aria-live="polite" aria-label="Cookies & privacy">
+  <div id="cookie-banner" class="cookie-banner">
+    <p>
+      <strong>Cookies &amp; privacy</strong> — We gebruiken cookies om je ervaring te verbeteren.
+      <a href="/nl-be/privacy.html">Meer info</a>.
+    </p>
+    <div class="cookie-actions">
+      <button type="button" class="btn btn-compact" id="cookie-accept">Accepteren</button>
+      <button type="button" class="btn btn-compact btn-secondary" id="cookie-reject">Weigeren</button>
+    </div>
+  </div>
+</div>
+
+<style>
+/* === COOKIE CONSENT (mobile tap-safe, etalon-like) === */
+#cookie-consent-layer.cookie-consent-layer{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:2147483647 !important;
+  display:none;                 /* shown by JS only when needed */
+  pointer-events:auto !important;
+  background:rgba(0,0,0,0);     /* transparent overlay to block taps behind */
+}
+#cookie-banner.cookie-banner{
+  position:fixed !important;
+  left:16px !important;
+  right:16px !important;
+  bottom:16px !important;
+  z-index:2147483647 !important;
+  pointer-events:auto !important;
+}
+#cookie-consent-layer, #cookie-consent-layer *{ pointer-events:auto !important; }
+#cookie-consent-layer button{
+  touch-action:manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+</style>
+
+<script>
+(function(){
+  function showBannerIfNeeded(){
+    var v=null;
+    try { v = localStorage.getItem('vw_cookie_consent'); } catch(e){}
+    if(v === 'accepted' || v === 'rejected') return;
+    var layer = document.getElementById('cookie-consent-layer');
+    if(layer) layer.style.display = 'block';
+  }
+
+  function wireButtons(){
+    var a=document.getElementById('cookie-accept');
+    var r=document.getElementById('cookie-reject');
+    if(a) a.addEventListener('click', function(){ if(window.acceptConsent) window.acceptConsent(); });
+    if(r) r.addEventListener('click', function(){ if(window.rejectConsent) window.rejectConsent(); });
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    wireButtons();
+    showBannerIfNeeded();
+  });
+})();
+</script>
 
 </body>
 </html>
