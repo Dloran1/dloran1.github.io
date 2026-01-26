@@ -126,6 +126,12 @@
         s.src = 'https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD';
         document.head.appendChild(s);
         gtag('js', new Date());
+
+  function hideCookieBannerSafely(){
+    var w = document.getElementById('cookie-consent-wrapper');
+    if (w) w.style.display = 'none';
+  }
+
         gtag('config', 'G-RD6M691ZWD', { anonymize_ip: true });
         gtag('event', 'page_view');
       }
@@ -805,6 +811,24 @@
 <div aria-hidden="false" class="cookie-consent-layer" id="cookie-consent-layer">
 
 </div>
+
+<div id="cookie-consent-wrapper" style="position:fixed; bottom:20px; left:20px; right:20px; z-index:10000; pointer-events:none;">
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Cookie-Einwilligung"
+       style="pointer-events:all; background:#ffffff; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.30); padding:16px 16px 14px; color:#000;">
+    <p style="margin:0; line-height:1.5;">
+      <strong>Cookies &amp; Analytics:</strong> Wir verwenden Cookies erst nach deiner Zustimmung (Consent Mode v2), um die Nutzung zu messen (GA4) und die Seite zu verbessern.
+      Du kannst zustimmen oder ablehnen. <a href="/de/privacy.html" style="color:#1f6feb; text-decoration:underline;">Privacy</a>.
+    </p>
+    <div class="cookie-actions" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:12px;">
+      <button id="cookie-accept" class="btn btn-primary" style="color:#fff !important;" type="button" onclick="window.acceptConsent && window.acceptConsent()"
+              style="cursor:pointer; touch-action:manipulation;">Akzeptieren</button>
+      <button id="cookie-reject" class="btn btn-secondary" style="color:#fff !important;" type="button" onclick="window.rejectConsent && window.rejectConsent()"
+              style="cursor:pointer; touch-action:manipulation;">Ablehnen</button>
+    </div>
+  </div>
+</div>
+
+
 <!-- PAGE: https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html -->
 <div aria-label="Cookie-Einwilligung" class="cookie-banner" id="cookie-banner" role="dialog">
 <p><strong>Cookies &amp; Analytics:</strong> Wir verwenden Cookies, um die Nutzung zu messen (GA4) und die Seite zu verbessern. Du kannst zustimmen oder ablehnen. <a href="/de/privacy.html">Privacy</a>.</p>
