@@ -738,6 +738,34 @@
 <nav aria-label="Footer"><a href="/de/privacy.html">Privacy</a> <a href="/de/disclosure.html">Disclosure</a> <a href="mailto:u1797008805@gmail.com">Kontakt</a></nav>
 </div>
 <div class="container tiny">© 2026 VPN World</div>
+
+<script>
+(function(){
+  function qsa(sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
+  function qs(sel, root){ return (root||document).querySelector(sel); }
+
+  var btns = qsa('[data-err-btn]');
+  if (!btns.length) return;
+
+  var box = qs('#err-result');
+  var map = {
+    "807": "<strong>Fehler 807</strong>: Häufig blockiert Firewall/AV den Tunnel oder die Aushandlung schlägt fehl. Tipp: Protokoll wechseln (IKEv2 ↔ WireGuard), kurzzeitig SSL-Inspection im AV deaktivieren, anderes Netzwerk testen.",
+    "691": "<strong>Fehler 691</strong>: Meist falsche Zugangsdaten oder falsche Authentifizierung. Prüfe Benutzer/Passwort, VPN-Typ (IKEv2/SSTP) und ob das Abo aktiv ist.",
+    "868": "<strong>Fehler 868</strong>: Servername nicht erreichbar. Prüfe FQDN/Adresse, DNS im Netz (z.B. 1.1.1.1/8.8.8.8), und ob das Netz VPN-Verbindungen blockiert.",
+    "SLOW": "<strong>Langsam</strong>: Nimm einen näheren Server, aktiviere WireGuard/NordLynx, prüfe MTU (oft 1400–1450), vermeide VPN-over-TCP und Doppel-Tunnel (VPN + Proxy)."
+  };
+
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){
+      var k = b.getAttribute('data-err-btn');
+      btns.forEach(function(x){ x.classList.remove('active'); });
+      b.classList.add('active');
+      if (box) box.innerHTML = map[k] || "";
+    }, {passive:true});
+  });
+})();
+</script>
+
 </footer>
 
 <div id="final-consent-wrapper" style="position:fixed; bottom:0; left:0; right:0; top:0; z-index:99999; pointer-events:none; display:flex; align-items:flex-end; justify-content:center; padding:20px;">
