@@ -739,132 +739,67 @@
 </div>
 <div class="container tiny">© 2026 VPN World</div>
 </footer>
-<script src="../../assets/js/main.js"></script>
 
-<script>
-(function(){
-  function escapeHtml(s){
-    return String(s).replace(/[&<>"']/g, function(c){
-      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]);
-    });
-  }
-
-  var box = document.getElementById('win-troubleshoot');
-  if(!box) return;
-
-  var out = document.getElementById('issue-result');
-  var solutions = {
-    "807": {
-      title: "Fehler 807 – Verbindungsaufbau zum VPN‑Server fehlgeschlagen",
-      items: [
-        "Firewall/AV testweise prüfen: VPN kurz als Ausnahme hinzufügen.",
-        "Wenn du PPTP/L2TP nutzt: Ports/Protokolle können blockiert sein (1723/TCP, GRE). Besser: auf WireGuard oder SSTP wechseln.",
-        "Router/Hotel‑WLAN: anderes Netzwerk testen (Hotspot) – so trennst du Provider‑Blockade von PC‑Problem."
-      ],
-      tip: "Schnelltest: Protokoll auf WireGuard umstellen und erneut verbinden."
-    },
-    "691": {
-      title: "Fehler 691 – Anmeldung fehlgeschlagen",
-      items: [
-        "Login/Passwort prüfen (Tippfehler, Zwischenablage, Sonderzeichen).",
-        "Abo/Account aktiv? Bei mehreren Geräten ggf. Limit erreicht.",
-        "Systemzeit korrekt? Falsche Uhrzeit kann Tokens/Certs brechen."
-      ],
-      tip: "Wenn es nach Passwort‑Reset immer noch kommt: einmal komplett abmelden, App neu starten und erneut anmelden."
-    },
-    "0x800704C6": {
-      title: "0x800704C6 – Netzwerk/Adapter/Update‑Folge",
-      items: [
-        "Windows Update kann Treiber ändern: Netzwerkadapter im Gerätemanager prüfen (kein Warnsymbol).",
-        "VPN‑Adapter zurücksetzen: App reparieren oder neu installieren (Wintun/TAP).",
-        "Netzwerk‑Reset (Einstellungen → Netzwerk & Internet → Erweiterte Netzwerkeinstellungen → Netzwerk zurücksetzen)."
-      ],
-      tip: "Wenn es nach einem Update begann: Rollback des Treibers im Gerätemanager testen."
-    },
-    "abbruch": {
-      title: "Verbindung bricht ab – typische Ursachen",
-      items: [
-        "Energiesparen: WLAN‑Adapter darf nicht schlafen (Gerätemanager → Energieverwaltung).",
-        "Server wechseln: hoher Packet‑Loss oder überlasteter Standort.",
-        "DNS/IPv6: Leak‑Fixes anwenden und erneut testen – manche Abbrüche hängen an DNS‑Konflikten."
-      ],
-      tip: "Stabilitäts‑Setup: IKEv2 testen (oft stabil bei Netzwechseln)."
-    }
-  };
-
-  function render(key){
-    var s = solutions[key];
-    if(!s) return;
-    var html = '<h3 style="margin:0 0 8px">'+escapeHtml(s.title)+'</h3><ul>';
-    for(var i=0;i<s.items.length;i++){
-      html += '<li>'+escapeHtml(s.items[i])+'</li>';
-    }
-    html += '</ul><p class="note" style="margin-top:10px"><strong>Pro‑Tipp:</strong> '+escapeHtml(s.tip)+'</p>';
-    out.innerHTML = html;
-  }
-
-  box.querySelectorAll('button[data-key]').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      box.querySelectorAll('button[data-key]').forEach(function(b){ b.classList.remove('active'); });
-      btn.classList.add('active');
-      render(btn.getAttribute('data-key'));
-    });
-  });
-})();
-</script>
-<!-- Cookie Banner -->
-<div aria-hidden="false" class="cookie-consent-layer" id="cookie-consent-layer">
-
-</div>
-</div>
-</div>
-
-
-
-<div id="cookie-consent-wrapper">
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Cookie-Einwilligung"
-       style="max-width:520px;margin-left:auto;">
-    <p style="margin:0; line-height:1.5;">
-      <strong>Cookies &amp; Privatsphäre:</strong> Wir setzen Google Analytics 4 erst nach deiner Zustimmung ein (Consent Mode v2).
-      Du kannst zustimmen oder ablehnen. <a href="/de/privacy.html" style="color:#1f6feb; text-decoration:underline;">Datenschutzerklärung</a>.
+<div id="final-consent-wrapper" style="position:fixed; bottom:0; left:0; right:0; top:0; z-index:99999; pointer-events:none; display:flex; align-items:flex-end; justify-content:center; padding:20px;">
+  <div id="actual-banner" style="pointer-events:auto; background:#ffffff; border-radius:12px; box-shadow:0 10px 50px rgba(0,0,0,0.5); padding:24px; max-width:500px; width:100%; border:1px solid #ddd;">
+    <p style="margin:0 0 20px; color:#000; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; line-height:1.5; font-size:15px;">
+      <strong>Cookies &amp; Privatsphäre:</strong> Wir nutzen Google Analytics 4 erst nach deiner Zustimmung (Consent Mode v2). Du kannst deine Wahl jederzeit ändern.
+      <a href="/de/privacy.html" style="color:#1f6feb; text-decoration:underline;">Datenschutzerklärung</a>.
     </p>
-    <div class="cookie-actions" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:12px;">
-      <button id="cookie-accept" class="btn btn-primary" type="button"
-              onclick="window.acceptConsent && window.acceptConsent()"
-              style="cursor:pointer; touch-action:manipulation; color:#fff !important; flex:1;">
-        Akzeptieren
-      </button>
-      <button id="cookie-reject" class="btn btn-secondary" type="button"
-              onclick="window.rejectConsent && window.rejectConsent()"
-              style="cursor:pointer; touch-action:manipulation; color:#fff !important; flex:1;">
-        Ablehnen
-      </button>
+    <div style="display:flex; gap:12px;">
+      <button type="button" onclick="submitConsent('granted')" style="flex:1; background:#1f6feb; color:#fff; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:800; font-size:14px; touch-action:manipulation;">Akzeptieren</button>
+      <button type="button" onclick="submitConsent('denied')" style="flex:1; background:#f1f1f1; color:#333; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:800; font-size:14px; touch-action:manipulation;">Ablehnen</button>
     </div>
   </div>
 </div>
 
-
-<!-- PAGE: https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html -->
-<div aria-label="Cookie-Einwilligung" class="cookie-banner" id="cookie-banner" role="dialog">
-<p><strong>Cookies &amp; Analytics:</strong> Wir verwenden Cookies, um die Nutzung zu messen (GA4) und die Seite zu verbessern. Du kannst zustimmen oder ablehnen. <a href="/de/privacy.html">Privacy</a>.</p>
-<div class="cookie-actions">
-<button class="btn" id="cookie-accept" onclick="acceptConsent()" type="button">Akzeptieren</button>
-<button class="btn btn-outline" id="cookie-reject" onclick="rejectConsent()" type="button">Ablehnen</button>
-</div>
-</div>
 <script>
-(function cookieAutoHide(){
-  try{
-    var v = localStorage.getItem('cookie_consent');
-    if(v==='granted' || v==='denied'){
-      var b=document.getElementById('cookie-banner');
-      if(b) b.remove();
-      var layer=document.getElementById('cookie-consent-layer');
-      if(layer) layer.remove();
+/* FINAL single-banner consent (no overlays, no duplicates) */
+(function(){
+  var KEY = 'vpnworld_consent_v2_2026';
+
+  function updateConsent(status){
+    if (typeof gtag !== 'function') return;
+
+    var v = (status === 'granted') ? 'granted' : 'denied';
+
+    gtag('consent','update', {
+      ad_storage: v,
+      ad_user_data: v,
+      ad_personalization: v,
+      analytics_storage: v,
+      functionality_storage: v,
+      personalization_storage: v,
+      security_storage: v
+    });
+
+    if (v === 'granted'){
+      try{ gtag('config','G-RD6M691ZWD', { anonymize_ip:true }); }catch(e){}
+      try{ gtag('event','page_view'); }catch(e){}
     }
-  }catch(e){}
+  }
+
+  window.submitConsent = function(status){
+    try{ localStorage.setItem(KEY, status); }catch(e){}
+    updateConsent(status);
+
+    var el = document.getElementById('final-consent-wrapper');
+    if (el) el.remove();
+  };
+
+  document.addEventListener('DOMContentLoaded', function(){
+    var existing = null;
+    try{ existing = localStorage.getItem(KEY); }catch(e){}
+    if (existing === 'granted' || existing === 'denied'){
+      var el = document.getElementById('final-consent-wrapper');
+      if (el) el.remove();
+      updateConsent(existing);
+    }
+  });
 })();
 </script>
+
+<script src="../../assets/js/main.js"></script>
 
 </body>
 </html>
