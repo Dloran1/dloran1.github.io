@@ -154,7 +154,25 @@
 .cta-btns .btn{color:#fff !important;}
 #cookie-banner{z-index:99999 !important; pointer-events:auto !important;}
 #cookie-banner *{pointer-events:auto !important;}
-</style></head>
+</style>
+<style id="cookie-overlay-hotfix">
+/* HOTFIX (iOS): ensure the backdrop layer never blocks clicks on the banner */
+#cookie-consent-layer{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:9998 !important;
+  pointer-events:none !important;
+  background:transparent !important;
+}
+#cookie-banner{
+  position:fixed !important;
+  z-index:9999 !important;
+  pointer-events:auto !important;
+}
+#cookie-banner *{pointer-events:auto !important;}
+</style>
+
+</head>
 <body>
 <nav aria-label="Sprachwechsel" class="lang-switch">
 <a href="/blog/vpn-konfiguracja-windows.html">Polski</a>
