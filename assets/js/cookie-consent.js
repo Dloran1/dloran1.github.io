@@ -14,14 +14,9 @@
   }
 
   function t() {
-    // Short, legal-safe copy; keep language consistent per locale.
-    // Note: “necessary cookies” phrasing only; no overpromises.
     var l = lang();
 
-    // Normalize to our set (pl, en-gb, en-us, de, es, fr, nl-be)
-    // Some pages might use "nl" or "nl-BE" – we handle both.
     if (l === "en" || l.indexOf("en-") === 0) {
-      // en-gb / en-us
       return {
         text:
           "We use cookies to measure traffic and improve the site. You can accept or reject analytics cookies. Necessary cookies are always on.",
@@ -67,7 +62,6 @@
       };
     }
     if (l.indexOf("nl") === 0) {
-      // nl-be
       return {
         text:
           "We gebruiken cookies om verkeer te meten en de site te verbeteren. Je kan analytics-cookies accepteren of weigeren. Noodzakelijke cookies staan altijd aan.",
@@ -77,7 +71,6 @@
       };
     }
 
-    // fallback
     return {
       text:
         "We use cookies to measure traffic and improve the site. You can accept or reject analytics cookies. Necessary cookies are always on.",
@@ -88,7 +81,6 @@
   }
 
   function privacyHref() {
-    // project has localized privacy pages; keep paths stable
     var l = lang();
     if (l.indexOf("pl") === 0) return "/privacy.html";
     if (l.indexOf("en-gb") === 0) return "/en-gb/privacy.html";
@@ -101,40 +93,26 @@
   }
 
   function getStored() {
-    try {
-      return localStorage.getItem(KEY);
-    } catch (e) {
-      return null;
-    }
+    try { return localStorage.getItem(KEY); } catch (e) { return null; }
   }
 
   function setStored(val) {
-    try {
-      localStorage.setItem(KEY, val);
-    } catch (e) {}
+    try { localStorage.setItem(KEY, val); } catch (e) {}
   }
 
   function setPageviewSent() {
-    try {
-      localStorage.setItem(PV_KEY, "1");
-    } catch (e) {}
+    try { localStorage.setItem(PV_KEY, "1"); } catch (e) {}
   }
 
   function isPageviewSent() {
-    try {
-      return localStorage.getItem(PV_KEY) === "1";
-    } catch (e) {
-      return false;
-    }
+    try { return localStorage.getItem(PV_KEY) === "1"; } catch (e) { return false; }
   }
 
   function ensureBanner() {
     var layer = document.getElementById("cookie-consent-layer");
     var banner = document.getElementById("cookie-banner");
-
     if (layer && banner) return { layer: layer, banner: banner };
 
-    // Create canonical single layer
     var copy = t();
 
     layer = document.createElement("div");
@@ -146,7 +124,6 @@
     banner = document.createElement("div");
     banner.id = "cookie-banner";
 
-    // Minimal inline-safe structure; style is in CSS, but this works even if CSS is missing.
     var p = document.createElement("p");
     p.textContent = copy.text;
 
@@ -176,7 +153,10 @@
     banner.appendChild(actions);
     layer.appendChild(banner);
 
-    document.body.appendChild(layer);
+    // ВАЖНО: body может быть null в некоторых сборках/парсинге => ждём
+    if (document.body) {
+      document.body.appendChild(layer);
+    }
 
     return { layer: layer, banner: banner };
   }
@@ -195,7 +175,6 @@
   }
 
   function gtagUpdate(granted) {
-    // Consent Mode v2 keys (full set)
     if (typeof window.gtag !== "function") return;
 
     var state = granted ? "granted" : "denied";
@@ -206,11 +185,10 @@
       analytics_storage: state,
       functionality_storage: state,
       personalization_storage: state,
-      security_storage: "granted", // allow security storage even if analytics denied
+      security_storage: "granted",
     });
 
     if (granted && !isPageviewSent()) {
-      // Fire page_view only after consent is granted
       window.gtag("event", "page_view", {
         page_location: location.href,
         page_path: location.pathname,
@@ -222,20 +200,9 @@
 
   function applyInitial() {
     var v = getStored();
+    if (v === "granted") { hide(); gtagUpdate(true); return; }
+    if (v === "denied")  { hide(); gtagUpdate(false); return; }
 
-    // If user already chose
-    if (v === "granted") {
-      hide();
-      gtagUpdate(true);
-      return;
-    }
-    if (v === "denied") {
-      hide();
-      gtagUpdate(false);
-      return;
-    }
-
-    // No choice yet => show banner, keep denied by default (head may also set default)
     show();
     gtagUpdate(false);
   }
@@ -246,20 +213,15 @@
 
     if (acceptBtn && !acceptBtn.__vpnwBound) {
       acceptBtn.__vpnwBound = true;
-      acceptBtn.addEventListener("click", function () {
-        window.acceptConsent();
-      });
+      acceptBtn.addEventListener("click", function () { window.acceptConsent(); });
     }
 
     if (rejectBtn && !rejectBtn.__vpnwBound) {
       rejectBtn.__vpnwBound = true;
-      rejectBtn.addEventListener("click", function () {
-        window.rejectConsent();
-      });
+      rejectBtn.addEventListener("click", function () { window.rejectConsent(); });
     }
   }
 
-  // Expose canonical functions
   window.acceptConsent = function () {
     setStored("granted");
     hide();
@@ -272,16 +234,27 @@
     gtagUpdate(false);
   };
 
-  // Init
-  function init() {
+  function initWhenBodyReady(tries) {
+    tries = tries || 0;
+
+    // ждем body (и даем шанс CSS/DOM догрузиться)
+    if (!document.body) {
+      if (tries < 200) return setTimeout(function () { initWhenBodyReady(tries + 1); }, 25);
+      return;
+    }
+
     ensureBanner();
     wireButtons();
     applyInitial();
   }
 
+  function boot() {
+    initWhenBodyReady(0);
+  }
+
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
+    document.addEventListener("DOMContentLoaded", boot);
   } else {
-    init();
+    boot();
   }
 })();
