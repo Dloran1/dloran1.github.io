@@ -1,16 +1,30 @@
 /* VPN World — Cookie Consent (Consent Mode v2) — single canonical layer
    KEY: vpnw_cookie_consent_v1
    Values: "granted" | "denied"
+
+   Gold Rules:
+   - Only ONE banner layer in the whole project
+   - Default = denied
+   - page_view only AFTER Accept
+   - Kill any legacy/duplicate banners automatically
 */
+
 (function () {
   "use strict";
 
   var KEY = "vpnw_cookie_consent_v1";
   var PV_KEY = "vpnw_ga_pageview_sent_v1";
 
+  /* ---------------------------
+     Locale helpers
+  --------------------------- */
+
   function lang() {
-    var l = (document.documentElement.getAttribute("lang") || "en").toLowerCase();
-    return l;
+    return (
+      (document.documentElement.getAttribute("lang") || "en")
+        .toLowerCase()
+        .trim()
+    );
   }
 
   function t() {
@@ -25,6 +39,7 @@
         more: "Privacy",
       };
     }
+
     if (l.indexOf("pl") === 0) {
       return {
         text:
@@ -34,6 +49,7 @@
         more: "Prywatność",
       };
     }
+
     if (l.indexOf("de") === 0) {
       return {
         text:
@@ -43,6 +59,7 @@
         more: "Datenschutz",
       };
     }
+
     if (l.indexOf("es") === 0) {
       return {
         text:
@@ -52,6 +69,7 @@
         more: "Privacidad",
       };
     }
+
     if (l.indexOf("fr") === 0) {
       return {
         text:
@@ -61,6 +79,7 @@
         more: "Confidentialité",
       };
     }
+
     if (l.indexOf("nl") === 0) {
       return {
         text:
@@ -92,92 +111,47 @@
     return "/privacy.html";
   }
 
+  /* ---------------------------
+     Storage helpers
+  --------------------------- */
+
   function getStored() {
-    try { return localStorage.getItem(KEY); } catch (e) { return null; }
+    try {
+      return localStorage.getItem(KEY);
+    } catch (e) {
+      return null;
+    }
   }
 
   function setStored(val) {
-    try { localStorage.setItem(KEY, val); } catch (e) {}
-  }
-
-  function setPageviewSent() {
-    try { localStorage.setItem(PV_KEY, "1"); } catch (e) {}
+    try {
+      localStorage.setItem(KEY, val);
+    } catch (e) {}
   }
 
   function isPageviewSent() {
-    try { return localStorage.getItem(PV_KEY) === "1"; } catch (e) { return false; }
-  }
-
-  function ensureBanner() {
-    var layer = document.getElementById("cookie-consent-layer");
-    var banner = document.getElementById("cookie-banner");
-    if (layer && banner) return { layer: layer, banner: banner };
-
-    var copy = t();
-
-    layer = document.createElement("div");
-    layer.id = "cookie-consent-layer";
-    layer.setAttribute("role", "dialog");
-    layer.setAttribute("aria-modal", "true");
-    layer.setAttribute("aria-label", "Cookie consent");
-
-    banner = document.createElement("div");
-    banner.id = "cookie-banner";
-
-    var p = document.createElement("p");
-    p.textContent = copy.text;
-
-    var actions = document.createElement("div");
-    actions.className = "cookie-actions";
-
-    var more = document.createElement("a");
-    more.className = "cookie-more";
-    more.href = privacyHref();
-    more.textContent = copy.more;
-
-    var btnAccept = document.createElement("button");
-    btnAccept.id = "cookie-accept";
-    btnAccept.type = "button";
-    btnAccept.textContent = copy.accept;
-
-    var btnReject = document.createElement("button");
-    btnReject.id = "cookie-reject";
-    btnReject.type = "button";
-    btnReject.textContent = copy.reject;
-
-    actions.appendChild(more);
-    actions.appendChild(btnReject);
-    actions.appendChild(btnAccept);
-
-    banner.appendChild(p);
-    banner.appendChild(actions);
-    layer.appendChild(banner);
-
-    // ВАЖНО: body может быть null в некоторых сборках/парсинге => ждём
-    if (document.body) {
-      document.body.appendChild(layer);
+    try {
+      return localStorage.getItem(PV_KEY) === "1";
+    } catch (e) {
+      return false;
     }
-
-    return { layer: layer, banner: banner };
   }
 
-  function show() {
-    var el = ensureBanner().layer;
-    el.style.display = "block";
-    el.style.pointerEvents = "auto";
+  function setPageviewSent() {
+    try {
+      localStorage.setItem(PV_KEY, "1");
+    } catch (e) {}
   }
 
-  function hide() {
-    var el = document.getElementById("cookie-consent-layer");
-    if (!el) return;
-    el.style.display = "none";
-    el.style.pointerEvents = "none";
-  }
+  /* ---------------------------
+     Consent Mode v2 Update
+  --------------------------- */
 
   function gtagUpdate(granted) {
     if (typeof window.gtag !== "function") return;
 
     var state = granted ? "granted" : "denied";
+
     window.gtag("consent", "update", {
       ad_storage: state,
       ad_user_data: state,
@@ -198,29 +172,142 @@
     }
   }
 
-  function applyInitial() {
-    var v = getStored();
-    if (v === "granted") { hide(); gtagUpdate(true); return; }
-    if (v === "denied")  { hide(); gtagUpdate(false); return; }
+  /* ---------------------------
+     HARD KILL legacy banners
+  --------------------------- */
 
-    show();
-    gtagUpdate(false);
+  function killLegacyBanners() {
+    try {
+      var junkSelectors = [
+        "#cookieConsent",
+        "#cookie-consent",
+        "#cookie-banner-layer",
+        "#cookie-layer",
+        ".cookie-consent",
+        ".cookie-banner",
+        ".cookieconsent",
+        ".cc-window",
+        ".cc-banner",
+        ".cc-revoke",
+      ];
+
+      junkSelectors.forEach(function (sel) {
+        document.querySelectorAll(sel).forEach(function (el) {
+          if (!el) return;
+          if (el.id === "cookie-consent-layer") return;
+          if (el.id === "cookie-banner") return;
+          el.remove();
+        });
+      });
+
+      // Kill the exact legacy PL sentence if injected as a floating bar
+      var legacyText = "Analityka jest domyślnie wyłączona";
+      document.querySelectorAll("body *").forEach(function (el) {
+        if (!el || !el.innerText) return;
+        if (el.id === "cookie-consent-layer") return;
+        if (el.id === "cookie-banner") return;
+
+        if (el.innerText.trim().includes(legacyText)) {
+          el.remove();
+        }
+      });
+    } catch (e) {}
   }
+
+  /* ---------------------------
+     Banner creation
+  --------------------------- */
+
+  function ensureBanner() {
+    var layer = document.getElementById("cookie-consent-layer");
+    var banner = document.getElementById("cookie-banner");
+
+    if (layer && banner) return { layer: layer, banner: banner };
+
+    var copy = t();
+
+    layer = document.createElement("div");
+    layer.id = "cookie-consent-layer";
+    layer.setAttribute("role", "dialog");
+    layer.setAttribute("aria-modal", "true");
+
+    // FORCE clickability always
+    layer.style.position = "fixed";
+    layer.style.left = "0";
+    layer.style.right = "0";
+    layer.style.bottom = "0";
+    layer.style.zIndex = "999999";
+    layer.style.pointerEvents = "auto";
+
+    banner = document.createElement("div");
+    banner.id = "cookie-banner";
+
+    var p = document.createElement("p");
+    p.textContent = copy.text;
+
+    var actions = document.createElement("div");
+    actions.className = "cookie-actions";
+
+    var more = document.createElement("a");
+    more.href = privacyHref();
+    more.textContent = copy.more;
+
+    var btnReject = document.createElement("button");
+    btnReject.id = "cookie-reject";
+    btnReject.type = "button";
+    btnReject.textContent = copy.reject;
+
+    var btnAccept = document.createElement("button");
+    btnAccept.id = "cookie-accept";
+    btnAccept.type = "button";
+    btnAccept.textContent = copy.accept;
+
+    actions.appendChild(more);
+    actions.appendChild(btnReject);
+    actions.appendChild(btnAccept);
+
+    banner.appendChild(p);
+    banner.appendChild(actions);
+    layer.appendChild(banner);
+
+    document.body.appendChild(layer);
+
+    return { layer: layer, banner: banner };
+  }
+
+  function show() {
+    ensureBanner().layer.style.display = "block";
+  }
+
+  function hide() {
+    var el = document.getElementById("cookie-consent-layer");
+    if (el) el.style.display = "none";
+  }
+
+  /* ---------------------------
+     Wire buttons
+  --------------------------- */
 
   function wireButtons() {
     var acceptBtn = document.getElementById("cookie-accept");
     var rejectBtn = document.getElementById("cookie-reject");
 
-    if (acceptBtn && !acceptBtn.__vpnwBound) {
-      acceptBtn.__vpnwBound = true;
-      acceptBtn.addEventListener("click", function () { window.acceptConsent(); });
+    if (acceptBtn) {
+      acceptBtn.onclick = function () {
+        window.acceptConsent();
+      };
     }
 
-    if (rejectBtn && !rejectBtn.__vpnwBound) {
-      rejectBtn.__vpnwBound = true;
-      rejectBtn.addEventListener("click", function () { window.rejectConsent(); });
+    if (rejectBtn) {
+      rejectBtn.onclick = function () {
+        window.rejectConsent();
+      };
     }
   }
+
+  /* ---------------------------
+     Public API
+  --------------------------- */
 
   window.acceptConsent = function () {
     setStored("granted");
@@ -234,27 +321,41 @@
     gtagUpdate(false);
   };
 
-  function initWhenBodyReady(tries) {
-    tries = tries || 0;
+  /* ---------------------------
+     Init
+  --------------------------- */
 
-    // ждем body (и даем шанс CSS/DOM догрузиться)
-    if (!document.body) {
-      if (tries < 200) return setTimeout(function () { initWhenBodyReady(tries + 1); }, 25);
+  function init() {
+    // 1) Kill any old banners first
+    killLegacyBanners();
+
+    // 2) Create canonical banner
+    ensureBanner();
+    wireButtons();
+
+    // 3) Apply stored choice
+    var v = getStored();
+
+    if (v === "granted") {
+      hide();
+      gtagUpdate(true);
       return;
     }
 
-    ensureBanner();
-    wireButtons();
-    applyInitial();
-  }
+    if (v === "denied") {
+      hide();
+      gtagUpdate(false);
+      return;
+    }
 
-  function boot() {
-    initWhenBodyReady(0);
+    // No choice => show banner, default denied
+    show();
+    gtagUpdate(false);
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", boot);
+    document.addEventListener("DOMContentLoaded", init);
   } else {
-    boot();
+    init();
   }
 })();
