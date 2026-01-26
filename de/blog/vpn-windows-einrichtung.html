@@ -1,57 +1,898 @@
-<!DOCTYPE html><html lang="de">
+<!doctype html>
+<html lang="de">
 <head>
-<meta charset="utf-8">
-<title>Vpn Windows Einrichtung | VPN World</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="index, follow">
-<link rel="icon" href="/favicon.ico">
-<link rel="stylesheet" href="../../assets/css/style.css">
-<link rel="canonical" href="https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html">
-<link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-konfiguracja-windows.html">
-  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-windows-setup-uk.html">
-  <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-windows-setup.html">
-  <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html">
-  <link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/configuracion-vpn-windows.html">
-  <link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/configuration-vpn-windows.html">
-  <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-windows-instellen.html">
-  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-windows-setup-uk.html">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow" />
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-RD6M691ZWD');
-</script>
+  <title>VPN unter Windows einrichten (2026): Schritt-für-Schritt Anleitung für maximale Sicherheit | VPN World</title>
+  <meta name="description" content="Technische Anleitung 2026: VPN unter Windows 11/10 richtig einrichten — WireGuard vs IKEv2 vs SSTP, Kill Switch, Split Tunneling, IPv6/DNS-Leak-Checks und Fehlercodes (807/691/0x800704C6)." />
+  <link rel="canonical" href="https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html" />
 
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+
+  <!-- hreflang -->
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-konfiguracja-windows.html" />
+  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-windows-setup-uk.html" />
+  <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-windows-setup.html" />
+  <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html" />
+  <link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/configuracion-vpn-windows.html" />
+  <link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/configuration-vpn-windows.html" />
+  <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-windows-instellen.html" />
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-windows-setup-uk.html" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="VPN unter Windows einrichten (2026): Schritt-für-Schritt Anleitung für maximale Sicherheit | VPN World" />
+  <meta property="og:description" content="Technische Anleitung 2026: VPN unter Windows 11/10 richtig einrichten — WireGuard vs IKEv2 vs SSTP, Kill Switch, Split Tunneling, IPv6/DNS-Leak-Checks und Fehlercodes (807/691/0x800704C6)." />
+  <meta property="og:url" content="https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html" />
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-windows-uk.webp" />
+  <meta property="og:locale" content="de_DE" />
+  <meta property="og:locale:alternate" content="pl_PL" />
+  <meta property="og:locale:alternate" content="en_GB" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:locale:alternate" content="es_ES" />
+  <meta property="og:locale:alternate" content="fr_FR" />
+  <meta property="og:locale:alternate" content="nl_BE" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="VPN unter Windows einrichten (2026): Schritt-für-Schritt Anleitung für maximale Sicherheit | VPN World" />
+  <meta name="twitter:description" content="Technische Anleitung 2026: VPN unter Windows 11/10 richtig einrichten — WireGuard vs IKEv2 vs SSTP, Kill Switch, Split Tunneling, IPv6/DNS-Leak-Checks und Fehlercodes (807/691/0x800704C6)." />
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-windows-uk.webp" />
+
+  <style>
+
+    /* responsive table wrapper */
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:16px}
+    .table-scroll table{min-width:760px}
+    /* force readable text inside tables even in tinted blocks */
+    .article table{color:var(--text)}
+    .article table th,.article table td{color:var(--text)}
+    .article table thead th{color:var(--text)}
+    /* svg cards */
+    .svg-card{
+      background:var(--lightCardBg);
+      color:var(--lightCardText);
+      border:1px solid var(--lightCardBorder);
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      padding:12px;
+      margin:14px 0;
+    }
+    .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .svg-card svg{max-width:100%;height:auto;display:block;color:#000}
+    .svg-card svg text{fill:#000 !important;font-weight:800}
+    .svg-card svg .stroke{stroke:#000;stroke-width:4;fill:none}
+    .svg-card svg .thin{stroke:#000;stroke-width:3;fill:none}
+    .svg-card svg .box{stroke:#000;stroke-width:4;fill:#fff}
+    .svg-card svg .fill{fill:#fff;stroke:#000;stroke-width:4}
+    .svg-caption{margin:8px 2px 0;color:var(--lightCardMuted);font-size:.95rem}
+    /* Pro-tip block (bright, obvious) */
+    .protip{
+      background:linear-gradient(180deg, rgba(31,111,235,.18), rgba(31,111,235,.10));
+      border:1px solid rgba(31,111,235,.35);
+      border-left:6px solid var(--brand);
+      border-radius:16px;
+      padding:14px 14px;
+      margin:14px 0;
+    }
+    .protip strong{display:inline-block;margin-bottom:6px}
+  
+/* --- Local fixes (DE) --- */
+.diagram-title{margin:0 0 10px;color:var(--text) !important}
+.privacy-banner, #privacy-banner{z-index:9999 !important}
+
+  </style>
+
+  <!-- Preconnects -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+  <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+
+  <!-- GA4 + Consent Mode v2 (default denied; page_view only after consent) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'denied',
+      personalization_storage: 'denied',
+      security_storage: 'denied'
+    });
+
+    function acceptConsent() {
+      try {
+        gtag('consent', 'update', {
+          ad_storage: 'granted',
+          ad_user_data: 'granted',
+          ad_personalization: 'granted',
+          analytics_storage: 'granted',
+          functionality_storage: 'granted',
+          personalization_storage: 'granted',
+          security_storage: 'granted'
+        });
+        localStorage.setItem('cookieConsent', 'granted');
+      } catch(e) {}
+
+      if(!window.__gaLoaded) {
+        window.__gaLoaded = true;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD';
+        document.head.appendChild(s);
+        gtag('js', new Date());
+        gtag('config', 'G-RD6M691ZWD', { anonymize_ip: true });
+        gtag('event', 'page_view');
+      }
+      var layer = document.getElementById('cookie-consent-layer');
+      if(layer) layer.remove();
+    }
+
+    function rejectConsent() {
+      try { localStorage.setItem('cookieConsent', 'denied'); } catch(e) {}
+      var layer = document.getElementById('cookie-consent-layer');
+      if(layer) layer.remove();
+    }
+
+    (function initConsentFromStorage(){
+      try {
+        var stored = localStorage.getItem('cookieConsent');
+        if(stored === 'granted') {
+          acceptConsent();
+        }
+      } catch(e) {}
+    })();
+  </script>
+
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://dloran1.github.io/#organization", "name": "VPN World", "url": "https://dloran1.github.io/", "logo": {"@type": "ImageObject", "url": "https://dloran1.github.io/assets/img/logo.png"}}, {"@type": "Person", "@id": "https://dloran1.github.io/de/about-denys-shchur.html#person", "name": "Denys Shchur", "image": "https://dloran1.github.io/assets/img/author/denys-shchur.webp"}, {"@type": "Article", "@id": "https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html#article", "headline": "VPN unter Windows einrichten (2026): Schritt-für-Schritt Anleitung für maximale Sicherheit", "description": "Technische Anleitung 2026: VPN unter Windows 11/10 richtig einrichten — WireGuard vs IKEv2 vs SSTP, Kill Switch, Split Tunneling, IPv6/DNS-Leak-Checks und Fehlercodes (807/691/0x800704C6).", "inLanguage": "de", "image": ["https://dloran1.github.io/assets/img/hero/vpn-windows-uk.webp"], "author": {"@id": "https://dloran1.github.io/de/about-denys-shchur.html#person"}, "publisher": {"@id": "https://dloran1.github.io/#organization"}, "datePublished": "2026-01-26", "dateModified": "2026-01-26", "mainEntityOfPage": {"@id": "https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html"}}, {"@type": "BreadcrumbList", "@id": "https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html#breadcrumbs", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "VPN World", "item": "https://dloran1.github.io/de/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://dloran1.github.io/de/blog/"}, {"@type": "ListItem", "position": 3, "name": "VPN Windows Einrichtung", "item": "https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html"}]}, {"@type": "FAQPage", "@id": "https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html#faq", "mainEntity": [{"@type": "Question", "name": "Ist ein VPN in Deutschland legal?", "acceptedAnswer": {"@type": "Answer", "text": "Ja. Die Nutzung eines VPN ist in Deutschland grundsätzlich legal. Entscheidend ist, was du mit der Verbindung machst – illegale Handlungen bleiben illegal, auch mit VPN."}}, {"@type": "Question", "name": "Warum ist mein VPN unter Windows langsam?", "acceptedAnswer": {"@type": "Answer", "text": "Häufige Ursachen sind ein ungünstiges Protokoll (z.B. SSTP statt WireGuard), ein weit entfernter Server, überlastetes WLAN oder Sicherheitssoftware. Wechsle testweise auf WireGuard und teste erneut."}}, {"@type": "Question", "name": "Brauche ich unter Windows einen Kill Switch?", "acceptedAnswer": {"@type": "Answer", "text": "Wenn du Privatsphäre ernst nimmst: ja. Abbrüche passieren, und ohne Kill Switch kann Windows kurzzeitig über die normale Verbindung senden."}}, {"@type": "Question", "name": "PC-VPN oder Router-VPN: was ist besser?", "acceptedAnswer": {"@type": "Answer", "text": "PC-VPN ist schneller eingerichtet und flexibel. Router-VPN schützt alle Geräte im Netzwerk, ist aber technischer und kann die Geschwindigkeit begrenzen."}}]}, {"@type": "ItemList", "@id": "https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html#related", "name": "Verwandte Artikel", "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://dloran1.github.io/de/blog/vpn-protokolle.html"}, {"@type": "ListItem", "position": 2, "url": "https://dloran1.github.io/de/blog/vpn-kill-switch.html"}, {"@type": "ListItem", "position": 3, "url": "https://dloran1.github.io/de/blog/vpn-dns-leak.html"}, {"@type": "ListItem", "position": 4, "url": "https://dloran1.github.io/de/blog/vpn-split-tunneling.html"}, {"@type": "ListItem", "position": 5, "url": "https://dloran1.github.io/de/blog/vpn-router-einrichtung.html"}]}]}</script>
 </head>
 <body>
-<nav class="lang-switch"><a href="/blog/vpn-konfiguracja-windows.html">Polski</a> | <a href="/en-gb/blog/vpn-windows-setup-uk.html">English (UK)</a> | <a href="/en-us/blog/vpn-windows-setup.html">English (US)</a> | <a href="/de/blog/vpn-windows-einrichtung.html" class="active">Deutsch</a> | <a href="/es/blog/configuracion-vpn-windows.html">Español</a> | <a href="/fr/blog/configuration-vpn-windows.html">Français</a> | <a href="/nl-be/blog/vpn-windows-instellen.html">Nederlands (BE)</a></nav>
+<nav class="lang-switch" aria-label="Sprachwechsel">
+  <a href="/blog/vpn-konfiguracja-windows.html">Polski</a>
+  <a href="/en-gb/blog/vpn-windows-setup-uk.html">English (UK)</a>
+  <a href="/en-us/blog/vpn-windows-setup.html">English (US)</a>
+  <a href="/de/blog/vpn-windows-einrichtung.html" class="active">Deutsch</a>
+  <a href="/es/blog/configuracion-vpn-windows.html">Español</a>
+  <a href="/fr/blog/configuration-vpn-windows.html">Français</a>
+  <a href="/nl-be/blog/vpn-windows-instellen.html">Nederlands (BE)</a>
+</nav>
 
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/de/" class="brand" aria-label="VPN World Startseite (DE)">
+      <img src="../../assets/img/logo.png" class="logo" alt="VPN World Logo" />
+      <span class="brand-text">VPN World</span>
+    </a>
+  </div>
+</header>
 
-<header class="site-header"><div class="container header-inner">
-  <a href="/de/" class="brand"><img src="../../assets/img/logo.png" class="logo" alt=""> <span class="brand-text">VPN World</span></a>
-  
-</div></header>
-<main class="container card" style="padding:18px 0"><h1>Vpn Windows Einrichtung</h1><p>Content coming soon...</p><!-- RELATED_START -->
-<section class="related-guides" aria-label="Verwandte Ratgeber">
-  <h2>Verwandte Ratgeber</h2>
+<main class="container card article">
+
+<div class="article-hero">
+  <div class="hero-text">
+    <div class="badges">
+      <span class="badge">Windows 11/10</span>
+      <span class="badge">WireGuard / IKEv2 / SSTP</span>
+      <span class="badge">Fehlercodes + Leak-Checks</span>
+    </div>
+    <h1>VPN unter Windows einrichten (2026): Schritt-für-Schritt Anleitung für maximale Sicherheit</h1>
+    <p class="meta-line">
+      <span class="meta-item">Veröffentlicht: <time datetime="2026-01-26">26. Januar 2026</time></span>
+      <span class="meta-sep">•</span>
+      <span class="meta-item">Aktualisiert: <time datetime="2026-01-26">26. Januar 2026</time></span>
+      <span class="meta-sep">•</span>
+      <span class="meta-item">Autor: <a href="/de/about-denys-shchur.html">Denys Shchur</a></span>
+    </p>
+    <p class="lead">
+      In Deutschland zählt nicht „läuft irgendwie“, sondern <strong>nachweisbare</strong> Sicherheit: Kill Switch, DNS/IPv6-Leak-Checks und ein Protokoll,
+      das zu deinem Setup passt (z.&nbsp;B. WireGuard für Performance oder IKEv2 für stabile Arbeit).
+      Diese Anleitung zeigt dir die Installation <em>und</em> die typischen Stolperfallen (Fehler 807/691/0x800704C6) — in einer logischen Reihenfolge.
+    </p>
+  </div>
+  <div class="hero-media">
+    <img src="../../assets/img/hero/vpn-windows-uk.webp" width="1200" height="630" alt="VPN unter Windows einrichten: sichere Konfiguration, Kill Switch und Leak-Checks" loading="eager">
+  </div>
+</div>
+
+<nav class="toc" aria-label="Inhaltsverzeichnis">
+  <h2>Inhaltsverzeichnis</h2>
+  <ol>
+    <li><a href="#schnellanleitung">Schnellanleitung (Snippet-ready)</a></li>
+    <li><a href="#anbieter">VPN-Anbieter wählen (Windows‑tauglich)</a></li>
+    <li><a href="#install">Installation &amp; Grundsetup (Windows 11/10)</a></li>
+    <li><a href="#protokolle">Protokolle: WireGuard vs IKEv2 vs SSTP</a></li>
+    <li><a href="#killswitch">Kill Switch richtig verstehen (WFP)</a></li>
+    <li><a href="#split">Split Tunneling (Banking lokal, Rest über VPN)</a></li>
+    <li><a href="#leaks">DNS/IPv6/WebRTC: Leak-Checks &amp; Fixes</a></li>
+    <li><a href="#fehler">Windows VPN Fehler-Diagnose (807/691/0x800704C6)</a></li>
+    <li><a href="#fritzbox">FRITZ!Box &amp; Router: wenn Windows nicht die ganze Wahrheit ist</a></li>
+    <li><a href="#faq">FAQ (DE)</a></li>
+  </ol>
+</nav>
+
+<section class="qa-box" id="schnellanleitung">
+  <h2>Schnellanleitung</h2>
+  <p class="quick-answer"><strong>Direktantwort:</strong> Installiere eine seriöse VPN‑App, wähle <strong>WireGuard</strong> (falls verfügbar), aktiviere <strong>Kill Switch</strong>,
+  und teste danach <strong>DNS/IPv6</strong> auf Leaks. So bekommst du in 5–10 Minuten ein Setup, das in der Praxis schützt.</p>
+
+  <div class="steps">
+    <ol>
+      <li><strong>App wählen</strong> (Windows 11/10 kompatibel) und anmelden.</li>
+      <li><strong>Protokoll</strong> auf WireGuard (oder IKEv2) stellen.</li>
+      <li><strong>Kill Switch</strong> aktivieren (und optional App‑Kill‑Switch für sensible Programme).</li>
+      <li><strong>DNS/IPv6‑Check</strong> durchführen; bei Leaks: Fix aus Abschnitt „Leak‑Checks“.</li>
+      <li><strong>Fehlercodes</strong> (807/691/0x800704C6) mit dem Troubleshooter unten lösen.</li>
+    </ol>
+  </div>
+
+  <!-- CTA TOP -->
+  <div class="cta-grid" aria-label="Empfohlene VPNs für Windows">
+    <a class="btn btn-cta nord" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN – kompletter Windows‑Allrounder</a>
+    <a class="btn btn-cta surf" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark – stark für Zuhause &amp; Arbeit</a>
+    <a class="btn btn-cta proton" href="https://www.dpbolvw.net/click-101525886-15834536" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN – Datenschutz‑Fokus</a>
+    <p class="disclosure-line">Hinweis: Partnerlinks. Details auf <a href="/de/disclosure.html">Disclosure</a>.</p>
+  </div>
+</section>
+
+<section id="anbieter">
+  <h2>VPN-Anbieter wählen: Was unter Windows wirklich zählt</h2>
+  <p class="key-takeaway"><strong>Key takeaway:</strong> Für Windows ist nicht nur „Anzahl Server“ relevant. Entscheidend sind <em>Protokolle</em>, <em>Kill Switch (WFP)</em>,
+  DNS‑Handling und zuverlässige Updates.</p>
+
+  <div class="table-scroll">
+    <table class="table" style="min-width:860px">
+      <caption>Windows‑Checkliste: Worauf du vor der Installation achten solltest</caption>
+      <thead>
+        <tr>
+          <th>Kriterium</th><th>Warum wichtig</th><th>Woran du es erkennst</th><th>Praxis‑Tipp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>WireGuard</strong></td>
+          <td>Niedrige Latenz, gute Performance</td>
+          <td>Im App‑Menü als Protokoll auswählbar</td>
+          <td>Für Gaming/Streaming fast immer die beste Wahl</td>
+        </tr>
+        <tr>
+          <td><strong>IKEv2</strong></td>
+          <td>Sehr stabil bei Netzwechseln</td>
+          <td>Oft als „IKEv2/IPsec“ verfügbar</td>
+          <td>Gut für Business‑Laptops und Mobile‑Hotspots</td>
+        </tr>
+        <tr>
+          <td><strong>Kill Switch</strong></td>
+          <td>Verhindert IP‑Leaks bei Abbrüchen</td>
+          <td>„Kill Switch“ / „Netzwerksperre“ in der App</td>
+          <td>Für P2P/Arbeit immer aktivieren</td>
+        </tr>
+        <tr>
+          <td><strong>DNS‑Schutz</strong></td>
+          <td>Ohne ihn verrät Windows deinen DNS‑Provider</td>
+          <td>„DNS Leak Protection“ / DNS‑Einstellungen</td>
+          <td>Danach immer testen: <a href="/de/blog/vpn-dns-leak.html">DNS‑Leak</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Wenn du tiefer in Grundlagen willst: <a href="/de/blog/was-ist-ein-vpn.html">Was ist ein VPN?</a> und <a href="/de/blog/vpn-protokolle.html">VPN‑Protokolle</a>.</p>
+</section>
+
+<section id="install">
+  <h2>Installation &amp; Grundsetup (Windows 11/10)</h2>
+  <p class="key-takeaway"><strong>Key takeaway:</strong> Installiere die App, stelle das Protokoll ein und aktiviere Sicherheits‑Optionen <em>vor</em> dem ersten Login in sensible Konten.</p>
+
+  <div class="note">
+    <strong>Pro‑Tipp:</strong> Mach den ersten Leak‑Check <em>ohne VPN</em>, dann mit VPN. So siehst du den Unterschied klar — und erkennst sofort, ob DNS/IPv6 sauber umgestellt wurde.
+  </div>
+
+  <h3>Schritt 1: App installieren</h3>
   <ul>
-    <li><a href="/de/blog/vpn-router-einrichtung.html">/de/blog/vpn-router-einrichtung.html</a></li>
-    <li><a href="/de/blog/vpn-android.html">/de/blog/vpn-android.html</a></li>
-    <li><a href="/de/blog/vpn-ios.html">/de/blog/vpn-ios.html</a></li>
-    <li><a href="/de/blog/vpn-macos.html">/de/blog/vpn-macos.html</a></li>
-    <li><a href="/de/blog/was-ist-ein-vpn.html">/de/blog/was-ist-ein-vpn.html</a></li>
+    <li>Download nur von der offiziellen Website des Anbieters.</li>
+    <li>Windows SmartScreen/Defender nicht deaktivieren (ein sauberer Installer passt durch).</li>
+    <li>Nach Installation: einmal neu starten, wenn der Treiber (TUN/Wintun) installiert wurde.</li>
+  </ul>
+
+  <h3>Schritt 2: Protokoll wählen</h3>
+  <p>In den meisten Apps findest du die Protokolle unter <em>Einstellungen → VPN‑Protokoll</em>. Wenn <strong>WireGuard</strong> da ist: nimm es als Standard.
+  Für restriktive Netzwerke (Hotel/Uni) kann <strong>SSTP (TLS/443)</strong> helfen.</p>
+
+  <h3>Schritt 3: Sicherheits‑Schalter setzen</h3>
+  <ul>
+    <li><strong>Kill Switch</strong> aktivieren.</li>
+    <li><strong>DNS‑Schutz</strong> aktivieren (falls vorhanden).</li>
+    <li>Optional: <strong>Split Tunneling</strong> für Banking/Work‑Apps (unten).</li>
   </ul>
 </section>
-<!-- RELATED_END -->
+
+<section id="protokolle">
+  <h2>Protokolle unter Windows: WireGuard vs IKEv2 vs SSTP (mit Zahlen)</h2>
+  <p class="key-takeaway"><strong>Key takeaway:</strong> WireGuard ist meist am schnellsten, IKEv2 am stabilsten, SSTP am besten zum Umgehen strikter Firewalls.</p>
+
+  <div class="table-scroll">
+    <table class="table" style="min-width:820px">
+      <caption>Technischer Vergleich (praxisnah) – was du in Windows wirklich merkst</caption>
+      <thead>
+        <tr>
+          <th>Protokoll</th>
+          <th>Typische Latenz</th>
+          <th>Verschlüsselung</th>
+          <th>Windows‑Integration</th>
+          <th>Empfehlung</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>WireGuard</strong></td>
+          <td>&lt; 10–20 ms (oft)</td>
+          <td>ChaCha20/Poly1305</td>
+          <td>meist via App (Wintun)</td>
+          <td>Beste Performance für Streaming/Gaming</td>
+        </tr>
+        <tr>
+          <td><strong>IKEv2/IPsec</strong></td>
+          <td>15–40 ms</td>
+          <td>AES‑256 (IPsec)</td>
+          <td>oft „nativ“ möglich</td>
+          <td>Stabil für Arbeit &amp; Netzwechsel</td>
+        </tr>
+        <tr>
+          <td><strong>SSTP</strong></td>
+          <td>40–80 ms</td>
+          <td>TLS (443)</td>
+          <td>Windows‑freundlich</td>
+          <td>Wenn Firewalls/Proxies blocken</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Mehr Details (inkl. Vor-/Nachteile) findest du in <a href="/de/blog/vpn-protokolle.html">VPN‑Protokolle</a> und zur Leistung in <a href="/de/blog/vpn-speedtest.html">VPN Speedtest</a>.</p>
+</section>
+
+<section id="killswitch">
+  <h2>Kill Switch unter Windows: warum das „WFP‑Detail“ so wichtig ist</h2>
+  <p class="key-takeaway"><strong>Key takeaway:</strong> Ein guter Kill Switch blockiert den Traffic auf Treiber/Firewall‑Ebene (WFP) – nicht nur „App schließen“.</p>
+
+  <section class="svg-card">
+  <h3 class="diagram-title">Diagramm 1: Kill Switch unter Windows (Logik der Verkehrsblockade)</h3>
+  <div class="svg-scroll" role="img" aria-label="Diagramm 1: Kill Switch unter Windows (Logik der Verkehrsblockade)">
+    <svg class="diagram" viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" aria-labelledby="kill-switch-t kill-switch-d" role="img" style="max-width:100%;height:auto;color:#000">
+  <title id="kill-switch-t">kill-switch</title>
+  <desc id="kill-switch-d">Diagramm zur Erklärung der VPN-Funktion unter Windows.</desc>
+  <rect x="0" y="0" width="900" height="260" fill="#fff"/>
+  <style>
+    text{fill:#000 !important;font-weight:800;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    .box{fill:#ffffff;stroke:#000;stroke-width:4}
+    .soft{fill:#eef6ff;stroke:#000;stroke-width:4}
+    .warn{fill:#fff4e6;stroke:#000;stroke-width:4}
+    .ok{fill:#eaffea;stroke:#000;stroke-width:4}
+    .line{stroke:#000;stroke-width:4;fill:none}
+    .arrow{marker-end:url(#kill-switch-arrow)}
+    .small{font-size:14px}
+    .mid{font-size:18px}
+    .big{font-size:20px}
+  </style>
+  <defs>
+    <marker id="kill-switch-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#000"/>
+    </marker>
+  </defs>
+  
+  <rect class="soft" x="30" y="70" width="210" height="90" rx="14"/>
+  <text class="mid" x="55" y="110">Apps</text>
+  <text class="small" x="55" y="135">(Browser, Mail, P2P)</text>
+
+  <rect class="box" x="300" y="70" width="250" height="90" rx="14"/>
+  <text class="mid" x="325" y="115">Virtueller VPN-Adapter</text>
+
+  <rect class="ok" x="610" y="40" width="260" height="90" rx="14"/>
+  <text class="mid" x="635" y="85">VPN-Tunnel = EIN</text>
+  <text class="small" x="635" y="110">Pakete → VPN-Server</text>
+
+  <rect class="warn" x="610" y="150" width="260" height="90" rx="14"/>
+  <text class="mid" x="635" y="195">VPN-Tunnel = AUS</text>
+  <text class="small" x="635" y="220">Kill Switch: Blockade</text>
+
+  <path class="line arrow" d="M 240 115 L 300 115"/>
+  <path class="line arrow" d="M 550 95 L 610 85"/>
+  <path class="line arrow" d="M 550 135 L 610 195"/>
+
+  <text class="big" x="30" y="40">Diagramm: Kill Switch unter Windows (WFP/Firewall)</text>
+
+</svg>
+  </div>
+  <div class="svg-caption">Wenn der Tunnel abreißt, muss Windows Traffic stoppen – sonst leakt deine echte IP.</div>
+</section>
+
+  <p>Windows nutzt die <strong>Windows Filtering Platform (WFP)</strong>. Gute VPN‑Apps hängen dort Regeln ein: Nur Traffic über den VPN‑Adapter ist erlaubt.
+  Fällt der Tunnel aus, wird der Verkehr geblockt. Das ist besonders relevant bei <a href="/de/blog/vpn-p2p-sicher.html">P2P</a> oder wenn du in öffentlichen Netzen arbeitest (<a href="/de/blog/vpn-oeffentliches-wifi.html">Öffentliches WLAN</a>).</p>
+
+  <section class="svg-card">
+  <h3 class="diagram-title">Diagramm 2: Protokolle &amp; „Schichten“ in Windows (was du wirklich auswählst)</h3>
+  <div class="svg-scroll" role="img" aria-label="Diagramm 2: Protokolle &amp;amp; „Schichten“ in Windows (was du wirklich auswählst)">
+    <svg class="diagram" viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" aria-labelledby="stack-t stack-d" role="img" style="max-width:100%;height:auto;color:#000">
+  <title id="stack-t">stack</title>
+  <desc id="stack-d">Diagramm zur Erklärung der VPN-Funktion unter Windows.</desc>
+  <rect x="0" y="0" width="900" height="260" fill="#fff"/>
+  <style>
+    text{fill:#000 !important;font-weight:800;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    .box{fill:#ffffff;stroke:#000;stroke-width:4}
+    .soft{fill:#eef6ff;stroke:#000;stroke-width:4}
+    .warn{fill:#fff4e6;stroke:#000;stroke-width:4}
+    .ok{fill:#eaffea;stroke:#000;stroke-width:4}
+    .line{stroke:#000;stroke-width:4;fill:none}
+    .arrow{marker-end:url(#stack-arrow)}
+    .small{font-size:14px}
+    .mid{font-size:18px}
+    .big{font-size:20px}
+  </style>
+  <defs>
+    <marker id="stack-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#000"/>
+    </marker>
+  </defs>
+  
+  <rect class="soft" x="70" y="45" width="760" height="55" rx="14"/>
+  <text class="mid" x="95" y="78">Apps</text>
+
+  <rect class="warn" x="70" y="110" width="760" height="55" rx="14"/>
+  <text class="mid" x="95" y="143">WFP / Firewall-Regeln / Kill Switch</text>
+
+  <rect class="ok" x="70" y="175" width="235" height="60" rx="14"/>
+  <text class="mid" x="95" y="210">IKEv2</text>
+  <text class="small" x="95" y="232">oft nativ</text>
+
+  <rect class="ok" x="332" y="175" width="235" height="60" rx="14"/>
+  <text class="mid" x="357" y="210">SSTP</text>
+  <text class="small" x="357" y="232">TLS/443</text>
+
+  <rect class="ok" x="595" y="175" width="235" height="60" rx="14"/>
+  <text class="mid" x="620" y="210">WireGuard</text>
+  <text class="small" x="620" y="232">meist via App</text>
+
+  <text class="big" x="30" y="30">Diagramm: Was „Protokoll“ unter Windows bedeutet</text>
+
+</svg>
+  </div>
+  <div class="svg-caption">Protokollwahl beeinflusst Performance und Stabilität – Kill Switch bleibt ein eigenes Sicherheits‑Layer.</div>
+</section>
+
+</section>
+
+<section id="split">
+  <h2>Split Tunneling: Banking lokal, Rest über VPN (DE‑Szenario)</h2>
+  <p class="key-takeaway"><strong>Key takeaway:</strong> Split Tunneling ist sinnvoll, wenn du lokale DE‑Dienste (Banking, Behördenseiten) schnell &amp; stabil halten willst,
+  während Browser/Streaming über das VPN laufen.</p>
+
+  <section class="svg-card">
+  <h3 class="diagram-title">Diagramm 3: Split Tunneling Workflow (sicher &amp; pragmatisch)</h3>
+  <div class="svg-scroll" role="img" aria-label="Diagramm 3: Split Tunneling Workflow (sicher &amp;amp; pragmatisch)">
+    <svg class="diagram" viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" aria-labelledby="split-tunnel-t split-tunnel-d" role="img" style="max-width:100%;height:auto;color:#000">
+  <title id="split-tunnel-t">split-tunnel</title>
+  <desc id="split-tunnel-d">Diagramm zur Erklärung der VPN-Funktion unter Windows.</desc>
+  <rect x="0" y="0" width="900" height="260" fill="#fff"/>
+  <style>
+    text{fill:#000 !important;font-weight:800;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    .box{fill:#ffffff;stroke:#000;stroke-width:4}
+    .soft{fill:#eef6ff;stroke:#000;stroke-width:4}
+    .warn{fill:#fff4e6;stroke:#000;stroke-width:4}
+    .ok{fill:#eaffea;stroke:#000;stroke-width:4}
+    .line{stroke:#000;stroke-width:4;fill:none}
+    .arrow{marker-end:url(#split-tunnel-arrow)}
+    .small{font-size:14px}
+    .mid{font-size:18px}
+    .big{font-size:20px}
+  </style>
+  <defs>
+    <marker id="split-tunnel-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#000"/>
+    </marker>
+  </defs>
+  
+  <rect class="soft" x="40" y="100" width="200" height="90" rx="14"/>
+  <text class="mid" x="65" y="140">Windows PC</text>
+  <text class="small" x="65" y="165">Split Tunneling</text>
+
+  <rect class="ok" x="315" y="60" width="250" height="70" rx="14"/>
+  <text class="mid" x="340" y="100">VPN-Tunnel</text>
+  <text class="small" x="340" y="122">z.B. Streaming/Web</text>
+
+  <rect class="warn" x="315" y="160" width="250" height="70" rx="14"/>
+  <text class="mid" x="340" y="200">Direkt über ISP</text>
+  <text class="small" x="340" y="222">Online-Banking (DE)</text>
+
+  <rect class="soft" x="640" y="50" width="240" height="90" rx="14"/>
+  <text class="mid" x="665" y="95">Globales Web</text>
+
+  <rect class="soft" x="640" y="150" width="240" height="90" rx="14"/>
+  <text class="mid" x="665" y="195">Bank / Lokal</text>
+  <text class="small" x="665" y="218">DE-IP bleibt lokal</text>
+
+  <path class="line arrow" d="M 240 130 L 315 95"/>
+  <path class="line arrow" d="M 240 160 L 315 195"/>
+  <path class="line arrow" d="M 565 95 L 640 95"/>
+  <path class="line arrow" d="M 565 195 L 640 195"/>
+
+  <text class="big" x="30" y="35">Diagramm: Split Tunneling – Banking lokal, Rest über VPN</text>
+
+</svg>
+  </div>
+  <div class="svg-caption">So bleibt Online‑Banking lokal, während der Rest deines Traffics privat durch den VPN‑Tunnel geht.</div>
+</section>
+
+  <p>In der Praxis kann das helfen, wenn Banking‑Apps bei „fremder“ IP strenger prüfen oder wenn du deine lokale Latenz minimieren willst.
+  Aber: Split Tunneling ist ein <em>Trade‑off</em>. Alles, was du vom Tunnel ausnimmst, nutzt wieder den normalen ISP‑Pfad.</p>
+
+  <p>Wenn du tiefer einsteigen willst: <a href="/de/blog/vpn-split-tunneling.html">Split Tunneling erklärt</a> und <a href="/de/blog/vpn-online-banking.html">VPN fürs Online‑Banking</a>.</p>
+</section>
+
+<section id="leaks">
+  <h2>DNS/IPv6/WebRTC: Leak‑Checks &amp; Fixes (Windows)</h2>
+  <p class="key-takeaway"><strong>Key takeaway:</strong> Das Setup ist erst „fertig“, wenn DNS &amp; IPv6 sauber sind. Leak‑Checks sind kein Extra – sie sind der Abschluss.</p>
+
+  <section class="svg-card">
+  <h3 class="diagram-title">Diagramm 4: Paketweg mit/ohne VPN (wo Leaks entstehen)</h3>
+  <div class="svg-scroll" role="img" aria-label="Diagramm 4: Paketweg mit/ohne VPN (wo Leaks entstehen)">
+    <svg class="diagram" viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" aria-labelledby="packet-path-t packet-path-d" role="img" style="max-width:100%;height:auto;color:#000">
+  <title id="packet-path-t">packet-path</title>
+  <desc id="packet-path-d">Diagramm zur Erklärung der VPN-Funktion unter Windows.</desc>
+  <rect x="0" y="0" width="900" height="260" fill="#fff"/>
+  <style>
+    text{fill:#000 !important;font-weight:800;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    .box{fill:#ffffff;stroke:#000;stroke-width:4}
+    .soft{fill:#eef6ff;stroke:#000;stroke-width:4}
+    .warn{fill:#fff4e6;stroke:#000;stroke-width:4}
+    .ok{fill:#eaffea;stroke:#000;stroke-width:4}
+    .line{stroke:#000;stroke-width:4;fill:none}
+    .arrow{marker-end:url(#packet-path-arrow)}
+    .small{font-size:14px}
+    .mid{font-size:18px}
+    .big{font-size:20px}
+  </style>
+  <defs>
+    <marker id="packet-path-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#000"/>
+    </marker>
+  </defs>
+  
+  <rect class="soft" x="35" y="55" width="190" height="70" rx="14"/>
+  <text class="mid" x="60" y="95">Windows PC</text>
+
+  <rect class="warn" x="265" y="55" width="210" height="70" rx="14"/>
+  <text class="mid" x="290" y="95">ISP / Router</text>
+
+  <rect class="warn" x="515" y="55" width="215" height="70" rx="14"/>
+  <text class="mid" x="540" y="85">DNS/HTTP</text>
+  <text class="small" x="540" y="110">sichtbar</text>
+
+  <rect class="soft" x="770" y="55" width="110" height="70" rx="14"/>
+  <text class="mid" x="785" y="95">Web</text>
+
+  <path class="line arrow" d="M 225 90 L 265 90"/>
+  <path class="line arrow" d="M 475 90 L 515 90"/>
+  <path class="line arrow" d="M 730 90 L 770 90"/>
+
+  <text class="mid" x="35" y="40">Ohne VPN</text>
+
+  <rect class="soft" x="35" y="160" width="190" height="70" rx="14"/>
+  <text class="mid" x="60" y="200">Windows PC</text>
+
+  <rect class="ok" x="265" y="160" width="210" height="70" rx="14"/>
+  <text class="mid" x="290" y="200">VPN-Tunnel</text>
+
+  <rect class="ok" x="515" y="160" width="215" height="70" rx="14"/>
+  <text class="mid" x="540" y="200">VPN-Server</text>
+
+  <rect class="soft" x="770" y="160" width="110" height="70" rx="14"/>
+  <text class="mid" x="785" y="200">Web</text>
+
+  <path class="line arrow" d="M 225 195 L 265 195"/>
+  <path class="line arrow" d="M 475 195 L 515 195"/>
+  <path class="line arrow" d="M 730 195 L 770 195"/>
+
+  <text class="mid" x="35" y="145">Mit VPN</text>
+
+  <text class="big" x="30" y="245">Diagramm: Paketweg (Browser → Internet) mit/ohne VPN</text>
+
+</svg>
+  </div>
+  <div class="svg-caption">Ohne VPN sind DNS/HTTP oft sichtbar. Mit VPN sollte DNS über den VPN‑Server laufen.</div>
+</section>
+
+  <div class="table-scroll">
+    <table class="table" style="min-width:820px">
+      <caption>Leak‑Check unter Windows: Status &amp; konkrete Maßnahmen</caption>
+      <thead>
+        <tr><th>Check</th><th>Risiko</th><th>Typisches Symptom</th><th>Fix</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>DNS Leak</strong></td>
+          <td>mittel–hoch</td>
+          <td>DNS‑Server = ISP (z.&nbsp;B. Telekom)</td>
+          <td>„DNS Leak Protection“ aktivieren, danach testen: <a href="/de/blog/vpn-dns-leak.html">DNS‑Leak Guide</a></td>
+        </tr>
+        <tr>
+          <td><strong>IPv6 Leak</strong></td>
+          <td>hoch</td>
+          <td>IPv6‑Adresse bleibt sichtbar</td>
+          <td>IPv6 im Adapter deaktivieren oder VPN‑Provider mit IPv6‑Support nutzen</td>
+        </tr>
+        <tr>
+          <td><strong>WebRTC Leak</strong></td>
+          <td>mittel</td>
+          <td>Browser verrät lokale IP</td>
+          <td>Browser‑Einstellungen/Extensions; in Firefox „media.peerconnection.enabled“ prüfen</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <strong>IPv6 in Deutschland:</strong> Viele Anschlüsse sind dual‑stack. Wenn dein VPN IPv6 nicht tunnelt, kann genau das der Leak‑Grund sein.
+    Lösung ist entweder IPv6‑Tunneling (Provider) oder ein sauberer IPv6‑Disable am Adapter (mit Augenmaß).
+  </div>
+</section>
+
+<section id="fehler">
+  <h2>Windows VPN Fehler-Diagnose: 807, 691, 0x800704C6</h2>
+  <p class="key-takeaway"><strong>Key takeaway:</strong> Die meisten Fehler sind entweder <em>Firewall/Ports</em> (807), <em>Zugang</em> (691) oder <em>Treiber/Update‑Folgen</em> (0x800704C6).</p>
+
+  <section class="svg-card">
+  <h3 class="diagram-title">Diagramm 5: Fehlersuche in 3 Schritten</h3>
+  <div class="svg-scroll" role="img" aria-label="Diagramm 5: Fehlersuche in 3 Schritten">
+    <svg class="diagram" viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" aria-labelledby="troubleshoot-flow-t troubleshoot-flow-d" role="img" style="max-width:100%;height:auto;color:#000">
+  <title id="troubleshoot-flow-t">troubleshoot-flow</title>
+  <desc id="troubleshoot-flow-d">Diagramm zur Erklärung der VPN-Funktion unter Windows.</desc>
+  <rect x="0" y="0" width="900" height="260" fill="#fff"/>
+  <style>
+    text{fill:#000 !important;font-weight:800;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    .box{fill:#ffffff;stroke:#000;stroke-width:4}
+    .soft{fill:#eef6ff;stroke:#000;stroke-width:4}
+    .warn{fill:#fff4e6;stroke:#000;stroke-width:4}
+    .ok{fill:#eaffea;stroke:#000;stroke-width:4}
+    .line{stroke:#000;stroke-width:4;fill:none}
+    .arrow{marker-end:url(#troubleshoot-flow-arrow)}
+    .small{font-size:14px}
+    .mid{font-size:18px}
+    .big{font-size:20px}
+  </style>
+  <defs>
+    <marker id="troubleshoot-flow-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#000"/>
+    </marker>
+  </defs>
+  
+  <rect class="soft" x="40" y="60" width="240" height="70" rx="14"/>
+  <text class="mid" x="65" y="100">Fehlercode</text>
+  <text class="small" x="65" y="122">807 / 691 / 0x800704C6</text>
+
+  <rect class="warn" x="330" y="35" width="250" height="70" rx="14"/>
+  <text class="mid" x="355" y="75">Netzwerk prüfen</text>
+  <text class="small" x="355" y="97">Firewall, Ports, Treiber</text>
+
+  <rect class="warn" x="330" y="120" width="250" height="70" rx="14"/>
+  <text class="mid" x="355" y="160">Zugang prüfen</text>
+  <text class="small" x="355" y="182">Login, Abo, Zeit/Datum</text>
+
+  <rect class="ok" x="630" y="75" width="240" height="90" rx="14"/>
+  <text class="mid" x="655" y="120">Erneut verbinden</text>
+  <text class="small" x="655" y="145">Protokoll wechseln</text>
+
+  <path class="line arrow" d="M 280 95 L 330 70"/>
+  <path class="line arrow" d="M 280 110 L 330 155"/>
+  <path class="line arrow" d="M 580 70 L 630 120"/>
+  <path class="line arrow" d="M 580 155 L 630 120"/>
+
+  <text class="big" x="30" y="235">Diagramm: Schnelle Fehlersuche in 3 Schritten</text>
+
+</svg>
+  </div>
+  <div class="svg-caption">Erst Netzwerk, dann Zugang, dann Protokoll/Neuverbinden – in dieser Reihenfolge sparst du Zeit.</div>
+</section>
+
+  <div class="issue-selector" id="win-troubleshoot">
+    <div class="issue-header">
+      <strong>Wähle deinen Fehlercode:</strong>
+      <span class="muted">Klicke – du bekommst sofort eine konkrete Lösung.</span>
+    </div>
+    <div class="issue-buttons" role="group" aria-label="Windows VPN Fehlercodes">
+      <button type="button" class="btn btn-outline" data-key="807">Fehler 807</button>
+      <button type="button" class="btn btn-outline" data-key="691">Fehler 691</button>
+      <button type="button" class="btn btn-outline" data-key="0x800704C6">0x800704C6</button>
+      <button type="button" class="btn btn-outline" data-key="abbruch">Verbindung bricht ab</button>
+    </div>
+
+    <div class="issue-result" id="issue-result" aria-live="polite">
+      <p class="muted">Tipp: Wenn du unsicher bist, starte mit <strong>Fehler 807</strong> – das ist oft Firewall/Port/Netzwerk.</p>
+    </div>
+  </div>
+</section>
+
+<section id="fritzbox">
+  <h2>FRITZ!Box &amp; Router: wenn Windows‑Setup nicht reicht</h2>
+  <p class="key-takeaway"><strong>Key takeaway:</strong> Router‑VPN schützt Geräte ohne eigene App (Smart‑TV, Konsolen) und sorgt für einheitliche Regeln – ist aber aufwändiger.</p>
+
+  <p>In DACH ist die <strong>FRITZ!Box</strong> extrem verbreitet. Wenn du mehrere Geräte schützen willst (oder wenn du Split Tunneling „zentral“ steuern möchtest),
+  kann ein VPN auf dem Router sinnvoll sein. Der Nachteil: Einrichtung ist technischer und Updates laufen anders.</p>
+
+  <p>Weiterführend: <a href="/de/blog/vpn-router-einrichtung.html">VPN auf dem Router einrichten</a> und als Ergänzung <a href="/de/blog/vpn-fuer-smart-tv.html">VPN für Smart‑TV</a>.</p>
+
+  <!-- CTA BOTTOM -->
+  <div class="cta-grid cta-grid-bottom" aria-label="VPN Empfehlungen – Abschluss">
+    <a class="btn btn-cta nord" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN – sichere Windows‑Defaults</a>
+    <a class="btn btn-cta surf" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark – starkes Preis/Leistung</a>
+    <a class="btn btn-cta proton" href="https://www.dpbolvw.net/click-101525886-15834536" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN – Fokus auf Privatsphäre</a>
+    <p class="disclosure-line">Hinweis: Partnerlinks. Details auf <a href="/de/disclosure.html">Disclosure</a>.</p>
+  </div>
+</section>
+
+<section class="video-block" aria-label="Video">
+  <h2>Video: Windows‑Setup (Kurz erklärt)</h2>
+  <div class="video-wrap">
+    <iframe
+      src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE"
+      title="VPN Setup – offizielles Video"
+      loading="lazy"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen></iframe>
+  </div>
+  <p class="muted">Falls das Video nicht lädt, öffne es auf YouTube: <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a></p>
+</section>
+
+<section id="faq" class="faq">
+  <h2>FAQ: VPN unter Windows in Deutschland</h2>
+
+  <details>
+    <summary>Ist ein VPN in Deutschland legal?</summary>
+    <div class="answer">
+      <p>Ja. Die Nutzung eines VPN ist in Deutschland grundsätzlich legal. Entscheidend ist, was du mit der Verbindung machst – illegale Handlungen bleiben illegal, auch mit VPN.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Warum ist mein VPN langsam unter Windows?</summary>
+    <div class="answer">
+      <p>Häufige Ursachen: falsches Protokoll (z.&nbsp;B. SSTP statt WireGuard), weit entfernter Server, überlastetes WLAN oder Sicherheitssoftware, die den Tunnel scannt.</p>
+      <p>Wechsle testweise auf WireGuard und vergleiche mit einem Speedtest (siehe <a href="/de/blog/vpn-speedtest.html">VPN Speedtest</a>).</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Brauche ich Kill Switch wirklich?</summary>
+    <div class="answer">
+      <p>Wenn du Privatsphäre ernst meinst: ja. Abbrüche passieren (Netzwechsel, Energiesparen, Serverwechsel). Kill Switch verhindert, dass Windows dann „einfach normal“ weiter funkt.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Was ist besser: VPN auf dem PC oder auf dem Router?</summary>
+    <div class="answer">
+      <p>PC‑VPN ist schneller einzurichten und flexibel. Router‑VPN schützt alle Geräte im Netzwerk, ist aber technischer und kann die Geschwindigkeit stärker begrenzen.</p>
+    </div>
+  </details>
+</section>
+
+<section class="related-wide" aria-label="Verwandte Artikel">
+  <div class="related-inner">
+    <p class="related-line">Related: <a href="/de/blog/vpn-protokolle.html">VPN-Protokolle (WireGuard, IKEv2, SSTP)</a></p>
+    <p class="related-line">Related: <a href="/de/blog/vpn-kill-switch.html">Kill Switch: Was er wirklich schützt</a></p>
+    <p class="related-line">Related: <a href="/de/blog/vpn-dns-leak.html">DNS-Leak: Test &amp; Behebung</a></p>
+    <p class="related-line">Related: <a href="/de/blog/vpn-split-tunneling.html">Split Tunneling erklärt</a></p>
+    <p class="related-line">Related: <a href="/de/blog/vpn-router-einrichtung.html">VPN auf dem Router einrichten</a></p>
+  </div>
+</section>
 </main>
-<footer class="site-footer"><div class="container footer-grid">
-  <div><strong>VPN World</strong><p>Niezależny serwis o prywatności i bezpieczeństwie w sieci.</p></div>
-  <nav><a href="/privacy.html">Privacy</a> <a href="/sitemap.xml">Sitemap</a> <a href="mailto:denger88@gmail.com">Kontakt</a></nav>
-</div><div class="container tiny">© 2025 VPN World</div></footer>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <strong>VPN World</strong>
+      <p>Unabhängiger Leitfaden zu Privatsphäre, Sicherheit und praktischer VPN‑Nutzung.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="/de/privacy.html">Privacy</a>
+      <a href="/de/disclosure.html">Disclosure</a>
+      <a href="mailto:u1797008805@gmail.com">Kontakt</a>
+    </nav>
+  </div>
+  <div class="container tiny">© 2026 VPN World</div>
+</footer>
+
 <script src="../../assets/js/main.js"></script>
 <script src="../../assets/js/cookie-consent.js"></script>
-<div id="privacy-banner" class="privacy-banner">We use cookies. <a href="/privacy.html">Privacy</a> · <button class="btn btn-compact" onclick="this.parentElement.remove()">OK</button></div>
-</body></html>
+
+
+<script>
+(function(){
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]);
+    });
+  }
+
+  var box = document.getElementById('win-troubleshoot');
+  if(!box) return;
+
+  var out = document.getElementById('issue-result');
+  var solutions = {
+    "807": {
+      title: "Fehler 807 – Verbindungsaufbau zum VPN‑Server fehlgeschlagen",
+      items: [
+        "Firewall/AV testweise prüfen: VPN kurz als Ausnahme hinzufügen.",
+        "Wenn du PPTP/L2TP nutzt: Ports/Protokolle können blockiert sein (1723/TCP, GRE). Besser: auf WireGuard oder SSTP wechseln.",
+        "Router/Hotel‑WLAN: anderes Netzwerk testen (Hotspot) – so trennst du Provider‑Blockade von PC‑Problem."
+      ],
+      tip: "Schnelltest: Protokoll auf WireGuard umstellen und erneut verbinden."
+    },
+    "691": {
+      title: "Fehler 691 – Anmeldung fehlgeschlagen",
+      items: [
+        "Login/Passwort prüfen (Tippfehler, Zwischenablage, Sonderzeichen).",
+        "Abo/Account aktiv? Bei mehreren Geräten ggf. Limit erreicht.",
+        "Systemzeit korrekt? Falsche Uhrzeit kann Tokens/Certs brechen."
+      ],
+      tip: "Wenn es nach Passwort‑Reset immer noch kommt: einmal komplett abmelden, App neu starten und erneut anmelden."
+    },
+    "0x800704C6": {
+      title: "0x800704C6 – Netzwerk/Adapter/Update‑Folge",
+      items: [
+        "Windows Update kann Treiber ändern: Netzwerkadapter im Gerätemanager prüfen (kein Warnsymbol).",
+        "VPN‑Adapter zurücksetzen: App reparieren oder neu installieren (Wintun/TAP).",
+        "Netzwerk‑Reset (Einstellungen → Netzwerk & Internet → Erweiterte Netzwerkeinstellungen → Netzwerk zurücksetzen)."
+      ],
+      tip: "Wenn es nach einem Update begann: Rollback des Treibers im Gerätemanager testen."
+    },
+    "abbruch": {
+      title: "Verbindung bricht ab – typische Ursachen",
+      items: [
+        "Energiesparen: WLAN‑Adapter darf nicht schlafen (Gerätemanager → Energieverwaltung).",
+        "Server wechseln: hoher Packet‑Loss oder überlasteter Standort.",
+        "DNS/IPv6: Leak‑Fixes anwenden und erneut testen – manche Abbrüche hängen an DNS‑Konflikten."
+      ],
+      tip: "Stabilitäts‑Setup: IKEv2 testen (oft stabil bei Netzwechseln)."
+    }
+  };
+
+  function render(key){
+    var s = solutions[key];
+    if(!s) return;
+    var html = '<h3 style="margin:0 0 8px">'+escapeHtml(s.title)+'</h3><ul>';
+    for(var i=0;i<s.items.length;i++){
+      html += '<li>'+escapeHtml(s.items[i])+'</li>';
+    }
+    html += '</ul><p class="note" style="margin-top:10px"><strong>Pro‑Tipp:</strong> '+escapeHtml(s.tip)+'</p>';
+    out.innerHTML = html;
+  }
+
+  box.querySelectorAll('button[data-key]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      box.querySelectorAll('button[data-key]').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      render(btn.getAttribute('data-key'));
+    });
+  });
+})();
+</script>
+
+
+<!-- Cookie Banner -->
+<div id="cookie-consent-layer" class="cookie-consent-layer" aria-hidden="false">
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Cookie-Einwilligung">
+    <p><strong>Cookies &amp; Analytics:</strong> Wir verwenden Cookies, um die Nutzung zu messen (GA4) und die Seite zu verbessern. Du kannst zustimmen oder ablehnen. <a href="/de/privacy.html">Privacy</a>.</p>
+    <div class="cookie-actions">
+      <button id="cookie-accept" class="btn" type="button" onclick="acceptConsent()">Akzeptieren</button>
+      <button id="cookie-reject" class="btn btn-outline" type="button" onclick="rejectConsent()">Ablehnen</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html -->
+</body>
+</html>
