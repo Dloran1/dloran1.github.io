@@ -617,6 +617,17 @@
   function qs(sel, root){ return (root||document).querySelector(sel); }
   function qsa(sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
 
+  
+  // Safety helper (static content, prevents any accidental HTML injection)
+  function escapeHtml(str){
+    return String(str)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;')
+      .replace(/'/g,'&#39;');
+  }
+
   // OS tabs
   var tabs = qsa('[data-os-tab]');
   var panes = qsa('[data-os-pane]');
