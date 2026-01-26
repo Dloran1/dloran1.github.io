@@ -86,6 +86,12 @@
 .cta-buttons a{color:#fff !important;}
 .cta-buttons a:visited{color:#fff !important;}
 
+
+  /* COOKIE BANNER: single canonical layer, always clickable (iOS-safe) */
+  #cookie-consent-wrapper{position:fixed;left:16px;right:16px;bottom:16px;z-index:99999;pointer-events:none}
+  #cookie-consent-wrapper #cookie-banner{pointer-events:auto}
+  #cookie-consent-wrapper #cookie-banner *{pointer-events:auto}
+
 </style>
 <!-- Preconnects -->
 <link crossorigin="" href="https://www.googletagmanager.com" rel="preconnect"/>
@@ -734,8 +740,7 @@
 <div class="container tiny">© 2026 VPN World</div>
 </footer>
 <script src="../../assets/js/main.js"></script>
-  <script src="../../assets/js/cookie-consent.js"></script>
-<script src="../../assets/js/cookie-consent.js"></script>
+
 <script>
 (function(){
   function escapeHtml(s){
@@ -811,19 +816,29 @@
 <div aria-hidden="false" class="cookie-consent-layer" id="cookie-consent-layer">
 
 </div>
+</div>
+</div>
 
-<div id="cookie-consent-wrapper" style="position:fixed; bottom:20px; left:20px; right:20px; z-index:10000; pointer-events:none;">
+
+
+<div id="cookie-consent-wrapper">
   <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Cookie-Einwilligung"
-       style="pointer-events:all; background:#ffffff; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.30); padding:16px 16px 14px; color:#000;">
+       style="max-width:520px;margin-left:auto;">
     <p style="margin:0; line-height:1.5;">
-      <strong>Cookies &amp; Analytics:</strong> Wir verwenden Cookies erst nach deiner Zustimmung (Consent Mode v2), um die Nutzung zu messen (GA4) und die Seite zu verbessern.
-      Du kannst zustimmen oder ablehnen. <a href="/de/privacy.html" style="color:#1f6feb; text-decoration:underline;">Privacy</a>.
+      <strong>Cookies &amp; Privatsphäre:</strong> Wir setzen Google Analytics 4 erst nach deiner Zustimmung ein (Consent Mode v2).
+      Du kannst zustimmen oder ablehnen. <a href="/de/privacy.html" style="color:#1f6feb; text-decoration:underline;">Datenschutzerklärung</a>.
     </p>
     <div class="cookie-actions" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:12px;">
-      <button id="cookie-accept" class="btn btn-primary" style="color:#fff !important;" type="button" onclick="window.acceptConsent && window.acceptConsent()"
-              style="cursor:pointer; touch-action:manipulation;">Akzeptieren</button>
-      <button id="cookie-reject" class="btn btn-secondary" style="color:#fff !important;" type="button" onclick="window.rejectConsent && window.rejectConsent()"
-              style="cursor:pointer; touch-action:manipulation;">Ablehnen</button>
+      <button id="cookie-accept" class="btn btn-primary" type="button"
+              onclick="window.acceptConsent && window.acceptConsent()"
+              style="cursor:pointer; touch-action:manipulation; color:#fff !important; flex:1;">
+        Akzeptieren
+      </button>
+      <button id="cookie-reject" class="btn btn-secondary" type="button"
+              onclick="window.rejectConsent && window.rejectConsent()"
+              style="cursor:pointer; touch-action:manipulation; color:#fff !important; flex:1;">
+        Ablehnen
+      </button>
     </div>
   </div>
 </div>
