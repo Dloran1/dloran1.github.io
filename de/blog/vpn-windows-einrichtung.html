@@ -96,70 +96,82 @@
 <!-- Preconnects -->
 <link crossorigin="" href="https://www.googletagmanager.com" rel="preconnect"/>
 <link href="//www.googletagmanager.com" rel="dns-prefetch"/>
-<!-- GA4 + Consent Mode v2 (default denied; page_view only after consent) -->
+<!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
 <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
 
-    gtag('consent', 'default', {
-      ad_storage: 'denied',
-      ad_user_data: 'denied',
-      ad_personalization: 'denied',
-      analytics_storage: 'denied',
-      functionality_storage: 'denied',
-      personalization_storage: 'denied',
-      security_storage: 'denied'
-    });
+  // Default = denied (EU-safe)
+  gtag('consent','default', {
+    ad_storage:'denied',
+    ad_user_data:'denied',
+    ad_personalization:'denied',
+    analytics_storage:'denied',
+    functionality_storage:'denied',
+    personalization_storage:'denied',
+    security_storage:'denied'
+  });
 
-    function acceptConsent() {
-      try {
-        gtag('consent', 'update', {
-          ad_storage: 'granted',
-          ad_user_data: 'granted',
-          ad_personalization: 'granted',
-          analytics_storage: 'granted',
-          functionality_storage: 'granted',
-          personalization_storage: 'granted',
-          security_storage: 'granted'
-        });
-        localStorage.setItem('cookieConsent', 'granted');
-      } catch(e) {}
-
-      if(!window.__gaLoaded) {
-        window.__gaLoaded = true;
-        var s = document.createElement('script');
-        s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD';
-        document.head.appendChild(s);
-        gtag('js', new Date());
+  gtag('js', new Date());
 
   function hideCookieBannerSafely(){
     var w = document.getElementById('cookie-consent-wrapper');
     if (w) w.style.display = 'none';
   }
 
-        gtag('config', 'G-RD6M691ZWD', { anonymize_ip: true });
-        gtag('event', 'page_view');
+  window.acceptConsent = function(){
+    gtag('consent','update', {
+      ad_storage:'granted',
+      ad_user_data:'granted',
+      ad_personalization:'granted',
+      analytics_storage:'granted',
+      functionality_storage:'granted',
+      personalization_storage:'granted',
+      security_storage:'granted'
+    });
+    try{ localStorage.setItem('vpnworld_consent','granted'); }catch(e){}
+    hideCookieBannerSafely();
+    gtag('config','G-RD6M691ZWD', { anonymize_ip:true });
+    gtag('event','page_view');
+  };
+
+  window.rejectConsent = function(){
+    gtag('consent','update', {
+      ad_storage:'denied',
+      ad_user_data:'denied',
+      ad_personalization:'denied',
+      analytics_storage:'denied',
+      functionality_storage:'denied',
+      personalization_storage:'denied',
+      security_storage:'denied'
+    });
+    try{ localStorage.setItem('vpnworld_consent','denied'); }catch(e){}
+    hideCookieBannerSafely();
+  };
+
+  function applyStoredConsentSafely(){
+    try{
+      var c = localStorage.getItem('vpnworld_consent');
+      if (c === 'granted'){
+        gtag('consent','update', {
+          ad_storage:'granted',
+          ad_user_data:'granted',
+          ad_personalization:'granted',
+          analytics_storage:'granted',
+          functionality_storage:'granted',
+          personalization_storage:'granted',
+          security_storage:'granted'
+        });
+        hideCookieBannerSafely();
+        gtag('config','G-RD6M691ZWD', { anonymize_ip:true });
+      } else if (c === 'denied'){
+        hideCookieBannerSafely();
       }
-      var layer = document.getElementById('cookie-consent-layer');
-      if(layer) layer.remove();
-    }
-
-    function rejectConsent() {
-      try { localStorage.setItem('cookieConsent', 'denied'); } catch(e) {}
-      var layer = document.getElementById('cookie-consent-layer');
-      if(layer) layer.remove();
-    }
-
-    (function initConsentFromStorage(){
-      try {
-        var stored = localStorage.getItem('cookieConsent');
-        if(stored === 'granted') {
-          acceptConsent();
-        }
-      } catch(e) {}
-    })();
-  </script>
+    }catch(e){}
+  }
+  document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
+</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://dloran1.github.io/#organization", "name": "VPN World", "url": "https://dloran1.github.io/", "logo": {"@type": "ImageObject", "url": "https://dloran1.github.io/assets/img/logo.png"}}, {"@type": "Person", "@id": "https://dloran1.github.io/de/about-denys-shchur.html#person", "name": "Denys Shchur", "image": "https://dloran1.github.io/assets/img/author/denys-shchur.webp"}, {"@type": "Article", "@id": "https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html#article", "headline": "VPN unter Windows einrichten (2026): Schritt-für-Schritt Anleitung für maximale Sicherheit", "description": "Technische Anleitung 2026: VPN unter Windows 11/10 richtig einrichten — WireGuard vs IKEv2 vs SSTP, Kill Switch, Split Tunneling, IPv6/DNS-Leak-Checks und Fehlercodes (807/691/0x800704C6).", "inLanguage": "de", "image": ["https://dloran1.github.io/assets/img/hero/vpn-windows-setup-uk.webp"], "author": {"@id": "https://dloran1.github.io/de/about-denys-shchur.html#person"}, "publisher": {"@id": "https://dloran1.github.io/#organization"}, "datePublished": "2026-01-26", "dateModified": "2026-01-26", "mainEntityOfPage": {"@id": "https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html"}}, {"@type": "BreadcrumbList", "@id": "https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html#breadcrumbs", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "VPN World", "item": "https://dloran1.github.io/de/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://dloran1.github.io/de/blog/"}, {"@type": "ListItem", "position": 3, "name": "VPN Windows Einrichtung", "item": "https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html"}]}, {"@type": "FAQPage", "@id": "https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html#faq", "mainEntity": [{"@type": "Question", "name": "Ist ein VPN in Deutschland legal?", "acceptedAnswer": {"@type": "Answer", "text": "Ja. Die Nutzung eines VPN ist in Deutschland grundsätzlich legal. Entscheidend ist, was du mit der Verbindung machst – illegale Handlungen bleiben illegal, auch mit VPN."}}, {"@type": "Question", "name": "Warum ist mein VPN unter Windows langsam?", "acceptedAnswer": {"@type": "Answer", "text": "Häufige Ursachen sind ein ungünstiges Protokoll (z.B. SSTP statt WireGuard), ein weit entfernter Server, überlastetes WLAN oder Sicherheitssoftware. Wechsle testweise auf WireGuard und teste erneut."}}, {"@type": "Question", "name": "Brauche ich unter Windows einen Kill Switch?", "acceptedAnswer": {"@type": "Answer", "text": "Wenn du Privatsphäre ernst nimmst: ja. Abbrüche passieren, und ohne Kill Switch kann Windows kurzzeitig über die normale Verbindung senden."}}, {"@type": "Question", "name": "PC-VPN oder Router-VPN: was ist besser?", "acceptedAnswer": {"@type": "Answer", "text": "PC-VPN ist schneller eingerichtet und flexibel. Router-VPN schützt alle Geräte im Netzwerk, ist aber technischer und kann die Geschwindigkeit begrenzen."}}]}, {"@type": "ItemList", "@id": "https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html#related", "name": "Verwandte Artikel", "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://dloran1.github.io/de/blog/vpn-protokolle.html"}, {"@type": "ListItem", "position": 2, "url": "https://dloran1.github.io/de/blog/vpn-kill-switch.html"}, {"@type": "ListItem", "position": 3, "url": "https://dloran1.github.io/de/blog/vpn-dns-leak.html"}, {"@type": "ListItem", "position": 4, "url": "https://dloran1.github.io/de/blog/vpn-split-tunneling.html"}, {"@type": "ListItem", "position": 5, "url": "https://dloran1.github.io/de/blog/vpn-router-einrichtung.html"}]}]}</script>
 <style>
 /* Hotfixes (mobile): ensure CTA/button text visible and cookie banner clickable */
@@ -738,68 +750,129 @@
 <nav aria-label="Footer"><a href="/de/privacy.html">Privacy</a> <a href="/de/disclosure.html">Disclosure</a> <a href="mailto:u1797008805@gmail.com">Kontakt</a></nav>
 </div>
 <div class="container tiny">© 2026 VPN World</div>
-</footer>
-
-<div id="final-consent-wrapper" style="position:fixed; bottom:0; left:0; right:0; top:0; z-index:99999; pointer-events:none; display:flex; align-items:flex-end; justify-content:center; padding:20px;">
-  <div id="actual-banner" style="pointer-events:auto; background:#ffffff; border-radius:12px; box-shadow:0 10px 50px rgba(0,0,0,0.5); padding:24px; max-width:500px; width:100%; border:1px solid #ddd;">
-    <p style="margin:0 0 20px; color:#000; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; line-height:1.5; font-size:15px;">
-      <strong>Cookies &amp; Privatsphäre:</strong> Wir nutzen Google Analytics 4 erst nach deiner Zustimmung (Consent Mode v2). Du kannst deine Wahl jederzeit ändern.
-      <a href="/de/privacy.html" style="color:#1f6feb; text-decoration:underline;">Datenschutzerklärung</a>.
-    </p>
-    <div style="display:flex; gap:12px;">
-      <button type="button" onclick="submitConsent('granted')" style="flex:1; background:#1f6feb; color:#fff; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:800; font-size:14px; touch-action:manipulation;">Akzeptieren</button>
-      <button type="button" onclick="submitConsent('denied')" style="flex:1; background:#f1f1f1; color:#333; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:800; font-size:14px; touch-action:manipulation;">Ablehnen</button>
-    </div>
-  </div>
-</div>
 
 <script>
-/* FINAL single-banner consent (no overlays, no duplicates) */
 (function(){
-  var KEY = 'vpnworld_consent_v2_2026';
+  function qsa(sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
+  function qs(sel, root){ return (root||document).querySelector(sel); }
 
-  function updateConsent(status){
-    if (typeof gtag !== 'function') return;
+  var btns = qsa('[data-err-btn]');
+  if (!btns.length) return;
 
-    var v = (status === 'granted') ? 'granted' : 'denied';
-
-    gtag('consent','update', {
-      ad_storage: v,
-      ad_user_data: v,
-      ad_personalization: v,
-      analytics_storage: v,
-      functionality_storage: v,
-      personalization_storage: v,
-      security_storage: v
-    });
-
-    if (v === 'granted'){
-      try{ gtag('config','G-RD6M691ZWD', { anonymize_ip:true }); }catch(e){}
-      try{ gtag('event','page_view'); }catch(e){}
-    }
-  }
-
-  window.submitConsent = function(status){
-    try{ localStorage.setItem(KEY, status); }catch(e){}
-    updateConsent(status);
-
-    var el = document.getElementById('final-consent-wrapper');
-    if (el) el.remove();
+  var box = qs('#err-result');
+  var map = {
+    "807": "<strong>Fehler 807</strong>: Häufig blockiert Firewall/AV den Tunnel oder die Aushandlung schlägt fehl. Tipp: Protokoll wechseln (IKEv2 ↔ WireGuard), kurzzeitig SSL-Inspection im AV deaktivieren, anderes Netzwerk testen.",
+    "691": "<strong>Fehler 691</strong>: Meist falsche Zugangsdaten oder falsche Authentifizierung. Prüfe Benutzer/Passwort, VPN-Typ (IKEv2/SSTP) und ob das Abo aktiv ist.",
+    "868": "<strong>Fehler 868</strong>: Servername nicht erreichbar. Prüfe FQDN/Adresse, DNS im Netz (z.B. 1.1.1.1/8.8.8.8), und ob das Netz VPN-Verbindungen blockiert.",
+    "SLOW": "<strong>Langsam</strong>: Nimm einen näheren Server, aktiviere WireGuard/NordLynx, prüfe MTU (oft 1400–1450), vermeide VPN-over-TCP und Doppel-Tunnel (VPN + Proxy)."
   };
 
-  document.addEventListener('DOMContentLoaded', function(){
-    var existing = null;
-    try{ existing = localStorage.getItem(KEY); }catch(e){}
-    if (existing === 'granted' || existing === 'denied'){
-      var el = document.getElementById('final-consent-wrapper');
-      if (el) el.remove();
-      updateConsent(existing);
-    }
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){
+      var k = b.getAttribute('data-err-btn');
+      btns.forEach(function(x){ x.classList.remove('active'); });
+      b.classList.add('active');
+      if (box) box.innerHTML = map[k] || "";
+    }, {passive:true});
   });
 })();
 </script>
 
+</footer>
+
 <script src="../../assets/js/main.js"></script>
+
+
+<script>
+(function(){
+  function qs(sel, root){ return (root||document).querySelector(sel); }
+  function qsa(sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
+
+  // Windows troubleshooting (DE) — interactive issue selector
+  function escapeHtml(text){
+    var s = String(text);
+    return s.replace(/[&<>"']/g, function(m){
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'})[m];
+    });
+  }
+
+  function initWinTroubleshoot(){
+    var box = qs('#win-troubleshoot');
+    if(!box) return;
+    var out = qs('#issue-result', box) || qs('#issue-result');
+    if(!out) return;
+
+    var solutions = {
+      '807': {
+        title: 'Fehler 807 (Netzwerkunterbrechung)',
+        items: [
+          'Firewall/AV prüfen (Windows Defender + Drittanbieter).',
+          'Protokoll wechseln (IKEv2 ↔ WireGuard), danach neu verbinden.',
+          'Router/Modem neu starten; in Firmennetzen kann VPN gefiltert sein.'
+        ],
+        tip: 'Wenn SSTP verfügbar ist, teste SSTP (TLS/443) – das umgeht viele Filter.'
+      },
+      '691': {
+        title: 'Fehler 691 (Zugriff verweigert)',
+        items: [
+          'Benutzername/Passwort prüfen (Copy/Paste ohne Leerzeichen).',
+          'Abo/Account aktiv? Bei Firmenprofilen: Zertifikat/PSK korrekt?',
+          'Serveradresse und VPN-Typ (IKEv2/SSTP/L2TP) exakt wie vom Anbieter.'
+        ],
+        tip: 'Bei manueller Einrichtung: Authentifizierungsmethode (EAP/MS-CHAPv2) muss zum Profil passen.'
+      },
+      '0x800704C6': {
+        title: '0x800704C6 (Verbindung abgebrochen)',
+        items: [
+          'Netzwerktreiber/Adapter prüfen (Geräte-Manager → Updates/Rollback).',
+          'VPN-Adapter neu installieren (App reparieren / neu installieren).',
+          'Falls nach Windows-Update: „Netzwerk zurücksetzen“ testen.'
+        ],
+        tip: 'Kurztest: anderes Netzwerk/Hotspot – so trennst du ISP-Problem von Geräteproblem.'
+      },
+      'abbruch': {
+        title: 'Verbindung bricht ab (Instabilität)',
+        items: [
+          'Server näher wählen (geringere Latenz).',
+          'Protokoll wechseln (IKEv2 oft stabil, WireGuard oft schnell).',
+          'WLAN-Roaming/Power-Saving: Energiesparmodus beim WLAN-Adapter deaktivieren.'
+        ],
+        tip: 'Bei häufigem Wechsel zwischen WLAN/Hotspot ist IKEv2 oft die robustere Wahl.'
+      }
+    };
+
+    function render(key){
+      var s = solutions[key];
+      if(!s) return;
+      var html = '<h3 style="margin:0 0 8px">' + escapeHtml(s.title) + '</h3><ul>';
+      for(var i=0;i<s.items.length;i++){ html += '<li>' + escapeHtml(s.items[i]) + '</li>'; }
+      html += '</ul><p class="note" style="margin-top:10px"><strong>Pro‑Tipp:</strong> ' + escapeHtml(s.tip) + '</p>';
+      out.innerHTML = html;
+    }
+
+    var btns = qsa('button[data-key]', box);
+    btns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        btns.forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        render(btn.getAttribute('data-key'));
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initWinTroubleshoot);
+})();
+</script>
+
+<div id="cookie-consent-wrapper" style="position:fixed;left:0;right:0;bottom:0;z-index:99999;pointer-events:none;display:flex;justify-content:center;padding:16px;">
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Cookie-Einwilligung" style="pointer-events:auto;max-width:720px;width:100%;">
+    <p><strong>Cookies & Privatsphäre:</strong> Wir verwenden Cookies nur nach deiner Zustimmung (GA4, Consent Mode v2). <a href="/de/privacy.html">Datenschutzerklärung</a>.</p>
+    <div class="cookie-actions">
+      <button id="cookie-accept" class="btn btn-primary" type="button" onclick="window.acceptConsent && window.acceptConsent()">Akzeptieren</button>
+      <button id="cookie-reject" class="btn btn-secondary" type="button" onclick="window.rejectConsent && window.rejectConsent()">Ablehnen</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
