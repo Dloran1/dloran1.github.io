@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>WLAN-Sicherheit 2026: FRITZ!Box, DNS-over-TLS & Smarthome sicher konfigurieren | VPN World</title>
+  <meta name="description" content="Deutschland-Guide 2026: FRITZ!Box absichern (Gastfunknetz), WPA3 richtig nutzen, DNS-over-TLS (DoT) systemweit schützen, Smarthome/IoT segmentieren und öffentliche WLANs mit VPN absichern.">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index, follow">
+
+  <link rel="icon" href="/favicon.ico">
+
+  <!-- Canonical & hreflang -->
+  <link rel="canonical" href="https://dloran1.github.io/de/blog/wifi-sicherheit.html">
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/bezpieczenstwo-wifi.html">
+  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/wifi-security-uk.html">
+  <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/wifi-security.html">
+  <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/wifi-sicherheit.html">
+  <link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/seguridad-wifi.html">
+  <link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/securite-wifi.html">
+  <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/wifi-beveiliging.html">
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/wifi-security-uk.html">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <!-- Preconnect -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+
+  <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'denied',
+      personalization_storage: 'denied',
+      security_storage: 'denied'
+    });
+
+    gtag('js', new Date());
+  </script>
+
+  <!-- Consent logic (safe DOM handling) -->
+  <script>
+    function hideCookieBannerSafely() {
+      var banner = document.getElementById('cookie-banner');
+      if (banner) banner.style.display = 'none';
+    }
+
+    function acceptConsent() {
+      gtag('consent', 'update', {
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+        analytics_storage: 'granted',
+        functionality_storage: 'granted',
+        personalization_storage: 'granted',
+        security_storage: 'granted'
+      });
+
+      try { localStorage.setItem('vpnworld_consent', 'granted'); } catch(e) {}
+
+      hideCookieBannerSafely();
+
+      /* GA4 config only AFTER consent */
+      gtag('config', 'G-RD6M691ZWD');
+    }
+
+    function rejectConsent() {
+      gtag('consent', 'update', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        functionality_storage: 'denied',
+        personalization_storage: 'denied',
+        security_storage: 'denied'
+      });
+
+      try { localStorage.setItem('vpnworld_consent', 'denied'); } catch(e) {}
+
+      hideCookieBannerSafely();
+    }
+
+    function applyStoredConsentSafely() {
+      try {
+        var c = localStorage.getItem('vpnworld_consent');
+        if (c === 'granted') {
+          gtag('consent', 'update', {
+            ad_storage: 'granted',
+            ad_user_data: 'granted',
+            ad_personalization: 'granted',
+            analytics_storage: 'granted',
+            functionality_storage: 'granted',
+            personalization_storage: 'granted',
+            security_storage: 'granted'
+          });
+          hideCookieBannerSafely();
+          gtag('config', 'G-RD6M691ZWD');
+        } else if (c === 'denied') {
+          gtag('consent', 'update', {
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+            analytics_storage: 'denied',
+            functionality_storage: 'denied',
+            personalization_storage: 'denied',
+            security_storage: 'denied'
+          });
+          hideCookieBannerSafely();
+        }
+      } catch(e) {}
+    }
+
+    document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
+  </script>
+
+  <!-- JSON-LD (Article + BreadcrumbList + FAQPage + ItemList) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"Article",
+        "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/de/blog/wifi-sicherheit.html"},
+        "headline":"WLAN-Sicherheit 2026: FRITZ!Box, DNS-over-TLS & Smarthome sicher konfigurieren",
+        "description":"Deutschland-Guide 2026: FRITZ!Box absichern (Gastfunknetz), WPA3 nutzen, DNS-over-TLS systemweit schützen, Smarthome/IoT segmentieren und öffentliche WLANs mit VPN absichern.",
+        "image":"https://dloran1.github.io/assets/img/hero/wifi-security-uk.webp",
+        "datePublished":"2026-01-03",
+        "dateModified":"2026-01-03",
+        "author":{"@type":"Organization","name":"VPN World Editorial Team"},
+        "publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}}
+      },
+      {
+        "@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"Startseite","item":"https://dloran1.github.io/de/"},
+          {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/de/blog/index.html"},
+          {"@type":"ListItem","position":3,"name":"WLAN-Sicherheit","item":"https://dloran1.github.io/de/blog/wifi-sicherheit.html"}
+        ]
+      },
+      {
+        "@type":"FAQPage",
+        "mainEntity":[
+          {"@type":"Question","name":"Ist WPA3 wirklich notwendig, wenn mein WLAN-Passwort stark ist?","acceptedAnswer":{"@type":"Answer","text":"Ein starkes Passwort ist wichtig, aber WPA3 (oder zumindest WPA2-AES) reduziert zusätzliche Risiken und ist die empfohlene Einstellung für moderne Geräte. Entscheidend bleiben außerdem Updates, WPS aus und Segmentierung für Gäste/IoT."}},
+          {"@type":"Question","name":"Was bringt DNS-over-TLS (DoT) im Heimnetz?","acceptedAnswer":{"@type":"Answer","text":"DoT verschlüsselt DNS-Anfragen. Dadurch werden Namensauflösungen schwieriger mitzulesen oder zu manipulieren. In Kombination mit einem gehärteten Router reduziert das Phishing-Umleitungen durch DNS-Manipulation."}},
+          {"@type":"Question","name":"Warum sollte ich Smarthome-Geräte getrennt vom Hauptnetz betreiben?","acceptedAnswer":{"@type":"Answer","text":"IoT-Geräte erhalten oft selten Updates und können leichter kompromittiert werden. Ein separates IoT-Netz begrenzt den Schaden und schützt PCs/Smartphones im Hauptnetz."}},
+          {"@type":"Question","name":"Was ist bei FRITZ!Box besonders wichtig?","acceptedAnswer":{"@type":"Answer","text":"FRITZ!OS aktuell halten, Adminzugang absichern, Fernzugriff nur bei Bedarf, WPA3 aktivieren, WPS deaktivieren und ein echtes Gastfunknetz nutzen. Smarthome idealerweise in ein eigenes Segment."}},
+          {"@type":"Question","name":"Brauche ich ein VPN in öffentlichen WLANs?","acceptedAnswer":{"@type":"Answer","text":"In öffentlichen WLANs ist ein VPN eine starke zusätzliche Schutzschicht, weil es den Verkehr zwischen Gerät und VPN-Server verschlüsselt. Es ersetzt keine Router-Sicherheit zuhause, ist aber unterwegs besonders sinnvoll."}}
+        ]
+      },
+      {
+        "@type":"ItemList",
+        "name":"Verwandte Artikel",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/de/blog/wifi-sicherheit-checklist.html","name":"WLAN-Sicherheits-Checkliste"},
+          {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/de/blog/vpn-speedtest.html","name":"VPN Speedtest"},
+          {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/de/blog/vpn-optimale-einstellungen.html","name":"Optimale VPN-Einstellungen"},
+          {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/de/blog/vpn-server-arten.html","name":"VPN-Server-Arten"}
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="top-lang-switch">
+    <a href="https://dloran1.github.io/blog/bezpieczenstwo-wifi.html">Polski</a> |
+    <a href="https://dloran1.github.io/en-gb/blog/wifi-security-uk.html">English (UK)</a> |
+    <a href="https://dloran1.github.io/en-us/blog/wifi-security.html">English (US)</a> |
+    <a href="https://dloran1.github.io/de/blog/wifi-sicherheit.html" class="active">Deutsch</a> |
+    <a href="https://dloran1.github.io/es/blog/seguridad-wifi.html">Español</a> |
+    <a href="https://dloran1.github.io/fr/blog/securite-wifi.html">Français</a> |
+    <a href="https://dloran1.github.io/nl-be/blog/wifi-beveiliging.html">Nederlands (BE)</a>
+  </div>
+
+  <div class="logo-wrap">
+    <a href="https://dloran1.github.io/de/" class="logo">VPN World</a>
+  </div>
+</header>
+
+<main class="content">
+  <article class="article">
+
+    <figure class="hero">
+      <img src="/assets/img/hero/wifi-security-uk.webp" alt="WLAN-Sicherheit in Deutschland: FRITZ!Box, WPA3, DNS-over-TLS und Smarthome" width="1200" height="675" loading="eager" decoding="async">
+    </figure>
+
+    <h1>WLAN-Sicherheit 2026: FRITZ!Box, DNS-over-TLS & Smarthome sicher konfigurieren</h1>
+
+    <p class="meta">
+      <strong>Veröffentlicht:</strong> <time datetime="2026-01-03">03. Januar 2026</time>
+      · <strong>Autor:</strong> <a href="/de/about-denys-shchur.html">Denys Shchur</a>
+    </p>
+
+    <!-- CTA #1 -->
+    <div class="cta-buttons">
+      <a class="nordvpn" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">
+        ✅ NordVPN — Schutz in öffentlichen WLANs
+      </a>
+      <a class="surfshark" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">
+        Surfshark — Angebot ansehen
+      </a>
+    </div>
+
+    <p>
+      In Deutschland ist WLAN nicht nur „Internet im Wohnzimmer“. Es ist die Infrastruktur für Homeoffice, Streaming, Online-Banking,
+      Smart-TVs, Spielkonsolen und ganze Smarthome-Ökosysteme. Gleichzeitig bleibt WLAN ein Funknetz: Es reicht, dass ein Router
+      veraltet ist oder eine Komfortfunktion falsch steht, und schon entsteht eine unnötige Angriffsfläche. Das Ziel dieses Guides ist
+      nicht Perfektion um jeden Preis, sondern ein realistisch sicheres Setup, das Sie im Alltag betreiben können.
+    </p>
+
+    <div class="note">
+      <strong>Schnelle Antwort:</strong> Der größte Sicherheitsgewinn kommt in der Praxis fast immer aus fünf Schritten:
+      FRITZ!OS/Router-Firmware aktuell halten, Admin-Zugang absichern, WPA3 (oder WPA2-AES) aktivieren, WPS deaktivieren und
+      ein echtes Gast-/IoT-Segment nutzen. Danach wird DNS (DoT) und das Verhalten in öffentlichen WLANs entscheidend.
+    </div>
+
+    <h2>1) Warum WLAN-Sicherheit 2026 wichtiger ist als früher</h2>
+    <p>
+      Die „Angreifer“ im WLAN müssen keine Hollywood-Hacker sein. Häufig reicht ein Standardpasswort im Router, ein offenes Gastnetz
+      ohne Isolation, oder ein Gerät, das in einem kompromittierten Umfeld automatisch wieder verbindet. Hinzu kommt der Trend, dass
+      Smarthome-Geräte oft viele Jahre genutzt werden, während Updates unregelmäßig kommen. Das ist kein Grund zur Panik, aber ein guter
+      Grund für klare Netzregeln: weniger Vertrauen, mehr Struktur.
+    </p>
+
+    <p>
+      Typische Risiken in deutschen Haushalten sind: Router-Konfiguration nie geändert, Fernzugriff versehentlich aktiv, WPS an,
+      Mischbetrieb aus WPA2/WPA3 ohne Überblick, und Smarthome-Geräte im selben Netz wie Arbeitslaptops. Genau hier setzen wir an:
+      Wir bauen zuerst eine stabile Basis (Router-Hardening), dann segmentieren wir (Gast/IoT), und schließlich härten wir DNS und
+      die Nutzung unterwegs.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Risiko</th>
+          <th>Alltagsszenario</th>
+          <th>Pragmatische Maßnahme</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Router kompromittiert</td>
+          <td>Firmware alt, Admin-Passwort schwach</td>
+          <td>Update, starkes Admin-Passwort, Fernzugriff aus</td>
+        </tr>
+        <tr>
+          <td>Evil Twin</td>
+          <td>Fake-Hotspot „WIFI-Hotel“ / „DB_Free_WiFi“</td>
+          <td>SSID prüfen, Auto-Join aus, VPN nutzen</td>
+        </tr>
+        <tr>
+          <td>DNS-Manipulation</td>
+          <td>Umleitung auf Fake-Login-Seiten</td>
+          <td>DNS fest setzen, DoT nutzen, Router absichern</td>
+        </tr>
+        <tr>
+          <td>IoT als Einfallstor</td>
+          <td>Kamera/Steckdose veraltet</td>
+          <td>IoT-Netz getrennt, weniger LAN-Rechte</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>2) FRITZ!Box richtig konfigurieren: der Deutschland-Booster</h2>
+    <p>
+      FRITZ!Box ist in Deutschland so verbreitet, dass sich ein Setup lohnt, das genau diese Menüs adressiert. Der Vorteil:
+      FRITZ!OS ist meist gut dokumentiert und bietet Funktionen, die bei Billigroutern fehlen. Der Nachteil:
+      Viele Nutzer lassen die Standardeinstellungen unangetastet, weil „es ja funktioniert“. Sicherheit beginnt hier.
+    </p>
+
+    <h3>FRITZ!OS-Update und Adminzugang</h3>
+    <p>
+      Öffnen Sie <em>System → Update</em> und prüfen Sie, ob automatische Updates aktiv sind. Ein Router ohne Updates ist wie ein
+      Smartphone ohne Patchlevel. Danach: <em>System → FRITZ!Box-Benutzer</em>. Nutzen Sie ein einzigartiges Admin-Passwort (nicht
+      das WLAN-Passwort). Wenn mehrere Personen Zugriff brauchen, legen Sie getrennte Benutzer an statt ein gemeinsames Kennwort.
+    </p>
+
+    <h3>Gastfunknetz aktivieren und wirklich trennen</h3>
+    <p>
+      Das Gastnetz ist nicht „nice to have“. Es ist die einfachste Form der Segmentierung. Aktivieren Sie es unter
+      <em>WLAN → Gastzugang</em> (Gastfunknetz). Wählen Sie eine eigene SSID, ein eigenes Passwort und achten Sie darauf,
+      dass Gäste keinen Zugriff auf Heimnetzgeräte bekommen. So verhindern Sie, dass ein fremdes Gerät plötzlich im selben Netz
+      wie Ihr NAS, Drucker oder Arbeitsrechner hängt.
+    </p>
+
+    <div class="tip">
+      <strong>Key takeaway:</strong> Wenn Sie FRITZ!OS nur selten anfassen wollen, machen Sie es einmal richtig:
+      Update, Adminzugang, Gastfunknetz, WPA3/WPA2-AES und WPS aus. Danach ist die Wartung minimal, der Effekt aber groß.
+    </div>
+
+    <h2>3) WPA3, WPA2-AES und Passwortstrategie (ohne Mythos)</h2>
+    <p>
+      WPA3 ist 2026 die beste Standardoption, weil es moderne Mechanismen bietet und grundsätzlich die empfohlene Einstellung ist,
+      wenn Geräte kompatibel sind. Wenn einzelne Geräte WPA3 nicht unterstützen, ist WPA2-AES der sinnvolle Fallback.
+      Wichtig ist, alte Standards (WEP, WPA, WPA2-TKIP) konsequent zu vermeiden. Viele „Probleme“ entstehen nicht durch WPA3,
+      sondern durch Mischkonfigurationen und vergessene Komfortfunktionen.
+    </p>
+
+    <p>
+      Eine gute Passwortregel für WLAN ist banal, aber effektiv: lang, einzigartig, nicht erratbar. Ein Passwortmanager kann ein
+      starkes Kennwort erzeugen, alternativ funktionieren 4–5 zufällige Wörter plus Zahlen. Entscheidend ist:
+      Das Admin-Passwort des Routers muss separat und stärker sein. Und: WPS sollte aus bleiben, sonst umgehen Angreifer manchmal
+      das starke WLAN-Passwort über den Komfortkanal.
+    </p>
+    <h2>4) Smarthome & IoT: Warum „alles im Hauptnetz“ ein Fehler ist</h2>
+    <p>
+      Smarthome ist in Deutschland nicht mehr Nische. Heizkörperthermostate, Sprachassistenten, Lampen, Steckdosen, Kameras,
+      Türklingeln, Saugroboter — viele dieser Geräte haben zwei Eigenschaften: Sie laufen lange und werden selten gewartet.
+      Das bedeutet nicht, dass jedes IoT-Gerät unsicher ist. Es bedeutet aber: Wenn ein Gerät kompromittiert wird, soll es nicht
+      automatisch Zugriff auf alles andere bekommen. Genau dafür gibt es Segmentierung.
+    </p>
+
+    <p>
+      Praktisch heißt das: Hauptnetz für „vertrauenswürdige“ Geräte (Laptop, Smartphone), Gastnetz für Besucher, IoT-Netz für
+      Smarthome. Je nach Router kann IoT über VLANs, separate SSIDs oder Routerprofile umgesetzt werden. Bei FRITZ!Box ist
+      das Gastfunknetz oft der schnellste Einstieg. Wer es technischer mag, kann zusätzlich Netzwerkgeräte und Zugriffsrechte
+      restriktiver setzen. Der Effekt ist derselbe: Schaden begrenzen.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Segment</th>
+          <th>Beispiele</th>
+          <th>Warum das sinnvoll ist</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Hauptnetz</td>
+          <td>Laptop, Smartphone, Arbeitsgeräte</td>
+          <td>Sensibel: Konten, Passwörter, Dokumente</td>
+        </tr>
+        <tr>
+          <td>Gastnetz</td>
+          <td>Besuchergeräte</td>
+          <td>Unbekanntes Risiko, keine LAN-Rechte</td>
+        </tr>
+        <tr>
+          <td>IoT-Netz</td>
+          <td>Kamera, TV, Steckdose, Thermostat</td>
+          <td>Weniger Updates, oft Cloud-abhängig</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      Ein Smarthome ist besonders dann kritisch, wenn Geräte „untereinander“ per LAN erreichbar sind. Eine einzelne unsichere Kamera
+      kann sonst zum Sprungbrett werden. Mit Segmentierung sinkt das Risiko drastisch — ohne dass Sie jedes IoT-Gerät einzeln
+      „perfekt“ absichern müssen. Das ist ein sehr deutscher Ansatz: lieber saubere Struktur als Hoffnung.
+    </p>
+
+    <h2>5) DNS-over-TLS (DoT): technische Details, die wirklich helfen</h2>
+    <p>
+      DNS ist die Übersetzung von Domainnamen zu IP-Adressen. Wenn DNS-Anfragen unverschlüsselt sind, können sie im Netzwerk leichter
+      mitgelesen oder manipuliert werden. Genau hier setzt DNS-over-TLS (DoT) an: DNS-Anfragen laufen verschlüsselt über TLS.
+      Das schützt nicht „alles“, aber es reduziert eine ganze Klasse von Angriffen, bei denen DNS als Umleitungshebel dient.
+    </p>
+
+    <p>
+      In der Praxis gibt es zwei Wege: DoT auf dem Endgerät (systemweit) oder „zentral“ über Router/Resolver-Strategie. Systemweit
+      ist elegant, weil es unabhängig vom WLAN funktioniert — aber nicht jedes Gerät kann es. Routerseitig ist konsistenter, weil
+      Sie DNS-Server festlegen und so „wildes DNS“ verhindern. In beiden Fällen ist die wichtigste Grundlage:
+      Router-Admin absichern. Denn wenn jemand den Router kontrolliert, kann er DNS-Einstellungen wieder umbiegen.
+    </p>
+
+    <p>
+      Wenn Sie VPN nutzen, sollten Sie zusätzlich prüfen, ob DNS-Anfragen wirklich geschützt durch den Tunnel gehen.
+      Ein klassischer Fehler ist, dass DNS „am VPN vorbei“ läuft. Dazu: <a href="/de/blog/vpn-dns-leak.html">VPN DNS Leak</a>.
+      Dieser Check ist nicht nur „nerdig“ — er ist die Realität vieler Fehlkonfigurationen.
+    </p>
+
+    <h3>DoT im Alltag: Was Sie erwarten sollten (und was nicht)</h3>
+    <p>
+      DoT verhindert nicht, dass Ihr Router Ihre Geräte „kennt“, und es ersetzt keine HTTPS-Verschlüsselung. Es reduziert aber die
+      Angriffsfläche für DNS-basierte Umleitungen und macht passives Mitlesen schwieriger. Gerade in fremden Netzen ist das nützlich,
+      weil dort oft viele Teilnehmer sind und die Kontrolle fehlt. DoT ist damit ein solider Baustein im „Defense in Depth“-Modell.
+    </p>
+
+    <h2>6) Router-VPN und smarte Geräte: wenn Sie zentral schützen wollen</h2>
+    <p>
+      Viele Smart-TVs oder Konsolen unterstützen VPN nicht komfortabel. Wenn Sie unterwegs nicht jedes Gerät einzeln konfigurieren
+      wollen, kann ein Router-VPN sinnvoll sein. Das ist nicht für jeden Haushalt nötig, aber für Multi-Device-Setups praktisch.
+      Anleitung: <a href="/de/blog/vpn-router-einrichtung.html">VPN Router Einrichtung</a>.
+    </p>
+
+    <p>
+      Wichtig: Router-VPN ist kein Ersatz für Segmentierung. Es kann Verkehr verschlüsseln, aber IoT sollte trotzdem getrennt sein.
+      Sonst verschlüsseln Sie zwar nach außen, lassen aber intern unnötige Querzugriffe zu. Das klingt theoretisch, ist aber die
+      typische „ich hab doch VPN“-Fehleinschätzung.
+    </p>
+
+    <h2>7) Öffentliche WLANs in Deutschland: DB, Hotel, Café, Airport</h2>
+    <p>
+      Öffentliche WLANs sind bequem und in Deutschland sehr verbreitet — aber sie sind per Definition nicht vertrauenswürdig.
+      Der Klassiker ist der Evil Twin: ein Hotspot, der aussieht wie der echte. Oder ein legitimer Hotspot, in dem andere Teilnehmer
+      versuchen, den Verkehr zu beeinflussen. Die wichtigste Routine lautet: VPN vor dem Login aktivieren, Auto-Join deaktivieren,
+      und nach der Sitzung das Netzwerk „vergessen“.
+    </p>
+
+    <p>
+      Ein eigener Guide für diese Situation: <a href="/de/blog/vpn-oeffentliches-wifi.html">VPN öffentliches WLAN</a>.
+      Wenn Sie oft mobil arbeiten, lohnt es sich außerdem, Kill Switch zu kennen, damit bei Abbrüchen kein „kurzer Klartext-Traffic“
+      entsteht: <a href="/de/blog/vpn-kill-switch.html">VPN Kill Switch</a>.
+    </p>
+
+    <h2>8) Protokolle, Stabilität und warum „VPN ist langsam“ oft falsch ist</h2>
+    <p>
+      Viele Nutzer bewerten VPN über ein einziges Kriterium: Geschwindigkeit. In der Praxis sind aber Stabilität, Latenz und das
+      verwendete Protokoll genauso entscheidend. Moderne Protokolle sind effizienter und oft schneller als ältere Standards.
+      Überblick: <a href="/de/blog/vpn-protokolle.html">VPN Protokolle</a>.
+    </p>
+
+    <p>
+      Warum gehört das in einen WLAN-Sicherheitsguide? Weil Sicherheit oft dann umgangen wird, wenn sie „nervt“. Ein stabiler Setup
+      sorgt dafür, dass Sie VPN auch wirklich nutzen — vor allem in öffentlichen WLANs. Das ist kein Marketing, das ist Verhalten:
+      Wenn es reibungslos läuft, bleibt es eingeschaltet.
+    </p>
+
+    <h2>Video (YouTube)</h2>
+    <div class="video-wrap">
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE"
+        title="VPN World – offizielles Video"
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen></iframe>
+    </div>
+    <p><a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="noopener noreferrer">Auf YouTube ansehen</a></p>
+
+    <h2>9) 17-Punkte-Checkliste (realistisch, nicht übertrieben)</h2>
+    <p>
+      Nutzen Sie diese Liste als Plan für einen Nachmittag. Die ersten 6–8 Punkte bringen den größten Effekt, der Rest ist Feinschliff.
+      Wenn Sie es „deutsch“ mögen: schreiben Sie das Datum der letzten Routerprüfung auf und wiederholen Sie die Kernpunkte
+      alle 2–3 Monate. Das ist Wartung, nicht Stress.
+    </p>
+    <ul>
+      <li><strong>1.</strong> FRITZ!OS/Firmware aktualisieren</li>
+      <li><strong>2.</strong> Admin-Passwort ändern (unikat, lang)</li>
+      <li><strong>3.</strong> Fernzugriff deaktivieren (wenn nicht nötig)</li>
+      <li><strong>4.</strong> WPA3 aktivieren (oder WPA2-AES)</li>
+      <li><strong>5.</strong> WPS deaktivieren</li>
+      <li><strong>6.</strong> Gastfunknetz aktivieren (keine LAN-Rechte)</li>
+      <li><strong>7.</strong> IoT/Smarthome in eigenes Segment</li>
+      <li><strong>8.</strong> DNS prüfen, DoT-Strategie festlegen</li>
+      <li><strong>9.</strong> Unbekannte Geräte blockieren</li>
+      <li><strong>10.</strong> Router-Konfig sichern (Backup)</li>
+      <li><strong>11.</strong> Auto-Join zu offenen WLANs deaktivieren</li>
+      <li><strong>12.</strong> VPN in öffentlichen WLANs konsequent nutzen</li>
+      <li><strong>13.</strong> Kill Switch aktivieren</li>
+      <li><strong>14.</strong> IoT-Geräte regelmäßig neu starten/Updates prüfen</li>
+      <li><strong>15.</strong> Alte SSIDs/alte Passwörter bereinigen</li>
+      <li><strong>16.</strong> UPnP nur bei Bedarf</li>
+      <li><strong>17.</strong> Quartalsroutine: 10 Minuten Check</li>
+    </ul>
+
+    <h2>FAQ</h2>
+    <p><strong>Ist WPA3 immer die beste Wahl?</strong><br>
+      In den meisten Haushalten ja. Wenn ein Gerät Probleme macht, ist WPA2-AES ein sinnvoller Übergang. Alte Standards sollten
+      vermieden werden.</p>
+
+    <p><strong>Warum ist ein Gastnetz so wichtig?</strong><br>
+      Weil es den Zugriff auf Heimgeräte verhindert. Ein Gastgerät soll nicht „nebenbei“ Drucker, NAS oder IoT erreichen.</p>
+
+    <p><strong>Schützt DoT auch vor Tracking?</strong><br>
+      DoT verschlüsselt DNS-Anfragen. Es ersetzt nicht HTTPS und ist kein kompletter Tracking-Schutz, reduziert aber DNS-basierte
+      Manipulation und passives Mitlesen.</p>
+
+    <p><strong>Ist VPN zuhause Pflicht?</strong><br>
+      Nicht zwingend. Zuhause sind Router-Updates, Segmentierung und WPA3 die Basis. VPN ist unterwegs im öffentlichen WLAN
+      besonders wertvoll.</p>
+
+    <section class="author-box">
+      <p>
+        Autor: <a href="/de/about-denys-shchur.html">Denys Shchur</a>.
+        Dieser Artikel folgt dem VPN-World-Standard (Stage 2.5) mit Consent Mode v2: Analytics ist standardmäßig deaktiviert und wird
+        nur nach Einwilligung geladen.
+      </p>
+    </section>
+
+    <!-- CTA #2 -->
+    <div class="cta-buttons">
+      <a class="nordvpn" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">
+        NordVPN — sicher unterwegs
+      </a>
+      <a class="surfshark" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">
+        Surfshark — Preis-Leistung prüfen
+      </a>
+    </div>
+
+  </article>
+<!-- RELATED_START -->
+<section class="related-guides" aria-label="Verwandte Ratgeber">
+  <h2>Verwandte Ratgeber</h2>
+  <ul>
+    <li><a href="/de/blog/wifi-sicherheit-checklist.html">/de/blog/wifi-sicherheit-checklist.html</a></li>
+    <li><a href="/de/blog/vpn-oeffentliches-wifi.html">/de/blog/vpn-oeffentliches-wifi.html</a></li>
+    <li><a href="/de/blog/vpn-optimale-einstellungen.html">/de/blog/vpn-optimale-einstellungen.html</a></li>
+    <li><a href="/de/blog/vpn-protokolle.html">/de/blog/vpn-protokolle.html</a></li>
+  </ul>
+</section>
+<!-- RELATED_END -->
+
+</main>
+<footer class="site-footer">
+  <p>VPN World · Unabhängiges Portal über Datenschutz, Netzwerksicherheit und praktische VPN-Nutzung.</p>
+  <p>
+    <a href="https://dloran1.github.io/de/privacy.html">Privacy</a> ·
+    <a href="https://dloran1.github.io/de/disclosure.html">Disclosure</a> ·
+    <a href="mailto:u1797008805@gmail.com">Contact</a>
+  </p>
+  <p>© 2026 VPN World</p>
+</footer>
+
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
+  <p>Analytics ist standardmäßig deaktiviert. Sie können Analytics akzeptieren oder ablehnen.</p>
+  <div class="cookie-actions">
+    <button type="button" class="btn btn-compact" onclick="acceptConsent()">Akzeptieren</button>
+    <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Ablehnen</button>
+  </div>
+</div>
+
+</body>
+</html>
+
+<!-- PAGE: https://dloran1.github.io/de/blog/wifi-sicherheit.html -->

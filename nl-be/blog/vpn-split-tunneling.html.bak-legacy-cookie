@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="nl-be">
+<head>
+  <meta charset="utf-8">
+  <title>Split Tunneling VPN (2026): Wat is het, voordelen &amp; instellen | VPN World</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Ontdek alles over VPN split tunneling: definitie, voordelen voor snelheid, risico&#039;s (DNS-lekken) en stap-voor-stap configuratie voor Windows, Android en iOS." />
+  <meta name="robots" content="index, follow">
+
+  <link rel="icon" href="/favicon.ico">
+  <link rel="canonical" href="https://dloran1.github.io/nl-be/blog/vpn-split-tunneling.html">
+
+  <!-- HREFLANG (7× + x-default) -->
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-split-tunneling.html">
+  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-split-tunneling-uk.html">
+  <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-split-tunneling.html">
+  <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-split-tunneling.html">
+  <link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/vpn-split-tunneling.html">
+  <link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/vpn-split-tunneling.html">
+  <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-split-tunneling.html">
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-split-tunneling-uk.html">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../assets/css/style.css">
+
+  <!-- Preconnect -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="VPN World">
+  <meta property="og:locale" content="nl_BE">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:title" content="Split Tunneling VPN (2026): Wat is het, voordelen &amp; instellen | VPN World">
+  <meta property="og:description" content="Ontdek alles over VPN split tunneling: definitie, voordelen voor snelheid, risico&#039;s (DNS-lekken) en stap-voor-stap configuratie voor Windows, Android en iOS.">
+  <meta property="og:url" content="https://dloran1.github.io/nl-be/blog/vpn-split-tunneling.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-split-tunneling-uk.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Split tunneling VPN uitgelegd (diagram)">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Split Tunneling VPN (2026): Wat is het, voordelen &amp; instellen | VPN World">
+  <meta name="twitter:description" content="Split tunneling: sneller waar het kan, VPN waar het moet. Inclusief DNS/WebRTC/IPv6 tests en praktische instellingen.">
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-split-tunneling-uk.webp">
+
+  <!-- Stage 2.5: Local additions for SVG/table responsiveness + guaranteed contrast -->
+  <style>
+    .svg-card{border:1px solid rgba(0,0,0,.12); border-radius:16px; padding:14px; background:#fff; color:#000; box-shadow:0 10px 24px rgba(0,0,0,.06); margin:16px 0}
+    .svg-head{display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin:0 0 10px 0; color:#000 !important; opacity:1 !important}
+    .svg-head h3{margin:0; font-size:1.05rem}
+    .svg-sub{margin:2px 0 0 0; font-size:.95rem; opacity:.95}
+    .svg-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch}
+    .svg-scroll svg{max-width:100%; height:auto; display:block; color:#000}
+    .svg-scroll svg text{fill:#000 !important; font-weight:800}
+    .table-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch; margin:14px 0}
+    .table-scroll table{min-width:920px}
+    .mini-badge{display:inline-block; padding:3px 8px; border-radius:999px; border:1px solid rgba(0,0,0,.18); background:rgba(0,0,0,.04); font-size:.85rem; color:#000}
+    /* Related dark wide card (fixed standard) */
+    .related-card{margin:14px 0; padding:14px 16px; border-radius:16px; background:#0f1720; border:1px solid rgba(255,255,255,.14); box-shadow:0 10px 24px rgba(0,0,0,.20)}
+    .related-card .rel-inner{display:flex; gap:12px; align-items:flex-start}
+    .related-card .rel-accent{width:6px; border-radius:999px; background:#22c55e; flex:0 0 6px; height:auto; min-height:28px}
+    .related-card p{margin:0; color:#eaeaea}
+    .related-card a{color:#eaeaea; text-decoration:underline; text-underline-offset:2px}
+    .callout{border-radius:16px; border:1px solid rgba(0,0,0,.12); background:#fff; color:#000; padding:12px 14px; margin:14px 0}
+    .callout .title{display:flex; align-items:center; gap:10px; margin:0 0 6px 0}
+    .callout .dot{width:10px; height:10px; border-radius:999px; background:#22c55e; border:2px solid #000}
+    .callout p{margin:0}
+    .kicker{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0 0}
+    .kicker .pill{border:1px solid rgba(0,0,0,.18); background:rgba(0,0,0,.04); color:#000; border-radius:999px; padding:4px 10px; font-size:.88rem}
+  </style>
+
+  <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    gtag('consent','default', {
+      ad_storage:'denied',
+      ad_user_data:'denied',
+      ad_personalization:'denied',
+      analytics_storage:'denied',
+      functionality_storage:'denied',
+      personalization_storage:'denied',
+      security_storage:'denied'
+    });
+
+    gtag('js', new Date());
+
+    function hideCookieBannerSafely() {
+      var banner = document.getElementById('cookie-banner');
+      if (banner) banner.style.display = 'none';
+    }
+
+    function acceptConsent() {
+      gtag('consent','update', {
+        ad_storage:'granted',
+        ad_user_data:'granted',
+        ad_personalization:'granted',
+        analytics_storage:'granted',
+        functionality_storage:'granted',
+        personalization_storage:'granted',
+        security_storage:'granted'
+      });
+      try { localStorage.setItem('vpnworld_consent','granted'); } catch(e) {}
+      hideCookieBannerSafely();
+      gtag('config','G-RD6M691ZWD');
+    }
+
+    function rejectConsent() {
+      gtag('consent','update', {
+        ad_storage:'denied',
+        ad_user_data:'denied',
+        ad_personalization:'denied',
+        analytics_storage:'denied',
+        functionality_storage:'denied',
+        personalization_storage:'denied',
+        security_storage:'denied'
+      });
+      try { localStorage.setItem('vpnworld_consent','denied'); } catch(e) {}
+      hideCookieBannerSafely();
+    }
+
+    function applyStoredConsentSafely() {
+      try {
+        var c = localStorage.getItem('vpnworld_consent');
+        if (c === 'granted') {
+          gtag('consent','update', {
+            ad_storage:'granted',
+            ad_user_data:'granted',
+            ad_personalization:'granted',
+            analytics_storage:'granted',
+            functionality_storage:'granted',
+            personalization_storage:'granted',
+            security_storage:'granted'
+          });
+          hideCookieBannerSafely();
+          gtag('config','G-RD6M691ZWD');
+        } else if (c === 'denied') {
+          gtag('consent','update', {
+            ad_storage:'denied',
+            ad_user_data:'denied',
+            ad_personalization:'denied',
+            analytics_storage:'denied',
+            functionality_storage:'denied',
+            personalization_storage:'denied',
+            security_storage:'denied'
+          });
+          hideCookieBannerSafely();
+        }
+      } catch(e) {}
+    }
+
+    document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
+  </script>
+
+  <!-- JSON-LD (Stage 2.5): Article + FAQPage + BreadcrumbList + ItemList(Related) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"Article",
+        "@id":"https://dloran1.github.io/nl-be/blog/vpn-split-tunneling.html",
+        "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/nl-be/blog/vpn-split-tunneling.html"},
+        "headline":"Split Tunneling VPN: Definitie en Gids 2026",
+        "description":"Gids over VPN split tunneling, DNS-lekken en platforminstellingen.",
+        "image":"https://dloran1.github.io/assets/img/hero/vpn-split-tunneling-uk.webp",
+        "inLanguage":"nl-be",
+        "datePublished":"2026-01-07",
+        "dateModified":"2026-01-07",
+        "author":{"@type":"Person","name":"Denys Shchur","url":"https://dloran1.github.io/nl-be/about-denys-shchur.html"},
+        "publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}}
+      },
+      {
+        "@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"Start","item":"https://dloran1.github.io/nl-be/"},
+          {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/nl-be/blog/"},
+          {"@type":"ListItem","position":3,"name":"Split tunneling VPN","item":"https://dloran1.github.io/nl-be/blog/vpn-split-tunneling.html"}
+        ]
+      },
+      {
+        "@type":"ItemList",
+        "name":"Gerelateerde gidsen",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/nl-be/blog/wat-is-een-vpn.html"},
+          {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/nl-be/blog/vpn-dns-leak.html"},
+          {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/nl-be/blog/vpn-kill-switch.html"},
+          {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/nl-be/blog/vpn-protocollen.html"},
+          {"@type":"ListItem","position":5,"url":"https://dloran1.github.io/nl-be/blog/vpn-optimale-instellingen.html"},
+          {"@type":"ListItem","position":6,"url":"https://dloran1.github.io/nl-be/blog/vpn-snelheidstest.html"},
+          {"@type":"ListItem","position":7,"url":"https://dloran1.github.io/nl-be/blog/vpn-openbaar-wifi.html"},
+          {"@type":"ListItem","position":8,"url":"https://dloran1.github.io/nl-be/blog/proxy-vs-vpn.html"}
+        ]
+      },
+      {
+        "@type":"FAQPage",
+        "mainEntity":[
+          {
+            "@type":"Question",
+            "name":"Wat is split tunneling bij een VPN?",
+            "acceptedAnswer":{"@type":"Answer","text":"Split tunneling (gesplitste tunnel) laat je kiezen welke apps of bestemmingen via de VPN-tunnel gaan en welke rechtstreeks via je normale internetverbinding. Zo combineer je privacy met betere compatibiliteit of snelheid."}
+          },
+          {
+            "@type":"Question",
+            "name":"Is split tunneling veilig?",
+            "acceptedAnswer":{"@type":"Answer","text":"Het kan veilig zijn als je het minimaal gebruikt en daarna tests doet op DNS-, WebRTC- en (indien van toepassing) IPv6-lekken. Alles wat je uitsluit, is niet beschermd door de VPN. Daarom zijn een kill switch en anti-lek-bescherming belangrijk."}
+          },
+          {
+            "@type":"Question",
+            "name":"Wanneer is split tunneling nuttig in België?",
+            "acceptedAnswer":{"@type":"Answer","text":"Bijvoorbeeld als een bankapp (KBC, Belfius of ING Belgium) gevoelig reageert op VPN-IP’s, of als je lokaal wil streamen via VRT MAX of GoPlay zonder dat een VPN-route roet in het eten gooit. Dan kun je enkel die app buiten de tunnel houden."}
+          },
+          {
+            "@type":"Question",
+            "name":"Hoe test ik of split tunneling geen lekken veroorzaakt?",
+            "acceptedAnswer":{"@type":"Answer","text":"Controleer je publieke IP, test DNS-lekken, controleer WebRTC-lekken in de browser en kijk of IPv6 niet buiten de tunnel gaat. Herhaal die tests na elke wijziging of update van je VPN-app."}
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="header-main">
+        <a href="/nl-be/" class="brand">
+          <img src="../../assets/img/logo.png" class="logo" alt="VPN World-logo">
+          <span class="brand-text">VPN World</span>
+        </a>
+
+        <nav class="primary-nav" aria-label="Hoofdnavigatie">
+          <a href="/nl-be/blog/">Blog</a>
+        </nav>
+      </div>
+
+      <nav class="lang-switch" aria-label="Taalswitcher">
+        <a href="/blog/vpn-split-tunneling.html">Polski</a> |
+        <a href="/en-gb/blog/vpn-split-tunneling-uk.html">English (UK)</a> |
+        <a href="/en-us/blog/vpn-split-tunneling.html">English (US)</a> |
+        <a href="/de/blog/vpn-split-tunneling.html">Deutsch</a> |
+        <a href="/es/blog/vpn-split-tunneling.html">Español</a> |
+        <a href="/fr/blog/vpn-split-tunneling.html">Français</a> |
+        <a href="/nl-be/blog/vpn-split-tunneling.html" class="active">Nederlands (BE)</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h1>Split Tunneling VPN: Wat is het, hoe werkt het en is het veilig? (Gids 2026)</h1>
+
+          <p class="note">
+            <strong>Kort antwoord:</strong>
+            Split tunneling laat je sommige apps via de VPN laten gaan en andere bewust buiten de VPN houden.
+            Dat is handig voor snelheid en compatibiliteit, maar je moet lekken (DNS/WebRTC/IPv6) testen en de
+            <a href="/nl-be/blog/vpn-kill-switch.html">kill switch</a> correct instellen.
+          </p>
+
+          <p>
+            Deze gids is geschreven voor echte, dagelijkse scenario’s in België: bankapps die “vreemd doen” met VPN,
+            lokaal streamen (VRT MAX / GoPlay) en tegelijk veilig blijven op openbare wifi.
+            Als je nog nieuw bent: begin bij <a href="/nl-be/blog/wat-is-een-vpn.html">Wat is een VPN?</a>.
+          </p>
+
+          <div class="hero-author">
+            <img src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur — auteur van VPN World">
+            <div class="hero-author-text">
+              <span class="hero-author-label">Geschreven door</span>
+              <span class="hero-author-name">
+                <a href="/nl-be/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a>
+              </span>
+              <span class="meta">Bijgewerkt op: 2026-01-07 · 12–18 min leestijd</span>
+            </div>
+          </div>
+
+          <!-- Early CTA block -->
+          <div class="cta-buttons" aria-label="Partneraanbiedingen">
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Probeer NordVPN — geaudite no-logs beleid</a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Probeer Surfshark — RAM-only servers</a>
+          </div>
+
+          <div class="kicker" aria-label="Snelle highlights">
+            <span class="pill">Compatibiliteit</span>
+            <span class="pill">Snelheid</span>
+            <span class="pill">DNS/WebRTC/IPv6 tests</span>
+            <span class="pill">Windows/Android/iOS</span>
+          </div>
+
+          <div class="related-card" role="note" aria-label="Gerelateerde gidsen (snelle toegang)">
+            <div class="rel-inner">
+              <span class="rel-accent" aria-hidden="true"></span>
+              <p><strong>Gerelateerd:</strong>
+                <a href="/nl-be/blog/vpn-optimale-instellingen.html">Optimale VPN-instellingen</a> ·
+                <a href="/nl-be/blog/vpn-dns-leak.html">DNS-lek test &amp; fix</a> ·
+                <a href="/nl-be/blog/vpn-protocollen.html">VPN-protocollen</a> ·
+                <a href="/nl-be/blog/vpn-snelheidstest.html">Snelheidstest</a>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-media">
+          <div class="hero-art">
+            <img src="../../assets/img/hero/vpn-split-tunneling-uk.webp" alt="Split tunneling VPN: schema van twee routes (VPN en direct)" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="section">
+      <div class="container article">
+        <!-- CONTENT_START -->
+
+        <h2>1) Wat is split tunneling precies (en wat niet)?</h2>
+        <p>
+          Normaal gezien stuurt een VPN al je verkeer door een versleutelde tunnel naar een VPN-server. Dat is handig op
+          <a href="/nl-be/blog/vpn-openbaar-wifi.html">openbare wifi</a>, omdat het afluisteren op het lokale netwerk veel moeilijker wordt.
+          Maar “alles via VPN” kan soms problemen geven: een bankapp kan extra controles doen, streamingdiensten kunnen anders reageren,
+          of je wil bepaalde lokale diensten gewoon rechtstreeks laten lopen.
+        </p>
+        <p>
+          <strong>Split tunneling</strong> (gesplitste tunnel) is dan een schakelaar: je kiest welke apps (of soms domeinen) via de VPN gaan,
+          en welke “direct” via je gewone internetverbinding (ISP) blijven gaan. De twee meest voorkomende modi:
+        </p>
+        <ul>
+          <li><strong>Uitsluiten:</strong> alles gaat via de VPN, behalve de apps die je uitsluit (meestal het veiligst).</li>
+          <li><strong>Insluiten:</strong> alleen de gekozen apps gaan via de VPN, de rest gaat direct.</li>
+        </ul>
+
+        <div class="key-takeaway"><strong>Conclusie:</strong> split tunneling is geen “minder veilige VPN”; het is routecontrole. Het risico zit in slechte uitzonderingen.</div>
+
+        <div class="svg-card">
+          <div class="svg-head">
+            <div>
+              <h3>Diagram 1: normaal VPN-verkeer vs split tunneling</h3>
+              <p class="svg-sub">Duidelijk zien waar de encryptie stopt (VPN-route) en waar niet (directe route).</p>
+            </div>
+            <span class="mini-badge">Visueel</span>
+          </div>
+          <div class="svg-scroll" aria-label="Schema split tunneling VPN">
+            <svg viewBox="0 0 980 360" role="img" aria-label="Schema: deel via VPN-tunnel, deel direct via ISP">
+              <rect x="18" y="22" width="300" height="120" rx="16" fill="#E8F3FF" stroke="#000" stroke-width="4"></rect>
+              <text x="36" y="58" font-size="22">Jouw toestel</text>
+              <text x="36" y="92" font-size="18">Apps: browser, bank, streaming</text>
+
+              <rect x="18" y="190" width="300" height="140" rx="16" fill="#FFF2E6" stroke="#000" stroke-width="4"></rect>
+              <text x="36" y="228" font-size="22">Split-regels</text>
+              <text x="36" y="262" font-size="18">Insluiten / uitsluiten</text>
+              <text x="36" y="296" font-size="18">Doel: controle + compatibiliteit</text>
+
+              <rect x="390" y="40" width="270" height="120" rx="16" fill="#E9FCEB" stroke="#000" stroke-width="4"></rect>
+              <text x="408" y="78" font-size="22">VPN-tunnel</text>
+              <text x="408" y="112" font-size="18">Encryptie + VPN-IP</text>
+
+              <rect x="390" y="210" width="270" height="120" rx="16" fill="#FFE9F1" stroke="#000" stroke-width="4"></rect>
+              <text x="408" y="248" font-size="22">Direct</text>
+              <text x="408" y="282" font-size="18">Via ISP (zonder VPN)</text>
+
+              <rect x="720" y="40" width="240" height="120" rx="16" fill="#F1F5F9" stroke="#000" stroke-width="4"></rect>
+              <text x="738" y="78" font-size="22">Internet</text>
+              <text x="738" y="112" font-size="18">Websites &amp; diensten</text>
+
+              <rect x="720" y="210" width="240" height="120" rx="16" fill="#F1F5F9" stroke="#000" stroke-width="4"></rect>
+              <text x="738" y="248" font-size="22">Internet</text>
+              <text x="738" y="282" font-size="18">Websites &amp; diensten</text>
+
+              <line x1="318" y1="82" x2="390" y2="90" stroke="#000" stroke-width="4"></line>
+              <polygon points="390,90 378,82 378,98" fill="#000"></polygon>
+              <text x="330" y="70" font-size="16">Beschermd</text>
+
+              <line x1="318" y1="262" x2="390" y2="270" stroke="#000" stroke-width="4"></line>
+              <polygon points="390,270 378,262 378,278" fill="#000"></polygon>
+              <text x="330" y="250" font-size="16">Uitgesloten</text>
+
+              <line x1="660" y1="90" x2="720" y2="90" stroke="#000" stroke-width="4"></line>
+              <polygon points="720,90 708,82 708,98" fill="#000"></polygon>
+
+              <line x1="660" y1="270" x2="720" y2="270" stroke="#000" stroke-width="4"></line>
+              <polygon points="720,270 708,262 708,278" fill="#000"></polygon>
+            </svg>
+          </div>
+        </div>
+
+        <h2>2) Wanneer is split tunneling zinvol (en wanneer niet)?</h2>
+        <p>
+          Split tunneling is vooral handig als je één concreet probleem wil oplossen: een app die VPN-IP’s blokkeert,
+          een lokale stream die minder stabiel is via een buitenlandse route, of een taak waar je snelheid boven alles zet.
+          Maar als je het gebruikt op onveilige netwerken, maak je het jezelf moeilijker.
+        </p>
+
+        <div class="table-scroll" aria-label="Tabel: gebruikssituaties split tunneling">
+          <table>
+            <thead>
+              <tr>
+                <th>Situatie</th>
+                <th>Split tunneling?</th>
+                <th>Waarom</th>
+                <th>Praktische tip</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Openbare wifi (trein, café, hotel)</td>
+                <td>Meestal niet</td>
+                <td>Uitgesloten verkeer is dan niet beschermd door de VPN.</td>
+                <td>Gebruik liever alles via VPN + checklist <a href="/nl-be/blog/wifi-beveiliging-checklist.html">wifi-beveiliging</a>.</td>
+              </tr>
+              <tr>
+                <td>Bankieren</td>
+                <td>Ja, minimaal</td>
+                <td>Sommige bankapps reageren gevoelig op VPN-IP’s.</td>
+                <td>Zie <a href="/nl-be/blog/vpn-online-bankieren.html">VPN &amp; online bankieren</a>.</td>
+              </tr>
+              <tr>
+                <td>Lokaal streamen (BE)</td>
+                <td>Soms</td>
+                <td>Je wil lokale routing (VRT MAX/GoPlay) zonder VPN om issues te vermijden.</td>
+                <td>Zie <a href="/nl-be/blog/vpn-streaming.html">VPN voor streaming</a>.</td>
+              </tr>
+              <tr>
+                <td>Torrents / P2P</td>
+                <td>Oppassen</td>
+                <td>Als de torrentclient per ongeluk buiten de tunnel valt, lekt je IP.</td>
+                <td>Zie <a href="/nl-be/blog/vpn-torrent.html">VPN voor torrents</a>.</td>
+              </tr>
+              <tr>
+                <td>Remote work</td>
+                <td>Afhankelijk</td>
+                <td>Bedrijfspolicies kunnen “alles via VPN” eisen.</td>
+                <td>Zie <a href="/nl-be/blog/vpn-remote-work.html">VPN voor remote work</a>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="key-takeaway"><strong>Conclusie:</strong> gebruik split tunneling als een chirurgisch hulpmiddel: één probleem oplossen, niet “zomaar aanzetten”.</div>
+
+        <div class="svg-card">
+          <div class="svg-head">
+            <div>
+              <h3>Diagram 2: snelle beslisboom</h3>
+              <p class="svg-sub">In 15 seconden bepalen of split tunneling hier een goed idee is.</p>
+            </div>
+            <span class="mini-badge">Beslissing</span>
+          </div>
+          <div class="svg-scroll" aria-label="Beslisboom split tunneling">
+            <svg viewBox="0 0 980 420" role="img" aria-label="Beslisboom: wel of geen split tunneling">
+              <rect x="40" y="30" width="900" height="360" rx="18" fill="#F8FAFC" stroke="#000" stroke-width="4"></rect>
+
+              <rect x="90" y="70" width="360" height="80" rx="16" fill="#E8F3FF" stroke="#000" stroke-width="4"></rect>
+              <text x="112" y="105" font-size="22">Zit je op openbare wifi?</text>
+              <text x="112" y="132" font-size="16">café, trein, luchthaven…</text>
+
+              <rect x="550" y="70" width="330" height="80" rx="16" fill="#FFE9F1" stroke="#000" stroke-width="4"></rect>
+              <text x="572" y="105" font-size="22">Vermijd split tunneling</text>
+              <text x="572" y="132" font-size="16">Alles via VPN</text>
+
+              <line x1="450" y1="110" x2="550" y2="110" stroke="#000" stroke-width="4"></line>
+              <polygon points="550,110 538,102 538,118" fill="#000"></polygon>
+              <text x="468" y="102" font-size="16">Ja</text>
+
+              <rect x="90" y="200" width="360" height="90" rx="16" fill="#E9FCEB" stroke="#000" stroke-width="4"></rect>
+              <text x="112" y="235" font-size="22">Compatibiliteit nodig?</text>
+              <text x="112" y="262" font-size="16">bank/streaming/app blokkeert</text>
+
+              <line x1="270" y1="150" x2="270" y2="200" stroke="#000" stroke-width="4"></line>
+              <polygon points="270,200 262,188 278,188" fill="#000"></polygon>
+              <text x="280" y="184" font-size="16">Nee</text>
+
+              <rect x="550" y="200" width="330" height="90" rx="16" fill="#FFF2E6" stroke="#000" stroke-width="4"></rect>
+              <text x="572" y="235" font-size="22">Ja, maar minimaal</text>
+              <text x="572" y="262" font-size="16">Sluit alleen nodig uit</text>
+
+              <line x1="450" y1="245" x2="550" y2="245" stroke="#000" stroke-width="4"></line>
+              <polygon points="550,245 538,237 538,253" fill="#000"></polygon>
+              <text x="468" y="237" font-size="16">Ja</text>
+
+              <rect x="90" y="320" width="790" height="60" rx="16" fill="#E8F3FF" stroke="#000" stroke-width="4"></rect>
+              <text x="112" y="358" font-size="20">Altijd nadien testen: IP + DNS + WebRTC + IPv6.</text>
+            </svg>
+          </div>
+        </div>
+
+        <h2>3) De echte risico’s: DNS-lekken, WebRTC, IPv6 en “valse zekerheid”</h2>
+        <p>
+          Het grootste risico is psychologisch: je ziet “VPN: aan”, dus je denkt dat alles veilig is. Maar split tunneling betekent dat
+          bepaalde apps <em>bewust</em> zonder VPN werken. Dat kan prima zijn, zolang je dat duidelijk afbakent en controleert.
+          Zeker als je privacy belangrijk vindt, is het slim om ook te lezen wat <a href="/nl-be/blog/no-logs-vpn.html">no-logs</a> in de praktijk betekent.
+        </p>
+
+        <div class="callout" role="note" aria-label="Belangrijk">
+          <div class="title"><span class="dot" aria-hidden="true"></span><strong>Belangrijk</strong></div>
+          <p>
+            Een split tunneling-configuratie is pas “goed” als je na elke wijziging effectief test op
+            <a href="/nl-be/blog/vpn-dns-leak.html">DNS-lekken</a>, WebRTC en (indien actief) IPv6.
+            Combineer dit met een correct ingestelde <a href="/nl-be/blog/vpn-kill-switch.html">kill switch</a>.
+          </p>
+        </div>
+
+        <div class="svg-card">
+          <div class="svg-head">
+            <div>
+              <h3>Diagram 3: waar kan het lekken?</h3>
+              <p class="svg-sub">Vier plekken die je moet controleren als je split tunneling gebruikt.</p>
+            </div>
+            <span class="mini-badge">Risico’s</span>
+          </div>
+          <div class="svg-scroll" aria-label="Risicokaart split tunneling">
+            <svg viewBox="0 0 980 360" role="img" aria-label="Risicokaart: IP, DNS, WebRTC, IPv6">
+              <rect x="40" y="30" width="900" height="300" rx="18" fill="#FFFFFF" stroke="#000" stroke-width="4"></rect>
+
+              <rect x="80" y="80" width="390" height="90" rx="16" fill="#FFE9F1" stroke="#000" stroke-width="4"></rect>
+              <text x="102" y="115" font-size="22">Publiek IP</text>
+              <text x="102" y="145" font-size="16">uitgesloten app / VPN-drop</text>
+
+              <rect x="510" y="80" width="390" height="90" rx="16" fill="#FFF2E6" stroke="#000" stroke-width="4"></rect>
+              <text x="532" y="115" font-size="22">DNS</text>
+              <text x="532" y="145" font-size="16">resolver van ISP i.p.v. VPN</text>
+
+              <rect x="80" y="200" width="390" height="90" rx="16" fill="#E8F3FF" stroke="#000" stroke-width="4"></rect>
+              <text x="102" y="235" font-size="22">WebRTC</text>
+              <text x="102" y="265" font-size="16">browser kan IP prijsgeven</text>
+
+              <rect x="510" y="200" width="390" height="90" rx="16" fill="#E9FCEB" stroke="#000" stroke-width="4"></rect>
+              <text x="532" y="235" font-size="22">IPv6</text>
+              <text x="532" y="265" font-size="16">IPv6 kan buiten tunnel gaan</text>
+
+              <text x="80" y="60" font-size="18">Oplossing: anti-lek + kill switch + testen na elke wijziging</text>
+            </svg>
+          </div>
+        </div>
+
+        <h2>4) Testnotitie (E-E-A-T): wat ik zelf zag tijdens het testen</h2>
+        <p class="note">
+          <strong>Testnotitie:</strong>
+          Bij het testen van split tunneling op Windows 11 (één streaming-app buiten de tunnel, browser in de tunnel) merkte ik dat DNS-resolutie soms
+          “blijft hangen” aan de systeemresolver na het aanpassen van regels. Pas nadat ik anti-lek-bescherming expliciet activeerde, de virtuele adapter
+          herstartte en opnieuw controleerde via de <a href="/nl-be/blog/vpn-dns-leak.html">DNS-lek gids</a>, was het resultaat stabiel.
+          Sindsdien hanteer ik een simpele regel: split tunneling is pas klaar als <strong>IP + DNS + WebRTC + IPv6</strong> groen zijn.
+        </p>
+
+        <div class="key-takeaway"><strong>Conclusie:</strong> split tunneling valideer je met metingen, niet met gevoel.</div>
+
+        <h2>5) België-scenario’s: bankapps (KBC, Belfius, ING) en streaming (VRT MAX, GoPlay)</h2>
+        <p>
+          Omdat deze pagina gericht is op nl-be, hier de praktijk waar je het vaakst split tunneling voor inzet:
+          <strong>bankieren</strong> en <strong>lokale streaming</strong>.
+        </p>
+
+        <h3>Online bankieren</h3>
+        <p>
+          Apps van <strong>KBC</strong>, <strong>Belfius</strong> of <strong>ING Belgium</strong> kunnen extra risico-detectie doen als je IP plots “wisselt” via een VPN.
+          Als je merkt dat de app inlogt maar transacties blokkeert of je opnieuw laat verifiëren, kan split tunneling helpen:
+          je houdt alleen de bankapp buiten de tunnel, terwijl je browser en andere apps beschermd blijven.
+          Praktische achtergrond: <a href="/nl-be/blog/vpn-online-bankieren.html">VPN &amp; online bankieren</a>.
+        </p>
+
+        <h3>Streaming</h3>
+        <p>
+          Voor lokale diensten zoals <strong>VRT MAX</strong> of <strong>GoPlay</strong> wil je meestal gewoon een stabiele Belgische route.
+          Split tunneling kan hier een “comfort-fix” zijn: laat de streaming-app buiten de VPN en hou de rest in de tunnel.
+          Tip: als je doel geoblokkades is, kijk eerst naar <a href="/nl-be/blog/vpn-geo-blokkades.html">geoblokkades</a> en test servers.
+          Voor algemene streaming-instellingen: <a href="/nl-be/blog/vpn-streaming.html">VPN voor streaming</a>.
+        </p>
+
+        <div class="table-scroll" aria-label="Tabel: typische split tunneling-regels (BE)">
+          <table>
+            <thead>
+              <tr>
+                <th>Doel</th>
+                <th>Wat buiten VPN?</th>
+                <th>Wat in VPN?</th>
+                <th>Risico</th>
+                <th>Controle</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Bankieren (KBC/Belfius/ING)</td>
+                <td>Alleen bankapp</td>
+                <td>Browser + mail + socials</td>
+                <td>Bankapp gebruikt ISP-DNS</td>
+                <td>DNS-test uitvoeren</td>
+              </tr>
+              <tr>
+                <td>VRT MAX / GoPlay</td>
+                <td>Streaming-app</td>
+                <td>Downloads + browser</td>
+                <td>IP zichtbaar voor streaming</td>
+                <td>IP check + stabiliteit</td>
+              </tr>
+              <tr>
+                <td>Remote work</td>
+                <td>Bijna niets</td>
+                <td>Werkapps</td>
+                <td>Policy-conflict</td>
+                <td>Bedrijfsregels checken</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>6) Stappenplan: split tunneling instellen (Windows, Android, iOS, router)</h2>
+        <p>
+          De exacte knoppen verschillen per provider, maar de strategie blijft hetzelfde:
+          <strong>begin met “uitsluiten”</strong> (alles via VPN, één app buiten) en pas daarna uitbreiden.
+          Optimaliseer eerst je basis met <a href="/nl-be/blog/vpn-optimale-instellingen.html">optimale instellingen</a>.
+        </p>
+
+        <h3>Windows</h3>
+        <p>
+          Windows geeft meestal de beste controle. Volg een veilige aanpak (minimale uitzonderingen) en test daarna.
+          Handige gids: <a href="/nl-be/blog/vpn-windows-instellen.html">VPN op Windows instellen</a>.
+        </p>
+        <ol>
+          <li>Activeer VPN en controleer of je IP verandert.</li>
+          <li>Zet split tunneling aan en <strong>sluit alleen de noodzakelijke app uit</strong>.</li>
+          <li>Schakel kill switch en anti-lek-opties in.</li>
+          <li>Test IP, DNS, WebRTC en (indien relevant) IPv6 opnieuw.</li>
+        </ol>
+
+        <h3>Android</h3>
+        <p>
+          Op Android kun je vaak split tunneling combineren met “VPN altijd aan”. Op openbare netwerken is dat extra nuttig.
+          Gids: <a href="/nl-be/blog/vpn-android.html">VPN op Android</a>.
+        </p>
+
+        <h3>iPhone (iOS)</h3>
+        <p>
+          iOS heeft doorgaans beperktere split tunneling-mogelijkheden. Als je echt per “apparaat” wil sturen, is een router-oplossing vaak stabieler.
+          Voor iOS-setup: <a href="/nl-be/blog/vpn-ios.html">VPN op iOS</a> en <a href="/nl-be/blog/vpn-iphone-instellen.html">iPhone instellen</a>.
+        </p>
+
+        <h3>Router (split tunneling per apparaat)</h3>
+        <p>
+          Op een router stuur je vaak per apparaat: tv direct, laptop via VPN. Dat is ideaal voor smart tv’s en consoles.
+          Gids: <a href="/nl-be/blog/vpn-router-instellen.html">VPN op router instellen</a> en <a href="/nl-be/blog/vpn-voor-smart-tv.html">VPN voor smart tv</a>.
+        </p>
+
+        <div class="svg-card">
+          <div class="svg-head">
+            <div>
+              <h3>Diagram 4: split tunneling via router (per apparaat)</h3>
+              <p class="svg-sub">Handig als iOS minder flexibel is: je beslist op toestelniveau.</p>
+            </div>
+            <span class="mini-badge">Thuis</span>
+          </div>
+          <div class="svg-scroll" aria-label="Schema router split tunneling">
+            <svg viewBox="0 0 980 380" role="img" aria-label="Router: laptop via VPN, TV direct">
+              <rect x="40" y="30" width="900" height="320" rx="18" fill="#FFFFFF" stroke="#000" stroke-width="4"></rect>
+
+              <rect x="90" y="95" width="240" height="90" rx="16" fill="#E8F3FF" stroke="#000" stroke-width="4"></rect>
+              <text x="112" y="130" font-size="22">Laptop</text>
+              <text x="112" y="158" font-size="16">browser / werk</text>
+
+              <rect x="90" y="225" width="240" height="90" rx="16" fill="#FFE9F1" stroke="#000" stroke-width="4"></rect>
+              <text x="112" y="260" font-size="22">Smart TV</text>
+              <text x="112" y="288" font-size="16">VRT MAX / GoPlay</text>
+
+              <rect x="390" y="150" width="220" height="100" rx="16" fill="#E9FCEB" stroke="#000" stroke-width="4"></rect>
+              <text x="412" y="190" font-size="22">Router</text>
+              <text x="412" y="220" font-size="16">regels per toestel</text>
+
+              <rect x="670" y="90" width="250" height="90" rx="16" fill="#E9FCEB" stroke="#000" stroke-width="4"></rect>
+              <text x="692" y="125" font-size="22">VPN-route</text>
+              <text x="692" y="153" font-size="16">Laptop via VPN</text>
+
+              <rect x="670" y="230" width="250" height="90" rx="16" fill="#FFF2E6" stroke="#000" stroke-width="4"></rect>
+              <text x="692" y="265" font-size="22">Direct</text>
+              <text x="692" y="293" font-size="16">TV zonder VPN</text>
+
+              <line x1="330" y1="140" x2="390" y2="190" stroke="#000" stroke-width="4"></line>
+              <polygon points="390,190 377,182 379,198" fill="#000"></polygon>
+
+              <line x1="330" y1="270" x2="390" y2="210" stroke="#000" stroke-width="4"></line>
+              <polygon points="390,210 377,202 379,218" fill="#000"></polygon>
+
+              <line x1="610" y1="195" x2="670" y2="135" stroke="#000" stroke-width="4"></line>
+              <polygon points="670,135 657,127 659,143" fill="#000"></polygon>
+
+              <line x1="610" y1="205" x2="670" y2="275" stroke="#000" stroke-width="4"></line>
+              <polygon points="670,275 657,267 659,283" fill="#000"></polygon>
+            </svg>
+          </div>
+        </div>
+
+        <h2>7) Snelheid en protocollen: wat split tunneling wel en niet oplost</h2>
+        <p>
+          Split tunneling is geen “turbo-knop” voor een trage VPN. Als je VPN traag is, ligt dat meestal aan serverafstand,
+          congestie of het protocol. Begin met <a href="/nl-be/blog/vpn-protocollen.html">VPN-protocollen</a> en test objectief via
+          <a href="/nl-be/blog/vpn-snelheidstest.html">VPN-snelheidstest</a>. Soms is “gewoon een andere server” al het grootste verschil;
+          zie <a href="/nl-be/blog/welke-vpn-server-kiezen.html">welke VPN-server kiezen</a>.
+        </p>
+
+        <div class="table-scroll" aria-label="Tabel: protocollen en geschikt gebruik">
+          <table>
+            <thead>
+              <tr>
+                <th>Protocol</th>
+                <th>Snelheid</th>
+                <th>Stabiliteit</th>
+                <th>Compatibiliteit</th>
+                <th>Beste voor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>WireGuard</td>
+                <td>Zeer hoog</td>
+                <td>Hoog</td>
+                <td>Goed</td>
+                <td>Dagelijks gebruik, streaming, mobiel</td>
+              </tr>
+              <tr>
+                <td>OpenVPN</td>
+                <td>Middel-hoog</td>
+                <td>Zeer hoog</td>
+                <td>Zeer goed</td>
+                <td>Maximale compatibiliteit</td>
+              </tr>
+              <tr>
+                <td>IKEv2/IPSec</td>
+                <td>Hoog</td>
+                <td>Hoog</td>
+                <td>Goed</td>
+                <td>Mobiel (netwerk wissels)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="key-takeaway"><strong>Conclusie:</strong> verbeter eerst protocol + server, gebruik split tunneling daarna voor compatibiliteit en controle.</div>
+
+        <h2>8) Fouten vermijden: praktische checklist + troubleshooting</h2>
+        <p>
+          De meeste problemen komen neer op drie dingen: te veel apps uitsluiten, lekbescherming vergeten, of de kill switch die niet doet wat je denkt.
+          Gebruik onderstaande checklist en hou je uitzonderingen klein.
+        </p>
+
+        <div class="svg-card">
+          <div class="svg-head">
+            <div>
+              <h3>Diagram 5: checklist voor “schone” split tunneling</h3>
+              <p class="svg-sub">Als deze punten kloppen, zit je meestal veilig.</p>
+            </div>
+            <span class="mini-badge">Checklist</span>
+          </div>
+          <div class="svg-scroll" aria-label="Checklist split tunneling">
+            <svg viewBox="0 0 980 420" role="img" aria-label="Checklist: split tunneling veilig gebruiken">
+              <rect x="40" y="30" width="900" height="360" rx="18" fill="#FFFFFF" stroke="#000" stroke-width="4"></rect>
+              <text x="70" y="80" font-size="22">Snelle checklist</text>
+
+              <rect x="70" y="105" width="840" height="55" rx="14" fill="#E9FCEB" stroke="#000" stroke-width="4"></rect>
+              <text x="92" y="141" font-size="18">✅ 1) Ik weet exact welke app buiten VPN staat</text>
+
+              <rect x="70" y="170" width="840" height="55" rx="14" fill="#E8F3FF" stroke="#000" stroke-width="4"></rect>
+              <text x="92" y="206" font-size="18">✅ 2) Kill switch beschermt het verkeer dat in VPN moet blijven</text>
+
+              <rect x="70" y="235" width="840" height="55" rx="14" fill="#FFF2E6" stroke="#000" stroke-width="4"></rect>
+              <text x="92" y="271" font-size="18">✅ 3) Tests: IP + DNS + WebRTC + IPv6 uitgevoerd</text>
+
+              <rect x="70" y="300" width="840" height="55" rx="14" fill="#FFE9F1" stroke="#000" stroke-width="4"></rect>
+              <text x="92" y="336" font-size="18">✅ 4) Na updates opnieuw getest</text>
+
+              <text x="70" y="390" font-size="16">Tip: bij twijfel terug naar “alles via VPN” en eerst lekken oplossen.</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="table-scroll" aria-label="Tabel: symptomen en oplossingen">
+          <table>
+            <thead>
+              <tr>
+                <th>Symptoom</th>
+                <th>Waarschijnlijke oorzaak</th>
+                <th>Fix</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>DNS-test toont ISP</td>
+                <td>Anti-lek uit / DNS conflict</td>
+                <td>Anti-lek aanzetten, herstart VPN-adapter, opnieuw testen</td>
+              </tr>
+              <tr>
+                <td>VPN valt weg en apps lekken IP</td>
+                <td>Kill switch niet effectief</td>
+                <td>Kill switch herinstellen + test disconnect-scenario</td>
+              </tr>
+              <tr>
+                <td>Streaming is instabiel</td>
+                <td>Server druk / protocol mismatch</td>
+                <td>Andere server/protocol proberen voor je split tunneling gebruikt</td>
+              </tr>
+              <tr>
+                <td>Bankapp vraagt continu extra verificatie</td>
+                <td>IP wisselt via VPN-route</td>
+                <td>Alleen bankapp buiten tunnel, rest in tunnel</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>FAQ</h2>
+        <dl>
+          <dt>Wat is split tunneling bij een VPN?</dt>
+          <dd>Een functie waarbij je selecteert welke apps via de VPN-tunnel gaan en welke rechtstreeks via je ISP gaan.</dd>
+
+          <dt>Is split tunneling veilig?</dt>
+          <dd>Ja, zolang je uitzonderingen minimaal houdt en nadien test op DNS/WebRTC/IPv6-lekken. Alles buiten de tunnel is niet door de VPN beschermd.</dd>
+
+          <dt>Wanneer gebruik ik het best split tunneling in België?</dt>
+          <dd>Bij compatibiliteit: bv. bankapps (KBC/Belfius/ING) of lokaal streamen (VRT MAX/GoPlay) als je merkt dat VPN-routing problemen geeft.</dd>
+
+          <dt>Welke tests moet ik altijd doen?</dt>
+          <dd>IP-check, DNS-lektest, WebRTC-test in de browser en controleren of IPv6 niet buiten de tunnel gaat.</dd>
+        </dl>
+
+        <div class="key-takeaway"><strong>Conclusie:</strong> split tunneling is ideaal voor gerichte uitzonderingen, maar vraagt discipline: kill switch + anti-lek + testen.</div>
+
+        <h2>Conclusie</h2>
+        <p>
+          Split tunneling is een topfunctie als je ze gebruikt als precisietool: één app buiten de tunnel om compatibiliteit te fixen,
+          terwijl je gevoelige verkeer in de VPN blijft. Combineer dit met goede instellingen, betrouwbare protocollen en altijd een test na wijziging.
+          Wil je de basis nog sterker maken? Lees dan <a href="/nl-be/blog/waarom-vpn-2025.html">waarom een VPN in 2025/2026</a> en
+          <a href="/nl-be/blog/nadelen-van-vpn.html">nadelen van VPN</a>.
+        </p>
+
+        <div class="related-card" role="note" aria-label="Gerelateerde gidsen (einde)">
+          <div class="rel-inner">
+            <span class="rel-accent" aria-hidden="true"></span>
+            <p><strong>Gerelateerd:</strong>
+              <a href="/nl-be/blog/vpn-dns-leak.html">DNS-lekken</a> ·
+              <a href="/nl-be/blog/vpn-kill-switch.html">Kill switch</a> ·
+              <a href="/nl-be/blog/vpn-router-instellen.html">Router instellen</a> ·
+              <a href="/nl-be/blog/wifi-beveiliging-checklist.html">Wifi checklist</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- CONTENT_END -->
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <h2>Video: Hoe werkt VPN privacy? (Eenvoudige uitleg)</h2>
+
+        <p class="note">
+          <strong>Conclusie:</strong>
+          een VPN scheidt <strong>wie jij bent</strong> (IP/ISP) van <strong>wat je doet</strong> (sites en diensten).
+          Split tunneling maakt die scheiding selectief — daarom zijn tests zo belangrijk.
+        </p>
+
+        <div class="video-wrap">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&modestbranding=1"
+            title="VPN World — video"
+            loading="lazy"
+            frameborder="0"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+        </div>
+
+        <p>
+          Als de speler niet laadt, bekijk op YouTube:
+          <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- RELATED_START -->
+    <!-- RELATED_END -->
+
+    <section class="section">
+      <div class="container">
+        <div class="author-box">
+          <img src="../../assets/img/author/denys-shchur.webp" alt="Portret van Denys Shchur" class="author-avatar">
+          <div>
+            <h3>Over de auteur</h3>
+            <p>
+              <strong><a href="/nl-be/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a></strong>
+              is de maker van VPN World en schrijft praktische, test-gedreven gidsen over VPN’s, online privacy en dagelijkse cybersecurity.
+              Hij test instellingen in echte scenario’s (DNS/WebRTC/IPv6) zodat jij sneller weet wat veilig werkt.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container article">
+        <div class="cta-box" aria-label="Aanbevolen VPN">
+          <h2>Aanbevolen VPN</h2>
+          <p class="cta-note">Partnerlinks (nofollow/sponsored).</p>
+          <div class="cta-buttons" aria-label="Partneraanbiedingen">
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Probeer NordVPN — geaudite no-logs beleid</a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Probeer Surfshark — RAM-only servers</a>
+          </div>
+          <p class="human-note">Disclosure: VPN World kan een commissie verdienen als je via deze links abonneert — zonder prijswijziging voor jou.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p><strong>VPN World</strong> · Onafhankelijke site over privacy, beveiliging en praktisch VPN-gebruik.</p>
+      <p>
+        <a href="/nl-be/privacy.html">Privacy</a> ·
+        <a href="/nl-be/disclosure.html">Disclosure</a> ·
+        <a href="mailto:u1797008805@gmail.com">Contact</a>
+      </p>
+      <p>© 2026 VPN World</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/cookie-consent.js"></script>
+
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookievoorkeuren">
+    <p>Analyse is standaard uitgeschakeld. Je kunt analyse accepteren of weigeren.</p>
+    <div class="cookie-actions">
+      <button type="button" class="btn btn-compact" onclick="acceptConsent()">Accepteren</button>
+      <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Weigeren</button>
+    </div>
+  </div>
+
+</body>
+</html>
+
+<!-- PAGE: https://dloran1.github.io/nl-be/blog/vpn-split-tunneling.html -->

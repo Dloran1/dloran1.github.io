@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>Co to jest VPN i jak działa? Kompletny przewodnik 2026 | VPN World</title>
+<meta name="description" content="Czym jest VPN, jak działa i kiedy warto go używać? Praktyczny przewodnik 2026: prywatność, szyfrowanie, protokoły, wycieki DNS/IPv6, kill switch i realne scenariusze.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Denys Shchur">
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="canonical" href="https://dloran1.github.io/blog/co-to-jest-vpn.html">
+
+<!-- HREFLANG -->
+<link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/co-to-jest-vpn.html">
+<link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/what-is-a-vpn-uk.html">
+<link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/what-is-a-vpn.html">
+<link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/was-ist-ein-vpn.html">
+<link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/que-es-una-vpn.html">
+<link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/quest-ce-quun-vpn.html">
+<link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/wat-is-een-vpn.html">
+<link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/what-is-a-vpn-uk.html">
+
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="VPN World">
+<meta property="og:title" content="Co to jest VPN i jak działa? Kompletny przewodnik 2026">
+<meta property="og:description" content="Dowiedz się, czym jest VPN, jak działa i kiedy warto go używać, by chronić dane i prywatność w 2026 roku.">
+<meta property="og:url" content="https://dloran1.github.io/blog/co-to-jest-vpn.html">
+<meta property="og:image" content="https://dloran1.github.io/assets/img/hero/what-is-a-vpn-uk.webp">
+<meta property="og:image:alt" content="Co to jest VPN – ilustracja szyfrowania i tunelu VPN">
+<meta property="og:locale" content="pl_PL">
+<meta property="og:locale:alternate" content="en_GB">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:locale:alternate" content="de_DE">
+<meta property="og:locale:alternate" content="es_ES">
+<meta property="og:locale:alternate" content="fr_FR">
+<meta property="og:locale:alternate" content="nl_BE">
+<meta property="article:published_time" content="2026-01-02">
+<meta property="article:modified_time" content="2026-01-02">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Co to jest VPN i jak działa? Kompletny przewodnik 2026">
+<meta name="twitter:description" content="VPN w praktyce: szyfrowanie, protokoły, wycieki DNS/IPv6, kill switch, streaming i praca zdalna.">
+<meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/what-is-a-vpn-uk.webp">
+
+<!-- Preconnect -->
+<link rel="dns-prefetch" href="https://www.googletagmanager.com">
+<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+<link rel="dns-prefetch" href="https://www.google-analytics.com">
+<link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+
+<!-- Consent Mode v2 (Stage 2.5: default deny ALL) -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    functionality_storage: 'denied',
+    personalization_storage: 'denied',
+    security_storage: 'denied'
+  });
+
+  (function restoreConsent(){
+    try{
+      if (localStorage.getItem('vpnworld_consent') === 'granted') {
+        gtag('consent','update',{
+          ad_storage:'granted',
+          ad_user_data:'granted',
+          ad_personalization:'granted',
+          analytics_storage:'granted',
+          functionality_storage:'granted',
+          personalization_storage:'granted',
+          security_storage:'granted'
+        });
+      }
+    }catch(e){}
+  })();
+</script>
+
+<!-- GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+<script>
+  gtag('js', new Date());
+  // konfiguracja „bez page_view” dopóki nie zaakceptujesz
+  gtag('config','G-RD6M691ZWD', { send_page_view: false });
+</script>
+
+<style>
+/* mikro-fix: czytelniejsze callouty (reszty nie ruszam) */
+.note, .tip{
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  margin: 1rem 0;
+}
+.note strong, .tip strong{ font-weight: 700; }
+
+/* intro grid */
+.quick-grid{
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:12px;
+  padding:1rem;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:.8rem 1.2rem;
+  margin:1rem 0 1.25rem;
+}
+.quick-grid p{margin:.25rem 0}
+@media (max-width:640px){.quick-grid{grid-template-columns:1fr}}
+
+/* video wrap */
+.video-wrap{
+  position:relative;
+  padding-top:56.25%;
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.18);
+  background: rgba(0,0,0,.25);
+  margin: 1rem 0 1.25rem;
+}
+.video-wrap iframe{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  border:0;
+}
+
+.table-wrap{overflow:auto;border:1px solid rgba(255,255,255,.18);border-radius:12px;margin:1rem 0}
+table{width:100%;border-collapse:collapse;min-width:780px}
+th,td{padding:.75rem .85rem;border-bottom:1px solid rgba(255,255,255,.12);vertical-align:top}
+th{font-weight:700;text-align:left}
+</style>
+</head>
+
+<body>
+
+<nav class="lang-switch">
+  <a href="/blog/co-to-jest-vpn.html" class="active">Polski</a> |
+  <a href="/en-gb/blog/what-is-a-vpn-uk.html">English (UK)</a> |
+  <a href="/en-us/blog/what-is-a-vpn.html">English (US)</a> |
+  <a href="/de/blog/was-ist-ein-vpn.html">Deutsch</a> |
+  <a href="/es/blog/que-es-una-vpn.html">Español</a> |
+  <a href="/fr/blog/quest-ce-quun-vpn.html">Français</a> |
+  <a href="/nl-be/blog/wat-is-een-vpn.html">Nederlands (BE)</a>
+</nav>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="brand">
+      <img src="../assets/img/logo.png" class="logo" alt="VPN World" width="48" height="48">
+      <span class="brand-text">VPN World</span>
+    </a>
+  </div>
+</header>
+
+<main class="container card article">
+
+<figure class="hero">
+  <img src="/assets/img/hero/what-is-a-vpn-uk.webp"
+       alt="Co to jest VPN – ilustracja szyfrowania i tunelu VPN"
+       width="1200" height="675" loading="eager" decoding="async">
+  <figcaption class="hero-text">
+    <h1>Co to jest VPN i jak działa?</h1>
+    <p>VPN ukrywa IP, szyfruje ruch i pomaga odzyskać kontrolę nad prywatnością — w domu, w podróży i na publicznym Wi-Fi.</p>
+  </figcaption>
+</figure>
+
+<p class="meta"><time datetime="2026-01-02">2 stycznia 2026</time></p>
+
+<article>
+<p>
+W 2026 roku prywatność online nie jest już „miłym dodatkiem”, tylko praktyczną potrzebą. Reklamodawcy, sieci Wi-Fi w miejscach publicznych,
+aplikacje mobilne, a nawet część dostawców usług internetowych budują profil użytkownika na podstawie metadanych połączenia.
+<strong>VPN (Virtual Private Network)</strong> to narzędzie, które realnie zmienia zasady gry: szyfruje transmisję, ukrywa Twój adres IP przed stronami
+i utrudnia śledzenie na poziomie sieci.
+</p>
+
+<p>
+Ten przewodnik jest napisany „po ludzku”, ale bez spłycania. Zobaczysz, jak działa tunel VPN, czym różnią się protokoły, jak sprawdzić wycieki DNS/IPv6,
+dlaczego <a href="/blog/vpn-kill-switch.html">kill switch</a> ma znaczenie i kiedy VPN ma sens — a kiedy nie.
+</p>
+
+<h2>Jak działa VPN — w skrócie i bez żargonu</h2>
+<p><strong>Szybka odpowiedź:</strong> aplikacja VPN tworzy zaszyfrowany tunel między Twoim urządzeniem a serwerem VPN. Dostawca internetu widzi głównie zaszyfrowany ruch do serwera VPN, a odwiedzane strony widzą IP serwera VPN zamiast Twojego.</p>
+
+<div class="quick-grid" role="group" aria-label="VPN w skrócie">
+  <p><strong>Co widzi dostawca Internetu?</strong><br>Połączenie z serwerem VPN (zaszyfrowane)</p>
+  <p><strong>Co widzi strona/aplikacja?</strong><br>IP serwera VPN zamiast Twojego</p>
+  <p><strong>Co zyskujesz?</strong><br>Prywatność + szyfrowanie + mniej śledzenia</p>
+  <p><strong>Gdzie działa?</strong><br>Komputer, telefon, a nawet router</p>
+</div>
+
+<div class="note">
+  <strong>Ważne:</strong> VPN nie czyni Cię „niewidzialnym”. Nadal obowiązują cookies, loginy do kont i fingerprinting przeglądarki.
+  VPN jednak znacząco ogranicza śledzenie na poziomie sieci i poprawia bezpieczeństwo transmisji.
+</div>
+
+<p>
+W praktyce cała magia dzieje się w warstwie transportu: zanim dane opuszczą Twoje urządzenie, są pakowane w zaszyfrowany „kontener”.
+Dopiero serwer VPN rozpakowuje pakiety i wysyła je dalej do docelowej strony. Dzięki temu:
+</p>
+<ul>
+  <li>Twoje dane są trudniejsze do przechwycenia w sieciach publicznych,</li>
+  <li>Twoje realne IP jest ukryte przed wieloma serwisami,</li>
+  <li>łatwiej ominąć blokady regionalne (więcej w: <a href="/blog/bloki-geo-vpn.html">blokady geograficzne VPN</a>).</li>
+</ul>
+
+<div class="cta-buttons">
+  <a class="nordvpn" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">✅ Wypróbuj NordVPN</a>
+  <a class="surfshark" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Pobierz Surfshark</a>
+</div>
+<h2>Protokoły VPN i szyfrowanie — co wybrać w 2026</h2>
+<p>
+VPN to nie jeden „tryb”, tylko zestaw technologii: protokół (czyli sposób zestawienia tunelu), szyfrowanie oraz polityka DNS/IPv6.
+W 2026 roku liczy się balans: szybkość, stabilność i bezpieczeństwo. Jeśli chcesz wejść głębiej, zobacz: <a href="/blog/protokoly-vpn.html">protokoły VPN — przewodnik</a>.
+</p>
+
+<div class="table-wrap" role="region" aria-label="Porównanie protokołów VPN" tabindex="0">
+<table>
+  <thead>
+    <tr>
+      <th>Protokół</th>
+      <th>Największy plus</th>
+      <th>Kiedy używać</th>
+      <th>Uwaga praktyczna</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>WireGuard</strong></td>
+      <td>Bardzo wysoka prędkość i niski ping</td>
+      <td>Streaming, granie, codzienne użycie</td>
+      <td>Najczęściej najlepszy „domyślny” wybór</td>
+    </tr>
+    <tr>
+      <td><strong>OpenVPN (UDP)</strong></td>
+      <td>Stabilny standard, dobry kompromis</td>
+      <td>Gdy WireGuard jest blokowany albo „kaprysi”</td>
+      <td>UDP zwykle szybsze, ale zależne od sieci</td>
+    </tr>
+    <tr>
+      <td><strong>OpenVPN (TCP)</strong></td>
+      <td>Lepsza odporność na trudne sieci</td>
+      <td>Sieci firmowe, hotele, restrykcyjne firewalle</td>
+      <td>Może być wolniejsze przez narzut TCP</td>
+    </tr>
+    <tr>
+      <td><strong>IKEv2/IPSec</strong></td>
+      <td>Świetny na telefonie (szybko wznawia tunel)</td>
+      <td>Mobilnie: zmiany LTE/5G/Wi-Fi</td>
+      <td>Dobry wybór, gdy często zmieniasz sieć</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="tip">
+  <strong>Praktyczny tip:</strong> jeśli serwis blokuje VPN, zmień protokół (np. WireGuard → OpenVPN UDP) i wybierz inny serwer.
+  Czasem pomaga też restart aplikacji VPN oraz ponowne zestawienie tunelu.
+</div>
+
+<h2>Co daje VPN w praktyce</h2>
+<p><strong>Szybka odpowiedź:</strong> bezpieczniejsze połączenie (zwłaszcza w publicznych sieciach), mniej śledzenia na poziomie IP i łatwiejszy dostęp do treści w podróży.</p>
+
+<p>
+Najczęstsze realne scenariusze, w których VPN robi różnicę:
+</p>
+<ul>
+  <li><strong>Publiczne Wi-Fi</strong> (kawiarnia/hotel/lotnisko): szyfrowanie utrudnia podsłuch i przechwycenie sesji.</li>
+  <li><strong>Streaming i podróże</strong>: zmiana lokalizacji IP pomaga obejść część ograniczeń regionalnych.</li>
+  <li><strong>Praca i administracja</strong>: stabilny tunel bywa wygodniejszy niż „otwarty” ruch w obcej sieci.</li>
+  <li><strong>Ograniczenie profilowania</strong>: IP jest jednym z kluczowych sygnałów łączących aktywność w spójny profil.</li>
+</ul>
+
+<h2>Wideo: VPN w 2–3 minuty (z kanału Denysa)</h2>
+<div class="video-wrap" aria-label="Wideo YouTube o VPN">
+  <iframe
+    src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE"
+    title="Co to jest VPN — wideo"
+    loading="lazy"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen></iframe>
+</div>
+<p class="note">
+  Jeśli wideo się nie ładuje, otwórz je na YouTube:
+  <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">zobacz wideo</a>.
+</p>
+
+<h2>VPN a proxy — najprostsza różnica</h2>
+<p>
+<strong>Szybka odpowiedź:</strong> proxy zwykle „podmienia IP” tylko w wybranej aplikacji (np. przeglądarce), a VPN szyfruje i tuneluje ruch systemowo.
+Jeśli chcesz szybkie porównanie, zobacz: <a href="/blog/proxy-vs-vpn.html">Proxy vs VPN</a>.
+</p>
+
+<h2>Wyciek DNS/IPv6 i kill switch — dwie rzeczy, które naprawdę warto sprawdzić</h2>
+<p>
+W praktyce użytkownicy często są zaskoczeni nie prędkością, a <em>wyciekami</em>. Najczęstszy problem to sytuacja, gdy:
+</p>
+<ul>
+  <li>strony widzą IP serwera VPN, ale zapytania DNS idą do DNS Twojego dostawcy,</li>
+  <li>IPv6 „omija” tunel, jeśli aplikacja VPN nie zarządza nim poprawnie,</li>
+  <li>tunel zrywa się na sekundę i ruch leci „gołym Internetem”.</li>
+</ul>
+
+<p>
+Dlatego w 2026 absolutnym minimum jest:
+</p>
+<ul>
+  <li>ochrona przed wyciekami DNS/IPv6 (test: <a href="/blog/wyciek-dns-vpn.html">wyciek DNS VPN</a>),</li>
+  <li><a href="/blog/vpn-kill-switch.html">kill switch</a> — blokada ruchu, gdy tunel spada.</li>
+</ul>
+
+<div class="table-wrap" role="region" aria-label="Mini-checklista bezpieczeństwa VPN" tabindex="0">
+<table>
+  <thead>
+    <tr>
+      <th>Sprawdź</th>
+      <th>Jak</th>
+      <th>Co ma być OK</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>DNS</td>
+      <td>Test wycieków DNS</td>
+      <td>DNS nie należy do ISP</td>
+    </tr>
+    <tr>
+      <td>IPv6</td>
+      <td>Test IPv6 / ustawienia aplikacji</td>
+      <td>Brak wycieków poza tunel</td>
+    </tr>
+    <tr>
+      <td>Kill switch</td>
+      <td>Zerwij połączenie VPN na chwilę</td>
+      <td>Ruch jest zablokowany</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Kiedy VPN ma największy sens</h2>
+<ul>
+  <li>często korzystasz z obcych sieci Wi-Fi i nie chcesz ryzykować przechwycenia sesji,</li>
+  <li>chcesz ograniczyć śledzenie na poziomie IP i dostawcy Internetu,</li>
+  <li>podróżujesz i potrzebujesz dostępu do usług „jak w domu”,</li>
+  <li>zależy Ci na stabilności i prywatności w codziennym użyciu.</li>
+</ul>
+
+<h2>Ograniczenia i zdrowy rozsądek</h2>
+<p>
+VPN to mocne narzędzie, ale nie „magiczna tarcza”. VPN nie zastępuje aktualizacji systemu, ostrożności w linkach
+ani higieny haseł. Dodatkowo: nie każdy darmowy model jest bezpieczny.
+Jeśli chcesz bez emocji porównanie, zobacz: <a href="/blog/darmowy-vs-platny-vpn.html">darmowy vs płatny VPN</a>.
+</p>
+
+<div class="cta-buttons">
+  <a class="nordvpn" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">✅ Wypróbuj NordVPN</a>
+  <a class="surfshark" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Pobierz Surfshark</a>
+</div>
+
+<h2>FAQ</h2>
+<p><strong>Czy VPN spowalnia połączenie?</strong><br>Tak, ale zwykle minimalnie. Najczęściej największą różnicę robi dystans do serwera i obciążenie sieci, a nie samo szyfrowanie.</p>
+<p><strong>Czy VPN jest bezpieczny do bankowości?</strong><br>Tak — szczególnie w publicznych sieciach Wi-Fi, gdzie szyfrowanie utrudnia podsłuch transmisji.</p>
+<p><strong>Czy mogę użyć VPN na telewizorze lub konsoli?</strong><br>Tak — najprościej przez konfigurację na routerze (instrukcja poniżej w powiązanych artykułach).</p>
+
+<h2>Podsumowanie</h2>
+<p>
+VPN w 2026 jest jednym z najprostszych sposobów na poprawę prywatności i bezpieczeństwa połączenia.
+Daje szyfrowanie, maskuje IP i ogranicza śledzenie sieciowe. Jeśli wybierzesz usługę z dobrą obsługą DNS/IPv6 i kill switchem,
+zyskasz stabilniejsze i bezpieczniejsze korzystanie z Internetu na co dzień.
+</p>
+
+<section class="author-box">
+  <p>Autorem jest <a href="/about-denys-shchur.html">Denys Shchur</a> – twórca VPN World i autor treści o VPN i cyberbezpieczeństwie.</p>
+</section>
+
+</article>
+<div class="cta-box">
+  <h3>Zabezpiecz swoje połączenie już teraz</h3>
+  <p>
+    Wybierz
+    <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN</a>
+    lub
+    <a href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark</a>
+    i korzystaj z Internetu spokojniej — w domu i w podróży.
+  </p>
+</div>
+
+<!-- RELATED_START -->
+<section class="related-guides" aria-label="Powiązane poradniki">
+  <h2>Powiązane poradniki</h2>
+  <ul>
+    <li><a href="/blog/bloki-geo-vpn.html">/blog/bloki-geo-vpn.html</a></li>
+    <li><a href="/blog/protokoly-vpn.html">/blog/protokoly-vpn.html</a></li>
+    <li><a href="/blog/proxy-vs-vpn.html">/blog/proxy-vs-vpn.html</a></li>
+    <li><a href="/blog/vpn-konfiguracja-routera.html">/blog/vpn-konfiguracja-routera.html</a></li>
+    <li><a href="/blog/darmowy-vs-platny-vpn.html">/blog/darmowy-vs-platny-vpn.html</a></li>
+  </ul>
+</section>
+<!-- RELATED_END -->
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <strong>VPN World</strong>
+      <p>Niezależny serwis o prywatności i bezpieczeństwie w sieci.</p>
+    </div>
+  <nav>
+  <a href="/privacy.html">Privacy</a>
+  <a href="/disclosure.html">Disclosure</a>
+  <a href="/sitemap.xml">Sitemap</a>
+  <a href="mailto:denger88@gmail.com">Kontakt</a>
+</nav>
+
+  </div>
+  <div class="container tiny">© 2026 VPN World</div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/cookie-consent.js"></script>
+
+<script>
+  function acceptConsent(){
+    gtag('consent','update',{
+      ad_storage:'granted',
+      ad_user_data:'granted',
+      ad_personalization:'granted',
+      analytics_storage:'granted',
+      functionality_storage:'granted',
+      personalization_storage:'granted',
+      security_storage:'granted'
+    });
+
+    try { localStorage.setItem('vpnworld_consent','granted'); } catch(e) {}
+
+    // dopiero po zgodzie wysyłamy page_view
+    try { gtag('event','page_view'); } catch(e) {}
+
+    const b=document.getElementById('privacy-banner');
+    if(b) b.remove();
+  }
+
+  (function hideIfGranted(){
+    try{
+      if(localStorage.getItem('vpnworld_consent') === 'granted'){
+        const b=document.getElementById('privacy-banner');
+        if(b) b.remove();
+      }
+    }catch(e){}
+  })();
+</script>
+
+<div id="privacy-banner" class="privacy-banner" role="dialog" aria-live="polite">
+  Używamy plików cookie. <a href="/privacy.html">Polityka prywatności</a> ·
+  <button class="btn btn-compact" type="button" onclick="acceptConsent()">OK</button>
+</div>
+
+<!-- JSON-LD: Breadcrumbs -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Strona główna","item":"https://dloran1.github.io/"},
+    {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/blog/"},
+    {"@type":"ListItem","position":3,"name":"Co to jest VPN","item":"https://dloran1.github.io/blog/co-to-jest-vpn.html"}
+  ]
+}
+</script>
+
+<!-- JSON-LD: Article -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Article",
+  "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/blog/co-to-jest-vpn.html"},
+  "headline":"Co to jest VPN i jak działa? Kompletny przewodnik 2026",
+  "description":"Czym jest VPN, jak działa i kiedy warto go używać? Praktyczny przewodnik 2026: prywatność, szyfrowanie, protokoły, wycieki DNS/IPv6 i kill switch.",
+  "image":"https://dloran1.github.io/assets/img/hero/what-is-a-vpn-uk.webp",
+  "author":{
+    "@type":"Person",
+    "name":"Denys Shchur",
+    "url":"https://dloran1.github.io/about-denys-shchur.html",
+    "sameAs":[ "https://www.linkedin.com/in/denys-shchurr/" ]
+  },
+  "publisher":{
+    "@type":"Organization",
+    "name":"VPN World",
+    "logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}
+  },
+  "datePublished":"2026-01-02",
+  "dateModified":"2026-01-02"
+}
+</script>
+
+<!-- JSON-LD: FAQ -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {
+      "@type":"Question",
+      "name":"Czy VPN spowalnia połączenie?",
+      "acceptedAnswer":{"@type":"Answer","text":"Tak, ale zwykle minimalnie. Największy wpływ ma odległość do serwera i obciążenie sieci. WireGuard i OpenVPN UDP zazwyczaj dają najlepszy balans."}
+    },
+    {
+      "@type":"Question",
+      "name":"Czy VPN jest bezpieczny do bankowości?",
+      "acceptedAnswer":{"@type":"Answer","text":"Tak — szczególnie w publicznych sieciach Wi-Fi. Szyfrowanie utrudnia podsłuch transmisji i przechwycenie sesji."}
+    },
+    {
+      "@type":"Question",
+      "name":"Czy mogę użyć VPN na telewizorze lub konsoli?",
+      "acceptedAnswer":{"@type":"Answer","text":"Tak. Najprościej przez konfigurację VPN na routerze, wtedy chronisz wszystkie urządzenia w domu jednocześnie."}
+    }
+  ]
+}
+</script>
+
+<!-- JSON-LD: Related list -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"ItemList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/blog/bloki-geo-vpn.html"},
+    {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/blog/protokoly-vpn.html"},
+    {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/blog/proxy-vs-vpn.html"},
+    {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/blog/vpn-konfiguracja-routera.html"},
+    {"@type":"ListItem","position":5,"url":"https://dloran1.github.io/blog/darmowy-vs-platny-vpn.html"}
+  ]
+}
+</script>
+
+<!-- PAGE (for console): https://dloran1.github.io/blog/co-to-jest-vpn.html -->
+</body>
+</html>

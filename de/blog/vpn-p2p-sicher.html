@@ -56,94 +56,8 @@
   <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-p2p-safe-uk.webp">
 
   <!-- GA4 + Consent Mode v2 (DEFAULT DENIED; load after consent) -->
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-
-    gtag('consent','default', {
-      ad_storage:'denied',
-      ad_user_data:'denied',
-      ad_personalization:'denied',
-      analytics_storage:'denied',
-      functionality_storage:'denied',
-      personalization_storage:'denied',
-      security_storage:'denied'
-    });
-
-    function hideCookieBannerSafely() {
-      var banner = document.getElementById('cookie-banner');
-      if (banner) banner.style.display = 'none';
-    }
-
-    function loadGAOnce(){
-      if (window.__gaLoaded) return;
-      window.__gaLoaded = true;
-      var s = document.createElement('script');
-      s.async = true;
-      s.src = "https://www.googletagmanager.com/gtag/js?id=G-EMR8C4TLVM";
-      document.head.appendChild(s);
-    }
-
-    function acceptConsent() {
-      gtag('consent','update', {
-        ad_storage:'granted',
-        ad_user_data:'granted',
-        ad_personalization:'granted',
-        analytics_storage:'granted',
-        functionality_storage:'granted',
-        personalization_storage:'granted',
-        security_storage:'granted'
-      });
-      try { localStorage.setItem('vpnworld_consent','granted'); } catch(e) {}
-      hideCookieBannerSafely();
-
-      loadGAOnce();
-      gtag('js', new Date());
-      gtag('config','G-EMR8C4TLVM', { 'anonymize_ip': true });
-    }
-
-    function rejectConsent() {
-      gtag('consent','update', {
-        ad_storage:'denied',
-        ad_user_data:'denied',
-        ad_personalization:'denied',
-        analytics_storage:'denied',
-        functionality_storage:'denied',
-        personalization_storage:'denied',
-        security_storage:'denied'
-      });
-      try { localStorage.setItem('vpnworld_consent','denied'); } catch(e) {}
-      hideCookieBannerSafely();
-    }
-
-    function applyStoredConsentSafely() {
-      try {
-        var c = localStorage.getItem('vpnworld_consent');
-        if (c === 'granted') {
-          gtag('consent','update', {
-            ad_storage:'granted',
-            ad_user_data:'granted',
-            ad_personalization:'granted',
-            analytics_storage:'granted',
-            functionality_storage:'granted',
-            personalization_storage:'granted',
-            security_storage:'granted'
-          });
-          hideCookieBannerSafely();
-
-          loadGAOnce();
-          gtag('js', new Date());
-          gtag('config','G-EMR8C4TLVM', { 'anonymize_ip': true });
-        } else if (c === 'denied') {
-          hideCookieBannerSafely();
-        }
-      } catch(e) {}
-    }
-
-    document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
-  </script>
-
-  <!-- Page-local helpers + MANDATORY hard contrast fix for tables/SVG (after style.css) -->
+  
+<!-- Page-local helpers + MANDATORY hard contrast fix for tables/SVG (after style.css) -->
   <style>
     .hero .note strong, .note strong, .key-takeaway strong {font-weight:800}
     .toc-card{margin:18px 0}
@@ -1283,9 +1197,8 @@
   </footer>
 
   <script src="../../assets/js/main.js"></script>
-  <script src="../../assets/js/cookie-consent.js"></script>
-
-  <!-- Cookie banner (DE, analytics default off) -->
+  <script src="/assets/js/cookie-consent.js"></script>
+<!-- Cookie banner (DE, analytics default off) -->
   <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
     <p><strong>Analytics ist standardmäßig deaktiviert.</strong> Du kannst der Messung zustimmen oder ablehnen.</p>
     <div class="cookie-actions">
