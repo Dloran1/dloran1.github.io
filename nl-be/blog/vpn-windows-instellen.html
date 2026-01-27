@@ -1,13 +1,18 @@
-<!DOCTYPE html><html lang="nl-be">
+<!DOCTYPE html>
+<html lang="nl-be">
 <head>
-<meta charset="utf-8">
-<title>Vpn Windows Instellen | VPN World</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="index, follow">
-<link rel="icon" href="/favicon.ico">
-<link rel="stylesheet" href="../../assets/css/style.css">
-<link rel="canonical" href="https://dloran1.github.io/nl-be/blog/vpn-windows-instellen.html">
-<link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-konfiguracja-windows.html">
+  <meta charset="utf-8">
+  <title>VPN instellen op Windows (2026): Veiliger en sneller surfen in België | VPN World</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="VPN instellen op Windows in België (2026): snelstart, app vs handmatig, protocolkeuze (WireGuard/IKEv2/OpenVPN), Kill Switch, DNS/IPv6-lek-test en Belgische tips voor Proximus/Telenet, VRT MAX en NMBS-wifi." />
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="../../assets/css/style.css">
+
+  <link rel="canonical" href="https://dloran1.github.io/nl-be/blog/vpn-windows-instellen.html">
+
+  <!-- hreflang -->
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-konfiguracja-windows.html">
   <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-windows-setup-uk.html">
   <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-windows-setup.html">
   <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html">
@@ -16,41 +21,747 @@
   <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-windows-instellen.html">
   <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-windows-setup-uk.html">
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-RD6M691ZWD');
-</script>
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="VPN World">
+  <meta property="og:title" content="VPN instellen op Windows (2026): Veiliger en sneller surfen in België">
+  <meta property="og:description" content="Snelstart + volledige handleiding: VPN op Windows, protocolkeuze, Kill Switch, DNS-lek-test en Belgische tips (Proximus/Telenet, VRT MAX, NMBS-wifi).">
+  <meta property="og:url" content="https://dloran1.github.io/nl-be/blog/vpn-windows-instellen.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-windows-setup-uk.webp">
+  <meta property="og:image:alt" content="VPN instellen op Windows: beveiligde tunnel en privacy in België">
+  <meta property="og:locale" content="nl_BE">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="fr_FR">
 
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="VPN instellen op Windows (2026): België-gids">
+  <meta name="twitter:description" content="App of handmatig? WireGuard of IKEv2? Alles over VPN op Windows, inclusief Kill Switch en DNS-lek-test.">
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-windows-setup-uk.webp">
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+  <link rel="dns-prefetch" href="//www.googletagmanager.com">
+  <link rel="dns-prefetch" href="//www.google-analytics.com">
+
+  <!-- Preload hero -->
+  <link rel="preload" as="image" href="../../assets/img/hero/vpn-windows-setup-uk.webp">
+
+  <!-- Google tag (gtag.js) + Consent Mode v2 (default denied) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    gtag('consent','default',{
+      ad_storage:'denied',
+      ad_user_data:'denied',
+      ad_personalization:'denied',
+      analytics_storage:'denied',
+      functionality_storage:'denied',
+      personalization_storage:'denied',
+      security_storage:'denied'
+    });
+
+    gtag('js', new Date());
+
+    function acceptConsent(){
+      gtag('consent','update',{
+        ad_storage:'granted',
+        ad_user_data:'granted',
+        ad_personalization:'granted',
+        analytics_storage:'granted',
+        functionality_storage:'granted',
+        personalization_storage:'granted',
+        security_storage:'granted'
+      });
+      gtag('config','G-RD6M691ZWD',{ anonymize_ip:true });
+      try { localStorage.setItem('vpnworld_consent','accepted'); } catch(e) {}
+      hideCookieBanner();
+    }
+    function rejectConsent(){
+      try { localStorage.setItem('vpnworld_consent','rejected'); } catch(e) {}
+      hideCookieBanner();
+    }
+    function hideCookieBanner(){
+      var b = document.getElementById('cookie-banner');
+      if(b) b.style.display = 'none';
+    }
+  </script>
+
+  <style>
+    /* Keep visual baseline; only readability fixes */
+    .meta-line{margin:10px 0 0;color:#c9d6ff;font-size:13px}
+    .meta-line a{color:#cfe2ff;text-decoration:underline}
+
+    .toc{margin:16px 0 18px;padding:14px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(7,16,35,.35)}
+    .toc strong{display:block;margin:0 0 10px;color:#fff}
+    .toc ul{margin:0;padding-left:18px}
+    .toc a{color:#cfe2ff;text-decoration:underline}
+
+    /* Hard fix for tables on dark theme */
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:#fff}
+    .table-scroll table{min-width:760px;border-collapse:collapse;width:100%;background:#fff;color:#000}
+    .table-scroll caption{caption-side:top;text-align:left;font-weight:800;color:#000;padding:10px 12px}
+    .table-scroll th,.table-scroll td{border:2px solid #000;padding:10px 12px;vertical-align:top;color:#000;background:#fff}
+    .table-scroll thead th{background:#071023;color:#fff;border-color:#000}
+    .table-scroll tbody tr:nth-child(even) td{background:#f6f8ff}
+    .table-scroll a{color:#0b45ff;text-decoration:underline}
+
+    /* SVG readability */
+    .svg-card{margin:18px 0;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:transparent}
+    .svg-card .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:14px}
+    .svg-card svg{display:block;max-width:920px;width:920px;height:auto;margin:0 auto;color:#000}
+    .svg-card svg text{fill:#000 !important;font-weight:800;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif}
+    .svg-card svg .stroke{stroke:#000;stroke-width:4}
+    .svg-card svg .thin{stroke:#000;stroke-width:3}
+  </style>
 </head>
+
 <body>
-<nav class="lang-switch"><a href="/blog/vpn-konfiguracja-windows.html">Polski</a> | <a href="/en-gb/blog/vpn-windows-setup-uk.html">English (UK)</a> | <a href="/en-us/blog/vpn-windows-setup.html">English (US)</a> | <a href="/de/blog/vpn-windows-einrichtung.html">Deutsch</a> | <a href="/es/blog/configuracion-vpn-windows.html">Español</a> | <a href="/fr/blog/configuration-vpn-windows.html">Français</a> | <a href="/nl-be/blog/vpn-windows-instellen.html" class="active">Nederlands (BE)</a></nav>
+  <nav class="lang-switch">
+    <a href="/blog/vpn-konfiguracja-windows.html">Polski</a> |
+    <a href="/en-gb/blog/vpn-windows-setup-uk.html">English (UK)</a> |
+    <a href="/en-us/blog/vpn-windows-setup.html">English (US)</a> |
+    <a href="/de/blog/vpn-windows-einrichtung.html">Deutsch</a> |
+    <a href="/es/blog/configuracion-vpn-windows.html">Español</a> |
+    <a href="/fr/blog/configuration-vpn-windows.html">Français</a> |
+    <a class="active" href="/nl-be/blog/vpn-windows-instellen.html">Nederlands (BE)</a>
+  </nav>
 
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/nl-be/" class="brand">
+        <img src="../../assets/img/logo.png" class="logo" alt="VPN World logo">
+        <span class="brand-text">VPN World</span>
+      </a>
+      <nav class="primary-nav" aria-label="Primary">
+        <a href="/nl-be/blog/index.html">Blog</a>
+        <a href="/nl-be/privacy.html">Privacy</a>
+        <a href="/nl-be/disclosure.html">Disclosure</a>
+        <a href="mailto:u1797008805@gmail.com">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-<header class="site-header"><div class="container header-inner">
-  <a href="/nl-be/" class="brand"><img src="../../assets/img/logo.png" class="logo" alt=""> <span class="brand-text">VPN World</span></a>
-  
-</div></header>
-<main class="container card" style="padding:18px 0"><h1>Vpn Windows Instellen</h1><p>Content coming soon...</p><!-- RELATED_START -->
-<section class="related-guides" aria-label="Gerelateerde gidsen">
-  <h2>Gerelateerde gidsen</h2>
-  <ul>
-    <li><a href="/nl-be/blog/vpn-router-instellen.html">/nl-be/blog/vpn-router-instellen.html</a></li>
-    <li><a href="/nl-be/blog/vpn-android.html">/nl-be/blog/vpn-android.html</a></li>
-    <li><a href="/nl-be/blog/vpn-ios.html">/nl-be/blog/vpn-ios.html</a></li>
-    <li><a href="/nl-be/blog/vpn-macos.html">/nl-be/blog/vpn-macos.html</a></li>
-    <li><a href="/nl-be/blog/wat-is-een-vpn.html">/nl-be/blog/wat-is-een-vpn.html</a></li>
-  </ul>
-</section>
-<!-- RELATED_END -->
-</main>
-<footer class="site-footer"><div class="container footer-grid">
-  <div><strong>VPN World</strong><p>Niezależny serwis o prywatności i bezpieczeństwie w sieci.</p></div>
-  <nav><a href="/privacy.html">Privacy</a> <a href="/sitemap.xml">Sitemap</a> <a href="mailto:denger88@gmail.com">Kontakt</a></nav>
-</div><div class="container tiny">© 2025 VPN World</div></footer>
-<script src="../../assets/js/main.js"></script>
-<script src="/assets/js/cookie-consent.js"></script>
-</body></html>
+  <main class="container">
+    <section class="hero">
+      <div class="hero-text">
+        <h1>VPN instellen op Windows (2026): Veiliger en sneller surfen in België</h1>
+        <p>België heeft snelle verbindingen (Telenet, Proximus, Scarlet), maar snelheid alleen is geen privacy. Met een VPN versleutel je verkeer, beperk je tracking op openbare wifi (NMBS/SNCB, cafés) en krijg je controle over wat Windows en apps delen. Hieronder krijg je een <strong>snelstart</strong> en daarna een volledig stappenplan met <strong>protocolkeuze</strong>, <strong>Kill Switch</strong>, <strong>DNS-lek-check</strong> en een ingebouwde probleemoplosser.</p>
+
+        <p class="meta-line">
+          Gepubliceerd: <time datetime="2026-01-26">26 januari 2026</time> •
+          Laatst bijgewerkt: <time datetime="2026-01-26">26 januari 2026</time> •
+          Auteur: <a href="/nl-be/about-denys-shchur.html">Denys Shchur</a>
+        </p>
+
+        <div class="key-takeaway">
+          <strong>Snel antwoord:</strong> kies <strong>WireGuard</strong> (meestal snelst), zet <strong>Kill Switch</strong> aan, controleer op <strong>DNS-lekken</strong>, en kies een server dichtbij (BE/NL/DE) voor lage latency.
+        </div>
+
+        <!-- CTA #1 (top) -->
+        <div class="cta-box" aria-label="Aanbevolen VPN's">
+          <div class="cta-left">
+            <span class="label">Aanbevolen</span>
+            <strong>VPN’s met sterke Windows‑apps</strong>
+            <span class="sub">Snelle protocollen, Kill Switch, DNS‑bescherming — ideaal voor België.</span>
+          </div>
+          <div class="cta-right">
+            <a class="nordvpn" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN</a>
+            <a class="surfshark" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark</a>
+            <a class="proton" href="https://www.dpbolvw.net/click-101525886-15834536" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-media">
+        <img src="../../assets/img/hero/vpn-windows-setup-uk.webp" alt="VPN instellen op Windows: beveiligde tunnel en privacy in België" loading="eager" width="1200" height="675">
+      </div>
+    </section>
+
+    <section class="toc" aria-label="Inhoudsopgave">
+      <strong>Inhoud</strong>
+      <ul>
+        <li><a href="#snelstart">Snelstartgids (1 minuut)</a></li>
+        <li><a href="#app-vs-handmatig">App vs handmatige configuratie</a></li>
+        <li><a href="#protocol">Protocolkeuze voor België</a></li>
+        <li><a href="#stappen-app">Stap-voor-stap: VPN-app op Windows</a></li>
+        <li><a href="#stappen-handmatig">Handmatig opzetten (IKEv2/SSTP)</a></li>
+        <li><a href="#kill-switch">Kill Switch & lekbescherming</a></li>
+        <li><a href="#streaming">Belgische streaming (VRT MAX/GoPlay)</a></li>
+        <li><a href="#probleemoplosser">VPN probleemoplosser (807/691/868)</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </section>
+
+    <article class="card article" style="padding:18px 0">
+
+      <section id="snelstart">
+        <h2>Snelstartgids: VPN instellen op Windows in 1 minuut</h2>
+        <div class="note"><strong>Key takeaway:</strong> Voor 90% van de Belgische gebruikers is “installeer app → log in → WireGuard → server dichtbij → Kill Switch” de snelste én veiligste route.</div>
+        <ol>
+          <li>Download de officiële VPN-app (NordVPN/Surfshark/Proton VPN).</li>
+          <li>Installeer en log in.</li>
+          <li>Kies <strong>WireGuard</strong> (NordLynx bij NordVPN) als protocol.</li>
+          <li>Verbind met een server dichtbij (BE/NL/DE) voor lage ping.</li>
+          <li>Schakel <strong>Kill Switch</strong> en <strong>DNS-lekbeveiliging</strong> in.</li>
+          <li>Test je privacy via <a href="/nl-be/blog/vpn-dns-leak.html">DNS-lek met een VPN</a>.</li>
+        </ol>
+      </section>
+
+      <section id="app-vs-handmatig">
+        <h2>App vs handmatige configuratie: wat is slimmer in 2026?</h2>
+        <div class="note"><strong>Key takeaway:</strong> Apps winnen: automatische updates, Kill Switch, split tunneling en betere lekbescherming. Handmatig is niche (legacy netwerken, corporate policies).</div>
+        <p>Windows laat je nog steeds handmatige VPN-profielen toevoegen (bijv. IKEv2 of SSTP). Dat kan nuttig zijn in specifieke gevallen: een werk-VPN, een schoolnetwerk met strikte regels, of wanneer je een eigen server beheert. Voor dagelijks gebruik (thuis, op kantoor of op NMBS-wifi) is een moderne VPN-app bijna altijd beter.</p>
+        <p>Waarom? Omdat “veilig” vandaag meer is dan “verbinden”: DNS-lekken blokkeren, IPv6 opvangen, WebRTC-risico’s beperken, snel van server wisselen en je verkeer beschermen als het netwerk even hikt (Kill Switch). Dat is precies waar apps in uitblinken.</p>
+
+        <div class="table-scroll" role="region" aria-label="Vergelijking app versus handmatig">
+          <table>
+            <caption>App vs handmatige VPN op Windows (praktisch bekeken)</caption>
+            <thead>
+              <tr>
+                <th>Kenmerk</th>
+                <th>VPN-app</th>
+                <th>Handmatig (IKEv2/SSTP)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Kill Switch</td>
+                <td>Ja (meestal)</td>
+                <td>Beperkt / complex</td>
+              </tr>
+              <tr>
+                <td>DNS/IPv6-lek bescherming</td>
+                <td>Automatisch</td>
+                <td>Handmatige tweaks</td>
+              </tr>
+              <tr>
+                <td>Protocol switch (WireGuard/OpenVPN)</td>
+                <td>1 klik</td>
+                <td>Nee (afhankelijk van setup)</td>
+              </tr>
+              <tr>
+                <td>Onderhoud & updates</td>
+                <td>Automatisch</td>
+                <td>Jij beheert alles</td>
+              </tr>
+              <tr>
+                <td>Wanneer kiezen?</td>
+                <td>99% van de gebruikers</td>
+                <td>Legacy / work policy / eigen server</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="protocol">
+        <h2>Protocolkeuze voor België: WireGuard, IKEv2 en OpenVPN</h2>
+        <div class="note"><strong>Key takeaway:</strong> Op snelle lijnen (Telenet/Proximus) is <strong>WireGuard</strong> meestal de beste balans: hoge snelheid + lage latency. IKEv2 is stabiel voor roaming; OpenVPN is “compatibiliteit”.</div>
+        <p>Een VPN-protocol bepaalt hoe de tunnel gebouwd wordt: welke encryptie, hoe de handshake gebeurt en hoe snel je verbinding herstelt als je wifi wisselt. In België merk je het vooral aan snelheid en ping: gigabit is fijn, maar je wil niet dat latency explodeert tijdens gaming of videobellen.</p>
+
+        <div class="table-scroll" role="region" aria-label="Protocolvergelijking België">
+          <table>
+            <caption>Protocolvergelijking (België 2026)</caption>
+            <thead>
+              <tr>
+                <th>Protocol</th>
+                <th>Snelheid</th>
+                <th>Veiligheid</th>
+                <th>Ideaal voor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>WireGuard (NordLynx)</td>
+                <td>Ultra-hoog</td>
+                <td>Uitstekend</td>
+                <td>4K streaming, gaming, dagelijks gebruik</td>
+              </tr>
+              <tr>
+                <td>IKEv2</td>
+                <td>Zeer hoog</td>
+                <td>Hoog</td>
+                <td>Stabiel werken op laptops, roaming</td>
+              </tr>
+              <tr>
+                <td>OpenVPN</td>
+                <td>Gemiddeld–hoog</td>
+                <td>Hoog</td>
+                <td>Compatibiliteit, strikte netwerken</td>
+              </tr>
+              <tr>
+                <td>SSTP</td>
+                <td>Gemiddeld</td>
+                <td>Goed</td>
+                <td>Omzeilen van strikte firewalls (niche)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="svg-card" aria-label="Diagram: encryptie en tunneling">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 920 280" role="img" aria-label="Encryptie en tunneling: Windows naar internet via VPN">
+              <rect x="20" y="40" width="220" height="200" fill="#e9f2ff" class="stroke"></rect>
+              <text x="130" y="90" text-anchor="middle">Uw Windows‑pc</text>
+              <text x="130" y="120" text-anchor="middle">(Proximus/Telenet)</text>
+
+              <rect x="350" y="70" width="220" height="140" fill="#fff5e6" class="stroke"></rect>
+              <text x="460" y="115" text-anchor="middle">VPN‑tunnel</text>
+              <text x="460" y="145" text-anchor="middle">ChaCha20 / AES‑256</text>
+
+              <rect x="680" y="40" width="220" height="200" fill="#e8fff0" class="stroke"></rect>
+              <text x="790" y="90" text-anchor="middle">Internet</text>
+              <text x="790" y="120" text-anchor="middle">(sites & apps)</text>
+
+              <line x1="240" y1="140" x2="350" y2="140" class="stroke"></line>
+              <polygon points="350,140 336,132 336,148" fill="#000"></polygon>
+
+              <line x1="570" y1="140" x2="680" y2="140" class="stroke"></line>
+              <polygon points="680,140 666,132 666,148" fill="#000"></polygon>
+
+              <text x="295" y="120" text-anchor="middle">Versleuteld</text>
+              <text x="625" y="120" text-anchor="middle">Uitgaand</text>
+              <text x="460" y="235" text-anchor="middle">Resultaat: veilig openbaar wifi + minder ISP‑profilering</text>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <section id="stappen-app">
+        <h2>Stap-voor-stap: VPN-app installeren en instellen op Windows</h2>
+        <div class="note"><strong>Key takeaway:</strong> Zet eerst protocol, Kill Switch en DNS‑bescherming goed. Pas daarna optimaliseer je voor streaming of snelheid.</div>
+        <ol>
+          <li><strong>Download de officiële app</strong> (vermijd “modded” installers).</li>
+          <li><strong>Log in</strong> en laat Windows de netwerkdriver installeren als daarom gevraagd wordt.</li>
+          <li><strong>Kies een protocol</strong>:
+            <ul>
+              <li>WireGuard (meestal snelst),</li>
+              <li>IKEv2 voor roaming,</li>
+              <li>OpenVPN als een netwerk WireGuard blokkeert.</li>
+            </ul>
+          </li>
+          <li><strong>Kill Switch aan</strong> (systeemniveau).</li>
+          <li><strong>DNS‑lekbeveiliging</strong> en (indien beschikbaar) <strong>IPv6‑bescherming</strong> inschakelen.</li>
+          <li><strong>Server kiezen</strong>:
+            <ul>
+              <li>Voor snelheid: dichtbij (BE/NL/DE).</li>
+              <li>Voor content: kies land van het platform; zie <a href="/nl-be/blog/vpn-geo-blokkades.html">geo‑blokkades</a>.</li>
+            </ul>
+          </li>
+          <li><strong>Test</strong>: doe een DNS‑lek‑check via <a href="/nl-be/blog/vpn-dns-leak.html">DNS‑lek gids</a>.</li>
+        </ol>
+
+        <div class="svg-card" aria-label="Diagram: geoblocking omzeilen">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 920 320" role="img" aria-label="Geoblocking omzeilen: België naar buitenland via VPN-server">
+              <rect x="30" y="60" width="260" height="200" fill="#e9f2ff" class="stroke"></rect>
+              <text x="160" y="105" text-anchor="middle">Antwerpen / Gent</text>
+              <text x="160" y="135" text-anchor="middle">Uw IP: BE</text>
+              <text x="160" y="165" text-anchor="middle">Content: beperkt</text>
+
+              <rect x="330" y="95" width="260" height="130" fill="#fff" class="stroke"></rect>
+              <text x="460" y="135" text-anchor="middle">VPN‑server</text>
+              <text x="460" y="165" text-anchor="middle">Locatie: gewenst land</text>
+
+              <rect x="630" y="60" width="260" height="200" fill="#e8fff0" class="stroke"></rect>
+              <text x="760" y="105" text-anchor="middle">Streamingdienst</text>
+              <text x="760" y="135" text-anchor="middle">VRT MAX / Netflix</text>
+              <text x="760" y="165" text-anchor="middle">Toegang (afhankelijk)</text>
+
+              <line x1="290" y1="160" x2="330" y2="160" class="stroke"></line>
+              <polygon points="330,160 316,152 316,168" fill="#000"></polygon>
+
+              <line x1="590" y1="160" x2="630" y2="160" class="stroke"></line>
+              <polygon points="630,160 616,152 616,168" fill="#000"></polygon>
+
+              <text x="460" y="245" text-anchor="middle">Tip: kies servers met lage belasting voor stabiele 4K</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="video-wrap" style="margin-top:18px">
+          <div class="video-inner">
+            <iframe
+              title="VPN uitleg en setup (officieel)"
+              src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+          <p class="tiny" style="margin:10px 0 0">Werkt de video niet? Open op YouTube: <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a></p>
+        </div>
+      </section>
+
+      <section id="stappen-handmatig">
+        <h2>Handmatig VPN configureren (IKEv2/SSTP) – wanneer heeft het zin?</h2>
+        <div class="note"><strong>Key takeaway:</strong> Handmatig is oké voor bedrijfs‑VPN’s of eigen servers, maar mist vaak de lek-veiligheid die je in moderne apps standaard krijgt.</div>
+        <p>Handmatig blijft nuttig in drie scenario’s: (1) IT‑policy op werk/school, (2) eigen VPN‑server, (3) beperkte rechten op een beheerde pc. Voor consumenten in 2026 is het meestal minder efficiënt, omdat je sneller in troubleshooting belandt.</p>
+        <p>Als je toch handmatig werkt: controleer DNS, test op lekken en overweeg om je setup te combineren met de beste praktijken uit <a href="/nl-be/blog/vpn-optimale-instellingen.html">optimale instellingen</a> en <a href="/nl-be/blog/vpn-kill-switch.html">Kill Switch</a>.</p>
+
+        <div class="svg-card" aria-label="Diagram: app versus handmatig">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 920 310" role="img" aria-label="App setup versus handmatige setup op Windows">
+              <rect x="40" y="70" width="380" height="180" fill="#fff" class="stroke"></rect>
+              <text x="230" y="105" text-anchor="middle">VPN‑app (aanbevolen)</text>
+              <text x="230" y="145" text-anchor="middle">• Kill Switch</text>
+              <text x="230" y="175" text-anchor="middle">• DNS/IPv6‑bescherming</text>
+              <text x="230" y="205" text-anchor="middle">• 1‑klik protocolwissel</text>
+
+              <rect x="500" y="70" width="380" height="180" fill="#fff" class="stroke"></rect>
+              <text x="690" y="105" text-anchor="middle">Handmatig (niche)</text>
+              <text x="690" y="145" text-anchor="middle">• Minder features</text>
+              <text x="690" y="175" text-anchor="middle">• Meer troubleshooting</text>
+              <text x="690" y="205" text-anchor="middle">• Extra lek‑tests nodig</text>
+
+              <line x1="420" y1="160" x2="500" y2="160" class="stroke"></line>
+              <polygon points="500,160 486,152 486,168" fill="#000"></polygon>
+              <text x="460" y="145" text-anchor="middle">keuze</text>
+
+              <text x="460" y="270" text-anchor="middle">Pragmatisch advies: kies app, tenzij een policy je dwingt</text>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <section id="kill-switch">
+        <h2>Kill Switch & lekbescherming: DNS-, IPv6- en WebRTC-lekken</h2>
+        <div class="note"><strong>Key takeaway:</strong> “VPN aan” is niet genoeg. Je wil bewijzen dat DNS en verkeer écht via de tunnel gaan — zeker op instabiele wifi.</div>
+        <p>In de echte wereld is verbinding niet perfect: wifi in een station, een netwerk dat even wegvalt, of een laptop die uit slaapstand komt. Precies op die momenten ontstaan lekken. Een Kill Switch voorkomt dat Windows “even snel” terugschakelt naar je normale route en daarbij je echte IP of DNS blootlegt.</p>
+
+        <div class="table-scroll" role="region" aria-label="Checklist lekbescherming">
+          <table>
+            <caption>Checklist: lekbescherming op Windows</caption>
+            <thead>
+              <tr>
+                <th>Risico</th>
+                <th>Wat gebeurt er?</th>
+                <th>Wat doe je?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>DNS-lek</td>
+                <td>DNS gaat via Proximus/Telenet i.p.v. VPN</td>
+                <td>Gebruik DNS‑bescherming + test via <a href="/nl-be/blog/vpn-dns-leak.html">DNS-lek gids</a></td>
+              </tr>
+              <tr>
+                <td>IPv6-lek</td>
+                <td>Apps gebruiken IPv6 buiten de tunnel</td>
+                <td>Schakel IPv6‑bescherming in (of disable IPv6 als laatste redmiddel)</td>
+              </tr>
+              <tr>
+                <td>WebRTC-lek</td>
+                <td>Browser kan lokale IP’s lekken</td>
+                <td>Gebruik browser‑instellingen en lees <a href="/nl-be/blog/vpn-openbaar-wifi.html">openbaar wifi</a></td>
+              </tr>
+              <tr>
+                <td>Verbindingsdrop</td>
+                <td>VPN valt weg en verkeer gaat “open” verder</td>
+                <td>Kill Switch aan + automatische reconnect</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p><strong>Pro‑tip (Denys):</strong> Als je Bancontact/itsme gebruikt op onbetrouwbare wifi, behandel Kill Switch als een “veiligheidsriem”. Het is geen magie, maar het voorkomt de domste lek-situaties wanneer je netwerk even instort.</p>
+      </section>
+
+      <section id="streaming">
+        <h2>Belgische streaming met een VPN: VRT MAX en GoPlay op reis</h2>
+        <div class="note"><strong>Key takeaway:</strong> Een VPN is geen garantie voor elke stream, maar met juiste serverkeuze en instellingen kun je betrouwbaarder kijken — vooral op reizen.</div>
+        <p>Veel Belgen merken pas in het buitenland dat diensten anders reageren. Soms is content gelicentieerd per land; soms ziet een platform “verdacht verkeer”. De oplossing is zelden “harder proberen”, maar eerder: kies een stabiele server, vermijd extreme locaties en houd je app up‑to‑date.</p>
+        <ul>
+          <li><strong>Voor VRT MAX</strong>: kies meestal een server in België of Nederland (lage latency, natuurlijke route).</li>
+          <li><strong>Voor internationale bibliotheken</strong>: kies het land van de dienst en test meerdere servers als een platform blokkeert.</li>
+          <li><strong>Voor snelheid</strong>: bekijk <a href="/nl-be/blog/vpn-snelheidstest.html">VPN snelheidstest</a> en <a href="/nl-be/blog/vpn-optimale-instellingen.html">optimale instellingen</a>.</li>
+        </ul>
+        <p>Belangrijk: respecteer altijd de gebruiksvoorwaarden van streamingdiensten. Onze focus is praktische netwerkveiligheid en het voorkomen van lekken.</p>
+      </section>
+
+      <section id="probleemoplosser">
+        <h2>VPN probleemoplosser: 807, 691, 868, streaming en snelheid</h2>
+        <div class="note"><strong>Key takeaway:</strong> Los eerst connectiviteit op (firewall/poorten), dan detectie (streaming), en pas daarna optimalisatie (snelheid).</div>
+
+        <div class="issue-selector" data-issue-selector>
+          <div class="issue-buttons">
+            <button type="button" data-issue="807">Fout 807</button>
+            <button type="button" data-issue="691">Fout 691</button>
+            <button type="button" data-issue="868">Fout 868</button>
+            <button type="button" data-issue="streaming">Streaming werkt niet</button>
+            <button type="button" data-issue="speed">Snelheid verhogen</button>
+            <button type="button" data-issue="dns">DNS‑lek</button>
+          </div>
+          <div class="issue-panel" id="issue-panel" aria-live="polite"></div>
+        </div>
+
+        <p class="tiny" style="margin-top:10px">Extra: <a href="/nl-be/blog/vpn-openbaar-wifi.html">VPN op openbaar wifi</a> en <a href="/nl-be/blog/vpn-split-tunneling.html">split tunneling</a> helpen vaak bij “rare” netwerken.</p>
+      </section>
+
+      <!-- CTA #2 (near end) -->
+      <div class="cta-box" aria-label="Aanbevolen VPN's (onderaan)">
+        <div class="cta-left">
+          <span class="label">Klaar om te starten?</span>
+          <strong>Neem een VPN met een sterke Windows‑app</strong>
+          <span class="sub">Kill Switch + DNS‑bescherming + snelle protocollen.</span>
+        </div>
+        <div class="cta-right">
+          <a class="nordvpn" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN</a>
+          <a class="surfshark" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark</a>
+          <a class="proton" href="https://www.dpbolvw.net/click-101525886-15834536" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN</a>
+        </div>
+      </div>
+
+      <section id="faq">
+        <h2>FAQ</h2>
+
+        <h3>Is een VPN legaal in België?</h3>
+        <p>Ja. Een VPN is een legale technologie. Wat telt, is hoe je hem gebruikt: houd je aan wetgeving en de voorwaarden van diensten die je gebruikt.</p>
+
+        <h3>Welke instellingen zijn het belangrijkst op Windows?</h3>
+        <p>Protocol (WireGuard/IKEv2), Kill Switch, DNS‑bescherming en een server dichtbij voor lage latency. Voor extra details: <a href="/nl-be/blog/vpn-optimale-instellingen.html">optimale instellingen</a>.</p>
+
+        <h3>Helpt een VPN op openbaar wifi in stations of cafés?</h3>
+        <p>Ja. Een VPN versleutelt je verkeer tegen meeluisteren op hetzelfde netwerk. Combineer dit met updates en sterke wachtwoorden. Meer: <a href="/nl-be/blog/vpn-openbaar-wifi.html">openbaar wifi gids</a>.</p>
+
+        <h3>Kan ik VRT MAX kijken in het buitenland met een VPN?</h3>
+        <p>Soms helpt een VPN, maar resultaten verschillen per dienst en licentie. Kies een stabiele server, vermijd overbelaste locaties en respecteer voorwaarden.</p>
+      </section>
+
+      <!-- RELATED_START -->
+      <section class="related-guides" aria-label="Gerelateerde gidsen">
+        <h2>Gerelateerde gidsen</h2>
+        <ul>
+          <li><a href="/nl-be/blog/vpn-router-instellen.html">VPN op een router instellen</a></li>
+          <li><a href="/nl-be/blog/vpn-android.html">VPN op Android</a></li>
+          <li><a href="/nl-be/blog/vpn-ios.html">VPN op iOS</a></li>
+          <li><a href="/nl-be/blog/vpn-macos.html">VPN op macOS</a></li>
+          <li><a href="/nl-be/blog/wat-is-een-vpn.html">Wat is een VPN?</a></li>
+        </ul>
+      </section>
+      <!-- RELATED_END -->
+
+      <section class="author-box" aria-label="Over de auteur">
+        <div class="author-box__inner">
+          <img class="author-box__img" src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur">
+          <div class="author-box__text">
+            <strong>Denys Shchur</strong>
+            <p>Onafhankelijke auteur bij VPN World. Focus: praktische privacy, VPN-techniek en meetbare beveiliging (DNS/IPv6/WebRTC). <a href="/nl-be/about-denys-shchur.html">Over de auteur</a>.</p>
+          </div>
+        </div>
+      </section>
+
+    </article>
+
+    <section class="disclosure" aria-label="Disclosure">
+      <p><strong>Disclosure:</strong> Sommige links op deze pagina zijn affiliate-links. Dit verandert niets aan jouw prijs en helpt het project. Lees de volledige <a href="/nl-be/disclosure.html">Disclosure</a>.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>VPN World</strong>
+        <p>Onafhankelijke site over privacy en online veiligheid.</p>
+      </div>
+      <nav>
+        <a href="/nl-be/privacy.html">Privacy</a>
+        <a href="/nl-be/disclosure.html">Disclosure</a>
+        <a href="mailto:u1797008805@gmail.com">Contact</a>
+      </nav>
+    </div>
+    <div class="container tiny">© 2026 VPN World • <a href="/nl-be/about-denys-shchur.html">Over de auteur</a></div>
+  </footer>
+
+  <!-- Cookie banner (single canonical layer) -->
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Cookiebanner" aria-modal="true">
+    <p><strong>Confidentialiteit:</strong> we gebruiken analytics-cookies om anoniem te meten wat werkt. U beslist zelf.</p>
+    <div class="cookie-actions">
+      <button id="cookie-accept" type="button">Accepteren</button>
+      <button id="cookie-reject" type="button">Weigeren</button>
+      <a href="/nl-be/privacy.html">Privacybeleid</a>
+    </div>
+  </div>
+
+  <script src="../../assets/js/main.js"></script>
+  <script src="/assets/js/cookie-consent.js"></script>
+
+  <script>
+    function escapeHtml(str){
+      return String(str).replace(/[&<>"']/g, function(s){
+        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]);
+      });
+    }
+
+    (function(){
+      var panel = document.getElementById('issue-panel');
+      if(!panel) return;
+
+      var content = {
+        "807": {
+          title: "Fout 807: verbindingsprobleem",
+          bullets: [
+            "Controleer of firewall/antivirus de VPN niet blokkeert.",
+            "Schakel over naar WireGuard voor stabielere verbindingen op Proximus/Telenet.",
+            "Test op een ander netwerk (hotspot) om netwerkblokkades uit te sluiten.",
+            "Herstart de VPN‑app en update Windows‑drivers."
+          ]
+        },
+        "691": {
+          title: "Fout 691: aanmelding mislukt",
+          bullets: [
+            "Controleer login/MFA in de app (niet in een oude client).",
+            "Bij handmatige profielen: check gebruikersnaam/wachtwoord en certificaten.",
+            "Probeer opnieuw na het wisselen van protocol (IKEv2 ↔ OpenVPN)."
+          ]
+        },
+        "868": {
+          title: "Fout 868: server niet bereikbaar",
+          bullets: [
+            "Controleer je internetverbinding en DNS (probeer tijdelijk 1.1.1.1).",
+            "Wissel naar een andere serverlocatie (NL/DE) en probeer opnieuw.",
+            "Op bedrijfsnetwerken kan VPN worden geblokkeerd: test via mobiel netwerk."
+          ]
+        },
+        "streaming": {
+          title: "Streaming werkt niet (VRT MAX/GoPlay)",
+          bullets: [
+            "Kies een andere server (minder belasting) in hetzelfde land.",
+            "Wis cookies/cache of herstart de streaming‑app.",
+            "Vermijd 'extreme' locaties; kies stabiel en dichtbij voor minder flags.",
+            "Lees: /nl-be/blog/vpn-geo-blokkades.html"
+          ]
+        },
+        "speed": {
+          title: "Snelheid verhogen (gigabit‑lijnen)",
+          bullets: [
+            "Gebruik WireGuard (meestal snelst).",
+            "Kies een server dichtbij (BE/NL/DE) voor lage ping.",
+            "Gebruik split tunneling voor apps die geen VPN nodig hebben: /nl-be/blog/vpn-split-tunneling.html",
+            "Meet objectief en wissel server bij piekuren: /nl-be/blog/vpn-snelheidstest.html"
+          ]
+        },
+        "dns": {
+          title: "DNS‑lek: snelle fix",
+          bullets: [
+            "Schakel DNS‑lekbeveiliging in de app in.",
+            "Herbind en test opnieuw; zet IPv6‑bescherming aan indien beschikbaar.",
+            "Volg de gids: /nl-be/blog/vpn-dns-leak.html"
+          ]
+        }
+      };
+
+      function render(key){
+        var item = content[key];
+        if(!item) return;
+        var html = '<div class="note"><strong>' + escapeHtml(item.title) + '</strong></div><ul>';
+        for(var i=0;i<item.bullets.length;i++){
+          html += '<li>' + escapeHtml(item.bullets[i]) + '</li>';
+        }
+        html += '</ul>';
+        panel.innerHTML = html;
+      }
+
+      var btns = document.querySelectorAll('[data-issue-selector] [data-issue]');
+      for(var i=0;i<btns.length;i++){
+        btns[i].addEventListener('click', function(){
+          render(this.getAttribute('data-issue'));
+        });
+      }
+      render('807');
+    })();
+
+    // Cookie banner wiring
+    (function(){
+      function ready(fn){ if(document.readyState !== 'loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
+      ready(function(){
+        var stored = null;
+        try { stored = localStorage.getItem('vpnworld_consent'); } catch(e) {}
+        if(stored === 'accepted'){
+          // Ensure config is active
+          gtag('consent','update',{
+            ad_storage:'granted',
+            ad_user_data:'granted',
+            ad_personalization:'granted',
+            analytics_storage:'granted',
+            functionality_storage:'granted',
+            personalization_storage:'granted',
+            security_storage:'granted'
+          });
+          gtag('config','G-RD6M691ZWD',{ anonymize_ip:true });
+          hideCookieBanner();
+        } else if(stored === 'rejected'){
+          hideCookieBanner();
+        }
+
+        var a = document.getElementById('cookie-accept');
+        var r = document.getElementById('cookie-reject');
+        if(a) a.addEventListener('click', function(){ if(window.acceptConsent) window.acceptConsent(); });
+        if(r) r.addEventListener('click', function(){ if(window.rejectConsent) window.rejectConsent(); });
+      });
+    })();
+  </script>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "@id": "https://dloran1.github.io/nl-be/blog/vpn-windows-instellen.html#article",
+        "mainEntityOfPage": { "@type": "WebPage", "@id": "https://dloran1.github.io/nl-be/blog/vpn-windows-instellen.html" },
+        "headline": "VPN instellen op Windows (2026): Veiliger en sneller surfen in België",
+        "description": "VPN instellen op Windows in België (2026): snelstart, app vs handmatig, protocolkeuze (WireGuard/IKEv2/OpenVPN), Kill Switch, DNS/IPv6-lek-test en Belgische tips voor Proximus/Telenet, VRT MAX en NMBS-wifi.",
+        "image": "https://dloran1.github.io/assets/img/hero/vpn-windows-setup-uk.webp",
+        "datePublished": "2026-01-26",
+        "dateModified": "2026-01-26",
+        "author": { "@type": "Person", "name": "Denys Shchur", "url": "https://dloran1.github.io/nl-be/about-denys-shchur.html" },
+        "publisher": { "@type": "Organization", "name": "VPN World", "logo": { "@type": "ImageObject", "url": "https://dloran1.github.io/assets/img/logo.png" } }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://dloran1.github.io/nl-be/blog/vpn-windows-instellen.html#faq",
+        "mainEntity": [
+          { "@type": "Question", "name": "Is een VPN legaal in België?", "acceptedAnswer": { "@type": "Answer", "text": "Ja. Een VPN is een legale technologie. Gebruik moet voldoen aan wetgeving en aan de voorwaarden van diensten die je gebruikt." } },
+          { "@type": "Question", "name": "Welke instellingen zijn het belangrijkst op Windows?", "acceptedAnswer": { "@type": "Answer", "text": "Protocol (WireGuard/IKEv2), Kill Switch, DNS-bescherming en een server dichtbij voor lage latency zijn de belangrijkste basisinstellingen." } },
+          { "@type": "Question", "name": "Helpt een VPN op openbaar wifi?", "acceptedAnswer": { "@type": "Answer", "text": "Ja. Een VPN versleutelt je verkeer tegen meeluisteren op hetzelfde netwerk. Combineer dit met updates en sterke wachtwoorden." } },
+          { "@type": "Question", "name": "Kan ik VRT MAX kijken in het buitenland met een VPN?", "acceptedAnswer": { "@type": "Answer", "text": "Soms helpt een VPN, maar resultaten verschillen per dienst en licentie. Kies een stabiele server en respecteer de gebruiksvoorwaarden." } }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://dloran1.github.io/nl-be/blog/vpn-windows-instellen.html#breadcrumbs",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "VPN World", "item": "https://dloran1.github.io/nl-be/" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://dloran1.github.io/nl-be/blog/index.html" },
+          { "@type": "ListItem", "position": 3, "name": "VPN instellen op Windows", "item": "https://dloran1.github.io/nl-be/blog/vpn-windows-instellen.html" }
+        ]
+      },
+      {
+        "@type": "ItemList",
+        "@id": "https://dloran1.github.io/nl-be/blog/vpn-windows-instellen.html#related",
+        "name": "Gerelateerde gidsen",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "url": "https://dloran1.github.io/nl-be/blog/vpn-router-instellen.html" },
+          { "@type": "ListItem", "position": 2, "url": "https://dloran1.github.io/nl-be/blog/vpn-android.html" },
+          { "@type": "ListItem", "position": 3, "url": "https://dloran1.github.io/nl-be/blog/vpn-ios.html" },
+          { "@type": "ListItem", "position": 4, "url": "https://dloran1.github.io/nl-be/blog/vpn-macos.html" },
+          { "@type": "ListItem", "position": 5, "url": "https://dloran1.github.io/nl-be/blog/wat-is-een-vpn.html" }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- PAGE: /nl-be/blog/vpn-windows-instellen.html -->
+</body>
+</html>
