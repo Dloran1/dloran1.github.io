@@ -185,8 +185,8 @@
         "headline":"How to Set Up a VPN on Windows (2026): The Ultimate UK Privacy Guide",
         "description":"UK 2026 guide for Windows 10/11: install a VPN app (WireGuard + Kill Switch) or configure IKEv2/SSTP manually. Fix common errors (807/691/868), bypass ISP filters (BT/Sky/Virgin), and test DNS/IPv6 leaks.",
         "image":["https://dloran1.github.io/assets/img/hero/vpn-windows-setup-uk.webp"],
-        "datePublished":"2026-01-26",
-        "dateModified":"2026-01-26",
+        "datePublished":"2026-01-06",
+        "dateModified":"2026-01-06",
         "author":{"@type":"Person","name":"Denys Shchur","url":"https://dloran1.github.io/about-denys-shchur.html"},
         "publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}}
       },
@@ -235,6 +235,37 @@
     ]
   }
   </script>
+
+  <!-- PATCH: readability + CTA buttons (US) -->
+  <style>
+    /* Key takeaway readability on dark cards */
+    p.key, .note, .tip { color:#eaf2ff !important; }
+    p.key strong, .note strong, .tip strong { color:#ffffff !important; }
+    p.key a, .note a, .tip a { color:#9ad7ff !important; text-decoration: underline; }
+
+    /* Diagram captions/titles must be visible on dark background */
+    .svg-card h3, .svg-card h2, .svg-card .svg-title { color:#ffffff !important; }
+    .svg-card p, .svg-card small, .svg-card figcaption { color:#eaf2ff !important; }
+
+    /* Sponsor CTAs should look like buttons */
+    .cta-row { display:grid; gap:10px; margin: 14px 0 6px; }
+    .cta-row .cta {
+      display:block;
+      padding:12px 14px;
+      border-radius:12px;
+      font-weight:800;
+      text-decoration:none !important;
+      color:#ffffff !important;
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: 0 10px 24px rgba(0,0,0,.22);
+    }
+    .cta-row .cta small { display:block; font-weight:700; opacity:.92; color:#ffffff !important; }
+    .cta-row .cta.cta-nord { background: linear-gradient(135deg, #2e7dff, #3aa0ff); }
+    .cta-row .cta.cta-surf { background: linear-gradient(135deg, #16b97a, #28d19a); }
+    .cta-row .cta.cta-proton { background: linear-gradient(135deg, #7a5cff, #9c7bff); }
+    .cta-row .cta:focus { outline: 3px solid rgba(154,215,255,.45); outline-offset: 2px; }
+  </style>
+
 </head>
 
 <body>
@@ -803,5 +834,108 @@
   </div>
 
   <!-- PAGE: https://dloran1.github.io/en-us/blog/vpn-windows-setup.html -->
+
+<script>
+/* PATCH: Issue selector logic (US) — keep it simple and robust */
+(function(){
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, function(s){
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]);
+    });
+  }
+
+  var selector = document.getElementById('issue-selector');
+  var out = document.getElementById('issue-output');
+  if (!selector || !out) return;
+
+  var scenarios = {
+    wifi: {
+      title: "Public Wi‑Fi Protection (Starbucks / hotel / airport)",
+      bullets: [
+        "Connect to the Wi‑Fi first (accept the captive portal), then enable the VPN.",
+        "If it won’t connect: switch to TCP/443 (SSTP or OpenVPN TCP) to blend with normal HTTPS traffic.",
+        "Disable “Use default gateway on remote network” only if your provider explicitly recommends split routes (rare).",
+        "Run a quick DNS/IPv6/WebRTC check right after connecting."
+      ],
+      commands: [
+        {label:"Reset Windows networking", cmd:"netsh winsock reset\nnetsh int ip reset\nipconfig /flushdns"},
+        {label:"Check routes (after VPN connects)", cmd:"route print"},
+        {label:"Verify DNS servers", cmd:"ipconfig /all | findstr /i \"DNS Servers\""}
+      ]
+    },
+    streaming: {
+      title: "Streaming proxy error (Netflix/Hulu/Max)",
+      bullets: [
+        "Pick a nearby VPN server (same region) first — distance adds buffering.",
+        "Clear streaming site/app cache and restart the browser/app.",
+        "Try a different server or protocol (WireGuard ⇄ OpenVPN UDP ⇄ TCP/443).",
+        "Turn off GPS/location spoofing extensions that can conflict with VPN geolocation."
+      ],
+      commands: [
+        {label:"Clear DNS cache", cmd:"ipconfig /flushdns"},
+        {label:"Restart network adapter (PowerShell)", cmd:"Get-NetAdapter | Restart-NetAdapter"},
+        {label:"Check your public IP quickly", cmd:"nslookup myip.opendns.com resolver1.opendns.com"}
+      ]
+    },
+    ping: {
+      title: "Gaming high ping / lag spikes",
+      bullets: [
+        "Use WireGuard/NordLynx when available — it’s usually the lowest‑latency option.",
+        "Choose the closest server to the game region (don’t “chase” a far country).",
+        "Disable extra features temporarily (Double VPN, Tor‑over‑VPN, heavy ad blocking DNS).",
+        "If your ISP is throttling, changing VPN server/provider can stabilize throughput."
+      ],
+      commands: [
+        {label:"Ping test (replace host)", cmd:"ping -n 20 8.8.8.8"},
+        {label:"Pathping (find bottlenecks)", cmd:"pathping 8.8.8.8"},
+        {label:"Check packet loss (PowerShell)", cmd:"Test-NetConnection 8.8.8.8 -InformationLevel Detailed"}
+      ]
+    }
+  };
+
+  function render(key){
+    var s = scenarios[key];
+    if (!s) return;
+    var html = '';
+    html += '<div class="note" style="margin-top:12px">';
+    html += '<strong>' + escapeHtml(s.title) + '</strong>';
+    html += '<ul style="margin:10px 0 0 18px">';
+    for (var i=0;i<s.bullets.length;i++){
+      html += '<li>' + escapeHtml(s.bullets[i]) + '</li>';
+    }
+    html += '</ul>';
+    if (s.commands && s.commands.length){
+      html += '<div style="margin-top:12px; display:grid; gap:10px">';
+      for (var j=0;j<s.commands.length;j++){
+        html += '<details style="background:#071023;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px">';
+        html += '<summary style="cursor:pointer;font-weight:800;color:#fff">' + escapeHtml(s.commands[j].label) + '</summary>';
+        html += '<pre style="white-space:pre-wrap;word-break:break-word;background:#fff;color:#000;padding:10px;border-radius:10px;margin-top:8px;border:1px solid rgba(0,0,0,.12)"><code>' + escapeHtml(s.commands[j].cmd) + '</code></pre>';
+        html += '</details>';
+      }
+      html += '</div>';
+    }
+    html += '</div>';
+    out.innerHTML = html;
+  }
+
+  selector.addEventListener('click', function(e){
+    var btn = e.target.closest('button[data-issue]');
+    if (!btn) return;
+    var key = btn.getAttribute('data-issue');
+    var all = selector.querySelectorAll('button[data-issue]');
+    for (var i=0;i<all.length;i++) all[i].classList.remove('active');
+    btn.classList.add('active');
+    render(key);
+  });
+
+  // default
+  var first = selector.querySelector('button[data-issue]');
+  if (first){
+    first.classList.add('active');
+    render(first.getAttribute('data-issue'));
+  }
+})();
+</script>
+
 </body>
 </html>
