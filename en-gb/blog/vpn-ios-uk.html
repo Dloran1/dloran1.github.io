@@ -184,6 +184,7 @@
     ]
   }
   </script>
+      <script src="/assets/js/cookie-consent.js" defer></script>
 </head>
 
 <body>
@@ -909,19 +910,7 @@
   </footer>
 
   <script src="../../assets/js/main.js"></script>
-  <script src="../../assets/js/cookie-consent.js"></script>
-
   <!-- Cookie banner (EN-GB) -->
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie notice">
-    <div class="cookie-text">
-      <strong>Cookies:</strong> we use essential cookies and, with your consent, analytics to improve this site.
-      Read <a href="/en-gb/privacy.html">Privacy</a>.
-    </div>
-    <div class="cookie-actions">
-      <button class="btn btn-compact" type="button" onclick="acceptConsent()">Accept</button>
-      <button class="btn btn-compact btn-ghost" type="button" onclick="rejectConsent()">Reject</button>
-    </div>
-  </div>
 
 
   <script>
@@ -959,18 +948,15 @@
         });
 
         // Configure GA4 only after consent (page_view now)
-        gtag('config', 'G-RD6M691ZWD', { 'anonymize_ip': true });
-        gtag('event', 'page_view');
+        gtag('config', 'G-RD6M691ZWD', { 'send_page_view': false, 'anonymize_ip': true });
       }
 
       window.acceptConsent = function(){
-        try { localStorage.setItem(KEY, 'granted'); } catch(e) {}
         applyGranted();
         hideBanner();
       };
 
       window.rejectConsent = function(){
-        try { localStorage.setItem(KEY, 'denied'); } catch(e) {}
         applyDenied();
         hideBanner();
       };
@@ -979,7 +965,6 @@
       try {
         if (hasGpc()) {
           // Respect Global Privacy Control: treat as reject
-          localStorage.setItem(KEY, 'denied');
         }
         const saved = localStorage.getItem(KEY);
         if (saved === 'granted') { applyGranted(); hideBanner(); return; }

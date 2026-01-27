@@ -72,35 +72,6 @@
       if (banner) banner.style.display = 'none';
     }
 
-    function acceptConsent() {
-      gtag('consent','update', {
-        ad_storage:'granted',
-        ad_user_data:'granted',
-        ad_personalization:'granted',
-        analytics_storage:'granted',
-        functionality_storage:'granted',
-        personalization_storage:'granted',
-        security_storage:'granted'
-      });
-      try { localStorage.setItem('vpnworld_consent','granted'); } catch(e) {}
-      hideCookieBannerSafely();
-      gtag('config','G-RD6M691ZWD');
-    }
-
-    function rejectConsent() {
-      gtag('consent','update', {
-        ad_storage:'denied',
-        ad_user_data:'denied',
-        ad_personalization:'denied',
-        analytics_storage:'denied',
-        functionality_storage:'denied',
-        personalization_storage:'denied',
-        security_storage:'denied'
-      });
-      try { localStorage.setItem('vpnworld_consent','denied'); } catch(e) {}
-      hideCookieBannerSafely();
-    }
-
     (function restoreConsent(){
       var v = null;
       try { v = localStorage.getItem('vpnworld_consent'); } catch(e) {}
@@ -210,6 +181,7 @@
     ]
   }
   </script>
+      <script src="/assets/js/cookie-consent.js" defer></script>
 </head>
 
 <body>
@@ -783,15 +755,6 @@
   </footer>
 
   <!-- Cookie banner -->
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Consentimiento de cookies">
-    <div class="cookie-banner-inner">
-      <p><strong>Usamos cookies</strong> para mejorar tu experiencia. Puedes aceptar o rechazar su uso. <a href="/privacy.html">Privacidad</a>.</p>
-      <div class="cookie-actions">
-        <button class="btn btn-primary" onclick="acceptConsent()">Aceptar</button>
-        <button class="btn btn-secondary" onclick="rejectConsent()">Rechazar</button>
-      </div>
-    </div>
-  </div>
 
   <script>
     (function(){
@@ -804,6 +767,5 @@
   </script>
 
   <script src="../../assets/js/main.js"></script>
-  <script src="../../assets/js/cookie-consent.js"></script>
-</body>
+  </body>
 </html>

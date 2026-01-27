@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="nl-be">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow" />
+
+  <title>VPN voor macOS in België (2026): VRT MAX, Thuiswerken en Privacy | VPN World</title>
+  <meta name="description" content="Vlaamse gids (2026): VPN op macOS voor VRT MAX & VTM GO, veilig thuiswerken op Telenet/Proximus Wi‑Fi, Apple Silicon (M1/M2/M3), iCloud Private Relay en leak‑checks (DNS/IPv6) — met snelle WireGuard‑instellingen." />
+
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="canonical" href="https://dloran1.github.io/nl-be/blog/vpn-macos.html" />
+
+  <!-- HREFLANG (7× + x-default) -->
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-macos.html" />
+  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-macos-uk.html" />
+  <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-macos.html" />
+  <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-macos.html" />
+  <link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/vpn-macos.html" />
+  <link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/vpn-macos.html" />
+  <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-macos.html" />
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-macos-uk.html" />
+
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+
+  <style>
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .table-scroll table{min-width:760px}
+
+    /* HARD table readability fix */
+    .table-scroll, .table-scroll table{background:#fff !important; color:#000 !important}
+    .table-scroll th, .table-scroll td{color:#000 !important}
+    .table-scroll thead th{background:#071023 !important; color:#fff !important}
+    .table-scroll tbody tr{background:#fff !important}
+    .table-scroll tbody tr:nth-child(even){background:#f6f7fb !important}
+    .table-scroll tbody tr:hover{background:#eef4ff !important}
+    .table-scroll a{color:#0b57d0 !important}
+
+    /* SVG cards */
+    .svg-card{border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:14px;background:transparent;margin:14px 0}
+    .svg-card h3{margin:6px 0 10px}
+    .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:14px;padding:10px}
+    .svg-scroll svg{max-width:100%;height:auto;display:block;color:#000 !important;background:#fff}
+    .svg-scroll svg text{fill:#000 !important;font-weight:800 !important}
+    .svg-scroll svg .stroke{stroke:#000 !important;stroke-width:4 !important;fill:none !important;stroke-linecap:round;stroke-linejoin:round}
+    .svg-scroll svg .box{fill:#fff !important;stroke:#000 !important;stroke-width:4 !important}
+    .svg-scroll svg .label{font-size:16px}
+    .svg-scroll svg .small{font-size:13px}
+
+    /* Colour accents (text stays black) */
+    .svg-scroll svg .fill-blue{fill:#e6f1ff !important}
+    .svg-scroll svg .fill-green{fill:#e9fff3 !important}
+    .svg-scroll svg .fill-yellow{fill:#fff7db !important}
+    .svg-scroll svg .fill-red{fill:#ffe9ea !important}
+    .svg-scroll svg .fill-purple{fill:#f1eaff !important}
+
+    /* Related wide card */
+    .related-wide{background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:12px 14px;margin:10px 0 14px;position:relative}
+    .related-wide:before{content:"";position:absolute;left:10px;top:10px;bottom:10px;width:4px;border-radius:999px;background:#22c55e}
+    .related-wide p{margin:0;padding-left:14px}
+    .related-wide a{text-decoration:underline}
+
+    .video-wrap{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;background:#000}
+    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+    .badge{display:inline-block;padding:2px 10px;border-radius:999px;font-weight:800;font-size:12px;line-height:1.6}
+    .b-red{background:#ffe9ea;color:#7a0a0f}
+    .b-blue{background:#e6f1ff;color:#073b8c}
+    .b-green{background:#e9fff3;color:#0b6b3a}
+    .b-yellow{background:#fff7db;color:#6a4a00}
+  </style>
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="VPN World" />
+  <meta property="og:locale" content="nl_BE" />
+  <meta property="og:title" content="VPN voor macOS in België (2026): VRT MAX, Thuiswerken en Privacy" />
+  <meta property="og:description" content="Vlaamse gids 2026: VRT MAX & VTM GO op Mac, veilig thuiswerken, WireGuard op Apple Silicon en praktische lek-checks." />
+  <meta property="og:url" content="https://dloran1.github.io/nl-be/blog/vpn-macos.html" />
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-macos-uk.webp" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="VPN voor macOS in België (2026): VRT MAX, Thuiswerken en Privacy" />
+  <meta name="twitter:description" content="Praktisch: WireGuard, split tunneling, iCloud Private Relay en tips tegen buffering." />
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-macos-uk.webp" />
+
+  <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    gtag('consent','default', {
+      ad_storage:'denied',
+      ad_user_data:'denied',
+      ad_personalization:'denied',
+      analytics_storage:'denied',
+      functionality_storage:'denied',
+      personalization_storage:'denied',
+      security_storage:'denied'
+    });
+
+    gtag('js', new Date());
+
+    function hideCookieBannerSafely(){
+      var b = document.getElementById('cookie-banner');
+      if (b) b.style.display = 'none';
+    }
+
+    function applyStoredConsentSafely(){
+      try{
+        var c = localStorage.getItem('vpnworld_consent');
+        if (c === 'granted'){
+          gtag('consent','update', {
+            ad_storage:'granted',
+            ad_user_data:'granted',
+            ad_personalization:'granted',
+            analytics_storage:'granted',
+            functionality_storage:'granted',
+            personalization_storage:'granted',
+            security_storage:'granted'
+          });
+          hideCookieBannerSafely();
+          gtag('config', 'G-RD6M691ZWD', { 'send_page_view': false, anonymize_ip:true });
+        } else if (c === 'denied'){
+          hideCookieBannerSafely();
+        }
+      }catch(e){}
+    }
+    document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
+  </script>
+
+  <!-- JSON-LD: Article + FAQPage + BreadcrumbList + ItemList -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"Article",
+        "@id":"https://dloran1.github.io/nl-be/blog/vpn-macos.html",
+        "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/nl-be/blog/vpn-macos.html"},
+        "headline":"VPN voor macOS in België (2026): VRT MAX, Thuiswerken en Privacy",
+        "description":"Vlaamse gids (2026): VPN op macOS voor VRT MAX & VTM GO, veilig thuiswerken, WireGuard op Apple Silicon en praktische lek-checks.",
+        "image":"https://dloran1.github.io/assets/img/hero/vpn-macos-uk.webp",
+        "inLanguage":"nl-be",
+        "author":{"@type":"Person","name":"Denys Shchur"},
+        "publisher":{"@type":"Organization","name":"VPN World"},
+        "datePublished":"2026-01-16",
+        "dateModified":"2026-01-16"
+      },
+      {
+        "@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"VPN World","item":"https://dloran1.github.io/nl-be/"},
+          {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/nl-be/blog/"},
+          {"@type":"ListItem","position":3,"name":"VPN voor macOS","item":"https://dloran1.github.io/nl-be/blog/vpn-macos.html"}
+        ]
+      },
+      {
+        "@type":"FAQPage",
+        "mainEntity":[
+          {
+            "@type":"Question",
+            "name":"Is een VPN legaal in België?",
+            "acceptedAnswer":{"@type":"Answer","text":"Ja. Een VPN gebruiken is volledig legaal in België. Het is een praktische keuze voor privacy, veilig thuiswerken en bescherming op openbare wifi."}
+          },
+          {
+            "@type":"Question",
+            "name":"Werkt iCloud Private Relay samen met een VPN?",
+            "acceptedAnswer":{"@type":"Answer","text":"Ja, maar Private Relay beschermt vooral Safari. Voor volledige beveiliging van al je apps op je Mac heb je een echte VPN nodig."}
+          },
+          {
+            "@type":"Question",
+            "name":"Hoe kijk ik VRT MAX in het buitenland op mijn Mac?",
+            "acceptedAnswer":{"@type":"Answer","text":"Verbind met een Belgische server (Brussel of Antwerpen), herstart Safari en stream via VRT MAX. Als het nog hapert: gebruik WireGuard en check DNS/IPv6-lekken."}
+          }
+        ]
+      },
+      {
+        "@type":"ItemList",
+        "name":"Gerelateerde gidsen",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/nl-be/blog/vpn-streaming.html"},
+          {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/nl-be/blog/vpn-openbaar-wifi.html"},
+          {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/nl-be/blog/vpn-split-tunneling.html"},
+          {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/nl-be/blog/no-logs-vpn.html"},
+          {"@type":"ListItem","position":5,"url":"https://dloran1.github.io/nl-be/blog/wat-is-een-vpn.html"}
+        ]
+      }
+    ]
+  }
+  </script>
+  <script src="/assets/js/cookie-consent.js" defer></script>
+</head>
+
+<body>
+  <nav class="lang-switch" aria-label="Taalkeuze">
+    <a href="/blog/vpn-macos.html">Polski</a> |
+    <a href="/en-gb/blog/vpn-macos-uk.html">English (UK)</a> |
+    <a href="/en-us/blog/vpn-macos.html">English (US)</a> |
+    <a href="/de/blog/vpn-macos.html">Deutsch</a> |
+    <a href="/es/blog/vpn-macos.html">Español</a> |
+    <a href="/fr/blog/vpn-macos.html">Français</a> |
+    <a class="active" href="/nl-be/blog/vpn-macos.html">Nederlands (BE)</a>
+  </nav>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/nl-be/">
+        <img class="logo" src="../../assets/img/logo.png" alt="VPN World logo" />
+        <span class="brand-text">VPN World</span>
+      </a>
+      <nav class="primary-nav" aria-label="Navigatie">
+        <a href="/nl-be/">Home</a>
+        <a href="/nl-be/blog/">Blog</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/nl-be/disclosure.html">Disclosure</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero" aria-label="Hero">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <h1>VPN voor macOS in België (2026): VRT MAX, thuiswerken en privacy</h1>
+          <p>
+            In Vlaanderen zie je Macs overal: bij designers, freelancers en mensen die graag “alles Apple” doen.
+            Maar zodra je gaat <strong>thuiswerken</strong> via een hotspot, of VRT MAX wil kijken op vakantie, merk je snel:
+            een VPN is niet alleen privacy — het is vooral <em>praktisch</em>.
+          </p>
+
+          <div class="key-takeaway">
+            <strong>Kernpunt (2026):</strong> Voor stabiel streamen (VRT MAX / VTM GO / Sporza) kies je <strong>WireGuard</strong> + een Belgische server (Brussel of Antwerpen).
+            Voor veilig werken op wifi: <strong>auto‑connect</strong> + <strong>kill switch</strong> + een snelle lek‑check.
+          </div>
+
+          <ul class="meta-points" aria-label="Highlights">
+            <li><span class="badge b-blue">VRT MAX</span> & VTM GO</li>
+            <li><span class="badge b-green">Thuiswerken</span> veilig op wifi</li>
+            <li><span class="badge b-yellow">WireGuard</span> voor 4K</li>
+            <li><span class="badge b-red">Leak-check</span> DNS/IPv6</li>
+          </ul>
+
+          <div class="hero-author" aria-label="Auteur">
+            <img src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur" width="44" height="44" />
+            <div class="hero-author-text">
+              <span class="hero-author-label">Auteur</span>
+              <span class="hero-author-name"><a href="/nl-be/about-denys-shchur.html">Denys Shchur</a></span>
+              <span class="meta">Bijgewerkt: 16 januari 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-media" aria-label="Hero afbeelding">
+          <div class="hero-art">
+            <img src="../../assets/img/hero/vpn-macos-uk.webp" alt="VPN op macOS in België — veilig streamen en thuiswerken" width="1200" height="630" fetchpriority="high" loading="eager" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Aanbevolen VPNs">
+      <div class="cta-box">
+        <h2>Snelle keuze: 3 VPNs die op macOS in België vaak het meest “gewoon werken”</h2>
+        <p class="cta-note">Voor VRT MAX en veilig thuiswerken wil je vooral: snelle protocollen, Belgische servers en goede lekbescherming.</p>
+        <div class="cta-buttons">
+          <a class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584">NordVPN — snel & stabiel</a>
+          <a class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://www.tkqlhce.com/click-101525886-17061430">Surfshark — beste prijs</a>
+          <a class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://www.dpbolvw.net/click-101525886-15834536">Proton VPN — privacy focus</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Inhoud">
+      <div class="note">
+        <strong>In deze gids:</strong>
+        <ul>
+          <li><a href="#streaming">VRT MAX, VTM GO en Sporza op Mac</a></li>
+          <li><a href="#thuiswerken">Thuiswerken en openbare wifi</a></li>
+          <li><a href="#providers">Telenet/Proximus & throttling</a></li>
+          <li><a href="#apple-silicon">Apple Silicon (M1/M2/M3)</a></li>
+          <li><a href="#relay">iCloud Private Relay vs VPN</a></li>
+          <li><a href="#leaks">DNS/IPv6-lekken</a></li>
+          <li><a href="#setup">Snelle setup op macOS</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="streaming" style="border-left: 5px solid #00abe7; background: #f0faff; padding: 25px;">
+      <h2 style="color: #00abe7;">Vlaamse content streamen: VRT MAX en VTM GO</h2>
+      <p>
+        Of je nu op vakantie bent of in het buitenland woont, met een VPN op je Mac mis je nooit meer een aflevering op <strong>VRT MAX</strong> of <strong>VTM GO</strong>.
+        Omdat macOS-gebruikers vaak Safari gebruiken, raden we het <strong>WireGuard-protocol</strong> aan voor een vloeiende 4K-ervaring zonder haperingen.
+      </p>
+      <ul>
+        <li><strong>Wielrennen op Sporza:</strong> Kijk live naar de koers, waar je ook bent.</li>
+        <li><strong>Geen vertraging:</strong> Gebruik een Belgische server (Brussel of Antwerpen) voor de laagste ping.</li>
+      </ul>
+
+      <div class="table-scroll" aria-label="Streaming tips">
+        <table>
+          <caption>VRT MAX / VTM GO op Mac — snelle fixes tegen buffering (België, 2026)</caption>
+          <thead>
+            <tr>
+              <th>Probleem</th>
+              <th>Wat je ziet</th>
+              <th>Snelle oplossing</th>
+              <th>Waarom</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Te trage route</strong></td>
+              <td>kwaliteit zakt</td>
+              <td>WireGuard + andere BE server</td>
+              <td>kortere route, efficiënte encryptie</td>
+            </tr>
+            <tr>
+              <td><strong>Drukke wifi</strong></td>
+              <td>stotteren</td>
+              <td>5 GHz + server wisselen</td>
+              <td>minder interferentie</td>
+            </tr>
+            <tr>
+              <td><strong>Browser sessie</strong></td>
+              <td>errors / oneindig laden</td>
+              <td>Safari herstart + cookies wissen</td>
+              <td>oude sessies resetten</td>
+            </tr>
+            <tr>
+              <td><strong>Alles via VPN</strong></td>
+              <td>Teams/Zoom trager</td>
+              <td>Split tunneling voor werkapps</td>
+              <td>werk blijft lokaal</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="related-wide">
+        <p>Related: <a href="/nl-be/blog/vpn-streaming.html">VPN voor streaming: instellingen die buffering echt verminderen</a></p>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Diagram tunnel">
+      <h2>Tunnel + encryptie: wat een VPN op macOS doet</h2>
+      <p>
+        Een VPN maakt een <strong>versleutelde tunnel</strong> tussen je Mac en een VPN-server. Je provider ziet nog dat je online bent,
+        maar niet welke websites je bezoekt. Dat helpt op openbare wifi, maar ook thuis als je extra privacy wil.
+      </p>
+
+      <div class="svg-card" aria-label="Diagram: Mac -> VPN -> Internet">
+        <h3>In 1 oogopslag: Mac → VPN-server → internet</h3>
+        <div class="svg-scroll">
+          <svg viewBox="0 0 980 240" role="img" aria-label="Diagram: VPN tunnel" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="980" height="240" class="box fill-blue" />
+            <rect x="40" y="70" width="240" height="110" rx="16" class="box fill-yellow" />
+            <text x="160" y="115" text-anchor="middle" class="label">Je MacBook</text>
+            <text x="160" y="140" text-anchor="middle" class="small">Safari / apps</text>
+
+            <rect x="370" y="55" width="260" height="140" rx="16" class="box fill-green" />
+            <text x="500" y="105" text-anchor="middle" class="label">VPN-server</text>
+            <text x="500" y="130" text-anchor="middle" class="small">Brussel / Antwerpen</text>
+            <text x="500" y="155" text-anchor="middle" class="small">WireGuard</text>
+
+            <rect x="700" y="70" width="240" height="110" rx="16" class="box fill-purple" />
+            <text x="820" y="115" text-anchor="middle" class="label">Internet</text>
+            <text x="820" y="140" text-anchor="middle" class="small">VRT MAX / VTM GO</text>
+
+            <path d="M280 125 L370 125" class="stroke" />
+            <path d="M630 125 L700 125" class="stroke" />
+            <text x="325" y="105" text-anchor="middle" class="small">tunnel</text>
+            <text x="665" y="105" text-anchor="middle" class="small">uitgang</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="thuiswerken">
+      <h2>Veilig thuiswerken op je MacBook</h2>
+      <p>
+        Thuiswerken is in België helemaal ingeburgerd. Maar veel mensen werken ook onderweg: in een koffiebar, op een hotspot of in een coworking.
+        Op zulke netwerken is een VPN gewoon slim: je verkeer wordt versleuteld en je verlaagt het risico op “meekijken” via onveilige wifi.
+      </p>
+
+      <div class="svg-card" aria-label="Diagram: thuiswerken">
+        <h3>Thuiswerken + openbare wifi: waar een VPN het verschil maakt</h3>
+        <div class="svg-scroll">
+          <svg viewBox="0 0 900 220" role="img" aria-label="Diagram: openbare wifi met VPN" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="880" height="200" rx="12" ry="12" class="box fill-yellow"/>
+            <text x="80" y="70" class="label">Je MacBook (M1/M2/M3)</text>
+            <text x="360" y="70" class="label">Openbare Wifi / Telenet Hotspot</text>
+            <text x="650" y="70" class="label">Beveiligde VPN-verbinding</text>
+            <line class="stroke" x1="220" y1="80" x2="340" y2="80"/>
+            <line class="stroke" x1="520" y1="80" x2="630" y2="80"/>
+            <text x="360" y="130" class="small">Encryptie van bedrijfsgegevens</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Mini-checklist:</strong>
+        <ol>
+          <li>Zet <strong>auto-connect</strong> aan op onbekende netwerken.</li>
+          <li>Gebruik <strong>kill switch</strong> zodat je IP niet lekt als wifi even uitvalt.</li>
+          <li>Combineer met <a href="/nl-be/blog/wifi-beveiliging-checklist.html">wifi beveiliging checklist</a>.</li>
+        </ol>
+      </div>
+
+      <div class="related-wide">
+        <p>Related: <a href="/nl-be/blog/vpn-openbaar-wifi.html">VPN op openbaar wifi: veilige instellingen</a></p>
+      </div>
+    </section>
+
+    <section class="section" id="providers">
+      <h2>Telenet & Proximus: waarom je soms “throttling” merkt</h2>
+      <p>
+        Telenet is sterk in Vlaanderen, Proximus zit overal. Meestal werkt alles prima, maar bij drukte kan streaming soms minder vlot gaan.
+        Een VPN kan helpen doordat je verkeer anders gerouteerd wordt. Het is geen garantie, maar het is vaak het proberen waard.
+      </p>
+
+      <div class="table-scroll" aria-label="Provider scenario's">
+        <table>
+          <caption>Telenet/Proximus — wanneer een VPN op macOS handig is</caption>
+          <thead>
+            <tr>
+              <th>Scenario</th>
+              <th>Wat je merkt</th>
+              <th>VPN-tip</th>
+              <th>Extra</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Sportavond</strong></td>
+              <td>buffering op stream</td>
+              <td>WireGuard + BE server wisselen</td>
+              <td>doe een <a href="/nl-be/blog/vpn-snelheidstest.html">snelheidstest</a></td>
+            </tr>
+            <tr>
+              <td><strong>Werk/uni netwerk</strong></td>
+              <td>diensten geblokkeerd</td>
+              <td>VPN aan + split tunneling</td>
+              <td>werkapps lokaal houden</td>
+            </tr>
+            <tr>
+              <td><strong>Op reis</strong></td>
+              <td>VRT MAX werkt niet</td>
+              <td>Belgische server + browser reset</td>
+              <td>zie <a href="/nl-be/blog/vpn-op-reis.html">VPN op reis</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="apple-silicon">
+      <h2>Apple Silicon (M1/M2/M3): kies een native app</h2>
+      <p>
+        Op een MacBook Air is batterij heilig. Kies dus een VPN-app die <strong>native</strong> draait op Apple Silicon.
+        Als je VPN nog via Rosetta 2 loopt, kan dat je batterij sneller leegtrekken, zeker bij lang streamen of thuiswerken.
+      </p>
+
+      <div class="svg-card" aria-label="Diagram: native vs rosetta">
+        <h3>Native + WireGuard is meestal de beste combo</h3>
+        <div class="svg-scroll">
+          <svg viewBox="0 0 980 260" role="img" aria-label="Vergelijking: native WireGuard vs Rosetta" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="980" height="260" class="box fill-purple" />
+            <rect x="60" y="60" width="390" height="150" rx="18" class="box fill-green" />
+            <text x="255" y="105" text-anchor="middle" class="label">Native + WireGuard</text>
+            <text x="255" y="135" text-anchor="middle" class="small">sneller, minder CPU</text>
+            <text x="255" y="165" text-anchor="middle" class="small">batterijvriendelijk</text>
+
+            <rect x="530" y="60" width="390" height="150" rx="18" class="box fill-red" />
+            <text x="725" y="105" text-anchor="middle" class="label">Oud + Rosetta</text>
+            <text x="725" y="135" text-anchor="middle" class="small">meer overhead</text>
+            <text x="725" y="165" text-anchor="middle" class="small">meer batterij</text>
+
+            <path d="M450 135 L530 135" class="stroke" />
+            <text x="490" y="120" text-anchor="middle" class="small">vs</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="related-wide">
+        <p>Related: <a href="/nl-be/blog/vpn-protocollen.html">VPN protocollen: WireGuard vs OpenVPN</a></p>
+      </div>
+    </section>
+
+    <section class="section" id="relay">
+      <h2>iCloud Private Relay is handig, maar geen volledige VPN</h2>
+      <p>
+        Private Relay past perfect in de Apple-ecosystem, maar het beschermt vooral Safari. Voor volledige beveiliging van al je apps heb je een VPN nodig.
+        Denk aan e-mail, Teams, cloud sync, of tools die op de achtergrond verkeer sturen.
+      </p>
+
+      <div class="table-scroll" aria-label="Private Relay vs VPN">
+        <table>
+          <caption>iCloud Private Relay vs VPN — wat je krijgt</caption>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Private Relay</th>
+              <th>VPN</th>
+              <th>Waarom relevant</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Alle apps</strong></td>
+              <td>Nee</td>
+              <td>Ja</td>
+              <td>thuiswerken en veiligheid</td>
+            </tr>
+            <tr>
+              <td><strong>Locatie kiezen</strong></td>
+              <td>Beperkt</td>
+              <td>Ja</td>
+              <td>VRT MAX in het buitenland</td>
+            </tr>
+            <tr>
+              <td><strong>Split tunneling</strong></td>
+              <td>Nee</td>
+              <td>Vaak wel</td>
+              <td>streaming + werk tegelijk</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="leaks">
+      <h2>DNS/IPv6-lekken: waarom je toch geblokkeerd kan worden</h2>
+      <p>
+        Je kan “verbonden zijn met België”, maar toch een blokkade krijgen als DNS of IPv6 lekt.
+        Dan ziet een dienst alsnog aanwijzingen over je echte locatie. Even checken en fixen bespaart veel frustratie.
+      </p>
+
+      <div class="svg-card" aria-label="Diagram: lekken">
+        <h3>VPN tunnel vs DNS/IPv6 lek</h3>
+        <div class="svg-scroll">
+          <svg viewBox="0 0 980 260" role="img" aria-label="Diagram: DNS lek" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="980" height="260" class="box fill-yellow" />
+
+            <rect x="40" y="70" width="220" height="120" rx="16" class="box fill-blue" />
+            <text x="150" y="120" text-anchor="middle" class="label">Mac</text>
+            <text x="150" y="145" text-anchor="middle" class="small">Safari + DNS</text>
+
+            <rect x="320" y="40" width="280" height="80" rx="16" class="box fill-green" />
+            <text x="460" y="88" text-anchor="middle" class="label">VPN-tunnel (IP)</text>
+
+            <rect x="320" y="150" width="280" height="80" rx="16" class="box fill-red" />
+            <text x="460" y="198" text-anchor="middle" class="label">DNS/IPv6-lek</text>
+
+            <rect x="700" y="70" width="240" height="120" rx="16" class="box fill-purple" />
+            <text x="820" y="120" text-anchor="middle" class="label">Provider</text>
+            <text x="820" y="145" text-anchor="middle" class="small">ziet echte regio</text>
+
+            <path d="M260 120 L320 80" class="stroke" />
+            <path d="M260 120 L320 190" class="stroke" />
+            <path d="M600 80 L700 120" class="stroke" />
+            <path d="M600 190 L700 120" class="stroke" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Snelle fix-volgorde:</strong>
+        <ol>
+          <li>Protocol naar <strong>WireGuard</strong>.</li>
+          <li>IPv6 uit (als mogelijk) + DNS instellingen checken.</li>
+          <li>Safari/Chrome herstarten, cookies wissen.</li>
+          <li>Andere BE server testen.</li>
+        </ol>
+      </div>
+
+      <div class="related-wide">
+        <p>Related: <a href="/nl-be/blog/vpn-optimale-instellingen.html">VPN optimale instellingen: DNS, IPv6 en protocollen</a></p>
+      </div>
+    </section>
+
+    <section class="section" id="setup">
+      <h2>Snelle setup op macOS: in 10 minuten klaar</h2>
+      <p>
+        Met een goede VPN-app is het meestal: installeren, inloggen, WireGuard kiezen, en je favoriete server pinnen.
+        Wil je dat werkapps nooit vertragen? Zet split tunneling aan en kies welke apps buiten de VPN mogen blijven.
+      </p>
+
+      <div class="table-scroll" aria-label="Setup stappenplan">
+        <table>
+          <caption>macOS stappenplan (België): WireGuard + split tunneling</caption>
+          <thead>
+            <tr>
+              <th>Stap</th>
+              <th>Wat je doet</th>
+              <th>Waarom</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1</strong></td>
+              <td>Installeer de VPN-app en log in</td>
+              <td>meest stabiel, snel updates</td>
+            </tr>
+            <tr>
+              <td><strong>2</strong></td>
+              <td>Kies <strong>WireGuard</strong></td>
+              <td>sneller, minder batterij</td>
+            </tr>
+            <tr>
+              <td><strong>3</strong></td>
+              <td>Auto-connect + kill switch</td>
+              <td>geen “leak moment”</td>
+            </tr>
+            <tr>
+              <td><strong>4</strong></td>
+              <td>Split tunneling (werkapps lokaal)</td>
+              <td>Teams/Zoom blijft soepel</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        Meer basics? Start met <a href="/nl-be/blog/wat-is-een-vpn.html">wat is een VPN</a> en kies daarna slim via
+        <a href="/nl-be/blog/welke-vpn-server-kiezen.html">welke VPN-server kiezen</a>.
+      </p>
+    </section>
+
+    <section class="section" aria-label="Video">
+      <h2>Korte video: macOS + VPN (wat je moet onthouden)</h2>
+      <div class="video-wrap">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE"
+          title="VPN World — macOS VPN basics"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <p>
+        Werkt de embed niet? Open op YouTube:
+        <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a>
+      </p>
+    </section>
+
+    <section class="section" aria-label="CTA einde">
+      <div class="cta-box">
+        <h2>Wil je dit vandaag nog werkend krijgen?</h2>
+        <p class="cta-note">Pak WireGuard, kies Brussel/Antwerpen, zet auto-connect + kill switch aan. Daarna is het vooral: genieten.</p>
+        <div class="cta-buttons">
+          <a class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584">NordVPN — premium snelheid</a>
+          <a class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://www.tkqlhce.com/click-101525886-17061430">Surfshark — beste deal</a>
+          <a class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://www.dpbolvw.net/click-101525886-15834536">Proton — privacy</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <h2>FAQ</h2>
+
+      <h3>Is een VPN legaal in België?</h3>
+      <p>
+        Ja. Een VPN is legaal en wordt vaak aangeraden voor privacy en veilig thuiswerken.
+        Meer context: <a href="/nl-be/blog/is-vpn-legaal.html">is VPN legaal?</a>
+      </p>
+
+      <h3>Werkt iCloud Private Relay als VPN?</h3>
+      <p>
+        Niet volledig. Het is vooral voor Safari. Voor volledige dekking van apps op macOS heb je een VPN nodig.
+      </p>
+
+      <h3>Hoe kijk ik VRT MAX in het buitenland?</h3>
+      <p>
+        Verbind met een Belgische server, herstart de browser en stream. Als het hapert: WireGuard en check DNS/IPv6-instellingen.
+      </p>
+    </section>
+
+    <section class="section" aria-label="Gerelateerde gidsen">
+      <h2>Gerelateerde gidsen</h2>
+      <ul>
+        <li><a href="/nl-be/blog/vpn-openbaar-wifi.html">VPN op openbaar wifi</a></li>
+        <li><a href="/nl-be/blog/vpn-streaming.html">VPN voor streaming</a></li>
+        <li><a href="/nl-be/blog/vpn-split-tunneling.html">Split tunneling</a></li>
+        <li><a href="/nl-be/blog/no-logs-vpn.html">No-logs VPN</a></li>
+        <li><a href="/nl-be/blog/wat-is-een-vpn.html">Wat is een VPN?</a></li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>VPN World</strong>
+        <p>Onafhankelijke site over privacy en veiligheid online.</p>
+      </div>
+      <nav aria-label="Footer links">
+        <a href="/privacy.html">Privacy</a>
+        <a href="/nl-be/disclosure.html">Disclosure</a>
+        <a href="mailto:u1797008805@gmail.com">Contact</a>
+      </nav>
+    </div>
+    <div class="container tiny">© 2026 VPN World</div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/cookie-consent.js"></script>
+
+
+  <!-- PAGE: https://dloran1.github.io/nl-be/blog/vpn-macos.html -->
+</body>
+</html>

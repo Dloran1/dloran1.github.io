@@ -56,41 +56,6 @@
       if (banner) banner.style.display = 'none';
     }
 
-    function acceptConsent() {
-      gtag('consent', 'update', {
-        ad_storage: 'granted',
-        ad_user_data: 'granted',
-        ad_personalization: 'granted',
-        analytics_storage: 'granted',
-        functionality_storage: 'granted',
-        personalization_storage: 'granted',
-        security_storage: 'granted'
-      });
-
-      try { localStorage.setItem('vpnworld_consent', 'granted'); } catch(e) {}
-
-      hideCookieBannerSafely();
-
-      /* GA4 config only AFTER consent */
-      gtag('config', 'G-RD6M691ZWD');
-    }
-
-    function rejectConsent() {
-      gtag('consent', 'update', {
-        ad_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied',
-        analytics_storage: 'denied',
-        functionality_storage: 'denied',
-        personalization_storage: 'denied',
-        security_storage: 'denied'
-      });
-
-      try { localStorage.setItem('vpnworld_consent', 'denied'); } catch(e) {}
-
-      hideCookieBannerSafely();
-    }
-
     function applyStoredConsentSafely() {
       try {
         var c = localStorage.getItem('vpnworld_consent');
@@ -105,7 +70,7 @@
             security_storage: 'granted'
           });
           hideCookieBannerSafely();
-          gtag('config', 'G-RD6M691ZWD');
+          gtag('config', 'G-RD6M691ZWD', { 'send_page_view': false, });
         } else if (c === 'denied') {
           gtag('consent', 'update', {
             ad_storage: 'denied',
@@ -163,6 +128,7 @@
     ]
   }
   </script>
+      <script src="/assets/js/cookie-consent.js" defer></script>
 </head>
 
 <body>
@@ -235,13 +201,6 @@
   <p>© 2026 VPN World</p>
 </footer>
 
-<div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
-  <p>Analytics-cookies staan standaard uit. Je kunt analytics accepteren of weigeren.</p>
-  <div class="cookie-actions">
-    <button type="button" class="btn btn-compact" onclick="acceptConsent()">Accepteren</button>
-    <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Weigeren</button>
-  </div>
-</div>
 
 </body>
 </html>

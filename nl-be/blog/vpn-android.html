@@ -47,79 +47,7 @@
 
   <!-- GA4 + Consent Mode v2 (VPN World etalon; default denied; page_view only after consent) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-EMR8C4TLVM"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
-
-    gtag('consent', 'default', {
-      ad_storage: 'denied',
-      ad_user_data: 'denied',
-      ad_personalization: 'denied',
-      analytics_storage: 'denied',
-      functionality_storage: 'denied',
-      personalization_storage: 'denied',
-      security_storage: 'denied',
-      wait_for_update: 500
-    });
-
-    function safeHideCookieBanner() {
-      var b = document.getElementById('cookie-banner');
-      if (b) b.style.display = 'none';
-      var l = document.getElementById('cookie-consent-layer');
-      if (l) l.style.display = 'none';
-    }
-
-    function enableGA() {
-      try {
-        gtag('js', new Date());
-        gtag('config', 'G-EMR8C4TLVM', { anonymize_ip: true });
-      } catch(e) {}
-    }
-
-    function acceptConsent() {
-      try { localStorage.setItem('vw_cookie_consent', 'accepted'); } catch(e) {}
-      gtag('consent', 'update', {
-        ad_storage: 'granted',
-        ad_user_data: 'granted',
-        ad_personalization: 'granted',
-        analytics_storage: 'granted',
-        functionality_storage: 'granted',
-        personalization_storage: 'granted',
-        security_storage: 'denied'
-      });
-      enableGA();
-      safeHideCookieBanner();
-    }
-
-    function rejectConsent() {
-      try { localStorage.setItem('vw_cookie_consent', 'rejected'); } catch(e) {}
-      gtag('consent', 'update', {
-        ad_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied',
-        analytics_storage: 'denied',
-        functionality_storage: 'denied',
-        personalization_storage: 'denied',
-        security_storage: 'denied'
-      });
-      safeHideCookieBanner();
-    }
-
-    function applyStoredConsentSafely() {
-      var v = null;
-      try { v = localStorage.getItem('vw_cookie_consent'); } catch(e) {}
-      if (v === 'accepted') {
-        acceptConsent();
-      } else if (v === 'rejected') {
-        rejectConsent();
-      } else {
-        var b = document.getElementById('cookie-banner');
-        if (b) b.style.display = 'block';
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
-  </script>
+  
 
   <!-- High-contrast helpers (match etalon: readable tables/SVG on dark shell) -->
   <style>
@@ -253,53 +181,8 @@
   <!-- PAGE: /nl-be/blog/vpn-android.html -->
 <!-- GA4 + Consent Mode v2 (default denied; fire GA only after consent) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-EMR8C4TLVM"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
 
-  // Consent Mode v2 defaults (GDPR-friendly)
-  
-
-  function acceptConsent(){
-    try { localStorage.setItem('vw_cookie_consent', 'accepted'); } catch(e){}
-    gtag('consent','update',{
-      ad_storage:'granted',
-      ad_user_data:'granted',
-      ad_personalization:'granted',
-      analytics_storage:'granted',
-      functionality_storage:'granted',
-      personalization_storage:'granted',
-      security_storage: 'denied'
-    });
-    gtag('js', new Date());
-    gtag('config','G-EMR8C4TLVM',{ anonymize_ip:true, send_page_view:true });
-    var layer=document.getElementById('cookie-consent-layer');
-    if(layer) layer.style.display='none';
-  }
-
-  function rejectConsent(){
-    try { localStorage.setItem('vw_cookie_consent', 'rejected'); } catch(e){}
-    gtag('consent','update',{
-      ad_storage:'denied',
-      ad_user_data:'denied',
-      ad_personalization:'denied',
-      analytics_storage:'denied',
-      functionality_storage:'denied',
-      personalization_storage:'denied',
-      security_storage:'denied'
-    });
-    var layer=document.getElementById('cookie-consent-layer');
-    if(layer) layer.style.display='none';
-  }
-
-  (function initConsent(){
-    var v=null;
-    try { v = localStorage.getItem('vw_cookie_consent'); } catch(e){}
-    if(v === 'accepted'){ acceptConsent(); }
-    else if(v === 'rejected'){ rejectConsent(); }
-    // else banner will be shown after DOMContentLoaded
-  })();
-</script>
+      <script src="/assets/js/cookie-consent.js" defer></script>
 </head>
 <body>
 
@@ -1087,21 +970,7 @@
   </footer>
 
   <script src="../../assets/js/main.js"></script>
-  <script src="../../assets/js/cookie-consent.js"></script>
-
   <!-- Cookie consent layer (mobile tap safe, etalon) -->
-<div id="cookie-consent-layer" class="cookie-consent-layer" role="dialog" aria-live="polite" aria-label="Cookie consent">
-  <div id="cookie-banner" class="cookie-banner">
-    <p>
-      We gebruiken cookies om je ervaring te verbeteren. Je kunt ze accepteren of weigeren.
-      <a href="/nl-be/privacy.html">Privacy</a>.
-    </p>
-    <div class="cookie-actions">
-      <button type="button" class="btn btn-compact" id="cookie-accept">Accepteren</button>
-      <button type="button" class="btn btn-compact btn-secondary" id="cookie-reject">Weigeren</button>
-    </div>
-  </div>
-</div>
 
 <style>
 /* === COOKIE CONSENT HARD FIX (tap safe) === */
@@ -1131,28 +1000,7 @@
 }
 </style>
 
-<script>
-(function(){
-  function qs(id){ return document.getElementById(id); }
-  function show(){ var layer=qs('cookie-consent-layer'); if(layer) layer.style.display='block'; }
-  function hide(){ var layer=qs('cookie-consent-layer'); if(layer) layer.style.display='none'; }
 
-  document.addEventListener('DOMContentLoaded', function(){
-    var v=null;
-    try { v = localStorage.getItem('vw_cookie_consent'); } catch(e){}
-    if(v === 'accepted' || v === 'rejected') {
-      hide();
-    } else {
-      show();
-    }
-
-    var a=qs('cookie-accept');
-    var r=qs('cookie-reject');
-    if(a) a.addEventListener('click', function(){ if(typeof acceptConsent==='function') acceptConsent(); hide(); });
-    if(r) r.addEventListener('click', function(){ if(typeof rejectConsent==='function') rejectConsent(); hide(); });
-  });
-})();
-</script>
 
 
 </body>

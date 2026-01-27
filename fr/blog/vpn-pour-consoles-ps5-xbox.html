@@ -76,35 +76,6 @@
       if (b) b.style.display = 'none';
     }
 
-    function acceptConsent(){
-      gtag('consent','update', {
-        ad_storage:'granted',
-        ad_user_data:'granted',
-        ad_personalization:'granted',
-        analytics_storage:'granted',
-        functionality_storage:'granted',
-        personalization_storage:'granted',
-        security_storage:'granted'
-      });
-      try{ localStorage.setItem('vpnworld_consent','granted'); }catch(e){}
-      _hideCookieBanner();
-      gtag('config','G-RD6M691ZWD', { anonymize_ip:true });
-    }
-
-    function rejectConsent(){
-      gtag('consent','update', {
-        ad_storage:'denied',
-        ad_user_data:'denied',
-        ad_personalization:'denied',
-        analytics_storage:'denied',
-        functionality_storage:'denied',
-        personalization_storage:'denied',
-        security_storage:'denied'
-      });
-      try{ localStorage.setItem('vpnworld_consent','denied'); }catch(e){}
-      _hideCookieBanner();
-    }
-
     document.addEventListener('DOMContentLoaded', function(){
       try{
         var c = localStorage.getItem('vpnworld_consent');
@@ -119,7 +90,7 @@
             security_storage:'granted'
           });
           _hideCookieBanner();
-          gtag('config','G-RD6M691ZWD', { anonymize_ip:true });
+          gtag('config', 'G-RD6M691ZWD', { 'send_page_view': false, anonymize_ip:true });
         } else if (c === 'denied'){
           _hideCookieBanner();
         }
@@ -282,6 +253,7 @@
 .svg-card svg .stroke{stroke:#000 !important;stroke-width:4 !important;fill:none !important;stroke-linecap:round;stroke-linejoin:round}
 .svg-card svg .box{fill:#fff !important;stroke:#000 !important;stroke-width:4 !important}
 </style>
+      <script src="/assets/js/cookie-consent.js" defer></script>
 </head>
 
 <body>
@@ -824,19 +796,7 @@
   </footer>
 
   <script src="../../assets/js/main.js"></script>
-  <script src="../../assets/js/cookie-consent.js"></script>
-
   <!-- Cookie banner (FR) -->
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Consentement cookies">
-    <p>
-      Nous utilisons des cookies pour mesurer l’audience et améliorer le site. Vous pouvez accepter ou refuser.
-      Voir <a href="/privacy.html">Privacy</a> et <a href="/fr/disclosure.html">Disclosure</a>.
-    </p>
-    <div class="cookie-actions">
-      <button class="btn" type="button" onclick="acceptConsent()">Accepter</button>
-      <button class="btn btn-secondary" type="button" onclick="rejectConsent()">Refuser</button>
-    </div>
-  </div>
 
   <!-- PAGE: https://dloran1.github.io/fr/blog/vpn-pour-consoles-ps5-xbox.html -->
 </body>

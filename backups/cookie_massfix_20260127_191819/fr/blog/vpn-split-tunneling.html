@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Split Tunneling VPN (2026) : définition, avantages, risques et configuration | VPN World</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Guide 2026 du split tunneling VPN (tunnel fractionné) : à quoi ça sert, quand l’utiliser, risques (fuites DNS/WebRTC/IPv6), configuration Windows/Android/macOS/iOS/routeur, tests et checklist." />
+  <meta name="robots" content="index, follow">
+
+  <link rel="icon" href="/favicon.ico">
+  <link rel="canonical" href="https://dloran1.github.io/fr/blog/vpn-split-tunneling.html">
+
+  <!-- HREFLANG (7× + x-default) -->
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-split-tunneling.html">
+  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-split-tunneling-uk.html">
+  <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-split-tunneling.html">
+  <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-split-tunneling.html">
+  <link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/vpn-split-tunneling.html">
+  <link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/vpn-split-tunneling.html">
+  <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-split-tunneling.html">
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-split-tunneling-uk.html">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../assets/css/style.css">
+
+  <!-- Preconnect -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="VPN World">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="nl_BE">
+  <meta property="og:title" content="Split Tunneling VPN (2026) : définition, avantages, risques et configuration">
+  <meta property="og:description" content="Guide 2026 du split tunneling : configuration, tests de fuites DNS/WebRTC/IPv6, et checklist pratique pour un usage sûr.">
+  <meta property="og:url" content="https://dloran1.github.io/fr/blog/vpn-split-tunneling.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-split-tunneling-uk.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Split Tunneling VPN (2026) : définition, avantages, risques et configuration">
+  <meta name="twitter:description" content="Tunnel fractionné : quand l’utiliser, comment le configurer, et comment éviter les fuites DNS/WebRTC/IPv6.">
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-split-tunneling-uk.webp">
+
+  <!-- Stage 2.5: local additions for SVG/table responsiveness + guaranteed contrast -->
+  <style>
+    .svg-card{border:1px solid rgba(0,0,0,.12); border-radius:16px; padding:14px; background:#fff; color:#000; box-shadow:0 10px 24px rgba(0,0,0,.06); margin:16px 0}
+    .svg-head{display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin:0 0 10px 0; color:#000 !important; opacity:1 !important}
+    .svg-head h3{margin:0; font-size:1.05rem}
+    .svg-sub{margin:2px 0 0 0; font-size:.95rem; opacity:.95}
+    .svg-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch}
+    .svg-scroll svg{max-width:100%; height:auto; display:block; color:#000}
+    .svg-scroll svg text{fill:#000 !important; font-weight:800}
+    .table-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch; margin:14px 0}
+    .table-scroll table{min-width:900px}
+    .mini-badge{display:inline-block; padding:3px 8px; border-radius:999px; border:1px solid rgba(0,0,0,.18); background:rgba(0,0,0,.04); font-size:.85rem; color:#000}
+    /* Related dark wide card (fixed standard) */
+    .related-card{margin:14px 0; padding:14px 16px; border-radius:16px; background:#0f1720; border:1px solid rgba(255,255,255,.14); box-shadow:0 10px 24px rgba(0,0,0,.20)}
+    .related-card .rel-inner{display:flex; gap:12px; align-items:flex-start}
+    .related-card .rel-accent{width:6px; border-radius:999px; background:#22c55e; flex:0 0 6px; height:auto; min-height:28px}
+    .related-card p{margin:0; color:#eaeaea}
+    .related-card a{color:#eaeaea; text-decoration:underline; text-underline-offset:2px}
+  </style>
+
+  <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
+  
+<!-- JSON-LD (Stage 2.5): Article + FAQPage + BreadcrumbList + ItemList(Related) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"Article",
+        "@id":"https://dloran1.github.io/fr/blog/vpn-split-tunneling.html",
+        "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/fr/blog/vpn-split-tunneling.html"},
+        "headline":"Split Tunneling VPN (2026) : définition, avantages, risques et configuration",
+        "description":"Guide 2026 du split tunneling VPN (tunnel fractionné) : à quoi ça sert, quand l’utiliser, risques (fuites DNS/WebRTC/IPv6), configuration Windows/Android/macOS/iOS/routeur, tests et checklist.",
+        "image":"https://dloran1.github.io/assets/img/hero/vpn-split-tunneling-uk.webp",
+        "inLanguage":"fr",
+        "datePublished":"2026-01-07",
+        "dateModified":"2026-01-07",
+        "author":{"@type":"Person","name":"Denys Shchur","url":"https://dloran1.github.io/fr/about-denys-shchur.html"},
+        "publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}}
+      },
+      {
+        "@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"Accueil","item":"https://dloran1.github.io/fr/"},
+          {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/fr/blog/"},
+          {"@type":"ListItem","position":3,"name":"Split tunneling VPN","item":"https://dloran1.github.io/fr/blog/vpn-split-tunneling.html"}
+        ]
+      },
+      {
+        "@type":"ItemList",
+        "name":"Guides associés",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/fr/blog/quest-ce-quun-vpn.html"},
+          {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/fr/blog/protocoles-vpn.html"},
+          {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/fr/blog/vpn-dns-leak.html"},
+          {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/fr/blog/vpn-kill-switch.html"},
+          {"@type":"ListItem","position":5,"url":"https://dloran1.github.io/fr/blog/parametres-optimaux-vpn.html"},
+          {"@type":"ListItem","position":6,"url":"https://dloran1.github.io/fr/blog/test-de-vitesse-vpn.html"},
+          {"@type":"ListItem","position":7,"url":"https://dloran1.github.io/fr/blog/vpn-wifi-public.html"},
+          {"@type":"ListItem","position":8,"url":"https://dloran1.github.io/fr/blog/proxy-vs-vpn.html"}
+        ]
+      },
+      {
+        "@type":"FAQPage",
+        "mainEntity":[
+          {
+            "@type":"Question",
+            "name":"Qu’est-ce que le split tunneling (tunnel fractionné) sur un VPN ?",
+            "acceptedAnswer":{"@type":"Answer","text":"Le split tunneling permet d’envoyer une partie du trafic via le tunnel chiffré du VPN et une autre partie directement via votre connexion normale. Vous choisissez quelles applis (ou parfois quels sites) passent par le VPN."}
+          },
+          {
+            "@type":"Question",
+            "name":"Le split tunneling est-il sûr ?",
+            "acceptedAnswer":{"@type":"Answer","text":"Il peut être sûr si vous excluez le minimum et si vous testez systématiquement les fuites (DNS/WebRTC/IPv6). Le trafic exclu sort sans la protection du VPN, donc une mauvaise règle peut exposer IP ou DNS."}
+          },
+          {
+            "@type":"Question",
+            "name":"À quoi sert le split tunneling en pratique ?",
+            "acceptedAnswer":{"@type":"Answer","text":"À optimiser la compatibilité et la vitesse : par exemple laisser une appli bancaire sortir en direct si elle bloque les IP VPN, tout en gardant le navigateur et les applis sensibles dans le tunnel VPN."}
+          },
+          {
+            "@type":"Question",
+            "name":"Le split tunneling peut-il provoquer des fuites DNS ?",
+            "acceptedAnswer":{"@type":"Answer","text":"Oui, surtout si une appli exclue utilise les DNS du FAI ou si le système mélange les résolutions. Activez la protection anti-fuite et vérifiez avec un test après chaque modification."}
+          },
+          {
+            "@type":"Question",
+            "name":"Comment configurer le split tunneling sous Windows ?",
+            "acceptedAnswer":{"@type":"Answer","text":"En général via l’application du fournisseur : vous choisissez les applis à inclure ou à exclure. Ensuite, testez IP + DNS + WebRTC et vérifiez que le kill switch protège bien le trafic qui doit rester dans le VPN."}
+          },
+          {
+            "@type":"Question",
+            "name":"Le split tunneling fonctionne-t-il sur iPhone (iOS) ?",
+            "acceptedAnswer":{"@type":"Answer","text":"Sur iOS, c’est souvent limité. Pour un contrôle plus fiable, une alternative est de configurer le VPN sur le routeur afin de décider par appareil plutôt que par appli."}
+          },
+          {
+            "@type":"Question",
+            "name":"Quel est le lien entre split tunneling et kill switch ?",
+            "acceptedAnswer":{"@type":"Answer","text":"Le kill switch coupe Internet si le VPN tombe, afin d’éviter l’exposition. Avec le split tunneling, assurez-vous qu’il protège le trafic censé passer par le VPN ; sinon une chute peut révéler IP/DNS."}
+          },
+          {
+            "@type":"Question",
+            "name":"Quels tests faire après avoir activé le split tunneling ?",
+            "acceptedAnswer":{"@type":"Answer","text":"Testez l’IP publique, les fuites DNS, WebRTC et IPv6. Puis validez sur vos scénarios réels (streaming, banque, travail) et recommencez après mise à jour du client VPN."}
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+    <script src="/assets/js/cookie-consent.js" defer></script>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="header-main">
+        <a href="/fr/" class="brand">
+          <img src="../../assets/img/logo.png" class="logo" alt="Logo VPN World">
+          <span class="brand-text">VPN World</span>
+        </a>
+
+        <nav class="primary-nav" aria-label="Navigation principale">
+          <a href="/fr/blog/">Blog</a>
+        </nav>
+      </div>
+
+      <nav class="lang-switch" aria-label="Sélecteur de langue">
+        <a href="/blog/vpn-split-tunneling.html">Polski</a> |
+        <a href="/en-gb/blog/vpn-split-tunneling-uk.html">English (UK)</a> |
+        <a href="/en-us/blog/vpn-split-tunneling.html">English (US)</a> |
+        <a href="/de/blog/vpn-split-tunneling.html">Deutsch</a> |
+        <a href="/es/blog/vpn-split-tunneling.html">Español</a> |
+        <a href="/fr/blog/vpn-split-tunneling.html" class="active">Français</a> |
+        <a href="/nl-be/blog/vpn-split-tunneling.html">Nederlands (BE)</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h1>Split tunneling VPN : définition, cas d’usage, risques et configuration (2026)</h1>
+
+          <p class="note">
+            <strong>Réponse rapide :</strong>
+            Le split tunneling (tunnel fractionné) permet de faire passer certaines applis via le VPN et d’en laisser d’autres sortir directement via votre FAI.
+            C’est pratique pour la compatibilité et la vitesse, mais il faut <strong>tester les fuites DNS/WebRTC/IPv6</strong> et vérifier le <a href="/fr/blog/vpn-kill-switch.html">kill switch</a>.
+          </p>
+
+          <p>
+            Ce guide est volontairement “terrain” : on va expliquer ce qui se passe réellement au niveau des routes,
+            comment éviter les erreurs classiques et comment valider votre configuration avec des tests simples.
+            Si vous débutez, commencez par <a href="/fr/blog/quest-ce-quun-vpn.html">Qu’est-ce qu’un VPN ?</a> puis revenez ici.
+          </p>
+
+          <div class="hero-author">
+            <img src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur — auteur de VPN World">
+            <div class="hero-author-text">
+              <span class="hero-author-label">Écrit par</span>
+              <span class="hero-author-name">
+                <a href="/fr/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a>
+              </span>
+              <span class="meta">Mis à jour : 2026-01-07 · 12–18 min de lecture</span>
+            </div>
+          </div>
+
+          <!-- Early CTA block -->
+          <div class="cta-buttons" aria-label="Offres partenaires">
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer NordVPN — politique no-logs auditée</a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer Surfshark — serveurs RAM-only</a>
+          </div>
+
+          <ul class="meta-points">
+            <li>Comprendre le split tunneling (sans jargon)</li>
+            <li>Tests anti-fuites : DNS, WebRTC, IPv6</li>
+            <li>Configuration Windows/Android/macOS/iOS/routeur</li>
+          </ul>
+
+          <div class="related-card" role="note" aria-label="Guides associés (accès rapide)">
+            <div class="rel-inner">
+              <span class="rel-accent" aria-hidden="true"></span>
+              <p><strong>Guides associés :</strong>
+                <a href="/fr/blog/vpn-dns-leak.html">Fuite DNS avec VPN</a> ·
+                <a href="/fr/blog/protocoles-vpn.html">Protocoles VPN</a> ·
+                <a href="/fr/blog/parametres-optimaux-vpn.html">Paramètres optimaux</a> ·
+                <a href="/fr/blog/test-de-vitesse-vpn.html">Test de vitesse VPN</a>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-media">
+          <div class="hero-art">
+            <img src="../../assets/img/hero/vpn-split-tunneling-uk.webp" alt="Schéma conceptuel du split tunneling VPN" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="section">
+      <div class="container article">
+        <!-- CONTENT_START -->
+
+        <h2>1) Split tunneling : qu’est-ce que c’est, exactement ?</h2>
+        <p>
+          Un VPN chiffre votre trafic et le fait transiter via un serveur VPN avant d’atteindre Internet. Cela réduit le risque
+          d’interception, notamment sur <a href="/fr/blog/vpn-wifi-public.html">un Wi-Fi public</a>, et limite la visibilité de votre FAI.
+          Le problème : « tout faire passer par le VPN » n’est pas toujours confortable (banque qui bloque, streaming capricieux, perf en baisse).
+        </p>
+        <p>
+          Le <strong>split tunneling</strong> (tunnel fractionné) ajoute un choix : une partie du trafic passe dans le tunnel VPN,
+          l’autre sort “en direct” via votre connexion normale. On rencontre souvent deux modes :
+        </p>
+        <ul>
+          <li><strong>Mode “inclure” :</strong> vous sélectionnez les applis qui passent par le VPN (le reste sort en direct).</li>
+          <li><strong>Mode “exclure” :</strong> tout passe par le VPN sauf les applis que vous excluez (souvent le plus sûr).</li>
+        </ul>
+        <div class="key-takeaway"><strong>À retenir :</strong> le split tunneling n’est pas « moins sécurisé par nature » — c’est un contrôle de route. Le risque vient des exceptions mal choisies.</div>
+
+        <div class="svg-card">
+          <div class="svg-head">
+            <div>
+              <h3>Diagramme 1 : trafic normal vs split tunneling</h3>
+              <p class="svg-sub">Même appareil, deux routes. Idéal pour visualiser où le chiffrement s’arrête.</p>
+            </div>
+            <span class="mini-badge">Visuel</span>
+          </div>
+          <div class="svg-scroll" aria-label="Schéma split tunneling">
+            <svg viewBox="0 0 980 360" role="img" aria-label="Schéma : trafic via VPN et trafic direct">
+              <rect x="18" y="22" width="300" height="120" rx="16" fill="#E8F3FF" stroke="#000" stroke-width="4"></rect>
+              <text x="36" y="58" font-size="22">Votre appareil</text>
+              <text x="36" y="92" font-size="18">Applis : navigateur, messagerie, streaming</text>
+
+              <rect x="18" y="190" width="300" height="140" rx="16" fill="#FFF2E6" stroke="#000" stroke-width="4"></rect>
+              <text x="36" y="228" font-size="22">Règles de tunnel</text>
+              <text x="36" y="262" font-size="18">Inclure / exclure applis</text>
+              <text x="36" y="296" font-size="18">Objectif : compatibilité + contrôle</text>
+
+              <rect x="390" y="40" width="270" height="120" rx="16" fill="#E9FCEB" stroke="#000" stroke-width="4"></rect>
+              <text x="408" y="78" font-size="22">Tunnel VPN</text>
+              <text x="408" y="112" font-size="18">Chiffrement + IP du serveur</text>
+
+              <rect x="390" y="210" width="270" height="120" rx="16" fill="#FFE9F1" stroke="#000" stroke-width="4"></rect>
+              <text x="408" y="248" font-size="22">Route directe</text>
+              <text x="408" y="282" font-size="18">Sortie via FAI (sans VPN)</text>
+
+              <rect x="720" y="40" width="240" height="120" rx="16" fill="#F1F5F9" stroke="#000" stroke-width="4"></rect>
+              <text x="738" y="78" font-size="22">Internet</text>
+              <text x="738" y="112" font-size="18">Sites, services, CDNs</text>
+
+              <rect x="720" y="210" width="240" height="120" rx="16" fill="#F1F5F9" stroke="#000" stroke-width="4"></rect>
+              <text x="738" y="248" font-size="22">Internet</text>
+              <text x="738" y="282" font-size="18">Sites, services, CDNs</text>
+
+              <line x1="318" y1="82" x2="390" y2="90" stroke="#000" stroke-width="4"></line>
+              <polygon points="390,90 378,82 378,98" fill="#000"></polygon>
+              <text x="330" y="70" font-size="16">Trafic protégé</text>
+
+              <line x1="318" y1="262" x2="390" y2="270" stroke="#000" stroke-width="4"></line>
+              <polygon points="390,270 378,262 378,278" fill="#000"></polygon>
+              <text x="330" y="250" font-size="16">Trafic exclu</text>
+
+              <line x1="660" y1="90" x2="720" y2="90" stroke="#000" stroke-width="4"></line>
+              <polygon points="720,90 708,82 708,98" fill="#000"></polygon>
+
+              <line x1="660" y1="270" x2="720" y2="270" stroke="#000" stroke-width="4"></line>
+              <polygon points="720,270 708,262 708,278" fill="#000"></polygon>
+            </svg>
+          </div>
+        </div>
+
+        <h2>2) Quand l’utiliser (et quand l’éviter)</h2>
+        <p>
+          Le split tunneling est utile quand vous cherchez <strong>compatibilité</strong> ou <strong>performances</strong> —
+          mais il est souvent une mauvaise idée quand votre priorité est « tout chiffrer, sans exception ».
+          Pour une vision équilibrée, lisez aussi <a href="/fr/blog/inconvenients-du-vpn.html">les inconvénients d’un VPN</a>.
+        </p>
+
+        <div class="table-scroll" aria-label="Tableau : cas d’usage split tunneling">
+          <table>
+            <thead>
+              <tr>
+                <th>Situation</th>
+                <th>Bon usage du split tunneling ?</th>
+                <th>Pourquoi</th>
+                <th>Conseil pratique</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Streaming (plateformes qui bloquent les IP VPN)</td>
+                <td>Parfois</td>
+                <td>Exclure l’appli TV peut aider si la plateforme détecte le VPN.</td>
+                <td>Voir <a href="/fr/blog/vpn-streaming.html">VPN pour streaming</a> et tester serveurs.</td>
+              </tr>
+              <tr>
+                <td>Banque en ligne</td>
+                <td>Oui, avec prudence</td>
+                <td>Certains systèmes antifraude bloquent les IP VPN.</td>
+                <td>Voir <a href="/fr/blog/vpn-banque-en-ligne.html">VPN et banque</a>.</td>
+              </tr>
+              <tr>
+                <td>Wi-Fi public</td>
+                <td>Plutôt non</td>
+                <td>Exclure du trafic sur un réseau ouvert augmente le risque.</td>
+                <td>Checklist : <a href="/fr/blog/securite-wifi-checklist.html">sécurité Wi-Fi</a>.</td>
+              </tr>
+              <tr>
+                <td>P2P / torrents</td>
+                <td>Attention</td>
+                <td>Une exclusion accidentelle expose IP réelle.</td>
+                <td>Voir <a href="/fr/blog/vpn-torrent.html">VPN torrent</a> et <a href="/fr/blog/vpn-p2p-securise.html">P2P sécurisé</a>.</td>
+              </tr>
+              <tr>
+                <td>Travail à distance</td>
+                <td>Selon les politiques</td>
+                <td>Les règles peuvent entrer en conflit avec la sécurité entreprise.</td>
+                <td>Voir <a href="/fr/blog/vpn-remote-work.html">VPN remote work</a>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="key-takeaway"><strong>À retenir :</strong> sur réseau sensible (Wi-Fi public) ou besoin d’anonymat strict, mieux vaut “tout via VPN”. Le split tunneling est une optimisation, pas un mode magique.</div>
+
+        <div class="svg-card">
+          <div class="svg-head">
+            <div>
+              <h3>Diagramme 2 : mini arbre de décision</h3>
+              <p class="svg-sub">Un test rapide “oui/non” pour éviter les mauvais choix.</p>
+            </div>
+            <span class="mini-badge">Décision</span>
+          </div>
+          <div class="svg-scroll" aria-label="Arbre de décision split tunneling">
+            <svg viewBox="0 0 980 420" role="img" aria-label="Arbre de décision pour split tunneling">
+              <rect x="40" y="30" width="900" height="360" rx="18" fill="#F8FAFC" stroke="#000" stroke-width="4"></rect>
+
+              <rect x="90" y="70" width="360" height="80" rx="16" fill="#E8F3FF" stroke="#000" stroke-width="4"></rect>
+              <text x="112" y="105" font-size="22">Vous êtes sur Wi-Fi public ?</text>
+              <text x="112" y="132" font-size="16">Café, hôtel, aéroport…</text>
+
+              <rect x="550" y="70" width="330" height="80" rx="16" fill="#FFE9F1" stroke="#000" stroke-width="4"></rect>
+              <text x="572" y="105" font-size="22">Éviter le split tunneling</text>
+              <text x="572" y="132" font-size="16">Tout via VPN</text>
+
+              <line x1="450" y1="110" x2="550" y2="110" stroke="#000" stroke-width="4"></line>
+              <polygon points="550,110 538,102 538,118" fill="#000"></polygon>
+              <text x="468" y="102" font-size="16">Oui</text>
+
+              <rect x="90" y="200" width="360" height="90" rx="16" fill="#E9FCEB" stroke="#000" stroke-width="4"></rect>
+              <text x="112" y="235" font-size="22">Besoin de compatibilité ?</text>
+              <text x="112" y="262" font-size="16">Banque / TV / applis qui bloquent</text>
+
+              <line x1="270" y1="150" x2="270" y2="200" stroke="#000" stroke-width="4"></line>
+              <polygon points="270,200 262,188 278,188" fill="#000"></polygon>
+              <text x="280" y="184" font-size="16">Non</text>
+
+              <rect x="550" y="200" width="330" height="90" rx="16" fill="#FFF2E6" stroke="#000" stroke-width="4"></rect>
+              <text x="572" y="235" font-size="22">Oui, mais minimal</text>
+              <text x="572" y="262" font-size="16">Exclure le strict nécessaire</text>
+
+              <line x1="450" y1="245" x2="550" y2="245" stroke="#000" stroke-width="4"></line>
+              <polygon points="550,245 538,237 538,253" fill="#000"></polygon>
+              <text x="468" y="237" font-size="16">Oui</text>
+
+              <rect x="90" y="320" width="790" height="60" rx="16" fill="#E8F3FF" stroke="#000" stroke-width="4"></rect>
+              <text x="112" y="358" font-size="20">Règle d’or : après activation, test IP + DNS + WebRTC + IPv6.</text>
+            </svg>
+          </div>
+        </div>
+
+        <h2>3) Les risques : fuites IP, DNS, WebRTC et IPv6 (le vrai “piège”)</h2>
+        <p>
+          Avec le tunnel fractionné, certaines applis sortent sans VPN — donc sans IP “masquée” et sans chiffrement VPN.
+          Le risque principal n’est pas « la fonction », mais la <strong>fausse impression</strong> que tout est protégé.
+          Si la confidentialité est votre priorité, lisez aussi <a href="/fr/blog/no-logs-vpn.html">no-logs</a> et vérifiez votre <a href="/fr/blog/vpn-kill-switch.html">kill switch</a>.
+        </p>
+        <ul>
+          <li><strong>Fuite DNS :</strong> le trafic exclu utilise les DNS du FAI (voir <a href="/fr/blog/vpn-dns-leak.html">fuite DNS</a>).</li>
+          <li><strong>Fuite WebRTC :</strong> le navigateur peut exposer des infos réseau pendant des appels ou via certaines pages.</li>
+          <li><strong>IPv6 :</strong> si la gestion IPv6 est imparfaite, une partie du trafic peut sortir hors tunnel.</li>
+          <li><strong>Chute de VPN :</strong> sans kill switch correct, l’app “protégée” peut basculer en clair.</li>
+        </ul>
+
+        <div class="svg-card">
+          <div class="svg-head">
+            <div>
+              <h3>Diagramme 3 : carte des fuites possibles</h3>
+              <p class="svg-sub">IP, DNS, WebRTC, IPv6 : quatre endroits où ça peut “déborder”.</p>
+            </div>
+            <span class="mini-badge">Risques</span>
+          </div>
+          <div class="svg-scroll" aria-label="Carte des fuites split tunneling">
+            <svg viewBox="0 0 980 360" role="img" aria-label="Carte des risques : IP, DNS, WebRTC, IPv6">
+              <rect x="40" y="30" width="900" height="300" rx="18" fill="#FFFFFF" stroke="#000" stroke-width="4"></rect>
+
+              <rect x="80" y="80" width="390" height="90" rx="16" fill="#FFE9F1" stroke="#000" stroke-width="4"></rect>
+              <text x="102" y="115" font-size="22">IP publique réelle</text>
+              <text x="102" y="145" font-size="16">Applis exclues / chute VPN</text>
+
+              <rect x="510" y="80" width="390" height="90" rx="16" fill="#FFF2E6" stroke="#000" stroke-width="4"></rect>
+              <text x="532" y="115" font-size="22">DNS du FAI</text>
+              <text x="532" y="145" font-size="16">Résolution hors tunnel</text>
+
+              <rect x="80" y="200" width="390" height="90" rx="16" fill="#E8F3FF" stroke="#000" stroke-width="4"></rect>
+              <text x="102" y="235" font-size="22">WebRTC</text>
+              <text x="102" y="265" font-size="16">Le navigateur peut révéler IP</text>
+
+              <rect x="510" y="200" width="390" height="90" rx="16" fill="#E9FCEB" stroke="#000" stroke-width="4"></rect>
+              <text x="532" y="235" font-size="22">IPv6</text>
+              <text x="532" y="265" font-size="16">Trafic IPv6 hors tunnel</text>
+
+              <text x="80" y="60" font-size="18">Solution : protection anti-fuite + kill switch + tests après chaque changement</text>
+            </svg>
+          </div>
+        </div>
+
+        <h2>4) Note de test (E-E-A-T) : ce que j’ai observé en pratique</h2>
+        <p class="note">
+          <strong>Note de test :</strong>
+          En testant le split tunneling sur Windows 11 pour laisser une application de streaming sortir “en direct” tout en gardant mon navigateur dans le VPN,
+          j’ai constaté qu’après modification des exclusions, certaines résolutions DNS pouvaient rester “accrochées” au résolveur système.
+          La correction a été simple mais non intuitive : activer explicitement la protection anti-fuite, redémarrer l’adaptateur virtuel,
+          puis refaire un test via <a href="/fr/blog/vpn-dns-leak.html">la page sur les fuites DNS</a>. Depuis, je considère qu’un split tunneling “valide”
+          doit passer <strong>IP + DNS + WebRTC + IPv6</strong> avant d’être utilisé au quotidien.
+        </p>
+        <div class="key-takeaway"><strong>À retenir :</strong> le split tunneling se valide par mesure (tests), pas par intuition.</div>
+
+        <h2>5) Comment tester correctement : IP, DNS, WebRTC et IPv6</h2>
+        <p>
+          La méthode la plus fiable : établir une base “sans split tunneling”, puis activer le tunnel fractionné et comparer.
+          Si vous optimisez la performance, faites aussi un <a href="/fr/blog/test-de-vitesse-vpn.html">test de vitesse VPN</a> avant/après.
+        </p>
+
+        <div class="table-scroll" aria-label="Tableau : tests et résultats attendus">
+          <table>
+            <thead>
+              <tr>
+                <th>Test</th>
+                <th>Ce que ça vérifie</th>
+                <th>Résultat attendu (trafic dans le VPN)</th>
+                <th>Signe de problème</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>IP publique</td>
+                <td>Masquage de l’IP</td>
+                <td>IP du serveur VPN</td>
+                <td>IP du FAI</td>
+              </tr>
+              <tr>
+                <td>DNS</td>
+                <td>Résolution des domaines</td>
+                <td>DNS du VPN / résolveur sécurisé</td>
+                <td>DNS FAI / mélange</td>
+              </tr>
+              <tr>
+                <td>WebRTC</td>
+                <td>Fuite navigateur</td>
+                <td>Pas d’IP réelle exposée</td>
+                <td>IP réelle / locale sensible</td>
+              </tr>
+              <tr>
+                <td>IPv6</td>
+                <td>Sortie IPv6</td>
+                <td>IPv6 protégé ou bloqué</td>
+                <td>IPv6 hors tunnel</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          Si vous observez une anomalie, ne “bricolez” pas : commencez par la base
+          <a href="/fr/blog/vpn-dns-leak.html">fuite DNS</a> + <a href="/fr/blog/vpn-kill-switch.html">kill switch</a>,
+          puis vérifiez vos <a href="/fr/blog/parametres-optimaux-vpn.html">paramètres optimaux</a>.
+        </p>
+
+        <h2>6) Configuration par plateforme : Windows, Android, macOS, iOS et routeur</h2>
+        <p>
+          L’implémentation varie selon le système. En général, Windows et Android offrent le plus de contrôle.
+          Sur iOS, la flexibilité est souvent limitée : pour un split tunneling stable, le routeur reste une solution “propre”
+          (décision par appareil). Guide : <a href="/fr/blog/configuration-vpn-routeur.html">configuration VPN routeur</a>.
+        </p>
+
+        <h3>Windows (le plus “précis”)</h3>
+        <p>
+          Pour Windows, une règle pragmatique : commencez en mode <strong>exclure</strong> (tout via VPN, vous excluez 1–2 applis),
+          car cela réduit les erreurs. Pour le pas-à-pas, voir <a href="/fr/blog/configuration-vpn-windows.html">configuration VPN Windows</a>.
+        </p>
+        <ol>
+          <li>Connectez le VPN, vérifiez que l’IP a changé.</li>
+          <li>Activez le split tunneling, excluez uniquement l’appli nécessaire.</li>
+          <li>Activez la protection anti-fuite et le kill switch.</li>
+          <li>Refaites les tests : IP + DNS + WebRTC + IPv6.</li>
+        </ol>
+
+        <h3>Android (souvent flexible)</h3>
+        <p>
+          Android propose souvent des options avancées côté fournisseur, et vous pouvez combiner avec “VPN toujours actif”.
+          Si vous êtes souvent sur des réseaux ouverts, consultez <a href="/fr/blog/securite-wifi.html">sécurité Wi-Fi</a>
+          et évitez les exclusions. Guide général : <a href="/fr/blog/vpn-android.html">VPN sur Android</a>.
+        </p>
+
+        <h3>macOS</h3>
+        <p>
+          Sur macOS, la qualité dépend du client et du protocole (voir <a href="/fr/blog/protocoles-vpn.html">protocoles VPN</a>).
+          Si le split tunneling est instable, optimisez d’abord serveur/protocole via <a href="/fr/blog/quel-serveur-vpn-choisir.html">choisir un serveur</a>
+          et les <a href="/fr/blog/parametres-optimaux-vpn.html">paramètres</a>.
+          Guide système : <a href="/fr/blog/vpn-macos.html">VPN sur macOS</a>.
+        </p>
+
+        <h3>iPhone (iOS)</h3>
+        <p>
+          iOS limite souvent le tunnel fractionné. Pour une configuration fiable, utilisez plutôt un routeur VPN,
+          ou adaptez votre usage. Guides : <a href="/fr/blog/configuration-vpn-iphone.html">configuration VPN iPhone</a> et <a href="/fr/blog/vpn-ios.html">VPN sur iOS</a>.
+        </p>
+
+        <h3>Routeur (split tunneling “par appareil”)</h3>
+        <p>
+          Sur un routeur, le split tunneling est souvent “par appareil” : TV en direct, PC via VPN, etc.
+          C’est très efficace pour les Smart TV et consoles. Guides : <a href="/fr/blog/vpn-pour-smart-tv.html">VPN Smart TV</a>,
+          <a href="/fr/blog/vpn-pour-consoles-ps5-xbox.html">VPN consoles</a> et <a href="/fr/blog/configuration-vpn-routeur.html">VPN routeur</a>.
+        </p>
+
+        <div class="svg-card">
+          <div class="svg-head">
+            <div>
+              <h3>Diagramme 4 : split tunneling par appareil (routeur)</h3>
+              <p class="svg-sub">Solution “propre” pour iOS/TV : on choisit par équipement, pas par appli.</p>
+            </div>
+            <span class="mini-badge">Maison</span>
+          </div>
+          <div class="svg-scroll" aria-label="Schéma routeur split tunneling par appareil">
+            <svg viewBox="0 0 980 380" role="img" aria-label="Routeur VPN : appareils via VPN et en direct">
+              <rect x="40" y="30" width="900" height="320" rx="18" fill="#FFFFFF" stroke="#000" stroke-width="4"></rect>
+
+              <rect x="90" y="95" width="240" height="90" rx="16" fill="#E8F3FF" stroke="#000" stroke-width="4"></rect>
+              <text x="112" y="130" font-size="22">PC portable</text>
+              <text x="112" y="158" font-size="16">Travail / navigateur</text>
+
+              <rect x="90" y="225" width="240" height="90" rx="16" fill="#FFE9F1" stroke="#000" stroke-width="4"></rect>
+              <text x="112" y="260" font-size="22">Smart TV</text>
+              <text x="112" y="288" font-size="16">Streaming</text>
+
+              <rect x="390" y="150" width="220" height="100" rx="16" fill="#E9FCEB" stroke="#000" stroke-width="4"></rect>
+              <text x="412" y="190" font-size="22">Routeur</text>
+              <text x="412" y="220" font-size="16">Règles par appareil</text>
+
+              <rect x="670" y="90" width="250" height="90" rx="16" fill="#E9FCEB" stroke="#000" stroke-width="4"></rect>
+              <text x="692" y="125" font-size="22">Route VPN</text>
+              <text x="692" y="153" font-size="16">PC via VPN</text>
+
+              <rect x="670" y="230" width="250" height="90" rx="16" fill="#FFF2E6" stroke="#000" stroke-width="4"></rect>
+              <text x="692" y="265" font-size="22">Route directe</text>
+              <text x="692" y="293" font-size="16">TV en direct</text>
+
+              <line x1="330" y1="140" x2="390" y2="190" stroke="#000" stroke-width="4"></line>
+              <polygon points="390,190 377,182 379,198" fill="#000"></polygon>
+
+              <line x1="330" y1="270" x2="390" y2="210" stroke="#000" stroke-width="4"></line>
+              <polygon points="390,210 377,202 379,218" fill="#000"></polygon>
+
+              <line x1="610" y1="195" x2="670" y2="135" stroke="#000" stroke-width="4"></line>
+              <polygon points="670,135 657,127 659,143" fill="#000"></polygon>
+
+              <line x1="610" y1="205" x2="670" y2="275" stroke="#000" stroke-width="4"></line>
+              <polygon points="670,275 657,267 659,283" fill="#000"></polygon>
+            </svg>
+          </div>
+        </div>
+
+        <h2>7) Protocoles + performance : ce que le split tunneling ne peut pas corriger</h2>
+        <p>
+          Le tunnel fractionné peut améliorer le confort, mais il ne transforme pas une VPN lente en VPN rapide.
+          La vitesse dépend du serveur, de la distance et du protocole (WireGuard/OpenVPN/IKEv2). Pour optimiser,
+          consultez <a href="/fr/blog/protocoles-vpn.html">protocoles</a> et faites un <a href="/fr/blog/test-de-vitesse-vpn.html">test de vitesse</a>.
+          Si vous cherchez une solution gratuite pour tester, lisez <a href="/fr/blog/best-vpn-gratuit.html">meilleur VPN gratuit</a>,
+          puis comparez avec <a href="/fr/blog/vpn-gratuit-vs-payant.html">VPN gratuit vs payant</a>.
+        </p>
+
+        <div class="table-scroll" aria-label="Tableau : protocoles et usages">
+          <table>
+            <thead>
+              <tr>
+                <th>Protocole</th>
+                <th>Vitesse</th>
+                <th>Stabilité</th>
+                <th>Compatibilité</th>
+                <th>Bon pour</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>WireGuard</td>
+                <td>Très élevée</td>
+                <td>Élevée</td>
+                <td>Bonne</td>
+                <td>Usage quotidien, streaming, mobilité</td>
+              </tr>
+              <tr>
+                <td>OpenVPN</td>
+                <td>Moyenne à élevée</td>
+                <td>Très élevée</td>
+                <td>Très bonne</td>
+                <td>Réseaux complexes, compatibilité</td>
+              </tr>
+              <tr>
+                <td>IKEv2/IPSec</td>
+                <td>Élevée</td>
+                <td>Élevée</td>
+                <td>Bonne</td>
+                <td>Smartphones, changements de réseau</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="key-takeaway"><strong>À retenir :</strong> optimisez d’abord serveur + protocole, puis utilisez split tunneling pour la compatibilité et le contrôle fin.</div>
+
+        <h2>8) Scénarios concrets : streaming, banque, torrents, jeux</h2>
+        <p>
+          Les meilleurs réglages sont ceux qui collent à votre usage réel. Voici des scénarios typiques “minimalistes” :
+          on exclut le strict nécessaire, et on garde le reste dans le VPN. Si vous hésitez sur le serveur, utilisez
+          <a href="/fr/blog/quel-serveur-vpn-choisir.html">quel serveur choisir</a>. Pour les blocages régionaux, voir
+          <a href="/fr/blog/blocages-geographiques-vpn.html">blocages géographiques</a>.
+        </p>
+
+        <h3>Streaming</h3>
+        <p>
+          Si une plateforme bloque le VPN, testez d’abord plusieurs serveurs (souvent plus efficace que d’exclure des applis).
+          Sinon, excluez uniquement l’appli TV (pas le navigateur). Guide : <a href="/fr/blog/vpn-streaming.html">VPN streaming</a> et
+          <a href="/fr/blog/vpn-netflix.html">VPN Netflix</a>.
+        </p>
+
+        <h3>Banque en ligne</h3>
+        <p>
+          Pour une banque qui bloque les IP VPN, exclure l’appli bancaire peut aider, mais gardez en tête que les liens ouverts
+          depuis l’app (webviews) sortent aussi en direct. Guide : <a href="/fr/blog/vpn-banque-en-ligne.html">banque en ligne</a>.
+        </p>
+
+        <h3>Torrents / P2P</h3>
+        <p>
+          Ici, l’erreur la plus grave est d’exclure le client P2P. Le bon réflexe : client torrent <strong>dans</strong> le VPN,
+          le reste éventuellement en direct si nécessaire. Guides : <a href="/fr/blog/vpn-torrent.html">VPN torrent</a>,
+          <a href="/fr/blog/vpn-torrenting.html">torrenting</a> et <a href="/fr/blog/vpn-p2p-securise.html">P2P sécurisé</a>.
+        </p>
+
+        <h3>Jeux</h3>
+        <p>
+          Les jeux privilégient la latence. Parfois, la route directe est meilleure. Mais pour des cas de sécurité (DDoS)
+          ou usage spécifique, regardez <a href="/fr/blog/vpn-pour-jeux.html">VPN pour jeux</a> et <a href="/fr/blog/vpn-pour-consoles-ps5-xbox.html">consoles</a>.
+        </p>
+
+        <div class="svg-card">
+          <div class="svg-head">
+            <div>
+              <h3>Diagramme 5 : checklist finale anti-erreurs</h3>
+              <p class="svg-sub">Si ces cases sont cochées, votre split tunneling est généralement “propre”.</p>
+            </div>
+            <span class="mini-badge">Checklist</span>
+          </div>
+          <div class="svg-scroll" aria-label="Checklist split tunneling">
+            <svg viewBox="0 0 980 420" role="img" aria-label="Checklist de split tunneling sûr">
+              <rect x="40" y="30" width="900" height="360" rx="18" fill="#FFFFFF" stroke="#000" stroke-width="4"></rect>
+              <text x="70" y="80" font-size="22">Checklist rapide</text>
+
+              <rect x="70" y="105" width="840" height="55" rx="14" fill="#E9FCEB" stroke="#000" stroke-width="4"></rect>
+              <text x="92" y="141" font-size="18">✅ 1) Je sais quelles applis sont hors VPN</text>
+
+              <rect x="70" y="170" width="840" height="55" rx="14" fill="#E8F3FF" stroke="#000" stroke-width="4"></rect>
+              <text x="92" y="206" font-size="18">✅ 2) Kill switch actif pour le trafic qui doit rester dans le VPN</text>
+
+              <rect x="70" y="235" width="840" height="55" rx="14" fill="#FFF2E6" stroke="#000" stroke-width="4"></rect>
+              <text x="92" y="271" font-size="18">✅ 3) Tests faits : IP + DNS + WebRTC + IPv6</text>
+
+              <rect x="70" y="300" width="840" height="55" rx="14" fill="#FFE9F1" stroke="#000" stroke-width="4"></rect>
+              <text x="92" y="336" font-size="18">✅ 4) Je reteste après mise à jour / changement de règles</text>
+
+              <text x="70" y="390" font-size="16">Astuce : si (2) ou (3) échoue, repassez “tout via VPN” et corrigez d’abord.</text>
+            </svg>
+          </div>
+        </div>
+
+        <h2>9) Dépannage : symptômes fréquents et solutions</h2>
+        <p>
+          Quand ça ne marche pas, les causes sont souvent simples : règle non appliquée, DNS qui reste côté système,
+          ou kill switch mal configuré. Utilisez une approche mécanique : valider routes → DNS → kill switch.
+        </p>
+
+        <div class="table-scroll" aria-label="Tableau : problèmes et correctifs">
+          <table>
+            <thead>
+              <tr>
+                <th>Symptôme</th>
+                <th>Cause probable</th>
+                <th>Correctif</th>
+                <th>À lire</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>L’appli “exclue” passe encore par le VPN</td>
+                <td>Règle non prise en compte / cache réseau</td>
+                <td>Redémarrer l’appli + adaptateur virtuel, re-sauvegarder règles</td>
+                <td><a href="/fr/blog/configuration-vpn-windows.html">Windows</a></td>
+              </tr>
+              <tr>
+                <td>Le test DNS montre le FAI</td>
+                <td>Protection anti-fuite désactivée / conflit DNS</td>
+                <td>Activer protection, vérifier DNS, retester</td>
+                <td><a href="/fr/blog/vpn-dns-leak.html">Fuite DNS</a></td>
+              </tr>
+              <tr>
+                <td>Chute VPN = exposition temporaire</td>
+                <td>Kill switch mal appliqué</td>
+                <td>Activer kill switch, privilégier mode “exclure”</td>
+                <td><a href="/fr/blog/vpn-kill-switch.html">Kill switch</a></td>
+              </tr>
+              <tr>
+                <td>Streaming bloque / baisse qualité</td>
+                <td>Serveur saturé / détection VPN</td>
+                <td>Changer serveur/protocole, exclure l’appli en dernier recours</td>
+                <td><a href="/fr/blog/vpn-streaming.html">Streaming</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>FAQ</h2>
+        <dl>
+          <dt>Qu’est-ce que le split tunneling sur un VPN ?</dt>
+          <dd>Une fonction qui permet de choisir quelles applis passent par le tunnel VPN et lesquelles sortent en direct.</dd>
+
+          <dt>Est-ce sécurisé ?</dt>
+          <dd>Oui si vous excluez le minimum et que vous testez les fuites DNS/WebRTC/IPv6 après chaque changement.</dd>
+
+          <dt>Quel mode est le plus sûr ?</dt>
+          <dd>Le mode “exclure” (tout via VPN sauf 1–2 applis) est souvent plus sûr car il réduit les erreurs.</dd>
+
+          <dt>Pourquoi parle-t-on autant des fuites DNS ?</dt>
+          <dd>Parce qu’une fuite DNS révèle les domaines consultés. Le split tunneling peut augmenter ce risque si mal configuré.</dd>
+
+          <dt>Sur iPhone, est-ce possible ?</dt>
+          <dd>Souvent limité. Un routeur VPN offre un contrôle plus fiable par appareil.</dd>
+
+          <dt>Le kill switch est-il obligatoire ?</dt>
+          <dd>Fortement recommandé : il limite l’exposition si la connexion VPN tombe, surtout pour le trafic censé rester chiffré.</dd>
+
+          <dt>Le split tunneling aide-t-il pour Netflix / streaming ?</dt>
+          <dd>Parfois, mais testez d’abord plusieurs serveurs. Exclure l’appli est une option “dernier recours”.</dd>
+
+          <dt>Quels tests faire après activation ?</dt>
+          <dd>IP, DNS, WebRTC et IPv6. Puis testez vos usages réels (banque, streaming, travail).</dd>
+        </dl>
+        <div class="key-takeaway"><strong>À retenir :</strong> le split tunneling est excellent pour la compatibilité, mais doit être encadré par des tests anti-fuites et un kill switch fiable.</div>
+
+        <h2>Conclusion</h2>
+        <p>
+          Le split tunneling est une fonction puissante quand elle est utilisée avec discipline : des exceptions minimales,
+          un protocole adapté, un serveur bien choisi, et des tests après chaque changement. Si vous cherchez un cadre global,
+          consultez <a href="/fr/blog/pourquoi-vpn-2025.html">pourquoi utiliser un VPN</a> et <a href="/fr/blog/proxy-vs-vpn.html">proxy vs VPN</a>.
+        </p>
+
+        <div class="related-card" role="note" aria-label="Guides associés (fin)">
+          <div class="rel-inner">
+            <span class="rel-accent" aria-hidden="true"></span>
+            <p><strong>Guides associés :</strong>
+              <a href="/fr/blog/vpn-dns-leak.html">Fuite DNS</a> ·
+              <a href="/fr/blog/vpn-kill-switch.html">Kill switch</a> ·
+              <a href="/fr/blog/configuration-vpn-routeur.html">VPN routeur</a> ·
+              <a href="/fr/blog/securite-wifi-checklist.html">Checklist Wi-Fi</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- CONTENT_END -->
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <h2>Vidéo courte : la confidentialité via VPN expliquée simplement</h2>
+
+        <p class="note">
+          <strong>À retenir :</strong>
+          une VPN sert surtout à séparer <strong>qui vous êtes</strong> (IP, FAI) de <strong>ce que vous faites</strong> (sites et services).
+          Avec le split tunneling, cette séparation devient sélective — d’où l’importance des tests.
+        </p>
+
+        <div class="video-wrap">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&modestbranding=1"
+            title="VPN World — vidéo"
+            loading="lazy"
+            frameborder="0"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+        </div>
+
+        <p>
+          Si le lecteur ne charge pas, regardez sur YouTube :
+          <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- RELATED_START -->
+    <!-- RELATED_END -->
+
+    <section class="section">
+      <div class="container">
+        <div class="author-box">
+          <img src="../../assets/img/author/denys-shchur.webp" alt="Portrait de Denys Shchur" class="author-avatar">
+          <div>
+            <h3>À propos de l’auteur</h3>
+            <p>
+              <strong><a href="/fr/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a></strong>
+              est le créateur de VPN World et se concentre sur des guides pratiques et vérifiables sur les VPN, la confidentialité en ligne
+              et la cybersécurité du quotidien. Il préfère les tests réels (IP/DNS/WebRTC) aux slogans marketing — pour que vous n’ayez pas à le faire.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container article">
+        <div class="cta-box" aria-label="VPN recommandés">
+          <h2>VPN recommandés</h2>
+          <p class="cta-note">Liens partenaires (nofollow/sponsored).</p>
+          <div class="cta-buttons" aria-label="Offres partenaires">
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer NordVPN — politique no-logs auditée</a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer Surfshark — serveurs RAM-only</a>
+          </div>
+          <p class="human-note">Divulgation : VPN World peut percevoir une commission si vous vous abonnez via ces liens, sans changement de prix.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p><strong>VPN World</strong> · Service indépendant sur la confidentialité, la sécurité et l’usage pratique des VPN.</p>
+      <p>
+        <a href="/fr/privacy.html">Confidentialité</a> ·
+        <a href="/fr/disclosure.html">Divulgation</a> ·
+        <a href="mailto:u1797008805@gmail.com">Contact</a>
+      </p>
+      <p>© 2026 VPN World</p>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+  </body>
+</html>
+
+<!-- PAGE: https://dloran1.github.io/fr/blog/vpn-split-tunneling.html -->

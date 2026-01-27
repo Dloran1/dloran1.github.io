@@ -45,79 +45,7 @@
   
 <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
 
-  gtag('consent','default', {
-    ad_storage:'denied',
-    ad_user_data:'denied',
-    ad_personalization:'denied',
-    analytics_storage:'denied',
-    functionality_storage:'denied',
-    personalization_storage:'denied',
-    security_storage:'denied'
-  });
-
-  gtag('js', new Date());
-
-  function hideCookieBannerSafely(){
-    var b = document.getElementById('cookie-banner');
-    if (b) b.style.display = 'none';
-  }
-
-  window.acceptConsent = function(){
-    gtag('consent','update', {
-      ad_storage:'granted',
-      ad_user_data:'granted',
-      ad_personalization:'granted',
-      analytics_storage:'granted',
-      functionality_storage:'granted',
-      personalization_storage:'granted',
-      security_storage:'granted'
-    });
-    try{ localStorage.setItem('vpnworld_consent','granted'); }catch(e){}
-    hideCookieBannerSafely();
-    gtag('config','G-RD6M691ZWD', { anonymize_ip:true });
-    gtag('event','page_view');
-  };
-
-  window.rejectConsent = function(){
-    gtag('consent','update', {
-      ad_storage:'denied',
-      ad_user_data:'denied',
-      ad_personalization:'denied',
-      analytics_storage:'denied',
-      functionality_storage:'denied',
-      personalization_storage:'denied',
-      security_storage:'denied'
-    });
-    try{ localStorage.setItem('vpnworld_consent','denied'); }catch(e){}
-    hideCookieBannerSafely();
-  };
-
-  function applyStoredConsentSafely(){
-    try{
-      var c = localStorage.getItem('vpnworld_consent');
-      if (c === 'granted'){
-        gtag('consent','update', {
-          ad_storage:'granted',
-          ad_user_data:'granted',
-          ad_personalization:'granted',
-          analytics_storage:'granted',
-          functionality_storage:'granted',
-          personalization_storage:'granted',
-          security_storage:'granted'
-        });
-        hideCookieBannerSafely();
-        gtag('config','G-RD6M691ZWD', { anonymize_ip:true });
-      } else if (c === 'denied'){
-        hideCookieBannerSafely();
-      }
-    }catch(e){}
-  }
-  document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
-</script>
 
 
   <style>
@@ -220,7 +148,7 @@
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "HowTo", "name": "Jak dodać połączenie VPN w Windows 10/11 (wbudowany klient)", "step": [{"@type": "HowToStep", "name": "Otwórz Ustawienia", "text": "Naciśnij Win + I i przejdź do Sieć i Internet."}, {"@type": "HowToStep", "name": "Wejdź do VPN", "text": "Wybierz VPN i kliknij Dodaj połączenie VPN."}, {"@type": "HowToStep", "name": "Uzupełnij dane", "text": "Dostawca: Windows (wbudowany). Wpisz adres serwera, wybierz typ (IKEv2/SSTP) i podaj dane logowania."}, {"@type": "HowToStep", "name": "Połącz i przetestuj", "text": "Połącz się i sprawdź wycieki DNS/IPv6."}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "VPN World", "item": "https://dloran1.github.io/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://dloran1.github.io/blog/index.html"}, {"@type": "ListItem", "position": 3, "name": "Konfiguracja VPN w Windows", "item": "https://dloran1.github.io/blog/vpn-konfiguracja-windows.html"}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ItemList", "name": "Powiązane poradniki", "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://dloran1.github.io/blog/vpn-konfiguracja-routera.html"}, {"@type": "ListItem", "position": 2, "url": "https://dloran1.github.io/blog/vpn-na-androida.html"}, {"@type": "ListItem", "position": 3, "url": "https://dloran1.github.io/blog/vpn-na-ios.html"}, {"@type": "ListItem", "position": 4, "url": "https://dloran1.github.io/blog/vpn-na-macos.html"}, {"@type": "ListItem", "position": 5, "url": "https://dloran1.github.io/blog/protokoly-vpn.html"}]}</script>
-  <script defer src="../assets/js/cookie-consent.js"></script>
+      <script src="/assets/js/cookie-consent.js" defer></script>
 </head>
 
 <body>
@@ -635,7 +563,6 @@
   function setOS(os){
     tabs.forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-os-tab')===os); });
     panes.forEach(function(p){ p.style.display = (p.getAttribute('data-os-pane')===os) ? 'block' : 'none'; });
-    try{ localStorage.setItem('vpnworld_win_os', os); }catch(e){}
   }
   tabs.forEach(function(b){ b.addEventListener('click', function(){ setOS(b.getAttribute('data-os-tab')); }); });
   var stored = null;
@@ -664,13 +591,6 @@
 
 
   
-<div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Ustawienia cookies">
-  <p><strong>Cookies & prywatność:</strong> używamy plików cookie tylko po Twojej zgodzie (Consent Mode v2). Możesz zaakceptować lub odrzucić analitykę. <a href="/privacy.html">Privacy</a></p>
-  <div class="cookie-actions">
-    <button id="cookie-accept" class="btn btn-primary" type="button" onclick="window.acceptConsent && window.acceptConsent()">Akceptuję</button>
-    <button id="cookie-reject" class="btn btn-secondary" type="button" onclick="window.rejectConsent && window.rejectConsent()">Odrzucam</button>
-  </div>
-</div>
 
 
   <!-- PAGE: https://dloran1.github.io/blog/vpn-konfiguracja-windows.html -->

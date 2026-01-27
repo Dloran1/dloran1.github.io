@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow" />
+
+  <title>VPN for Mac on macOS (US, 2026): Privacy, Public Wi‑Fi & Streaming (Hulu/Max/Peacock) | VPN World</title>
+  <meta name="description" content="US macOS VPN guide (2026): close the ISP privacy gap, protect your MacBook on airport and coffee shop Wi‑Fi, optimize Apple Silicon (M1–M3), avoid DNS/WebRTC leaks, and stream Hulu/Max/Peacock/Paramount+ with split tunneling." />
+
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="canonical" href="https://dloran1.github.io/en-us/blog/vpn-macos.html" />
+
+  <!-- HREFLANG (7× + x-default) -->
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-na-macos.html" />
+  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-macos-uk.html" />
+  <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-macos.html" />
+  <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-macos.html" />
+  <link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/vpn-macos.html" />
+  <link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/vpn-macos.html" />
+  <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-macos.html" />
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-macos-uk.html" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+
+  <!-- Page-only helpers: VPN World Visual Standard (from NL-BE vpn-voor-smart-tv.html) -->
+  <style>
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .table-scroll table{min-width:760px}
+
+    /* HARD table readability fix (dark theme safe) */
+    .table-scroll, .table-scroll table{background:#fff !important; color:#000 !important}
+    .table-scroll th, .table-scroll td{color:#000 !important}
+    .table-scroll thead th{background:#071023 !important; color:#fff !important}
+    .table-scroll tbody tr{background:#fff !important}
+    .table-scroll tbody tr:nth-child(even){background:#f6f7fb !important}
+    .table-scroll tbody tr:hover{background:#eef4ff !important}
+    .table-scroll a{color:#0b57d0 !important}
+
+    /* SVG cards: ALWAYS readable (forced white canvas) */
+    .svg-card{border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:14px;background:transparent;margin:14px 0}
+    .svg-card h3{margin:6px 0 10px}
+    .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:14px;padding:10px}
+    .svg-scroll svg{max-width:100%;height:auto;display:block;color:#000 !important;background:#fff}
+    .svg-scroll svg text{fill:#000 !important;font-weight:800 !important}
+    .svg-scroll svg .stroke{stroke:#000 !important;stroke-width:4 !important;fill:none !important;stroke-linecap:round;stroke-linejoin:round}
+    .svg-scroll svg .box{fill:#fff !important;stroke:#000 !important;stroke-width:4 !important}
+    .svg-scroll svg .label{font-size:16px}
+    .svg-scroll svg .small{font-size:13px}
+
+    /* Color accents (keep text black) */
+    .svg-scroll svg .fill-blue{fill:#e6f1ff !important}
+    .svg-scroll svg .fill-green{fill:#e9fff3 !important}
+    .svg-scroll svg .fill-yellow{fill:#fff7db !important}
+    .svg-scroll svg .fill-red{fill:#ffe9ea !important}
+    .svg-scroll svg .fill-purple{fill:#f1eaff !important}
+
+    /* “Related:” wide dark card standard */
+    .related-wide{background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:12px 14px;margin:10px 0 14px;position:relative}
+    .related-wide:before{content:"";position:absolute;left:10px;top:10px;bottom:10px;width:4px;border-radius:999px;background:#22c55e}
+    .related-wide p{margin:0;padding-left:14px}
+    .related-wide a{text-decoration:underline}
+
+    /* Video */
+    .video-wrap{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;background:#000}
+    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+    /* Badges */
+    .badge{display:inline-block;padding:2px 10px;border-radius:999px;font-weight:800;font-size:12px;line-height:1.6}
+    .b-red{background:#ffe9ea;color:#7a0a0f}
+    .b-blue{background:#e6f1ff;color:#073b8c}
+    .b-green{background:#e9fff3;color:#0b6b3a}
+    .b-yellow{background:#fff7db;color:#6a4a00}
+
+    /* US highlight box */
+    .us-highlight{
+      border:2px solid rgba(178,34,52,.55);
+      background:#fffafa;
+      padding:18px;
+      border-radius:14px;
+      margin:14px 0;
+      color:#0b1220;
+    }
+    .us-highlight h2{margin:0 0 10px; color:#b22234}
+    .us-highlight .inner{background:#fff;border-radius:12px;padding:12px;border:1px solid rgba(0,0,0,.08)}
+
+    /* Small helper to keep “America-y” accents without breaking the standard */
+    .flag-chip{display:inline-flex;gap:8px;align-items:center}
+    .flag-dot{width:10px;height:10px;border-radius:999px;background:#b22234}
+    .flag-dot.blue{background:#3c3b6e}
+  </style>
+
+  <!-- Preconnect -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+  <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
+  <link rel="dns-prefetch" href="https://www.youtube-nocookie.com" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="VPN World" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="en_GB" />
+  <meta property="og:locale:alternate" content="pl_PL" />
+  <meta property="og:locale:alternate" content="de_DE" />
+  <meta property="og:locale:alternate" content="es_ES" />
+  <meta property="og:locale:alternate" content="fr_FR" />
+  <meta property="og:locale:alternate" content="nl_BE" />
+  <meta property="og:title" content="VPN for Mac on macOS (US, 2026): Privacy, Public Wi‑Fi & Streaming" />
+  <meta property="og:description" content="Close the ISP privacy gap, protect your MacBook on airport and coffee shop Wi‑Fi, and stream Hulu/Max/Peacock/Paramount+ with split tunneling." />
+  <meta property="og:url" content="https://dloran1.github.io/en-us/blog/vpn-macos.html" />
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-macos-uk.webp" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="VPN for Mac (US, 2026)" />
+  <meta name="twitter:description" content="macOS VPN setup for US privacy, public Wi‑Fi, and streaming (Hulu/Max/Peacock/Paramount+)." />
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-macos-uk.webp" />
+
+  <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
+  
+<!-- JSON-LD: Organization/Article + FAQPage + BreadcrumbList + ItemList -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"Article",
+        "@id":"https://dloran1.github.io/en-us/blog/vpn-macos.html",
+        "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/en-us/blog/vpn-macos.html"},
+        "headline":"VPN for Mac on macOS (US, 2026): Privacy, Public Wi‑Fi & Streaming (Hulu/Max/Peacock)",
+        "description":"US macOS VPN guide (2026): close the ISP privacy gap, protect your MacBook on airport and coffee shop Wi‑Fi, optimize Apple Silicon (M1–M3), avoid DNS/WebRTC leaks, and stream Hulu/Max/Peacock/Paramount+ with split tunneling.",
+        "image":"https://dloran1.github.io/assets/img/hero/vpn-macos-uk.webp",
+        "inLanguage":"en-us",
+        "author":{"@type":"Person","name":"Denys Shchur"},
+        "publisher":{"@type":"Organization","name":"VPN World"},
+        "datePublished":"2026-01-16",
+        "dateModified":"2026-01-16"
+      },
+      {
+        "@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"VPN World","item":"https://dloran1.github.io/en-us/"},
+          {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/en-us/blog/"},
+          {"@type":"ListItem","position":3,"name":"VPN for Mac","item":"https://dloran1.github.io/en-us/blog/vpn-macos.html"}
+        ]
+      },
+      {
+        "@type":"FAQPage",
+        "mainEntity":[
+          {
+            "@type":"Question",
+            "name":"Is using a VPN on a Mac legal in the US?",
+            "acceptedAnswer":{"@type":"Answer","text":"Yes. Using a VPN is legal in the United States and is commonly recommended for privacy on public and home networks."}
+          },
+          {
+            "@type":"Question",
+            "name":"Will a VPN slow down my Mac on US fiber?",
+            "acceptedAnswer":{"@type":"Answer","text":"With modern protocols like WireGuard, the speed hit is usually modest on a typical fiber connection. The biggest difference comes from server distance and congestion, so pick a nearby city (NYC, Chicago, LA) for the best results."}
+          },
+          {
+            "@type":"Question",
+            "name":"Why do streaming sites still know my location?",
+            "acceptedAnswer":{"@type":"Answer","text":"Most failures come from DNS leaks, IPv6 leaks, or browser signals. Fix DNS/IPv6 first, then try a different server and clear site data for the streaming service."}
+          }
+        ]
+      },
+      {
+        "@type":"ItemList",
+        "name":"Related guides (EN-US)",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/en-us/blog/vpn-public-wifi.html"},
+          {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/en-us/blog/vpn-remote-work.html"},
+          {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/en-us/blog/vpn-streaming.html"},
+          {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/en-us/blog/vpn-dns-leak.html"},
+          {"@type":"ListItem","position":5,"url":"https://dloran1.github.io/en-us/blog/what-is-a-vpn.html"}
+        ]
+      }
+    ]
+  }
+  </script>
+  <script src="/assets/js/cookie-consent.js" defer></script>
+</head>
+
+<body>
+  <!-- Visible language switcher (mandatory) -->
+  <nav class="lang-switch" aria-label="Language switch">
+    <a href="/blog/vpn-na-macos.html">Polski</a> |
+    <a href="/en-gb/blog/vpn-macos-uk.html">English (UK)</a> |
+    <a class="active" href="/en-us/blog/vpn-macos.html">English (US)</a> |
+    <a href="/de/blog/vpn-macos.html">Deutsch</a> |
+    <a href="/es/blog/vpn-macos.html">Español</a> |
+    <a href="/fr/blog/vpn-macos.html">Français</a> |
+    <a href="/nl-be/blog/vpn-macos.html">Nederlands (BE)</a>
+  </nav>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/en-us/">
+        <img class="logo" src="../../assets/img/logo.png" alt="VPN World logo" />
+        <span class="brand-text">VPN World</span>
+      </a>
+      <nav class="primary-nav" aria-label="Navigation">
+        <a href="/en-us/">Home</a>
+        <a href="/en-us/blog/">Blog</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/en-us/disclosure.html">Disclosure</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- HERO -->
+    <section class="hero" aria-label="Hero">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <h1>VPN for Mac on macOS (US, 2026): Privacy, Public Wi‑Fi & Streaming</h1>
+          <p>
+            If you work from airports, coffee shops, or shared office Wi‑Fi, your MacBook is basically your whole life in aluminum form.
+            In the US, there’s a bigger privacy gap than many people realize: your ISP can often collect browsing data and hand it off into
+            the “data broker” ecosystem. A VPN creates an encrypted tunnel that keeps your day‑to‑day activity private — especially when you’re
+            on public Wi‑Fi or bouncing between networks.
+          </p>
+
+          <div class="key-takeaway">
+            <strong>Quick takeaway (2026):</strong> Optimize for a WireGuard‑based protocol, keep a kill switch on for public Wi‑Fi,
+            and use split tunneling so your browser is protected for streaming while work apps stay snappy.
+          </div>
+
+          <ul class="meta-points" aria-label="Highlights">
+            <li><span class="badge b-red">ISP privacy</span> data broker gap</li>
+            <li><span class="badge b-blue">Airports</span> + coffee shops</li>
+            <li><span class="badge b-yellow">Split tunneling</span> streaming + work</li>
+            <li><span class="badge b-green">Apple Silicon</span> M1–M3 optimized</li>
+          </ul>
+
+          <div class="hero-author" aria-label="Author">
+            <img src="../../assets/img/author/denys-shchur.webp" alt="Denys Shchur" width="44" height="44" />
+            <div class="hero-author-text">
+              <span class="hero-author-label">Author</span>
+              <span class="hero-author-name"><a href="/en-us/about-denys-shchur.html">Denys Shchur</a></span>
+              <span class="meta">Updated: January 16, 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-media" aria-label="Hero image">
+          <div class="hero-art">
+            <img src="../../assets/img/hero/vpn-macos-uk.webp" alt="VPN on macOS — privacy and public Wi‑Fi security" width="1200" height="630" fetchpriority="high" loading="eager" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA (top) -->
+    <section class="section" aria-label="Recommended VPNs">
+      <div class="cta-box">
+        <h2><span class="flag-chip"><span class="flag-dot"></span><span class="flag-dot blue"></span></span> Quick pick for US macOS (2026)</h2>
+        <p class="cta-note">If your goals are privacy, stable speeds on fiber, and reliable public Wi‑Fi protection, start here.</p>
+        <div class="cta-buttons">
+          <a class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584">NordVPN — fast & stable</a>
+          <a class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://www.tkqlhce.com/click-101525886-17061430">Surfshark — best value</a>
+          <a class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://www.dpbolvw.net/click-101525886-15834536">Proton VPN — privacy-first</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOC -->
+    <section class="section" aria-label="Contents">
+      <div class="note">
+        <strong>In this guide:</strong>
+        <ul>
+          <li><a href="#privacy-gap">The privacy gap: why US Macs need a VPN</a></li>
+          <li><a href="#wifi">Airports & coffee shops: public Wi‑Fi security</a></li>
+          <li><a href="#streaming">Streaming on Mac: Hulu, Max, Peacock, Paramount+</a></li>
+          <li><a href="#split">Split tunneling: keep streaming secure without slowing work</a></li>
+          <li><a href="#leaks">DNS/IPv6/WebRTC leak checks</a></li>
+          <li><a href="#silicon">Apple Silicon optimization (M1, M2, M3)</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Block 1: ISP Data Selling -->
+    <section class="section" id="privacy-gap">
+      <h2>The Privacy Gap: Why US Macs Need a VPN</h2>
+
+      <div class="svg-card" aria-label="Diagram: ISP data selling">
+        <div class="svg-scroll">
+          <svg viewBox="0 0 900 220" role="img" aria-label="Diagram: Your MacBook to ISP to data brokers with tracking and selling history" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="880" height="200" rx="12" ry="12" class="box fill-blue"/>
+            <rect x="40" y="50" width="220" height="120" rx="16" class="box fill-yellow"/>
+            <text x="150" y="95" text-anchor="middle" class="label">Your MacBook</text>
+            <text x="150" y="122" text-anchor="middle" class="small">home / airport Wi‑Fi</text>
+
+            <rect x="340" y="50" width="220" height="120" rx="16" class="box fill-red"/>
+            <text x="450" y="92" text-anchor="middle" class="label">ISP</text>
+            <text x="450" y="120" text-anchor="middle" class="small">Comcast / AT&T</text>
+            <text x="450" y="146" text-anchor="middle" class="small">Verizon / Spectrum</text>
+
+            <rect x="640" y="50" width="220" height="120" rx="16" class="box fill-purple"/>
+            <text x="750" y="95" text-anchor="middle" class="label">Data brokers</text>
+            <text x="750" y="122" text-anchor="middle" class="small">profiles + ads</text>
+
+            <line x1="260" y1="110" x2="340" y2="110" class="stroke"/>
+            <line x1="560" y1="110" x2="640" y2="110" class="stroke"/>
+
+            <text x="450" y="190" text-anchor="middle" class="label">Tracking & selling history</text>
+          </svg>
+        </div>
+      </div>
+
+      <p>
+        Unlike many EU countries, US rules have allowed a bigger “data broker” ecosystem to thrive. Your ISP can often learn a lot about your
+        browsing patterns, and that information can end up powering targeted ads and profiles. A VPN changes the picture: it creates an encrypted
+        tunnel that makes your browsing activity far less visible to the ISP itself. It’s not magic, but it’s a real privacy upgrade — especially
+        if you do remote work, use public Wi‑Fi, or just don’t love the idea of your online habits becoming somebody’s product.
+      </p>
+
+      <div class="related-wide"><p><span class="related-label">Related:</span> <a href="/en-us/blog/what-is-a-vpn.html">What is a VPN?</a></p></div>
+      <div class="related-wide"><p><span class="related-label">Related:</span> <a href="/en-us/blog/no-logs-vpn.html">No‑logs VPN: what it really means</a></p></div>
+    </section>
+
+    <section class="section" id="wifi">
+      <h2>US airports and coffee shops: public Wi‑Fi is still a risk (yes, even in 2026)</h2>
+      <p>
+        Airport Wi‑Fi and coffee shop hotspots are convenient, but they’re also shared networks with unknown devices. Most of the time, nothing
+        dramatic happens — until it does. The point of a VPN on macOS is simple: encrypt what you can, reduce exposure, and avoid accidental leaks
+        when the network drops for a second.
+      </p>
+
+      <div class="table-scroll" aria-label="Table: public Wi-Fi checklist">
+        <table>
+          <caption>60‑second checklist before you open work tabs on public Wi‑Fi</caption>
+          <thead>
+            <tr>
+              <th>Check</th>
+              <th>What to do on macOS</th>
+              <th>Why it helps</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Auto‑connect</td>
+              <td>Enable auto‑connect on unsecured networks</td>
+              <td>Stops “forgot to turn it on” moments</td>
+            </tr>
+            <tr>
+              <td>Kill switch</td>
+              <td>Keep it enabled during work sessions</td>
+              <td>Prevents traffic leaks when Wi‑Fi glitches</td>
+            </tr>
+            <tr>
+              <td>Sharing</td>
+              <td>Disable sharing/AirDrop you don’t need</td>
+              <td>Less visibility on shared networks</td>
+            </tr>
+            <tr>
+              <td>Browser hygiene</td>
+              <td>Use a separate profile for streaming/logins</td>
+              <td>Reduces cross‑site tracking and weird session issues</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="svg-card" aria-label="Diagram: public Wi-Fi encryption">
+        <h3>What a VPN changes on a shared hotspot</h3>
+        <div class="svg-scroll">
+          <svg viewBox="0 0 980 240" role="img" aria-label="Diagram showing MacBook traffic encrypted through VPN tunnel on public Wi‑Fi" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="980" height="240" class="box fill-yellow" />
+            <rect x="50" y="80" width="240" height="110" rx="18" class="box fill-blue" />
+            <text x="170" y="130" text-anchor="middle" class="label">MacBook</text>
+            <text x="170" y="158" text-anchor="middle" class="small">airport / coffee shop</text>
+
+            <rect x="370" y="60" width="240" height="70" rx="18" class="box fill-green" />
+            <text x="490" y="103" text-anchor="middle" class="label">Encrypted tunnel</text>
+
+            <rect x="370" y="150" width="240" height="70" rx="18" class="box fill-red" />
+            <text x="490" y="193" text-anchor="middle" class="label">Open hotspot</text>
+            <text x="490" y="214" text-anchor="middle" class="small">shared network</text>
+
+            <rect x="690" y="80" width="240" height="110" rx="18" class="box fill-purple" />
+            <text x="810" y="130" text-anchor="middle" class="label">Internet</text>
+            <text x="810" y="158" text-anchor="middle" class="small">work + personal</text>
+
+            <path d="M290 135 L370 95" class="stroke" />
+            <path d="M610 95 L690 135" class="stroke" />
+            <path d="M290 135 L370 185" class="stroke" stroke-dasharray="10 10" />
+            <path d="M610 185 L690 135" class="stroke" stroke-dasharray="10 10" />
+          </svg>
+        </div>
+      </div>
+
+      <p>
+        If you want a deeper dive into hotspots and risk reduction, see <a href="/en-us/blog/vpn-public-wifi.html">VPN for public Wi‑Fi</a> and
+        <a href="/en-us/blog/wifi-security-checklist.html">Wi‑Fi security checklist</a>.
+      </p>
+
+      <div class="related-wide"><p><span class="related-label">Related:</span> <a href="/en-us/blog/vpn-public-wifi.html">Public Wi‑Fi security</a></p></div>
+      <div class="related-wide"><p><span class="related-label">Related:</span> <a href="/en-us/blog/vpn-remote-work.html">VPN for remote work</a></p></div>
+    </section>
+
+    <!-- Block 2: US Streaming -->
+    <section class="section" id="streaming">
+      <div class="us-highlight">
+        <h2>Streaming: Hulu, Max, Peacock, and Paramount+ on Mac</h2>
+        <p>
+          Most US streaming services don’t have native macOS apps and run in the browser. A VPN with <strong>split tunneling</strong> is clutch:
+          you can protect your browser for streaming (including 4K on Max) while keeping work apps (Zoom, Slack) on your local connection for
+          minimal lag.
+        </p>
+        <div class="inner">
+          <strong>Quick reality check:</strong>
+          <ul>
+            <li>Streaming platforms update detection constantly — sometimes you’ll need to switch servers.</li>
+            <li>DNS leaks are the #1 reason “it still knows where I am.”</li>
+            <li>If buffering increases, test a closer city server (NYC/Chicago/LA) and a WireGuard protocol.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="table-scroll" aria-label="Table: streaming tuning on macOS">
+        <table>
+          <caption>Streaming on macOS (US): practical VPN tuning</caption>
+          <thead>
+            <tr>
+              <th>Goal</th>
+              <th>Best starting move</th>
+              <th>Why it works</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Less buffering</td>
+              <td>WireGuard + nearby city server</td>
+              <td>Lower latency, faster handshake</td>
+            </tr>
+            <tr>
+              <td>Keep work apps fast</td>
+              <td>Split tunnel: browser only</td>
+              <td>Less overhead for Zoom/Slack</td>
+            </tr>
+            <tr>
+              <td>Fix detection issues</td>
+              <td>Switch server + clear site data</td>
+              <td>Fresh IP + reset tracking signals</td>
+            </tr>
+            <tr>
+              <td>Stable location</td>
+              <td>Check DNS/IPv6 leaks</td>
+              <td>Stops ISP location leakage</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="related-wide"><p><span class="related-label">Related:</span> <a href="/en-us/blog/vpn-streaming.html">VPN for streaming</a></p></div>
+      <div class="related-wide"><p><span class="related-label">Related:</span> <a href="/en-us/blog/vpn-split-tunneling.html">Split tunneling (US)</a></p></div>
+      <div class="related-wide"><p><span class="related-label">Related:</span> <a href="/en-us/blog/vpn-netflix.html">VPN for Netflix</a></p></div>
+    </section>
+
+    <section class="section" id="split">
+      <h2>Split tunneling on Mac: the “best of both worlds” setup</h2>
+      <p>
+        Split tunneling is simple: you choose which apps use the VPN tunnel and which apps go direct. The practical benefit is huge on a MacBook.
+        You can keep the browser protected for streaming and location consistency, while letting everything else (file sync, work calls, large downloads)
+        use the direct connection for speed. It’s one of the easiest ways to optimize performance without ditching privacy.
+      </p>
+
+      <div class="svg-card" aria-label="Diagram: split tunneling">
+        <h3>Browser through the tunnel, everything else direct</h3>
+        <div class="svg-scroll">
+          <svg viewBox="0 0 980 260" role="img" aria-label="Diagram showing browser routed through VPN and other apps direct" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="980" height="260" class="box fill-blue" />
+
+            <rect x="50" y="70" width="260" height="80" rx="16" class="box fill-yellow" />
+            <text x="180" y="110" text-anchor="middle" class="label">Browser</text>
+            <text x="180" y="136" text-anchor="middle" class="small">Hulu / Max / Peacock</text>
+
+            <rect x="50" y="165" width="260" height="70" rx="16" class="box fill-purple" />
+            <text x="180" y="206" text-anchor="middle" class="label">Work apps</text>
+            <text x="180" y="228" text-anchor="middle" class="small">Zoom / Slack</text>
+
+            <rect x="380" y="80" width="260" height="80" rx="16" class="box fill-green" />
+            <text x="510" y="125" text-anchor="middle" class="label">VPN tunnel</text>
+
+            <rect x="380" y="170" width="260" height="60" rx="16" class="box fill-red" />
+            <text x="510" y="207" text-anchor="middle" class="label">Direct</text>
+
+            <rect x="700" y="105" width="230" height="110" rx="16" class="box fill-blue" />
+            <text x="815" y="150" text-anchor="middle" class="label">Internet</text>
+            <text x="815" y="176" text-anchor="middle" class="small">services</text>
+
+            <path d="M310 110 L380 120" class="stroke" />
+            <path d="M640 120 L700 150" class="stroke" />
+            <path d="M310 200 L380 200" class="stroke" stroke-dasharray="10 10" />
+            <path d="M640 200 L700 170" class="stroke" stroke-dasharray="10 10" />
+          </svg>
+        </div>
+      </div>
+
+      <p>
+        If your VPN app doesn’t offer split tunneling on macOS, you can still get similar outcomes by using different browser profiles,
+        or routing only specific traffic — but the cleanest approach is a VPN client that supports it directly.
+      </p>
+    </section>
+
+    <section class="section" id="leaks">
+      <h2>DNS, IPv6, and WebRTC: the checks that stop “it still knows I’m here”</h2>
+      <p>
+        In the US, streaming detection and privacy failures often come down to leaks. Your IP might look “VPN‑clean,” but DNS requests or IPv6
+        traffic can still reveal your real network. In the browser, WebRTC can expose additional network info. The good news: leak testing is quick,
+        and the fixes are usually simple.
+      </p>
+
+      <div class="svg-card" aria-label="Diagram: VPN vs DNS leak">
+        <h3>Why a DNS/IPv6 leak breaks privacy and location consistency</h3>
+        <div class="svg-scroll">
+          <svg viewBox="0 0 980 260" role="img" aria-label="Diagram showing VPN tunnel but DNS/IPv6 leak to ISP resolver" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="980" height="260" class="box fill-yellow" />
+
+            <rect x="60" y="90" width="220" height="110" rx="16" class="box fill-blue" />
+            <text x="170" y="135" text-anchor="middle" class="label">MacBook</text>
+            <text x="170" y="162" text-anchor="middle" class="small">browser + apps</text>
+
+            <rect x="340" y="55" width="280" height="80" rx="16" class="box fill-green" />
+            <text x="480" y="102" text-anchor="middle" class="label">VPN tunnel (IP)</text>
+
+            <rect x="340" y="155" width="280" height="80" rx="16" class="box fill-red" />
+            <text x="480" y="203" text-anchor="middle" class="label">DNS/IPv6 leak</text>
+
+            <rect x="700" y="90" width="220" height="110" rx="16" class="box fill-purple" />
+            <text x="810" y="135" text-anchor="middle" class="label">ISP resolver</text>
+            <text x="810" y="162" text-anchor="middle" class="small">reveals location</text>
+
+            <path d="M280 145 L340 95" class="stroke" />
+            <path d="M620 95 L700 145" class="stroke" />
+            <path d="M280 145 L340 195" class="stroke" stroke-dasharray="10 10" />
+            <path d="M620 195 L700 145" class="stroke" stroke-dasharray="10 10" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Leak fix list (in order):</strong>
+        <ol>
+          <li>Switch to WireGuard if you’re on an older protocol.</li>
+          <li>Run a DNS leak test and switch DNS settings if needed.</li>
+          <li>If IPv6 causes issues, disable IPv6 on the router (when appropriate).</li>
+          <li>For browser issues, clear site data and review WebRTC settings.</li>
+        </ol>
+      </div>
+
+      <p>
+        Use <a href="/en-us/blog/vpn-dns-leak.html">DNS leak test & fixes</a> and compare with
+        <a href="/en-us/blog/vpn-speed-test.html">VPN speed testing</a> so you don’t “fix” leaks by killing performance.
+      </p>
+    </section>
+
+    <section class="section" id="silicon">
+      <h2>Optimize for Apple Silicon (M1, M2, M3) — speed and battery matter</h2>
+      <p>
+        A MacBook is already efficient, but VPN overhead still shows up as battery drain and heat if you’re using an older client.
+        For best results, use a VPN app that’s <strong>Universal</strong> or <strong>Apple Silicon native</strong>. Running Intel-only builds through
+        Rosetta can be fine in a pinch, but it’s not the setup you want when you’re trying to squeeze a full workday out of your battery.
+      </p>
+
+      <div class="svg-card" aria-label="Diagram: native vs Rosetta">
+        <h3>Native app vs Rosetta: why it affects battery</h3>
+        <div class="svg-scroll">
+          <svg viewBox="0 0 980 240" role="img" aria-label="Diagram showing Apple Silicon native app vs Rosetta overhead and battery impact" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="980" height="240" class="box fill-blue" />
+
+            <rect x="60" y="70" width="260" height="110" rx="18" class="box fill-green" />
+            <text x="190" y="118" text-anchor="middle" class="label">Native VPN app</text>
+            <text x="190" y="146" text-anchor="middle" class="small">M1–M3 optimized</text>
+
+            <rect x="360" y="70" width="260" height="110" rx="18" class="box fill-red" />
+            <text x="490" y="118" text-anchor="middle" class="label">Intel app</text>
+            <text x="490" y="146" text-anchor="middle" class="small">via Rosetta</text>
+
+            <rect x="660" y="70" width="260" height="110" rx="18" class="box fill-yellow" />
+            <text x="790" y="110" text-anchor="middle" class="label">Impact</text>
+            <text x="790" y="138" text-anchor="middle" class="small">battery + heat</text>
+
+            <path d="M320 125 L360 125" class="stroke" />
+            <path d="M620 125 L660 125" class="stroke" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="table-scroll" aria-label="Table: US server choice">
+        <table>
+          <caption>Server choice (US): quick picks for speed and stability</caption>
+          <thead>
+            <tr>
+              <th>Situation</th>
+              <th>Best starting city</th>
+              <th>Why</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>East Coast remote work</td>
+              <td>NYC</td>
+              <td>Low latency for most East Coast routes</td>
+            </tr>
+            <tr>
+              <td>Midwest travel</td>
+              <td>Chicago</td>
+              <td>Good balance for cross‑country routing</td>
+            </tr>
+            <tr>
+              <td>West Coast</td>
+              <td>Los Angeles</td>
+              <td>Closer routes and less congestion in many cases</td>
+            </tr>
+            <tr>
+              <td>Airports & mixed travel</td>
+              <td>Nearest major city</td>
+              <td>Distance matters more than brand names</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        If you want to go deeper on protocols and server types, see <a href="/en-us/blog/vpn-protocols.html">VPN protocols</a> and
+        <a href="/en-us/blog/vpn-server-types.html">VPN server types</a>.
+      </p>
+    </section>
+
+    <!-- Video -->
+    <section class="section" aria-label="Video">
+      <h2>Short video: macOS VPN basics (quick, no fluff)</h2>
+      <div class="video-wrap">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE"
+          title="VPN World — macOS VPN basics"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <p>
+        If the embed doesn’t load, open on YouTube:
+        <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a>
+      </p>
+    </section>
+
+    <!-- CTA near end -->
+    <section class="section" aria-label="CTA">
+      <div class="cta-box">
+        <h2>Ready to lock down your Mac in the US?</h2>
+        <p class="cta-note">Use a modern protocol, enable leak protection, and keep split tunneling on for browser streaming. That’s the “clean” setup.</p>
+        <div class="cta-buttons">
+          <a class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584">NordVPN — best all‑round</a>
+          <a class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://www.tkqlhce.com/click-101525886-17061430">Surfshark — best value</a>
+          <a class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://www.dpbolvw.net/click-101525886-15834536">Proton — privacy</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <h2>FAQ</h2>
+
+      <h3>Is using a VPN on a Mac legal in the US?</h3>
+      <p>Yes. Using a VPN is legal in the United States and is commonly recommended for privacy on public and home networks.</p>
+
+      <h3>Will a VPN slow down my Mac on fiber?</h3>
+      <p>
+        Usually not by much if you use WireGuard and pick a nearby server. If you notice a slowdown, test NYC vs Chicago vs LA and keep the
+        fastest one. Congestion matters more than brand names.
+      </p>
+
+      <h3>What’s the fastest way to troubleshoot streaming problems?</h3>
+      <p>
+        Start with DNS leak testing, then switch servers, then clear site data for the streaming service. For deeper reading, see
+        <a href="/en-us/blog/vpn-geo-blocks.html">geo‑blocks</a> and <a href="/en-us/blog/vpn-dns-leak.html">DNS leaks</a>.
+      </p>
+    </section>
+
+    <section class="section" aria-label="Related guides">
+      <h2>Related guides</h2>
+      <ul>
+        <li><a href="/en-us/blog/vpn-public-wifi.html">VPN for public Wi‑Fi</a></li>
+        <li><a href="/en-us/blog/vpn-remote-work.html">VPN for remote work</a></li>
+        <li><a href="/en-us/blog/vpn-streaming.html">VPN for streaming</a></li>
+        <li><a href="/en-us/blog/vpn-dns-leak.html">DNS leak tests & fixes</a></li>
+        <li><a href="/en-us/blog/vpn-protocols.html">VPN protocols</a></li>
+        <li><a href="/en-us/blog/proxy-vs-vpn.html">Proxy vs VPN</a></li>
+        <li><a href="/en-us/blog/free-vs-paid-vpn.html">Free vs paid VPN</a></li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>VPN World</strong>
+        <p>Independent service about online privacy and security.</p>
+      </div>
+      <nav aria-label="Footer links">
+        <a href="/privacy.html">Privacy</a>
+        <a href="/en-us/disclosure.html">Disclosure</a>
+        <a href="mailto:u1797008805@gmail.com">Contact</a>
+      </nav>
+    </div>
+    <div class="container tiny">© 2026 VPN World</div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+  <script src="/assets/js/cookie-consent.js"></script>
+<!-- Cookie banner (EN-US) -->
+
+  <!-- PAGE: https://dloran1.github.io/en-us/blog/vpn-macos.html -->
+</body>
+</html>

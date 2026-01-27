@@ -112,35 +112,6 @@
       if (banner) banner.style.display = 'none';
     }
 
-    function acceptConsent() {
-      gtag('consent','update', {
-        ad_storage:'granted',
-        ad_user_data:'granted',
-        ad_personalization:'granted',
-        analytics_storage:'granted',
-        functionality_storage:'granted',
-        personalization_storage:'granted',
-        security_storage:'granted'
-      });
-      try { localStorage.setItem('vpnworld_consent','granted'); } catch(e) {}
-      hideCookieBannerSafely();
-      gtag('config','G-RD6M691ZWD', { 'anonymize_ip': true });
-    }
-
-    function rejectConsent() {
-      gtag('consent','update', {
-        ad_storage:'denied',
-        ad_user_data:'denied',
-        ad_personalization:'denied',
-        analytics_storage:'denied',
-        functionality_storage:'denied',
-        personalization_storage:'denied',
-        security_storage:'denied'
-      });
-      try { localStorage.setItem('vpnworld_consent','denied'); } catch(e) {}
-      hideCookieBannerSafely();
-    }
-
     function applyStoredConsentSafely() {
       try {
         var c = localStorage.getItem('vpnworld_consent');
@@ -155,7 +126,7 @@
             security_storage:'granted'
           });
           hideCookieBannerSafely();
-          gtag('config','G-RD6M691ZWD', { 'anonymize_ip': true });
+          gtag('config', 'G-RD6M691ZWD', { 'send_page_view': false, 'anonymize_ip': true });
         } else if (c === 'denied') {
           gtag('consent','update', {
             ad_storage:'denied',
@@ -191,6 +162,7 @@
     #cookie-banner button{ touch-action:manipulation !important; -webkit-tap-highlight-color: rgba(0,0,0,0) !important; }
     .hero::before,.hero::after, main::before,main::after, .section::before,.section::after, .site-header::before,.site-header::after{ pointer-events:none !important; }
   </style>
+      <script src="/assets/js/cookie-consent.js" defer></script>
 </head>
 
 <body>
@@ -653,17 +625,8 @@
     <div class="container tiny">© 2026 VPN World</div>
   </footer>
 
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
-    <p>Cookies analityczne są domyślnie wyłączone. Możesz je zaakceptować albo odrzucić.</p>
-    <div class="cookie-actions">
-      <button type="button" class="btn btn-compact" onclick="acceptConsent()">Akceptuję</button>
-      <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Odrzucam</button>
-    </div>
-  </div>
 
   <script src="../assets/js/main.js"></script>
-  <script src="../assets/js/cookie-consent.js"></script>
-
   <!-- JSON-LD: Article + FAQ + Breadcrumbs + ItemList -->
   <script type="application/ld+json">
   {

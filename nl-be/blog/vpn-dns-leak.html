@@ -76,35 +76,6 @@
       if (banner) banner.style.display = 'none';
     }
 
-    function acceptConsent() {
-      gtag('consent','update', {
-        ad_storage:'granted',
-        ad_user_data:'granted',
-        ad_personalization:'granted',
-        analytics_storage:'granted',
-        functionality_storage:'granted',
-        personalization_storage:'granted',
-        security_storage:'granted'
-      });
-      try { localStorage.setItem('vpnworld_consent','granted'); } catch(e) {}
-      hideCookieBannerSafely();
-      gtag('config','G-RD6M691ZWD', { 'anonymize_ip': true });
-    }
-
-    function rejectConsent() {
-      gtag('consent','update', {
-        ad_storage:'denied',
-        ad_user_data:'denied',
-        ad_personalization:'denied',
-        analytics_storage:'denied',
-        functionality_storage:'denied',
-        personalization_storage:'denied',
-        security_storage:'denied'
-      });
-      try { localStorage.setItem('vpnworld_consent','denied'); } catch(e) {}
-      hideCookieBannerSafely();
-    }
-
     function applyStoredConsentSafely() {
       try {
         var c = localStorage.getItem('vpnworld_consent');
@@ -119,7 +90,7 @@
             security_storage:'granted'
           });
           hideCookieBannerSafely();
-          gtag('config','G-RD6M691ZWD', { 'anonymize_ip': true });
+          gtag('config', 'G-RD6M691ZWD', { 'send_page_view': false, 'anonymize_ip': true });
         } else if (c === 'denied') {
           gtag('consent','update', {
             ad_storage:'denied',
@@ -361,8 +332,7 @@
     ]
   }
   </script>
-
-  <script defer src="../../assets/js/cookie-consent.js"></script>
+      <script src="/assets/js/cookie-consent.js" defer></script>
 </head>
 
 <body>
@@ -890,13 +860,6 @@
     </div>
   </footer>
 
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
-    <p>Analytische cookies zijn standaard uitgeschakeld. U kunt deze accepteren of weigeren.</p>
-    <div class="cookie-actions">
-      <button type="button" class="btn btn-compact" onclick="acceptConsent()">Accepteren</button>
-      <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Weigeren</button>
-    </div>
-  </div>
 
   <!-- PAGE: https://dloran1.github.io/nl-be/blog/vpn-dns-leak.html -->
 </body>

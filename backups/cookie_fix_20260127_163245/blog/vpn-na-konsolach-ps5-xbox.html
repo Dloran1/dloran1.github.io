@@ -1,0 +1,803 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow" />
+
+  <title>VPN na konsolach PS5 i Xbox: Poradnik konfiguracji (2026) | VPN World</title>
+  <meta name="description" content="Poradnik 2026: jak używać VPN na PS5 i Xbox Series X/S bez aplikacji. 3 metody (Smart DNS, router, mostek z PC/Mac), niższy ping, mniej lagów, streaming regionów i ochrona przed DDoS." />
+
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="canonical" href="https://dloran1.github.io/blog/vpn-na-konsolach-ps5-xbox.html" />
+
+  <!-- HREFLANG (7× + x-default) -->
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-na-konsolach-ps5-xbox.html" />
+  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-for-consoles-ps5-xbox-uk.html" />
+  <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-for-consoles-ps5-xbox.html" />
+  <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-fuer-konsolen-ps5-xbox.html" />
+  <link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/vpn-para-consolas-ps5-xbox.html" />
+  <link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/vpn-pour-consoles-ps5-xbox.html" />
+  <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-voor-consoles-ps5-xbox.html" />
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-for-consoles-ps5-xbox-uk.html" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+
+  <!-- Page-only helpers: SVG + tables (high-contrast, responsive) + colourful accents (VPN World fixed visual standard) -->
+  <style>
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .table-scroll table{min-width:760px}
+
+    /* HARD table readability fix (dark theme safe) */
+    .table-scroll, .table-scroll table{background:#fff !important; color:#000 !important}
+    .table-scroll th, .table-scroll td{color:#000 !important}
+    .table-scroll thead th{background:#071023 !important; color:#fff !important}
+    .table-scroll tbody tr{background:#fff !important}
+    .table-scroll tbody tr:nth-child(even){background:#f6f7fb !important}
+    .table-scroll tbody tr:hover{background:#eef4ff !important}
+    .table-scroll a{color:#0b57d0 !important}
+
+    /* Light content blocks on dark shell must be readable */
+    .method-box, .light-box, .tip-box{background:#fff !important;color:#0b1220 !important}
+    .method-box *, .light-box *, .tip-box *{color:inherit}
+    .method-box a, .light-box a, .tip-box a{color:#0b57d0 !important}
+
+    /* SVG cards: ALWAYS readable (forced white canvas) */
+    .svg-card{border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:14px;background:transparent;margin:14px 0}
+    .svg-card h3{margin:6px 0 10px}
+    .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:14px;padding:10px}
+    .svg-scroll svg{max-width:100%;height:auto;display:block;color:#000 !important;background:#fff}
+    .svg-scroll svg text{fill:#000 !important;font-weight:800 !important}
+    .svg-scroll svg .stroke{stroke:#000 !important;stroke-width:4 !important;fill:none !important;stroke-linecap:round;stroke-linejoin:round}
+    .svg-scroll svg .box{fill:#fff !important;stroke:#000 !important;stroke-width:4 !important}
+    .svg-scroll svg .label{font-size:16px}
+    .svg-scroll svg .small{font-size:13px}
+
+    /* Colour accents (keep text black) */
+    .svg-scroll svg .fill-blue{fill:#e6f1ff !important}    /* PlayStation vibe */
+    .svg-scroll svg .fill-green{fill:#e9fff3 !important}   /* Xbox vibe */
+    .svg-scroll svg .fill-yellow{fill:#fff7db !important}
+    .svg-scroll svg .fill-red{fill:#ffe9ea !important}
+    .svg-scroll svg .fill-purple{fill:#f1eaff !important}
+
+    /* “Related:” wide dark card standard */
+    .related-wide{background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:12px 14px;margin:10px 0 14px;position:relative}
+    .related-wide:before{content:"";position:absolute;left:10px;top:10px;bottom:10px;width:4px;border-radius:999px;background:#22c55e}
+    .related-wide p{margin:0;padding-left:14px}
+    .related-wide a{text-decoration:underline}
+
+    /* Video */
+    .video-wrap{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;background:#000}
+    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+    /* Small badges */
+    .badge{display:inline-block;padding:2px 10px;border-radius:999px;font-weight:800;font-size:12px;line-height:1.6}
+    .b-ps{background:#e6f1ff;color:#073b8c}
+    .b-xb{background:#e9fff3;color:#0b6b3a}
+    .b-red{background:#ffe9ea;color:#7a0a0f}
+    .b-yellow{background:#fff7db;color:#6a4a00}
+
+    /* Mini callouts in article */
+    .mini-callout{background:#071023;border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:12px 14px;margin:12px 0}
+    .mini-callout strong{color:#fff}
+    .mini-callout p{margin:6px 0 0}
+  </style>
+
+  <!-- Preconnect -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+  <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
+  <link rel="dns-prefetch" href="https://www.youtube-nocookie.com" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="VPN World" />
+  <meta property="og:locale" content="pl_PL" />
+  <meta property="og:locale:alternate" content="en_GB" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:locale:alternate" content="de_DE" />
+  <meta property="og:locale:alternate" content="es_ES" />
+  <meta property="og:locale:alternate" content="fr_FR" />
+  <meta property="og:locale:alternate" content="nl_BE" />
+  <meta property="og:title" content="VPN na konsolach PS5 i Xbox: Poradnik konfiguracji (2026)" />
+  <meta property="og:description" content="Jak używać VPN na PS5/Xbox bez aplikacji: Smart DNS, router lub mostek z PC/Mac. Niższy ping, mniej lagów, streaming regionów i ochrona przed DDoS." />
+  <meta property="og:url" content="https://dloran1.github.io/blog/vpn-na-konsolach-ps5-xbox.html" />
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-for-consoles-ps5-xbox-uk.webp" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="VPN na konsolach PS5 i Xbox (2026): konfiguracja krok po kroku" />
+  <meta name="twitter:description" content="3 metody bez aplikacji: Smart DNS, router VPN, mostek z PC/Mac. Dodatkowo: DDoS, NAT, ping i streaming regionów." />
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-for-consoles-ps5-xbox-uk.webp" />
+
+  <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    gtag('consent','default', {
+      ad_storage:'denied',
+      ad_user_data:'denied',
+      ad_personalization:'denied',
+      analytics_storage:'denied',
+      functionality_storage:'denied',
+      personalization_storage:'denied',
+      security_storage:'denied'
+    });
+
+    gtag('js', new Date());
+
+    function hideCookieBannerSafely(){
+      var b = document.getElementById('cookie-banner');
+      if (b) b.style.display = 'none';
+    }
+
+    function acceptConsent(){
+      gtag('consent','update', {
+        ad_storage:'granted',
+        ad_user_data:'granted',
+        ad_personalization:'granted',
+        analytics_storage:'granted',
+        functionality_storage:'granted',
+        personalization_storage:'granted',
+        security_storage:'granted'
+      });
+      try{ localStorage.setItem('vpnworld_consent','granted'); }catch(e){}
+      hideCookieBannerSafely();
+      gtag('config','G-RD6M691ZWD', { anonymize_ip:true });
+    }
+
+    function rejectConsent(){
+      gtag('consent','update', {
+        ad_storage:'denied',
+        ad_user_data:'denied',
+        ad_personalization:'denied',
+        analytics_storage:'denied',
+        functionality_storage:'denied',
+        personalization_storage:'denied',
+        security_storage:'denied'
+      });
+      try{ localStorage.setItem('vpnworld_consent','denied'); }catch(e){}
+      hideCookieBannerSafely();
+    }
+
+    function applyStoredConsentSafely(){
+      try{
+        var c = localStorage.getItem('vpnworld_consent');
+        if (c === 'granted'){
+          gtag('consent','update', {
+            ad_storage:'granted',
+            ad_user_data:'granted',
+            ad_personalization:'granted',
+            analytics_storage:'granted',
+            functionality_storage:'granted',
+            personalization_storage:'granted',
+            security_storage:'granted'
+          });
+          hideCookieBannerSafely();
+          gtag('config','G-RD6M691ZWD', { anonymize_ip:true });
+        } else if (c === 'denied'){
+          hideCookieBannerSafely();
+        }
+      }catch(e){}
+    }
+    document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
+  </script>
+
+  <!-- JSON-LD: Article + FAQPage + BreadcrumbList + ItemList -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"Article",
+        "@id":"https://dloran1.github.io/blog/vpn-na-konsolach-ps5-xbox.html",
+        "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/blog/vpn-na-konsolach-ps5-xbox.html"},
+        "headline":"VPN na konsolach PS5 i Xbox: Poradnik konfiguracji (2026)",
+        "description":"Poradnik 2026: jak używać VPN na PS5 i Xbox Series X/S bez aplikacji — Smart DNS, router lub mostek z PC/Mac. Plus: ping, NAT, DDoS, geoblokady i ustawienia pod streaming.",
+        "image":"https://dloran1.github.io/assets/img/hero/vpn-for-consoles-ps5-xbox-uk.webp",
+        "inLanguage":"pl",
+        "author":{"@type":"Person","name":"Denys Shchur"},
+        "publisher":{"@type":"Organization","name":"VPN World"},
+        "datePublished":"2026-01-18",
+        "dateModified":"2026-01-18"
+      },
+      {
+        "@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"VPN World","item":"https://dloran1.github.io/"},
+          {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/blog/"},
+          {"@type":"ListItem","position":3,"name":"VPN na konsolach PS5 i Xbox","item":"https://dloran1.github.io/blog/vpn-na-konsolach-ps5-xbox.html"}
+        ]
+      },
+      {
+        "@type":"FAQPage",
+        "mainEntity":[
+          {
+            "@type":"Question",
+            "name":"Czy VPN na PS5 jest darmowy?",
+            "acceptedAnswer":{"@type":"Answer","text":"Darmowe VPN-y rzadko oferują Smart DNS i stabilne serwery dla graczy. Jeśli zależy Ci na niskim pingu, lepszym routingu i ochronie przed DDoS, praktycznie zawsze wygrywa płatna usługa z dobrym protokołem (WireGuard) i sprawdzonymi lokalizacjami serwerów."}
+          },
+          {
+            "@type":"Question",
+            "name":"Czy mogę dostać bana na PlayStation Network za VPN?",
+            "acceptedAnswer":{"@type":"Answer","text":"VPN do ochrony prywatności i bezpieczeństwa nie jest problemem. Ryzyko zaczyna się dopiero wtedy, gdy ktoś próbuje kombinować z regionami w celu kupowania gier taniej lub obchodzenia zasad sklepu."}
+          },
+          {
+            "@type":"Question",
+            "name":"Czy VPN poprawi ping w grach online?",
+            "acceptedAnswer":{"@type":"Answer","text":"Czasem tak. VPN nie jest magią, ale może wymusić lepszą trasę (routing) do serwerów gry, omijając przeciążone węzły u operatora. Najlepiej działa to na dobrym protokole (WireGuard) i przy testach kilku pobliskich lokalizacji."}
+          }
+        ]
+      },
+      {
+        "@type":"ItemList",
+        "name":"Powiązane poradniki",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/blog/vpn-dla-graczy.html"},
+          {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/blog/test-predkosci-vpn.html"},
+          {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/blog/jaki-serwer-vpn.html"},
+          {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/blog/optymalne-ustawienia-vpn.html"},
+          {"@type":"ListItem","position":5,"url":"https://dloran1.github.io/blog/co-to-jest-vpn.html"}
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+
+<body>
+  <!-- Visible language switcher (mandatory) -->
+  <nav class="lang-switch" aria-label="Wybór języka">
+    <a class="active" href="/blog/vpn-na-konsolach-ps5-xbox.html">Polski</a> |
+    <a href="/en-gb/blog/vpn-for-consoles-ps5-xbox-uk.html">English (UK)</a> |
+    <a href="/en-us/blog/vpn-for-consoles-ps5-xbox.html">English (US)</a> |
+    <a href="/de/blog/vpn-fuer-konsolen-ps5-xbox.html">Deutsch</a> |
+    <a href="/es/blog/vpn-para-consolas-ps5-xbox.html">Español</a> |
+    <a href="/fr/blog/vpn-pour-consoles-ps5-xbox.html">Français</a> |
+    <a href="/nl-be/blog/vpn-voor-consoles-ps5-xbox.html">Nederlands (BE)</a>
+  </nav>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <img class="logo" src="../assets/img/logo.png" alt="VPN World logo" />
+        <span class="brand-text">VPN World</span>
+      </a>
+      <nav class="primary-nav" aria-label="Nawigacja">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/disclosure.html">Disclosure</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="hero" aria-label="Hero">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <h1>VPN na konsolach PS5 i Xbox: Poradnik konfiguracji (2026)</h1>
+          <p>
+            W 2026 roku konsole <strong>PlayStation 5</strong> i <strong>Xbox Series X/S</strong> nadal nie pozwalają po prostu “zainstalować aplikacji VPN” jak na telefonie.
+            To nie znaczy, że jesteś skazany na gołe IP i losowy routing operatora.
+            Poniżej masz <strong>3 praktyczne metody</strong>, które realnie działają: <strong>Smart DNS</strong> (najpopularniejsze pod streaming), <strong>router VPN</strong> (pełna ochrona) oraz <strong>mostek z PC/Mac</strong> (gdy nie chcesz grzebać w routerze).
+          </p>
+
+          <div class="key-takeaway">
+            <strong>Szybka odpowiedź:</strong> jeśli chcesz tylko odblokować regiony do streamingu — zaczynaj od <strong>Smart DNS</strong>. Jeśli grasz online i zależy Ci na bezpieczeństwie (DDoS, prywatność, stabilność) — celuj w <strong>router VPN</strong> albo <strong>mostek</strong>.
+          </div>
+
+          <ul class="meta-points" aria-label="Highlights">
+            <li><span class="badge b-ps">PS5</span> streaming + regiony</li>
+            <li><span class="badge b-xb">Xbox</span> stabilny ping</li>
+            <li><span class="badge b-yellow">Smart DNS</span> bez spadku prędkości</li>
+            <li><span class="badge b-red">DDoS</span> + ochrona IP</li>
+          </ul>
+
+          <div class="hero-author" aria-label="Autor">
+            <img src="../assets/img/author/denys-shchur.webp" alt="Denys Shchur" width="44" height="44" />
+            <div class="hero-author-text">
+              <span class="hero-author-label">Autor</span>
+              <span class="hero-author-name"><a href="/about-denys-shchur.html">Denys Shchur</a></span>
+              <span class="meta">Aktualizacja: 18 stycznia 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-media" aria-label="Hero obraz">
+          <div class="hero-art">
+            <img src="../assets/img/hero/vpn-for-consoles-ps5-xbox-uk.webp" alt="VPN na PS5 i Xbox — konfiguracja przez Smart DNS, router lub mostek" width="1200" height="630" fetchpriority="high" loading="eager" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTAs (3 partners) -->
+    <section class="section" aria-label="Polecane VPN">
+      <div class="cta-box">
+        <h2>Wybór na start: 3 VPN-y, które najczęściej sprawdzają się na konsolach</h2>
+        <p class="cta-note">Do konsol liczy się stabilny protokół (WireGuard), dobre lokalizacje serwerów i opcje typu Smart DNS albo router.</p>
+        <div class="cta-buttons">
+          <a class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584">NordVPN — szybki WireGuard/NordLynx</a>
+          <a class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://www.tkqlhce.com/click-101525886-17061430">Surfshark — dobra cena i funkcje</a>
+          <a class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://www.dpbolvw.net/click-101525886-15834536">Proton VPN — nacisk na prywatność</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOC -->
+    <section class="section" aria-label="Spis treści">
+      <div class="note">
+        <strong>W tym poradniku:</strong>
+        <ul>
+          <li><a href="#porownanie">Porównanie metod: Smart DNS vs router vs mostek</a></li>
+          <li><a href="#smartdns">Metoda 1: Smart DNS (najlepsza do streamingu)</a></li>
+          <li><a href="#router">Metoda 2: Router VPN (pełna ochrona w całej sieci)</a></li>
+          <li><a href="#bridge">Metoda 3: Mostek z PC/Mac (Ethernet lub hotspot)</a></li>
+          <li><a href="#ping">Ping, routing i “czy VPN naprawdę pomaga?”</a></li>
+          <li><a href="#bezpieczenstwo">DDoS, prywatność, geoblokady i typowe problemy</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="porownanie">
+      <h2>Porównanie metod: co wybrać do PS5 i Xbox?</h2>
+      <p>
+        Najczęstsza pułapka: ludzie szukają “VPN na PS5”, a potem lądują na poradnikach pod telefon.
+        Na konsoli działa to inaczej — i właśnie dlatego ta strona ma sens.
+        Najpierw szybka tabela, potem konkretne kroki (bez lania wody).
+      </p>
+
+      <div class="table-scroll" aria-label="Tabela: porównanie metod">
+        <table>
+          <caption>3 sposoby na VPN/zmianę regionu na konsoli — porównanie (2026)</caption>
+          <thead>
+            <tr>
+              <th>Metoda</th>
+              <th>Najlepsza do</th>
+              <th>Plusy</th>
+              <th>Minusy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Smart DNS</strong></td>
+              <td>Streaming i regiony</td>
+              <td>Brak spadku prędkości, łatwa konfiguracja</td>
+              <td>Brak szyfrowania (to nie pełny VPN)</td>
+            </tr>
+            <tr>
+              <td><strong>Router VPN</strong></td>
+              <td>Gry online + prywatność</td>
+              <td>Chroni całą sieć, stała ochrona IP</td>
+              <td>Wymaga konfiguracji routera</td>
+            </tr>
+            <tr>
+              <td><strong>Mostek PC/Mac</strong></td>
+              <td>Szybkie obejście bez zmiany routera</td>
+              <td>Działa prawie wszędzie, wygodne testy serwerów</td>
+              <td>Komputer musi być włączony</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="related-wide"><p><span class="related-label">Related:</span> <a href="/blog/vpn-dla-graczy.html">VPN dla graczy: ustawienia pod niższy ping i mniej lagów</a></p></div>
+    </section>
+
+    <section class="section" id="smartdns">
+      <section class="method-box" style="border-left: 5px solid #00439c; background: #f0f5fb; padding: 20px; border-radius:14px;">
+        <h2>Metoda 1: Smart DNS – najlepsza do streamingu (i najprostsza)</h2>
+        <p>
+          W Polsce Smart DNS jest popularny, bo daje szybki efekt: zmiana regionu w Netflix/Disney+ (albo innych serwisach)
+          bez typowego “VPN spowalnia mi internet”.
+          Ważne: Smart DNS <strong>nie szyfruje</strong> ruchu. To narzędzie głównie pod <a href="/blog/vpn-streaming.html">streaming</a> i geoblokady.
+        </p>
+
+        <ul>
+          <li><strong>Krok 1:</strong> aktywuj Smart DNS w panelu swojego dostawcy VPN (zwykle trzeba dodać swoje IP domowe).</li>
+          <li><strong>Krok 2:</strong> na PS5/Xbox wejdź w ustawienia sieci i wybierz ręczną konfigurację DNS.</li>
+          <li><strong>Krok 3:</strong> wpisz adresy DNS od dostawcy i zapisz ustawienia.</li>
+          <li><strong>Krok 4:</strong> zrestartuj konsolę i aplikację (czasem pomaga też wyczyszczenie cache aplikacji).</li>
+        </ul>
+
+        <p class="note"><strong>Uwaga:</strong> Smart DNS świetnie odblokowuje treści, ale nie chroni przed atakami DDoS i nie ukrywa ruchu przed siecią lokalną. Do gier PvP lepszy bywa pełny VPN.</p>
+      </section>
+
+      <div class="svg-card" aria-label="Diagram: Smart DNS">
+        <h3>Jak działa Smart DNS na konsoli?</h3>
+        <div class="svg-scroll">
+          <svg viewBox="0 0 980 240" role="img" aria-label="Diagram: Smart DNS kieruje zapytania DNS przez usługę, ale nie tworzy tunelu VPN." xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="980" height="240" class="box fill-blue"/>
+            <rect x="30" y="70" width="240" height="110" rx="16" class="box fill-yellow"/>
+            <text x="150" y="115" text-anchor="middle" class="label">PS5 / Xbox</text>
+            <text x="150" y="140" text-anchor="middle" class="small">Ręczny DNS</text>
+
+            <rect x="370" y="40" width="240" height="70" rx="16" class="box fill-green"/>
+            <text x="490" y="82" text-anchor="middle" class="label">Usługa Smart DNS</text>
+
+            <rect x="370" y="130" width="240" height="70" rx="16" class="box fill-purple"/>
+            <text x="490" y="172" text-anchor="middle" class="label">Twój operator</text>
+            <text x="490" y="195" text-anchor="middle" class="small">ruch bez szyfrowania</text>
+
+            <rect x="710" y="70" width="240" height="110" rx="16" class="box fill-red"/>
+            <text x="830" y="115" text-anchor="middle" class="label">Serwis streamingowy</text>
+            <text x="830" y="140" text-anchor="middle" class="small">region “odblokowany”</text>
+
+            <path d="M270 125 L370 75" class="stroke"/>
+            <path d="M270 125 L370 165" class="stroke"/>
+            <path d="M610 75 L710 125" class="stroke"/>
+            <path d="M610 165 L710 125" class="stroke"/>
+
+            <text x="490" y="118" text-anchor="middle" class="small">DNS = “gdzie jest serwis?”</text>
+            <text x="490" y="224" text-anchor="middle" class="small">Wideo leci szybciej, ale to nie jest pełny tunel VPN</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="mini-callout">
+        <strong>Tip z życia:</strong>
+        <p>Jeśli Smart DNS nie “łapie” regionu, najczęściej winne są stare cache w aplikacji albo zmienne IP od dostawcy internetu. Zrób restart konsoli i sprawdź, czy w panelu Smart DNS jest aktualne IP.</p>
+      </div>
+
+      <div class="related-wide"><p><span class="related-label">Related:</span> <a href="/blog/bloki-geo-vpn.html">Bloki geo i VPN: dlaczego region czasem “nie wskakuje”</a></p></div>
+    </section>
+
+    <section class="section" id="router">
+      <h2>Metoda 2: Router VPN — najlepsza, gdy grasz online i chcesz spokój</h2>
+      <p>
+        Router z VPN to najbardziej “ustaw i zapomnij” rozwiązanie.
+        Konsola dostaje internet już za routerem, więc nie musisz kombinować z aplikacjami.
+        To też dobra opcja, gdy chcesz chronić całą sieć w domu (nie tylko PS5/Xbox).
+      </p>
+
+      <div class="table-scroll" aria-label="Tabela: router VPN checklist">
+        <table>
+          <caption>Router VPN — krótka checklista przed startem</caption>
+          <thead>
+            <tr>
+              <th>Co sprawdzić</th>
+              <th>Dlaczego to ważne</th>
+              <th>Szybka wskazówka</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Protokół</strong> (WireGuard)</td>
+              <td>Najlepszy stosunek szybkości do stabilności</td>
+              <td>Włącz WireGuard, potem dopiero testuj serwery</td>
+            </tr>
+            <tr>
+              <td><strong>Moc routera</strong></td>
+              <td>Słaby CPU = spadki prędkości i lag</td>
+              <td>Jeśli masz światłowód, router musi dawać radę</td>
+            </tr>
+            <tr>
+              <td><strong>NAT / UPnP</strong></td>
+              <td>Wpływa na matchmaking i czat głosowy</td>
+              <td>Gdy NAT “Strict”, sprawdź UPnP / porty</td>
+            </tr>
+            <tr>
+              <td><strong>DNS/IPv6</strong></td>
+              <td>Wycieki potrafią psuć regiony</td>
+              <td>Zrób szybki test: <a href="/blog/wyciek-dns-vpn.html">wyciek DNS</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="svg-card" aria-label="Diagram: Router VPN">
+        <h3>Topologia: konsola za routerem VPN</h3>
+        <div class="svg-scroll">
+          <svg viewBox="0 0 980 260" role="img" aria-label="Diagram: Internet -> router VPN -> PS5 i Xbox, oraz inne urządzenia." xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="980" height="260" class="box fill-green"/>
+            <rect x="30" y="60" width="210" height="120" rx="16" class="box fill-yellow"/>
+            <text x="135" y="110" text-anchor="middle" class="label">Internet</text>
+            <text x="135" y="135" text-anchor="middle" class="small">światłowód/LTE</text>
+
+            <rect x="320" y="60" width="260" height="120" rx="16" class="box fill-blue"/>
+            <text x="450" y="105" text-anchor="middle" class="label">Router z VPN</text>
+            <text x="450" y="130" text-anchor="middle" class="small">WireGuard aktywny</text>
+
+            <rect x="680" y="35" width="260" height="80" rx="16" class="box fill-purple"/>
+            <text x="810" y="80" text-anchor="middle" class="label">PS5</text>
+            <text x="810" y="102" text-anchor="middle" class="small">gry/streaming</text>
+
+            <rect x="680" y="140" width="260" height="80" rx="16" class="box fill-green"/>
+            <text x="810" y="185" text-anchor="middle" class="label">Xbox</text>
+            <text x="810" y="207" text-anchor="middle" class="small">gry/aktualizacje</text>
+
+            <path d="M240 120 L320 120" class="stroke"/>
+            <path d="M580 100 L680 75" class="stroke"/>
+            <path d="M580 140 L680 180" class="stroke"/>
+
+            <text x="450" y="205" text-anchor="middle" class="small">Plus: wszystkie urządzenia w domu mogą korzystać z tego samego tunelu</text>
+          </svg>
+        </div>
+      </div>
+
+      <p>
+        Jeśli chcesz wejść głębiej: w poradniku <a href="/blog/vpn-konfiguracja-routera.html">VPN konfiguracja routera</a> pokazujemy typowe ustawienia,
+        a w <a href="/blog/vpn-przekierowanie-portow.html">przekierowaniu portów</a> znajdziesz tipy, gdy NAT na konsoli robi problemy.
+      </p>
+    </section>
+
+    <section class="section" id="bridge">
+      <h2>Metoda 3: Mostek z PC/Mac — kiedy nie chcesz ruszać routera</h2>
+      <p>
+        To metoda, która ratuje sytuację w sekundę: masz VPN na laptopie/PC i “przepuszczasz” internet do konsoli.
+        Działa świetnie do testów (serwery, ping) i w mieszkaniach, gdzie router jest “od operatora i nie ruszać”.
+        Tak, komputer musi być włączony — ale w zamian masz pełną kontrolę nad VPN.
+      </p>
+
+      <div class="svg-card" aria-label="Diagram: Mostek VPN z PC/Mac">
+        <h3>Udostępnianie połączenia z komputera (Ethernet lub hotspot)</h3>
+        <div class="svg-scroll">
+          <svg viewBox="0 0 980 240" role="img" aria-label="Diagram: Internet -> PC/Mac z VPN -> konsola przez Ethernet lub hotspot." xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="980" height="240" class="box fill-blue"/>
+            <rect x="40" y="70" width="230" height="110" rx="16" class="box fill-yellow"/>
+            <text x="155" y="115" text-anchor="middle" class="label">Internet</text>
+            <text x="155" y="140" text-anchor="middle" class="small">router/operator</text>
+
+            <rect x="375" y="50" width="230" height="150" rx="16" class="box fill-purple"/>
+            <text x="490" y="105" text-anchor="middle" class="label">PC / Mac</text>
+            <text x="490" y="130" text-anchor="middle" class="small">VPN aktywny</text>
+            <text x="490" y="165" text-anchor="middle" class="small">udostępnianie</text>
+
+            <rect x="710" y="70" width="230" height="110" rx="16" class="box fill-green"/>
+            <text x="825" y="115" text-anchor="middle" class="label">PS5 / Xbox</text>
+            <text x="825" y="140" text-anchor="middle" class="small">LAN / Hotspot</text>
+
+            <path d="M270 125 L375 125" class="stroke" stroke-dasharray="8,6"/>
+            <path d="M605 125 L710 125" class="stroke"/>
+
+            <text x="490" y="225" text-anchor="middle" class="small">To najprostszy “mostek VPN”, gdy nie masz routera z obsługą VPN</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="table-scroll" aria-label="Tabela: mostek krok po kroku">
+        <table>
+          <caption>Mostek VPN: szybkie kroki (bez lania wody)</caption>
+          <thead>
+            <tr>
+              <th>Scenariusz</th>
+              <th>Co robisz</th>
+              <th>Najczęstszy błąd</th>
+              <th>Fix</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Ethernet</strong></td>
+              <td>Łączysz konsolę kablem do laptopa/PC</td>
+              <td>Brak udostępniania połączenia</td>
+              <td>Włącz udostępnianie internetu i wybierz właściwy interfejs</td>
+            </tr>
+            <tr>
+              <td><strong>Hotspot</strong></td>
+              <td>PC/Mac robi Wi‑Fi dla konsoli</td>
+              <td>Hotspot działa, ale bez VPN</td>
+              <td>Upewnij się, że VPN obejmuje cały ruch (system‑wide)</td>
+            </tr>
+            <tr>
+              <td><strong>Test ping</strong></td>
+              <td>Przełączasz serwery i mierzysz opóźnienia</td>
+              <td>Test na Wi‑Fi 2.4 GHz</td>
+              <td>5 GHz albo kabel + <a href="/blog/test-predkosci-vpn.html">test prędkości</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="ping">
+      <h2>Ping i routing: kiedy VPN realnie pomaga (a kiedy nie)</h2>
+      <p>
+        Krótko: VPN nie zawsze obniży ping — ale czasem robi robotę, bo wymusza inną trasę do serwera gry.
+        W Polsce największy sens ma to, gdy operator ma przeciążone węzły lub dziwny routing (szczególnie wieczorami).
+        Jeśli grasz w tytuły od EA/Activision i czujesz, że “coś muli”, VPN potrafi skrócić trasę.
+      </p>
+
+      <div class="svg-card" aria-label="Diagram: routing bez i z VPN">
+        <h3>Routing: bez VPN vs z VPN (intuicyjny obraz)</h3>
+        <div class="svg-scroll">
+          <svg viewBox="0 0 980 280" role="img" aria-label="Diagram: Bez VPN ruch idzie przez przeciążone węzły, z VPN przez krótszą trasę." xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="980" height="280" class="box fill-yellow"/>
+            <rect x="30" y="40" width="450" height="200" rx="18" class="box fill-red"/>
+            <text x="255" y="75" text-anchor="middle" class="label">Bez VPN</text>
+            <rect x="70" y="100" width="150" height="70" rx="16" class="box fill-purple"/>
+            <text x="145" y="140" text-anchor="middle" class="small">Twoja sieć</text>
+            <rect x="260" y="90" width="170" height="70" rx="16" class="box fill-red"/>
+            <text x="345" y="130" text-anchor="middle" class="small">węzeł przeciążony</text>
+            <rect x="260" y="175" width="170" height="55" rx="16" class="box fill-red"/>
+            <text x="345" y="208" text-anchor="middle" class="small">kolejny hop</text>
+            <path d="M220 135 L260 125" class="stroke"/>
+            <path d="M220 135 L260 200" class="stroke"/>
+            <path d="M430 125 L470 140" class="stroke"/>
+            <path d="M430 200 L470 160" class="stroke"/>
+            <text x="255" y="255" text-anchor="middle" class="small">efekt: wyższy ping i jitter</text>
+
+            <rect x="500" y="40" width="450" height="200" rx="18" class="box fill-green"/>
+            <text x="725" y="75" text-anchor="middle" class="label">Z VPN (WireGuard)</text>
+            <rect x="540" y="100" width="150" height="70" rx="16" class="box fill-purple"/>
+            <text x="615" y="140" text-anchor="middle" class="small">Twoja sieć</text>
+            <rect x="725" y="100" width="160" height="70" rx="16" class="box fill-blue"/>
+            <text x="805" y="140" text-anchor="middle" class="small">serwer VPN</text>
+            <path d="M690 135 L725 135" class="stroke"/>
+            <path d="M885 135 L940 135" class="stroke"/>
+
+            <rect x="900" y="110" width="60" height="50" rx="12" class="box fill-yellow"/>
+            <text x="930" y="143" text-anchor="middle" class="small">gra</text>
+            <text x="725" y="255" text-anchor="middle" class="small">efekt: stabilniejsza trasa (czasem niższy ping)</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="mini-callout">
+        <strong>Jak to sprawdzić sensownie:</strong>
+        <p>Wybierz 2–3 serwery blisko (np. Polska/Niemcy), zrób 3 pomiary w różnych godzinach i porównaj. Jeśli różnica jest stała — VPN ma sens. Jeśli raz pomaga, raz szkodzi — winne bywa Wi‑Fi lub przeciążenie po obu stronach.</p>
+      </div>
+
+      <p>
+        Konkretne wskazówki o wyborze lokalizacji znajdziesz w poradniku <a href="/blog/jaki-serwer-vpn.html">jaki serwer VPN wybrać</a>.
+      </p>
+    </section>
+
+    <section class="section" id="bezpieczenstwo">
+      <h2>Bezpieczeństwo i praktyka: DDoS, geoblokady, throttling i wycieki</h2>
+      <p>
+        Dla graczy najważniejsze są 4 rzeczy: <strong>stabilny ping</strong>, <strong>ochrona IP</strong>, <strong>brak dziwnych blokad</strong> i <strong>przewidywalność</strong>.
+        VPN może pomóc w każdym z tych punktów, ale musi być dobrze ustawiony.
+        Poniżej masz krótką tabelę “co się psuje i co z tym zrobić”.
+      </p>
+
+      <div class="table-scroll" aria-label="Tabela: problemy i rozwiązania">
+        <table>
+          <caption>Problemy na PS5/Xbox i szybkie rozwiązania (2026)</caption>
+          <thead>
+            <tr>
+              <th>Problem</th>
+              <th>Co widzisz</th>
+              <th>Najczęstsza przyczyna</th>
+              <th>Co zrobić</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>DDoS / doxxing IP</strong></td>
+              <td>lag, rozłączenia, ataki w meczach</td>
+              <td>publiczne IP widoczne dla innych</td>
+              <td>router VPN / mostek + stabilny serwer, rozważ też <a href="/blog/vpn-dedykowane-ip.html">dedykowane IP</a></td>
+            </tr>
+            <tr>
+              <td><strong>Throttling</strong></td>
+              <td>wolne pobieranie aktualizacji</td>
+              <td>operator ogranicza duże transfery</td>
+              <td>VPN ukrywa typ ruchu (sprawdź też <a href="/blog/optymalne-ustawienia-vpn.html">optymalne ustawienia</a>)</td>
+            </tr>
+            <tr>
+              <td><strong>Region “nie działa”</strong></td>
+              <td>apka pokazuje PL mimo DNS/VPN</td>
+              <td>cache/DNS/IPv6</td>
+              <td>restart, zmiana DNS, test <a href="/blog/wyciek-dns-vpn.html">wycieku DNS</a></td>
+            </tr>
+            <tr>
+              <td><strong>Problemy z NAT</strong></td>
+              <td>Strict NAT, czat nie działa</td>
+              <td>UPnP/porty/CGNAT</td>
+              <td>sprawdź <a href="/blog/vpn-przekierowanie-portow.html">port forwarding</a> i ustawienia routera</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="related-wide"><p><span class="related-label">Related:</span> <a href="/blog/bezpieczenstwo-wifi.html">Bezpieczeństwo Wi‑Fi: jak nie stracić konta w publicznej sieci</a></p></div>
+    </section>
+
+    <!-- Video (official author channel) -->
+    <section class="section" aria-label="Video">
+      <h2>Krótkie wideo: co warto zapamiętać (VPN World)</h2>
+      <div class="video-wrap">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE"
+          title="VPN World — podstawy VPN (wideo)"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <p>
+        Nie działa embed? Otwórz na YouTube:
+        <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a>
+      </p>
+    </section>
+
+    <!-- CTA again near end -->
+    <section class="section" aria-label="CTA na koniec">
+      <div class="cta-box">
+        <h2>Chcesz to ogarnąć szybko i bez stresu?</h2>
+        <p class="cta-note">Wybierz metodę pod scenariusz (Smart DNS / router / mostek), ustaw WireGuard i przetestuj 2–3 serwery. Potem już tylko grasz.</p>
+        <div class="cta-buttons">
+          <a class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584">NordVPN — szybki start na konsolach</a>
+          <a class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://www.tkqlhce.com/click-101525886-17061430">Surfshark — dobry kompromis</a>
+          <a class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://www.dpbolvw.net/click-101525886-15834536">Proton VPN — prywatność w pakiecie</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <h2>FAQ</h2>
+
+      <h3>Czy VPN jest legalny w Polsce?</h3>
+      <p>
+        Tak. VPN jako narzędzie prywatności i bezpieczeństwa jest legalny. Więcej kontekstu znajdziesz w poradniku
+        <a href="/blog/czy-vpn-legalny.html">czy VPN jest legalny</a>.
+      </p>
+
+      <h3>Czy da się mieć VPN “tylko do gry”, a resztę zostawić lokalnie?</h3>
+      <p>
+        Tak, ale zależy od metody. Na komputerze działa to jako <a href="/blog/vpn-split-tunneling.html">split tunneling</a>.
+        Na routerze czasem można kierować tylko wybrane urządzenia przez VPN (np. konsola przez VPN, reszta bez).
+      </p>
+
+      <h3>Co jest lepsze: Smart DNS czy pełny VPN?</h3>
+      <p>
+        Do streamingu i szybkiego “odblokowania” regionu często wygrywa Smart DNS. Do ochrony IP, prywatności i gier online — pełny VPN
+        (router lub mostek) jest bezpieczniejszy. Jeśli zaczynasz, zrób Smart DNS, a potem przejdź na VPN, gdy zobaczysz potrzebę.
+      </p>
+    </section>
+
+    <!-- Related guides (limit to real slugs in this locale) -->
+    <section class="section" aria-label="Powiązane poradniki">
+      <h2>Powiązane poradniki</h2>
+      <ul>
+        <li><a href="/blog/vpn-dla-graczy.html">VPN dla graczy</a></li>
+        <li><a href="/blog/test-predkosci-vpn.html">Test prędkości VPN</a></li>
+        <li><a href="/blog/jaki-serwer-vpn.html">Jaki serwer VPN wybrać</a></li>
+        <li><a href="/blog/optymalne-ustawienia-vpn.html">Optymalne ustawienia VPN</a></li>
+        <li><a href="/blog/co-to-jest-vpn.html">Co to jest VPN</a></li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>VPN World</strong>
+        <p>Niezależny serwis o prywatności i bezpieczeństwie w sieci.</p>
+      </div>
+      <nav aria-label="Linki w stopce">
+        <a href="/privacy.html">Privacy</a>
+        <a href="/disclosure.html">Disclosure</a>
+        <a href="mailto:u1797008805@gmail.com">Kontakt</a>
+      </nav>
+    </div>
+    <div class="container tiny">© 2026 VPN World</div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/cookie-consent.js"></script>
+
+  <!-- Cookie banner (PL) -->
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Zgoda na cookies">
+    <p>
+      Używamy cookies do pomiarów i ulepszania strony. Możesz wyrazić zgodę lub odmówić. Zobacz
+      <a href="/privacy.html">Privacy</a> oraz <a href="/disclosure.html">Disclosure</a>.
+    </p>
+    <div class="cookie-actions">
+      <button class="btn" type="button" onclick="acceptConsent()">Akceptuję</button>
+      <button class="btn btn-secondary" type="button" onclick="rejectConsent()">Odrzucam</button>
+    </div>
+  </div>
+
+  <!-- PAGE: https://dloran1.github.io/blog/vpn-na-konsolach-ps5-xbox.html -->
+</body>
+</html>

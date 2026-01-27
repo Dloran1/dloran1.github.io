@@ -129,35 +129,6 @@
       if (b) b.style.display = 'none';
     }
 
-    function acceptConsent(){
-      gtag('consent','update', {
-        ad_storage:'granted',
-        ad_user_data:'granted',
-        ad_personalization:'granted',
-        analytics_storage:'granted',
-        functionality_storage:'granted',
-        personalization_storage:'granted',
-        security_storage:'granted'
-      });
-      try{ localStorage.setItem('vpnworld_consent','granted'); }catch(e){}
-      hideCookieBannerSafely();
-      gtag('config','G-RD6M691ZWD', { anonymize_ip:true });
-    }
-
-    function rejectConsent(){
-      gtag('consent','update', {
-        ad_storage:'denied',
-        ad_user_data:'denied',
-        ad_personalization:'denied',
-        analytics_storage:'denied',
-        functionality_storage:'denied',
-        personalization_storage:'denied',
-        security_storage:'denied'
-      });
-      try{ localStorage.setItem('vpnworld_consent','denied'); }catch(e){}
-      hideCookieBannerSafely();
-    }
-
     function applyStoredConsentSafely(){
       try{
         var c = localStorage.getItem('vpnworld_consent');
@@ -172,7 +143,7 @@
             security_storage:'granted'
           });
           hideCookieBannerSafely();
-          gtag('config','G-RD6M691ZWD', { anonymize_ip:true });
+          gtag('config', 'G-RD6M691ZWD', { 'send_page_view': false, anonymize_ip:true });
         } else if (c === 'denied'){
           hideCookieBannerSafely();
         }
@@ -241,6 +212,7 @@
     ]
   }
   </script>
+      <script src="/assets/js/cookie-consent.js" defer></script>
 </head>
 
 <body>
@@ -671,19 +643,7 @@
   </footer>
 
   <script src="../../assets/js/main.js"></script>
-  <script src="../../assets/js/cookie-consent.js"></script>
-
   <!-- Cookie banner (FR) -->
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Consentement cookies">
-    <p>
-      Nous utilisons des cookies pour les mesures et pour améliorer le site. Vous pouvez accepter ou refuser.
-      Consultez aussi notre <a href="/privacy.html">Confidentialité</a> et notre <a href="/fr/disclosure.html">Disclosure</a>.
-    </p>
-    <div class="cookie-actions">
-      <button class="btn" type="button" onclick="acceptConsent()">Accepter</button>
-      <button class="btn btn-secondary" type="button" onclick="rejectConsent()">Refuser</button>
-    </div>
-  </div>
 
   <!-- PAGE: https://dloran1.github.io/fr/blog/vpn-macos.html -->
 </body>

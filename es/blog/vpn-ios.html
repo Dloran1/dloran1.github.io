@@ -110,35 +110,6 @@
       if (banner) banner.style.display = 'none';
     }
 
-    function acceptConsent() {
-      gtag('consent','update', {
-        ad_storage:'granted',
-        ad_user_data:'granted',
-        ad_personalization:'granted',
-        analytics_storage:'granted',
-        functionality_storage:'granted',
-        personalization_storage:'granted',
-        security_storage:'granted'
-      });
-      try { localStorage.setItem('vpnworld_consent','granted'); } catch(e) {}
-      hideCookieBannerSafely();
-      gtag('config','G-RD6M691ZWD');
-    }
-
-    function rejectConsent() {
-      gtag('consent','update', {
-        ad_storage:'denied',
-        ad_user_data:'denied',
-        ad_personalization:'denied',
-        analytics_storage:'denied',
-        functionality_storage:'denied',
-        personalization_storage:'denied',
-        security_storage:'denied'
-      });
-      try { localStorage.setItem('vpnworld_consent','denied'); } catch(e) {}
-      hideCookieBannerSafely();
-    }
-
     function applyStoredConsentSafely() {
       try {
         var c = localStorage.getItem('vpnworld_consent');
@@ -153,7 +124,7 @@
             security_storage:'granted'
           });
           hideCookieBannerSafely();
-          gtag('config','G-RD6M691ZWD');
+          gtag('config', 'G-RD6M691ZWD', { 'send_page_view': false, });
         } else if (c === 'denied') {
           gtag('consent','update', {
             ad_storage:'denied',
@@ -310,7 +281,9 @@
       ]
     }
   ]
-}</script></head>
+}</script>
+      <script src="/assets/js/cookie-consent.js" defer></script>
+</head>
 <body>
 <!-- HEADER -->
 <header class="site-header">
@@ -672,14 +645,6 @@
 <div class="container tiny">© 2026 VPN World</div>
 </footer>
 <script src="../../assets/js/main.js"></script>
-<script src="../../assets/js/cookie-consent.js"></script>
-<div aria-live="polite" class="cookie-banner" id="cookie-banner" role="dialog">
-<p>Usamos cookies para mejorar tu experiencia. Puedes <a href="/es/privacy.html">aceptar</a> o rechazar su uso.</p>
-<div class="cookie-actions">
-<button class="btn btn-compact" onclick="acceptConsent()" type="button">Accepteren</button>
-<button class="btn btn-compact btn-secondary" onclick="rejectConsent()" type="button">Weigeren</button>
-</div>
-</div>
 </body>
 </html>
 <!-- PAGE: https://dloran1.github.io/es/blog/vpn-ios.html -->

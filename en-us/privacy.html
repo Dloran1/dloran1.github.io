@@ -51,88 +51,7 @@
 
   <!-- GA4 + Consent Mode v2 (Stage 2.5: full set, default deny) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-
-    // Consent Mode v2: default ALL = denied (opt-in)
-    gtag('consent','default',{
-      ad_storage:'denied',
-      ad_user_data:'denied',
-      ad_personalization:'denied',
-      analytics_storage:'denied',
-      functionality_storage:'denied',
-      personalization_storage:'denied',
-      security_storage:'denied'
-    });
-
-    gtag('js', new Date());
-    gtag('config','G-RD6M691ZWD');
-
-    function acceptConsent(){
-      gtag('consent','update',{
-        ad_storage:'granted',
-        ad_user_data:'granted',
-        ad_personalization:'granted',
-        analytics_storage:'granted',
-        functionality_storage:'granted',
-        personalization_storage:'granted',
-        security_storage:'granted'
-      });
-      try { localStorage.setItem('vpnworld_consent','granted'); } catch(e) {}
-      var banner = document.getElementById('cookie-banner');
-      if (banner) banner.style.display = 'none';
-      var status = document.getElementById('consent-status');
-      if (status) status.textContent = 'Opted in';
-    }
-
-    function revokeConsent(){
-      gtag('consent','update',{
-        ad_storage:'denied',
-        ad_user_data:'denied',
-        ad_personalization:'denied',
-        analytics_storage:'denied',
-        functionality_storage:'denied',
-        personalization_storage:'denied',
-        security_storage:'denied'
-      });
-      try { localStorage.setItem('vpnworld_consent','denied'); } catch(e) {}
-      var banner = document.getElementById('cookie-banner');
-      if (banner) banner.style.display = 'block';
-      var status = document.getElementById('consent-status');
-      if (status) status.textContent = 'Opted out';
-    }
-
-    (function restoreConsent(){
-      try{
-        var v = localStorage.getItem('vpnworld_consent');
-        if(v === 'granted'){
-          gtag('consent','update',{
-            ad_storage:'granted',
-            ad_user_data:'granted',
-            ad_personalization:'granted',
-            analytics_storage:'granted',
-            functionality_storage:'granted',
-            personalization_storage:'granted',
-            security_storage:'granted'
-          });
-          var banner = document.getElementById('cookie-banner');
-          if (banner) banner.style.display = 'none';
-        }
-      }catch(e){}
-    })();
-
-    // Global Privacy Control (GPC): if browser sends GPC, treat it as an opt-out signal.
-    (function applyGPC(){
-      try{
-        var gpcEnabled = (navigator && (navigator.globalPrivacyControl === true));
-        if(gpcEnabled){
-          // Force opt-out (even if user previously opted in)
-          revokeConsent();
-        }
-      }catch(e){}
-    })();
-  </script>
+  
 
   <!-- JSON-LD (WebPage + Organization) -->
   <script type="application/ld+json">
@@ -179,6 +98,7 @@
     .btn-ghost { background: rgba(0,0,0,.06); }
     .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: .95em; }
   </style>
+      <script src="/assets/js/cookie-consent.js" defer></script>
 </head>
 
 <body>
@@ -384,13 +304,6 @@
     <p>© 2026 VPN World</p>
   </footer>
 
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
-    <p>
-      We use cookies for analytics (optional) and security. Learn more:
-      <a href="https://dloran1.github.io/en-us/privacy.html" rel="noopener">Privacy Policy</a>.
-    </p>
-    <button type="button" class="btn btn-compact" onclick="acceptConsent()">OK</button>
-  </div>
 
   <script>
     (function(){

@@ -169,26 +169,6 @@
 
     gtag('js', new Date());
 
-    function acceptConsent(){
-      try { localStorage.setItem('vpnw_consent','granted'); } catch(e){}
-      gtag('consent', 'update', {
-        'ad_storage': 'granted',
-        'ad_user_data': 'granted',
-        'ad_personalization': 'granted',
-        'analytics_storage': 'granted',
-        'functionality_storage': 'granted',
-        'personalization_storage': 'granted',
-        'security_storage': 'granted'
-      });
-      gtag('config', 'G-EMR8C4TLVM', { 'anonymize_ip': true });
-      var b=document.getElementById('cookie-banner'); if(b) b.remove();
-    }
-
-    function rejectConsent(){
-      try { localStorage.setItem('vpnw_consent','denied'); } catch(e){}
-      var b=document.getElementById('cookie-banner'); if(b) b.remove();
-    }
-
     (function(){
       try{
         var c = localStorage.getItem('vpnw_consent');
@@ -202,7 +182,7 @@
             'personalization_storage': 'granted',
             'security_storage': 'granted'
           });
-          gtag('config', 'G-EMR8C4TLVM', { 'anonymize_ip': true });
+          gtag('config', 'G-EMR8C4TLVM', { 'send_page_view': false, 'anonymize_ip': true });
         }
       }catch(e){}
     })();
@@ -293,6 +273,7 @@
 #cookie-banner{position:fixed !important; left:16px !important; right:16px !important; bottom:16px !important; touch-action:manipulation; -webkit-tap-highlight-color: rgba(0,0,0,0);}
 #cookie-banner button{touch-action:manipulation;}
 </style>
+      <script src="/assets/js/cookie-consent.js" defer></script>
 </head>
 
 <body>
@@ -993,17 +974,8 @@
   </footer>
 
   <script src="../../assets/js/main.js"></script>
-  <script src="../../assets/js/cookie-consent.js"></script>
-
   <!-- Cookie banner -->
   
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
-    <p>Analytics is off by default. You can accept or decline analytics cookies.</p>
-    <div class="cookie-actions">
-      <button type="button" class="btn btn-compact" onclick="acceptConsent()">Accept</button>
-      <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Decline</button>
-    </div>
-  </div>
 
 <style>
 /* Cookie banner — force on top & clickable (iOS safe) */
@@ -1040,19 +1012,16 @@
       });
       if (granted) {
         // fire page_view only after consent
-        window.gtag('event', 'page_view');
       }
     }
   }
 
   // Public handlers used by onclick
   window.acceptConsent = function () {
-    try { localStorage.setItem(KEY, 'granted'); } catch (e) {}
     consentUpdate('granted');
     hideBanner();
   };
   window.rejectConsent = function () {
-    try { localStorage.setItem(KEY, 'denied'); } catch (e) {}
     consentUpdate('denied');
     hideBanner();
   };

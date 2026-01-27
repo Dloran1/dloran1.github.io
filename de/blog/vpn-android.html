@@ -216,7 +216,7 @@
   color: #7a0c0c !important; /* darker red for readability */
 }
 </style>
-
+      <script src="/assets/js/cookie-consent.js" defer></script>
 </head>
 <body>
 <!-- PAGE: /de/blog/vpn-android.html -->
@@ -603,17 +603,7 @@
 <div class="container tiny">© 2026 VPN World</div>
 </footer>
 <script src="../../assets/js/main.js"></script>
-<script src="../../assets/js/cookie-consent.js"></script>
 <!-- Cookie banner (DE) -->
-<div aria-label="Cookie-Hinweis" aria-live="polite" class="cookie-banner" id="cookie-banner" role="dialog" style="display:none;">
-<div class="cookie-inner">
-<p><strong>Wir verwenden Cookies</strong>, um die Nutzung zu messen und die Seite zu verbessern. Du kannst zustimmen oder ablehnen. Mehr: <a href="/privacy.html">Datenschutz</a>.</p>
-<div class="cookie-actions">
-<button class="btn btn-primary btn-compact" onclick="acceptConsent()">Akzeptieren</button>
-<button class="btn btn-secondary btn-compact" onclick="rejectConsent()">Ablehnen</button>
-</div>
-</div>
-</div>
 <script>
     function showBannerIfNeeded() {
       const stored = localStorage.getItem('vw_consent');
@@ -624,42 +614,10 @@
       }
     }
 
-    function acceptConsent() {
-      localStorage.setItem('vw_consent', 'granted');
-      gtag('consent', 'update', {
-        ad_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied',
-        analytics_storage: 'granted',
-        functionality_storage: 'granted',
-        personalization_storage: 'denied',
-        security_storage: 'granted'
-      });
-      gtag('event', 'page_view');
-      const el = document.getElementById('cookie-banner');
-      if (el) el.style.display = 'none';
-    }
-
-    function rejectConsent() {
-      localStorage.setItem('vw_consent', 'denied');
-      gtag('consent', 'update', {
-        ad_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied',
-        analytics_storage: 'denied',
-        functionality_storage: 'denied',
-        personalization_storage: 'denied',
-        security_storage: 'denied'
-      });
-      const el = document.getElementById('cookie-banner');
-      if (el) el.style.display = 'none';
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
       showBannerIfNeeded();
       if (localStorage.getItem('vw_consent') === 'granted') {
         // send page_view for returning consented users
-        gtag('event', 'page_view');
       }
     });
   </script>

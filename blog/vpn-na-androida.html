@@ -155,7 +155,9 @@
     {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/blog/vpn-publiczne-wifi.html"},
     {"@type":"ListItem","position":5,"url":"https://dloran1.github.io/blog/test-predkosci-vpn.html"}
   ]
-}</script></head>
+}</script>
+      <script src="/assets/js/cookie-consent.js" defer></script>
+</head>
 <body>
 <nav aria-label="Wybór języka" class="lang-switch">
 <a class="active" href="/blog/vpn-na-androida.html">Polski</a> |
@@ -497,40 +499,14 @@
 <div class="container tiny">© 2026 VPN World</div>
 </footer>
 <script src="../assets/js/main.js"></script>
-<script src="../assets/js/cookie-consent.js"></script>
 <!-- Cookie banner (PL) -->
-<div aria-label="Ustawienia cookies" aria-live="polite" class="privacy-banner" id="cookie-banner" role="dialog">
-    Używamy cookies, aby mierzyć ruch i poprawiać stronę. <a href="/privacy.html">Privacy</a>.
-    <button class="btn btn-compact" onclick="acceptConsent()">Akceptuję</button>
-<button class="btn btn-compact" onclick="rejectConsent()">Odrzucam</button>
-</div>
 <script>
-    function acceptConsent(){
-      try {
-        gtag('consent', 'update', {
-          ad_storage: 'granted',
-          ad_user_data: 'granted',
-          ad_personalization: 'granted',
-          analytics_storage: 'granted',
-          functionality_storage: 'granted',
-          personalization_storage: 'granted',
-          security_storage: 'granted'
-        });
-        gtag('config','G-RD6M691ZWD',{'send_page_view': true});
-        localStorage.setItem('vw_consent','granted');
-      } catch(e) {}
-      var b=document.getElementById('cookie-banner'); if(b) b.remove();
-    }
-    function rejectConsent(){
-      try { localStorage.setItem('vw_consent','denied'); } catch(e) {}
-      var b=document.getElementById('cookie-banner'); if(b) b.remove();
-    }
     (function(){
       try {
         var v=localStorage.getItem('vw_consent');
         if(v==='granted'){
           gtag('consent','update',{analytics_storage:'granted',ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted',functionality_storage:'granted',personalization_storage:'granted',security_storage:'granted'});
-          gtag('config','G-RD6M691ZWD',{'send_page_view': true});
+          gtag('config', 'G-RD6M691ZWD', { 'send_page_view': false, });
           var b=document.getElementById('cookie-banner'); if(b) b.remove();
         }
       } catch(e) {}

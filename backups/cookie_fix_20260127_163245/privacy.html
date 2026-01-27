@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <title>Polityka prywatności | VPN World</title>
+  <meta name="description" content="Polityka prywatności VPN World: cookies, analityka (GA4), zgody (Consent Mode v2) i zasady prywatności dla użytkowników w Polsce i UE.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index, follow">
+
+  <link rel="icon" href="/favicon.ico">
+
+  <!-- Canonical & hreflang -->
+  <link rel="canonical" href="https://dloran1.github.io/privacy.html">
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/privacy.html">
+  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/privacy.html">
+  <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/privacy.html">
+  <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/privacy.html">
+  <link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/privacy.html">
+  <link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/privacy.html">
+  <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/privacy.html">
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/privacy.html">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <!-- Preconnect -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+
+  <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    /* Consent Mode v2: default DENIED for ALL keys (VPN World Stage 2.5 standard) */
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'denied',
+      personalization_storage: 'denied',
+      security_storage: 'denied'
+    });
+
+    gtag('js', new Date());
+  </script>
+
+  <!-- Consent logic (safe DOM handling) -->
+  <script>
+    function hideCookieBannerSafely() {
+      var banner = document.getElementById('cookie-banner');
+      if (banner) banner.style.display = 'none';
+    }
+
+    function acceptConsent() {
+      gtag('consent', 'update', {
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+        analytics_storage: 'granted',
+        functionality_storage: 'granted',
+        personalization_storage: 'granted',
+        security_storage: 'granted'
+      });
+
+      try { localStorage.setItem('vpnworld_consent', 'granted'); } catch(e) {}
+
+      hideCookieBannerSafely();
+
+      /* GA4 config only AFTER consent */
+      gtag('config', 'G-RD6M691ZWD');
+    }
+
+    function rejectConsent() {
+      gtag('consent', 'update', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        functionality_storage: 'denied',
+        personalization_storage: 'denied',
+        security_storage: 'denied'
+      });
+
+      try { localStorage.setItem('vpnworld_consent', 'denied'); } catch(e) {}
+
+      hideCookieBannerSafely();
+    }
+
+    function applyStoredConsentSafely() {
+      try {
+        var c = localStorage.getItem('vpnworld_consent');
+        if (c === 'granted') {
+          gtag('consent', 'update', {
+            ad_storage: 'granted',
+            ad_user_data: 'granted',
+            ad_personalization: 'granted',
+            analytics_storage: 'granted',
+            functionality_storage: 'granted',
+            personalization_storage: 'granted',
+            security_storage: 'granted'
+          });
+          hideCookieBannerSafely();
+          gtag('config', 'G-RD6M691ZWD');
+        } else if (c === 'denied') {
+          gtag('consent', 'update', {
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+            analytics_storage: 'denied',
+            functionality_storage: 'denied',
+            personalization_storage: 'denied',
+            security_storage: 'denied'
+          });
+          hideCookieBannerSafely();
+        }
+      } catch(e) {}
+    }
+
+    document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
+  </script>
+
+  <!-- JSON-LD (Organization + WebSite + WebPage) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://dloran1.github.io/#organization",
+        "name": "VPN World",
+        "url": "https://dloran1.github.io/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://dloran1.github.io/assets/img/logo.png"
+        },
+        "contactPoint": [{
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "u1797008805@gmail.com"
+        }]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://dloran1.github.io/#website",
+        "url": "https://dloran1.github.io/",
+        "name": "VPN World",
+        "publisher": { "@id": "https://dloran1.github.io/#organization" }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://dloran1.github.io/privacy.html#webpage",
+        "url": "https://dloran1.github.io/privacy.html",
+        "name": "Polityka prywatności | VPN World",
+        "isPartOf": { "@id": "https://dloran1.github.io/#website" },
+        "inLanguage": "pl",
+        "dateModified": "2026-01-02"
+      }
+    ]
+  }
+  </script>
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="top-lang-switch">
+    <a href="https://dloran1.github.io/privacy.html" class="active">Polski</a> |
+    <a href="https://dloran1.github.io/en-gb/privacy.html">English (UK)</a> |
+    <a href="https://dloran1.github.io/en-us/privacy.html">English (US)</a> |
+    <a href="https://dloran1.github.io/de/privacy.html">Deutsch</a> |
+    <a href="https://dloran1.github.io/es/privacy.html">Español</a> |
+    <a href="https://dloran1.github.io/fr/privacy.html">Français</a> |
+    <a href="https://dloran1.github.io/nl-be/privacy.html">Nederlands (BE)</a>
+  </div>
+
+  <div class="logo-wrap">
+    <a href="https://dloran1.github.io/" class="logo">VPN World</a>
+  </div>
+</header>
+
+<main class="content">
+  <article class="article">
+    <h1>Polityka prywatności</h1>
+    <p class="meta"><strong>Ostatnia aktualizacja:</strong> <time datetime="2026-01-02">2 stycznia 2026</time></p>
+
+    <h2>1. Informacje ogólne</h2>
+    <p>
+      VPN World to niezależny serwis informacyjny o VPN, prywatności i cyberbezpieczeństwie.
+      Nie sprzedajemy danych osobowych.
+    </p>
+
+    <h2>2. Cookies i analityka</h2>
+    <p>
+      Analityka jest <strong>wyłączona domyślnie</strong>. Google Analytics 4 (GA4) uruchamia się dopiero po Twojej wyraźnej zgodzie
+      w banerze cookies. Jeśli odrzucisz — analityka pozostaje wyłączona.
+    </p>
+
+    <h2>3. Zgoda i jej cofnięcie</h2>
+    <p>
+      Stosujemy Google Consent Mode v2. Wszystkie kategorie storage są domyślnie ustawione na <strong>denied</strong>.
+      Możesz zaakceptować lub odrzucić analitykę w banerze. Decyzja jest zapisywana lokalnie w Twojej przeglądarce.
+    </p>
+
+    <h2>4. Global Privacy Control (GPC)</h2>
+    <p>
+      Niektóre przeglądarki wysyłają sygnał Global Privacy Control (GPC). Obecnie serwis nie przetwarza automatycznie sygnałów GPC.
+      Jednocześnie analityka i tak jest wyłączona domyślnie — włącza się dopiero po świadomej zgodzie.
+    </p>
+
+    <h2>5. Linki afiliacyjne</h2>
+    <p>
+      VPN World może używać linków afiliacyjnych. Nie daje nam to dostępu do Twoich danych płatniczych.
+      Ewentualne śledzenie odbywa się po stronie partnerów afiliacyjnych — zgodnie z ich politykami.
+    </p>
+
+    <h2>6. Kontakt</h2>
+    <p>
+      W sprawach prywatności możesz napisać na:
+      <a href="mailto:u1797008805@gmail.com">u1797008805@gmail.com</a>
+    </p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <p>VPN World · Niezależny serwis o prywatności, bezpieczeństwie i praktycznym wykorzystaniu VPN.</p>
+  <p>
+    <a href="https://dloran1.github.io/privacy.html">Privacy</a> ·
+    <a href="https://dloran1.github.io/rss.xml">RSS</a> ·
+    <a href="mailto:u1797008805@gmail.com">Contact</a>
+  </p>
+  <p>© 2026 VPN World</p>
+</footer>
+
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
+  <p>Analityka jest wyłączona domyślnie. Możesz zaakceptować lub odrzucić analitykę.</p>
+  <div class="cookie-actions">
+    <button type="button" class="btn btn-compact" onclick="acceptConsent()">Akceptuję</button>
+    <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Odrzucam</button>
+  </div>
+</div>
+
+</body>
+</html>
+
+<!-- PAGE: https://dloran1.github.io/privacy.html -->

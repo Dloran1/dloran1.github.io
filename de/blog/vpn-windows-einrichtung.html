@@ -98,80 +98,7 @@
 <link href="//www.googletagmanager.com" rel="dns-prefetch"/>
 <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
 
-  // Default = denied (EU-safe)
-  gtag('consent','default', {
-    ad_storage:'denied',
-    ad_user_data:'denied',
-    ad_personalization:'denied',
-    analytics_storage:'denied',
-    functionality_storage:'denied',
-    personalization_storage:'denied',
-    security_storage:'denied'
-  });
-
-  gtag('js', new Date());
-
-  function hideCookieBannerSafely(){
-    var w = document.getElementById('cookie-consent-wrapper');
-    if (w) w.style.display = 'none';
-  }
-
-  window.acceptConsent = function(){
-    gtag('consent','update', {
-      ad_storage:'granted',
-      ad_user_data:'granted',
-      ad_personalization:'granted',
-      analytics_storage:'granted',
-      functionality_storage:'granted',
-      personalization_storage:'granted',
-      security_storage:'granted'
-    });
-    try{ localStorage.setItem('vpnworld_consent','granted'); }catch(e){}
-    hideCookieBannerSafely();
-    gtag('config','G-RD6M691ZWD', { anonymize_ip:true });
-    gtag('event','page_view');
-  };
-
-  window.rejectConsent = function(){
-    gtag('consent','update', {
-      ad_storage:'denied',
-      ad_user_data:'denied',
-      ad_personalization:'denied',
-      analytics_storage:'denied',
-      functionality_storage:'denied',
-      personalization_storage:'denied',
-      security_storage:'denied'
-    });
-    try{ localStorage.setItem('vpnworld_consent','denied'); }catch(e){}
-    hideCookieBannerSafely();
-  };
-
-  function applyStoredConsentSafely(){
-    try{
-      var c = localStorage.getItem('vpnworld_consent');
-      if (c === 'granted'){
-        gtag('consent','update', {
-          ad_storage:'granted',
-          ad_user_data:'granted',
-          ad_personalization:'granted',
-          analytics_storage:'granted',
-          functionality_storage:'granted',
-          personalization_storage:'granted',
-          security_storage:'granted'
-        });
-        hideCookieBannerSafely();
-        gtag('config','G-RD6M691ZWD', { anonymize_ip:true });
-      } else if (c === 'denied'){
-        hideCookieBannerSafely();
-      }
-    }catch(e){}
-  }
-  document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
-</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://dloran1.github.io/#organization", "name": "VPN World", "url": "https://dloran1.github.io/", "logo": {"@type": "ImageObject", "url": "https://dloran1.github.io/assets/img/logo.png"}}, {"@type": "Person", "@id": "https://dloran1.github.io/de/about-denys-shchur.html#person", "name": "Denys Shchur", "image": "https://dloran1.github.io/assets/img/author/denys-shchur.webp"}, {"@type": "Article", "@id": "https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html#article", "headline": "VPN unter Windows einrichten (2026): Schritt-für-Schritt Anleitung für maximale Sicherheit", "description": "Technische Anleitung 2026: VPN unter Windows 11/10 richtig einrichten — WireGuard vs IKEv2 vs SSTP, Kill Switch, Split Tunneling, IPv6/DNS-Leak-Checks und Fehlercodes (807/691/0x800704C6).", "inLanguage": "de", "image": ["https://dloran1.github.io/assets/img/hero/vpn-windows-setup-uk.webp"], "author": {"@id": "https://dloran1.github.io/de/about-denys-shchur.html#person"}, "publisher": {"@id": "https://dloran1.github.io/#organization"}, "datePublished": "2026-01-26", "dateModified": "2026-01-26", "mainEntityOfPage": {"@id": "https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html"}}, {"@type": "BreadcrumbList", "@id": "https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html#breadcrumbs", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "VPN World", "item": "https://dloran1.github.io/de/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://dloran1.github.io/de/blog/"}, {"@type": "ListItem", "position": 3, "name": "VPN Windows Einrichtung", "item": "https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html"}]}, {"@type": "FAQPage", "@id": "https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html#faq", "mainEntity": [{"@type": "Question", "name": "Ist ein VPN in Deutschland legal?", "acceptedAnswer": {"@type": "Answer", "text": "Ja. Die Nutzung eines VPN ist in Deutschland grundsätzlich legal. Entscheidend ist, was du mit der Verbindung machst – illegale Handlungen bleiben illegal, auch mit VPN."}}, {"@type": "Question", "name": "Warum ist mein VPN unter Windows langsam?", "acceptedAnswer": {"@type": "Answer", "text": "Häufige Ursachen sind ein ungünstiges Protokoll (z.B. SSTP statt WireGuard), ein weit entfernter Server, überlastetes WLAN oder Sicherheitssoftware. Wechsle testweise auf WireGuard und teste erneut."}}, {"@type": "Question", "name": "Brauche ich unter Windows einen Kill Switch?", "acceptedAnswer": {"@type": "Answer", "text": "Wenn du Privatsphäre ernst nimmst: ja. Abbrüche passieren, und ohne Kill Switch kann Windows kurzzeitig über die normale Verbindung senden."}}, {"@type": "Question", "name": "PC-VPN oder Router-VPN: was ist besser?", "acceptedAnswer": {"@type": "Answer", "text": "PC-VPN ist schneller eingerichtet und flexibel. Router-VPN schützt alle Geräte im Netzwerk, ist aber technischer und kann die Geschwindigkeit begrenzen."}}]}, {"@type": "ItemList", "@id": "https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html#related", "name": "Verwandte Artikel", "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://dloran1.github.io/de/blog/vpn-protokolle.html"}, {"@type": "ListItem", "position": 2, "url": "https://dloran1.github.io/de/blog/vpn-kill-switch.html"}, {"@type": "ListItem", "position": 3, "url": "https://dloran1.github.io/de/blog/vpn-dns-leak.html"}, {"@type": "ListItem", "position": 4, "url": "https://dloran1.github.io/de/blog/vpn-split-tunneling.html"}, {"@type": "ListItem", "position": 5, "url": "https://dloran1.github.io/de/blog/vpn-router-einrichtung.html"}]}]}</script>
 <style>
 /* Hotfixes (mobile): ensure CTA/button text visible and cookie banner clickable */
@@ -204,8 +131,7 @@
 #cookie-banner, #cookie-banner *{pointer-events:auto !important;}
 #cookie-banner button{touch-action:manipulation;-webkit-tap-highlight-color:rgba(0,0,0,0);}
 </style>
-
-  <script defer src="../../assets/js/cookie-consent.js"></script>
+      <script src="/assets/js/cookie-consent.js" defer></script>
 </head>
 <body>
 <nav aria-label="Sprachwechsel" class="lang-switch">
@@ -866,13 +792,6 @@
 </script>
 
 <div id="cookie-consent-wrapper" style="position:fixed;left:0;right:0;bottom:0;z-index:99999;pointer-events:none;display:flex;justify-content:center;padding:16px;">
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Cookie-Einwilligung" style="pointer-events:auto;max-width:720px;width:100%;">
-    <p><strong>Cookies & Privatsphäre:</strong> Wir verwenden Cookies nur nach deiner Zustimmung (GA4, Consent Mode v2). <a href="/de/privacy.html">Datenschutzerklärung</a>.</p>
-    <div class="cookie-actions">
-      <button id="cookie-accept" class="btn btn-primary" type="button" onclick="window.acceptConsent && window.acceptConsent()">Akzeptieren</button>
-      <button id="cookie-reject" class="btn btn-secondary" type="button" onclick="window.rejectConsent && window.rejectConsent()">Ablehnen</button>
-    </div>
-  </div>
 </div>
 
 </body>

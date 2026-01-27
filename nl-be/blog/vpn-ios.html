@@ -98,41 +98,6 @@
 
     gtag('js', new Date());
 
-    function acceptConsent() {
-      gtag('consent','update', {
-        'ad_storage':'granted',
-        'ad_user_data':'granted',
-        'ad_personalization':'granted',
-        'analytics_storage':'granted',
-        'functionality_storage':'granted',
-        'personalization_storage':'granted',
-        'security_storage':'granted'
-      });
-      try { localStorage.setItem('vpnworld_consent','granted'); } catch(e) {}
-      try {
-        var b = document.getElementById('cookie-banner');
-        if (b) b.setAttribute('hidden','hidden');
-      } catch(e) {}
-      gtag('config','G-RD6M691ZWD');
-    }
-
-    function rejectConsent() {
-      gtag('consent','update', {
-        'ad_storage':'denied',
-        'ad_user_data':'denied',
-        'ad_personalization':'denied',
-        'analytics_storage':'denied',
-        'functionality_storage':'denied',
-        'personalization_storage':'denied',
-        'security_storage':'denied'
-      });
-      try { localStorage.setItem('vpnworld_consent','denied'); } catch(e) {}
-      try {
-        var b = document.getElementById('cookie-banner');
-        if (b) b.setAttribute('hidden','hidden');
-      } catch(e) {}
-    }
-
     function applyStoredConsentSafely() {
       try {
         var c = localStorage.getItem('vpnworld_consent');
@@ -146,7 +111,7 @@
             'personalization_storage':'granted',
             'security_storage':'granted'
           });
-          gtag('config','G-RD6M691ZWD');
+          gtag('config', 'G-RD6M691ZWD', { 'send_page_view': false, });
           var b1 = document.getElementById('cookie-banner');
           if (b1) b1.setAttribute('hidden','hidden');
         } else if (c === 'denied') {
@@ -273,7 +238,7 @@
     }
   }
   </script>
-
+      <script src="/assets/js/cookie-consent.js" defer></script>
 </head>
 
 <body>
@@ -789,17 +754,5 @@
   </footer>
 
   <script src="../../assets/js/main.js"></script>
-  <script src="../../assets/js/cookie-consent.js"></script>
-
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie voorkeuren">
-    <div class="cookie-banner-inner">
-      <p><strong>Cookies</strong> — Wij gebruiken cookies om je ervaring te verbeteren. Je kunt cookies accepteren of weigeren. <a href="/nl-be/privacy.html">Privacy</a></p>
-      <div class="cookie-actions">
-        <button type="button" class="btn btn-compact" onclick="acceptConsent()">Accepteren</button>
-        <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Weigeren</button>
-      </div>
-    </div>
-  </div>
-
-</body>
+  </body>
 </html>

@@ -134,7 +134,7 @@
     });
 
     gtag('js', new Date());
-    gtag('config','G-RD6M691ZWD', { anonymize_ip: true });
+    gtag('config', 'G-RD6M691ZWD', { 'send_page_view': false, anonymize_ip: true });
   </script>
 
   <!-- JSON-LD -->
@@ -229,6 +229,7 @@
     ]
   }
   </script>
+      <script src="/assets/js/cookie-consent.js" defer></script>
 </head>
 
 <body>
@@ -992,16 +993,6 @@
   </footer>
 
   <script src="../../assets/js/main.js"></script>
-  <script src="../../assets/js/cookie-consent.js"></script>
-
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
-    <p>Les analytics sont désactivés par défaut. Vous pouvez accepter ou refuser leur utilisation.</p>
-    <div class="cookie-actions">
-      <button type="button" class="btn btn-compact" onclick="acceptConsent()">Accepter</button>
-      <button type="button" class="btn btn-compact btn-secondary" onclick="rejectConsent()">Refuser</button>
-    </div>
-  </div>
-
   <script>
     (function(){
       const KEY = 'vpnworld_cookie_consent';
@@ -1011,7 +1002,6 @@
       function show(){ if(banner) banner.style.display='block'; }
 
       function setConsent(state){
-        try{ localStorage.setItem(KEY, state); }catch(e){}
       }
 
       window.acceptConsent = function(){
@@ -1026,7 +1016,6 @@
             security_storage:'granted'
           });
           // send page_view only after consent
-          gtag('event','page_view');
         }
         setConsent('accepted');
         hide();
