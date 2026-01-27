@@ -1,13 +1,18 @@
-<!DOCTYPE html><html lang="fr">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
-<meta charset="utf-8">
-<title>Configuration Vpn Windows | VPN World</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="index, follow">
-<link rel="icon" href="/favicon.ico">
-<link rel="stylesheet" href="../../assets/css/style.css">
-<link rel="canonical" href="https://dloran1.github.io/fr/blog/configuration-vpn-windows.html">
-<link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-konfiguracja-windows.html">
+  <meta charset="utf-8">
+  <title>Configurer un VPN sur Windows (2026) : guide complet, vitesse & confidentialité | VPN World</title>
+  <meta name="description" content="Guide 2026 (France) : configurer un VPN sur Windows 10/11 via appli (WireGuard/Kill Switch) ou manuellement (IKEv2/SSTP). Tests fuites DNS/IPv6, dépannage (erreur 807), streaming Canal+/TF1 et Wi‑Fi public (TGV)." />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index, follow">
+
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="../../assets/css/style.css">
+  <link rel="canonical" href="https://dloran1.github.io/fr/blog/configuration-vpn-windows.html">
+
+  <!-- hreflang (7 + x-default → en-gb) -->
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-konfiguracja-windows.html">
   <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-windows-setup-uk.html">
   <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-windows-setup.html">
   <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html">
@@ -16,41 +21,628 @@
   <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-windows-instellen.html">
   <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-windows-setup-uk.html">
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-RD6M691ZWD');
-</script>
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="VPN World">
+  <meta property="og:title" content="Configurer un VPN sur Windows (2026) : guide complet, vitesse & confidentialité">
+  <meta property="og:description" content="Appli vs configuration manuelle (IKEv2/SSTP), tests fuites DNS/IPv6, dépannage, streaming et Wi‑Fi public." />
+  <meta property="og:url" content="https://dloran1.github.io/fr/blog/configuration-vpn-windows.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-windows-setup-uk.webp">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="nl_BE">
 
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Configurer un VPN sur Windows (2026) — Guide France">
+  <meta name="twitter:description" content="Installation rapide, réglages avancés (IKEv2/SSTP), tests DNS/IPv6, dépannage et conseils streaming." />
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-windows-setup-uk.webp">
+
+  <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    gtag('consent','default', {
+      ad_storage:'denied',
+      ad_user_data:'denied',
+      ad_personalization:'denied',
+      analytics_storage:'denied',
+      functionality_storage:'denied',
+      personalization_storage:'denied',
+      security_storage:'denied'
+    });
+
+    gtag('js', new Date());
+
+    function hideCookieBannerSafely(){
+      var w = document.getElementById('cookie-consent-wrapper');
+      if (w) w.style.display = 'none';
+    }
+
+    window.acceptConsent = function(){
+      gtag('consent','update', {
+        ad_storage:'granted',
+        ad_user_data:'granted',
+        ad_personalization:'granted',
+        analytics_storage:'granted',
+        functionality_storage:'granted',
+        personalization_storage:'granted',
+        security_storage:'granted'
+      });
+      try{ localStorage.setItem('vpnworld_consent','granted'); }catch(e){}
+      hideCookieBannerSafely();
+      gtag('config','G-RD6M691ZWD', { anonymize_ip:true });
+      gtag('event','page_view');
+    };
+
+    window.rejectConsent = function(){
+      gtag('consent','update', {
+        ad_storage:'denied',
+        ad_user_data:'denied',
+        ad_personalization:'denied',
+        analytics_storage:'denied',
+        functionality_storage:'denied',
+        personalization_storage:'denied',
+        security_storage:'denied'
+      });
+      try{ localStorage.setItem('vpnworld_consent','denied'); }catch(e){}
+      hideCookieBannerSafely();
+    };
+
+    function applyStoredConsentSafely(){
+      try{
+        var c = localStorage.getItem('vpnworld_consent');
+        if (c === 'granted'){
+          gtag('consent','update', {
+            ad_storage:'granted',
+            ad_user_data:'granted',
+            ad_personalization:'granted',
+            analytics_storage:'granted',
+            functionality_storage:'granted',
+            personalization_storage:'granted',
+            security_storage:'granted'
+          });
+          hideCookieBannerSafely();
+          gtag('config','G-RD6M691ZWD', { anonymize_ip:true });
+        } else if (c === 'denied'){
+          hideCookieBannerSafely();
+        }
+      }catch(e){}
+    }
+    document.addEventListener('DOMContentLoaded', applyStoredConsentSafely);
+  </script>
+
+  <style>
+    /* Table + SVG readability (dark-theme safe) */
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .table-scroll table{min-width:760px}
+
+    .table-scroll, .table-scroll table{background:#fff !important; color:#000 !important}
+    .table-scroll th, .table-scroll td{color:#000 !important}
+    .table-scroll thead th{background:#071023 !important; color:#fff !important}
+    .table-scroll tbody tr{background:#fff !important}
+    .table-scroll tbody tr:nth-child(even){background:#f6f7fb !important}
+    .table-scroll tbody tr:hover{background:#eef4ff !important}
+    .table-scroll a{color:#0b57d0 !important}
+
+    .svg-card{border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:14px;background:transparent;margin:14px 0}
+    .svg-card h3{margin:6px 0 10px}
+    .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:14px;padding:10px}
+    .svg-scroll svg{max-width:100%;height:auto;display:block;color:#000 !important;background:#fff}
+    .svg-scroll svg text{fill:#000 !important;font-weight:800 !important}
+    .svg-scroll svg .stroke{stroke:#000 !important;stroke-width:4 !important;fill:none !important;stroke-linecap:round;stroke-linejoin:round}
+    .svg-scroll svg .box{fill:#fff !important;stroke:#000 !important;stroke-width:4 !important}
+    .svg-scroll svg .label{font-size:16px}
+    .svg-scroll svg .small{font-size:13px}
+
+    .svg-scroll svg .fill-blue{fill:#e6f1ff !important}
+    .svg-scroll svg .fill-green{fill:#e9fff3 !important}
+    .svg-scroll svg .fill-yellow{fill:#fff7db !important}
+    .svg-scroll svg .fill-red{fill:#ffe9ea !important}
+    .svg-scroll svg .fill-purple{fill:#f1eaff !important}
+
+    /* Make ALL dark-card text readable (fix "black on dark") */
+    .note, .tip, .cta-box, .related-wide, .related-guides,
+    .note *, .tip *, .cta-box *, .related-wide *, .related-guides *{
+      color:#fff !important;
+    }
+    .note a, .tip a, .cta-box a, .related-wide a, .related-guides a{
+      color:#93c5fd !important;
+      text-decoration:underline;
+    }
+
+    /* CTA buttons layout */
+    .cta-box .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:12px 14px;border-radius:12px;font-weight:800;line-height:1.15;
+      white-space:normal;text-align:center;min-height:48px}
+    .cta-grid{display:grid;grid-template-columns:1fr;gap:10px}
+    @media(min-width:720px){.cta-grid{grid-template-columns:repeat(3,1fr)}}
+
+    /* Related wide card standard */
+    .related-wide{background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:12px 14px;margin:10px 0 14px;position:relative}
+    .related-wide:before{content:"";position:absolute;left:10px;top:10px;bottom:10px;width:4px;border-radius:999px;background:#22c55e}
+    .related-wide p{margin:0;padding-left:14px}
+
+    /* Video */
+    .video-wrap{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;background:#000}
+    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+    /* Cookie banner (ONE layer; clickable, not blocking) */
+    #cookie-consent-wrapper{position:fixed;left:16px;right:16px;bottom:16px;z-index:99999;pointer-events:none}
+    #cookie-banner{pointer-events:auto}
+    .cookie-banner{
+      background:#fff;color:#000;border-radius:16px;
+      box-shadow:0 10px 30px rgba(0,0,0,.25);
+      padding:14px 14px 12px;border:2px solid #000;
+      max-width:860px;margin-left:auto
+    }
+    .cookie-banner a{color:#0b57d0 !important;text-decoration:underline}
+    .cookie-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+    .cookie-banner p{margin:0;color:#000}
+    .cookie-banner strong{color:#000}
+  </style>
+
+  <!-- JSON-LD (Graph) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"Organization",
+        "@id":"https://dloran1.github.io/#org",
+        "name":"VPN World",
+        "url":"https://dloran1.github.io/",
+        "logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}
+      },
+      {
+        "@type":"WebPage",
+        "@id":"https://dloran1.github.io/fr/blog/configuration-vpn-windows.html",
+        "url":"https://dloran1.github.io/fr/blog/configuration-vpn-windows.html",
+        "name":"Comment configurer un VPN sur Windows (2026) : le guide complet",
+        "isPartOf":{"@id":"https://dloran1.github.io/#org"}
+      },
+      {
+        "@type":"Article",
+        "@id":"https://dloran1.github.io/fr/blog/configuration-vpn-windows.html#article",
+        "mainEntityOfPage":{"@id":"https://dloran1.github.io/fr/blog/configuration-vpn-windows.html"},
+        "headline":"Comment configurer un VPN sur Windows (2026) : sécurité, vitesse et confidentialité",
+        "description":"Guide 2026 (France) : configurer un VPN sur Windows 10/11 via appli (WireGuard/Kill Switch) ou manuellement (IKEv2/SSTP). Tests fuites DNS/IPv6, dépannage (erreur 807), streaming et Wi‑Fi public.",
+        "image":["https://dloran1.github.io/assets/img/hero/vpn-windows-setup-uk.webp"],
+        "datePublished":"2026-01-26",
+        "dateModified":"2026-01-26",
+        "author":{"@type":"Person","name":"Denys Shchur","url":"https://dloran1.github.io/about-denys-shchur.html"},
+        "publisher":{"@id":"https://dloran1.github.io/#org"}
+      },
+      {
+        "@type":"HowTo",
+        "@id":"https://dloran1.github.io/fr/blog/configuration-vpn-windows.html#howto",
+        "name":"Configurer un VPN sur Windows 10/11 (application ou configuration manuelle)",
+        "step":[
+          {"@type":"HowToStep","name":"Choisir la méthode","text":"Décidez entre une application VPN (le plus simple) et une configuration manuelle (IKEv2/SSTP) dans Windows."},
+          {"@type":"HowToStep","name":"Installer ou ajouter un profil","text":"Installez l'application du fournisseur ou ajoutez un profil dans Paramètres → Réseau et Internet → VPN."},
+          {"@type":"HowToStep","name":"Activer la protection","text":"Activez le Kill Switch et vérifiez les paramètres DNS/IPv6 pour éviter les fuites."},
+          {"@type":"HowToStep","name":"Tester","text":"Contrôlez l'IP, le DNS et l'IPv6 après connexion — surtout sur Wi‑Fi public (TGV, cafés, hôtels)."}
+        ]
+      },
+      {
+        "@type":"FAQPage",
+        "@id":"https://dloran1.github.io/fr/blog/configuration-vpn-windows.html#faq",
+        "mainEntity":[
+          {"@type":"Question","name":"Est-ce légal d'utiliser un VPN en France ?","acceptedAnswer":{"@type":"Answer","text":"Oui, l'utilisation d'un VPN est légale en France. Les usages illégaux restent illégaux avec ou sans VPN."}},
+          {"@type":"Question","name":"Un VPN cache-t-il mon historique à mon fournisseur d'accès ?","acceptedAnswer":{"@type":"Answer","text":"Un VPN chiffre le trafic entre votre PC et le serveur VPN. Votre FAI voit surtout une connexion chiffrée vers un serveur, mais pas les sites précis (hors métadonnées résiduelles)."}},
+          {"@type":"Question","name":"Que faire si Windows affiche l'erreur 807 ?","acceptedAnswer":{"@type":"Answer","text":"Essayez un autre protocole (WireGuard/IKEv2), vérifiez le pare-feu, et sur réseau filtré passez en TLS/443 (SSTP/OpenVPN TCP) si disponible."}}
+        ]
+      },
+      {
+        "@type":"BreadcrumbList",
+        "@id":"https://dloran1.github.io/fr/blog/configuration-vpn-windows.html#breadcrumbs",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"VPN World","item":"https://dloran1.github.io/"},
+          {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/fr/blog/index.html"},
+          {"@type":"ListItem","position":3,"name":"Configuration VPN Windows","item":"https://dloran1.github.io/fr/blog/configuration-vpn-windows.html"}
+        ]
+      },
+      {
+        "@type":"ItemList",
+        "@id":"https://dloran1.github.io/fr/blog/configuration-vpn-windows.html#related",
+        "name":"Guides associés",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/fr/blog/configuration-vpn-routeur.html"},
+          {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/fr/blog/vpn-android.html"},
+          {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/fr/blog/vpn-ios.html"},
+          {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/fr/blog/vpn-macos.html"},
+          {"@type":"ListItem","position":5,"url":"https://dloran1.github.io/fr/blog/quest-ce-quun-vpn.html"}
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
+
 <body>
-<nav class="lang-switch"><a href="/blog/vpn-konfiguracja-windows.html">Polski</a> | <a href="/en-gb/blog/vpn-windows-setup-uk.html">English (UK)</a> | <a href="/en-us/blog/vpn-windows-setup.html">English (US)</a> | <a href="/de/blog/vpn-windows-einrichtung.html">Deutsch</a> | <a href="/es/blog/configuracion-vpn-windows.html">Español</a> | <a href="/fr/blog/configuration-vpn-windows.html" class="active">Français</a> | <a href="/nl-be/blog/vpn-windows-instellen.html">Nederlands (BE)</a></nav>
+  <nav class="lang-switch" aria-label="Sélecteur de langue">
+    <a href="/blog/vpn-konfiguracja-windows.html">Polski</a> |
+    <a href="/en-gb/blog/vpn-windows-setup-uk.html">English (UK)</a> |
+    <a href="/en-us/blog/vpn-windows-setup.html">English (US)</a> |
+    <a href="/de/blog/vpn-windows-einrichtung.html">Deutsch</a> |
+    <a href="/es/blog/configuracion-vpn-windows.html">Español</a> |
+    <a href="/fr/blog/configuration-vpn-windows.html" class="active">Français</a> |
+    <a href="/nl-be/blog/vpn-windows-instellen.html">Nederlands (BE)</a>
+  </nav>
 
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/fr/" class="brand">
+        <img src="../../assets/img/logo.png" class="logo" alt="VPN World">
+        <span class="brand-text">VPN World</span>
+      </a>
+    </div>
+  </header>
 
-<header class="site-header"><div class="container header-inner">
-  <a href="/fr/" class="brand"><img src="../../assets/img/logo.png" class="logo" alt=""> <span class="brand-text">VPN World</span></a>
-  
-</div></header>
-<main class="container card" style="padding:18px 0"><h1>Configuration Vpn Windows</h1><p>Content coming soon...</p><!-- RELATED_START -->
-<section class="related-guides" aria-label="Guides associés">
-  <h2>Guides associés</h2>
-  <ul>
-    <li><a href="/fr/blog/configuration-vpn-routeur.html">/fr/blog/configuration-vpn-routeur.html</a></li>
-    <li><a href="/fr/blog/vpn-android.html">/fr/blog/vpn-android.html</a></li>
-    <li><a href="/fr/blog/vpn-ios.html">/fr/blog/vpn-ios.html</a></li>
-    <li><a href="/fr/blog/vpn-macos.html">/fr/blog/vpn-macos.html</a></li>
-    <li><a href="/fr/blog/quest-ce-quun-vpn.html">/fr/blog/quest-ce-quun-vpn.html</a></li>
-  </ul>
-</section>
-<!-- RELATED_END -->
-</main>
-<footer class="site-footer"><div class="container footer-grid">
-  <div><strong>VPN World</strong><p>Niezależny serwis o prywatności i bezpieczeństwie w sieci.</p></div>
-  <nav><a href="/privacy.html">Privacy</a> <a href="/sitemap.xml">Sitemap</a> <a href="mailto:denger88@gmail.com">Kontakt</a></nav>
-</div><div class="container tiny">© 2025 VPN World</div></footer>
-<script src="../../assets/js/main.js"></script>
-<script src="/assets/js/cookie-consent.js"></script>
-</body></html>
+  <main class="container card" style="padding:18px 0">
+    <article class="post">
+      <header class="hero">
+        <p class="badge b-blue">Windows • Configuration • 2026</p>
+        <h1>Comment configurer un VPN sur Windows (2026) : sécurité, vitesse et confidentialité</h1>
+        <p class="meta">Publié : <time datetime="2026-01-26">26 janvier 2026</time> • Auteur : <a href="/about-denys-shchur.html">Denys Shchur</a></p>
+        <img src="../../assets/img/hero/vpn-windows-setup-uk.webp" alt="Configurer un VPN sur Windows 10/11 — guide pas à pas (France)" loading="eager" width="1200" height="630">
+      </header>
+
+      <section class="note">
+        <h2>Résumé en 30 secondes</h2>
+        <ul>
+          <li><strong>Option la plus simple :</strong> installez l’application VPN (WireGuard) → connectez-vous → activez le <strong>Kill Switch</strong>.</li>
+          <li><strong>Option Windows “native” :</strong> Paramètres → Réseau et Internet → VPN → ajouter un profil (<strong>IKEv2</strong> ou <strong>SSTP</strong>).</li>
+          <li><strong>Après connexion :</strong> testez <strong>IP</strong>, <strong>DNS</strong> et <strong>IPv6</strong> pour éviter les fuites.</li>
+        </ul>
+        <p><strong>À retenir :</strong> sur un Wi‑Fi public (TGV, hôtel, café), un VPN correctement configuré réduit fortement l’exposition de vos données.</p>
+      </section>
+
+      <section class="cta-box" aria-label="VPN recommandés pour Windows (France)">
+        <p class="badge b-blue">Recommandations (2026)</p>
+        <h2>Le chemin le plus sûr : une application VPN avec Kill Switch</h2>
+        <p>Pour la majorité des utilisateurs, l’application reste la méthode la plus fiable : protection DNS, choix du protocole (WireGuard/IKEv2) et Kill Switch sans réglages fragiles.</p>
+        <div class="cta-grid">
+          <a class="btn btn-primary" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — performances + stabilité</a>
+          <a class="btn btn-secondary" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — excellent rapport qualité/prix</a>
+          <a class="btn btn-tertiary" href="https://www.dpbolvw.net/click-101525886-15834536" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN — accent confidentialité</a>
+        </div>
+        <p class="tiny">Note : liens partenaires (soutiennent le projet sans changer votre prix).</p>
+      </section>
+
+      <section>
+        <h2>Pourquoi un VPN sur Windows en 2026 (et pas seulement “pour le streaming”)</h2>
+        <p>Windows reste l’une des plateformes les plus ciblées : réseaux publics, hameçonnage, faux installateurs, et surtout <strong>collecte de métadonnées</strong> sur des réseaux où vous n’avez aucun contrôle. Un VPN ne transforme pas Internet en zone “sans risque”, mais il apporte trois avantages concrets :</p>
+        <ul>
+          <li><strong>Chiffrement</strong> entre votre PC et le serveur VPN (utile sur Wi‑Fi TGV, hôtels, cafés).</li>
+          <li><strong>Masquage de l’adresse IP</strong> vis‑à‑vis des sites et régies publicitaires.</li>
+          <li><strong>Réduction des fuites DNS</strong> si le fournisseur gère correctement le DNS (ou si vous configurez un DNS fiable).</li>
+        </ul>
+        <p>En France et plus largement dans l’UE, la culture “RGPD” pousse à adopter une hygiène numérique : limiter le pistage, minimiser les données exposées et garder le contrôle. Un VPN s’inscrit dans cette logique, au même titre qu’un gestionnaire de mots de passe ou la double authentification.</p>
+        <p class="note"><strong>Key takeaway :</strong> un VPN est surtout un outil de <em>réduction d’exposition</em>. La configuration (DNS/IPv6/Kill Switch) fait la différence entre “connecté” et “protégé”.</p>
+      </section>
+
+      <section class="related-wide">
+        <p>Related : <a href="/fr/blog/quest-ce-quun-vpn.html">Qu’est‑ce qu’un VPN ? (bases, limites et usages réels)</a></p>
+      </section>
+
+      <section>
+        <h2>Application vs configuration manuelle : quelle méthode choisir ?</h2>
+        <p>Sur Windows 10/11, vous avez deux chemins.</p>
+        <ul>
+          <li><strong>Application (recommandé)</strong> : WireGuard, Kill Switch, options anti‑fuites, parfois “serveurs furtifs”.</li>
+          <li><strong>Configuration manuelle</strong> : utile en entreprise (profil IKEv2/SSTP), ou si vous voulez rester sur les paramètres Windows.</li>
+        </ul>
+
+        <div class="table-scroll">
+          <table>
+            <caption>Ce que Windows offre “nativement” vs ce que l’application VPN apporte souvent en plus</caption>
+            <thead>
+              <tr><th>Fonction</th><th>Windows (intégré)</th><th>Application VPN</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>IKEv2</td><td>Oui</td><td>Souvent</td></tr>
+              <tr><td>SSTP</td><td>Oui (Windows)</td><td>Parfois</td></tr>
+              <tr><td>WireGuard</td><td>Non (généralement)</td><td>Oui</td></tr>
+              <tr><td>Kill Switch</td><td>Limité</td><td>Oui (complet)</td></tr>
+              <tr><td>Protection anti‑fuites DNS</td><td>Non garanti</td><td>Oui (souvent)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="svg-card">
+          <h3>Diagramme : le tunnel chiffré (Vue simplifiée)</h3>
+          <div class="svg-scroll">
+            <svg viewBox="0 0 980 360" role="img" aria-label="Schéma montrant un PC Windows, un tunnel VPN chiffré et Internet" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0" y="0" width="980" height="360" fill="#fff"/>
+              <text x="30" y="40" font-size="22">Avec VPN (chiffrement)</text>
+
+              <rect x="40" y="90" width="260" height="90" rx="16" class="fill-blue" stroke="#000" stroke-width="4"/>
+              <text x="70" y="140" font-size="20">Votre PC Windows</text>
+              <text x="70" y="168" font-size="14">Windows 10/11</text>
+
+              <rect x="360" y="80" width="260" height="110" rx="16" class="fill-green" stroke="#000" stroke-width="4"/>
+              <text x="390" y="125" font-size="20">Tunnel VPN</text>
+              <text x="390" y="153" font-size="14">Chiffrement (AES‑256/ChaCha20)</text>
+              <text x="390" y="175" font-size="14">WireGuard / IKEv2 / SSTP</text>
+
+              <rect x="690" y="90" width="250" height="90" rx="16" class="fill-yellow" stroke="#000" stroke-width="4"/>
+              <text x="715" y="140" font-size="20">Internet</text>
+              <text x="715" y="168" font-size="14">Sites / services</text>
+
+              <path d="M300 135 H350" class="stroke"/>
+              <path d="M620 135 H680" class="stroke"/>
+
+              <rect x="40" y="230" width="900" height="90" rx="16" class="fill-red" stroke="#000" stroke-width="4"/>
+              <text x="70" y="270" font-size="18">Sans VPN : le réseau local et votre fournisseur d’accès voient plus d’informations (DNS, destinations, etc.).</text>
+              <text x="70" y="298" font-size="18">Avec VPN : ils voient surtout une connexion chiffrée vers le serveur VPN.</text>
+            </svg>
+          </div>
+        </div>
+
+        <p>Si vous hésitez, commencez par l’application. Vous pourrez ensuite passer en configuration manuelle si votre contexte l’exige (profil entreprise, contraintes réseau, etc.).</p>
+      </section>
+
+      <section>
+        <h2>Comparatif protocoles : WireGuard, IKEv2, OpenVPN (ce que ça change vraiment)</h2>
+        <p>Le protocole influence la vitesse, la latence (jeux) et la robustesse en réseaux filtrés. En pratique :</p>
+        <ul>
+          <li><strong>WireGuard</strong> : généralement le meilleur compromis vitesse/latence.</li>
+          <li><strong>IKEv2</strong> : très stable sur PC portable, surtout quand le réseau change.</li>
+          <li><strong>OpenVPN</strong> : polyvalent, utile en TCP/443 quand le réseau bloque le VPN.</li>
+        </ul>
+
+        <div class="table-scroll">
+          <table>
+            <caption>Tableau comparatif (2026) : vitesse, latence et usages</caption>
+            <thead>
+              <tr>
+                <th>Protocole</th>
+                <th>Impact vitesse</th>
+                <th>Latence (jeux)</th>
+                <th>Niveau de sécurité</th>
+                <th>Idéal pour…</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>WireGuard</td><td>Faible (≈ 5–15%)</td><td>Très faible</td><td>Élevé</td><td>Streaming HD, jeux, usage quotidien</td></tr>
+              <tr><td>IKEv2</td><td>Faible (≈ 10–20%)</td><td>Faible</td><td>Élevé</td><td>Stabilité, PC portable, réseaux variables</td></tr>
+              <tr><td>OpenVPN (UDP)</td><td>Moyen</td><td>Moyenne</td><td>Très élevé</td><td>Compatibilité, options avancées</td></tr>
+              <tr><td>OpenVPN (TCP/443)</td><td>Plus élevé</td><td>Plus haute</td><td>Très élevé</td><td>Réseaux stricts (port 443)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="note"><strong>Key takeaway :</strong> pour un PC Windows en France, <strong>WireGuard</strong> est souvent le “choix par défaut”. Gardez <strong>IKEv2</strong> comme option “stabilité”, et <strong>TCP/443</strong> comme “plan B” en réseau filtré.</p>
+      </section>
+
+      <section class="related-wide">
+        <p>Related : <a href="/fr/blog/test-fuite-dns-vpn.html">Test de fuite DNS (méthode + correctifs)</a></p>
+      </section>
+
+      <section>
+        <h2>Étapes : configurer un VPN sur Windows 10/11</h2>
+
+        <h3>Méthode A — Application (recommandée)</h3>
+        <ol>
+          <li>Installez l’application du fournisseur VPN.</li>
+          <li>Choisissez <strong>WireGuard</strong> si disponible.</li>
+          <li>Activez <strong>Kill Switch</strong> et la protection anti‑fuites DNS/IPv6.</li>
+          <li>Connectez‑vous à un serveur proche (meilleure latence).</li>
+        </ol>
+
+        <h3>Méthode B — Configuration manuelle (IKEv2/SSTP)</h3>
+        <ol>
+          <li>Ouvrez <strong>Paramètres</strong> → <strong>Réseau et Internet</strong> → <strong>VPN</strong>.</li>
+          <li>Cliquez <strong>Ajouter une connexion VPN</strong>.</li>
+          <li>Fournisseur : <strong>Windows (intégré)</strong> ; puis renseignez l’adresse du serveur.</li>
+          <li>Type : <strong>IKEv2</strong> ou <strong>SSTP</strong> (selon les instructions du fournisseur/entreprise).</li>
+          <li>Enregistrez, connectez‑vous, puis passez immédiatement aux tests DNS/IPv6.</li>
+        </ol>
+
+        <p class="note"><strong>Pro‑tip (Denys) :</strong> activez le <strong>Kill Switch</strong> avant de vous connecter sur un Wi‑Fi public. En cas de micro‑coupure (très fréquent en train), vous évitez une fuite temporaire de trafic “hors VPN”.</p>
+      </section>
+
+      <section>
+        <h2>Tests indispensables : IP, DNS, IPv6 (pour éviter les fuites)</h2>
+        <p>Le piège classique : “VPN connecté”, mais les requêtes DNS partent encore vers le DNS du réseau ou du fournisseur d’accès. Le résultat : localisation et opérateur peuvent fuiter malgré le tunnel.</p>
+        <ul>
+          <li><strong>Test IP</strong> : votre IP doit correspondre au pays/ASN du VPN.</li>
+          <li><strong>Test DNS</strong> : idéalement, DNS du VPN (ou un DNS sécurisé explicitement choisi).</li>
+          <li><strong>Test IPv6</strong> : soit IPv6 est géré dans le tunnel, soit il est correctement neutralisé.</li>
+        </ul>
+        <p>Pour un diagnostic guidé, consultez : <a href="/fr/blog/test-fuite-dns-vpn.html">test de fuite DNS</a> et <a href="/fr/blog/fuite-ipv6-vpn.html">fuite IPv6</a>.</p>
+        <p class="note"><strong>Key takeaway :</strong> l’icône “connecté” n’est pas une preuve. Les tests DNS/IPv6 sont la validation réelle.</p>
+      </section>
+
+      <section id="winTroubleshoot">
+        <h2>Centre de dépannage VPN (Windows)</h2>
+        <p>Choisissez le symptôme le plus proche de ce que vous voyez à l’écran :</p>
+        <div class="os-tabs" aria-label="Dépannage VPN Windows">
+          <button class="btn btn-secondary" type="button" data-key="807">Erreur 807</button>
+          <button class="btn btn-secondary" type="button" data-key="STREAM">Streaming bloqué</button>
+          <button class="btn btn-secondary" type="button" data-key="DNS">Fuites DNS</button>
+          <button class="btn btn-secondary" type="button" data-key="SLOW">Connexion lente</button>
+        </div>
+        <div id="winErrorResult" class="note" style="margin-top:12px">
+          <strong>Astuce :</strong> cliquez sur un bouton pour afficher une solution courte et actionnable.
+        </div>
+      </section>
+
+      <section>
+        <h2>Streaming (Canal+, TF1) et voyages : ce qu’il faut savoir</h2>
+        <p>Un VPN est souvent utilisé pour accéder à des contenus lors d’un déplacement. Attention : les plateformes de streaming appliquent des politiques anti‑proxy qui évoluent. Ce guide n’est pas une promesse “100%”, mais une méthode :</p>
+        <ul>
+          <li>Utilisez un serveur proche du contenu (France pour chaînes françaises).</li>
+          <li>Si “détection proxy”, changez de serveur, ou utilisez un mode furtif/obfuscation si proposé.</li>
+          <li>Pour un Wi‑Fi public (TGV), privilégiez la stabilité : IKEv2 ou WireGuard selon la qualité du réseau.</li>
+        </ul>
+        <p>Vous pouvez aussi optimiser avec : <a href="/fr/blog/test-vitesse-vpn.html">test de vitesse VPN</a> (latence/ping inclus) et <a href="/fr/blog/vpn-wifi-public.html">VPN sur Wi‑Fi public</a>.</p>
+      </section>
+
+      <section>
+        <h2>Vidéo : VPN & confidentialité (ressource officielle)</h2>
+        <div class="video-wrap" aria-label="Vidéo YouTube sur VPN et confidentialité">
+          <iframe src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE" title="VPN & confidentialité — Denys Shchur" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p class="tiny">Si la vidéo ne se charge pas : <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">ouvrir sur YouTube</a>.</p>
+      </section>
+
+      <section class="cta-box" aria-label="Choisir un VPN pour Windows (fin)">
+        <p class="badge b-green">Prêt à sécuriser Windows ?</p>
+        <h2>Choisissez un VPN et finalisez la configuration en 5 minutes</h2>
+        <p>Ensuite, revenez ici pour faire la checklist : Kill Switch, DNS, IPv6, et un test rapide sur votre réseau habituel.</p>
+        <div class="cta-grid">
+          <a class="btn btn-primary" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — le choix “tout‑terrain”</a>
+          <a class="btn btn-secondary" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — économique + complet</a>
+          <a class="btn btn-tertiary" href="https://www.dpbolvw.net/click-101525886-15834536" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN — confidentialité d’abord</a>
+        </div>
+        <p class="tiny">Note : voir aussi <a href="/fr/disclosure.html">Disclosure</a>.</p>
+      </section>
+
+      <!-- RELATED_START -->
+      <section class="related-guides" aria-label="Guides associés">
+        <h2>Guides associés</h2>
+        <ul>
+          <li><a href="/fr/blog/configuration-vpn-routeur.html">Configurer un VPN sur un routeur</a></li>
+          <li><a href="/fr/blog/vpn-android.html">VPN sur Android : réglages et pièges</a></li>
+          <li><a href="/fr/blog/vpn-ios.html">VPN sur iOS : ce qui change</a></li>
+          <li><a href="/fr/blog/vpn-macos.html">VPN sur macOS : guide rapide</a></li>
+          <li><a href="/fr/blog/quest-ce-quun-vpn.html">Qu’est‑ce qu’un VPN ?</a></li>
+        </ul>
+      </section>
+      <!-- RELATED_END -->
+
+      <section>
+        <h2>FAQ</h2>
+        <details>
+          <summary>Est-ce légal d'utiliser un VPN en France ?</summary>
+          <p>Oui. Un VPN est un outil de sécurité courant. Les activités illégales restent illégales, VPN ou non.</p>
+        </details>
+        <details>
+          <summary>Un VPN empêche-t-il le suivi de mon fournisseur d'accès ?</summary>
+          <p>Il chiffre votre trafic vers le serveur VPN. Le FAI voit surtout un flux chiffré, mais certaines métadonnées (volume, horaires) peuvent subsister.</p>
+        </details>
+        <details>
+          <summary>Que faire si le VPN est connecté mais Internet ne marche pas ?</summary>
+          <p>Testez DNS/IPv6, changez de serveur, puis de protocole. En réseau filtré, essayez TCP/443 (SSTP/OpenVPN TCP) si disponible.</p>
+        </details>
+      </section>
+
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>VPN World</strong>
+        <p>Service indépendant sur la confidentialité et la sécurité en ligne.</p>
+      </div>
+      <nav aria-label="Footer">
+        <a href="/fr/privacy.html">Privacy</a>
+        <a href="/fr/disclosure.html">Disclosure</a>
+        <a href="mailto:u1797008805@gmail.com">Contact</a>
+      </nav>
+    </div>
+    <div class="container tiny">© 2026 VPN World • <a href="/about-denys-shchur.html">About the author</a></div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+
+  <!-- Troubleshooting script (FR) -->
+  <script>
+  (function(){
+    var box = document.getElementById('winTroubleshoot');
+    if(!box) return;
+    var out = document.getElementById('winErrorResult');
+
+    var solutions = {
+      "807": {
+        title: "Erreur 807 — connexion interrompue",
+        items: [
+          "Vérifiez le pare-feu Windows (autoriser l'application VPN).",
+          "Changez de protocole : WireGuard ↔ IKEv2 (plus stable).",
+          "Sur réseau filtré, essayez TLS/443 (SSTP ou OpenVPN TCP) si disponible.",
+          "Redémarrez le réseau (Wi‑Fi) et retestez."
+        ],
+        tip: "En train (TGV) les micro‑coupures sont fréquentes : Kill Switch activé + protocole stable = moins de fuites."
+      },
+      "STREAM": {
+        title: "Streaming bloqué — détection VPN/proxy",
+        items: [
+          "Changez de serveur (France/UE) et relancez l'application.",
+          "Effacez cookies/cache du navigateur, puis reconnectez-vous.",
+          "Activez un mode furtif/obfuscation si votre VPN le propose.",
+          "Évitez les serveurs surchargés : choisissez un serveur “moins populaire”."
+        ],
+        tip: "Le streaming évolue : ce qui marche un jour peut demander un autre serveur le lendemain."
+      },
+      "DNS": {
+        title: "Fuites DNS — confidentialité incomplète",
+        items: [
+          "Activez la protection DNS dans l'application VPN.",
+          "Désactivez DNS tiers conflictuels (ou définissez-en un seul, clairement).",
+          "Redémarrez la connexion et refaites le test DNS/IPv6.",
+          "Vérifiez IPv6 : soit géré par le VPN, soit correctement neutralisé."
+        ],
+        tip: "Une fuite DNS rend votre localisation et votre opérateur visibles malgré le tunnel."
+      },
+      "SLOW": {
+        title: "Connexion lente — optimiser vitesse et latence",
+        items: [
+          "Choisissez un serveur proche (France/Europe) pour réduire le ping.",
+          "Passez sur WireGuard (souvent le plus rapide).",
+          "Fermez les téléchargements en arrière-plan (cloud, mises à jour).",
+          "Testez différents horaires : la charge serveur change."
+        ],
+        tip: "La latence (ping) compte autant que le débit — surtout pour visioconférence et jeux."
+      }
+    };
+
+    function escapeHtml(text){
+      var map = { "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;" };
+      return String(text).replace(/[&<>"']/g, function(m){ return map[m]; });
+    }
+
+    function render(key){
+      var s = solutions[key];
+      if(!s || !out) return;
+      var html = '<h3 style="margin:0 0 8px">' + escapeHtml(s.title) + '</h3><ul>';
+      for(var i=0;i<s.items.length;i++){
+        html += '<li>' + escapeHtml(s.items[i]) + '</li>';
+      }
+      html += '</ul><p class="note" style="margin-top:10px"><strong>Pro‑tip :</strong> ' + escapeHtml(s.tip) + '</p>';
+      out.innerHTML = html;
+    }
+
+    var btns = box.querySelectorAll('button[data-key]');
+    btns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        btns.forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        render(btn.getAttribute('data-key'));
+      });
+    });
+  })();
+  </script>
+
+  <!-- ONE cookie banner (clickable; not blocking the page) -->
+  <div id="cookie-consent-wrapper" aria-hidden="false">
+    <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Préférences de confidentialité">
+      <p><strong>Confidentialité & cookies :</strong> nous n’activons Google Analytics 4 qu’avec votre accord (Consent Mode v2). <a href="/fr/privacy.html">Privacy</a></p>
+      <div class="cookie-actions">
+        <button id="cookie-accept" class="btn btn-primary" type="button" onclick="window.acceptConsent && window.acceptConsent()">Accepter</button>
+        <button id="cookie-reject" class="btn btn-secondary" type="button" onclick="window.rejectConsent && window.rejectConsent()">Refuser</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: https://dloran1.github.io/fr/blog/configuration-vpn-windows.html -->
+</body>
+</html>
