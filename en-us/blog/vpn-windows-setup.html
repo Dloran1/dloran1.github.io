@@ -62,7 +62,6 @@
     (function(){
       var KEY = 'vpnworld_consent';
       function hideBanner(){
-        var layer = document.getElementById('cookie-consent-layer');
         if (layer) layer.style.display = 'none';
       }
 
@@ -166,7 +165,6 @@
     @media(min-width:720px){.cta-grid{grid-template-columns:repeat(3,1fr)}}
 
     /* Cookie layer: pointer-events safe */
-    #cookie-consent-layer{position:fixed;left:0;right:0;top:0;bottom:0;z-index:99999;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;padding:16px}
     #cookie-banner{pointer-events:auto}
   
 /* Patch: make diagram titles readable on dark */
@@ -266,6 +264,8 @@
     .cta-row .cta:focus { outline: 3px solid rgba(154,215,255,.45); outline-offset: 2px; }
   </style>
 
+
+  <script defer src="/assets/js/cookie-consent.js"></script>
 </head>
 
 <body>
@@ -823,14 +823,7 @@
   </script>
 
   <!-- Cookie banner (single canonical layer) -->
-  <div id="cookie-consent-layer" aria-hidden="false">
-    <div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Cookie preferences">
-      <p><strong>Cookies &amp; privacy:</strong> we use Google Analytics 4 only with your consent (Consent Mode v2). You can accept or reject analytics. <a href="/en-us/privacy.html">Privacy</a></p>
-      <div class="cookie-actions" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px">
-        <button id="cookie-accept" class="btn btn-primary" type="button" onclick="window.acceptConsent && window.acceptConsent()">Accept</button>
-        <button id="cookie-reject" class="btn btn-secondary" type="button" onclick="window.rejectConsent && window.rejectConsent()">Reject</button>
-      </div>
-    </div>
+</div>
   </div>
 
   <!-- PAGE: https://dloran1.github.io/en-us/blog/vpn-windows-setup.html -->
