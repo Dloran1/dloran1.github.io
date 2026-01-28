@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <title>Konfiguracja VPN w Windows 10/11 (2026): IKEv2, SSTP, WireGuard | VPN World</title>
+  <meta name="description" content="Kompletny poradnik 2026: jak skonfigurować VPN na Windows 10 i 11. Aplikacja (WireGuard, Kill Switch) vs ręczna konfiguracja IKEv2/SSTP, test DNS/IPv6, błędy 807/691/868 i optymalizacja prędkości.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index, follow">
+
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="canonical" href="https://dloran1.github.io/blog/vpn-konfiguracja-windows.html">
+
+  <!-- hreflang (7 + x-default → en-gb) -->
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-konfiguracja-windows.html">
+  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-windows-setup-uk.html">
+  <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-windows-setup.html">
+  <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html">
+  <link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/configuracion-vpn-windows.html">
+  <link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/configuration-vpn-windows.html">
+  <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-windows-instellen.html">
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-windows-setup-uk.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="VPN World">
+  <meta property="og:title" content="Konfiguracja VPN w Windows 10/11 (2026): IKEv2, SSTP, WireGuard">
+  <meta property="og:description" content="Aplikacja vs ustawienia Windows, protokoły IKEv2/SSTP/WireGuard, test DNS/IPv6, błędy 807/691/868 i optymalizacja.">
+  <meta property="og:url" content="https://dloran1.github.io/blog/vpn-konfiguracja-windows.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-windows-setup-uk.webp">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="nl_BE">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Konfiguracja VPN w Windows 10/11 (2026)">
+  <meta name="twitter:description" content="Jak ustawić VPN na Windows: aplikacja vs ręcznie (IKEv2/SSTP), test DNS/IPv6 i rozwiązywanie błędów.">
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-windows-setup-uk.webp">
+
+  
+<!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+
+
+
+  <style>
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .table-scroll table{min-width:760px}
+
+    /* HARD table readability fix (dark theme safe) */
+    .table-scroll, .table-scroll table{background:#fff !important; color:#000 !important}
+    .table-scroll th, .table-scroll td{color:#000 !important}
+    .table-scroll thead th{background:#071023 !important; color:#fff !important}
+    .table-scroll tbody tr{background:#fff !important}
+    .table-scroll tbody tr:nth-child(even){background:#f6f7fb !important}
+    .table-scroll tbody tr:hover{background:#eef4ff !important}
+    .table-scroll a{color:#0b57d0 !important}
+
+    /* SVG cards: ALWAYS readable (forced white canvas) */
+    .svg-card{border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:14px;background:transparent;margin:14px 0}
+    .svg-card h3{margin:6px 0 10px}
+    .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:14px;padding:10px}
+    .svg-scroll svg{max-width:100%;height:auto;display:block;color:#000 !important;background:#fff}
+    .svg-scroll svg text{fill:#000 !important;font-weight:800 !important}
+    .svg-scroll svg .stroke{stroke:#000 !important;stroke-width:4 !important;fill:none !important;stroke-linecap:round;stroke-linejoin:round}
+    .svg-scroll svg .box{fill:#fff !important;stroke:#000 !important;stroke-width:4 !important}
+    .svg-scroll svg .label{font-size:16px}
+    .svg-scroll svg .small{font-size:13px}
+
+    /* Colour accents (keep text black) */
+    .svg-scroll svg .fill-blue{fill:#e6f1ff !important}
+    .svg-scroll svg .fill-green{fill:#e9fff3 !important}
+    .svg-scroll svg .fill-yellow{fill:#fff7db !important}
+    .svg-scroll svg .fill-red{fill:#ffe9ea !important}
+    .svg-scroll svg .fill-purple{fill:#f1eaff !important}
+
+    /* Belgium highlight box */
+    .be-sport{
+      border:2px solid rgba(34,197,94,.65);
+      background:#ecfff5;
+      padding:18px;
+      border-radius:14px;
+      margin:14px 0;
+      color:#0b1220;
+    }
+    .be-sport h2{margin:0 0 10px; color:#0f6b3f}
+    .be-sport .inner{background:#fff;border-radius:12px;padding:12px;border:1px solid rgba(0,0,0,.08)}
+
+    /* “Related:” wide dark card standard */
+    .related-wide{background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:12px 14px;margin:10px 0 14px;position:relative}
+    .related-wide:before{content:"";position:absolute;left:10px;top:10px;bottom:10px;width:4px;border-radius:999px;background:#22c55e}
+    .related-wide p{margin:0;padding-left:14px}
+    .related-wide a{text-decoration:underline}
+
+    /* Video */
+    .video-wrap{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;background:#000}
+    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+    /* Small badges */
+    .badge{display:inline-block;padding:2px 10px;border-radius:999px;font-weight:800;font-size:12px;line-height:1.6}
+    .b-red{background:#ffe9ea;color:#7a0a0f}
+    .b-blue{background:#e6f1ff;color:#073b8c}
+    .b-green{background:#e9fff3;color:#0b6b3a}
+    .b-yellow{background:#fff7db;color:#6a4a00}
+  
+  /* CTA buttons + readability on dark shell */
+  .cta-box .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:12px 14px;border-radius:12px;font-weight:800;line-height:1.15;
+    white-space:normal;text-align:center;min-height:48px}
+  .cta-box .btn-primary{color:#fff !important}
+  .cta-box .btn-secondary{color:#fff !important}
+  .cta-box .btn-tertiary{color:#fff !important}
+  .cta-grid{display:grid;grid-template-columns:1fr;gap:10px}
+  @media(min-width:720px){.cta-grid{grid-template-columns:repeat(3,1fr)}}
+
+
+  /* HARD FIX: ensure headings/text on dark shell are readable (no black on dark) */
+  .svg-card{color:#fff !important}
+  .svg-card h2,.svg-card h3,.svg-card p,.svg-card .tiny{color:#fff !important}
+  .svg-card a{color:#93c5fd !important}
+
+</style>
+  
+<style>
+/* small helpers (keep minimal, rely on /assets/css/style.css) */
+.os-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.os-tabs .btn.active{outline:3px solid rgba(34,197,94,.55)}
+.cookie-banner{
+  position:fixed;left:16px;right:16px;bottom:16px;
+  background:#fff;color:#000;border-radius:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+  padding:14px 14px 12px;z-index:9999;
+  border:2px solid #000;
+}
+.cookie-banner a{color:#0b57d0}
+.cookie-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.cookie-banner p{margin:0}
+</style>
+
+
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://dloran1.github.io/blog/vpn-konfiguracja-windows.html"}, "headline": "Konfiguracja VPN w Windows 10/11 (2026): aplikacja vs ustawienia, IKEv2, SSTP, WireGuard", "description": "Kompletny poradnik 2026: jak skonfigurować VPN na Windows 10 i 11. Aplikacja (WireGuard, Kill Switch) vs ręczna konfiguracja IKEv2/SSTP, test DNS/IPv6, błędy 807/691/868 i optymalizacja prędkości.", "image": ["https://dloran1.github.io/assets/img/hero/vpn-windows-setup-uk.webp"], "datePublished": "2026-01-26", "dateModified": "2026-01-26", "author": {"@type": "Person", "name": "Denys Shchur", "url": "https://dloran1.github.io/about-denys-shchur.html"}, "publisher": {"@type": "Organization", "name": "VPN World", "logo": {"@type": "ImageObject", "url": "https://dloran1.github.io/assets/img/logo.png"}}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Czy Windows ma darmowy VPN?", "acceptedAnswer": {"@type": "Answer", "text": "Windows ma wbudowaną funkcję konfiguracji profilu VPN, ale nie dostarcza darmowego serwera VPN. Potrzebujesz dostawcy (firmowego lub komercyjnego) albo własnego serwera."}}, {"@type": "Question", "name": "Jak wyłączyć VPN na Windows?", "acceptedAnswer": {"@type": "Answer", "text": "Ustawienia → Sieć i Internet → VPN → wybierz połączenie → Rozłącz. W aplikacji VPN zwykle jest też przycisk Disconnect."}}, {"@type": "Question", "name": "Jaki protokół jest najlepszy na Windows?", "acceptedAnswer": {"@type": "Answer", "text": "Najczęściej WireGuard (wydajność) albo IKEv2 (stabilność). SSTP jest świetny, gdy sieć blokuje VPN, bo działa przez TLS/443."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "HowTo", "name": "Jak dodać połączenie VPN w Windows 10/11 (wbudowany klient)", "step": [{"@type": "HowToStep", "name": "Otwórz Ustawienia", "text": "Naciśnij Win + I i przejdź do Sieć i Internet."}, {"@type": "HowToStep", "name": "Wejdź do VPN", "text": "Wybierz VPN i kliknij Dodaj połączenie VPN."}, {"@type": "HowToStep", "name": "Uzupełnij dane", "text": "Dostawca: Windows (wbudowany). Wpisz adres serwera, wybierz typ (IKEv2/SSTP) i podaj dane logowania."}, {"@type": "HowToStep", "name": "Połącz i przetestuj", "text": "Połącz się i sprawdź wycieki DNS/IPv6."}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "VPN World", "item": "https://dloran1.github.io/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://dloran1.github.io/blog/index.html"}, {"@type": "ListItem", "position": 3, "name": "Konfiguracja VPN w Windows", "item": "https://dloran1.github.io/blog/vpn-konfiguracja-windows.html"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "ItemList", "name": "Powiązane poradniki", "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://dloran1.github.io/blog/vpn-konfiguracja-routera.html"}, {"@type": "ListItem", "position": 2, "url": "https://dloran1.github.io/blog/vpn-na-androida.html"}, {"@type": "ListItem", "position": 3, "url": "https://dloran1.github.io/blog/vpn-na-ios.html"}, {"@type": "ListItem", "position": 4, "url": "https://dloran1.github.io/blog/vpn-na-macos.html"}, {"@type": "ListItem", "position": 5, "url": "https://dloran1.github.io/blog/protokoly-vpn.html"}]}</script>
+      <script src="/assets/js/cookie-consent.js" defer></script>
+</head>
+
+<body>
+  <nav class="lang-switch" aria-label="Language switcher">
+    <a href="/blog/vpn-konfiguracja-windows.html" class="active">Polski</a> |
+    <a href="/en-gb/blog/vpn-windows-setup-uk.html">English (UK)</a> |
+    <a href="/en-us/blog/vpn-windows-setup.html">English (US)</a> |
+    <a href="/de/blog/vpn-windows-einrichtung.html">Deutsch</a> |
+    <a href="/es/blog/configuracion-vpn-windows.html">Español</a> |
+    <a href="/fr/blog/configuration-vpn-windows.html">Français</a> |
+    <a href="/nl-be/blog/vpn-windows-instellen.html">Nederlands (BE)</a>
+  </nav>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="brand">
+        <img src="../assets/img/logo.png" class="logo" alt="VPN World logo">
+        <span class="brand-text">VPN World</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container card" style="padding:18px 0">
+    <article class="post">
+      <header class="hero">
+        <p class="badge b-blue">Windows • Konfiguracja • 2026</p>
+        <h1>Konfiguracja VPN w Windows 10/11 (2026): aplikacja vs ustawienia, IKEv2, SSTP, WireGuard</h1>
+        <p class="meta">Opublikowano: <time datetime="2026-01-26">26 stycznia 2026</time> • Autor: <a href="/about-denys-shchur.html">Denys Shchur</a></p>
+        <img src="../assets/img/hero/vpn-windows-setup-uk.webp" alt="Konfiguracja VPN na Windows 10 i Windows 11 — przewodnik krok po kroku" loading="eager" width="1200" height="630">
+      </header>
+
+      
+<section class="note">
+  <h2>Szybka odpowiedź (30 sekund)</h2>
+  <p>Najprościej: zainstaluj aplikację VPN (NordVPN / Surfshark / Proton), zaloguj się i kliknij „Connect”. Dla zaawansowanych: dodaj profil ręcznie w <strong>Ustawienia → Sieć i Internet → VPN</strong> (IKEv2/SSTP). Po konfiguracji zawsze zrób test <strong>DNS leak</strong> i <strong>IPv6</strong>.</p>
+</section>
+
+
+<section class="cta-box" aria-label="Polecane VPN dla Windows">
+  <p class="badge b-blue">Rekomendacje (2026)</p>
+  <h2>Najprostsza konfiguracja na Windows? Zacznij od aplikacji</h2>
+  <p>Jeśli chcesz mieć <strong>Kill Switch</strong>, ochronę przed <strong>DNS leak</strong> i stabilne protokoły (WireGuard/IKEv2) bez dłubania w ustawieniach — aplikacja jest najszybszą drogą.</p>
+  <div class="cta-grid">
+    <a class="btn btn-primary" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — najszybciej na Windows</a>
+    <a class="btn btn-secondary" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — najlepsza cena/funkcje</a>
+    <a class="btn btn-tertiary" href="https://www.dpbolvw.net/click-101525886-15834536" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN — prywatność & open-source</a>
+  </div>
+  <p class="tiny">Uwaga: linki partnerskie. Nie wpływa to na Twoją cenę, a pomaga rozwijać VPN World.</p>
+</section>
+
+
+<section>
+  <h2>Dlaczego Windows to „ulubiony cel” w sieci i po co tu VPN?</h2>
+  <p>Windows ma ogromny udział w rynku, więc to na nim najczęściej widzisz phishing, fałszywe aktualizacje, złośliwe rozszerzenia i podmiany DNS w publicznych sieciach Wi‑Fi. VPN nie jest magiczną tarczą, ale potrafi rozwiązać trzy realne problemy: <strong>szyfruje ruch</strong> między Tobą a serwerem VPN, <strong>ukrywa Twoje IP</strong> przed usługami i reklamodawcami oraz <strong>pomaga ograniczyć wycieki DNS/IPv6</strong>, jeśli jest poprawnie skonfigurowany.</p>
+  <p>W praktyce na Windows najczęściej używasz VPN do: pracy zdalnej, bankowości w podróży, ochrony w hotelach i na lotniskach, oraz do stabilnego dostępu do usług, gdy sieć jest „kapryśna”. I tak — czasem robimy to też dla streamingu, ale bezpieczeństwo jest tu najważniejsze. (Takie „małe zwycięstwo” dnia: skonfigurować raz dobrze i mieć spokój.)</p>
+  <p class="note"><strong>Key takeaway:</strong> Najbezpieczniejszy scenariusz na Windows to aplikacja VPN z Kill Switch + ochrona DNS. Ręczna konfiguracja ma sens, gdy potrzebujesz profilu firmowego lub konkretnego protokołu (IKEv2/SSTP) bez dodatkowej aplikacji.</p>
+</section>
+
+<section>
+  <h2>Dwie drogi konfiguracji: aplikacja vs ustawienia Windows</h2>
+  <p>Windows 10/11 daje Ci dwa scenariusze:</p>
+  <ul>
+    <li><strong>90% użytkowników:</strong> aplikacja dostawcy (WireGuard, Kill Switch, ochrona DNS, Split Tunneling).</li>
+    <li><strong>Administratorzy / firmy:</strong> ręczny profil (IKEv2/SSTP), często bez dodatkowego klienta.</li>
+  </ul>
+  
+<div class="svg-card">
+  <h3>Diagram 4: Szybki wybór metody konfiguracji (aplikacja vs ręcznie)</h3>
+  <div class="svg-scroll">
+    <svg viewBox="0 0 980 420" role="img" aria-label="Drzewko decyzyjne pomagające wybrać metodę konfiguracji VPN na Windows" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="980" height="420" fill="#fff"/>
+      <rect x="330" y="30" width="320" height="70" rx="16" class="fill-blue" stroke="#000" stroke-width="4"/>
+      <text x="355" y="72" font-size="22">Chcesz działać w 5 minut?</text>
+
+      <path d="M490 100 V140" class="stroke"/>
+      <rect x="120" y="140" width="300" height="80" rx="16" class="fill-green" stroke="#000" stroke-width="4"/>
+      <text x="145" y="185" font-size="22">TAK → Aplikacja VPN</text>
+
+      <rect x="560" y="140" width="300" height="80" rx="16" class="fill-yellow" stroke="#000" stroke-width="4"/>
+      <text x="585" y="175" font-size="22">NIE → Ręcznie</text>
+      <text x="585" y="205" font-size="16">(wbudowany klient)</text>
+
+      <path d="M270 220 V260" class="stroke"/>
+      <rect x="80" y="260" width="380" height="120" rx="16" class="fill-green" stroke="#000" stroke-width="4"/>
+      <text x="105" y="300" font-size="20">Plusy aplikacji</text>
+      <text x="105" y="328" font-size="16">• Kill Switch</text>
+      <text x="105" y="352" font-size="16">• WireGuard / NordLynx</text>
+      <text x="105" y="376" font-size="16">• Ochrona DNS/IPv6</text>
+
+      <path d="M710 220 V260" class="stroke"/>
+      <rect x="520" y="260" width="380" height="120" rx="16" class="fill-yellow" stroke="#000" stroke-width="4"/>
+      <text x="545" y="300" font-size="20">Plusy ręcznej konfiguracji</text>
+      <text x="545" y="328" font-size="16">• Kontrola profilu (IKEv2/SSTP)</text>
+      <text x="545" y="352" font-size="16">• Bez dodatkowej aplikacji</text>
+      <text x="545" y="376" font-size="16">• Przydatne w firmach</text>
+    </svg>
+  </div>
+</div>
+
+</section>
+
+<section>
+  <h2>Metoda 1 (dla 90% osób): aplikacja VPN na Windows</h2>
+  <p>Aplikacja dostawcy VPN jest najprostsza, bo daje funkcje, których Windows nie zawsze zapewnia „z pudełka”: <strong>Kill Switch</strong>, wybór <strong>WireGuard</strong>, ochronę przed <strong>DNS leak</strong>, czasem też dzielony tunel (<em>Split Tunneling</em>) i blokowanie trackerów.</p>
+  <ol>
+    <li>Pobierz i zainstaluj aplikację na Windows 10/11.</li>
+    <li>Wybierz protokół: <strong>WireGuard</strong> (prędkość), <strong>IKEv2</strong> (stabilność), <strong>SSTP</strong> (gdy sieć blokuje VPN).</li>
+    <li>Włącz <strong>Kill Switch</strong> i ochronę DNS/IPv6 (jeśli dostępne).</li>
+    <li>Połącz się z serwerem blisko (mniejsze opóźnienia).</li>
+  </ol>
+  <p class="note"><strong>Pro‑tip (Denys):</strong> Na Windows 11 w pracy zdalnej często lepiej sprawdza się <strong>IKEv2</strong> (stabilność przy zmianie sieci), a do codziennego surfowania <strong>WireGuard</strong> (wydajność). Najgorsze, co możesz zrobić, to zostawić ustawienia bez testu DNS.</p>
+</section>
+
+<section>
+  <h2>Metoda 2 (dla zaawansowanych): ręczna konfiguracja wbudowanego klienta Windows</h2>
+  <p>Ręczna konfiguracja ma sens, gdy: (1) pracujesz w firmie i masz profil IKEv2/SSTP, (2) chcesz używać Windows bez dodatkowych aplikacji, (3) sieć mocno filtruje ruch i SSTP na 443 działa stabilniej.</p>
+
+  <div class="table-scroll">
+    <table>
+      <caption>Co jest „natywne” w Windows, a co zwykle działa przez aplikację</caption>
+      <thead>
+        <tr><th>Opcja</th><th>Windows (wbudowane)</th><th>Zwykle w aplikacji VPN</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>IKEv2</td><td>Tak</td><td>Też często</td></tr>
+        <tr><td>SSTP</td><td>Tak (Microsoft)</td><td>Czasem</td></tr>
+        <tr><td>L2TP/IPsec</td><td>Tak (legacy)</td><td>Rzadziej</td></tr>
+        <tr><td>WireGuard</td><td>Nie (zwykle)</td><td>Tak</td></tr>
+        <tr><td>Kill Switch</td><td>Ograniczone</td><td>Tak (pełniej)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Instrukcja: dodanie profilu VPN (Windows 10/11)</h3>
+  <ol>
+    <li>Otwórz <strong>Ustawienia</strong> (Win + I) → <strong>Sieć i Internet</strong> → <strong>VPN</strong>.</li>
+    <li>Kliknij <strong>Dodaj połączenie VPN</strong>.</li>
+    <li>Dostawca: <strong>Windows (wbudowany)</strong>.</li>
+    <li>Nazwa lub adres serwera: wklej FQDN/IP od dostawcy.</li>
+    <li>Typ VPN: wybierz <strong>IKEv2</strong> lub <strong>SSTP</strong> zgodnie z instrukcją.</li>
+    <li>Zapisz, połącz się i od razu przejdź do testu DNS/IPv6.</li>
+  </ol>
+  <p class="note"><strong>Key takeaway:</strong> Ręczna konfiguracja działa, ale wymaga testu wycieków. To „brudne detale” (DNS/IPv6/Kill Switch) decydują, czy VPN faktycznie coś poprawił.</p>
+</section>
+
+
+<div class="svg-card">
+  <h3>Diagram 1: Jak działa Kill Switch w Windows (logika blokady ruchu)</h3>
+  <div class="svg-scroll">
+    <svg viewBox="0 0 980 320" role="img" aria-label="Diagram pokazujący jak Kill Switch blokuje ruch w Windows, gdy tunel VPN się rozłączy" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="980" height="320" fill="#fff"/>
+      <text x="30" y="40" font-size="22">Aplikacje (przeglądarka / komunikator / klient P2P)</text>
+
+      <rect x="30" y="70" width="260" height="70" rx="14" class="fill-blue" stroke="#000" stroke-width="4"/>
+      <text x="55" y="112" font-size="22">Ruch sieciowy</text>
+
+      <rect x="360" y="70" width="260" height="70" rx="14" class="fill-yellow" stroke="#000" stroke-width="4"/>
+      <text x="385" y="112" font-size="22">Wirtualny adapter VPN</text>
+
+      <rect x="690" y="40" width="260" height="100" rx="14" class="fill-green" stroke="#000" stroke-width="4"/>
+      <text x="720" y="85" font-size="22">Tunel VPN = ON</text>
+      <text x="720" y="114" font-size="18">Pakiety → serwer VPN</text>
+
+      <rect x="690" y="190" width="260" height="100" rx="14" class="fill-red" stroke="#000" stroke-width="4"/>
+      <text x="720" y="235" font-size="22">Tunel VPN = OFF</text>
+      <text x="720" y="264" font-size="18">Kill Switch: blokada</text>
+
+      <path d="M290 105 H350" class="stroke"/>
+      <path d="M620 105 H680" class="stroke"/>
+      <path d="M620 105 C680 105, 660 210, 680 240" class="stroke thin"/>
+
+      <text x="360" y="175" font-size="18">Kill Switch (zapora / WFP)</text>
+      <path d="M360 182 H620" class="stroke thin"/>
+    </svg>
+  </div>
+</div>
+
+
+<div class="svg-card">
+  <h3>Diagram 2: Protokół a „warstwy” w Windows (co naprawdę wybierasz)</h3>
+  <div class="svg-scroll">
+    <svg viewBox="0 0 980 360" role="img" aria-label="Diagram porównujący WireGuard, IKEv2 i SSTP w stosie sieciowym Windows" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="980" height="360" fill="#fff"/>
+      <text x="30" y="40" font-size="22">Stos sieciowy Windows (uproszczony)</text>
+
+      <rect x="60" y="80" width="860" height="60" rx="12" class="fill-blue" stroke="#000" stroke-width="4"/>
+      <text x="80" y="118" font-size="20">Aplikacje</text>
+
+      <rect x="60" y="150" width="860" height="60" rx="12" class="fill-yellow" stroke="#000" stroke-width="4"/>
+      <text x="80" y="188" font-size="20">WFP / reguły zapory / Kill Switch</text>
+
+      <rect x="60" y="220" width="270" height="90" rx="12" class="fill-green" stroke="#000" stroke-width="4"/>
+      <text x="90" y="258" font-size="20">IKEv2</text>
+      <text x="90" y="286" font-size="16">wbudowany klient</text>
+
+      <rect x="355" y="220" width="270" height="90" rx="12" class="fill-green" stroke="#000" stroke-width="4"/>
+      <text x="385" y="258" font-size="20">SSTP</text>
+      <text x="385" y="286" font-size="16">SSL/TLS (443)</text>
+
+      <rect x="650" y="220" width="270" height="90" rx="12" class="fill-green" stroke="#000" stroke-width="4"/>
+      <text x="680" y="258" font-size="20">WireGuard</text>
+      <text x="680" y="286" font-size="16">zwykle w aplikacji</text>
+
+      <path d="M490 140 V150" class="stroke thin"/>
+      <path d="M200 210 V220" class="stroke thin"/>
+      <path d="M490 210 V220" class="stroke thin"/>
+      <path d="M785 210 V220" class="stroke thin"/>
+
+      <text x="60" y="340" font-size="16">Wniosek: Windows „lubi” IKEv2/SSTP natywnie, a WireGuard zwykle daje najlepszą wydajność.</text>
+    </svg>
+  </div>
+</div>
+
+
+<div class="svg-card">
+  <h3>Diagram 3: Ścieżka pakietu — od przeglądarki do Internetu (z i bez VPN)</h3>
+  <div class="svg-scroll">
+    <svg viewBox="0 0 980 380" role="img" aria-label="Diagram pokazujący różnicę ścieżki ruchu sieciowego bez VPN i z VPN na Windows" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="980" height="380" fill="#fff"/>
+      <text x="30" y="40" font-size="22">Bez VPN</text>
+      <rect x="30" y="70" width="280" height="70" rx="14" class="fill-blue" stroke="#000" stroke-width="4"/>
+      <text x="55" y="112" font-size="20">Windows → ISP</text>
+      <rect x="360" y="70" width="280" height="70" rx="14" class="fill-red" stroke="#000" stroke-width="4"/>
+      <text x="385" y="112" font-size="20">DNS/HTTP widoczne</text>
+      <rect x="690" y="70" width="260" height="70" rx="14" class="fill-yellow" stroke="#000" stroke-width="4"/>
+      <text x="715" y="112" font-size="20">Strona / usługa</text>
+      <path d="M310 105 H350" class="stroke"/>
+      <path d="M640 105 H680" class="stroke"/>
+
+      <text x="30" y="200" font-size="22">Z VPN</text>
+      <rect x="30" y="230" width="280" height="70" rx="14" class="fill-blue" stroke="#000" stroke-width="4"/>
+      <text x="55" y="272" font-size="20">Windows</text>
+      <rect x="360" y="230" width="280" height="70" rx="14" class="fill-green" stroke="#000" stroke-width="4"/>
+      <text x="385" y="260" font-size="20">Tunel szyfrowany</text>
+      <text x="385" y="286" font-size="16">(WireGuard/IKEv2/SSTP)</text>
+      <rect x="690" y="230" width="260" height="70" rx="14" class="fill-yellow" stroke="#000" stroke-width="4"/>
+      <text x="715" y="272" font-size="20">Internet</text>
+      <path d="M310 265 H350" class="stroke"/>
+      <path d="M640 265 H680" class="stroke"/>
+      <text x="360" y="335" font-size="16">DNS leak = gdy DNS idzie poza tunel. To da się sprawdzić i naprawić.</text>
+    </svg>
+  </div>
+</div>
+
+
+<section class="related-wide">
+  <p>Related: <a href="/blog/vpn-kill-switch.html">VPN Kill Switch — co robi i dlaczego jest kluczowy na Windows</a></p>
+</section>
+
+<section>
+  <h2>Protokóły VPN ważne dla Windows (WireGuard vs IKEv2 vs SSTP)</h2>
+  <p>Windows ma unikalną przewagę: wspiera natywnie <strong>SSTP</strong> (protokół Microsoft) oraz <strong>IKEv2</strong>. WireGuard zwykle działa przez aplikację.</p>
+
+  <div class="table-scroll">
+    <table>
+      <caption>Porównanie protokołów VPN na Windows (2026)</caption>
+      <thead>
+        <tr>
+          <th>Protokół</th>
+          <th>Czas połączenia</th>
+          <th>Wpływ na CPU</th>
+          <th>Stabilność</th>
+          <th>Najlepszy dla…</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>WireGuard</td><td>&lt; 1s</td><td>Minimalny</td><td>Bardzo wysoka</td><td>Najwyższa wydajność</td></tr>
+        <tr><td>IKEv2</td><td>1–2s</td><td>Niski</td><td>Wybitna</td><td>Mobilność i stabilność</td></tr>
+        <tr><td>SSTP</td><td>3–5s</td><td>Niski</td><td>Świetna na Windows</td><td>Omijanie restrykcyjnych firewalli</td></tr>
+        <tr><td>OpenVPN</td><td>5–8s</td><td>Średni</td><td>Wysoka</td><td>Zgodność / legacy</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note"><strong>Key takeaway:</strong> WireGuard + bliski serwer = zwykle najlepszy wynik. SSTP bywa ratunkiem w sieciach, które „tłumią” VPN.</p>
+</section>
+
+<section>
+  <h2>Test DNS/IPv6 i szybka kontrola: czy VPN naprawdę działa?</h2>
+  <p>Najczęstszy błąd na Windows: „VPN jest połączony”, ale zapytania DNS idą poza tunel. To może ujawnić Twojego operatora i lokalizację. Dlatego po konfiguracji zrób dwa testy:</p>
+  <ul>
+    <li><strong>IP:</strong> czy zmieniło się na kraj/ASN dostawcy VPN.</li>
+    <li><strong>DNS:</strong> czy serwery DNS należą do VPN (albo do bezpiecznego DNS, który ustawiłeś).</li>
+  </ul>
+  <p>Jeśli widzisz wyciek, przejdź do poradnika: <a href="/blog/wyciek-dns-vpn.html">DNS leak — wykrywanie i naprawa</a>.</p>
+  <p class="note"><strong>Key takeaway:</strong> Ikona „Połączono” nie wystarczy — wynik testu DNS/IPv6 jest realnym potwierdzeniem.</p>
+</section>
+
+<section>
+  <h2>Centrum rozwiązywania problemów Windows (kliknij błąd)</h2>
+  <p>W Windows kod błędu często mówi więcej niż „nie działa”. Kliknij to, co widzisz na ekranie:</p>
+  <div class="os-tabs" aria-label="Błędy VPN Windows">
+    <button class="btn btn-secondary" type="button" data-err-btn="807">Błąd 807</button>
+    <button class="btn btn-secondary" type="button" data-err-btn="691">Błąd 691</button>
+    <button class="btn btn-secondary" type="button" data-err-btn="868">Błąd 868</button>
+    <button class="btn btn-secondary" type="button" data-err-btn="SLOW">Wolno</button>
+  </div>
+  <div id="err-result" class="note" style="margin-top:12px">
+    <strong>Wskazówka:</strong> wybierz błąd powyżej, aby zobaczyć krótką diagnozę.
+  </div>
+</section>
+
+<section>
+  <h2>Optymalizacja prędkości: MTU, serwer i „zjadacze” łącza</h2>
+  <p>Jeśli po VPN wszystko zwalnia, najczęściej winne są: zbyt daleki serwer, zły protokół (TCP zamiast UDP) albo źle dobrane MTU. Prosty plan:</p>
+  <ol>
+    <li>Zmień serwer na bliższy geograficznie.</li>
+    <li>Przełącz protokół na WireGuard (jeśli dostępny).</li>
+    <li>Zrób <a href="/blog/test-predkosci-vpn.html">test prędkości VPN</a> (szukamy też opóźnień/pingu).</li>
+    <li>Jeśli nadal źle: rozważ MTU 1400–1450 (zależnie od sieci) i sprawdź, czy nie działa jednocześnie proxy/VPN.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Checklist bezpieczeństwa na Windows po konfiguracji</h2>
+  <div class="table-scroll">
+    <table>
+      <caption>Checklista: po skonfigurowaniu VPN na Windows</caption>
+      <thead><tr><th>Element</th><th>Co sprawdzić</th><th>Dlaczego</th></tr></thead>
+      <tbody>
+        <tr><td>Kill Switch</td><td>Włączony + test rozłączenia</td><td>Brak wycieków przy zerwaniu tunelu</td></tr>
+        <tr><td>DNS</td><td>Brak DNS leak</td><td>Nie ujawniasz operatora</td></tr>
+        <tr><td>IPv6</td><td>Brak IPv6 leak</td><td>IPv6 potrafi „ominąć” tunel</td></tr>
+        <tr><td>Split Tunneling</td><td>Tylko gdy potrzebne</td><td>Zła konfiguracja = wycieki</td></tr>
+        <tr><td>Publiczne Wi‑Fi</td><td>VPN zawsze ON</td><td>Ochrona w hotelach i kawiarniach</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Jeśli często korzystasz z hotspotów, zobacz też: <a href="/blog/vpn-publiczne-wifi.html">VPN w publicznym Wi‑Fi</a> oraz <a href="/blog/lista-bezpieczenstwa-wifi.html">lista bezpieczeństwa Wi‑Fi</a>.</p>
+</section>
+
+<section>
+  <h2>Wideo: krótko o prywatności i VPN (oficjalny materiał autora)</h2>
+  <div class="video-wrap" aria-label="Wideo YouTube o VPN i prywatności">
+    <iframe src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE" title="VPN & privacy — Denys Shchur" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+  <p class="tiny">Jeśli wideo nie działa, otwórz na YouTube: <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a></p>
+</section>
+
+
+<section class="cta-box" aria-label="VPN dla Windows — wybór na koniec">
+  <p class="badge b-green">Gotowy na bezpieczniejszy Windows?</p>
+  <h2>Wybierz VPN i dokończ konfigurację w 5 minut</h2>
+  <p>Najpierw ustaw VPN, potem wróć do tej strony i przejdź checklistę (Kill Switch, DNS, IPv6, Split Tunneling).</p>
+  <div class="cta-grid">
+    <a class="btn btn-primary" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — pełny pakiet pod Windows</a>
+    <a class="btn btn-secondary" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — świetny do domu i pracy</a>
+    <a class="btn btn-tertiary" href="https://www.dpbolvw.net/click-101525886-15834536" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN — nacisk na prywatność</a>
+  </div>
+  <p class="tiny">Uwaga: linki partnerskie. Zobacz też stronę <a href="/disclosure.html">Disclosure</a>.</p>
+</section>
+
+
+<section class="related-guides" aria-label="Powiązane poradniki">
+  <h2>Powiązane poradniki</h2>
+  <ul>
+    <li><a href="/blog/vpn-konfiguracja-routera.html">Konfiguracja VPN na routerze (cała sieć)</a></li>
+    <li><a href="/blog/vpn-na-androida.html">VPN na Androidzie — ustawienia i pułapki</a></li>
+    <li><a href="/blog/vpn-na-ios.html">VPN na iOS — co jest inne niż na Windows</a></li>
+    <li><a href="/blog/vpn-na-macos.html">VPN na macOS — szybkie porównanie</a></li>
+    <li><a href="/blog/protokoly-vpn.html">Protokoły VPN — jak wybrać</a></li>
+  </ul>
+</section>
+
+<section>
+  <h2>FAQ</h2>
+  <details><summary>Czy Windows ma darmowy VPN?</summary><p>Windows ma wbudowaną funkcję konfiguracji profilu VPN, ale nie dostarcza „darmowego serwera VPN”. Potrzebujesz dostawcy (firmowego lub komercyjnego) albo własnego serwera.</p></details>
+  <details><summary>Jak wyłączyć VPN na Windows?</summary><p>Ustawienia → Sieć i Internet → VPN → wybierz połączenie → Rozłącz. W aplikacji VPN zwykle jest też przycisk „Disconnect”.</p></details>
+  <details><summary>Jaki protokół jest najlepszy na Windows?</summary><p>Najczęściej WireGuard (wydajność) albo IKEv2 (stabilność). SSTP jest świetny, gdy sieć blokuje VPN, bo działa przez TLS/443.</p></details>
+  <details><summary>Co zrobić, gdy VPN się łączy, ale strony się nie otwierają?</summary><p>Sprawdź DNS i IPv6, zmień serwer oraz protokół. Często pomaga przełączenie na WireGuard albo IKEv2.</p></details>
+</section>
+
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>VPN World</strong>
+        <p>Niezależny serwis o prywatności i bezpieczeństwie w sieci.</p>
+      </div>
+      <nav aria-label="Footer">
+        <a href="/privacy.html">Privacy</a>
+        <a href="/disclosure.html">Disclosure</a>
+        <a href="mailto:u1797008805@gmail.com">Kontakt</a>
+      </nav>
+    </div>
+    <div class="container tiny">© 2026 VPN World • <a href="/about-denys-shchur.html">About the author</a></div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+
+  
+<script>
+(function(){
+  function qs(sel, root){ return (root||document).querySelector(sel); }
+  function qsa(sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
+
+  
+  // Safety helper (static content, prevents any accidental HTML injection)
+  function escapeHtml(str){
+    return String(str)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;')
+      .replace(/'/g,'&#39;');
+  }
+
+  // OS tabs
+  var tabs = qsa('[data-os-tab]');
+  var panes = qsa('[data-os-pane]');
+  function setOS(os){
+    tabs.forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-os-tab')===os); });
+    panes.forEach(function(p){ p.style.display = (p.getAttribute('data-os-pane')===os) ? 'block' : 'none'; });
+  }
+  tabs.forEach(function(b){ b.addEventListener('click', function(){ setOS(b.getAttribute('data-os-tab')); }); });
+  var stored = null;
+  try{ stored = localStorage.getItem('vpnworld_win_os'); }catch(e){}
+  setOS(stored || 'w11');
+
+  // Troubleshooting selector
+  var btns = qsa('[data-err-btn]');
+  var box = qs('#err-result');
+  var map = {
+    "807": "<strong>Błąd 807</strong>: często blokuje zapora/antywirus lub problem z negocjacją tunelu. Spróbuj zmienić protokół (IKEv2 ↔ WireGuard), wyłącz chwilowo „inspekcję SSL” w antywirusie, sprawdź czy porty nie są filtrowane w sieci firmowej.",
+    "691": "<strong>Błąd 691</strong>: najczęściej błędny login/hasło lub metoda uwierzytelniania. W ręcznej konfiguracji upewnij się, że dane konta VPN są poprawne, a typ VPN (np. IKEv2/L2TP) odpowiada temu, co podał dostawca.",
+    "868": "<strong>Błąd 868</strong>: Windows nie może znaleźć serwera VPN. Sprawdź nazwę serwera (FQDN), DNS w sieci (czasem pomaga zmiana DNS na 1.1.1.1/8.8.8.8), oraz czy sieć nie blokuje połączeń VPN.",
+    "SLOW": "<strong>Wolne połączenie</strong>: wybierz bliższy serwer, włącz WireGuard/NordLynx, sprawdź MTU (często 1400–1450), wyłącz „VPN over TCP” jeśli masz taką opcję, i upewnij się, że nie działa podwójny tunel (VPN + proxy)."
+  };
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){
+      var k = b.getAttribute('data-err-btn');
+      btns.forEach(function(x){ x.classList.remove('active'); });
+      b.classList.add('active');
+      if (box) box.innerHTML = map[k] || "";
+    });
+  });
+})();
+</script>
+
+
+  
+
+
+  <!-- PAGE: https://dloran1.github.io/blog/vpn-konfiguracja-windows.html -->
+<!-- Cookie Consent (canonical) -->
+<div id="cookie-consent-layer" class="cookie-layer" aria-hidden="true"></div>
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+  <div class="cookie-banner__inner">
+    <div class="cookie-banner__text">
+      <span class="cookie-banner__msg">We use cookies.</span>
+      <a class="cookie-banner__link" href="/privacy.html" rel="nofollow">Privacy</a>
+    </div>
+    <div class="cookie-banner__actions">
+      <button id="cookie-accept" type="button">Accept</button>
+      <button id="cookie-reject" type="button">Reject</button>
+    </div>
+  </div>
+</div>
+<!-- /Cookie Consent (canonical) -->
+
+</body>
+</html>

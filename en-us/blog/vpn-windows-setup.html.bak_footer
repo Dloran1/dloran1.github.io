@@ -1,0 +1,950 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow" />
+
+  <title>How to Set Up a VPN on Windows (2026): A Complete Guide for Speed & Privacy | VPN World</title>
+  <meta name="description" content="US guide 2026: set up a VPN on Windows fast (app or built‑in), cut lag for gaming/streaming, and stop ISP throttling (Comcast, AT&T, Spectrum) — plus leak tests and fixes." />
+
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+  <link rel="canonical" href="https://dloran1.github.io/en-us/blog/vpn-windows-setup.html" />
+
+  <!-- hreflang (7 + x-default → en-gb) -->  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-konfiguracja-windows.html">
+  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-windows-setup-uk.html">
+  <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-windows-setup.html">
+  <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-windows-einrichtung.html">
+  <link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/configuracion-vpn-windows.html">
+  <link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/configuration-vpn-windows.html">
+  <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-windows-instellen.html">
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-windows-setup-uk.html">
+<!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="VPN World" />
+  <meta property="og:title" content="How to Set Up a VPN on Windows (2026): The Ultimate UK Privacy Guide" />
+  <meta property="og:description" content="Windows 10/11 UK setup: WireGuard vs IKEv2/SSTP, DNS/IPv6 leak tests, ISP blocks (BT/Sky/Virgin), and fixes for Error 807/691/868." />
+  <meta property="og:url" content="https://dloran1.github.io/en-us/blog/vpn-windows-setup.html" />
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-windows-setup-uk.webp" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:locale:alternate" content="pl_PL" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:locale:alternate" content="de_DE" />
+  <meta property="og:locale:alternate" content="es_ES" />
+  <meta property="og:locale:alternate" content="fr_FR" />
+  <meta property="og:locale:alternate" content="nl_BE" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How to Set Up a VPN on Windows (2026 UK Edition)" />
+  <meta name="twitter:description" content="UK Windows 10/11 VPN setup with WireGuard, IKEv2/SSTP, leak tests and real troubleshooting (807/691/868 + ISP blocks)." />
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-windows-setup-uk.webp" />
+
+  <!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    gtag('consent','default', {
+      ad_storage:'denied',
+      ad_user_data:'denied',
+      ad_personalization:'denied',
+      analytics_storage:'denied',
+      functionality_storage:'denied',
+      personalization_storage:'denied',
+      security_storage:'denied'
+    });
+
+    gtag('js', new Date());
+
+    (function(){
+      var KEY = 'vpnworld_consent';
+      function hideBanner(){
+        if (layer) layer.style.display = 'none';
+      }
+
+      window.acceptConsent = function(){
+        gtag('consent','update', {
+          ad_storage:'granted',
+          ad_user_data:'granted',
+          ad_personalization:'granted',
+          analytics_storage:'granted',
+          functionality_storage:'granted',
+          personalization_storage:'granted',
+          security_storage:'granted'
+        });
+        try{ localStorage.setItem(KEY,'granted'); }catch(e){}
+        hideBanner();
+        gtag('config','G-RD6M691ZWD', { anonymize_ip:true });
+        gtag('event','page_view');
+      };
+
+      window.rejectConsent = function(){
+        gtag('consent','update', {
+          ad_storage:'denied',
+          ad_user_data:'denied',
+          ad_personalization:'denied',
+          analytics_storage:'denied',
+          functionality_storage:'denied',
+          personalization_storage:'denied',
+          security_storage:'denied'
+        });
+        try{ localStorage.setItem(KEY,'denied'); }catch(e){}
+        hideBanner();
+      };
+
+      function applyStored(){
+        try{
+          var v = localStorage.getItem(KEY);
+          if (v === 'granted'){
+            gtag('consent','update', {
+              ad_storage:'granted',
+              ad_user_data:'granted',
+              ad_personalization:'granted',
+              analytics_storage:'granted',
+              functionality_storage:'granted',
+              personalization_storage:'granted',
+              security_storage:'granted'
+            });
+            hideBanner();
+            gtag('config','G-RD6M691ZWD', { anonymize_ip:true });
+          } else if (v === 'denied'){
+            hideBanner();
+          }
+        }catch(e){}
+      }
+      document.addEventListener('DOMContentLoaded', applyStored);
+    })();
+  </script>
+
+  <style>
+    /* Responsive wrappers + hard readability fix (dark theme safe) */
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .table-scroll table{min-width:760px}
+    .table-scroll, .table-scroll table{background:#fff !important; color:#000 !important}
+    .table-scroll th, .table-scroll td{color:#000 !important}
+    .table-scroll thead th{background:#071023 !important; color:#fff !important}
+    .table-scroll tbody tr{background:#fff !important}
+    .table-scroll tbody tr:nth-child(even){background:#f6f7fb !important}
+    .table-scroll tbody tr:hover{background:#eef4ff !important}
+    .table-scroll a{color:#0b57d0 !important}
+
+    .svg-card{border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:14px;background:transparent;margin:14px 0;color:#fff}
+    .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:14px;padding:10px}
+    .svg-scroll svg{max-width:100%;height:auto;display:block;color:#000 !important;background:#fff}
+    .svg-scroll svg text{fill:#000 !important;font-weight:800 !important}
+    .svg-scroll svg .stroke{stroke:#000 !important;stroke-width:4 !important;fill:none !important;stroke-linecap:round;stroke-linejoin:round}
+    .svg-scroll svg .box{fill:#fff !important;stroke:#000 !important;stroke-width:4 !important}
+    .svg-scroll svg .fill-blue{fill:#e6f1ff !important}
+    .svg-scroll svg .fill-green{fill:#e9fff3 !important}
+    .svg-scroll svg .fill-yellow{fill:#fff7db !important}
+    .svg-scroll svg .fill-red{fill:#ffe9ea !important}
+    .svg-scroll svg .fill-purple{fill:#f1eaff !important}
+
+    .related-wide{background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:12px 14px;margin:10px 0 14px;position:relative}
+    .related-wide:before{content:"";position:absolute;left:10px;top:10px;bottom:10px;width:4px;border-radius:999px;background:#22c55e}
+    .related-wide p{margin:0;padding-left:14px}
+    .related-wide a{text-decoration:underline}
+
+    .video-wrap{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;background:#000}
+    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+    .badge{display:inline-block;padding:2px 10px;border-radius:999px;font-weight:800;font-size:12px;line-height:1.6}
+    .b-blue{background:#e6f1ff;color:#073b8c}
+    .b-green{background:#e9fff3;color:#0b6b3a}
+    .b-yellow{background:#fff7db;color:#6a4a00}
+    .b-red{background:#ffe9ea;color:#7a0a0f}
+
+    .cta-box .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:12px 14px;border-radius:12px;font-weight:800;line-height:1.15;
+      white-space:normal;text-align:center;min-height:48px}
+    .cta-box .btn-primary,.cta-box .btn-secondary,.cta-box .btn-tertiary{color:#fff !important}
+    .cta-grid{display:grid;grid-template-columns:1fr;gap:10px}
+    @media(min-width:720px){.cta-grid{grid-template-columns:repeat(3,1fr)}}
+
+    /* Cookie layer: pointer-events safe */
+    #cookie-banner{pointer-events:auto}
+  
+/* Patch: make diagram titles readable on dark */
+.svg-card h3, .svg-card h4{color:#fff !important;}
+</style>
+
+  <!-- JSON-LD (Graph: Article + HowTo + FAQ + Breadcrumb + ItemList) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"Article",
+        "@id":"https://dloran1.github.io/en-us/blog/vpn-windows-setup.html#article",
+        "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/en-us/blog/vpn-windows-setup.html"},
+        "headline":"How to Set Up a VPN on Windows (2026): The Ultimate UK Privacy Guide",
+        "description":"UK 2026 guide for Windows 10/11: install a VPN app (WireGuard + Kill Switch) or configure IKEv2/SSTP manually. Fix common errors (807/691/868), bypass ISP filters (BT/Sky/Virgin), and test DNS/IPv6 leaks.",
+        "image":["https://dloran1.github.io/assets/img/hero/vpn-windows-setup-uk.webp"],
+        "datePublished":"2026-01-06",
+        "dateModified":"2026-01-06",
+        "author":{"@type":"Person","name":"Denys Shchur","url":"https://dloran1.github.io/about-denys-shchur.html"},
+        "publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}}
+      },
+      {
+        "@type":"HowTo",
+        "@id":"https://dloran1.github.io/en-us/blog/vpn-windows-setup.html#howto",
+        "name":"How to set up a VPN on Windows 10/11 (UK)",
+        "step":[
+          {"@type":"HowToStep","name":"Install a trusted VPN app","text":"Download the provider’s Windows app, sign in, and choose WireGuard (or IKEv2 if you need maximum stability)."},
+          {"@type":"HowToStep","name":"Enable Kill Switch","text":"Turn on Kill Switch and DNS leak protection in the app settings (names vary by provider)."},
+          {"@type":"HowToStep","name":"Connect to a nearby UK/EU server","text":"Pick a nearby server for lower latency, then verify your IP location changed."},
+          {"@type":"HowToStep","name":"Run DNS/IPv6 checks","text":"Confirm DNS requests stay inside the tunnel and IPv6 does not bypass your VPN."}
+        ]
+      },
+      {
+        "@type":"FAQPage",
+        "@id":"https://dloran1.github.io/en-us/blog/vpn-windows-setup.html#faq",
+        "mainEntity":[
+          {"@type":"Question","name":"Is a VPN legal in the UK?","acceptedAnswer":{"@type":"Answer","text":"Yes. Using a VPN is legal in the UK. Illegal activity remains illegal regardless of whether you use a VPN."}},
+          {"@type":"Question","name":"Does a VPN hide browsing history from BT or Virgin Media?","acceptedAnswer":{"@type":"Answer","text":"A VPN encrypts traffic between your device and the VPN server, so your ISP can’t easily see the websites you visit in plain form. Your ISP can still see that you’re using a VPN and basic connection metadata."}},
+          {"@type":"Question","name":"What’s best for Windows: WireGuard or IKEv2?","acceptedAnswer":{"@type":"Answer","text":"WireGuard is usually fastest and best for everyday use; IKEv2 is often the most stable when switching networks (home ↔ mobile hotspot)."}},
+          {"@type":"Question","name":"Why does Windows VPN Error 807 happen?","acceptedAnswer":{"@type":"Answer","text":"Error 807 is commonly caused by blocked ports, firewall/AV inspection, or an unstable network path. Switching protocol (WireGuard ↔ IKEv2/SSTP) and using port 443 often helps."}}
+        ]
+      },
+      {
+        "@type":"BreadcrumbList",
+        "@id":"https://dloran1.github.io/en-us/blog/vpn-windows-setup.html#breadcrumbs",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"VPN World","item":"https://dloran1.github.io/en-gb/"},
+          {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/en-gb/blog/index.html"},
+          {"@type":"ListItem","position":3,"name":"VPN Windows Setup UK","item":"https://dloran1.github.io/en-us/blog/vpn-windows-setup.html"}
+        ]
+      },
+      {
+        "@type":"ItemList",
+        "@id":"https://dloran1.github.io/en-us/blog/vpn-windows-setup.html#related",
+        "name":"Related guides",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/en-gb/blog/vpn-router-setup-uk.html"},
+          {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/en-gb/blog/vpn-android-uk.html"},
+          {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/en-gb/blog/vpn-ios-uk.html"},
+          {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/en-gb/blog/vpn-macos-uk.html"},
+          {"@type":"ListItem","position":5,"url":"https://dloran1.github.io/en-gb/blog/what-is-a-vpn-uk.html"}
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- PATCH: readability + CTA buttons (US) -->
+  <style>
+    /* Key takeaway readability on dark cards */
+    p.key, .note, .tip { color:#eaf2ff !important; }
+    p.key strong, .note strong, .tip strong { color:#ffffff !important; }
+    p.key a, .note a, .tip a { color:#9ad7ff !important; text-decoration: underline; }
+
+    /* Diagram captions/titles must be visible on dark background */
+    .svg-card h3, .svg-card h2, .svg-card .svg-title { color:#ffffff !important; }
+    .svg-card p, .svg-card small, .svg-card figcaption { color:#eaf2ff !important; }
+
+    /* Sponsor CTAs should look like buttons */
+    .cta-row { display:grid; gap:10px; margin: 14px 0 6px; }
+    .cta-row .cta {
+      display:block;
+      padding:12px 14px;
+      border-radius:12px;
+      font-weight:800;
+      text-decoration:none !important;
+      color:#ffffff !important;
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: 0 10px 24px rgba(0,0,0,.22);
+    }
+    .cta-row .cta small { display:block; font-weight:700; opacity:.92; color:#ffffff !important; }
+    .cta-row .cta.cta-nord { background: linear-gradient(135deg, #2e7dff, #3aa0ff); }
+    .cta-row .cta.cta-surf { background: linear-gradient(135deg, #16b97a, #28d19a); }
+    .cta-row .cta.cta-proton { background: linear-gradient(135deg, #7a5cff, #9c7bff); }
+    .cta-row .cta:focus { outline: 3px solid rgba(154,215,255,.45); outline-offset: 2px; }
+  </style>
+
+
+  <script defer src="/assets/js/cookie-consent.js"></script>
+</head>
+
+<body>
+  <nav class="lang-switch"><a href="/blog/vpn-konfiguracja-windows.html">Polski</a> | <a href="/en-gb/blog/vpn-windows-setup-uk.html">English (UK)</a> | <a href="/en-us/blog/vpn-windows-setup.html" class="active">English (US)</a> | <a href="/de/blog/vpn-windows-einrichtung.html">Deutsch</a> | <a href="/es/blog/configuracion-vpn-windows.html">Español</a> | <a href="/fr/blog/configuration-vpn-windows.html">Français</a> | <a href="/nl-be/blog/vpn-windows-instellen.html">Nederlands (BE)</a></nav>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/en-gb/" class="brand">
+        <img src="../../assets/img/logo.png" class="logo" alt="VPN World logo" />
+        <span class="brand-text">VPN World</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container card" style="padding:18px 0">
+    <article class="post">
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="badges">
+          <span class="badge">US Edition</span>
+          <span class="badge">Windows 10/11</span>
+          <span class="badge">2026</span>
+        </div>
+        <h1>How to Set Up a VPN on Windows (2026): A Complete Guide for Speed &amp; Privacy</h1>
+        <p class="lead">
+          Want it working <strong>in 2 minutes</strong>? Use the app. Need a <strong>manual profile</strong> that looks like a corporate endpoint?
+          Use Windows built‑in (IKEv2/SSTP) — but do the leak checks.
+        </p>
+
+        <div class="cta-row" aria-label="Top VPN picks">
+          <a class="cta cta-nord" href="https://go.nordvpn.net/aff_c?aff_id=2495&amp;offer_id=312&amp;url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">
+            Get NordVPN (Fast US servers)
+          </a>
+          <a class="cta cta-surf" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">
+            Get Surfshark (Best value)
+          </a>
+          <a class="cta cta-proton" href="https://www.dpbolvw.net/click-101525886-15834536" target="_blank" rel="nofollow sponsored noopener noreferrer">
+            Get Proton VPN (Privacy)
+          </a>
+        </div>
+
+        <p class="tiny subtle">
+          Tip: after setup, run a quick <a href="/en-us/blog/vpn-dns-leak.html">DNS leak test</a> and confirm your protocol choice in <a href="/en-us/blog/vpn-protocols.html">VPN protocols</a>.
+        </p>
+      </div>
+      <div class="hero-media">
+        <img src="../../assets/img/hero/vpn-windows-setup-uk.webp" alt="Windows VPN setup on a laptop — US guide" width="1200" height="630" loading="eager">
+      </div>
+    </div>
+  </header>
+
+  <section class="toc" aria-label="Table of contents">
+    <h2>Table of contents</h2>
+    <ol>
+      <li><a href="#quick-answer">Quick answer (do this now)</a></li>
+      <li><a href="#app-vs-built-in">App vs Windows built‑in</a></li>
+      <li><a href="#setup-app">Setup in 2 minutes (recommended)</a></li>
+      <li><a href="#setup-built-in">Manual setup in Windows Settings (IKEv2/SSTP)</a></li>
+      <li><a href="#kill-the-lag">Kill the lag (gaming &amp; streaming)</a></li>
+      <li><a href="#isp-throttling">Bypass ISP throttling (Comcast, AT&amp;T, Spectrum)</a></li>
+      <li><a href="#command-center">Windows VPN Command Center (fixer)</a></li>
+      <li><a href="#leak-checks">DNS / IPv6 / WebRTC checks</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ol>
+  </section>
+
+  <section id="quick-answer" class="note">
+    <h2>Quick answer (do this now)</h2>
+    <ul class="tight">
+      <li><strong>Fastest:</strong> install a VPN app and select <strong>WireGuard</strong> (or NordLynx).</li>
+      <li><strong>Most compatible on strict networks:</strong> use <strong>Port 443</strong> via OpenVPN TCP or <strong>SSTP</strong>.</li>
+      <li><strong>Never skip:</strong> enable a <a href="/en-us/blog/vpn-kill-switch.html">kill switch</a> and run a <a href="/en-us/blog/vpn-dns-leak.html">DNS leak check</a>.</li>
+    </ul>
+    <p class="key"><strong>Key takeaway:</strong> In the US, your VPN is about <strong>speed + stability</strong> (Netflix/Hulu, gaming, public Wi‑Fi) and <strong>stopping ISP tracking/throttling</strong> — not just “privacy vibes.”</p>
+  </section>
+
+  <section id="app-vs-built-in">
+    <h2>App vs Windows built‑in: what actually changes?</h2>
+    <p>
+      Windows can create a VPN profile, but apps usually add the “missing safety rails”: better protocol choices (WireGuard),
+      DNS/IPv6 handling, and one‑click kill switch rules. If you want the “set it and forget it” experience, the app wins.
+      If you need a minimal footprint for a work laptop, Windows built‑in can be the right fit.
+    </p>
+
+    <div class="table-scroll" role="region" aria-label="Feature comparison table" tabindex="0">
+      <table>
+        <caption>Windows built‑in vs VPN app: what you get</caption>
+        <thead>
+          <tr><th>Feature</th><th>Windows built‑in</th><th>VPN app (recommended)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>IKEv2</td><td>Yes</td><td>Sometimes</td></tr>
+          <tr><td>SSTP</td><td>Yes (Microsoft)</td><td>Rare</td></tr>
+          <tr><td>WireGuard</td><td>Usually no</td><td><strong>Yes</strong> (fastest)</td></tr>
+          <tr><td>Kill switch</td><td>Limited</td><td><strong>Built‑in</strong></td></tr>
+          <tr><td>DNS leak protection</td><td>Manual tweaks</td><td><strong>Automatic</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="svg-card">
+      <h3>Diagram 1: ISP tracking &amp; throttling vs VPN encryption (US view)</h3>
+      <div class="svg-scroll" role="img" aria-label="Diagram showing how a VPN hides traffic metadata from an ISP and reduces throttling triggers">
+        <!-- SVG kept from template but caption updated -->
+        <div class="svg-scroll">
+          <svg viewBox="0 0 980 420" role="img" aria-label="Diagram showing what a UK ISP can see without a VPN versus with a VPN" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="980" height="420" fill="#fff"/>
+            <text x="30" y="40" font-size="22">Without VPN (ISP can infer a lot)</text>
+
+            <rect x="30" y="70" width="290" height="70" rx="14" class="fill-blue" stroke="#000" stroke-width="4"/>
+            <text x="55" y="112" font-size="20">Windows → BT / Virgin</text>
+
+            <rect x="360" y="70" width="290" height="70" rx="14" class="fill-red" stroke="#000" stroke-width="4"/>
+            <text x="385" y="104" font-size="18">DNS + SNI metadata</text>
+            <text x="385" y="128" font-size="16">Banking / streaming hints</text>
+
+            <rect x="690" y="70" width="260" height="70" rx="14" class="fill-yellow" stroke="#000" stroke-width="4"/>
+            <text x="715" y="112" font-size="20">Web services</text>
+
+            <path d="M320 105 H350" class="stroke"/>
+            <path d="M650 105 H680" class="stroke"/>
+
+            <text x="30" y="210" font-size="22">With VPN (ISP sees encrypted tunnel)</text>
+
+            <rect x="30" y="240" width="290" height="70" rx="14" class="fill-blue" stroke="#000" stroke-width="4"/>
+            <text x="55" y="282" font-size="20">Windows</text>
+
+            <rect x="360" y="240" width="290" height="70" rx="14" class="fill-green" stroke="#000" stroke-width="4"/>
+            <text x="385" y="270" font-size="20">Encrypted VPN tunnel</text>
+            <text x="385" y="294" font-size="16">(WireGuard / IKEv2 / SSTP)</text>
+
+            <rect x="690" y="240" width="260" height="70" rx="14" class="fill-yellow" stroke="#000" stroke-width="4"/>
+            <text x="715" y="282" font-size="20">Internet</text>
+
+            <path d="M320 275 H350" class="stroke"/>
+            <path d="M650 275 H680" class="stroke"/>
+
+            <text x="30" y="365" font-size="16">Reality check: your ISP still sees you’re using a VPN and basic connection metadata (time/volume), but not your plain browsing list.</text>
+          </svg>
+        
+      </div>
+      <p class="tiny subtle">A VPN can’t turn your ISP into a saint, but it can reduce “easy visibility” into what you’re doing — and that often helps with throttling patterns.</p>
+    </div>
+
+    <p class="tiny subtle">
+      Related: <a href="/en-us/blog/vpn-speed-test.html">VPN speed test</a> • <a href="/en-us/blog/vpn-split-tunneling.html">Split tunneling</a>
+    </p>
+  </section>
+
+  <section id="setup-app">
+    <h2>Setup in 2 minutes (recommended)</h2>
+    <ol>
+      <li>Install your VPN app (NordVPN / Surfshark / Proton VPN).</li>
+      <li>Open <strong>Settings → Protocol</strong> and choose <strong>WireGuard</strong> (or NordLynx).</li>
+      <li>Enable <strong>Kill Switch</strong> and <strong>Auto‑connect</strong>.</li>
+      <li>Connect to a nearby US server (same state/region for the lowest ping).</li>
+      <li>Run quick checks: <a href="/en-us/blog/vpn-dns-leak.html">DNS leak</a> + IPv6 + WebRTC.</li>
+    </ol>
+    <p class="key"><strong>Key takeaway:</strong> For most Americans, the app is the shortest path to <strong>fast streaming</strong> and <strong>safe public Wi‑Fi</strong>.</p>
+  </section>
+
+  <section id="setup-built-in">
+    <h2>Manual setup in Windows Settings (IKEv2 / SSTP)</h2>
+    <p>If you need a profile without extra software, use Windows built‑in. Choose <strong>IKEv2</strong> for stability or <strong>SSTP</strong> when you’re on strict networks (often works on TLS/443).</p>
+
+    <div class="note">
+      <h3>Windows (built‑in) — quick steps</h3>
+      <ol class="tight">
+        <li>Open <strong>Settings → Network &amp; Internet → VPN → Add VPN</strong>.</li>
+        <li>VPN provider: <strong>Windows (built‑in)</strong>.</li>
+        <li>Server name/address: enter the provider hostname (avoid typos).</li>
+        <li>VPN type: choose <strong>IKEv2</strong> (stable) or <strong>SSTP</strong> (often works on TLS/443).</li>
+        <li>Save, connect, and immediately run <strong>DNS/IPv6 checks</strong>.</li>
+      </ol>
+      <p class="key"><strong>Key takeaway:</strong> Manual profiles can work brilliantly, but Windows won’t automatically save you from DNS/IPv6 leaks.</p>
+    </div>
+  </section>
+
+  <section id="kill-the-lag">
+    <h2>Kill the lag: gaming &amp; streaming settings that actually help</h2>
+    <ul>
+      <li><strong>Pick the closest server</strong> (same coast/state first). Distance = ping.</li>
+      <li><strong>Use WireGuard</strong> when possible (often the best for latency).</li>
+      <li><strong>Split tunneling</strong> (send games through VPN, keep local apps direct) — see <a href="/en-us/blog/vpn-split-tunneling.html">split tunneling</a>.</li>
+      <li>On Wi‑Fi, prefer 5GHz and avoid “power saver” modes that downclock radios.</li>
+    </ul>
+
+    <div class="svg-card">
+      <h3>Diagram 2: Quick decision tree (app vs manual)</h3>
+      <!-- Reuse diagram 2 from template -->
+      <div class="svg-card">
+        
+    </div>
+  </section>
+
+  <section id="isp-throttling">
+    <h2>Bypass ISP throttling (Comcast, AT&amp;T, Spectrum): what works</h2>
+    <p>
+      ISPs can throttle certain traffic patterns (especially during peak hours). A VPN often helps because the ISP can’t easily classify your traffic.
+      If streaming starts buffering, try this playbook:
+    </p>
+
+    <div class="table-scroll" role="region" aria-label="Throttling fixes table" tabindex="0">
+      <table>
+        <caption>US throttling fixes (quick checklist)</caption>
+        <thead>
+          <tr><th>Symptom</th><th>Try this</th><th>Why it helps</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Netflix/Hulu buffers at night</td><td>Switch to a closer server; WireGuard</td><td>Lower latency + better throughput</td></tr>
+          <tr><td>Streaming “proxy/VPN” errors</td><td>Change server; clear cookies/app cache</td><td>Rotates IP + resets detection signals</td></tr>
+          <tr><td>Public Wi‑Fi blocks VPN</td><td>Port 443 (SSTP / OpenVPN TCP)</td><td>Looks like normal HTTPS traffic</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="tiny subtle">
+      If you want the “why,” start with <a href="/en-us/blog/vpn-streaming.html">VPN for streaming</a> and <a href="/en-us/blog/vpn-public-wifi.html">public Wi‑Fi protection</a>.
+    </p>
+
+    <p class="note"><strong>Pro‑Tip (Denys Shchur):</strong> In the US, a <a href="/en-us/blog/vpn-kill-switch.html">kill switch</a> matters more than people think — especially if you ever touch P2P. A drop without a kill switch can expose your real IP and trigger nasty surprises (including DMCA‑style notices from your ISP).</p>
+  </section>
+
+  <section id="command-center">
+    <h2>Windows VPN Command Center (US Connectivity Fixer)</h2>
+    <p class="lead">Tap a scenario. You’ll get the fastest “do this now” checklist.</p>
+
+    <div class="issue-selector" id="issue-selector" aria-label="Connectivity Fixer">
+      <button type="button" class="issue" data-issue="wifi">Public Wi‑Fi Protection</button>
+      <button type="button" class="issue" data-issue="streaming">Streaming Error (Proxy/VPN)</button>
+      <button type="button" class="issue" data-issue="gaming">Gaming High Ping</button>
+    </div>
+
+    <div class="note" id="issue-output" aria-live="polite">
+      <p><strong>Select a scenario</strong> to see the recommended fix steps.</p>
+    </div>
+  </section>
+
+  <section id="leak-checks">
+    <h2>DNS / IPv6 / WebRTC checks (don’t skip this)</h2>
+    <p>
+      After you connect, run checks. If anything leaks, you can fix most issues in minutes — but you only notice them if you test.
+      Start here: <a href="/en-us/blog/vpn-dns-leak.html">DNS leak test</a>.
+    </p>
+
+    <div class="svg-card">
+      <h3>Diagram 3: How a Kill Switch prevents accidental leaks</h3>
+      <!-- Reuse diagram 3 from template -->
+      <div class="svg-card">
+        <h3>Diagram 1: ISP snooping vs VPN encryption (UK view)</h3>
+        <div class="svg-scroll">
+          <svg viewBox="0 0 980 420" role="img" aria-label="Diagram showing what a UK ISP can see without a VPN versus with a VPN" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="980" height="420" fill="#fff"/>
+            <text x="30" y="40" font-size="22">Without VPN (ISP can infer a lot)</text>
+
+            <rect x="30" y="70" width="290" height="70" rx="14" class="fill-blue" stroke="#000" stroke-width="4"/>
+            <text x="55" y="112" font-size="20">Windows → BT / Virgin</text>
+
+            <rect x="360" y="70" width="290" height="70" rx="14" class="fill-red" stroke="#000" stroke-width="4"/>
+            <text x="385" y="104" font-size="18">DNS + SNI metadata</text>
+            <text x="385" y="128" font-size="16">Banking / streaming hints</text>
+
+            <rect x="690" y="70" width="260" height="70" rx="14" class="fill-yellow" stroke="#000" stroke-width="4"/>
+            <text x="715" y="112" font-size="20">Web services</text>
+
+            <path d="M320 105 H350" class="stroke"/>
+            <path d="M650 105 H680" class="stroke"/>
+
+            <text x="30" y="210" font-size="22">With VPN (ISP sees encrypted tunnel)</text>
+
+            <rect x="30" y="240" width="290" height="70" rx="14" class="fill-blue" stroke="#000" stroke-width="4"/>
+            <text x="55" y="282" font-size="20">Windows</text>
+
+            <rect x="360" y="240" width="290" height="70" rx="14" class="fill-green" stroke="#000" stroke-width="4"/>
+            <text x="385" y="270" font-size="20">Encrypted VPN tunnel</text>
+            <text x="385" y="294" font-size="16">(WireGuard / IKEv2 / SSTP)</text>
+
+            <rect x="690" y="240" width="260" height="70" rx="14" class="fill-yellow" stroke="#000" stroke-width="4"/>
+            <text x="715" y="282" font-size="20">Internet</text>
+
+            <path d="M320 275 H350" class="stroke"/>
+            <path d="M650 275 H680" class="stroke"/>
+
+            <text x="30" y="365" font-size="16">Reality check: your ISP still sees you’re using a VPN and basic connection metadata (time/volume), but not your plain browsing list.</text>
+          </svg>
+        </div>
+      </div>
+
+      <section>
+        <h2>App installation vs manual configuration (IKEv2/SSTP)</h2>
+        <p>There are two realistic paths on Windows 10/11:</p>
+        <ul>
+          <li><strong>Most users:</strong> a VPN app (WireGuard, Kill Switch, DNS protection, split tunnelling).</li>
+          <li><strong>Advanced/corporate:</strong> Windows built‑in profile (often <strong>IKEv2</strong> or <strong>SSTP</strong>).</li>
+        </ul>
+
+        <div class="table-scroll">
+          <table>
+            <caption>Which features are “native” to Windows and which usually come via a VPN app</caption>
+            <thead>
+              <tr><th>Feature</th><th>Windows built‑in</th><th>Typical VPN app</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>IKEv2</td><td>Yes</td><td>Often available</td></tr>
+              <tr><td>SSTP</td><td>Yes (Microsoft)</td><td>Sometimes</td></tr>
+              <tr><td>WireGuard</td><td>Usually no</td><td>Yes</td></tr>
+              <tr><td>Kill Switch</td><td>Limited</td><td>Yes (stronger)</td></tr>
+              <tr><td>DNS leak protection</td><td>Manual tweaks</td><td>Often one toggle</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="note"><strong>Key takeaway:</strong> If you want a “set once, forget it” setup, use an app. If you need to look like a corporate endpoint, manual IKEv2/SSTP can be the right fit.</p>
+      </section>
+
+      <div class="svg-card">
+        <h3>Diagram 2: Quick decision tree (app vs manual)</h3>
+        <div class="svg-scroll">
+          <svg viewBox="0 0 980 420" role="img" aria-label="Decision tree helping users choose between VPN app setup and manual Windows configuration" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="980" height="420" fill="#fff"/>
+            <rect x="330" y="30" width="320" height="70" rx="16" class="fill-blue" stroke="#000" stroke-width="4"/>
+            <text x="355" y="72" font-size="22">Need a VPN in 5 minutes?</text>
+
+            <path d="M490 100 V140" class="stroke"/>
+            <rect x="120" y="140" width="300" height="80" rx="16" class="fill-green" stroke="#000" stroke-width="4"/>
+            <text x="145" y="185" font-size="22">YES → Use an app</text>
+
+            <rect x="560" y="140" width="300" height="80" rx="16" class="fill-yellow" stroke="#000" stroke-width="4"/>
+            <text x="585" y="175" font-size="22">NO → Manual profile</text>
+            <text x="585" y="205" font-size="16">(IKEv2 / SSTP)</text>
+
+            <path d="M270 220 V260" class="stroke"/>
+            <rect x="80" y="260" width="380" height="120" rx="16" class="fill-green" stroke="#000" stroke-width="4"/>
+            <text x="105" y="300" font-size="20">App wins when you want</text>
+            <text x="105" y="328" font-size="16">• Kill Switch</text>
+            <text x="105" y="352" font-size="16">• WireGuard speeds</text>
+            <text x="105" y="376" font-size="16">• DNS/IPv6 protection</text>
+
+            <path d="M710 220 V260" class="stroke"/>
+            <rect x="520" y="260" width="380" height="120" rx="16" class="fill-yellow" stroke="#000" stroke-width="4"/>
+            <text x="545" y="300" font-size="20">Manual wins when you need</text>
+            <text x="545" y="328" font-size="16">• Corporate credentials</text>
+            <text x="545" y="352" font-size="16">• No extra software</text>
+            <text x="545" y="376" font-size="16">• Port 443 (SSTP) tricks</text>
+          </svg>
+        </div>
+      </div>
+
+      <section>
+        <h2>Manual setup in Windows Settings (IKEv2 / SSTP) — the safe checklist</h2>
+        <ol>
+          <li>Open <strong>Settings</strong> → <strong>Network &amp; Internet</strong> → <strong>VPN</strong>.</li>
+          <li>Select <strong>Add a VPN connection</strong> (provider: <strong>Windows (built‑in)</strong>).</li>
+          <li>Server name/address: enter the provider’s hostname (avoid typos).</li>
+          <li>VPN type: choose <strong>IKEv2</strong> (stable) or <strong>SSTP</strong> (often works on strict networks via TLS/443).</li>
+          <li>Save, connect, and immediately run DNS/IPv6 checks.</li>
+        </ol>
+        <p class="note"><strong>Key takeaway:</strong> Manual profiles can work brilliantly, but Windows won’t automatically save you from DNS/IPv6 leaks.</p>
+      </section>
+
+      <div class="svg-card">
+        <h3>Diagram 3: How a Kill Switch prevents accidental leaks</h3>
+        <div class="svg-scroll">
+          <svg viewBox="0 0 980 320" role="img" aria-label="Diagram showing how a kill switch blocks traffic when the VPN tunnel drops" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="980" height="320" fill="#fff"/>
+            <text x="30" y="40" font-size="22">When the VPN drops…</text>
+
+            <rect x="30" y="70" width="280" height="70" rx="14" class="fill-blue" stroke="#000" stroke-width="4"/>
+            <text x="55" y="112" font-size="20">Apps (browser, Teams)</text>
+
+            <rect x="360" y="70" width="280" height="70" rx="14" class="fill-yellow" stroke="#000" stroke-width="4"/>
+            <text x="385" y="112" font-size="20">Network adapter</text>
+
+            <rect x="690" y="40" width="260" height="100" rx="14" class="fill-green" stroke="#000" stroke-width="4"/>
+            <text x="720" y="85" font-size="22">Tunnel ON</text>
+            <text x="720" y="114" font-size="18">Traffic → VPN server</text>
+
+            <rect x="690" y="190" width="260" height="100" rx="14" class="fill-red" stroke="#000" stroke-width="4"/>
+            <text x="720" y="235" font-size="22">Tunnel OFF</text>
+            <text x="720" y="264" font-size="18">Kill Switch blocks</text>
+
+            <path d="M310 105 H350" class="stroke"/>
+            <path d="M640 105 H680" class="stroke"/>
+            <path d="M640 105 C680 105, 660 210, 680 240" class="stroke"/>
+
+            <text x="360" y="175" font-size="18">Kill Switch = firewall/WFP rules</text>
+            <path d="M360 182 H620" class="stroke"/>
+          </svg>
+        </div>
+    </div>
+
+    <div class="table-scroll" role="region" aria-label="Leak test checklist table" tabindex="0">
+      <table>
+        <caption>Leak test checklist (Windows)</caption>
+        <thead>
+          <tr><th>Test</th><th>What “good” looks like</th><th>Quick fix</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>IP address</td><td>Shows VPN server location</td><td>Switch server / protocol</td></tr>
+          <tr><td>DNS</td><td>DNS resolvers belong to VPN (or chosen secure DNS)</td><td>Disable IPv6, enable DNS leak protection</td></tr>
+          <tr><td>IPv6</td><td>No IPv6 leak to ISP</td><td>Disable IPv6 or use VPN that supports IPv6</td></tr>
+          <tr><td>WebRTC</td><td>No local/private IP exposure in browser</td><td>Browser settings / extensions</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cta-row" aria-label="Bottom VPN picks">
+      <a class="cta cta-nord" href="https://go.nordvpn.net/aff_c?aff_id=2495&amp;offer_id=312&amp;url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">
+        NordVPN: Fast + stable on US ISPs
+      </a>
+      <a class="cta cta-surf" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">
+        Surfshark: Great value for families
+      </a>
+      <a class="cta cta-proton" href="https://www.dpbolvw.net/click-101525886-15834536" target="_blank" rel="nofollow sponsored noopener noreferrer">
+        Proton VPN: Privacy-first option
+      </a>
+    </div>
+  </section>
+
+  <section class="video">
+    <h2>Video: VPN basics (official)</h2>
+    <div class="video-wrap">
+      <iframe width="560" height="315"
+        src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE"
+        title="VPN video"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+    </div>
+    <p class="tiny subtle">If the video doesn’t load, open it on YouTube: <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">watch here</a>.</p>
+  </section>
+
+  <section id="faq">
+    <h2>FAQ (US)</h2>
+    <details>
+      <summary>Is using a VPN legal in the US?</summary>
+      <p>Yes. Using a VPN is legal in the US. What matters is <em>what you do online</em> — the VPN doesn’t make illegal activity legal.</p>
+    </details>
+    <details>
+      <summary>Can my boss see my VPN traffic on a work laptop?</summary>
+      <p>Your employer can still monitor the device (MDM/EDR, proxy, DNS policies) and your activity in corporate apps. A VPN doesn’t bypass company policies.</p>
+    </details>
+    <details>
+      <summary>Why does Netflix show a proxy/VPN error?</summary>
+      <p>Switch servers, clear cookies/cache, or use a different protocol. Streaming services block known VPN IP ranges — rotation is normal.</p>
+    </details>
+    <details>
+      <summary>What’s the best protocol for US users?</summary>
+      <p>For most people: <strong>WireGuard</strong> (or NordLynx). For strict networks: OpenVPN TCP on 443 or SSTP.</p>
+    </details>
+  </section>
+
+  <!-- Related Guides (kept minimal; full related block is handled below) -->
+</article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>VPN World</strong>
+        <p>Independent service about privacy and practical online safety.</p>
+      </div>
+      <nav aria-label="Footer">
+        <a href="/en-us/privacy.html">Privacy</a>
+        <a href="/en-gb/disclosure.html">Disclosure</a>
+        <a href="mailto:u1797008805@gmail.com">Contact</a>
+      </nav>
+    </div>
+    <div class="container tiny">© 2026 VPN World • <a href="/about-denys-shchur.html">About the author</a></div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+
+  <!-- Troubleshooting logic (restored, isolated) -->
+  <script>
+  (function(){
+    var box = document.getElementById('winTroubleshoot');
+    if(!box) return;
+    var out = document.getElementById('winErrorResult');
+
+    var solutions = {
+      "807": {
+        title: "Error 807 (connection interrupted)",
+        items: [
+          "Switch protocol: WireGuard ↔ IKEv2 (or try SSTP on port 443)",
+          "Temporarily disable HTTPS/SSL inspection in antivirus/firewall tools (test only)",
+          "Try a different server region (nearby UK first)"
+        ],
+        tip: "On strict networks, SSTP over 443 can behave like regular TLS traffic and often gets through."
+      },
+      "691": {
+        title: "Error 691 (access denied)",
+        items: [
+          "Re-check username/password (watch for trailing spaces when pasting)",
+          "Confirm your subscription is active and credentials match the provider’s VPN login",
+          "If using manual profile: confirm the auth method required by the provider"
+        ],
+        tip: "If you changed your password recently, sign out/in inside the VPN app so the Windows profile doesn’t keep old creds."
+      },
+      "868": {
+        title: "Error 868 (server name not resolved)",
+        items: [
+          "Verify the server hostname (one typo breaks everything)",
+          "Flush DNS cache: ipconfig /flushdns",
+          "Switch DNS to a reliable resolver (1.1.1.1 / 8.8.8.8) for testing"
+        ],
+        tip: "Some ISP resolvers can fail on specific VPN hostnames; a different DNS can instantly confirm the cause."
+      },
+      "ISP": {
+        title: "ISP blocked / filtered (BT, Virgin, Sky)",
+        items: [
+          "Try SSTP on port 443, or an obfuscated/stealth mode if your provider offers it",
+          "Disable ISP “Web Safe” / filtering toggles for a clean test",
+          "Use a different protocol/port and retry on a nearby server"
+        ],
+        tip: "If UDP is throttled, TCP/443 is often the simplest bypass without changing your whole setup."
+      },
+      "BBC": {
+        title: "Slow BBC iPlayer (VPN connected but buffering)",
+        items: [
+          "Switch to the closest server (UK first) and try WireGuard",
+          "Avoid peak-time overloaded servers; pick a less busy location",
+          "Run a speed test and check latency (ping matters as much as Mbps)"
+        ],
+        tip: "If speed is fine but buffering persists, the route to the service may be congested — changing server location can fix it."
+      }
+    };
+
+    function escapeHtml(text){
+      var map = { "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;" };
+      return String(text).replace(/[&<>\"']/g, function(m){ return map[m]; });
+    }
+
+    function render(key){
+      var s = solutions[key];
+      if(!s || !out) return;
+      var html = '<h3 style="margin:0 0 8px">' + escapeHtml(s.title) + '</h3><ul>';
+      for (var i=0;i<s.items.length;i++){
+        html += '<li>' + escapeHtml(s.items[i]) + '</li>';
+      }
+      html += '</ul><p class="note" style="margin-top:10px"><strong>Pro tip:</strong> ' + escapeHtml(s.tip) + '</p>';
+      out.innerHTML = html;
+    }
+
+    var btns = box.querySelectorAll('button[data-key]');
+    btns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        btns.forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        render(btn.getAttribute('data-key'));
+      });
+    });
+  })();
+  </script>
+
+  <!-- Cookie banner (single canonical layer) -->
+</div>
+  </div>
+
+  <!-- PAGE: https://dloran1.github.io/en-us/blog/vpn-windows-setup.html -->
+
+<script>
+/* PATCH: Issue selector logic (US) — keep it simple and robust */
+(function(){
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, function(s){
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]);
+    });
+  }
+
+  var selector = document.getElementById('issue-selector');
+  var out = document.getElementById('issue-output');
+  if (!selector || !out) return;
+
+  var scenarios = {
+    wifi: {
+      title: "Public Wi‑Fi Protection (Starbucks / hotel / airport)",
+      bullets: [
+        "Connect to the Wi‑Fi first (accept the captive portal), then enable the VPN.",
+        "If it won’t connect: switch to TCP/443 (SSTP or OpenVPN TCP) to blend with normal HTTPS traffic.",
+        "Disable “Use default gateway on remote network” only if your provider explicitly recommends split routes (rare).",
+        "Run a quick DNS/IPv6/WebRTC check right after connecting."
+      ],
+      commands: [
+        {label:"Reset Windows networking", cmd:"netsh winsock reset\nnetsh int ip reset\nipconfig /flushdns"},
+        {label:"Check routes (after VPN connects)", cmd:"route print"},
+        {label:"Verify DNS servers", cmd:"ipconfig /all | findstr /i \"DNS Servers\""}
+      ]
+    },
+    streaming: {
+      title: "Streaming proxy error (Netflix/Hulu/Max)",
+      bullets: [
+        "Pick a nearby VPN server (same region) first — distance adds buffering.",
+        "Clear streaming site/app cache and restart the browser/app.",
+        "Try a different server or protocol (WireGuard ⇄ OpenVPN UDP ⇄ TCP/443).",
+        "Turn off GPS/location spoofing extensions that can conflict with VPN geolocation."
+      ],
+      commands: [
+        {label:"Clear DNS cache", cmd:"ipconfig /flushdns"},
+        {label:"Restart network adapter (PowerShell)", cmd:"Get-NetAdapter | Restart-NetAdapter"},
+        {label:"Check your public IP quickly", cmd:"nslookup myip.opendns.com resolver1.opendns.com"}
+      ]
+    },
+    ping: {
+      title: "Gaming high ping / lag spikes",
+      bullets: [
+        "Use WireGuard/NordLynx when available — it’s usually the lowest‑latency option.",
+        "Choose the closest server to the game region (don’t “chase” a far country).",
+        "Disable extra features temporarily (Double VPN, Tor‑over‑VPN, heavy ad blocking DNS).",
+        "If your ISP is throttling, changing VPN server/provider can stabilize throughput."
+      ],
+      commands: [
+        {label:"Ping test (replace host)", cmd:"ping -n 20 8.8.8.8"},
+        {label:"Pathping (find bottlenecks)", cmd:"pathping 8.8.8.8"},
+        {label:"Check packet loss (PowerShell)", cmd:"Test-NetConnection 8.8.8.8 -InformationLevel Detailed"}
+      ]
+    }
+  };
+
+  function render(key){
+    var s = scenarios[key];
+    if (!s) return;
+    var html = '';
+    html += '<div class="note" style="margin-top:12px">';
+    html += '<strong>' + escapeHtml(s.title) + '</strong>';
+    html += '<ul style="margin:10px 0 0 18px">';
+    for (var i=0;i<s.bullets.length;i++){
+      html += '<li>' + escapeHtml(s.bullets[i]) + '</li>';
+    }
+    html += '</ul>';
+    if (s.commands && s.commands.length){
+      html += '<div style="margin-top:12px; display:grid; gap:10px">';
+      for (var j=0;j<s.commands.length;j++){
+        html += '<details style="background:#071023;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px">';
+        html += '<summary style="cursor:pointer;font-weight:800;color:#fff">' + escapeHtml(s.commands[j].label) + '</summary>';
+        html += '<pre style="white-space:pre-wrap;word-break:break-word;background:#fff;color:#000;padding:10px;border-radius:10px;margin-top:8px;border:1px solid rgba(0,0,0,.12)"><code>' + escapeHtml(s.commands[j].cmd) + '</code></pre>';
+        html += '</details>';
+      }
+      html += '</div>';
+    }
+    html += '</div>';
+    out.innerHTML = html;
+  }
+
+  selector.addEventListener('click', function(e){
+    var btn = e.target.closest('button[data-issue]');
+    if (!btn) return;
+    var key = btn.getAttribute('data-issue');
+    var all = selector.querySelectorAll('button[data-issue]');
+    for (var i=0;i<all.length;i++) all[i].classList.remove('active');
+    btn.classList.add('active');
+    render(key);
+  });
+
+  // default
+  var first = selector.querySelector('button[data-issue]');
+  if (first){
+    first.classList.add('active');
+    render(first.getAttribute('data-issue'));
+  }
+})();
+</script>
+
+<!-- Cookie Consent (canonical) -->
+<div id="cookie-consent-layer" class="cookie-layer" aria-hidden="true"></div>
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+  <div class="cookie-banner__inner">
+    <div class="cookie-banner__text">
+      <span class="cookie-banner__msg">We use cookies.</span>
+      <a class="cookie-banner__link" href="/en-us/privacy.html" rel="nofollow">Privacy</a>
+    </div>
+    <div class="cookie-banner__actions">
+      <button id="cookie-accept" type="button">Accept</button>
+      <button id="cookie-reject" type="button">Reject</button>
+    </div>
+  </div>
+</div>
+<!-- /Cookie Consent (canonical) -->
+
+</body>
+</html>

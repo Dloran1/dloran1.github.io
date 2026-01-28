@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index, follow">
+
+  <title>VPN na macOS (2026): konfiguracja na MacBooku, iMacu i Apple Silicon (M1/M2/M3) | VPN World</title>
+  <meta name="description" content="Praktyczny poradnik 2026: jak wybrać i skonfigurować VPN na macOS (Apple Silicon M1/M2/M3), jak działa Kill Switch, kiedy wybrać WireGuard vs OpenVPN, oraz jak odblokować streaming i chronić Wi‑Fi." />
+
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <link rel="canonical" href="https://dloran1.github.io/blog/vpn-na-macos.html">
+
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-na-macos.html">
+  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-macos-uk.html">
+  <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-macos.html">
+  <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-macos.html">
+  <link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/vpn-macos.html">
+  <link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/vpn-macos.html">
+  <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-macos.html">
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-macos-uk.html">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="VPN na macOS (2026): konfiguracja na MacBooku i Apple Silicon">
+  <meta property="og:description" content="Konfiguracja VPN na macOS krok po kroku: WireGuard, OpenVPN, IKEv2, Kill Switch, Private Relay i testy wycieków." />
+  <meta property="og:url" content="https://dloran1.github.io/blog/vpn-na-macos.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-macos-uk.webp">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="nl_BE">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="VPN na macOS (2026): WireGuard, Kill Switch i Apple Silicon">
+  <meta name="twitter:description" content="Praktyczny poradnik: jak uruchomić VPN na Macu bez spadków baterii i z poprawnym DNS." />
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-macos-uk.webp">
+
+  <!-- Google tag (gtag.js) + Consent Mode v2 (default denied) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    // Consent Mode v2: default denied (updates happen in cookie-consent.js on accept)
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'denied',
+      personalization_storage: 'denied',
+      security_storage: 'denied'
+    });
+  </script>
+
+  <!-- JSON-LD: Article + FAQ + BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Article",
+    "headline":"VPN na macOS (2026): konfiguracja na MacBooku, iMacu i Apple Silicon (M1/M2/M3)",
+    "description":"Poradnik 2026: jak skonfigurować VPN na macOS, dobrać protokół (WireGuard/OpenVPN/IKEv2), poprawić stabilność, sprawdzić wycieki DNS/IPv6 i zrozumieć różnice między VPN a iCloud Private Relay.",
+    "image":["https://dloran1.github.io/assets/img/hero/vpn-macos-uk.webp"],
+    "datePublished":"2026-01-16",
+    "dateModified":"2026-01-16",
+    "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/blog/vpn-na-macos.html"},
+    "author":{"@type":"Person","name":"Denys Shchur"},
+    "publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}}
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {
+        "@type":"Question",
+        "name":"Czy macOS ma wbudowany VPN?",
+        "acceptedAnswer":{"@type":"Answer","text":"macOS ma wbudowanego klienta VPN w Ustawieniach systemowych (np. IKEv2, L2TP/IPsec). To nie jest usługa VPN — potrzebujesz danych serwera od dostawcy VPN."}
+      },
+      {
+        "@type":"Question",
+        "name":"Czy iCloud Private Relay zastępuje VPN?",
+        "acceptedAnswer":{"@type":"Answer","text":"Nie. Private Relay dotyczy głównie ruchu w Safari i nie daje pełnej zmiany lokalizacji dla całego systemu. VPN szyfruje ruch wszystkich aplikacji na Macu."}
+      },
+      {
+        "@type":"Question",
+        "name":"Czy VPN spowalnia Maca i streaming 4K?",
+        "acceptedAnswer":{"@type":"Answer","text":"Nowoczesne protokoły (WireGuard/NordLynx) zwykle minimalizują spadek prędkości. Najczęstsze przyczyny buforowania to przeciążony serwer, słabe Wi‑Fi lub wycieki DNS/IPv6. Warto też użyć serwera bliżej i włączyć WireGuard."}
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"VPN World","item":"https://dloran1.github.io/"},
+      {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/blog/"},
+      {"@type":"ListItem","position":3,"name":"VPN na macOS","item":"https://dloran1.github.io/blog/vpn-na-macos.html"}
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"HowTo",
+    "name":"Jak skonfigurować VPN na macOS w 3 krokach",
+    "step":[
+      {"@type":"HowToStep","text":"Zainstaluj aplikację VPN działającą natywnie na Apple Silicon (M1/M2/M3) i zaloguj się.","url":"https://dloran1.github.io/blog/vpn-na-macos.html#krok-1"},
+      {"@type":"HowToStep","text":"Wybierz protokół WireGuard (lub OpenVPN/IKEv2) i włącz Kill Switch, jeśli jest dostępny.","url":"https://dloran1.github.io/blog/vpn-na-macos.html#krok-2"},
+      {"@type":"HowToStep","text":"Połącz się z serwerem i sprawdź wycieki DNS/IPv6/WebRTC, a potem uruchom streaming lub pracę zdalną.","url":"https://dloran1.github.io/blog/vpn-na-macos.html#krok-3"}
+    ]
+  }
+  </script>
+      <script src="/assets/js/cookie-consent.js" defer></script>
+</head>
+
+<body>
+  <nav class="lang-switch">
+    <a href="/blog/vpn-na-macos.html" class="active">Polski</a> |
+    <a href="/en-gb/blog/vpn-macos-uk.html">English (UK)</a> |
+    <a href="/en-us/blog/vpn-macos.html">English (US)</a> |
+    <a href="/de/blog/vpn-macos.html">Deutsch</a> |
+    <a href="/es/blog/vpn-macos.html">Español</a> |
+    <a href="/fr/blog/vpn-macos.html">Français</a> |
+    <a href="/nl-be/blog/vpn-macos.html">Nederlands (BE)</a>
+  </nav>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="brand">
+        <img src="../assets/img/logo.png" class="logo" alt="Logo VPN World">
+        <span class="brand-text">VPN World</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container card" style="padding:18px 0">
+    <article class="article">
+
+      <section class="hero" aria-label="Wprowadzenie">
+        <div class="hero-inner">
+          <div class="hero-copy">
+            <h1>VPN na macOS (2026): jak skonfigurować na MacBooku i Apple Silicon (M1/M2/M3)</h1>
+            <p>macOS jest szybki, wygodny i… bardzo „sprytny” w zarządzaniu siecią. To świetne, dopóki nie chcesz kontrolować prywatności, DNS i lokalizacji dla całego systemu. Ten poradnik pokazuje praktycznie, jak uruchomić VPN na Macu tak, żeby nie psuł baterii, nie wywoływał rozłączeń i nie zostawiał wycieków.</p>
+
+            <div class="hero-author" aria-label="Autor">
+              <img src="../assets/img/author/denys-shchur.webp" alt="Denys Shchur">
+              <div class="hero-author-text">
+                <span class="hero-author-label">Autor</span>
+                <span class="hero-author-name"><a href="https://smartadvisoronline.com/about/denys-shchur.html" target="_blank" rel="noopener noreferrer">Denys Shchur</a></span>
+                <span class="meta">Aktualizacja: 16 stycznia 2026</span>
+              </div>
+            </div>
+
+            <ul class="meta-points" aria-label="Szybkie punkty">
+              <li>Najlepiej: WireGuard / NordLynx</li>
+              <li>Testy: DNS/IPv6/WebRTC</li>
+              <li>Apple: Private Relay ≠ VPN</li>
+            </ul>
+          </div>
+
+          <div class="hero-media">
+            <div class="hero-art">
+              <img src="../assets/img/hero/vpn-macos-uk.webp" alt="VPN na macOS — konfiguracja na MacBooku" width="720" height="405" fetchpriority="high" loading="eager">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="ai-summary" style="background:#f0f7ff; border-left:5px solid #0b63ff; padding:20px; border-radius:12px; margin:20px 0; color:#000;">
+  <p><strong>Krótka odpowiedź (2026):</strong> jeśli chcesz maksymalnej prywatności na macOS, wybierz VPN z <a href="/blog/protokoly-vpn.html">WireGuard/NordLynx</a> i prawdziwym <a href="/blog/vpn-kill-switch.html">Kill Switch</a>. iCloud Private Relay chroni głównie Safari, a pełny VPN szyfruje ruch całego systemu (aplikacje, komunikatory, streaming). Po instalacji zrób test <a href="/blog/wyciek-dns-vpn.html">wycieków DNS/IPv6</a> i dopiero potem ustaw serwer pod streaming lub pracę.</p>
+</section>
+
+      <nav class="toc-box" style="background:#ffffff; color:#000; padding:15px; border-radius:12px; margin:20px 0; border:1px solid rgba(0,0,0,.12);">
+        <strong>W tym poradniku:</strong>
+        <ul style="margin-top:10px; font-size:.95rem;">
+          <li><a href="#apple-silicon" style="color:#0b63ff">VPN na Apple Silicon (M1/M2/M3)</a></li>
+          <li><a href="#private-relay" style="color:#0b63ff">Private Relay vs VPN</a></li>
+          <li><a href="#metody" style="color:#0b63ff">3 metody konfiguracji</a></li>
+          <li><a href="#protokoły" style="color:#0b63ff">WireGuard vs OpenVPN vs IKEv2</a></li>
+          <li><a href="#wycieki" style="color:#0b63ff">Testy wycieków DNS/IPv6/WebRTC</a></li>
+          <li><a href="#troubleshooting" style="color:#0b63ff">Co robić, gdy VPN „nie działa”</a></li>
+        </ul>
+      </nav>
+
+      <div class="cta-box">
+        <h2>VPN polecane do macOS (2026)</h2>
+        <p class="cta-note">Jeśli zależy Ci na stabilności (praca + streaming) i dobrych protokołach (WireGuard), zacznij od sprawdzonego dostawcy.</p>
+        <div class="cta-buttons">
+          <a class="nordvpn" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — szybkie serwery</a>
+          <a class="surfshark" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — dobry stosunek ceny</a>
+          <a class="proton" href="https://www.dpbolvw.net/click-101525886-15834536" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN — prywatność</a>
+        </div>
+      </div>
+
+      <section class="section" id="apple-silicon">
+        <h2>VPN na Apple Silicon (M1/M2/M3): co faktycznie ma znaczenie</h2>
+        <p>Na papierze „VPN to VPN”, ale w praktyce na Macu liczą się dwie rzeczy: <strong>zużycie energii</strong> i <strong>stabilność tunelu</strong>. Na MacBooku często pracujesz na baterii, a różnica między dobrze zoptymalizowaną aplikacją a ciężkim klientem potrafi być odczuwalna po kilku godzinach.</p>
+        <ul>
+          <li><strong>Natywna aplikacja</strong> (Apple Silicon) zwykle działa płynniej i oszczędniej niż stara wersja „pod Rosettę”.</li>
+          <li><strong>WireGuard</strong> jest lekki, szybki i w wielu scenariuszach daje lepszą responsywność (mniej „lagi” w przeglądarce i wideo).</li>
+          <li><strong>Split tunneling</strong> (jeśli jest dostępny) pozwala kierować tylko część ruchu przez VPN — przydatne, gdy np. bank lub praca wymagają lokalnego IP.</li>
+        </ul>
+
+        <div class="svg-card" aria-label="Diagram: ruch sieciowy na macOS" style="border:1px solid rgba(0,0,0,.12)">
+          <h3 style="text-align:center; margin:0 0 10px;">Jak VPN „wpina się” w ruch na macOS</h3>
+          <div class="svg-scroll">
+            <svg viewBox="0 0 980 280" role="img" aria-label="Schemat: aplikacje na Macu, tunel VPN i Internet" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0" y="0" width="980" height="280" fill="#ffffff"/>
+              <rect x="40" y="55" width="240" height="170" rx="18" fill="#E8F3FF" stroke="#000" stroke-width="4"/>
+              <text x="160" y="105" text-anchor="middle" font-size="22" font-weight="800" fill="#000">Aplikacje</text>
+              <text x="160" y="140" text-anchor="middle" font-size="16" font-weight="800" fill="#000">Safari • Mail</text>
+              <text x="160" y="165" text-anchor="middle" font-size="16" font-weight="800" fill="#000">Teams • iCloud</text>
+              <text x="160" y="190" text-anchor="middle" font-size="16" font-weight="800" fill="#000">Streaming</text>
+
+              <rect x="340" y="85" width="300" height="110" rx="18" fill="#EFFFF8" stroke="#000" stroke-width="4"/>
+              <text x="490" y="135" text-anchor="middle" font-size="22" font-weight="800" fill="#000">Tunel VPN</text>
+              <text x="490" y="165" text-anchor="middle" font-size="16" font-weight="800" fill="#000">WireGuard / OpenVPN / IKEv2</text>
+
+              <rect x="700" y="55" width="240" height="170" rx="18" fill="#F3ECFF" stroke="#000" stroke-width="4"/>
+              <text x="820" y="105" text-anchor="middle" font-size="22" font-weight="800" fill="#000">Internet</text>
+              <text x="820" y="140" text-anchor="middle" font-size="16" font-weight="800" fill="#000">Serwisy • DNS</text>
+              <text x="820" y="165" text-anchor="middle" font-size="16" font-weight="800" fill="#000">CDN • Streaming</text>
+              <text x="820" y="190" text-anchor="middle" font-size="16" font-weight="800" fill="#000">Praca zdalna</text>
+
+              <path d="M280 140 L340 140" stroke="#000" stroke-width="4"/>
+              <polygon points="340,140 326,132 326,148" fill="#000"/>
+
+              <path d="M640 140 L700 140" stroke="#000" stroke-width="4"/>
+              <polygon points="700,140 686,132 686,148" fill="#000"/>
+
+              <text x="310" y="115" text-anchor="middle" font-size="14" font-weight="800" fill="#000">ruch systemu</text>
+              <text x="670" y="115" text-anchor="middle" font-size="14" font-weight="800" fill="#000">szyfrowanie</text>
+            </svg>
+          </div>
+          <p style="margin:10px 0 0; color:#000"><strong>Wskazówka:</strong> jeśli VPN jest stabilny, większość aplikacji „nie zauważa” różnicy — problemy zwykle wynikają z DNS, IPv6 lub zbyt odległego serwera.</p>
+        </div>
+      </section>
+
+      <section class="section" id="private-relay">
+        <h2>iCloud Private Relay vs VPN: podobne nazwy, inny efekt</h2>
+        <p>To częste pytanie w 2026 roku: „Po co mi VPN, skoro mam iCloud Private Relay?”. Private Relay jest przydatny, ale ma inny cel. Najprościej:</p>
+        <ul>
+          <li><strong>Private Relay</strong> pomaga głównie w Safari (i wybranych scenariuszach Apple), maskując IP i ograniczając śledzenie.</li>
+          <li><strong>VPN</strong> obejmuje cały ruch systemu: aplikacje, komunikatory, klienty pocztowe, aktualizacje, a także pozwala realnie zmienić lokalizację.</li>
+        </ul>
+
+        <div class="table-scroll">
+          <table>
+            <caption>Private Relay vs VPN — praktyczna różnica na macOS</caption>
+            <thead>
+              <tr>
+                <th>Funkcja</th>
+                <th>Private Relay</th>
+                <th>VPN</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Szyfrowanie całego systemu</strong></td>
+                <td>Nie</td>
+                <td>Tak</td>
+              </tr>
+              <tr>
+                <td><strong>Zmiana lokalizacji</strong> (np. biblioteka serwisów)</td>
+                <td>Ograniczona</td>
+                <td>Tak (w zależności od serwerów)</td>
+              </tr>
+              <tr>
+                <td><strong>Ochrona w <a href="/blog/vpn-publiczne-wifi.html">publicznym Wi‑Fi</a></strong></td>
+                <td>Częściowo</td>
+                <td>Tak</td>
+              </tr>
+              <tr>
+                <td><strong>Kontrola DNS i wycieki</strong></td>
+                <td>Ograniczona</td>
+                <td>Tak (zależnie od konfiguracji)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="note"><strong>Uwaga:</strong> czasem Private Relay i VPN nie lubią się w jednym momencie. Jeśli masz problemy z ładowaniem stron w Safari, na czas testów wyłącz Private Relay i sprawdź, czy problem znika.</p>
+      </section>
+
+      <section class="section" id="metody">
+        <h2>3 metody konfiguracji VPN na macOS</h2>
+
+        <div class="card-grid">
+          <div class="card">
+            <h3>Aplikacja dostawcy (najprościej)</h3>
+            <p>Najlepsza opcja, jeśli chcesz Kill Switch, automatyczne serwery, szybkie protokoły i aktualizacje bez ręcznych ustawień.</p>
+          </div>
+          <div class="card">
+            <h3>Konfiguracja w systemie (IKEv2/L2TP)</h3>
+            <p>Dobra do prostych wdrożeń lub firmowych VPN. W praktyce do streamingu i codziennego użycia częściej wygodniejsza jest aplikacja.</p>
+          </div>
+          <div class="card">
+            <h3>WireGuard jako lekka aplikacja</h3>
+            <p>Świetne, gdy lubisz kontrolę. Wymaga profilu .conf / QR z panelu dostawcy, ale działa szybko i stabilnie.</p>
+          </div>
+        </div>
+
+        <h3 id="krok-1">Krok 1: Zainstaluj VPN (i sprawdź, czy jest natywny dla Apple Silicon)</h3>
+        <p>Jeśli widzisz, że aplikacja VPN jest „uniwersalna” lub ma wersję dla Apple Silicon, to dobry znak. Na MacBooku różnica w obciążeniu CPU może przekładać się na kulturę pracy i czas baterii.</p>
+
+        <h3 id="krok-2">Krok 2: Wybierz protokół i ustaw zabezpieczenia</h3>
+        <p>Jeżeli celem jest codzienne użycie, zwykle zaczynasz od <a href="/blog/protokoly-vpn.html">WireGuard/NordLynx</a>. W praktyce to najłatwiejszy sposób, żeby mieć szybkie 4K, niskie opóźnienia i małe zużycie baterii na MacBooku. Włącz <a href="/blog/vpn-kill-switch.html">Kill Switch</a>, żeby w razie zerwania tunelu ruch nie „uciekł” poza VPN.</p>
+
+        <h3 id="krok-3">Krok 3: Połącz się i zrób szybkie testy wycieków</h3>
+        <p>Po połączeniu sprawdź, czy nie ma <a href="/blog/wyciek-dns-vpn.html">wycieku DNS/IPv6</a>. Jeśli korzystasz z Wi‑Fi w hotelu lub kawiarni, zobacz też poradnik o <a href="/blog/vpn-publiczne-wifi.html">publicznych sieciach Wi‑Fi</a>. Jeżeli chcesz streamować, przejdź do sekcji o <a href="/blog/vpn-streaming.html">VPN do streamingu</a> i w razie potrzeby wyczyść cache aplikacji.</p>
+
+        <div class="svg-card" aria-label="Diagram: wybór metody VPN" style="border:1px solid rgba(0,0,0,.12)">
+          <h3 style="text-align:center; margin:0 0 10px;">Jaką metodę wybrać na Macu?</h3>
+          <div class="svg-scroll">
+            <svg viewBox="0 0 980 340" role="img" aria-label="Flowchart: wybór aplikacji, WireGuard lub systemowego VPN" xmlns="http://www.w3.org/2000/svg">
+              <rect width="980" height="340" fill="#fff"/>
+
+              <rect x="60" y="40" width="860" height="60" rx="16" fill="#E8F3FF" stroke="#000" stroke-width="4"/>
+              <text x="490" y="78" text-anchor="middle" font-size="22" font-weight="800" fill="#000">Cel: prywatność + stabilność + łatwa obsługa</text>
+
+              <rect x="80" y="150" width="260" height="140" rx="16" fill="#EFFFF8" stroke="#000" stroke-width="4"/>
+              <text x="210" y="190" text-anchor="middle" font-size="20" font-weight="800" fill="#000">Aplikacja VPN</text>
+              <text x="210" y="220" text-anchor="middle" font-size="15" font-weight="800" fill="#000">Kill Switch</text>
+              <text x="210" y="245" text-anchor="middle" font-size="15" font-weight="800" fill="#000">Auto-serwery</text>
+              <text x="210" y="270" text-anchor="middle" font-size="15" font-weight="800" fill="#000">Najmniej pracy</text>
+
+              <rect x="360" y="150" width="260" height="140" rx="16" fill="#FFF5D6" stroke="#000" stroke-width="4"/>
+              <text x="490" y="190" text-anchor="middle" font-size="20" font-weight="800" fill="#000">WireGuard</text>
+              <text x="490" y="220" text-anchor="middle" font-size="15" font-weight="800" fill="#000">Najwyższa szybkość</text>
+              <text x="490" y="245" text-anchor="middle" font-size="15" font-weight="800" fill="#000">Lekka aplikacja</text>
+              <text x="490" y="270" text-anchor="middle" font-size="15" font-weight="800" fill="#000">Więcej kontroli</text>
+
+              <rect x="640" y="150" width="260" height="140" rx="16" fill="#F3ECFF" stroke="#000" stroke-width="4"/>
+              <text x="770" y="190" text-anchor="middle" font-size="20" font-weight="800" fill="#000">IKEv2/L2TP</text>
+              <text x="770" y="220" text-anchor="middle" font-size="15" font-weight="800" fill="#000">Konfiguracja w macOS</text>
+              <text x="770" y="245" text-anchor="middle" font-size="15" font-weight="800" fill="#000">Firmowe wdrożenia</text>
+              <text x="770" y="270" text-anchor="middle" font-size="15" font-weight="800" fill="#000">Rzadziej do streamingu</text>
+
+              <path d="M490 100 L210 150" stroke="#000" stroke-width="4"/>
+              <path d="M490 100 L490 150" stroke="#000" stroke-width="4"/>
+              <path d="M490 100 L770 150" stroke="#000" stroke-width="4"/>
+
+              <circle cx="490" cy="100" r="6" fill="#000"/>
+            </svg>
+          </div>
+          <p style="margin:10px 0 0; color:#000"><strong>Tip:</strong> jeśli chcesz „raz ustawić i zapomnieć” — aplikacja VPN. Jeśli priorytetem jest szybkość i minimalny narzut — WireGuard.</p>
+        </div>
+      </section>
+
+      <section class="section" id="protokoły">
+        <h2>WireGuard vs OpenVPN vs IKEv2: co wybrać na macOS</h2>
+        <p>Protokół decyduje o szybkości, stabilności oraz obciążeniu procesora. Na macOS (szczególnie na laptopie) to ma realne znaczenie.</p>
+
+        <div class="table-scroll">
+          <table>
+            <caption>Najlepsze protokoły VPN dla macOS (2026)</caption>
+            <thead>
+              <tr>
+                <th>Protokół</th>
+                <th>Szybkość</th>
+                <th>Wpływ na baterię</th>
+                <th>Najlepsze zastosowanie</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>WireGuard</strong></td>
+                <td>Najwyższa</td>
+                <td>Minimalny</td>
+                <td>Streaming 4K, praca, gry</td>
+              </tr>
+              <tr>
+                <td><strong>OpenVPN</strong></td>
+                <td>Wysoka</td>
+                <td>Średni</td>
+                <td>Sieci restrykcyjne, zgodność</td>
+              </tr>
+              <tr>
+                <td><strong>IKEv2</strong></td>
+                <td>Bardzo wysoka</td>
+                <td>Niski</td>
+                <td>Mobilność, szybkie przełączanie</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="key-takeaway"><strong>Key takeaway:</strong> jeśli nie masz specjalnych wymagań — startuj od WireGuard. Gdy coś „krzaczy” na hotelowym Wi‑Fi, przełącz się na OpenVPN i sprawdź ponownie.</p>
+
+        <div class="svg-card" aria-label="Diagram: protokoły a opóźnienia" style="border:1px solid rgba(0,0,0,.12)">
+          <h3 style="text-align:center; margin:0 0 10px;">Protokół a opóźnienie (ping) — jak to czuć na Macu</h3>
+          <div class="svg-scroll">
+            <svg viewBox="0 0 980 320" role="img" aria-label="Wykres słupkowy: WireGuard, IKEv2, OpenVPN" xmlns="http://www.w3.org/2000/svg">
+              <rect width="980" height="320" fill="#fff"/>
+
+              <text x="80" y="60" font-size="18" font-weight="800" fill="#000">Niższe = lepsze odczucie w przeglądarce i wideo</text>
+
+              <line x1="120" y1="260" x2="900" y2="260" stroke="#000" stroke-width="4"/>
+              <line x1="120" y1="90" x2="120" y2="260" stroke="#000" stroke-width="4"/>
+
+              <rect x="200" y="140" width="160" height="120" fill="#EFFFF8" stroke="#000" stroke-width="4"/>
+              <rect x="420" y="160" width="160" height="100" fill="#E8F3FF" stroke="#000" stroke-width="4"/>
+              <rect x="640" y="190" width="160" height="70" fill="#FFF5D6" stroke="#000" stroke-width="4"/>
+
+              <text x="280" y="285" text-anchor="middle" font-size="18" font-weight="800" fill="#000">WireGuard</text>
+              <text x="500" y="285" text-anchor="middle" font-size="18" font-weight="800" fill="#000">IKEv2</text>
+              <text x="720" y="285" text-anchor="middle" font-size="18" font-weight="800" fill="#000">OpenVPN</text>
+
+              <text x="280" y="130" text-anchor="middle" font-size="18" font-weight="800" fill="#000">~ niskie</text>
+              <text x="500" y="150" text-anchor="middle" font-size="18" font-weight="800" fill="#000">~ średnie</text>
+              <text x="720" y="180" text-anchor="middle" font-size="18" font-weight="800" fill="#000">~ wyższe</text>
+
+              <text x="70" y="120" text-anchor="end" font-size="14" font-weight="800" fill="#000">ping</text>
+            </svg>
+          </div>
+          <p style="margin:10px 0 0; color:#000">To nie są „laboratoryjne” liczby — raczej intuicja: WireGuard zwykle daje najlżejszy narzut i najlepsze „czucie” w codziennym użyciu.</p>
+        </div>
+      </section>
+
+      <section class="section" id="wycieki">
+        <h2>Test DNS/IPv6/WebRTC: jak sprawdzić, czy VPN na Macu naprawdę działa</h2>
+        <p>Największy problem z VPN nie polega na tym, że „nie szyfruje”, tylko na tym, że część informacji może wyciekać. Dla streamingu oznacza to błędną lokalizację, a dla prywatności — ujawnienie DNS lub IPv6.</p>
+
+        <div class="table-scroll">
+          <table>
+            <caption>Najczęstsze wycieki i szybkie naprawy (macOS)</caption>
+            <thead>
+              <tr>
+                <th>Objaw</th>
+                <th>Co to zwykle znaczy</th>
+                <th>Szybka naprawa</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Serwis pokazuje złą lokalizację mimo VPN</td>
+                <td>DNS idzie do ISP lub jest IPv6 leak</td>
+                <td>Włącz ochronę przed wyciekami, wyłącz IPv6, wyczyść cache aplikacji</td>
+              </tr>
+              <tr>
+                <td>Rozłączenia w hotelu / na uczelni</td>
+                <td>Sieć ogranicza porty/protokoły</td>
+                <td>Zmień protokół na OpenVPN, spróbuj innego serwera</td>
+              </tr>
+              <tr>
+                <td>Wideo buforuje mimo szybkiego łącza</td>
+                <td>Przeciążony serwer lub słabe Wi‑Fi</td>
+                <td>Zmiana miasta serwera + 5 GHz Wi‑Fi + WireGuard</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="svg-card" aria-label="Diagram: 3 testy wycieków" style="border:1px solid rgba(0,0,0,.12)">
+          <h3 style="text-align:center; margin:0 0 10px;">3 szybkie testy po uruchomieniu VPN</h3>
+          <div class="svg-scroll">
+            <svg viewBox="0 0 980 300" role="img" aria-label="Trzy kafelki: DNS, IPv6, WebRTC" xmlns="http://www.w3.org/2000/svg">
+              <rect width="980" height="300" fill="#fff"/>
+
+              <rect x="60" y="70" width="260" height="170" rx="18" fill="#E8F3FF" stroke="#000" stroke-width="4"/>
+              <text x="190" y="120" text-anchor="middle" font-size="22" font-weight="800" fill="#000">DNS</text>
+              <text x="190" y="150" text-anchor="middle" font-size="15" font-weight="800" fill="#000">Czy DNS = VPN?</text>
+              <text x="190" y="180" text-anchor="middle" font-size="15" font-weight="800" fill="#000">brak ISP</text>
+
+              <rect x="360" y="70" width="260" height="170" rx="18" fill="#EFFFF8" stroke="#000" stroke-width="4"/>
+              <text x="490" y="120" text-anchor="middle" font-size="22" font-weight="800" fill="#000">IPv6</text>
+              <text x="490" y="150" text-anchor="middle" font-size="15" font-weight="800" fill="#000">Czy IPv6 nie „ucieka”?</text>
+              <text x="490" y="180" text-anchor="middle" font-size="15" font-weight="800" fill="#000">blok lub tunel</text>
+
+              <rect x="660" y="70" width="260" height="170" rx="18" fill="#FFF5D6" stroke="#000" stroke-width="4"/>
+              <text x="790" y="120" text-anchor="middle" font-size="22" font-weight="800" fill="#000">WebRTC</text>
+              <text x="790" y="150" text-anchor="middle" font-size="15" font-weight="800" fill="#000">Czy przeglądarka</text>
+              <text x="790" y="175" text-anchor="middle" font-size="15" font-weight="800" fill="#000">nie zdradza IP?</text>
+
+              <path d="M320 155 L360 155" stroke="#000" stroke-width="4"/>
+              <polygon points="360,155 346,147 346,163" fill="#000"/>
+              <path d="M620 155 L660 155" stroke="#000" stroke-width="4"/>
+              <polygon points="660,155 646,147 646,163" fill="#000"/>
+
+              <text x="490" y="260" text-anchor="middle" font-size="16" font-weight="800" fill="#000">Po zmianie serwera zrób testy ponownie.</text>
+            </svg>
+          </div>
+          <p style="margin:10px 0 0; color:#000"><strong>Mała rzecz, która robi różnicę:</strong> po połączeniu z VPN zamknij i uruchom ponownie aplikację (Netflix, przeglądarkę, itp.). Część serwisów trzyma stare sesje.</p>
+        </div>
+
+        <p class="human-note">Jeśli kiedykolwiek w hotelu VPN „na chwilę” zniknął i nagle wszystko zaczęło ładować się bez niego — to dokładnie moment, w którym Kill Switch potrafi uratować dzień.</p>
+      </section>
+
+      <section class="section" id="streaming">
+        <h2>VPN na Macu do streamingu i pracy: co jest realnie ważne</h2>
+        <p>macOS często jest „centrum dowodzenia”: telekonferencje, dokumenty, bank, a wieczorem streaming. Dlatego praktycznie liczą się trzy parametry: <strong>stabilność</strong>, <strong>opóźnienie</strong> i <strong>serwery</strong>.</p>
+        <ul>
+          <li><strong>Streaming:</strong> wybierz serwer blisko (mniejsze buforowanie). Jeśli chcesz bibliotekę innego kraju, licz się z większym pingiem.</li>
+          <li><strong>Praca zdalna:</strong> w publicznym Wi‑Fi VPN pomaga ograniczyć ryzyko podsłuchu ruchu. Warto też włączyć automatyczne łączenie przy nieznanych sieciach.</li>
+          <li><strong>Bank i płatności:</strong> czasem banki nie lubią zagranicznych IP. Przy takich usługach przydaje się split tunneling albo chwilowe rozłączenie VPN.</li>
+        </ul>
+
+        <div class="related-strip" role="note" aria-label="Powiązany poradnik">
+          <span class="related-label">Related:</span>
+          <a href="/blog/vpn-konfiguracja-routera.html">Konfiguracja VPN na routerze (dla całego domu)</a>
+        </div>
+
+        <div class="video-wrap" aria-label="Wideo: poradnik" style="margin:18px 0">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE"
+            title="VPN tutorial"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+        </div>
+        <p style="color:var(--muted); margin-top:.6rem">Jeśli wideo nie ładuje się, otwórz na YouTube: <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a></p>
+      </section>
+
+      <section class="section" id="troubleshooting">
+        <h2>Co robić, jeśli VPN na macOS jest wykrywany albo „nie działa”</h2>
+        <p>Na Macu najczęściej winny jest nie sam VPN, tylko otoczenie: DNS, IPv6, cache aplikacji albo ograniczenia sieci. Spróbuj tej kolejności:</p>
+        <ol>
+          <li><strong>Zmień protokół</strong> na WireGuard/NordLynx (albo na OpenVPN, jeśli sieć jest restrykcyjna).</li>
+          <li><strong>Wyłącz IPv6</strong> (tymczasowo) w konfiguracji VPN lub w routerze, jeśli serwis dalej widzi Twoją lokalizację.</li>
+          <li><strong>Wyczyść cache</strong> aplikacji/strony (Safari: dane witryn, a w aplikacjach — restart).</li>
+          <li><strong>Zmień miasto serwera</strong> (np. z jednego serwera do drugiego w tym samym kraju).</li>
+          <li><strong>Sprawdź Wi‑Fi</strong> (5 GHz, bliżej routera). Czasem problemem jest po prostu zasięg.</li>
+        </ol>
+
+        <p class="note"><strong>Ważne:</strong> jeśli VPN ma działać bez przerw, włącz Kill Switch i (jeśli możesz) auto‑reconnect. Dzięki temu Mac nie „wypadnie” na chwilę na zwykłe łącze.</p>
+
+        <div class="cta-box">
+          <h3>Drugi raz: wybór ma znaczenie</h3>
+          <p class="cta-note">Jeśli masz dość blokad, rozłączeń albo „dziwnych” lokalizacji, problem często rozwiązuje lepszy protokół i lepsze serwery.</p>
+          <div class="cta-buttons">
+            <a class="nordvpn" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">NordVPN — serwery + WireGuard</a>
+            <a class="surfshark" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">Surfshark — łatwy start</a>
+            <a class="proton" href="https://www.dpbolvw.net/click-101525886-15834536" target="_blank" rel="nofollow sponsored noopener noreferrer">Proton VPN — prywatność</a>
+          </div>
+        </div>
+
+        <div class="related-strip" role="note" aria-label="Powiązany poradnik">
+          <span class="related-label">Related:</span>
+          <a href="/blog/wyciek-dns-vpn.html">Test wycieków DNS — jak sprawdzić i naprawić</a>
+        </div>
+
+        <div class="related-strip" role="note" aria-label="Powiązany poradnik">
+          <span class="related-label">Related:</span>
+          <a href="/blog/bezpieczenstwo-wifi.html">Bezpieczeństwo Wi‑Fi — co robić w hotelu i kawiarni</a>
+        </div>
+      </section>
+
+      <!-- RELATED_START -->
+      <section class="related-guides" aria-label="Powiązane poradniki">
+  <h2>Powiązane poradniki</h2>
+  <ul>
+    <li><a href="/blog/co-to-jest-vpn.html">Co to jest VPN? (podstawy)</a></li>
+    <li><a href="/blog/protokoly-vpn.html">Protokoły VPN: WireGuard, OpenVPN, IKEv2</a></li>
+    <li><a href="/blog/vpn-kill-switch.html">Kill Switch — jak działa i kiedy ratuje</a></li>
+    <li><a href="/blog/wyciek-dns-vpn.html">Wyciek DNS/IPv6 — test i naprawa</a></li>
+    <li><a href="/blog/vpn-konfiguracja-iphone.html">VPN na iPhone — konfiguracja i wskazówki</a></li>
+    <li><a href="/blog/vpn-na-androida.html">VPN na Androida — szybka instalacja</a></li>
+    <li><a href="/blog/vpn-konfiguracja-routera.html">VPN na routerze — kiedy ma sens</a></li>
+    <li><a href="/blog/lista-bezpieczenstwa-wifi.html">Bezpieczeństwo Wi‑Fi: checklista</a></li>
+    <li><a href="/blog/vpn-streaming.html">VPN do streamingu — praktyczny poradnik</a></li>
+    <li><a href="/blog/vpn-w-podrozy.html">VPN w podróży — hotele, lotniska, roaming</a></li>
+  </ul>
+</section>
+<!-- RELATED_END -->
+
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>VPN World</strong>
+        <p>Niezależny serwis o prywatności i bezpieczeństwie w sieci.</p>
+      </div>
+      <nav>
+        <a href="/privacy.html">Polityka prywatności</a>
+        <a href="/disclosure.html">Disclosure</a>
+        <a href="/sitemap.xml">Sitemap</a>
+        <a href="mailto:u1797008805@gmail.com">Kontakt</a>
+      </nav>
+    </div>
+    <div class="container tiny">© 2026 VPN World</div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <!-- PAGE: https://dloran1.github.io/blog/vpn-na-macos.html -->
+<!-- Cookie Consent (canonical) -->
+<div id="cookie-consent-layer" class="cookie-layer" aria-hidden="true"></div>
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+  <div class="cookie-banner__inner">
+    <div class="cookie-banner__text">
+      <span class="cookie-banner__msg">We use cookies.</span>
+      <a class="cookie-banner__link" href="/privacy.html" rel="nofollow">Privacy</a>
+    </div>
+    <div class="cookie-banner__actions">
+      <button id="cookie-accept" type="button">Accept</button>
+      <button id="cookie-reject" type="button">Reject</button>
+    </div>
+  </div>
+</div>
+<!-- /Cookie Consent (canonical) -->
+
+</body>
+</html>
