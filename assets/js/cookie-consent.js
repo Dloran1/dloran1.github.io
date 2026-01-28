@@ -1,331 +1,253 @@
-/* VPN World — Canonical Cookie Consent (Stage 2.5 FINAL — SINGLE LAYER)
-   Goals:
-   - Always ONE canonical banner created by THIS file only.
-   - Kill/disable ANY legacy cookie overlays/bars that block clicks.
-   - Consent Mode v2: default denied for all keys.
-   - GA4 page_view ONLY after Accept.
-   - Works even if HTML has messy legacy snippets.
+/* VPN World — cookie-consent.js (canonical)
+   - Consent Mode v2 default denied
+   - Works with canonical markup:
+       #cookie-consent-layer + #cookie-banner
+       .cookie-banner__msg, .cookie-banner__link, .cookie-banner__actions
+       Buttons can be either:
+         #cookie-accept/#cookie-reject OR [data-consent="accept"/"reject"] OR .btn-accept/.btn-reject
+   - Persist in localStorage
+   - Fire GA4 page_view only after Accept
 */
+
 (function () {
   "use strict";
 
-  // ===== CONFIG =====
-  var LS_KEY = "vpnworld_consent";
-  var LS_PAGEVIEW_KEY = "vpnworld_pageview_sent";
-  var CONSENT_ACCEPTED = "accepted";
-  var CONSENT_REJECTED = "rejected";
+  var GA_ID = "G-EMR8C4TLVM";
 
-  function safeGtag() { return (typeof window.gtag === "function"); }
-  function q(id) { return document.getElementById(id); }
+  // Storage keys
+  var KEY_STATE = "vw_consent_state"; // "granted" | "denied"
+  var KEY_TS = "vw_consent_ts";       // ISO string
 
-  // ===== CONSENT MODE v2 =====
-  function setConsentDefaultDenied() {
-    if (!safeGtag()) return;
-    window.gtag("consent", "default", {
+  function qs(id) { return document.getElementById(id); }
+
+  function getLang() {
+    var html = document.documentElement;
+    var lang = (html && html.getAttribute("lang")) ? html.getAttribute("lang").toLowerCase() : "en";
+    return lang;
+  }
+
+  function i18n() {
+    var lang = getLang();
+
+    // Default EN
+    var t = {
+      text: "We use cookies to measure traffic (GA4) and improve the site. You can accept or reject analytics.",
+      accept: "Accept",
+      reject: "Reject",
+      privacy: "Privacy"
+    };
+
+    // PL
+    if (lang === "pl" || lang.indexOf("pl-") === 0) {
+      t.text = "Używamy plików cookie do pomiaru ruchu (GA4) i ulepszania serwisu. Możesz zaakceptować lub odrzucić analitykę.";
+      t.accept = "Akceptuję";
+      t.reject = "Odrzucam";
+      t.privacy = "Prywatność";
+    }
+    // EN-GB / EN-US
+    else if (lang === "en-gb" || lang === "en-us" || lang.indexOf("en-") === 0 || lang === "en") {
+      t.text = "We use cookies to measure traffic (GA4) and improve the site. You can accept or reject analytics.";
+      t.accept = "Accept";
+      t.reject = "Reject";
+      t.privacy = "Privacy";
+    }
+    // DE
+    else if (lang === "de" || lang.indexOf("de-") === 0) {
+      t.text = "Wir verwenden Cookies, um den Traffic (GA4) zu messen und die Website zu verbessern. Du kannst Analytics akzeptieren oder ablehnen.";
+      t.accept = "Akzeptieren";
+      t.reject = "Ablehnen";
+      t.privacy = "Datenschutz";
+    }
+    // ES
+    else if (lang === "es" || lang.indexOf("es-") === 0) {
+      t.text = "Usamos cookies para medir el tráfico (GA4) y mejorar el sitio. Puedes aceptar o rechazar la analítica.";
+      t.accept = "Aceptar";
+      t.reject = "Rechazar";
+      t.privacy = "Privacidad";
+    }
+    // FR
+    else if (lang === "fr" || lang.indexOf("fr-") === 0) {
+      t.text = "Nous utilisons des cookies pour mesurer le trafic (GA4) et améliorer le site. Vous pouvez accepter ou refuser l’analytics.";
+      t.accept = "Accepter";
+      t.reject = "Refuser";
+      t.privacy = "Confidentialité";
+    }
+    // NL-BE
+    else if (lang === "nl-be" || lang.indexOf("nl-") === 0 || lang === "nl") {
+      t.text = "We gebruiken cookies om verkeer te meten (GA4) en de site te verbeteren. Je kan analytics accepteren of weigeren.";
+      t.accept = "Accepteren";
+      t.reject = "Weigeren";
+      t.privacy = "Privacy";
+    }
+
+    return t;
+  }
+
+  function getState() {
+    try { return localStorage.getItem(KEY_STATE); } catch (e) { return null; }
+  }
+
+  function setState(val) {
+    try {
+      localStorage.setItem(KEY_STATE, val);
+      localStorage.setItem(KEY_TS, new Date().toISOString());
+    } catch (e) {}
+  }
+
+  // ---- Consent Mode v2 defaults ----
+  function gtag() { window.dataLayer = window.dataLayer || []; window.dataLayer.push(arguments); }
+
+  function setConsentDenied() {
+    gtag("consent", "default", {
       ad_storage: "denied",
       ad_user_data: "denied",
       ad_personalization: "denied",
       analytics_storage: "denied",
       functionality_storage: "denied",
       personalization_storage: "denied",
-      security_storage: "denied"
+      security_storage: "denied",
+      wait_for_update: 500
     });
   }
 
   function setConsentGranted() {
-    if (!safeGtag()) return;
-    window.gtag("consent", "update", {
+    gtag("consent", "update", {
       ad_storage: "denied",
       ad_user_data: "denied",
       ad_personalization: "denied",
       analytics_storage: "granted",
       functionality_storage: "granted",
-      personalization_storage: "denied",
-      security_storage: "denied"
+      personalization_storage: "granted",
+      security_storage: "granted"
     });
   }
 
-  function setConsentDenied() {
-    if (!safeGtag()) return;
-    window.gtag("consent", "update", {
-      ad_storage: "denied",
-      ad_user_data: "denied",
-      ad_personalization: "denied",
-      analytics_storage: "denied",
-      functionality_storage: "denied",
-      personalization_storage: "denied",
-      security_storage: "denied"
-    });
+  function ensureGtagLoader() {
+    // If loader already present, skip
+    if (document.querySelector('script[src*="googletagmanager.com/gtag/js"]')) return;
+
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(GA_ID);
+    document.head.appendChild(s);
+
+    // init gtag
+    gtag("js", new Date());
+    // Do not send page_view until consent accepted:
+    gtag("config", GA_ID, { send_page_view: false, anonymize_ip: true });
   }
 
-  function sendPageViewOnce() {
-    try {
-      if (!safeGtag()) return;
-      if (localStorage.getItem(LS_PAGEVIEW_KEY) === "1") return;
-      window.gtag("event", "page_view");
-      localStorage.setItem(LS_PAGEVIEW_KEY, "1");
-    } catch (_) {}
+  // ---- Banner helpers ----
+  function findAcceptButton(banner) {
+    return qs("cookie-accept") ||
+      (banner ? banner.querySelector('[data-consent="accept"], .btn-accept, #accept, button[data-action="accept"]') : null);
   }
 
-  function setStoredConsent(v) { try { localStorage.setItem(LS_KEY, v); } catch (_) {} }
-  function getStoredConsent() { try { return localStorage.getItem(LS_KEY); } catch (_) { return null; } }
-
-  // ===== HARD CLICKABILITY (styles) =====
-  function injectStyles() {
-    if (q("vpnworld-cookie-style")) return;
-
-    var css = `
-/* Canonical layer always on top & clickable */
-#cookie-consent-layer{
-  position:fixed !important;
-  left:0 !important; top:0 !important; right:0 !important; bottom:0 !important;
-  z-index:2147483647 !important;
-  pointer-events:auto !important;
-  background:transparent !important;
-}
-#cookie-banner{
-  position:fixed !important;
-  left:16px !important; right:16px !important; bottom:16px !important;
-  z-index:2147483647 !important;
-  pointer-events:auto !important;
-  background:#ffffff !important;
-  color:#000000 !important;
-  border:1px solid #111827 !important;
-  border-radius:12px !important;
-  box-shadow:0 10px 30px rgba(0,0,0,.35) !important;
-  padding:14px 14px !important;
-  max-width:980px !important;
-  margin:0 auto !important;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif !important;
-}
-#cookie-banner *{ pointer-events:auto !important; }
-#cookie-banner .cookie-row{ display:flex !important; gap:10px !important; flex-wrap:wrap !important; align-items:center !important; justify-content:space-between !important; }
-#cookie-banner .cookie-text{ font-size:14px !important; line-height:1.35 !important; margin:0 !important; }
-#cookie-banner .cookie-actions{ display:flex !important; gap:10px !important; flex-wrap:wrap !important; }
-#cookie-banner button{
-  appearance:none !important;
-  border:0 !important;
-  border-radius:10px !important;
-  padding:10px 14px !important;
-  font-weight:800 !important;
-  cursor:pointer !important;
-}
-#cookie-accept{ background:#1f6feb !important; color:#fff !important; }
-#cookie-reject{ background:#111827 !important; color:#fff !important; }
-#cookie-banner a{ color:#1f6feb !important; text-decoration:underline !important; }
-`;
-
-    var style = document.createElement("style");
-    style.id = "vpnworld-cookie-style";
-    style.textContent = css;
-    document.head.appendChild(style);
+  function findRejectButton(banner) {
+    return qs("cookie-reject") ||
+      (banner ? banner.querySelector('[data-consent="reject"], .btn-reject, #reject, button[data-action="reject"]') : null);
   }
 
-  // ===== REMOVE / DISABLE LEGACY COOKIE UI =====
-  function isOurCanonical(el) {
-    if (!el) return false;
-    return el.id === "cookie-consent-layer" || el.id === "cookie-banner";
-  }
+  function showBanner() {
+    var layer = qs("cookie-consent-layer");
+    var banner = qs("cookie-banner");
+    if (!layer || !banner) return;
 
-  function hardRemove(el) {
-    try { el && el.parentNode && el.parentNode.removeChild(el); } catch (_) {}
-  }
+    var t = i18n();
 
-  function killLegacyCookieUI() {
-    // 1) Remove known legacy libs/containers
-    var removeSelectors = [
-      ".cc-window", ".cc-banner", ".cc-revoke", "#cc-window",
-      "#cookieconsent", ".cookieconsent",
-      ".osano-cm-window", ".osano-cm-dialog", ".osano-cm-overlay",
-      "#cookieConsent", "#cookie-consent", "#cookieNotice", "#cookie-notice",
-      ".cookie-banner", ".cookie-consent", ".cookie-notice",
-      "[id*='cookieconsent']", "[class*='cookieconsent']",
-      "[id*='osano']", "[class*='osano']"
-    ];
+    // Fill localized UI (support multiple markup variants)
+    var msgEl =
+      banner.querySelector(".cookie-text") ||
+      banner.querySelector(".cookie-banner__msg") ||
+      banner.querySelector("p");
 
-    removeSelectors.forEach(function (sel) {
-      document.querySelectorAll(sel).forEach(function (el) {
-        if (isOurCanonical(el)) return;
-        hardRemove(el);
-      });
-    });
+    var privacyLink =
+      banner.querySelector(".privacy-link") ||
+      banner.querySelector(".cookie-banner__link") ||
+      banner.querySelector('a[href*="privacy"]');
 
-    // 2) If old templates injected our ids, remove them (we recreate clean)
-    document.querySelectorAll("#cookie-consent-layer, #cookie-banner").forEach(function (el) {
-      hardRemove(el);
-    });
+    var acceptBtn = findAcceptButton(banner);
+    var rejectBtn = findRejectButton(banner);
 
-    // 3) Heuristic hard-kill: ANY fixed/sticky bottom bar mentioning cookies/privacy/accept/reject
-    document.querySelectorAll("div,section,aside").forEach(function (el) {
-      try {
-        if (isOurCanonical(el)) return;
+    if (msgEl) msgEl.textContent = t.text;
+    if (acceptBtn) acceptBtn.textContent = t.accept;
+    if (rejectBtn) rejectBtn.textContent = t.reject;
+    if (privacyLink) privacyLink.textContent = t.privacy;
 
-        var st = window.getComputedStyle(el);
-        if (!st) return;
-
-        var isFixed = (st.position === "fixed" || st.position === "sticky");
-        if (!isFixed) return;
-
-        var rect = el.getBoundingClientRect();
-        if (!rect) return;
-
-        // Near bottom and wide enough to be a bar
-        var nearBottom = rect.bottom >= (window.innerHeight - 5);
-        var wideEnough = rect.width >= Math.min(480, window.innerWidth * 0.7);
-        if (!nearBottom || !wideEnough) return;
-
-        var txt = (el.innerText || "").toLowerCase();
-        var looksLikeCookie =
-          txt.includes("cookie") || txt.includes("cookies") ||
-          txt.includes("prywat") || txt.includes("privacy") ||
-          txt.includes("akcept") || txt.includes("accept") ||
-          txt.includes("odrzuc") || txt.includes("reject");
-
-        if (looksLikeCookie) {
-          // This is the killer move: remove it completely
-          hardRemove(el);
-        }
-      } catch (_) {}
-    });
-
-    // 4) Last safety: disable pointer events for any remaining "cookie-ish" fixed nodes
-    document.querySelectorAll("div,section,aside").forEach(function (el) {
-      try {
-        if (isOurCanonical(el)) return;
-        var st = window.getComputedStyle(el);
-        if (!st) return;
-        if (st.position !== "fixed" && st.position !== "sticky") return;
-
-        var txt = (el.innerText || "").toLowerCase();
-        if (txt.includes("cookie") || txt.includes("cookies") || txt.includes("prywat") || txt.includes("privacy")) {
-          el.style.pointerEvents = "none";
-        }
-      } catch (_) {}
-    });
-  }
-
-  // ===== CANONICAL BANNER DOM =====
-  function createBanner() {
-    var layer = document.createElement("div");
-    layer.id = "cookie-consent-layer";
-
-    var banner = document.createElement("div");
-    banner.id = "cookie-banner";
-    banner.setAttribute("role", "dialog");
-    banner.setAttribute("aria-modal", "true");
-    banner.setAttribute("aria-label", "Cookie consent");
-
-    // NOTE: PL UI text (works for all locales as temporary stable baseline)
-    banner.innerHTML = `
-      <div class="cookie-row">
-        <p class="cookie-text">
-          Używamy cookies, aby mierzyć ruch i poprawiać stronę.
-          <a href="/privacy.html" rel="nofollow">Prywatność</a>
-        </p>
-        <div class="cookie-actions">
-          <button id="cookie-accept" type="button">Akceptuję</button>
-          <button id="cookie-reject" type="button">Odrzucam</button>
-        </div>
-      </div>
-    `;
-
-    layer.appendChild(banner);
-    document.body.appendChild(layer);
-  }
-
-  function show() {
-    var layer = q("cookie-consent-layer");
-    if (!layer) return;
+    // Force visible + clickable (override aggressive CSS)
     layer.style.display = "block";
-    layer.removeAttribute("hidden");
+    banner.style.display = "block";
+    layer.style.opacity = "1";
+    banner.style.opacity = "1";
+    layer.style.pointerEvents = "auto";
+    banner.style.pointerEvents = "auto";
+    layer.style.zIndex = "2147483646";
+    banner.style.zIndex = "2147483647";
+
+    layer.setAttribute("aria-hidden", "false");
   }
 
-  function hide() {
-    var layer = q("cookie-consent-layer");
-    if (!layer) return;
-    layer.style.display = "none";
-    layer.setAttribute("hidden", "hidden");
+  function hideBanner() {
+    var layer = qs("cookie-consent-layer");
+    var banner = qs("cookie-banner");
+    if (layer) {
+      layer.style.display = "none";
+      layer.style.pointerEvents = "none";
+      layer.setAttribute("aria-hidden", "true");
+    }
+    if (banner) {
+      banner.style.display = "none";
+      banner.style.pointerEvents = "none";
+    }
   }
 
-  function wire() {
-    var acceptBtn = q("cookie-accept");
-    var rejectBtn = q("cookie-reject");
+  function wireButtons() {
+    var banner = qs("cookie-banner");
+    if (!banner) return;
 
-    // hard reset listeners
-    if (acceptBtn && acceptBtn.parentNode) {
-      var a = acceptBtn.cloneNode(true);
-      acceptBtn.parentNode.replaceChild(a, acceptBtn);
-      acceptBtn = a;
-    }
-    if (rejectBtn && rejectBtn.parentNode) {
-      var r = rejectBtn.cloneNode(true);
-      rejectBtn.parentNode.replaceChild(r, rejectBtn);
-      rejectBtn = r;
-    }
+    var acceptBtn = findAcceptButton(banner);
+    var rejectBtn = findRejectButton(banner);
 
-    if (acceptBtn) {
+    if (acceptBtn && !acceptBtn.__vw_bound) {
+      acceptBtn.__vw_bound = true;
       acceptBtn.addEventListener("click", function () {
-        setStoredConsent(CONSENT_ACCEPTED);
+        setState("granted");
         setConsentGranted();
-        sendPageViewOnce();
-        hide();
+        // Fire page_view AFTER consent
+        try { gtag("event", "page_view"); } catch (e) {}
+        hideBanner();
       }, { passive: true });
     }
 
-    if (rejectBtn) {
+    if (rejectBtn && !rejectBtn.__vw_bound) {
+      rejectBtn.__vw_bound = true;
       rejectBtn.addEventListener("click", function () {
-        setStoredConsent(CONSENT_REJECTED);
-        setConsentDenied();
-        hide();
+        setState("denied");
+        // Keep analytics denied; no page_view
+        hideBanner();
       }, { passive: true });
     }
-
-    // Compatibility API (if any old HTML calls it)
-    window.acceptConsent = function () {
-      setStoredConsent(CONSENT_ACCEPTED);
-      setConsentGranted();
-      sendPageViewOnce();
-      hide();
-    };
-    window.rejectConsent = function () {
-      setStoredConsent(CONSENT_REJECTED);
-      setConsentDenied();
-      hide();
-    };
   }
 
-  // ===== INIT =====
   function init() {
-    injectStyles();
-    setConsentDefaultDenied();
+    // Always set default denied before anything else
+    window.dataLayer = window.dataLayer || [];
+    setConsentDenied();
+    ensureGtagLoader();
 
-    // Kill legacy early
-    try { killLegacyCookieUI(); } catch (_) {}
+    var state = getState();
 
-    // Kill legacy again after layout + after full load (late injected banners)
-    setTimeout(function () { try { killLegacyCookieUI(); } catch (_) {} }, 0);
-    window.addEventListener("load", function () { try { killLegacyCookieUI(); } catch (_) {} }, { once: true });
-
-    // Recreate canonical clean
-    var oldL = q("cookie-consent-layer"); if (oldL) hardRemove(oldL);
-    var oldB = q("cookie-banner"); if (oldB) hardRemove(oldB);
-
-    createBanner();
-    wire();
-
-    var s = getStoredConsent();
-    if (s === CONSENT_ACCEPTED) {
+    // If already granted, enable analytics + fire page_view once per load
+    if (state === "granted") {
       setConsentGranted();
-      sendPageViewOnce();
-      hide();
+      try { gtag("event", "page_view"); } catch (e) {}
+      hideBanner();
       return;
     }
-    if (s === CONSENT_REJECTED) {
-      setConsentDenied();
-      hide();
-      return;
-    }
-    show();
+
+    // If denied (or empty) -> show banner
+    showBanner();
+    wireButtons();
   }
 
   if (document.readyState === "loading") {
