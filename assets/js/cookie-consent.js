@@ -1,6 +1,7 @@
 /* VPN World — cookie-consent.js (canonical, self-healing)
-   - Consent Mode v2 default denied
-   - Ensures canonical markup exists (#cookie-consent-layer + #cookie-banner)
+   - Consent Mode v2 default denied (always)
+   - Show canonical banner when there is NO explicit user choice
+   - Respect GPC: keep denied, show only "OK" (no Accept)
    - Persist choice in localStorage
    - Fire GA4 page_view only after Accept
 */
@@ -12,9 +13,18 @@
 
   // Storage keys
   var KEY_STATE = "vw_consent_state";   // "granted" | "denied"
-  var KEY_TS = "vw_consent_ts";         // ISO string
+  var KEY_TS    = "vw_consent_ts";      // ISO string
 
   function qs(id) { return document.getElementById(id); }
+
+  function getLocalePrefix() {
+    // GitHub Pages paths:
+    // PL: /blog/... (no locale dir)
+    // Others: /en-gb/, /en-us/, /de/, /es/, /fr/, /nl-be/
+    var seg = (location.pathname || "/").split("/").filter(Boolean)[0] || "";
+    var known = { "en-gb":1, "en-us":1, "de":1, "es":1, "fr":1, "nl-be":1 };
+    return known[seg] ? ("/" + seg) : "";
+  }
 
   function getLang() {
     var html = document.documentElement;
@@ -24,69 +34,67 @@
 
   function i18n() {
     var lang = getLang();
+    var prefix = getLocalePrefix();
+    var privacyHref = prefix + "/privacy.html";
 
-    // Default EN (fallback)
+    // Defaults (EN)
     var t = {
-      text: "We use cookies to measure traffic (GA4) and improve the site. You can accept or reject analytics.",
+      msg: "We use cookies to measure traffic (GA4) and improve the site. You can accept or reject analytics.",
       accept: "Accept",
       reject: "Reject",
-      privacy: "Privacy"
+      ok: "OK",
+      privacy: "Privacy",
+      aria: "Cookie consent",
+      privacyHref: privacyHref
     };
 
+    // Locale-specific
     if (lang === "pl") {
-      t.text = "Używamy plików cookie, aby mierzyć ruch (GA4) i ulepszać stronę. Możesz zaakceptować lub odrzucić analitykę.";
-      t.accept = "Akceptuję";
-      t.reject = "Odrzucam";
+      t.msg = "Używamy plików cookie do pomiaru ruchu (GA4) i ulepszania strony. Możesz zaakceptować lub odrzucić analitykę.";
+      t.accept = "Akceptuj";
+      t.reject = "Odrzuć";
+      t.ok = "OK";
       t.privacy = "Prywatność";
-    } else if (lang === "en-gb" || lang === "en") {
-      t.text = "We use cookies to measure traffic (GA4) and improve the site. You can accept or reject analytics.";
-      t.accept = "Accept";
-      t.reject = "Reject";
-      t.privacy = "Privacy";
-    } else if (lang === "en-us") {
-      t.text = "We use cookies to measure traffic (GA4) and improve the site. You can accept or reject analytics.";
-      t.accept = "Accept";
-      t.reject = "Reject";
-      t.privacy = "Privacy";
-    } else if (lang === "de") {
-      t.text = "Wir verwenden Cookies, um den Traffic (GA4) zu messen und die Seite zu verbessern. Du kannst Analytics akzeptieren oder ablehnen.";
-      t.accept = "Akzeptieren";
-      t.reject = "Ablehnen";
-      t.privacy = "Datenschutz";
-    } else if (lang === "es") {
-      t.text = "Usamos cookies para medir el tráfico (GA4) y mejorar el sitio. Puedes aceptar o rechazar la analítica.";
-      t.accept = "Aceptar";
-      t.reject = "Rechazar";
-      t.privacy = "Privacidad";
-    } else if (lang === "fr") {
-      t.text = "Nous utilisons des cookies pour mesurer le trafic (GA4) et améliorer le site. Vous pouvez accepter ou refuser l’analytics.";
-      t.accept = "Accepter";
-      t.reject = "Refuser";
-      t.privacy = "Confidentialité";
     } else if (lang === "nl-be") {
-      t.text = "We gebruiken cookies om verkeer te meten (GA4) en de site te verbeteren. Je kan analytics accepteren of weigeren.";
+      t.msg = "We gebruiken cookies om verkeer te meten (GA4) en de site te verbeteren. Je kan analytics accepteren of weigeren.";
       t.accept = "Accepteren";
       t.reject = "Weigeren";
+      t.ok = "OK";
       t.privacy = "Privacy";
+    } else if (lang === "fr") {
+      t.msg = "Nous utilisons des cookies pour mesurer l’audience (GA4) et améliorer le site. Vous pouvez accepter ou refuser l’analytics.";
+      t.accept = "Accepter";
+      t.reject = "Refuser";
+      t.ok = "OK";
+      t.privacy = "Confidentialité";
+    } else if (lang === "es") {
+      t.msg = "Usamos cookies para medir tráfico (GA4) y mejorar el sitio. Puedes aceptar o rechazar analytics.";
+      t.accept = "Aceptar";
+      t.reject = "Rechazar";
+      t.ok = "OK";
+      t.privacy = "Privacidad";
+    } else if (lang === "de") {
+      t.msg = "Wir verwenden Cookies, um Traffic zu messen (GA4) und die Website zu verbessern. Du kannst Analytics akzeptieren oder ablehnen.";
+      t.accept = "Akzeptieren";
+      t.reject = "Ablehnen";
+      t.ok = "OK";
+      t.privacy = "Datenschutz";
+    } else if (lang === "en-gb" || lang === "en-us" || lang === "en") {
+      // keep defaults
     }
 
+    t.privacyHref = privacyHref;
     return t;
   }
 
-  function privacyHref() {
-    var lang = getLang();
-    if (lang === "pl") return "/privacy.html";
-    if (lang === "en-gb") return "/en-gb/privacy.html";
-    if (lang === "en-us") return "/en-us/privacy.html";
-    if (lang === "de") return "/de/privacy.html";
-    if (lang === "es") return "/es/privacy.html";
-    if (lang === "fr") return "/fr/privacy.html";
-    if (lang === "nl-be") return "/nl-be/privacy.html";
-    return "/privacy.html";
+  function isGPC() {
+    // Global Privacy Control (some browsers/extensions enable it)
+    try { return !!navigator.globalPrivacyControl; } catch(e) { return false; }
   }
 
   function ensureMarkup() {
-    // If markup already exists, just return refs
+    var t = i18n();
+
     var layer = qs("cookie-consent-layer");
     var banner = qs("cookie-banner");
 
@@ -104,204 +112,167 @@
       banner.className = "cookie-banner";
       banner.setAttribute("role", "dialog");
       banner.setAttribute("aria-live", "polite");
-      banner.setAttribute("aria-label", "Cookie consent");
+      banner.setAttribute("aria-label", t.aria);
 
       banner.innerHTML = [
         '<div class="cookie-banner__inner">',
-        '  <div class="cookie-banner__text">',
-        '    <span class="cookie-banner__msg">We use cookies.</span> ',
-        '    <a class="cookie-banner__link" href="' + privacyHref() + '" rel="nofollow">Privacy</a>',
-        '  </div>',
-        '  <div class="cookie-banner__actions">',
-        '    <button id="cookie-accept" type="button">Accept</button>',
-        '    <button id="cookie-reject" type="button">Reject</button>',
-        '  </div>',
+          '<div class="cookie-banner__text">',
+            '<span class="cookie-banner__msg"></span> ',
+            '<a class="cookie-banner__link" rel="nofollow"></a>',
+          '</div>',
+          '<div class="cookie-banner__actions">',
+            '<button id="cookie-accept" type="button"></button>',
+            '<button id="cookie-reject" type="button" class="btn-secondary"></button>',
+          '</div>',
         '</div>'
-      ].join("\n");
+      ].join("");
 
       document.body.appendChild(banner);
     }
 
+    // Fill texts/links
+    var msg = banner.querySelector(".cookie-banner__msg");
+    var link = banner.querySelector(".cookie-banner__link");
+    var btnA = qs("cookie-accept");
+    var btnR = qs("cookie-reject");
+
+    if (msg) msg.textContent = t.msg;
+    if (link) { link.textContent = t.privacy; link.href = t.privacyHref; }
+
+    if (btnA) btnA.textContent = t.accept;
+    if (btnR) btnR.textContent = t.reject;
+
     return { layer: layer, banner: banner };
   }
 
-  function applyTexts() {
-    var t = i18n();
-    var msg = document.querySelector("#cookie-banner .cookie-banner__msg");
-    var link = document.querySelector("#cookie-banner .cookie-banner__link");
-    var acceptBtn = qs("cookie-accept");
-    var rejectBtn = qs("cookie-reject");
+  function showBanner() {
+    var nodes = ensureMarkup();
+    nodes.layer.setAttribute("aria-hidden", "false");
+    nodes.banner.setAttribute("aria-hidden", "false");
 
-    if (msg) msg.textContent = t.text;
-    if (link) {
-      link.textContent = t.privacy;
-      link.setAttribute("href", privacyHref());
-    }
-    if (acceptBtn) acceptBtn.textContent = t.accept;
-    if (rejectBtn) rejectBtn.textContent = t.reject;
+    // force visible (in case page CSS differs)
+    nodes.layer.style.display = "block";
+    nodes.banner.style.display = "block";
+    nodes.banner.style.opacity = "1";
+    nodes.banner.style.visibility = "visible";
   }
 
-  function setConsentDefaultDenied() {
-    // If gtag exists, set default denied. If not, do nothing (we'll load gtag on accept).
+  function hideBanner() {
+    var layer = qs("cookie-consent-layer");
+    var banner = qs("cookie-banner");
+    if (layer) { layer.setAttribute("aria-hidden", "true"); layer.style.display = "none"; }
+    if (banner) { banner.setAttribute("aria-hidden", "true"); banner.style.display = "none"; }
+  }
+
+  function setConsentMode(granted) {
+    // Consent Mode v2 keys (default denied -> update on decision)
+    var v = granted ? "granted" : "denied";
     if (typeof window.gtag === "function") {
-      window.gtag("consent", "default", {
-        ad_storage: "denied",
-        ad_user_data: "denied",
-        ad_personalization: "denied",
-        analytics_storage: "denied",
-        functionality_storage: "denied",
-        personalization_storage: "denied",
-        security_storage: "denied"
+      window.gtag("consent", "update", {
+        ad_storage: v,
+        ad_user_data: v,
+        ad_personalization: v,
+        analytics_storage: v,
+        functionality_storage: v,
+        personalization_storage: v,
+        security_storage: "granted" // security storage can be granted
       });
     }
   }
 
-  function ensureGtagLoaded(cb) {
-    // If already loaded, callback immediately.
-    if (typeof window.gtag === "function") { cb(); return; }
-
-    // Ensure dataLayer + gtag stub
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function () { window.dataLayer.push(arguments); };
-
-    // Inject loader if missing
-    var already = document.querySelector('script[src*="googletagmanager.com/gtag/js"]');
-    if (!already) {
-      var s = document.createElement("script");
-      s.async = true;
-      s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(GA_ID);
-      s.onload = cb;
-      document.head.appendChild(s);
-    } else {
-      // loader exists but gtag not defined yet — run cb soon
-      setTimeout(cb, 0);
-    }
-  }
-
-  function show() {
-    var layer = qs("cookie-consent-layer");
-    var banner = qs("cookie-banner");
-    if (!layer || !banner) return;
-
-    layer.style.display = "block";
-    layer.style.opacity = "1";
-    layer.style.visibility = "visible";
-    layer.setAttribute("aria-hidden", "false");
-
-    banner.style.display = "block";
-    banner.style.opacity = "1";
-    banner.style.visibility = "visible";
-  }
-
-  function hide() {
-    var layer = qs("cookie-consent-layer");
-    var banner = qs("cookie-banner");
-    if (layer) {
-      layer.style.display = "none";
-      layer.setAttribute("aria-hidden", "true");
-    }
-    if (banner) {
-      banner.style.display = "none";
-    }
-  }
-
-  function persist(state) {
+  function storeDecision(state) {
     try {
       localStorage.setItem(KEY_STATE, state);
       localStorage.setItem(KEY_TS, new Date().toISOString());
-    } catch (e) { /* ignore */ }
+    } catch (e) {}
   }
 
-  function readState() {
-    try { return localStorage.getItem(KEY_STATE); } catch (e) { return null; }
+  function firePageViewOnce() {
+    // Fire page_view only after Accept
+    if (typeof window.gtag !== "function") return;
+    try {
+      window.gtag("event", "page_view", { send_to: GA_ID });
+    } catch (e) {}
   }
 
-  function firePageViewAfterConsent() {
-    ensureGtagLoaded(function () {
-      // Configure GA and send page_view only after consent
-      window.gtag("js", new Date());
-      window.gtag("config", GA_ID, { send_page_view: true });
-    });
-  }
-
-  function acceptConsent() {
-    persist("granted");
-
-    ensureGtagLoaded(function () {
-      window.gtag("consent", "update", {
-        ad_storage: "denied",
-        ad_user_data: "denied",
-        ad_personalization: "denied",
-        analytics_storage: "granted",
-        functionality_storage: "granted",
-        personalization_storage: "denied",
-        security_storage: "granted"
-      });
-
-      firePageViewAfterConsent();
-      hide();
-    });
-  }
-
-  function rejectConsent() {
-    persist("denied");
-
-    if (typeof window.gtag === "function") {
-      window.gtag("consent", "update", {
-        ad_storage: "denied",
-        ad_user_data: "denied",
-        ad_personalization: "denied",
-        analytics_storage: "denied",
-        functionality_storage: "denied",
-        personalization_storage: "denied",
-        security_storage: "denied"
-      });
+  function wireButtons() {
+    var btnA = qs("cookie-accept");
+    var btnR = qs("cookie-reject");
+    if (btnA) {
+      btnA.addEventListener("click", function () {
+        storeDecision("granted");
+        setConsentMode(true);
+        hideBanner();
+        firePageViewOnce();
+      }, { passive: true });
     }
-    hide();
-  }
-
-  function wire() {
-    // Ensure markup exists ALWAYS
-    ensureMarkup();
-    applyTexts();
-
-    // default denied (if gtag already available)
-    setConsentDefaultDenied();
-
-    // Bind buttons
-    var a = qs("cookie-accept");
-    var r = qs("cookie-reject");
-
-    if (a && !a.__vwBound) {
-      a.__vwBound = true;
-      a.addEventListener("click", function (e) { e.preventDefault(); acceptConsent(); });
-    }
-    if (r && !r.__vwBound) {
-      r.__vwBound = true;
-      r.addEventListener("click", function (e) { e.preventDefault(); rejectConsent(); });
-    }
-
-    // Show only if no decision
-    var s = readState();
-    if (s === "granted") {
-      // Already accepted: do nothing (page_view already sent on prior accept)
-      hide();
-    } else if (s === "denied") {
-      hide();
-    } else {
-      show();
+    if (btnR) {
+      btnR.addEventListener("click", function () {
+        storeDecision("denied");
+        setConsentMode(false);
+        hideBanner();
+      }, { passive: true });
     }
   }
 
-  // Init
+  function applyGPCUI() {
+    // If GPC is enabled and no explicit choice yet:
+    // keep denied and show only OK (no Accept).
+    var t = i18n();
+    var btnA = qs("cookie-accept");
+    var btnR = qs("cookie-reject");
+    if (!btnR) return;
+
+    if (btnA) btnA.style.display = "none";
+    btnR.textContent = t.ok;
+  }
+
+  function init() {
+    // Consent Mode default denied ALWAYS (but this is NOT a user decision)
+    // We do NOT write KEY_STATE here unless user explicitly clicks,
+    // except when GPC is on (then we store denied to avoid repeated prompts).
+    setConsentMode(false);
+
+    var state = null;
+    try { state = localStorage.getItem(KEY_STATE); } catch (e) {}
+
+    if (state === "granted") {
+      setConsentMode(true);
+      // no banner
+      hideBanner();
+      // page_view can be fired here or on click only; keep conservative:
+      firePageViewOnce();
+      return;
+    }
+
+    if (state === "denied") {
+      setConsentMode(false);
+      hideBanner();
+      return;
+    }
+
+    // No explicit decision yet -> show banner
+    showBanner();
+    wireButtons();
+
+    // If GPC enabled -> UI becomes "OK" only and we store denied on click
+    if (isGPC()) {
+      applyGPCUI();
+      // Optional: store denied immediately to respect GPC across pages without flashing.
+      // But we still SHOW banner so the user sees notice.
+      storeDecision("denied");
+      setConsentMode(false);
+      // Keep banner visible (user can press OK to dismiss)
+    }
+  }
+
+  // Robust init (wait for body)
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", wire);
+    document.addEventListener("DOMContentLoaded", function () {
+      if (document.body) init();
+    });
   } else {
-    wire();
+    if (document.body) init();
+    else setTimeout(init, 50);
   }
-
-  // Expose (optional)
-  window.acceptConsent = acceptConsent;
-  window.rejectConsent = rejectConsent;
-
 })();
