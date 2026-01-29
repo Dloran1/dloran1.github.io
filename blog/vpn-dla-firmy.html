@@ -1,557 +1,747 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pl">
 <head>
-  <meta charset="utf-8">
-  <title>VPN dla firm: bezpieczeństwo, praca zdalna, RODO (2025) | VPN World</title>
-  <meta name="description" content="Kompletny przewodnik po VPN dla firm w 2025 roku. Dowiedz się, jak zabezpieczyć pracę zdalną, chronić dane zgodnie z RODO oraz wybrać najlepsze rozwiązanie VPN dla Twojej firmy.">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="index,follow">
-  <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="../assets/css/style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow" />
 
-  <link rel="canonical" href="https://dloran1.github.io/blog/vpn-dla-firmy.html">
+  <title>VPN dla firm: Bezpieczeństwo, RODO i Praca Zdalna (2026) | VPN World</title>
+  <meta name="description" content="Kompletny przewodnik po VPN dla firm w 2026 roku. Dowiedz się, jak zabezpieczyć dane zgodnie z RODO, chronić pracę zdalną, wdrożyć WireGuard i wybrać najlepszy serwer VPN dla biznesu." />
 
-  <!-- Hreflang -->
-  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-dla-firmy.html">
-  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-for-business-uk.html">
-  <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-for-business.html">
-  <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-fuer-unternehmen.html">
-  <link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/vpn-para-empresas.html">
-  <link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/vpn-pour-entreprise.html">
-  <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-voor-bedrijven.html">
-  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-for-business-uk.html">
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="canonical" href="https://dloran1.github.io/blog/vpn-dla-firmy.html" />
 
-  <!-- Preconnect -->
-  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
-  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
-  <link rel="preconnect" href="https://www.youtube-nocookie.com" crossorigin>
-  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-  <link rel="dns-prefetch" href="https://www.google-analytics.com">
-  <link rel="dns-prefetch" href="https://www.youtube-nocookie.com">
+  <!-- HREFLANG (7× + x-default) — from legacy file (do not invent) -->
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-dla-firmy.html" />
+  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-for-business-uk.html" />
+  <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-for-business.html" />
+  <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-fuer-unternehmen.html" />
+  <link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/vpn-para-empresas.html" />
+  <link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/vpn-pour-entreprise.html" />
+  <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-voor-bedrijven.html" />
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-for-business-uk.html" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+
+  <!-- Page-only helpers: SVG + tables (high-contrast, responsive) + accents (VPN World Stage 2.5 visual standard) -->
+  <style>
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .table-scroll table{min-width:760px}
+
+    /* HARD table readability fix (dark theme safe) */
+    .table-scroll, .table-scroll table{background:#fff !important; color:#000 !important}
+    .table-scroll th, .table-scroll td{color:#000 !important}
+    .table-scroll thead th{background:#071023 !important; color:#fff !important}
+    .table-scroll tbody tr{background:#fff !important}
+    .table-scroll tbody tr:nth-child(even){background:#f6f7fb !important}
+    .table-scroll tbody tr:hover{background:#eef4ff !important}
+    .table-scroll a{color:#0b57d0 !important}
+
+    /* SVG cards: ALWAYS readable (forced white canvas) */
+    .svg-card{border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:14px;background:transparent;margin:14px 0}
+    .svg-card h3{margin:6px 0 10px}
+    .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:14px;padding:10px}
+    .svg-scroll svg{max-width:100%;height:auto;display:block;color:#000 !important;background:#fff}
+    .svg-scroll svg text{fill:#000 !important;font-weight:800 !important}
+    .svg-scroll svg .stroke{stroke:#000 !important;stroke-width:4 !important;fill:none !important;stroke-linecap:round;stroke-linejoin:round}
+    .svg-scroll svg .box{fill:#fff !important;stroke:#000 !important;stroke-width:4 !important}
+    .svg-scroll svg .label{font-size:16px}
+    .svg-scroll svg .small{font-size:13px}
+
+    /* Colour accents (keep text black) */
+    .svg-scroll svg .fill-blue{fill:#e6f1ff !important}
+    .svg-scroll svg .fill-green{fill:#e9fff3 !important}
+    .svg-scroll svg .fill-yellow{fill:#fff7db !important}
+    .svg-scroll svg .fill-red{fill:#ffe9ea !important}
+    .svg-scroll svg .fill-purple{fill:#f1eaff !important}
+
+    /* “Related:” wide dark card standard */
+    .related-wide{background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:12px 14px;margin:10px 0 14px;position:relative}
+    .related-wide:before{content:"";position:absolute;left:10px;top:10px;bottom:10px;width:4px;border-radius:999px;background:#22c55e}
+    .related-wide p{margin:0;padding-left:14px}
+    .related-wide a{text-decoration:underline}
+
+    /* Video */
+    .video-wrap{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;background:#000}
+    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+    /* Small badges */
+    .badge{display:inline-block;padding:2px 10px;border-radius:999px;font-weight:800;font-size:12px;line-height:1.6}
+    .b-red{background:#ffe9ea;color:#7a0a0f}
+    .b-blue{background:#e6f1ff;color:#073b8c}
+    .b-green{background:#e9fff3;color:#0b6b3a}
+    .b-yellow{background:#fff7db;color:#6a4a00}
+  </style>
+
+  <!-- Preconnect / Prefetch -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+  <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
+  <link rel="dns-prefetch" href="https://www.youtube-nocookie.com" />
 
   <!-- Hero preload -->
   <link rel="preload" as="image"
         href="../assets/img/hero/vpn-for-business-uk.webp"
         imagesrcset="../assets/img/hero/vpn-for-business-uk.webp 1200w"
-        imagesizes="(max-width: 800px) 100vw, 1200px">
+        imagesizes="(max-width: 800px) 100vw, 1200px" />
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="article">
-  <meta property="og:site_name" content="VPN World">
-  <meta property="og:title" content="VPN dla firm: bezpieczeństwo, praca zdalna, RODO (2025)">
-  <meta property="og:description" content="Kompletny przewodnik po VPN dla firm w 2025 roku. Dowiedz się, jak zabezpieczyć pracę zdalną, chronić dane zgodnie z RODO oraz wybrać najlepsze rozwiązanie VPN dla Twojej firmy.">
-  <meta property="og:url" content="https://dloran1.github.io/blog/vpn-dla-firmy.html">
-  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-for-business-uk.webp">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:locale:alternate" content="en_GB">
-  <meta property="og:locale:alternate" content="en_US">
-  <meta property="og:locale:alternate" content="de_DE">
-  <meta property="og:locale:alternate" content="es_ES">
-  <meta property="og:locale:alternate" content="fr_FR">
-  <meta property="og:locale:alternate" content="nl_BE">
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="VPN World" />
+  <meta property="og:locale" content="pl_PL" />
+  <meta property="og:locale:alternate" content="en_GB" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:locale:alternate" content="de_DE" />
+  <meta property="og:locale:alternate" content="es_ES" />
+  <meta property="og:locale:alternate" content="fr_FR" />
+  <meta property="og:locale:alternate" content="nl_BE" />
+  <meta property="og:title" content="VPN dla firm: Bezpieczeństwo, RODO i Praca Zdalna (2026)" />
+  <meta property="og:description" content="Jak bezpiecznie wdrożyć VPN w firmie w 2026: praca zdalna, WireGuard, MFA i RODO — plus tabela wyboru: SaaS vs VPS vs firewall." />
+  <meta property="og:url" content="https://dloran1.github.io/blog/vpn-dla-firmy.html" />
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-for-business-uk.webp" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="VPN dla firm — bezpieczny tunel dla pracy zdalnej i zgodności z RODO" />
+  <meta property="article:published_time" content="2025-12-07" />
+  <meta property="article:modified_time" content="2026-01-29" />
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="VPN dla firm: bezpieczeństwo, praca zdalna, RODO (2025)">
-  <meta name="twitter:description" content="Dowiedz się, jak VPN pomaga firmom zabezpieczyć pracę zdalną i spełnić wymogi RODO. Praktyczne porady dla małych i średnich przedsiębiorstw.">
-  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-for-business-uk.webp">
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="VPN dla firm: Bezpieczeństwo, RODO i Praca Zdalna (2026)" />
+  <meta name="twitter:description" content="Przewodnik 2026: VPN dla firm (RODO, praca zdalna, WireGuard, MFA), modele wdrożenia i checklist bezpieczeństwa." />
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-for-business-uk.webp" />
 
-  <!-- Google tag (gtag.js) + Consent Mode v2 -->
-      <script src="/assets/js/cookie-consent.js" defer></script>
-
+  <!-- GA4 + Consent Mode v2 (Concept Mode 2: DEFAULT DENIED — canonical self-healing JS) -->
+  <script src="/assets/js/cookie-consent.js" defer></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+
+  <!-- JSON-LD: Breadcrumbs + Article + FAQPage + ItemList (Related) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"VPN World","item":"https://dloran1.github.io/"},
+          {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/blog/"},
+          {"@type":"ListItem","position":3,"name":"VPN dla firm","item":"https://dloran1.github.io/blog/vpn-dla-firmy.html"}
+        ]
+      },
+      {
+        "@type":"Article",
+        "@id":"https://dloran1.github.io/blog/vpn-dla-firmy.html",
+        "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/blog/vpn-dla-firmy.html"},
+        "headline":"VPN dla firm: Bezpieczeństwo, RODO i Praca Zdalna (2026)",
+        "description":"Kompletny przewodnik 2026: VPN dla firm, praca zdalna, RODO (art. 32), WireGuard, MFA, dedykowane IP i dobre praktyki wdrożenia.",
+        "image":"https://dloran1.github.io/assets/img/hero/vpn-for-business-uk.webp",
+        "inLanguage":"pl",
+        "author":{
+          "@type":"Person",
+          "name":"Denys Shchur",
+          "url":"https://dloran1.github.io/about-denys-shchur.html",
+          "sameAs":["https://www.linkedin.com/in/denys-shchurr/"]
+        },
+        "publisher":{
+          "@type":"Organization",
+          "name":"VPN World",
+          "logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}
+        },
+        "datePublished":"2025-12-07",
+        "dateModified":"2026-01-29"
+      },
+      {
+        "@type":"FAQPage",
+        "mainEntity":[
+          {
+            "@type":"Question",
+            "name":"Ile kosztuje VPN dla małej firmy?",
+            "acceptedAnswer":{"@type":"Answer","text":"Najczęściej od ok. 5 do 12 USD za użytkownika miesięcznie w modelu SaaS (zależnie od funkcji typu SSO, zarządzanie urządzeniami, dedykowane IP). Przy własnym serwerze VPS koszt to zwykle abonament za serwer + czas administratora."}
+          },
+          {
+            "@type":"Question",
+            "name":"Czy VPN spowalnia internet w biurze?",
+            "acceptedAnswer":{"@type":"Answer","text":"Może spowolnić połączenie, ale nowoczesne protokoły (WireGuard/NordLynx) często mieszczą się w ok. 5–10% narzutu. W praktyce większe znaczenie ma odległość do serwera i jego obciążenie."}
+          },
+          {
+            "@type":"Question",
+            "name":"Czy RODO nakazuje używanie VPN?",
+            "acceptedAnswer":{"@type":"Answer","text":"RODO nie wskazuje VPN wprost, ale wymaga adekwatnych środków technicznych (m.in. ochrony transmisji) — a VPN jest powszechnym standardem dla pracy zdalnej i dostępu do systemów firmowych."}
+          },
+          {
+            "@type":"Question",
+            "name":"Czy VPN bez MFA ma sens w firmie?",
+            "acceptedAnswer":{"@type":"Answer","text":"To ryzykowne. VPN bez MFA przypomina drzwi z dobrym zamkiem, ale kluczem pod wycieraczką. MFA znacząco ogranicza skutki wycieku hasła i jest dziś praktycznie wymagane w modelu Zero Trust."}
+          }
+        ]
+      },
+      {
+        "@type":"ItemList",
+        "name":"Powiązane poradniki",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"url":"https://dloran1.github.io/blog/vpn-praca-zdalna.html"},
+          {"@type":"ListItem","position":2,"url":"https://dloran1.github.io/blog/vpn-2fa-mfa.html"},
+          {"@type":"ListItem","position":3,"url":"https://dloran1.github.io/blog/protokoly-vpn.html"},
+          {"@type":"ListItem","position":4,"url":"https://dloran1.github.io/blog/jaki-serwer-vpn.html"},
+          {"@type":"ListItem","position":5,"url":"https://dloran1.github.io/blog/vpn-bez-logow.html"}
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- PAGE (for console): https://dloran1.github.io/blog/vpn-dla-firmy.html -->
 </head>
+
 <body>
-  <nav class="lang-switch"><a href="/blog/vpn-dla-firmy.html" class="active">Polski</a> | <a href="/en-gb/blog/vpn-for-business-uk.html">English (UK)</a> | <a href="/en-us/blog/vpn-for-business.html">English (US)</a> | <a href="/de/blog/vpn-fuer-unternehmen.html">Deutsch</a> | <a href="/es/blog/vpn-para-empresas.html">Español</a> | <a href="/fr/blog/vpn-pour-entreprise.html">Français</a> | <a href="/nl-be/blog/vpn-voor-bedrijven.html">Nederlands (BE)</a></nav>
+  <!-- Visible language switcher (mandatory) — from legacy file -->
+  <nav class="lang-switch" aria-label="Wybór języka">
+    <a class="active" href="/blog/vpn-dla-firmy.html">Polski</a> |
+    <a href="/en-gb/blog/vpn-for-business-uk.html">English (UK)</a> |
+    <a href="/en-us/blog/vpn-for-business.html">English (US)</a> |
+    <a href="/de/blog/vpn-fuer-unternehmen.html">Deutsch</a> |
+    <a href="/es/blog/vpn-para-empresas.html">Español</a> |
+    <a href="/fr/blog/vpn-pour-entreprise.html">Français</a> |
+    <a href="/nl-be/blog/vpn-voor-bedrijven.html">Nederlands (BE)</a>
+  </nav>
 
-<header class="site-header"><div class="container header-inner">
-  <a href="/" class="brand"><img src="../assets/img/logo.png" class="logo" alt="Logo VPN World"> <span class="brand-text">VPN World</span></a>
-</div></header>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <img class="logo" src="../assets/img/logo.png" alt="Logo VPN World" />
+        <span class="brand-text">VPN World</span>
+      </a>
+      <nav class="primary-nav" aria-label="Nawigacja">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/privacy.html">Prywatność</a>
+        <a href="/disclosure.html">Ujawnienie</a>
+      </nav>
+    </div>
+  </header>
 
+  <main class="container">
 
-<main class="container card article">
-  <article>
-    <header class="article-hero">
-      <p class="meta">Biznes · Bezpieczeństwo · Praca zdalna · RODO</p>
-      <h1>VPN dla firm: bezpieczeństwo, praca zdalna i RODO (2025)</h1>
-      <p class="meta">
-        Ostatnia aktualizacja: <time datetime="2025-12-07">7 grudnia 2025</time> · Autor: Denys Shchur
-      </p>
-      <figure class="post-hero">
-        <img
-          src="../assets/img/hero/vpn-for-business-uk.webp"
-          alt="Zespół pracujący zdalnie z wykorzystaniem firmowego VPN"
-          width="1200"
-          height="630"
-          fetchpriority="high"
-          class="hero-img">
-      </figure>
-    </header>
-
-    <section class="note">
-      <strong>Szybka odpowiedź:</strong>
-      VPN dla firm tworzy bezpieczny, zaszyfrowany tunel między urządzeniami pracowników a firmową siecią lub chmurą.
-      Dzięki temu możliwe jest:
-      <ul>
-        <li>ochrona danych nawet w publicznych sieciach Wi‑Fi,</li>
-        <li>precyzyjna kontrola dostępu do zasobów firmowych,</li>
-        <li>wsparcie zgodności z RODO poprzez zabezpieczenie transmisji i audytowalność,</li>
-        <li>stabilna praca zdalna z opcją dedykowanych adresów IP dla zwiększonego bezpieczeństwa.</li>
-      </ul>
-      Wiele małych i średnich firm wybiera własne serwery VPN, rozwiązania chmurowe lub biznesowe plany komercyjnych dostawców.
-    </section>
-
-    <section class="cta-box">
-      <h2>Sprawdzone VPN dla małych i średnich firm</h2>
-      <p>
-        Szukasz niezawodnego i bezpiecznego VPN dla swojej firmy? Warto rozważyć dostawców oferujących biznesowe plany z łatwym wdrożeniem i wsparciem technicznym.
-      </p>
-      <div class="cta-buttons">
-        <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584"
-           class="btn btn-primary"
-           target="_blank"
-           rel="nofollow sponsored noopener noreferrer">
-          Sprawdź ofertę NordVPN dla firm
-        </a>
-        <a href="https://www.tkqlhce.com/click-101525886-17061430"
-           class="btn btn-secondary"
-           target="_blank"
-           rel="nofollow sponsored noopener noreferrer">
-          Zobacz Surfshark dla zespołu
-        </a>
+    <section class="hero" aria-label="Hero">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="meta">Biznes · Bezpieczeństwo · Praca zdalna · RODO</p>
+          <h1>VPN dla firm: bezpieczeństwo, praca zdalna i RODO (2026)</h1>
+          <p class="meta">
+            Opublikowano: <time datetime="2025-12-07">7 grudnia 2025</time> ·
+            Ostatnia aktualizacja: <time datetime="2026-01-29">29 stycznia 2026</time> ·
+            Autor: <a href="/about-denys-shchur.html">Denys Shchur</a>
+          </p>
+          <p>
+            Jeśli firma ma dane klientów, CRM/ERP, konta bankowe, dostęp do chmury i pracę hybrydową, VPN staje się praktycznym fundamentem ochrony.
+            Nie chodzi o „ukrywanie IP”, tylko o <strong>szyfrowany tunel</strong>, kontrolę dostępu i rozsądne podejście do RODO.
+          </p>
+          <p>
+            W tej wersji (2026) dostajesz: <span class="badge b-blue">WireGuard</span>,
+            <span class="badge b-yellow">MFA</span>,
+            <span class="badge b-green">dedykowane IP</span> oraz model <span class="badge b-red">Zero Trust</span> w praktyce.
+            Tak — to jest ten moment, kiedy „IT checklist” przestaje być teorią, a zaczyna ratować czas i nerwy.
+          </p>
+        </div>
+        <div class="hero-media">
+          <img
+            class="hero-img"
+            src="../assets/img/hero/vpn-for-business-uk.webp"
+            width="1200"
+            height="630"
+            alt="VPN dla firm — bezpieczny tunel dla pracy zdalnej i ochrony danych zgodnie z RODO"
+            fetchpriority="high" />
+        </div>
       </div>
     </section>
 
-    <nav class="toc">
+    <section class="note" aria-label="Szybka odpowiedź">
+      <strong>Szybka odpowiedź:</strong>
+      VPN dla firm to zaszyfrowany tunel między urządzeniem pracownika a zasobami firmy (biuro, chmura, serwery).
+      W 2026 ma to trzy praktyczne cele:
+      <ul>
+        <li><strong>RODO / Art. 32</strong> — ochrona transmisji i ograniczenie ryzyka wycieku danych osobowych,</li>
+        <li><strong>praca zdalna</strong> — bezpieczny dostęp do CRM/ERP/poczty/plików z domu i podróży,</li>
+        <li><strong>kontrola dostępu</strong> — polityki, MFA, segmentacja oraz dostęp tylko z zaufanych urządzeń/IP.</li>
+      </ul>
+      Największy błąd firm? Wdrożyć VPN „na szybko”, bez MFA i bez reguł dostępu. To często kończy się tak, jak zostawienie klucza pod wycieraczką.
+    </section>
+
+    <section class="cta-box" aria-label="CTA VPN dla firm">
+      <h2>Sprawdzone VPN dla firm (2026): szybkie wdrożenie i wsparcie</h2>
+      <p>
+        Jeśli nie chcesz budować infrastruktury od zera, zacznij od dostawcy, który daje stabilne aplikacje i opcje biznesowe.
+        Poniżej trzy popularne wybory (różne profile firm):
+      </p>
+      
+        <div class="cta-buttons">
+          <a class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584">NordVPN — szybkie wdrożenie</a>
+          <a class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://www.tkqlhce.com/click-101525886-17061430">Surfshark — budżet dla zespołu</a>
+          <a class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://www.dpbolvw.net/click-101525886-15834536">Proton VPN — privacy-first</a>
+        </div>
+    </section>
+
+    <nav class="toc" aria-label="Spis treści">
       <h2>Spis treści</h2>
       <ol>
-        <li><a href="#co-to-vpn-dla-firmy">Co to jest VPN dla firm i jak działa?</a></li>
-        <li><a href="#korzysci-biznesowe">Kluczowe korzyści VPN w firmie</a></li>
-        <li><a href="#modele-rozwiazan">Modele rozwiązań VPN w biznesie</a></li>
-        <li><a href="#vpn-a-praca-zdalna">VPN a bezpieczna praca zdalna</a></li>
-        <li><a href="#vpn-a-rodo">VPN a RODO i ochrona danych osobowych</a></li>
-        <li><a href="#wdrozenie">Jak wdrożyć VPN w firmie – krok po kroku</a></li>
-        <li><a href="#najlepsze-praktyki">Najlepsze praktyki korzystania z VPN w firmie</a></li>
-        <li><a href="#ograniczenia-bledy">Ograniczenia VPN i typowe błędy firm</a></li>
-        <li><a href="#faq">FAQ – pytania o VPN dla firm</a></li>
+        <li><a href="#po-co">Po co firmie VPN w 2026 (i dlaczego „ukrywanie IP” to mit)?</a></li>
+        <li><a href="#diagram">Jak VPN chroni dane firmy (schemat w 5 sekund)</a></li>
+        <li><a href="#modele">3 modele: SaaS vs własny VPS (WireGuard) vs firewall w biurze</a></li>
+        <li><a href="#rodo">VPN a RODO (Art. 32): szyfrowanie, audyt i ograniczenie ryzyka</a></li>
+        <li><a href="#wireguard">WireGuard dla biznesu: co daje i kiedy ma sens</a></li>
+        <li><a href="#zerotrust">Zero Trust: czy sam VPN wystarczy?</a></li>
+        <li><a href="#checklist">Checklist wdrożenia: 5 kroków do bezpiecznego VPN</a></li>
+        <li><a href="#bledy">Typowe błędy firm (i jak ich uniknąć)</a></li>
+        <li><a href="#faq">FAQ</a></li>
       </ol>
     </nav>
 
-    <section id="co-to-vpn-dla-firmy">
-      <h2>Co to jest VPN dla firm i jak działa?</h2>
+    <section id="po-co">
+      <h2>Po co firmie VPN w 2026 (i dlaczego „ukrywanie IP” to mit)?</h2>
       <p>
-        VPN dla firm (Virtual Private Network) to technologia, która umożliwia bezpieczne połączenie urządzeń pracowników z firmową siecią lub chmurą za pomocą zaszyfrowanego tunelu.
-        Dzięki temu zdalne systemy traktowane są jak lokalne, co znacząco podnosi poziom ochrony danych.
+        Dla firmy VPN jest przede wszystkim warstwą ochrony transmisji i kontroli dostępu. Tak, „zmienia IP” — ale to nie jest wartość biznesowa.
+        Wartością jest to, że pracownik może bezpiecznie wejść do zasobów firmy, a Twoje dane nie „płyną” wprost przez internet.
       </p>
+      <ul>
+        <li><strong>Bezpieczny dostęp do systemów</strong> — CRM/ERP, panele administracyjne, repozytoria, pliki, poczta.</li>
+        <li><strong>Ochrona w publicznym Wi‑Fi</strong> — kawiarnie, hotele, lotniska (w praktyce: mniej przejętych sesji i mniej „incydentów”).</li>
+        <li><strong>Polityki firmowe</strong> — kto ma dostęp, do czego, skąd i na jakim urządzeniu.</li>
+      </ul>
+
+      <div class="related-wide">
+        <p>Related: <a href="/blog/vpn-praca-zdalna.html">VPN a praca zdalna — praktyczne scenariusze i ustawienia</a></p>
+      </div>
+
       <p>
-        Bez VPN ruch sieciowy pracownika jest przesyłany bezpośrednio przez dostawcę internetu, co zwiększa ryzyko wycieków danych i ataków. VPN kieruje ruch przez serwer, który szyfruje transmisję i zapewnia kontrolę dostępu.
+        Uwaga z praktyki: jeśli firma ma bankowość online i narzędzia w chmurze, zadbaj o dodatkowe warstwy.
+        Sam VPN nie zastąpi MFA i higieny kont. Jeśli potrzebujesz fundamentu: zacznij od <a href="/blog/vpn-2fa-mfa.html">2FA/MFA</a> i dopiero potem dopracuj reguły dostępu.
       </p>
 
       <section class="note">
-        <strong>Podsumowanie dla zarządu:</strong>
-        VPN tworzy prywatny, zaszyfrowany kanał, umożliwiając bezpieczny dostęp do firmowych zasobów osobom pracującym zdalnie.
+        <strong>Key takeaway:</strong>
+        Najlepszy firmowy VPN to taki, który ogranicza ryzyko (RODO), ułatwia pracę zdalną i daje kontrolę dostępu — a nie „magicznie ukrywa firmę w internecie”.
       </section>
-
-      <h3>Różnice między połączeniem bez VPN a z firmowym VPN</h3>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Aspekt</th>
-            <th>Bez VPN</th>
-            <th>Z firmowym VPN</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Dostęp do systemów wewnętrznych</td>
-            <td>Ograniczony lub wymaga otwierania portów</td>
-            <td>Bezpieczny dostęp z dowolnego miejsca przez zaszyfrowany tunel</td>
-          </tr>
-          <tr>
-            <td>Bezpieczeństwo w publicznym Wi‑Fi</td>
-            <td>Wysokie ryzyko podsłuchu i ataków</td>
-            <td>Ruch zaszyfrowany, minimalizuje ryzyko wycieku danych</td>
-          </tr>
-          <tr>
-            <td>Widoczność ruchu dla ISP</td>
-            <td>Pełna widoczność odwiedzanych stron i metadanych</td>
-            <td>Widoczny tylko zaszyfrowany tunel do serwera VPN</td>
-          </tr>
-          <tr>
-            <td>Kontrola dostępu</td>
-            <td>Trudna, wymaga wyjątków i otwierania portów</td>
-            <td>Dostęp tylko przez VPN lub z dedykowanych adresów IP</td>
-          </tr>
-        </tbody>
-      </table>
     </section>
 
-    <section id="korzysci-biznesowe">
-      <h2>Kluczowe korzyści VPN w firmie</h2>
+    <section id="diagram" class="svg-card" aria-label="Schemat działania VPN">
+      <h2>Jak VPN chroni dane firmy (schemat w 5 sekund)</h2>
+      <div class="svg-scroll" role="img" aria-label="Schemat: pracownik łączy się przez internet do serwera VPN, który szyfruje ruch, a potem do sieci firmowej">
+        <svg viewBox="0 0 980 240" width="980" height="240" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width="980" height="240" class="box" />
+
+          <rect x="30" y="70" width="230" height="100" class="box fill-blue" />
+          <text x="145" y="110" text-anchor="middle" class="label">Pracownik</text>
+          <text x="145" y="136" text-anchor="middle" class="small">Dom / Hotel</text>
+
+          <rect x="300" y="70" width="250" height="100" class="box fill-red" />
+          <text x="425" y="110" text-anchor="middle" class="label">Publiczny Internet</text>
+          <text x="425" y="136" text-anchor="middle" class="small">Ryzyko podsłuchu / przejęcia sesji</text>
+
+          <rect x="590" y="70" width="170" height="100" class="box fill-yellow" />
+          <text x="675" y="110" text-anchor="middle" class="label">Serwer VPN</text>
+          <text x="675" y="136" text-anchor="middle" class="small">Szyfrowanie</text>
+
+          <rect x="800" y="70" width="150" height="100" class="box fill-green" />
+          <text x="875" y="110" text-anchor="middle" class="label">Sieć firmy</text>
+          <text x="875" y="136" text-anchor="middle" class="small">CRM / ERP / pliki</text>
+
+          <path d="M260 120 L300 120" class="stroke" />
+          <path d="M550 120 L590 120" class="stroke" />
+          <path d="M760 120 L800 120" class="stroke" />
+
+          <text x="425" y="40" text-anchor="middle" class="label">bez VPN</text>
+          <path d="M145 58 L425 58" class="stroke" />
+
+          <text x="675" y="200" text-anchor="middle" class="label">z VPN: tunel zaszyfrowany</text>
+          <path d="M145 182 L675 182" class="stroke" />
+        </svg>
+      </div>
+      <p class="small" style="margin:10px 0 0">W skrócie: z zewnątrz widać głównie tunel do serwera VPN, a nie konkretne zasoby firmowe.</p>
+    </section>
+
+    <section id="modele">
+      <h2>3 modele: SaaS vs własny VPS (WireGuard) vs firewall w biurze</h2>
       <p>
-        VPN to fundament bezpieczeństwa i efektywności w nowoczesnym biznesie. Najważniejsze zalety to:
+        Wybór modelu jest kluczowy, bo determinuje koszty, kontrolę i odpowiedzialność. Poniżej masz tabelę „dla decydenta” — bez lania wody.
       </p>
-      <ul>
-        <li><strong>Bezpieczna praca zdalna</strong> – dostęp do firmowych systemów z dowolnego miejsca bez ryzyka wycieku danych.</li>
-        <li><strong>Ochrona danych klientów</strong> – szyfrowanie chroni wrażliwe informacje przed przechwyceniem.</li>
-        <li><strong>Kontrola dostępu</strong> – logowanie tylko dla użytkowników korzystających z VPN lub zatwierdzonych IP.</li>
-        <li><strong>Mniejsze ryzyko ataków</strong> – ograniczenie widoczności usług i portów dla potencjalnych hakerów.</li>
-        <li><strong>Wsparcie zgodności z RODO</strong> – VPN pomaga spełnić wymogi dotyczące ochrony transmisji i audytowalności.</li>
-      </ul>
+
+      <div class="table-scroll" aria-label="Tabela porównawcza modeli VPN dla firm">
+        <table class="table">
+          <caption>Porównanie podejść do firmowego VPN (2026)</caption>
+          <thead>
+            <tr>
+              <th>Kryterium</th>
+              <th>Komercyjny VPN (SaaS)</th>
+              <th>Własny serwer (VPS + WireGuard)</th>
+              <th>Firewall / VPN w biurze</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Dla kogo</td>
+              <td>1–100 osób, brak działu IT</td>
+              <td>Zespół z adminem / partner IT</td>
+              <td>Duże biura, większe budżety</td>
+            </tr>
+            <tr>
+              <td>Czas wdrożenia</td>
+              <td>5–30 minut</td>
+              <td>1–2 godziny + testy</td>
+              <td>dni/tygodnie (zakup + konfiguracja)</td>
+            </tr>
+            <tr>
+              <td>Wsparcie / SLA</td>
+              <td>Zwykle w pakiecie</td>
+              <td>Po Twojej stronie</td>
+              <td>Po stronie IT / integratora</td>
+            </tr>
+            <tr>
+              <td>Protokoły</td>
+              <td>WireGuard / NordLynx (zależnie od dostawcy)</td>
+              <td>WireGuard + opcjonalnie OpenVPN</td>
+              <td>IPsec / IKEv2, często rozwiązania vendorowe</td>
+            </tr>
+            <tr>
+              <td>RODO</td>
+              <td>Łatwe polityki + zarządzanie użytkownikami</td>
+              <td>Pełna kontrola konfiguracji i logów</td>
+              <td>Pełna, ale wymaga dobrej architektury</td>
+            </tr>
+            <tr>
+              <td>Przykład</td>
+              <td>NordVPN / Surfshark / Proton VPN</td>
+              <td>VPS + WireGuard</td>
+              <td>Cisco / Fortinet / UTM</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <section class="note">
-        <strong>Dla właścicieli firm:</strong>
-        VPN to kluczowy element zabezpieczeń firm z pracownikami zdalnymi lub hybrydowymi, oferujący wysoki poziom ochrony przy rozsądnym koszcie.
-      </section>
-    </section>
-
-    <section class="video-wrapper">
-      <h2>Wideo: jak VPN zabezpiecza firmę i pracę zdalną</h2>
-      <p>
-        Krótki film wyjaśniający, jak VPN chroni ruch sieciowy firmy i wspiera zgodność z wymogami RODO.
-      </p>
-      <iframe
-        src="https://www.youtube-nocookie.com/embed/9G8P3Y5Rk0A"
-        title="Business VPN explained – secure remote access"
-        loading="lazy"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen></iframe>
-      <p class="video-fallback">
-        Jeśli wideo się nie ładuje, obejrzyj je bezpośrednio na
-        <a href="https://www.youtube.com/watch?v=9G8P3Y5Rk0A" target="_blank" rel="noopener noreferrer">YouTube</a>.
-      </p>
-    </section>
-
-    <section id="modele-rozwiazan">
-      <h2>Modele rozwiązań VPN w biznesie</h2>
-      <p>
-        Firmy mogą wybierać spośród trzech głównych modeli VPN, różniących się poziomem kontroli, kosztami i wymaganiami technicznymi:
-      </p>
-
-      <h3>1. VPN na routerze lub firewallu w biurze</h3>
-      <p>
-        Tradycyjne rozwiązanie z lokalnym serwerem VPN w siedzibie firmy. Pracownicy łączą się bezpośrednio z firmową infrastrukturą.
-      </p>
-      <ul>
-        <li>Pełna kontrola nad danymi i ruchem sieciowym.</li>
-        <li>Brak opłat abonamentowych, ale wyższe koszty sprzętu i utrzymania.</li>
-        <li>Wymaga kompetencji IT, regularnych aktualizacji i monitoringu.</li>
-      </ul>
-
-      <h3>2. VPN w chmurze (serwer VPS)</h3>
-      <p>
-        Wynajem serwera VPS z własnym serwerem VPN – kompromis między samodzielnością a wygodą.
-      </p>
-      <ul>
-        <li>Skalowalność i elastyczność w dodawaniu zasobów.</li>
-        <li>Niższy próg wejścia niż własna infrastruktura, ale wymaga technicznej obsługi.</li>
-        <li>Kluczowa jest poprawna konfiguracja i wybór zaufanego dostawcy chmury.</li>
-      </ul>
-
-      <h3>3. Komercyjny VPN dla firm (SaaS)</h3>
-      <p>
-        Usługa oferowana przez zewnętrznego dostawcę z gotowymi aplikacjami i wsparciem technicznym.
-      </p>
-      <ul>
-        <li>Szybkie wdrożenie, często w ciągu jednego dnia.</li>
-        <li>Brak konieczności utrzymywania własnej infrastruktury.</li>
-        <li>Dodatkowe funkcje: dedykowane IP, integracja z SSO, filtrowanie treści, logowanie aktywności.</li>
-      </ul>
-
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Model</th>
-            <th>Dla kogo?</th>
-            <th>Zalety</th>
-            <th>Wyzwania</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Router / firewall w biurze</td>
-            <td>Firmy z działem IT i stałą siedzibą</td>
-            <td>Pełna kontrola, brak abonamentu</td>
-            <td>Administracja, backup, aktualizacje</td>
-          </tr>
-          <tr>
-            <td>VPN na serwerze VPS</td>
-            <td>Małe i średnie firmy z partnerem technicznym</td>
-            <td>Skalowalność i elastyczność</td>
-            <td>Bezpieczeństwo chmury, konfiguracja</td>
-          </tr>
-          <tr>
-            <td>Komercyjny VPN (SaaS)</td>
-            <td>Zespoły rozproszone, firmy bez działu IT</td>
-            <td>Szybkie wdrożenie, wsparcie, funkcje biznesowe</td>
-            <td>Koszty abonamentu, zaufanie do dostawcy</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section id="vpn-a-praca-zdalna">
-      <h2>VPN a bezpieczna praca zdalna</h2>
-      <p>
-        Praca zdalna stała się standardem, co oznacza, że firmowe dane często przesyłane są przez mniej bezpieczne sieci domowe lub publiczne Wi‑Fi.
-        VPN to jedno z najskuteczniejszych narzędzi ochrony przed podsłuchem i wyciekiem danych.
-      </p>
-      <ul>
-        <li><strong>Bezpieczny dostęp do systemów</strong> – CRM, ERP, poczta i pliki dostępne tylko przez zaszyfrowany tunel.</li>
-        <li><strong>Stały adres IP</strong> – dedykowane IP pozwala ograniczyć dostęp do paneli i API tylko do zaufanych adresów.</li>
-        <li><strong>Ochrona przed podsłuchem</strong> – nawet na publicznych hotspotach ruch jest szyfrowany.</li>
-        <li><strong>Łatwiejsze zarządzanie</strong> – administrator widzi, kto, kiedy i skąd łączy się do sieci firmowej.</li>
-      </ul>
-
-      <section class="note">
-        <strong>Przykład zastosowania:</strong>
-        Handlowiec łączy się z hotelowego Wi‑Fi do firmowego CRM i poczty. Bez VPN jego dane mogą zostać przechwycone.
-        Z VPN ruch jest szyfrowany i chroniony na serwerze VPN dostawcy lub firmy.
+        <strong>Key takeaway:</strong>
+        Jeśli nie masz admina, SaaS wygrywa szybkością wdrożenia. Jeśli masz admina i chcesz kontroli — WireGuard na VPS to świetny kompromis.
       </section>
 
-      <p>
-        Więcej o zabezpieczeniu pracy zdalnej przeczytasz w naszym poradniku <a href="/blog/vpn-praca-zdalna.html">VPN a praca zdalna</a>.
-      </p>
-    </section>
+      <div class="related-wide">
+        <p>Related: <a href="/blog/protokoly-vpn.html">Protokoły VPN (WireGuard vs OpenVPN) — co ma sens w 2026</a></p>
+      </div>
 
-    <section id="vpn-a-rodo">
-      <h2>VPN a RODO i ochrona danych osobowych</h2>
-      <p>
-        Choć RODO nie wymienia VPN bezpośrednio, wymaga stosowania odpowiednich środków technicznych i organizacyjnych,
-        by chronić dane osobowe. VPN jest jednym z takich narzędzi, szczególnie ważnym przy pracy zdalnej.
-      </p>
-      <ul>
-        <li><strong>Szyfrowanie transmisji</strong> – zabezpiecza przesyłane dane przed nieuprawnionym dostępem.</li>
-        <li><strong>Ograniczenie powierzchni ataku</strong> – systemy nie są wystawione na publiczny internet, dostęp jest tylko przez VPN.</li>
-        <li><strong>Lepsza rozliczalność</strong> – logi połączeń VPN wspierają audyty i analizę incydentów bezpieczeństwa.</li>
-      </ul>
-
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Obszar RODO</th>
-            <th>Jak pomaga VPN?</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Art. 32 – bezpieczeństwo przetwarzania</td>
-            <td>Szyfruje transmisję danych osobowych między pracownikiem a firmą.</td>
-          </tr>
-          <tr>
-            <td>Kontrola dostępu</td>
-            <td>Ogranicza dostęp tylko dla użytkowników łączących się przez VPN lub z dedykowanych IP.</td>
-          </tr>
-          <tr>
-            <td>Rozliczalność</td>
-            <td>Logi połączeń VPN wspierają audyt i analizę incydentów.</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <section class="note note--warning">
-        <strong>Uwaga:</strong> VPN to tylko część układanki RODO. Konieczne są także polityki haseł,
-        uwierzytelnianie wieloskładnikowe, szkolenia pracowników, kopie zapasowe i procedury reagowania na incydenty.
-      </section>
-    </section>
-
-    <section id="wdrozenie">
-      <h2>Jak wdrożyć VPN w firmie – krok po kroku</h2>
-      <p>
-        Wdrożenie VPN w firmie warto podzielić na kilka etapów, niezależnie od wybranego modelu:
-      </p>
-      <ol>
-        <li>
-          <strong>Określ potrzeby biznesowe</strong><br>
-          Ilu pracowników będzie korzystać z VPN? Jakie systemy wymagają dostępu? Czy potrzebujesz dedykowanych IP lub integracji z SSO?
-        </li>
-        <li>
-          <strong>Wybierz model i dostawcę</strong><br>
-          Dla małych firm często najlepszym wyborem jest komercyjny VPN z planem biznesowym, np. NordVPN lub Surfshark.
-        </li>
-        <li>
-          <strong>Przygotuj polityki bezpieczeństwa</strong><br>
-          Zdefiniuj zasady korzystania z VPN, kto i kiedy ma dostęp, wymagania dotyczące MFA i obowiązki pracowników.
-        </li>
-        <li>
-          <strong>Skonfiguruj serwer i aplikacje</strong><br>
-          Ustaw protokoły (np. WireGuard), zabezpieczenia (kill switch, ochrona przed wyciekami DNS) i przygotuj instrukcje dla użytkowników.
-        </li>
-        <li>
-          <strong>Przetestuj i wdroż</strong><br>
-          Sprawdź działanie VPN z różnych lokalizacji i urządzeń, upewnij się, że dostęp do systemów działa poprawnie.
-        </li>
-        <li>
-          <strong>Przeszkol zespół i monitoruj</strong><br>
-          Przeprowadź szkolenia, monitoruj logi i reaguj na incydenty lub nieprawidłowości.
-        </li>
-      </ol>
-
-      <section class="cta-box">
-        <h3>Nie chcesz budować firmowego VPN od zera?</h3>
-        <p>
-          Jeśli Twoja firma nie ma własnego działu IT, warto zacząć od sprawdzonych dostawców oferujących gotowe aplikacje i wsparcie.
-          To szybki sposób na podniesienie bezpieczeństwa bez dużych inwestycji.
-        </p>
+      <section class="cta-box" aria-label="CTA po tabeli">
+        <h3>Chcesz porównać oferty dla firm 2026 bez zgadywania?</h3>
+        <p>Wybierz dostawcę i sprawdź warunki: limity urządzeń, MFA, dedykowane IP, zarządzanie zespołem, wsparcie i politykę logów.</p>
+        
         <div class="cta-buttons">
-          <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584"
-             class="btn btn-primary"
-             target="_blank"
-             rel="nofollow sponsored noopener noreferrer">
-            Sprawdź ofertę NordVPN dla firm
-          </a>
-          <a href="https://www.tkqlhce.com/click-101525886-17061430"
-             class="btn btn-secondary"
-             target="_blank"
-             rel="nofollow sponsored noopener noreferrer">
-            Zobacz Surfshark dla zespołu
-          </a>
+          <a class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584">NordVPN — sprawdź ofertę</a>
+          <a class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://www.tkqlhce.com/click-101525886-17061430">Surfshark — sprawdź ofertę</a>
+          <a class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer" href="https://www.dpbolvw.net/click-101525886-15834536">Proton VPN — sprawdź ofertę</a>
         </div>
       </section>
     </section>
 
-    <section id="najlepsze-praktyki">
-      <h2>Najlepsze praktyki korzystania z VPN w firmie</h2>
-      <ul>
-        <li><strong>Używaj silnych haseł i uwierzytelniania wieloskładnikowego (MFA)</strong> – to podstawa zabezpieczeń.</li>
-        <li><strong>Regularnie aktualizuj oprogramowanie VPN i urządzenia</strong> – by eliminować luki bezpieczeństwa.</li>
-        <li><strong>Stosuj politykę minimalnych uprawnień</strong> – dostęp do zasobów tylko dla uprawnionych użytkowników.</li>
-        <li><strong>Monitoruj logi i aktywność</strong> – wykrywaj nietypowe zachowania i reaguj na incydenty.</li>
-        <li><strong>Szkol pracowników</strong> – podnoszenie świadomości to skuteczna bariera przed atakami socjotechnicznymi.</li>
-        <li><strong>Wdrażaj segmentację sieci</strong> – ograniczaj dostęp do krytycznych systemów tylko do wybranych użytkowników.</li>
-      </ul>
+    <section id="rodo">
+      <h2>VPN a RODO (Art. 32): szyfrowanie, audyt i ograniczenie ryzyka</h2>
+      <p>
+        RODO nie wymaga „konkretnie VPN”, ale wymaga adekwatnych środków ochrony danych — szczególnie, gdy pracownicy łączą się z zewnątrz.
+        VPN jest jednym z najbardziej praktycznych sposobów zabezpieczenia transmisji i ograniczenia powierzchni ataku.
+      </p>
+
+      <div class="table-scroll" aria-label="Tabela: wymagania RODO i rola VPN">
+        <table class="table">
+          <caption>RODO (GDPR) — gdzie VPN realnie pomaga</caption>
+          <thead>
+            <tr>
+              <th>Wymóg (RODO)</th>
+              <th>Jak pomaga VPN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Konfiden­cjalność (Art. 32)</td>
+              <td>Szyfrowanie tunelu ogranicza ryzyko przechwycenia danych w drodze (dom/kawiarnia/hotel → firma).</td>
+            </tr>
+            <tr>
+              <td>Integralność danych</td>
+              <td>Spójność połączenia i kontrola dostępu minimalizują „nieautoryzowane modyfikacje” po drodze; krytyczne systemy są mniej wystawione.</td>
+            </tr>
+            <tr>
+              <td>Rozliczalność / audyt</td>
+              <td>Centralne logowanie połączeń (kto/kiedy/skąd) pomaga w analizie incydentów i raportowaniu.</td>
+            </tr>
+            <tr>
+              <td>Ochrona dostępu</td>
+              <td>Możesz wymusić MFA, ograniczyć dostęp do paneli tylko dla użytkowników w VPN lub z dedykowanego IP.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <section class="note note--warning">
+        <strong>Uwaga:</strong>
+        VPN nie zwalnia z MFA, polityk haseł, segmentacji sieci, backupów i szkoleń. Traktuj go jako „bezpieczną bramę”, nie jako jedyną ochronę.
+      </section>
+
+      <div class="related-wide">
+        <p>Related: <a href="/blog/vpn-bez-logow.html">VPN bez logów — co to znaczy i dlaczego interesuje prawników / compliance</a></p>
+      </div>
     </section>
 
-    <section id="ograniczenia-bledy">
-      <h2>Ograniczenia VPN i typowe błędy firm</h2>
+    <section id="wireguard">
+      <h2>WireGuard dla biznesu: co daje i kiedy ma sens</h2>
       <p>
-        VPN to potężne narzędzie, ale nie rozwiązuje wszystkich problemów bezpieczeństwa. Oto najczęstsze pułapki:
+        W 2026 WireGuard stał się domyślnym wyborem tam, gdzie liczy się szybkość i stabilność (wideokonferencje, praca w chmurze, VoIP).
+        OpenVPN to dojrzały „klasyk”, ale bywa cięższy i wolniejszy w porównaniu do WireGuard w typowych scenariuszach firmowych.
       </p>
       <ul>
-        <li><strong>Brak polityki bezpieczeństwa</strong> – sam VPN nic nie da, jeśli nie ma jasnych zasad korzystania.</li>
-        <li><strong>Nieaktualne oprogramowanie</strong> – podatności w starych wersjach mogą zostać wykorzystane przez hakerów.</li>
-        <li><strong>Brak segmentacji sieci</strong> – połączenie VPN daje dostęp do całej sieci, jeśli nie jest odpowiednio skonfigurowane.</li>
-        <li><strong>Ignorowanie audytów i monitoringu</strong> – bez kontroli nie wykryjesz naruszeń ani błędów konfiguracji.</li>
-        <li><strong>Używanie darmowych lub nieznanych VPN</strong> – ryzyko wycieku danych lub braku wsparcia technicznego.</li>
+        <li><strong>Mniejszy narzut</strong> — realnie mniej spadków prędkości przy dobrze dobranym serwerze.</li>
+        <li><strong>Szybkie zestawianie tunelu</strong> — mniej frustracji w pracy mobilnej.</li>
+        <li><strong>Prostsza konfiguracja</strong> — szczególnie na VPS (jeśli masz admina).</li>
       </ul>
-      <section class="note note--warning">
-        <strong>Wskazówka:</strong> Wdrożenie VPN powinno iść w parze z rolą ABI/Inspektora Ochrony Danych, który zadba o zgodność z RODO i dokumentację.
+
+      <section class="svg-card" aria-label="Diagram: decyzja WireGuard vs OpenVPN">
+        <h3>Diagram: kiedy WireGuard, a kiedy OpenVPN?</h3>
+        <div class="svg-scroll" role="img" aria-label="Schemat decyzyjny: WireGuard dla szybkości i mobilności, OpenVPN dla kompatybilności i specyficznych wymagań">
+          <svg viewBox="0 0 980 310" width="980" height="310" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="980" height="310" class="box" />
+
+            <rect x="40" y="40" width="900" height="60" class="box fill-blue" />
+            <text x="490" y="78" text-anchor="middle" class="label">Cel: szybkie i stabilne połączenie do chmury / wideorozmów?</text>
+
+            <path d="M490 100 L490 135" class="stroke" />
+            <path d="M490 135 L270 135" class="stroke" />
+            <path d="M490 135 L710 135" class="stroke" />
+
+            <text x="270" y="125" text-anchor="middle" class="small">TAK</text>
+            <text x="710" y="125" text-anchor="middle" class="small">NIE / SPECYFIKA</text>
+
+            <rect x="80" y="155" width="380" height="120" class="box fill-green" />
+            <text x="270" y="195" text-anchor="middle" class="label">WireGuard</text>
+            <text x="270" y="222" text-anchor="middle" class="small">mniej narzutu · szybkie łączenie · mobilność</text>
+
+            <rect x="520" y="155" width="380" height="120" class="box fill-yellow" />
+            <text x="710" y="195" text-anchor="middle" class="label">OpenVPN / IKEv2</text>
+            <text x="710" y="222" text-anchor="middle" class="small">kompatybilność · starsze środowiska · polityki</text>
+
+            <text x="490" y="292" text-anchor="middle" class="small">W praktyce: większość firm startuje od WireGuard, a wyjątki obsługuje alternatywą.</text>
+          </svg>
+        </div>
+      </section>
+
+      <p>
+        Jeśli chcesz podejść do tematu „od strony wyników”, zrób prosty test: zmierz prędkość i opóźnienia z i bez VPN.
+        W VPN World masz do tego gotowy przewodnik: <a href="/blog/test-predkosci-vpn.html">test prędkości VPN</a>.
+      </p>
+
+      <section class="note">
+        <strong>Key takeaway:</strong>
+        Dla firm WireGuard jest zwykle „domyślną odpowiedzią” na stabilne wideorozmowy i pracę w chmurze — pod warunkiem, że dokładasz MFA i sensowne reguły dostępu.
+      </section>
+    </section>
+
+    <section class="video" aria-label="Wideo o VPN (oficjalne)">
+      <h2>Wideo: VPN w praktyce (krótkie wyjaśnienie)</h2>
+      <p>Oficjalny materiał autora — krótko i bez marketingowego dymu.</p>
+      <div class="video-wrap">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE"
+          title="VPN World — jak działa VPN (oficjalne wideo)"
+          loading="lazy"
+          allow="accelerometer;_toggle; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <p class="video-fallback">Jeśli wideo się nie ładuje: <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="noopener noreferrer">obejrzyj na YouTube</a>.</p>
+    </section>
+
+    <section id="zerotrust">
+      <h2>Zero Trust: czy sam VPN wystarczy?</h2>
+      <p>
+        Trend 2026 jest prosty: <strong>nie ufaj domyślnie</strong>. VPN daje bezpieczny tunel, ale Zero Trust pyta: „kto”, „z jakiego urządzenia”, „do jakiego zasobu” i „czy spełnia wymagania”.
+        W praktyce oznacza to, że VPN jest tylko jedną z warstw.
+      </p>
+
+      <section class="svg-card" aria-label="Warstwy Zero Trust">
+        <h3>Warstwy Zero Trust, które realnie robią różnicę</h3>
+        <div class="svg-scroll" role="img" aria-label="Diagram: Zero Trust: tożsamość, urządzenie, dostęp minimalny, monitoring">
+          <svg viewBox="0 0 980 260" width="980" height="260" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="980" height="260" class="box" />
+
+            <rect x="40" y="60" width="220" height="140" class="box fill-yellow" />
+            <text x="150" y="108" text-anchor="middle" class="label">Tożsamość</text>
+            <text x="150" y="134" text-anchor="middle" class="small">MFA · SSO</text>
+
+            <rect x="280" y="60" width="220" height="140" class="box fill-blue" />
+            <text x="390" y="108" text-anchor="middle" class="label">Urządzenie</text>
+            <text x="390" y="134" text-anchor="middle" class="small">aktualizacje · EDR</text>
+
+            <rect x="520" y="60" width="220" height="140" class="box fill-green" />
+            <text x="630" y="108" text-anchor="middle" class="label">Dostęp</text>
+            <text x="630" y="134" text-anchor="middle" class="small">min. uprawnienia</text>
+
+            <rect x="760" y="60" width="180" height="140" class="box fill-purple" />
+            <text x="850" y="108" text-anchor="middle" class="label">Monitoring</text>
+            <text x="850" y="134" text-anchor="middle" class="small">logi · alerty</text>
+
+            <path d="M260 130 L280 130" class="stroke" />
+            <path d="M500 130 L520 130" class="stroke" />
+            <path d="M740 130 L760 130" class="stroke" />
+
+            <text x="490" y="35" text-anchor="middle" class="label">VPN = tunel (ważny), ale Zero Trust = zasady</text>
+          </svg>
+        </div>
+      </section>
+
+      <p>
+        Jeżeli firma ma dostęp do bankowości, paneli administracyjnych i krytycznych danych, to <a href="/blog/vpn-2fa-mfa.html">MFA</a> jest obowiązkowe.
+        Dodatkowo: dedykowane IP bywa świetnym filtrem („do panelu wchodzisz tylko z IP firmy/VPN”).
+      </p>
+
+      <section class="note">
+        <strong>Key takeaway:</strong>
+        Najbezpieczniejsza konfiguracja to VPN + MFA + minimalne uprawnienia + monitoring. Same „dobre szyfrowanie” to za mało.
+      </section>
+    </section>
+
+    <section id="checklist">
+      <h2>Checklist wdrożenia: 5 kroków do bezpiecznego VPN</h2>
+      <ol>
+        <li><strong>Określ zasoby</strong> — które systemy mają być dostępne przez VPN (CRM/ERP, pliki, poczta, panel WWW).</li>
+        <li><strong>Wybierz model</strong> — SaaS, VPS+WireGuard albo firewall w biurze; ustal kto utrzymuje i monitoruje.</li>
+        <li><strong>Wymuś MFA</strong> — dla dostępu VPN i dla kont krytycznych (SSO jeśli możesz).</li>
+        <li><strong>Zastosuj segmentację</strong> — nie dawaj całej sieci „po wejściu do VPN”; ogranicz zasoby rolami.</li>
+        <li><strong>Testuj i monitoruj</strong> — test prędkości, test wycieków (DNS/IPv6), alerty i przegląd logów.</li>
+      </ol>
+
+      <div class="related-wide">
+        <p>Related: <a href="/blog/optymalne-ustawienia-vpn.html">Optymalne ustawienia VPN — stabilność, DNS/IPv6 i praktyczne poprawki</a></p>
+      </div>
+
+      <section class="svg-card" aria-label="Architektura dostępu zdalnego">
+        <h3>Architektura zdalnego dostępu (prosty model dla MŚP)</h3>
+        <div class="svg-scroll" role="img" aria-label="Diagram: pracownicy -> VPN -> bramka -> segmenty: CRM, pliki, administracja">
+          <svg viewBox="0 0 980 280" width="980" height="280" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="980" height="280" class="box" />
+
+            <rect x="40" y="90" width="200" height="120" class="box fill-blue" />
+            <text x="140" y="135" text-anchor="middle" class="label">Pracownicy</text>
+            <text x="140" y="160" text-anchor="middle" class="small">laptopy / mobile</text>
+
+            <rect x="290" y="90" width="170" height="120" class="box fill-yellow" />
+            <text x="375" y="135" text-anchor="middle" class="label">VPN</text>
+            <text x="375" y="160" text-anchor="middle" class="small">MFA + tunel</text>
+
+            <rect x="510" y="60" width="170" height="180" class="box fill-purple" />
+            <text x="595" y="120" text-anchor="middle" class="label">Bramka</text>
+            <text x="595" y="145" text-anchor="middle" class="small">reguły dostępu</text>
+            <text x="595" y="170" text-anchor="middle" class="small">logi/alerty</text>
+
+            <rect x="730" y="50" width="210" height="60" class="box fill-green" />
+            <text x="835" y="88" text-anchor="middle" class="label">CRM / ERP</text>
+
+            <rect x="730" y="120" width="210" height="60" class="box fill-green" />
+            <text x="835" y="158" text-anchor="middle" class="label">Pliki / chmura</text>
+
+            <rect x="730" y="190" width="210" height="60" class="box fill-red" />
+            <text x="835" y="228" text-anchor="middle" class="label">Admin / panele</text>
+
+            <path d="M240 150 L290 150" class="stroke" />
+            <path d="M460 150 L510 150" class="stroke" />
+            <path d="M680 80 L730 80" class="stroke" />
+            <path d="M680 150 L730 150" class="stroke" />
+            <path d="M680 220 L730 220" class="stroke" />
+
+            <text x="595" y="35" text-anchor="middle" class="label">Cel: dostęp tylko do potrzebnych zasobów</text>
+          </svg>
+        </div>
+      </section>
+    </section>
+
+    <section id="bledy">
+      <h2>Typowe błędy firm (i jak ich uniknąć)</h2>
+      <ul>
+        <li><strong>VPN bez MFA</strong> — jeden wyciek hasła i „ktoś jest w środku”. Włącz MFA od początku.</li>
+        <li><strong>Brak segmentacji</strong> — po VPN dostęp „do wszystkiego”. Dziel zasoby i dawaj minimalne uprawnienia.</li>
+        <li><strong>Brak testów wycieków</strong> — DNS/IPv6 potrafią zdradzić więcej, niż myślisz. Zadbaj o ustawienia i testy.</li>
+        <li><strong>Stary protokół / złe serwery</strong> — dla pracy wideo i chmury WireGuard zwykle robi robotę lepiej.</li>
+        <li><strong>Darmowe VPN</strong> — w firmie to proszenie się o kłopoty (brak kontroli, wsparcia, ryzyko monetizacji danych).</li>
+      </ul>
+
+      <div class="related-wide">
+        <p>Related: <a href="/blog/darmowy-vs-platny-vpn.html">Darmowy vs płatny VPN — dlaczego w firmie to ważne</a></p>
+      </div>
+
+      <section class="note">
+        <strong>Key takeaway:</strong>
+        Najczęściej nie „VPN jest słaby”, tylko wdrożenie jest niekompletne. MFA + segmentacja + monitoring = realna różnica.
       </section>
     </section>
 
     <section id="faq">
-      <h2>FAQ – pytania o VPN dla firm</h2>
-
+      <h2>FAQ</h2>
       <details>
-        <summary>Czy VPN jest obowiązkowy dla firm w Polsce?</summary>
-        <p>
-          Nie jest obowiązkowy, ale zdecydowanie zalecany jako element bezpieczeństwa IT i zgodności z RODO, zwłaszcza przy pracy zdalnej.
-        </p>
+        <summary>Czy mała firma (5–20 osób) powinna brać VPN SaaS czy stawiać własny serwer?</summary>
+        <p>Jeśli nie masz admina — SaaS będzie szybszy i bezpieczniejszy operacyjnie. Jeśli masz admina i chcesz kontroli, WireGuard na VPS to rozsądny kompromis.</p>
       </details>
-
       <details>
-        <summary>Jak VPN pomaga spełnić wymogi RODO?</summary>
-        <p>
-          VPN szyfruje transmisję danych, ogranicza dostęp do zasobów i wspiera audytowalność połączeń, co jest zgodne z wymogami art. 32 RODO.
-        </p>
+        <summary>Czy dedykowane IP ma sens w biznesie?</summary>
+        <p>Tak, zwłaszcza do paneli administracyjnych i CRM: możesz ograniczyć dostęp do jednego, znanego adresu (albo puli IP) i w ten sposób zmniejszyć ryzyko ataków.</p>
       </details>
-
       <details>
-        <summary>Czy VPN spowalnia pracę zdalną?</summary>
-        <p>
-          Może minimalnie wpłynąć na prędkość, ale nowoczesne protokoły (np. WireGuard) zapewniają szybkie i stabilne połączenia.
-        </p>
-      </details>
-
-      <details>
-        <summary>Jak wybrać dostawcę VPN dla firmy?</summary>
-        <p>
-          Warto zwrócić uwagę na politykę prywatności, lokalizacje serwerów, wsparcie techniczne, możliwość dedykowanych adresów IP oraz zgodność z RODO.
-        </p>
-      </details>
-
-      <details>
-        <summary>Czy mogę samodzielnie postawić serwer VPN?</summary>
-        <p>
-          Tak, to popularne rozwiązanie w małych firmach, ale wymaga kompetencji IT i regularnej konserwacji.
-        </p>
+        <summary>Co z bankowością online — czy VPN pomaga?</summary>
+        <p>W publicznym Wi‑Fi zdecydowanie pomaga (szyfrowanie tunelu). Ale nie zastępuje MFA, higieny kont i aktualizacji urządzeń.</p>
       </details>
     </section>
 
-    
-    <p class="note">
-      Dalsza lektura: <a href="/blog/co-to-jest-vpn.html">co to jest VPN</a>, <a href="/blog/vpn-bez-logow.html">VPN bez logów</a>, <a href="/blog/jaki-serwer-vpn.html">jaki serwer VPN wybrać</a>, <a href="/blog/vpn-praca-zdalna.html">VPN a praca zdalna</a>.
-    </p>
-<section class="related-articles">
-      <h2>Powiązane przewodniki</h2>
+    <!-- RELATED_START -->
+    <section class="related-guides" aria-label="Powiązane poradniki">
+      <h2>Powiązane poradniki</h2>
       <ul>
-        <li><a href="/blog/co-to-jest-vpn.html">Co to jest VPN? Proste wyjaśnienie 2025</a></li>
-        <li><a href="/blog/vpn-bez-logow.html">VPN bez logów — jak działa i dla kogo ma sens</a></li>
-        <li><a href="/blog/jaki-serwer-vpn.html">Jaki serwer VPN wybrać do pracy i streamingu</a></li>
+        <li><a href="/blog/vpn-praca-zdalna.html">/blog/vpn-praca-zdalna.html</a></li>
+        <li><a href="/blog/vpn-2fa-mfa.html">/blog/vpn-2fa-mfa.html</a></li>
+        <li><a href="/blog/protokoly-vpn.html">/blog/protokoly-vpn.html</a></li>
+        <li><a href="/blog/jaki-serwer-vpn.html">/blog/jaki-serwer-vpn.html</a></li>
+        <li><a href="/blog/vpn-bez-logow.html">/blog/vpn-bez-logow.html</a></li>
       </ul>
     </section>
+    <!-- RELATED_END -->
 
-    <section class="disclosure">
-      <p>
-        <strong>Ujawnienie:</strong> VPN World jest niezależnym projektem.
-        Jeśli kupisz VPN przez nasz link, możemy otrzymać prowizję — bez dodatkowych kosztów dla Ciebie.
-      </p>
+    <section class="disclosure" aria-label="Ujawnienie afiliacyjne">
+      <p><strong>Ujawnienie:</strong> VPN World jest niezależnym serwisem. Jeśli kupisz VPN przez nasz link, możemy otrzymać prowizję — bez dodatkowych kosztów dla Ciebie.</p>
     </section>
 
-<section class="author-box">
-  <p>Autorem jest <a href="/about-denys-shchur.html">Denys Shchur</a> – twórca VPN World i autor treści o VPN i cyberbezpieczeństwie.</p>
-</section>
+    <section class="author-box" aria-label="O autorze">
+      <p>Autorem jest <a href="/about-denys-shchur.html">Denys Shchur</a> — twórca VPN World i autor treści o VPN, prywatności i cyberbezpieczeństwie. <a href="https://www.linkedin.com/in/denys-shchurr/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p>
+    </section>
 
-</article>
-  <!-- RELATED_START -->
-<section class="related-guides" aria-label="Powiązane poradniki">
-  <h2>Powiązane poradniki</h2>
-  <ul>
-    <li><a href="/blog/co-to-jest-vpn.html">/blog/co-to-jest-vpn.html</a></li>
-    <li><a href="/blog/protokoly-vpn.html">/blog/protokoly-vpn.html</a></li>
-    <li><a href="/blog/proxy-vs-vpn.html">/blog/proxy-vs-vpn.html</a></li>
-    <li><a href="/blog/optymalne-ustawienia-vpn.html">/blog/optymalne-ustawienia-vpn.html</a></li>
-    <li><a href="/blog/test-predkosci-vpn.html">/blog/test-predkosci-vpn.html</a></li>
-  </ul>
-</section>
-<!-- RELATED_END -->
-
-</main>
+  </main>
 
   <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <strong>VPN World</strong>
-        <p>Niezależny serwis o prywatności i bezpieczeństwie w sieci.</p>
-      </div>
-      <nav>
-        <a href="/privacy.html">Polityka prywatności</a>
-        <a href="/sitemap.xml">Sitemap</a>
-        <a href="mailto:u1797008805@gmail.com">Kontakt</a>
-      </nav>
-    </div>
-    <div class="container tiny">© 2025 VPN World</div>
-  </footer>
+  <div class="container">
+    <p class="footer-links">
+      <a href="/about-denys-shchur.html">O autorze</a> •
+      <a href="/privacy.html">Polityka prywatności</a> •
+      <a href="/disclosure.html">Ujawnienie</a> •
+      <a href="mailto:u1797008805@gmail.com">Kontakt</a>
+    </p>
+    <p class="footer-meta">© 2026 VPN World • Niezależny serwis o prywatności, bezpieczeństwie i praktycznym użyciu VPN.</p>
+  </div>
+</footer>
 
   <script src="../assets/js/main.js"></script>
-  <!-- Cookie Consent (canonical) -->
-<div id="cookie-consent-layer" class="cookie-layer" aria-hidden="true"></div>
-<div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
-  <div class="cookie-banner__inner">
-    <div class="cookie-banner__text">
-      <span class="cookie-banner__msg">We use cookies.</span>
-      <a class="cookie-banner__link" href="/privacy.html" rel="nofollow">Prywatność</a>
-    </div>
-    <div class="cookie-banner__actions">
-      <button id="cookie-accept" type="button">Accept</button>
-      <button id="cookie-reject" type="button">Reject</button>
+
+  <!-- Cookie Consent (Concept Mode 2: canonical layer + banner; fully localized PL) -->
+  <div id="cookie-consent-layer" class="cookie-layer" aria-hidden="true"></div>
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Zgoda na pliki cookie">
+    <div class="cookie-banner__inner">
+      <div class="cookie-banner__text">
+        <span class="cookie-banner__msg">Używamy plików cookie do pomiaru ruchu i poprawy działania serwisu. Możesz zaakceptować lub odrzucić.</span>
+        <a class="cookie-banner__link" href="/privacy.html" rel="nofollow">Polityka prywatności</a>
+      </div>
+      <div class="cookie-banner__actions">
+        <button id="cookie-accept" type="button">Akceptuję</button>
+        <button id="cookie-reject" type="button">Odrzucam</button>
+      </div>
     </div>
   </div>
-</div>
-<!-- /Cookie Consent (canonical) -->
-
+  <!-- /Cookie Consent -->
 </body>
 </html>
