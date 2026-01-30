@@ -1,23 +1,23 @@
 <!doctype html>
-<html lang="pl">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Baza wiedzy — VPN World × SmartAdvisorOnline (Knowledge Hub)</title>
-  <meta name="description" content="Knowledge Hub: jedna baza linków dla VPN World i SmartAdvisorOnline — szybkie poradniki, testy wycieków, streaming, słownik i checklisty. Wyszukiwanie i filtry." />
+  <title>Knowledge Base — VPN World × SmartAdvisorOnline</title>
+  <meta name="description" content="A curated knowledge hub with reference docs and evergreen VPN guides for VPN World and SmartAdvisorOnline — with search and filters." />
   <meta name="robots" content="index, follow" />
 
-  <link rel="canonical" href="https://dloran1.github.io/blog/knowledge-base.html" />
+  <link rel="canonical" href="https://dloran1.github.io/knowledge-base.html" />
   <link rel="icon" href="/favicon.ico" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Baza wiedzy — VPN World × SmartAdvisorOnline" />
-  <meta property="og:description" content="Jedna, czytelna strona z linkami do poradników i referencji (docs) dla dwóch projektów. Filtry + wyszukiwarka." />
-  <meta property="og:url" content="https://dloran1.github.io/blog/knowledge-base.html" />
+  <meta property="og:title" content="Knowledge Base — VPN World × SmartAdvisorOnline" />
+  <meta property="og:description" content="One hub with links to reference docs and guides for both projects. Search + filters." />
+  <meta property="og:url" content="https://dloran1.github.io/knowledge-base.html" />
 
-  <!-- Style (VPN World canonical) -->
-  <link rel="stylesheet" href="../assets/css/style.css" />
+  <!-- VPN World canonical stylesheet -->
+  <link rel="stylesheet" href="/assets/css/style.css" />
 
   <!-- Consent Mode v2 + GA4 (VPN World) -->
   <script>
@@ -34,34 +34,34 @@
       'security_storage': 'denied'
     });
   </script>
-  <!-- IMPORTANT: keep GA4 script present; cookie-consent.js will send page_view only after Accept -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
   <script>
     gtag('js', new Date());
     gtag('config', 'G-RD6M691ZWD', { send_page_view: false });
   </script>
-  <script defer src="../assets/js/cookie-consent.js"></script>
+  <script defer src="/assets/js/cookie-consent.js"></script>
 
   <style>
-    /* Minimal page-only styling that matches VPN World dark shell + white cards */
-    .kb-wrap{max-width:1100px;margin:0 auto;padding:18px}
+    /* Page-only styling: stays inside VPN World dark shell + white cards language */
+    .kb-wrap{max-width:1160px;margin:0 auto;padding:18px}
     .kb-hero{
       background:linear-gradient(135deg, rgba(31,111,235,.22), rgba(0,0,0,0));
       border:1px solid rgba(255,255,255,.08);
       border-radius:16px;
       padding:18px;
-      margin:10px 0 16px;
+      margin:10px 0 14px;
     }
     .kb-hero h1{margin:0 0 8px;font-size:28px;line-height:1.15}
-    .kb-hero p{margin:0;color:rgba(255,255,255,.82);max-width:70ch}
+    .kb-hero p{margin:0;color:rgba(255,255,255,.82);max-width:78ch}
     .kb-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
     .kb-badge{
       display:inline-flex;align-items:center;gap:8px;
       padding:8px 10px;border-radius:999px;
       border:1px solid rgba(255,255,255,.12);
       background:rgba(7,16,35,.55);
-      color:#fff;font-weight:700;font-size:13px
+      color:#fff;font-weight:900;font-size:13px
     }
+
     .kb-controls{
       display:flex;flex-wrap:wrap;gap:10px;
       padding:12px;border-radius:14px;
@@ -80,6 +80,7 @@
       width:100%;border:0;outline:none;background:transparent;
       font-size:16px;color:#000
     }
+
     .kb-tabs{display:flex;flex-wrap:wrap;gap:8px}
     .kb-tab{
       border:1px solid rgba(255,255,255,.16);
@@ -87,7 +88,7 @@
       color:#fff;
       border-radius:999px;
       padding:9px 12px;
-      font-weight:800;
+      font-weight:950;
       cursor:pointer;
       user-select:none;
     }
@@ -95,12 +96,31 @@
       background:linear-gradient(135deg, rgba(31,111,235,.95), rgba(50,145,255,.78));
       border-color:rgba(255,255,255,.22);
     }
+
+    .kb-section{
+      margin:14px 0 10px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(7,16,35,.32);
+      overflow:hidden;
+    }
+    .kb-section-head{
+      padding:12px 14px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      background:#071023;
+      color:#fff;
+    }
+    .kb-section-title{margin:0;font-size:16px;font-weight:950;letter-spacing:.2px}
+    .kb-section-sub{margin:0;font-size:12px;font-weight:900;opacity:.9}
+    .kb-section-body{padding:12px 12px 6px}
+
     .kb-grid{
       display:grid;
       grid-template-columns:repeat(12,1fr);
       gap:12px;
-      margin:12px 0 20px;
+      margin:0 0 10px;
     }
+
     .kb-card{
       grid-column:span 6;
       border-radius:16px;
@@ -114,20 +134,27 @@
       background:#071023;
       color:#fff;
       display:flex;align-items:center;justify-content:space-between;gap:10px;
+      position:relative;
     }
-    .kb-card-title{margin:0;font-size:16px;font-weight:900;letter-spacing:.2px}
+    .kb-accent{position:absolute;left:0;top:0;bottom:0;width:6px}
+    .kb-accent.vpnw{background:linear-gradient(#1f6feb,#3291ff)}
+    .kb-accent.sao{background:linear-gradient(#15a34a,#22c55e)}
+    .kb-accent.docs{background:linear-gradient(#f59e0b,#f97316)}
+
+    .kb-card-title{margin:0;font-size:16px;font-weight:1000;letter-spacing:.2px}
     .kb-pill{
-      font-weight:900;font-size:12px;
+      font-weight:1000;font-size:12px;
       padding:6px 10px;border-radius:999px;
       background:rgba(255,255,255,.12);
       border:1px solid rgba(255,255,255,.18);
       white-space:nowrap;
     }
+
     .kb-card-body{padding:12px 14px}
-    .kb-desc{margin:0 0 10px;color:#111;opacity:.9}
+    .kb-desc{margin:0 0 10px;color:#111;opacity:.92}
     .kb-meta{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 12px}
     .kb-tag{
-      font-size:12px;font-weight:800;
+      font-size:12px;font-weight:950;
       padding:6px 10px;border-radius:999px;
       border:1px solid rgba(0,0,0,.12);
       background:#fff;
@@ -138,28 +165,15 @@
       display:inline-flex;align-items:center;justify-content:center;
       gap:8px;
       padding:10px 12px;border-radius:12px;
-      text-decoration:none;font-weight:900;
+      text-decoration:none;font-weight:1000;
       border:1px solid rgba(0,0,0,.14);
       background:#fff;color:#000;
     }
-    .kb-btn.primary{
-      border:0;
-      background:linear-gradient(135deg, #1f6feb, #3291ff);
-      color:#fff;
-    }
-    .kb-btn.secondary{
-      background:#071023;color:#fff;border:1px solid rgba(255,255,255,.16);
-    }
-    .kb-note{
-      border-radius:14px;
-      padding:12px 14px;
-      background:#071023;
-      border-left:4px solid #1f6feb;
-      color:#fff;
-      margin:12px 0 4px;
-    }
-    .kb-note a{color:#fff;text-decoration:underline}
-    .kb-small{font-size:13px;opacity:.92}
+    .kb-btn.primary{border:0;background:linear-gradient(135deg,#1f6feb,#3291ff);color:#fff;}
+    .kb-btn.green{border:0;background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;}
+    .kb-btn.dark{background:#071023;color:#fff;border:1px solid rgba(255,255,255,.16);}
+    .kb-btn.ghost{background:#fff;color:#000;border:1px solid rgba(0,0,0,.14);}
+
     .kb-empty{
       border-radius:16px;
       border:1px dashed rgba(255,255,255,.22);
@@ -169,7 +183,7 @@
       margin:14px 0;
     }
 
-    @media (max-width: 860px){
+    @media (max-width: 980px){
       .kb-card{grid-column:span 12}
       .kb-hero h1{font-size:24px}
     }
@@ -177,7 +191,7 @@
 </head>
 
 <body>
-  <!-- PAGE: /blog/knowledge-base.html -->
+  <!-- PAGE: /knowledge-base.html -->
 
   <header class="site-header">
     <div class="site-header__inner">
@@ -185,214 +199,228 @@
       <nav class="top-nav" aria-label="Primary">
         <a href="/blog/" class="nav-link">Blog</a>
         <a href="https://smartadvisoronline.com/" class="nav-link" target="_blank" rel="noopener noreferrer">SmartAdvisorOnline</a>
-        <a href="https://dnscheck.smartadvisoronline.com/" class="nav-link" target="_blank" rel="noopener noreferrer">DNS Check</a>
       </nav>
     </div>
   </header>
 
   <main class="kb-wrap">
-    <section class="kb-hero" aria-label="Knowledge Hub intro">
-      <h1>Baza wiedzy (Knowledge Hub)</h1>
-      <p>
-        Jedna strona — dwa projekty. Tutaj zbieramy <strong>referencje (docs)</strong>, krótkie checklisty i “evergreen” poradniki, które potem
-        linkujemy z artykułów VPN World oraz SmartAdvisorOnline (i z zewnątrz: Dev.to / Quora / Reddit).
-      </p>
+    <section class="kb-hero" aria-label="Knowledge Base">
+      <h1>Knowledge Base</h1>
+      <p>Reference docs and evergreen guides — searchable and grouped by project.</p>
       <div class="kb-badges" aria-label="Badges">
-        <span class="kb-badge">🔗 Szybkie linki</span>
-        <span class="kb-badge">🧠 Docs / Reference</span>
-        <span class="kb-badge">🧪 Leak tests</span>
+        <span class="kb-badge">🔎 Search</span>
+        <span class="kb-badge">🎛 Filters</span>
+        <span class="kb-badge">🧠 Docs</span>
         <span class="kb-badge">📺 Streaming</span>
-        <span class="kb-badge">⚙️ Troubleshooting</span>
+        <span class="kb-badge">🧪 Leak tests</span>
+        <span class="kb-badge">🛠 Fixes</span>
       </div>
     </section>
 
     <section class="kb-controls" aria-label="Filters and search">
       <div class="kb-search" role="search" aria-label="Search">
         <span aria-hidden="true">🔎</span>
-        <input id="kb-q" type="search" placeholder="Szukaj: DNS leak, YouTube, torrent, streaming, glossary..." autocomplete="off" />
+        <input id="kb-q" type="search" placeholder="Search: DNS leak, YouTube, torrent, streaming, glossary..." autocomplete="off" />
       </div>
-
       <div class="kb-tabs" aria-label="Project filter">
-        <button class="kb-tab" id="tab-all" type="button" aria-pressed="true" data-filter="all">Wszystko</button>
-        <button class="kb-tab" id="tab-vpnw" type="button" aria-pressed="false" data-filter="vpnworld">VPN World</button>
-        <button class="kb-tab" id="tab-sao" type="button" aria-pressed="false" data-filter="smartadvisor">SmartAdvisorOnline</button>
-        <button class="kb-tab" id="tab-docs" type="button" aria-pressed="false" data-filter="docs">Docs (GitHub)</button>
+        <button class="kb-tab" type="button" aria-pressed="true" data-filter="all">All</button>
+        <button class="kb-tab" type="button" aria-pressed="false" data-filter="vpnworld">VPN World</button>
+        <button class="kb-tab" type="button" aria-pressed="false" data-filter="smartadvisor">SmartAdvisorOnline</button>
+        <button class="kb-tab" type="button" aria-pressed="false" data-filter="docs">Docs (GitHub)</button>
       </div>
     </section>
 
-    <div class="kb-note">
-      <div class="kb-small">
-        Tip: jeśli chcesz “aktywować” konkretny dokument, wstaw 1–2 naturalne linki do niego w artykułach (w środku tekstu) + raz na jakiś czas podepnij z zewnątrz
-        (Dev.to / Quora). To jest właśnie ta “pętla sygnałów”.
+    <!-- VPN WORLD / DOCS -->
+    <section class="kb-section" aria-label="VPN World and GitHub Docs">
+      <div class="kb-section-head">
+        <h2 class="kb-section-title">VPN World — Reference Docs</h2>
+        <p class="kb-section-sub">GitHub docs • VPN World layer</p>
       </div>
-    </div>
+      <div class="kb-section-body">
+        <div class="kb-grid" id="kb-grid-vpnw">
 
-    <section class="kb-grid" id="kb-grid" aria-label="Knowledge items">
-      <!-- VPN WORLD / Docs -->
-      <article class="kb-card" data-project="vpnworld" data-type="docs" data-tags="dns leak test privacy troubleshooting">
-        <div class="kb-card-head">
-          <h2 class="kb-card-title">VPN World — DNS Leak (Reference)</h2>
-          <span class="kb-pill">Docs • GitHub</span>
-        </div>
-        <div class="kb-card-body">
-          <p class="kb-desc">Krótka referencja: czym jest DNS leak, typowe przyczyny (IPv6, split tunneling) i szybkie kroki diagnostyki.</p>
-          <div class="kb-meta">
-            <span class="kb-tag">DNS</span><span class="kb-tag">Leak Test</span><span class="kb-tag">Troubleshooting</span>
-          </div>
-          <div class="kb-actions">
-            <a class="kb-btn primary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-dns-leak.md" target="_blank" rel="noopener noreferrer">Otwórz docs</a>
-            <button class="kb-btn" type="button" data-copy="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-dns-leak.md">Kopiuj link</button>
-          </div>
-        </div>
-      </article>
+          <article class="kb-card" data-project="vpnworld" data-type="docs" data-tags="dns leak test ipv6 split tunneling privacy">
+            <div class="kb-card-head">
+              <span class="kb-accent vpnw" aria-hidden="true"></span>
+              <h3 class="kb-card-title">DNS Leak (Reference)</h3>
+              <span class="kb-pill">Docs</span>
+            </div>
+            <div class="kb-card-body">
+              <p class="kb-desc">DNS leak basics + common causes (IPv6, split tunneling) and practical fixes.</p>
+              <div class="kb-meta">
+                <span class="kb-tag">DNS</span><span class="kb-tag">Leak test</span><span class="kb-tag">Fixes</span>
+              </div>
+              <div class="kb-actions">
+                <a class="kb-btn primary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-dns-leak.md" target="_blank" rel="noopener noreferrer">Open</a>
+                <button class="kb-btn ghost" type="button" data-copy="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-dns-leak.md">Copy link</button>
+              </div>
+            </div>
+          </article>
 
-      <article class="kb-card" data-project="vpnworld" data-type="docs" data-tags="glossary basics terms vpn">
-        <div class="kb-card-head">
-          <h2 class="kb-card-title">VPN World — VPN Glossary</h2>
-          <span class="kb-pill">Docs • GitHub</span>
-        </div>
-        <div class="kb-card-body">
-          <p class="kb-desc">Słownik pojęć: tunneling, NAT, kill switch, split tunneling, WireGuard, DNS, IPv6, WebRTC.</p>
-          <div class="kb-meta">
-            <span class="kb-tag">Glossary</span><span class="kb-tag">Basics</span><span class="kb-tag">Terms</span>
-          </div>
-          <div class="kb-actions">
-            <a class="kb-btn primary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-glossary.md" target="_blank" rel="noopener noreferrer">Otwórz docs</a>
-            <button class="kb-btn" type="button" data-copy="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-glossary.md">Kopiuj link</button>
-          </div>
-        </div>
-      </article>
+          <article class="kb-card" data-project="vpnworld" data-type="docs" data-tags="glossary terminology wireguard kill switch split tunneling webrtc ipv6">
+            <div class="kb-card-head">
+              <span class="kb-accent docs" aria-hidden="true"></span>
+              <h3 class="kb-card-title">VPN Glossary</h3>
+              <span class="kb-pill">Docs</span>
+            </div>
+            <div class="kb-card-body">
+              <p class="kb-desc">Plain-English glossary: WireGuard, kill switch, split tunneling, DNS, IPv6, WebRTC.</p>
+              <div class="kb-meta">
+                <span class="kb-tag">Glossary</span><span class="kb-tag">Basics</span><span class="kb-tag">Terms</span>
+              </div>
+              <div class="kb-actions">
+                <a class="kb-btn primary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-glossary.md" target="_blank" rel="noopener noreferrer">Open</a>
+                <button class="kb-btn ghost" type="button" data-copy="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-glossary.md">Copy link</button>
+              </div>
+            </div>
+          </article>
 
-      <article class="kb-card" data-project="vpnworld" data-type="docs" data-tags="youtube streaming throttling privacy">
-        <div class="kb-card-head">
-          <h2 class="kb-card-title">SmartAdvisorOnline — VPN for YouTube (Reference)</h2>
-          <span class="kb-pill">SmartAdvisorOnline</span>
-        </div>
-        <div class="kb-card-body">
-          <p class="kb-desc">Poradnik: oglądanie YouTube w podróży, stabilność, unikanie throttlingu i ustawienia prywatności.</p>
-          <div class="kb-meta">
-            <span class="kb-tag">YouTube</span><span class="kb-tag">Streaming</span><span class="kb-tag">Speed</span>
-          </div>
-          <div class="kb-actions">
-            <a class="kb-btn primary" href="https://smartadvisoronline.com/blog/vpn-for-youtube.html" target="_blank" rel="noopener noreferrer">Otwórz stronę</a>
-            <a class="kb-btn secondary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-for-youtube.md" target="_blank" rel="noopener noreferrer">Otwórz docs</a>
-          </div>
-        </div>
-      </article>
+          <article class="kb-card" data-project="vpnworld" data-type="docs" data-tags="torrent p2p kill switch port forwarding dns leak privacy">
+            <div class="kb-card-head">
+              <span class="kb-accent vpnw" aria-hidden="true"></span>
+              <h3 class="kb-card-title">VPN Torrent (Reference)</h3>
+              <span class="kb-pill">Docs</span>
+            </div>
+            <div class="kb-card-body">
+              <p class="kb-desc">P2P checklist: kill switch, DNS/IPv6 leaks, split tunneling and common mistakes.</p>
+              <div class="kb-meta">
+                <span class="kb-tag">P2P</span><span class="kb-tag">Kill switch</span><span class="kb-tag">Privacy</span>
+              </div>
+              <div class="kb-actions">
+                <a class="kb-btn primary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-torrent.md" target="_blank" rel="noopener noreferrer">Open vpn-torrent.md</a>
+                <a class="kb-btn dark" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-torrenting.md" target="_blank" rel="noopener noreferrer">Open vpn-torrenting.md</a>
+              </div>
+            </div>
+          </article>
 
-      <article class="kb-card" data-project="smartadvisor" data-type="docs" data-tags="hulu streaming geo blocks">
-        <div class="kb-card-head">
-          <h2 class="kb-card-title">SmartAdvisorOnline — VPN for Hulu (Reference)</h2>
-          <span class="kb-pill">SmartAdvisorOnline</span>
-        </div>
-        <div class="kb-card-body">
-          <p class="kb-desc">Checklist: streaming, geo-blokady, stabilność serwerów, DNS i typowe błędy aplikacji.</p>
-          <div class="kb-meta">
-            <span class="kb-tag">Hulu</span><span class="kb-tag">Streaming</span><span class="kb-tag">Geo</span>
-          </div>
-          <div class="kb-actions">
-            <a class="kb-btn primary" href="https://smartadvisoronline.com/blog/vpn-for-hulu.html" target="_blank" rel="noopener noreferrer">Otwórz stronę</a>
-            <a class="kb-btn secondary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-for-hulu.md" target="_blank" rel="noopener noreferrer">Otwórz docs</a>
-          </div>
-        </div>
-      </article>
+          <article class="kb-card" data-project="vpnworld" data-type="docs" data-tags="travel public wifi security banking roaming hotel networks">
+            <div class="kb-card-head">
+              <span class="kb-accent docs" aria-hidden="true"></span>
+              <h3 class="kb-card-title">VPN Travel (Reference)</h3>
+              <span class="kb-pill">Docs</span>
+            </div>
+            <div class="kb-card-body">
+              <p class="kb-desc">Travel checklist: public Wi‑Fi safety, banking, roaming, hotel network limits.</p>
+              <div class="kb-meta">
+                <span class="kb-tag">Travel</span><span class="kb-tag">Public Wi‑Fi</span><span class="kb-tag">Security</span>
+              </div>
+              <div class="kb-actions">
+                <a class="kb-btn primary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-travel.md" target="_blank" rel="noopener noreferrer">Open</a>
+                <button class="kb-btn ghost" type="button" data-copy="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-travel.md">Copy link</button>
+              </div>
+            </div>
+          </article>
 
-      <article class="kb-card" data-project="smartadvisor" data-type="docs" data-tags="sports streaming buffering live">
-        <div class="kb-card-head">
-          <h2 class="kb-card-title">SmartAdvisorOnline — VPN for Sports Streaming</h2>
-          <span class="kb-pill">SmartAdvisorOnline</span>
-        </div>
-        <div class="kb-card-body">
-          <p class="kb-desc">Jak minimalizować buffering w live: wybór lokalizacji, protokół, MTU, split tunneling i DNS.</p>
-          <div class="kb-meta">
-            <span class="kb-tag">Sports</span><span class="kb-tag">Live</span><span class="kb-tag">Buffering</span>
-          </div>
-          <div class="kb-actions">
-            <a class="kb-btn secondary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-for-sports-streaming.md" target="_blank" rel="noopener noreferrer">Otwórz docs</a>
-            <button class="kb-btn" type="button" data-copy="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-for-sports-streaming.md">Kopiuj link</button>
-          </div>
-        </div>
-      </article>
+          <article class="kb-card" data-project="vpnworld" data-type="docs" data-tags="streaming geo blocks dns smart tv throttling">
+            <div class="kb-card-head">
+              <span class="kb-accent vpnw" aria-hidden="true"></span>
+              <h3 class="kb-card-title">VPN Streaming (Reference)</h3>
+              <span class="kb-pill">Docs</span>
+            </div>
+            <div class="kb-card-body">
+              <p class="kb-desc">Streaming + geo-blocks: when a VPN helps, when it doesn’t, and the settings that matter.</p>
+              <div class="kb-meta">
+                <span class="kb-tag">Streaming</span><span class="kb-tag">Geo</span><span class="kb-tag">DNS</span>
+              </div>
+              <div class="kb-actions">
+                <a class="kb-btn primary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-streaming.md" target="_blank" rel="noopener noreferrer">Open</a>
+                <button class="kb-btn ghost" type="button" data-copy="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-streaming.md">Copy link</button>
+              </div>
+            </div>
+          </article>
 
-      <article class="kb-card" data-project="vpnworld" data-type="docs" data-tags="torrent p2p privacy kill switch">
-        <div class="kb-card-head">
-          <h2 class="kb-card-title">VPN — Torrent / Torrenting (Reference)</h2>
-          <span class="kb-pill">Docs • GitHub</span>
-        </div>
-        <div class="kb-card-body">
-          <p class="kb-desc">P2P bezpieczeństwo: kill switch, porty, DNS/IPv6, split tunneling i “co wycieka najczęściej”.</p>
-          <div class="kb-meta">
-            <span class="kb-tag">P2P</span><span class="kb-tag">Kill Switch</span><span class="kb-tag">Privacy</span>
-          </div>
-          <div class="kb-actions">
-            <a class="kb-btn primary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-torrent.md" target="_blank" rel="noopener noreferrer">Otwórz vpn-torrent.md</a>
-            <a class="kb-btn secondary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-torrenting.md" target="_blank" rel="noopener noreferrer">Otwórz vpn-torrenting.md</a>
-          </div>
-        </div>
-      </article>
+          <article class="kb-card" data-project="vpnworld" data-type="docs" data-tags="disadvantages limits risks speed captchas banking">
+            <div class="kb-card-head">
+              <span class="kb-accent docs" aria-hidden="true"></span>
+              <h3 class="kb-card-title">Disadvantages of VPN (Reference)</h3>
+              <span class="kb-pill">Docs</span>
+            </div>
+            <div class="kb-card-body">
+              <p class="kb-desc">An honest list: speed trade-offs, blocks, captchas, banking friction, battery, misconfig issues.</p>
+              <div class="kb-meta">
+                <span class="kb-tag">Limits</span><span class="kb-tag">Risks</span><span class="kb-tag">Reality</span>
+              </div>
+              <div class="kb-actions">
+                <a class="kb-btn primary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/disadvantages-of-vpn.md" target="_blank" rel="noopener noreferrer">Open</a>
+                <button class="kb-btn ghost" type="button" data-copy="https://github.com/dloran1/dloran1.github.io/blob/main/docs/disadvantages-of-vpn.md">Copy link</button>
+              </div>
+            </div>
+          </article>
 
-      <article class="kb-card" data-project="vpnworld" data-type="docs" data-tags="travel public wifi security">
-        <div class="kb-card-head">
-          <h2 class="kb-card-title">VPN Travel (Reference)</h2>
-          <span class="kb-pill">Docs • GitHub</span>
         </div>
-        <div class="kb-card-body">
-          <p class="kb-desc">Podróże: publiczne Wi-Fi, bankowość, roaming, ograniczenia sieci hotelowych i szybkie ustawienia.</p>
-          <div class="kb-meta">
-            <span class="kb-tag">Travel</span><span class="kb-tag">Public Wi-Fi</span><span class="kb-tag">Security</span>
-          </div>
-          <div class="kb-actions">
-            <a class="kb-btn primary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-travel.md" target="_blank" rel="noopener noreferrer">Otwórz docs</a>
-            <button class="kb-btn" type="button" data-copy="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-travel.md">Kopiuj link</button>
-          </div>
-        </div>
-      </article>
+      </div>
+    </section>
 
-      <article class="kb-card" data-project="vpnworld" data-type="docs" data-tags="streaming geo dns speed">
-        <div class="kb-card-head">
-          <h2 class="kb-card-title">VPN Streaming (Reference)</h2>
-          <span class="kb-pill">Docs • GitHub</span>
-        </div>
-        <div class="kb-card-body">
-          <p class="kb-desc">Streaming i geo: kiedy pomaga VPN, kiedy nie, i jakie ustawienia robią największą różnicę.</p>
-          <div class="kb-meta">
-            <span class="kb-tag">Streaming</span><span class="kb-tag">DNS</span><span class="kb-tag">Speed</span>
-          </div>
-          <div class="kb-actions">
-            <a class="kb-btn primary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-streaming.md" target="_blank" rel="noopener noreferrer">Otwórz docs</a>
-            <button class="kb-btn" type="button" data-copy="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-streaming.md">Kopiuj link</button>
-          </div>
-        </div>
-      </article>
+    <!-- SMARTADVISORONLINE -->
+    <section class="kb-section" aria-label="SmartAdvisorOnline">
+      <div class="kb-section-head">
+        <h2 class="kb-section-title">SmartAdvisorOnline — Guides</h2>
+        <p class="kb-section-sub">External guides • SmartAdvisorOnline layer</p>
+      </div>
+      <div class="kb-section-body">
+        <div class="kb-grid" id="kb-grid-sao">
 
-      <article class="kb-card" data-project="vpnworld" data-type="docs" data-tags="disadvantages limits risks">
-        <div class="kb-card-head">
-          <h2 class="kb-card-title">Disadvantages of VPN (Reference)</h2>
-          <span class="kb-pill">Docs • GitHub</span>
+          <article class="kb-card" data-project="smartadvisor" data-type="page" data-tags="youtube streaming throttling privacy">
+            <div class="kb-card-head">
+              <span class="kb-accent sao" aria-hidden="true"></span>
+              <h3 class="kb-card-title">VPN for YouTube</h3>
+              <span class="kb-pill">SmartAdvisorOnline</span>
+            </div>
+            <div class="kb-card-body">
+              <p class="kb-desc">Streaming stability, throttling avoidance, and privacy-friendly settings.</p>
+              <div class="kb-meta">
+                <span class="kb-tag">YouTube</span><span class="kb-tag">Streaming</span><span class="kb-tag">Speed</span>
+              </div>
+              <div class="kb-actions">
+                <a class="kb-btn green" href="https://smartadvisoronline.com/blog/vpn-for-youtube.html" target="_blank" rel="noopener noreferrer">Open guide</a>
+                <a class="kb-btn dark" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-for-youtube.md" target="_blank" rel="noopener noreferrer">Open docs</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="kb-card" data-project="smartadvisor" data-type="page" data-tags="hulu streaming geo blocks dns errors">
+            <div class="kb-card-head">
+              <span class="kb-accent sao" aria-hidden="true"></span>
+              <h3 class="kb-card-title">VPN for Hulu</h3>
+              <span class="kb-pill">SmartAdvisorOnline</span>
+            </div>
+            <div class="kb-card-body">
+              <p class="kb-desc">Checklist: geo-blocks, server stability, DNS issues, and common Hulu app errors.</p>
+              <div class="kb-meta">
+                <span class="kb-tag">Hulu</span><span class="kb-tag">Geo</span><span class="kb-tag">Fixes</span>
+              </div>
+              <div class="kb-actions">
+                <a class="kb-btn green" href="https://smartadvisoronline.com/blog/vpn-for-hulu.html" target="_blank" rel="noopener noreferrer">Open guide</a>
+                <a class="kb-btn dark" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-for-hulu.md" target="_blank" rel="noopener noreferrer">Open docs</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="kb-card" data-project="smartadvisor" data-type="docs" data-tags="sports streaming live buffering mtu dns">
+            <div class="kb-card-head">
+              <span class="kb-accent sao" aria-hidden="true"></span>
+              <h3 class="kb-card-title">VPN for Sports Streaming</h3>
+              <span class="kb-pill">Docs</span>
+            </div>
+            <div class="kb-card-body">
+              <p class="kb-desc">Reduce buffering on live streams: location, protocol, MTU, split tunneling, and DNS.</p>
+              <div class="kb-meta">
+                <span class="kb-tag">Sports</span><span class="kb-tag">Live</span><span class="kb-tag">Buffering</span>
+              </div>
+              <div class="kb-actions">
+                <a class="kb-btn green" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-for-sports-streaming.md" target="_blank" rel="noopener noreferrer">Open docs</a>
+                <button class="kb-btn ghost" type="button" data-copy="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-for-sports-streaming.md">Copy link</button>
+              </div>
+            </div>
+          </article>
+
         </div>
-        <div class="kb-card-body">
-          <p class="kb-desc">Uczciwa lista ograniczeń: prędkość, blokady serwisów, captcha, banki, baterie i błędy konfiguracji.</p>
-          <div class="kb-meta">
-            <span class="kb-tag">Limits</span><span class="kb-tag">Risks</span><span class="kb-tag">Reality</span>
-          </div>
-          <div class="kb-actions">
-            <a class="kb-btn primary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/disadvantages-of-vpn.md" target="_blank" rel="noopener noreferrer">Otwórz docs</a>
-            <button class="kb-btn" type="button" data-copy="https://github.com/dloran1/dloran1.github.io/blob/main/docs/disadvantages-of-vpn.md">Kopiuj link</button>
-          </div>
-        </div>
-      </article>
+      </div>
     </section>
 
     <div id="kb-empty" class="kb-empty" hidden>
-      Brak wyników. Spróbuj innego hasła (np. <strong>dns</strong>, <strong>streaming</strong>, <strong>torrent</strong>, <strong>youtube</strong>).
+      No results. Try another keyword (e.g. <strong>dns</strong>, <strong>streaming</strong>, <strong>torrent</strong>, <strong>youtube</strong>).
     </div>
-
-    <section class="kb-note" aria-label="Footer note">
-      <div class="kb-small">
-        To jest “hub” pod linkowanie: z artykułów VPN World (GitHub Pages), z artykułów SmartAdvisorOnline, oraz z zewnętrznych platform (Dev.to/Quora/Reddit).
-        Dzięki temu budujemy naturalny, rozproszony sygnał dla obu projektów.
-      </div>
-    </section>
   </main>
 
   <footer class="site-footer" role="contentinfo">
@@ -412,12 +440,12 @@
     <div class="cookie-banner__content">
       <div class="cookie-banner__title">Cookies</div>
       <div class="cookie-banner__text">
-        Używamy plików cookie do analityki i poprawy działania strony. Możesz zaakceptować lub odrzucić. Szczegóły w
-        <a href="/privacy.html">Privacy</a> oraz <a href="/disclosure.html">Disclosure</a>.
+        We use cookies for analytics and site functionality. You can accept or reject. See
+        <a href="/privacy.html">Privacy</a> and <a href="/disclosure.html">Disclosure</a>.
       </div>
       <div class="cookie-banner__actions">
-        <button id="cookie-accept" type="button">Akceptuj</button>
-        <button id="cookie-reject" type="button">Odrzuć</button>
+        <button id="cookie-accept" type="button">Accept</button>
+        <button id="cookie-reject" type="button">Reject</button>
       </div>
     </div>
   </div>
@@ -427,8 +455,9 @@
       "use strict";
 
       function setTab(btn){
-        var tabs = document.querySelectorAll(".kb-tab");
-        tabs.forEach(function(t){ t.setAttribute("aria-pressed","false"); });
+        document.querySelectorAll(".kb-tab").forEach(function(t){
+          t.setAttribute("aria-pressed","false");
+        });
         btn.setAttribute("aria-pressed","true");
       }
 
@@ -481,15 +510,14 @@
             var url = btn.getAttribute("data-copy");
             await navigator.clipboard.writeText(url);
             var old = btn.textContent;
-            btn.textContent = "Skopiowano ✓";
+            btn.textContent = "Copied ✓";
             setTimeout(function(){ btn.textContent = old; }, 1100);
           }catch(e){
-            alert("Nie mogę skopiować (blokada przeglądarki). Skopiuj ręcznie.");
+            alert("Copy blocked by browser. Please copy manually.");
           }
         });
       });
 
-      // first paint
       filterCards();
     })();
   </script>
