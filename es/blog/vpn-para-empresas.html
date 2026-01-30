@@ -1,68 +1,117 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>VPN empresarial (2026): seguridad, teletrabajo y cumplimiento del RGPD | VPN World</title>
+<meta content="Guía 2026 para pymes: cómo una VPN empresarial protege datos, refuerza el teletrabajo y ayuda con el RGPD en España (AEPD). Checklist, ZTNA vs VPN y mejores prácticas." name="description"/>
+<meta content="index, follow" name="robots"/>
+<link href="/favicon.ico" rel="icon"/>
+<link href="../../assets/css/style.css" rel="stylesheet"/><style id="es-fixes">/* ES hotfixes (CTA + tables) — keep compatible with VPN World Stage 2.5 */
+.cta-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:12px;
+  margin:14px 0;
+}
+.cta-grid .btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:12px 14px;
+  border-radius:14px;
+  font-weight:800;
+  line-height:1.15;
+  text-decoration:none;
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 10px 28px rgba(0,0,0,.22);
+  min-height:52px;
+}
+.btn-nord{ background:linear-gradient(180deg,#1f6feb,#1554c6); color:#fff !important; }
+.btn-surf{ background:linear-gradient(180deg,#2dd4bf,#0ea5e9); color:#061018 !important; border-color:rgba(6,16,24,.18); }
+.btn-proton{ background:linear-gradient(180deg,#22c55e,#16a34a); color:#04110a !important; border-color:rgba(4,17,10,.18); }
 
-  <title>VPN empresarial (2026): seguridad, teletrabajo y cumplimiento del RGPD | VPN World</title>
-  <meta name="description" content="Guía 2026 para pymes: cómo una VPN empresarial protege datos, refuerza el teletrabajo y ayuda con el RGPD en España (AEPD). Checklist, ZTNA vs VPN y mejores prácticas." />
-  <meta name="robots" content="index, follow" />
-
-  <link rel="icon" href="/favicon.ico" />
-  <link rel="stylesheet" href="../../assets/css/style.css" />
-  <link rel="canonical" href="https://dloran1.github.io/es/blog/vpn-para-empresas.html" />
-
-  <!-- hreflang (canonical set; do not hand-edit in production) -->
-  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-dla-firmy.html" />
-  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-for-business-uk.html" />
-  <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-for-business.html" />
-  <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-fuer-unternehmen.html" />
-  <link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/vpn-para-empresas.html" />
-  <link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/vpn-pour-entreprise.html" />
-  <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-voor-bedrijven.html" />
-  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-for-business-uk.html" />
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="article" />
-  <meta property="og:site_name" content="VPN World" />
-  <meta property="og:title" content="VPN empresarial (2026): seguridad, teletrabajo y cumplimiento del RGPD" />
-  <meta property="og:description" content="Guía 2026 para pymes: VPN empresarial, teletrabajo seguro, RGPD (AEPD), checklist y comparación con Zero Trust (ZTNA)." />
-  <meta property="og:url" content="https://dloran1.github.io/es/blog/vpn-para-empresas.html" />
-  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-for-business-uk.webp" />
-  <meta property="og:image:alt" content="Equipo de una pyme trabajando en remoto con una VPN empresarial activa" />
-  <meta property="og:locale" content="es_ES" />
-  <meta property="og:locale:alternate" content="en_GB" />
-  <meta property="og:locale:alternate" content="en_US" />
-  <meta property="og:locale:alternate" content="de_DE" />
-  <meta property="og:locale:alternate" content="fr_FR" />
-  <meta property="og:locale:alternate" content="nl_BE" />
-  <meta property="og:locale:alternate" content="pl_PL" />
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="VPN empresarial (2026): seguridad, teletrabajo y cumplimiento del RGPD" />
-  <meta name="twitter:description" content="Checklist AEPD, ZTNA vs VPN, MFA, IP dedicada, fugas DNS/IPv6 y mejores prácticas para pymes." />
-  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-for-business-uk.webp" />
-  <meta name="twitter:image:alt" content="Equipo de una pyme trabajando en remoto con una VPN empresarial activa" />
-
-  <!-- Performance hints -->
-  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
-  <link rel="dns-prefetch" href="//www.googletagmanager.com" />
-  <link rel="preload" as="image" href="../../assets/img/hero/vpn-for-business-uk.webp" imagesizes="100vw" />
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
-  <script>
+/* Table readability on dark shell (hard override) */
+.table-scroll{ overflow-x:auto; -webkit-overflow-scrolling:touch; margin:16px 0; }
+.table-scroll table{
+  min-width:720px;
+  width:100%;
+  border-collapse:collapse;
+  background:#fff !important;
+  color:#000 !important;
+  border:2px solid #000;
+}
+.table-scroll caption{
+  caption-side:top;
+  text-align:left;
+  font-weight:800;
+  color:#fff;
+  padding:10px 0 8px;
+}
+.table-scroll thead{ background:#071023 !important; }
+.table-scroll thead th{
+  color:#fff !important;
+  border:2px solid #000;
+  padding:12px 10px;
+  text-align:left;
+}
+.table-scroll tbody td, .table-scroll tbody th{
+  color:#000 !important;
+  border:2px solid #000;
+  padding:12px 10px;
+  vertical-align:top;
+  background:#fff !important;
+}
+.table-scroll tbody tr:nth-child(even) td, .table-scroll tbody tr:nth-child(even) th{ background:#f6f8ff !important; }</style>
+<link href="https://dloran1.github.io/es/blog/vpn-para-empresas.html" rel="canonical"/>
+<!-- hreflang (canonical set; do not hand-edit in production) -->
+<link href="https://dloran1.github.io/blog/vpn-dla-firmy.html" hreflang="pl" rel="alternate"/>
+<link href="https://dloran1.github.io/en-gb/blog/vpn-for-business-uk.html" hreflang="en-gb" rel="alternate"/>
+<link href="https://dloran1.github.io/en-us/blog/vpn-for-business.html" hreflang="en-us" rel="alternate"/>
+<link href="https://dloran1.github.io/de/blog/vpn-fuer-unternehmen.html" hreflang="de" rel="alternate"/>
+<link href="https://dloran1.github.io/es/blog/vpn-para-empresas.html" hreflang="es" rel="alternate"/>
+<link href="https://dloran1.github.io/fr/blog/vpn-pour-entreprise.html" hreflang="fr" rel="alternate"/>
+<link href="https://dloran1.github.io/nl-be/blog/vpn-voor-bedrijven.html" hreflang="nl-be" rel="alternate"/>
+<link href="https://dloran1.github.io/en-gb/blog/vpn-for-business-uk.html" hreflang="x-default" rel="alternate"/>
+<!-- Open Graph -->
+<meta content="article" property="og:type"/>
+<meta content="VPN World" property="og:site_name"/>
+<meta content="VPN empresarial (2026): seguridad, teletrabajo y cumplimiento del RGPD" property="og:title"/>
+<meta content="Guía 2026 para pymes: VPN empresarial, teletrabajo seguro, RGPD (AEPD), checklist y comparación con Zero Trust (ZTNA)." property="og:description"/>
+<meta content="https://dloran1.github.io/es/blog/vpn-para-empresas.html" property="og:url"/>
+<meta content="https://dloran1.github.io/assets/img/hero/vpn-for-business-uk.webp" property="og:image"/>
+<meta content="Equipo de una pyme trabajando en remoto con una VPN empresarial activa" property="og:image:alt"/>
+<meta content="es_ES" property="og:locale"/>
+<meta content="en_GB" property="og:locale:alternate"/>
+<meta content="en_US" property="og:locale:alternate"/>
+<meta content="de_DE" property="og:locale:alternate"/>
+<meta content="fr_FR" property="og:locale:alternate"/>
+<meta content="nl_BE" property="og:locale:alternate"/>
+<meta content="pl_PL" property="og:locale:alternate"/>
+<!-- Twitter -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="VPN empresarial (2026): seguridad, teletrabajo y cumplimiento del RGPD" name="twitter:title"/>
+<meta content="Checklist AEPD, ZTNA vs VPN, MFA, IP dedicada, fugas DNS/IPv6 y mejores prácticas para pymes." name="twitter:description"/>
+<meta content="https://dloran1.github.io/assets/img/hero/vpn-for-business-uk.webp" name="twitter:image"/>
+<meta content="Equipo de una pyme trabajando en remoto con una VPN empresarial activa" name="twitter:image:alt"/>
+<!-- Performance hints -->
+<link crossorigin="" href="https://www.googletagmanager.com" rel="preconnect"/>
+<link href="//www.googletagmanager.com" rel="dns-prefetch"/>
+<link as="image" href="../../assets/img/hero/vpn-for-business-uk.webp" imagesizes="100vw" rel="preload"/>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+<script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
     // Consent Mode v2 default denied; cookie-consent.js will grant on accept and then fire page_view.
     gtag('config', 'G-RD6M691ZWD', { 'send_page_view': false });
   </script>
-  <script src="/assets/js/cookie-consent.js" defer></script>
-
-  <!-- JSON-LD: Article + FAQPage + BreadcrumbList + ItemList -->
-  <script type="application/ld+json">
+<script defer="" src="/assets/js/cookie-consent.js"></script>
+<!-- JSON-LD: Article + FAQPage + BreadcrumbList + ItemList -->
+<script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
@@ -195,613 +244,545 @@
   }
   </script>
 </head>
-
 <body>
-  <!-- Language switcher (visible) -->
-  <nav class="lang-switch" aria-label="Selector de idioma">
-    <a href="/blog/vpn-dla-firmy.html">Polski</a> |
+<!-- Language switcher (visible) -->
+<nav aria-label="Selector de idioma" class="lang-switch">
+<a href="/blog/vpn-dla-firmy.html">Polski</a> |
     <a href="/en-gb/blog/vpn-for-business-uk.html">English (UK)</a> |
     <a href="/en-us/blog/vpn-for-business.html">English (US)</a> |
     <a href="/de/blog/vpn-fuer-unternehmen.html">Deutsch</a> |
-    <a href="/es/blog/vpn-para-empresas.html" class="active" aria-current="page">Español</a> |
+    <a aria-current="page" class="active" href="/es/blog/vpn-para-empresas.html">Español</a> |
     <a href="/fr/blog/vpn-pour-entreprise.html">Français</a> |
     <a href="/nl-be/blog/vpn-voor-bedrijven.html">Nederlands (BE)</a>
-  </nav>
-
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="/es/" class="brand" aria-label="VPN World – Inicio">
-        <img src="../../assets/img/logo.png" class="logo" alt="VPN World logo" />
-        <span class="brand-text">VPN World</span>
-      </a>
-      <nav class="top-nav" aria-label="Navegación principal">
-        <a href="/es/blog/">Blog</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    <article class="post card article-card">
-      <header class="post-header">
-        <div class="badges">
-          <span class="badge">PYMES</span>
-          <span class="badge">Teletrabajo</span>
-          <span class="badge">RGPD</span>
-        </div>
-
-        <h1>VPN empresarial: seguridad, teletrabajo y cumplimiento del RGPD</h1>
-
-        <p class="post-meta">
+</nav>
+<header class="site-header">
+<div class="container header-inner">
+<a aria-label="VPN World – Inicio" class="brand" href="/es/">
+<img alt="VPN World logo" class="logo" src="../../assets/img/logo.png"/>
+<span class="brand-text">VPN World</span>
+</a>
+<nav aria-label="Navegación principal" class="top-nav">
+<a href="/es/blog/">Blog</a>
+</nav>
+</div>
+</header>
+<main class="container">
+<article class="post card article-card">
+<header class="post-header">
+<div class="badges">
+<span class="badge">PYMES</span>
+<span class="badge">Teletrabajo</span>
+<span class="badge">RGPD</span>
+</div>
+<h1>VPN empresarial: seguridad, teletrabajo y cumplimiento del RGPD</h1>
+<p class="post-meta">
           Publicado: <time datetime="2025-12-07">7 diciembre 2025</time> ·
           Actualizado: <time datetime="2026-01-29">29 enero 2026</time> ·
           Autor: <a href="/es/about-denys-shchur.html">Denys Shchur</a>
-        </p>
-
-        <p class="lead">
+</p>
+<p class="lead">
           Si tu pyme trabaja en remoto (o híbrido), una <strong>VPN empresarial</strong> ya no es “nice to have”: es un
           control básico para proteger datos, reducir incidentes y demostrar diligencia ante clientes, aseguradoras y
           autoridades. En España, el marco RGPD y la <strong>AEPD</strong> ponen el foco en medidas de seguridad realistas:
           cifrado en tránsito, control de accesos, trazabilidad y formación. Vamos a aterrizarlo sin humo: qué comprar,
           qué configurar y cómo evitar las trampas típicas.
         </p>
-      </header>
-
-      <figure class="post-hero hero--shadow">
-        <img src="../../assets/img/hero/vpn-for-business-uk.webp" alt="Equipo de una pyme trabajando en remoto con una VPN empresarial activa" width="1200" height="675" loading="eager" />
-        <figcaption>Una VPN empresarial bien configurada crea túneles cifrados para que tu equipo trabaje seguro desde casa, oficina o viajes.</figcaption>
-      </figure>
-
-      <section class="note">
-        <strong>Respuesta rápida:</strong> Para una pyme, una VPN empresarial sirve para <strong>cifrar el tráfico</strong>,
+</header>
+<figure class="post-hero hero--shadow">
+<img alt="Equipo de una pyme trabajando en remoto con una VPN empresarial activa" height="675" loading="eager" src="../../assets/img/hero/vpn-for-business-uk.webp" width="1200"/>
+<figcaption>Una VPN empresarial bien configurada crea túneles cifrados para que tu equipo trabaje seguro desde casa, oficina o viajes.</figcaption>
+</figure>
+<section class="note">
+<strong>Respuesta rápida:</strong> Para una pyme, una VPN empresarial sirve para <strong>cifrar el tráfico</strong>,
         <strong>proteger accesos remotos</strong> y reducir fugas (DNS/IPv6) cuando se trabaja fuera de la oficina.
         Para hacerlo “nivel 2026”, combina VPN + <a href="/es/blog/vpn-2fa-mfa.html">MFA/2FA</a>, políticas por roles y un plan
         de verificación (test de fugas + auditoría básica).
       </section>
-
-      <!-- CTA (Top) -->
-      <section aria-label="Recomendación rápida" class="cta-block">
-        <div class="cta-grid">
-          <a class="btn btn-primary" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">
+<!-- CTA (Top) -->
+<section aria-label="Recomendación rápida" class="cta-block">
+<div class="cta-grid">
+<a class="btn btn-nord" href="https://go.nordvpn.net/aff_c?aff_id=2495&amp;offer_id=312&amp;url_id=2584" rel="nofollow sponsored noopener noreferrer" target="_blank">
             Probar NordVPN Business
           </a>
-          <a class="btn btn-secondary" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">
+<a class="btn btn-surf" href="https://www.tkqlhce.com/click-101525886-17061430" rel="nofollow sponsored noopener noreferrer" target="_blank">
             Ver Surfshark Business
           </a>
-          <a class="btn btn-tertiary" href="https://www.dpbolvw.net/click-101525886-15834536" target="_blank" rel="nofollow sponsored noopener noreferrer">
+<a class="btn btn-proton" href="https://www.dpbolvw.net/click-101525886-15834536" rel="nofollow sponsored noopener noreferrer" target="_blank">
             Ver Proton VPN (Business)
           </a>
-        </div>
-        <p class="tiny">
+</div>
+<p class="tiny">
           Enlaces de afiliado (sin coste extra). Recomendamos solo proveedores con buen historial técnico y controles útiles para equipos.
         </p>
-      </section>
-
-      <section id="toc" class="toc">
-        <h2>Contenido</h2>
-        <ul>
-          <li><a href="#que-es">Qué es una VPN empresarial (y qué no es)</a></li>
-          <li><a href="#aepd">AEPD, RGPD y ciberseguros: por qué importa en 2026</a></li>
-          <li><a href="#vpn-vs-ztna">VPN tradicional vs ZTNA (Zero Trust) para pymes</a></li>
-          <li><a href="#teletrabajo">Teletrabajo seguro: arquitectura recomendada</a></li>
-          <li><a href="#checklist">Checklist AEPD (práctico) para tu VPN</a></li>
-          <li><a href="#ip-dedicada">IP dedicada, allowlisting y acceso a recursos internos</a></li>
-          <li><a href="#dns-ipv6">Pruebas de fugas DNS/IPv6 y kill switch</a></li>
-          <li><a href="#errores">Errores típicos que vemos en pymes</a></li>
-          <li><a href="#faq">Preguntas frecuentes</a></li>
-        </ul>
-      </section>
-
-      <section id="que-es">
-        <h2>Qué es una VPN empresarial (y qué no es)</h2>
-        <p>
+</section>
+<section class="toc" id="toc">
+<h2>Contenido</h2>
+<ul>
+<li><a href="#que-es">Qué es una VPN empresarial (y qué no es)</a></li>
+<li><a href="#aepd">AEPD, RGPD y ciberseguros: por qué importa en 2026</a></li>
+<li><a href="#vpn-vs-ztna">VPN tradicional vs ZTNA (Zero Trust) para pymes</a></li>
+<li><a href="#teletrabajo">Teletrabajo seguro: arquitectura recomendada</a></li>
+<li><a href="#checklist">Checklist AEPD (práctico) para tu VPN</a></li>
+<li><a href="#ip-dedicada">IP dedicada, allowlisting y acceso a recursos internos</a></li>
+<li><a href="#dns-ipv6">Pruebas de fugas DNS/IPv6 y kill switch</a></li>
+<li><a href="#errores">Errores típicos que vemos en pymes</a></li>
+<li><a href="#faq">Preguntas frecuentes</a></li>
+</ul>
+</section>
+<section id="que-es">
+<h2>Qué es una VPN empresarial (y qué no es)</h2>
+<p>
           Una VPN empresarial crea un “túnel” cifrado entre el dispositivo del empleado y un servidor VPN, de forma que
           el tráfico viaja protegido frente a escuchas en redes Wi‑Fi y reduce la exposición de servicios internos.
           Es especialmente útil cuando tu equipo accede a aplicaciones corporativas desde fuera de la oficina:
           ERP/CRM, NAS, paneles cloud, herramientas de soporte, etc.
         </p>
-        <p>
+<p>
           Lo que <strong>no</strong> es: una VPN no sustituye un firewall bien configurado, ni arregla contraseñas débiles,
           ni evita que un empleado caiga en phishing. Es una capa importante, pero funciona mejor cuando está integrada
           en un conjunto: MFA, actualizaciones, control de dispositivos y mínimos privilegios.
         </p>
-
-        <section class="note">
-          <strong>Key takeaway:</strong> Piensa en la VPN como “cifrado + control de entrada”. Si quieres “cero confianza”
+<section class="note">
+<strong>Key takeaway:</strong> Piensa en la VPN como “cifrado + control de entrada”. Si quieres “cero confianza”
           real, el camino natural es combinar VPN con MFA hoy y evaluar ZTNA mañana.
         </section>
-      </section>
-
-      <section id="aepd">
-        <h2>AEPD, RGPD y ciberseguros: por qué importa en 2026</h2>
-        <p>
+</section>
+<section id="aepd">
+<h2>AEPD, RGPD y ciberseguros: por qué importa en 2026</h2>
+<p>
           En España, la <strong>Agencia Española de Protección de Datos (AEPD)</strong> es el referente práctico cuando hablamos de
           “medidas razonables” para proteger datos personales. En teletrabajo, el foco suele caer sobre:
           <strong>cifrado en tránsito</strong>, <strong>control de accesos</strong>, <strong>registro y respuesta a incidentes</strong>
           y <strong>formación</strong>.
         </p>
-        <p>
+<p>
           Además, hay un factor cada vez más común: <strong>ciberseguros</strong>. En España y LatAm, muchas pólizas ya piden
           evidencias de controles básicos (MFA, cifrado, backups, gestión de parches). Una VPN empresarial bien gestionada
           ayuda a justificar ese “mínimo” de seguridad operativa, especialmente si trabajas con proveedores externos
           o equipos distribuidos.
         </p>
-
-        <div class="related-wide" role="note" aria-label="Relacionado">
-          <span class="related-wide__label">Related:</span>
-          <a href="/es/blog/vpn-remote-work.html">VPN para trabajo remoto: guía práctica para equipos híbridos</a>
-        </div>
-
-        <section class="note">
-          <strong>Key takeaway:</strong> La VPN es un control fácil de explicar y auditar: quién accede, desde dónde, con qué MFA
+<div aria-label="Relacionado" class="related-wide" role="note">
+<span class="related-wide__label">Related:</span>
+<a href="/es/blog/vpn-remote-work.html">VPN para trabajo remoto: guía práctica para equipos híbridos</a>
+</div>
+<section class="note">
+<strong>Key takeaway:</strong> La VPN es un control fácil de explicar y auditar: quién accede, desde dónde, con qué MFA
           y con qué política (roles). Eso es oro para RGPD y para “preguntas incómodas” de un asegurador.
         </section>
-      </section>
-
-      <section id="vpn-vs-ztna">
-        <h2>VPN tradicional vs ZTNA (Zero Trust) para pymes</h2>
-        <p>
+</section>
+<section id="vpn-vs-ztna">
+<h2>VPN tradicional vs ZTNA (Zero Trust) para pymes</h2>
+<p>
           Muchas pymes se preguntan si deben “saltarse” la VPN y pasar directamente a Zero Trust (ZTNA). La respuesta realista:
           depende de tu madurez y de tu stack. La VPN funciona muy bien si:
         </p>
-        <ul>
-          <li>tienes pocos recursos internos (NAS, apps internas, paneles de administración) y quieres proteger el acceso,</li>
-          <li>necesitas un despliegue rápido y fácil para un equipo pequeño,</li>
-          <li>tu prioridad es teletrabajo seguro y reducción de superficie de ataque ya.</li>
-        </ul>
-        <p>
+<ul>
+<li>tienes pocos recursos internos (NAS, apps internas, paneles de administración) y quieres proteger el acceso,</li>
+<li>necesitas un despliegue rápido y fácil para un equipo pequeño,</li>
+<li>tu prioridad es teletrabajo seguro y reducción de superficie de ataque ya.</li>
+</ul>
+<p>
           ZTNA suele brillar cuando hay muchas apps, nube híbrida, varios perfiles (empleados, proveedores, clientes B2B)
           y necesitas acceso “app por app” con verificación constante.
         </p>
-
-        <div class="table-scroll" aria-label="Tabla comparativa VPN vs ZTNA">
-          <table>
-            <caption><strong>Tabla 1.</strong> VPN convencional vs ZTNA (Zero Trust) para pymes</caption>
-            <thead>
-              <tr>
-                <th>Característica</th>
-                <th>VPN convencional</th>
-                <th>ZTNA (Acceso Zero Trust)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Control de acceso</td>
-                <td>Más perimetral (acceso a segmentos de red)</td>
-                <td>Granular (aplicación por aplicación)</td>
-              </tr>
-              <tr>
-                <td>Modelo de seguridad</td>
-                <td>Confianza implícita tras autenticación</td>
-                <td>Verificación continua (contexto + identidad)</td>
-              </tr>
-              <tr>
-                <td>Ideal para</td>
-                <td>Equipos pequeños, infraestructura simple</td>
-                <td>Entornos híbridos, muchas apps, nube</td>
-              </tr>
-              <tr>
-                <td>Cumplimiento RGPD</td>
-                <td>Medio/alto (si hay MFA y registros)</td>
-                <td>Alto (auditoría y trazabilidad más fina)</td>
-              </tr>
-              <tr>
-                <td>Coste/Complejidad</td>
-                <td>Más bajo</td>
-                <td>Más alto (pero más control)</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <section class="note">
-          <strong>Key takeaway:</strong> Para la mayoría de pymes, “VPN + MFA + buenas políticas” es el mejor salto de seguridad
+<div aria-label="Tabla comparativa VPN vs ZTNA" class="table-scroll">
+<table>
+<caption><strong>Tabla 1.</strong> VPN convencional vs ZTNA (Zero Trust) para pymes</caption>
+<thead>
+<tr>
+<th>Característica</th>
+<th>VPN convencional</th>
+<th>ZTNA (Acceso Zero Trust)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Control de acceso</td>
+<td>Más perimetral (acceso a segmentos de red)</td>
+<td>Granular (aplicación por aplicación)</td>
+</tr>
+<tr>
+<td>Modelo de seguridad</td>
+<td>Confianza implícita tras autenticación</td>
+<td>Verificación continua (contexto + identidad)</td>
+</tr>
+<tr>
+<td>Ideal para</td>
+<td>Equipos pequeños, infraestructura simple</td>
+<td>Entornos híbridos, muchas apps, nube</td>
+</tr>
+<tr>
+<td>Cumplimiento RGPD</td>
+<td>Medio/alto (si hay MFA y registros)</td>
+<td>Alto (auditoría y trazabilidad más fina)</td>
+</tr>
+<tr>
+<td>Coste/Complejidad</td>
+<td>Más bajo</td>
+<td>Más alto (pero más control)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<section class="note">
+<strong>Key takeaway:</strong> Para la mayoría de pymes, “VPN + MFA + buenas políticas” es el mejor salto de seguridad
           por coste. ZTNA es el siguiente escalón cuando creces.
         </section>
-      </section>
-
-      <section id="teletrabajo">
-        <h2>Teletrabajo seguro: arquitectura recomendada</h2>
-        <p>
+</section>
+<section id="teletrabajo">
+<h2>Teletrabajo seguro: arquitectura recomendada</h2>
+<p>
           Una forma simple (y efectiva) de pensar la arquitectura es: <strong>identidad → túnel cifrado → recursos</strong>.
           El objetivo es que cada empleado acceda solo a lo que necesita, desde un dispositivo controlado y con MFA.
         </p>
-
-        <div class="svg-card" aria-label="Diagrama de teletrabajo seguro con VPN">
-          <div class="svg-scroll">
-            <svg viewBox="0 0 960 360" role="img" aria-label="Diagrama: teletrabajo seguro con VPN empresarial" style="max-width:100%;height:auto;color:#000;">
-              <rect x="0" y="0" width="960" height="360" fill="#fff" stroke="#000" stroke-width="4"></rect>
-
-              <rect x="380" y="80" width="200" height="120" rx="14" fill="#e8f2ff" stroke="#000" stroke-width="4"></rect>
-              <text x="480" y="120" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:20px;">Empresa</text>
-              <text x="480" y="148" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:16px;">Nube / Oficina</text>
-              <text x="480" y="176" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:16px;">Recursos internos</text>
-
-              <rect x="70" y="40" width="220" height="90" rx="14" fill="#fff7e6" stroke="#000" stroke-width="4"></rect>
-              <text x="180" y="78" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:18px;">Empleado</text>
-              <text x="180" y="104" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:14px;">Madrid</text>
-
-              <rect x="70" y="230" width="220" height="90" rx="14" fill="#fff7e6" stroke="#000" stroke-width="4"></rect>
-              <text x="180" y="268" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:18px;">Empleado</text>
-              <text x="180" y="294" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:14px;">Barcelona</text>
-
-              <rect x="670" y="40" width="220" height="90" rx="14" fill="#fff7e6" stroke="#000" stroke-width="4"></rect>
-              <text x="780" y="78" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:18px;">Proveedor</text>
-              <text x="780" y="104" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:14px;">Acceso limitado</text>
-
-              <rect x="670" y="230" width="220" height="90" rx="14" fill="#fff7e6" stroke="#000" stroke-width="4"></rect>
-              <text x="780" y="268" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:18px;">Empleado</text>
-              <text x="780" y="294" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:14px;">Casa / Viaje</text>
-
-              <line x1="290" y1="85" x2="380" y2="125" stroke="#000" stroke-width="4"></line>
-              <line x1="290" y1="275" x2="380" y2="155" stroke="#000" stroke-width="4"></line>
-              <line x1="670" y1="85" x2="580" y2="125" stroke="#000" stroke-width="4"></line>
-              <line x1="670" y1="275" x2="580" y2="155" stroke="#000" stroke-width="4"></line>
-
-              <text x="330" y="70" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:14px;">Túnel cifrado</text>
-              <text x="330" y="308" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:14px;">Túnel cifrado</text>
-              <text x="630" y="70" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:14px;">Túnel cifrado</text>
-              <text x="630" y="308" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:14px;">Túnel cifrado</text>
-
-              <rect x="398" y="220" width="164" height="70" rx="14" fill="#eafbe7" stroke="#000" stroke-width="4"></rect>
-              <text x="480" y="250" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:16px;">RGPD</text>
-              <text x="480" y="274" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:14px;">+ AEPD</text>
-            </svg>
-          </div>
-        </div>
-
-        <p>
+<div aria-label="Diagrama de teletrabajo seguro con VPN" class="svg-card">
+<div class="svg-scroll">
+<svg aria-label="Diagrama: teletrabajo seguro con VPN empresarial" role="img" style="max-width:100%;height:auto;color:#000;" viewbox="0 0 960 360">
+<rect fill="#fff" height="360" stroke="#000" stroke-width="4" width="960" x="0" y="0"></rect>
+<rect fill="#e8f2ff" height="120" rx="14" stroke="#000" stroke-width="4" width="200" x="380" y="80"></rect>
+<text style="fill:#000 !important;font-weight:800;font-size:20px;" text-anchor="middle" x="480" y="120">Empresa</text>
+<text style="fill:#000 !important;font-weight:800;font-size:16px;" text-anchor="middle" x="480" y="148">Nube / Oficina</text>
+<text style="fill:#000 !important;font-weight:800;font-size:16px;" text-anchor="middle" x="480" y="176">Recursos internos</text>
+<rect fill="#fff7e6" height="90" rx="14" stroke="#000" stroke-width="4" width="220" x="70" y="40"></rect>
+<text style="fill:#000 !important;font-weight:800;font-size:18px;" text-anchor="middle" x="180" y="78">Empleado</text>
+<text style="fill:#000 !important;font-weight:800;font-size:14px;" text-anchor="middle" x="180" y="104">Madrid</text>
+<rect fill="#fff7e6" height="90" rx="14" stroke="#000" stroke-width="4" width="220" x="70" y="230"></rect>
+<text style="fill:#000 !important;font-weight:800;font-size:18px;" text-anchor="middle" x="180" y="268">Empleado</text>
+<text style="fill:#000 !important;font-weight:800;font-size:14px;" text-anchor="middle" x="180" y="294">Barcelona</text>
+<rect fill="#fff7e6" height="90" rx="14" stroke="#000" stroke-width="4" width="220" x="670" y="40"></rect>
+<text style="fill:#000 !important;font-weight:800;font-size:18px;" text-anchor="middle" x="780" y="78">Proveedor</text>
+<text style="fill:#000 !important;font-weight:800;font-size:14px;" text-anchor="middle" x="780" y="104">Acceso limitado</text>
+<rect fill="#fff7e6" height="90" rx="14" stroke="#000" stroke-width="4" width="220" x="670" y="230"></rect>
+<text style="fill:#000 !important;font-weight:800;font-size:18px;" text-anchor="middle" x="780" y="268">Empleado</text>
+<text style="fill:#000 !important;font-weight:800;font-size:14px;" text-anchor="middle" x="780" y="294">Casa / Viaje</text>
+<line stroke="#000" stroke-width="4" x1="290" x2="380" y1="85" y2="125"></line>
+<line stroke="#000" stroke-width="4" x1="290" x2="380" y1="275" y2="155"></line>
+<line stroke="#000" stroke-width="4" x1="670" x2="580" y1="85" y2="125"></line>
+<line stroke="#000" stroke-width="4" x1="670" x2="580" y1="275" y2="155"></line>
+<text style="fill:#000 !important;font-weight:800;font-size:14px;" text-anchor="middle" x="330" y="70">Túnel cifrado</text>
+<text style="fill:#000 !important;font-weight:800;font-size:14px;" text-anchor="middle" x="330" y="308">Túnel cifrado</text>
+<text style="fill:#000 !important;font-weight:800;font-size:14px;" text-anchor="middle" x="630" y="70">Túnel cifrado</text>
+<text style="fill:#000 !important;font-weight:800;font-size:14px;" text-anchor="middle" x="630" y="308">Túnel cifrado</text>
+<rect fill="#eafbe7" height="70" rx="14" stroke="#000" stroke-width="4" width="164" x="398" y="220"></rect>
+<text style="fill:#000 !important;font-weight:800;font-size:16px;" text-anchor="middle" x="480" y="250">RGPD</text>
+<text style="fill:#000 !important;font-weight:800;font-size:14px;" text-anchor="middle" x="480" y="274">+ AEPD</text>
+</svg>
+</div>
+</div>
+<p>
           En la práctica, esto se traduce en tres decisiones operativas:
         </p>
-        <ol>
-          <li><strong>Identidad fuerte:</strong> activa <a href="/es/blog/vpn-2fa-mfa.html">MFA</a> para todo acceso remoto, con políticas anti‑phishing cuando sea posible.</li>
-          <li><strong>Rutas seguras:</strong> fuerza el túnel VPN para apps críticas (o usa split tunneling solo si sabes por qué).</li>
-          <li><strong>Supervisión:</strong> revisa accesos, dispositivos y cambios de configuración; si no lo miras nunca, no existe.</li>
-        </ol>
-
-        <section class="note">
-          <strong>Key takeaway:</strong> El mayor salto de seguridad no es “tener VPN”, sino <em>tener VPN con identidad fuerte y reglas claras</em>.
+<ol>
+<li><strong>Identidad fuerte:</strong> activa <a href="/es/blog/vpn-2fa-mfa.html">MFA</a> para todo acceso remoto, con políticas anti‑phishing cuando sea posible.</li>
+<li><strong>Rutas seguras:</strong> fuerza el túnel VPN para apps críticas (o usa split tunneling solo si sabes por qué).</li>
+<li><strong>Supervisión:</strong> revisa accesos, dispositivos y cambios de configuración; si no lo miras nunca, no existe.</li>
+</ol>
+<section class="note">
+<strong>Key takeaway:</strong> El mayor salto de seguridad no es “tener VPN”, sino <em>tener VPN con identidad fuerte y reglas claras</em>.
         </section>
-      </section>
-
-      <section class="video-section" aria-label="Vídeo explicativo">
-        <h2>Vídeo: una explicación clara de VPN (para equipos no técnicos)</h2>
-        <p>
+</section>
+<section aria-label="Vídeo explicativo" class="video-section">
+<h2>Vídeo: una explicación clara de VPN (para equipos no técnicos)</h2>
+<p>
           Si tienes que explicarlo a dirección o a un responsable de operaciones: este vídeo (breve) ayuda a alinear conceptos.
         </p>
-        <div class="video-wrap">
-          <iframe
-            src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE"
-            title="VPN World – explicación oficial"
-            loading="lazy"
-            allowfullscreen></iframe>
-        </div>
-        <p class="video-fallback">
+<div class="video-wrap">
+<iframe allowfullscreen="" loading="lazy" src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE" title="VPN World – explicación oficial"></iframe>
+</div>
+<p class="video-fallback">
           Si el vídeo no carga, puedes verlo en YouTube:
-          <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="noopener noreferrer">abrir vídeo</a>.
+          <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" rel="noopener noreferrer" target="_blank">abrir vídeo</a>.
         </p>
-      </section>
-
-      <section id="checklist">
-        <h2>Checklist AEPD (práctico) para tu VPN empresarial</h2>
-        <p>
+</section>
+<section id="checklist">
+<h2>Checklist AEPD (práctico) para tu VPN empresarial</h2>
+<p>
           Este checklist no sustituye asesoría legal, pero sí te ayuda a poner orden. Si respondes “no” a varios puntos,
           tu VPN existe, pero tu seguridad real está cojeando.
         </p>
-
-        <div class="table-scroll" aria-label="Checklist AEPD para VPN empresarial">
-          <table>
-            <caption><strong>Tabla 2.</strong> Checklist rápido para pymes (teletrabajo + RGPD)</caption>
-            <thead>
-              <tr>
-                <th>Control</th>
-                <th>Qué revisar</th>
-                <th>Estado</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Cifrado</td>
-                <td>Protocolos modernos (WireGuard/OpenVPN) y configuración segura.</td>
-                <td>[ ]</td>
-              </tr>
-              <tr>
-                <td>MFA</td>
-                <td>2FA/MFA activo para accesos remotos y paneles críticos.</td>
-                <td>[ ]</td>
-              </tr>
-              <tr>
-                <td>DNS/IPv6</td>
-                <td>Sin fugas DNS/IPv6; DNS controlado; bloqueo de WebRTC si aplica.</td>
-                <td>[ ]</td>
-              </tr>
-              <tr>
-                <td>No‑logs / auditoría</td>
-                <td>Proveedor con política clara y auditorías externas cuando sea posible.</td>
-                <td>[ ]</td>
-              </tr>
-              <tr>
-                <td>Gestión y roles</td>
-                <td>Usuarios por roles, revocación rápida, dispositivos autorizados.</td>
-                <td>[ ]</td>
-              </tr>
-              <tr>
-                <td>Registros</td>
-                <td>Logs operativos (sin exceso), alertas básicas y respuesta a incidentes.</td>
-                <td>[ ]</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <p>
+<div aria-label="Checklist AEPD para VPN empresarial" class="table-scroll">
+<table>
+<caption><strong>Tabla 2.</strong> Checklist rápido para pymes (teletrabajo + RGPD)</caption>
+<thead>
+<tr>
+<th>Control</th>
+<th>Qué revisar</th>
+<th>Estado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cifrado</td>
+<td>Protocolos modernos (WireGuard/OpenVPN) y configuración segura.</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td>MFA</td>
+<td>2FA/MFA activo para accesos remotos y paneles críticos.</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td>DNS/IPv6</td>
+<td>Sin fugas DNS/IPv6; DNS controlado; bloqueo de WebRTC si aplica.</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td>No‑logs / auditoría</td>
+<td>Proveedor con política clara y auditorías externas cuando sea posible.</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td>Gestión y roles</td>
+<td>Usuarios por roles, revocación rápida, dispositivos autorizados.</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td>Registros</td>
+<td>Logs operativos (sin exceso), alertas básicas y respuesta a incidentes.</td>
+<td>[ ]</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>
           Nota humana (porque esto pasa de verdad): el 80% de “problemas misteriosos” en pymes vienen de una mezcla de
           contraseñas reutilizadas + MFA desactivado + “nadie sabe quién tiene acceso”. Si solucionas eso, la VPN empieza
           a brillar.
         </p>
-      </section>
-
-      <section id="ip-dedicada">
-        <h2>IP dedicada, allowlisting y acceso a recursos internos</h2>
-        <p>
+</section>
+<section id="ip-dedicada">
+<h2>IP dedicada, allowlisting y acceso a recursos internos</h2>
+<p>
           Para algunos casos, una <strong>IP dedicada</strong> es una herramienta muy útil: por ejemplo, si quieres permitir
           acceso a un panel interno solo desde una IP fija (allowlisting), o si un proveedor externo necesita una “puerta”
           controlada. En este escenario, la IP dedicada simplifica operaciones y reduce ruido en seguridad.
         </p>
-        <p>
+<p>
           Si este tema te toca, revisa también nuestra guía específica:
           <a href="/es/blog/vpn-ip-dedicada.html">VPN con IP dedicada</a>. Suele encajar bien con:
           <a href="/es/blog/vpn-2fa-mfa.html">MFA</a> y políticas por roles.
         </p>
-
-        <div class="svg-card" aria-label="Diagrama: acceso con IP dedicada y allowlisting">
-          <div class="svg-scroll">
-            <svg viewBox="0 0 960 320" role="img" aria-label="Diagrama: IP dedicada para allowlisting" style="max-width:100%;height:auto;color:#000;">
-              <rect x="0" y="0" width="960" height="320" fill="#fff" stroke="#000" stroke-width="4"></rect>
-
-              <rect x="60" y="110" width="260" height="110" rx="14" fill="#fff7e6" stroke="#000" stroke-width="4"></rect>
-              <text x="190" y="150" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:18px;">Empleado</text>
-              <text x="190" y="178" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:14px;">VPN activa</text>
-
-              <rect x="350" y="95" width="260" height="140" rx="14" fill="#e8f2ff" stroke="#000" stroke-width="4"></rect>
-              <text x="480" y="140" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:18px;">Servidor VPN</text>
-              <text x="480" y="168" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:14px;">IP dedicada</text>
-              <text x="480" y="196" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:14px;">Allowlisted</text>
-
-              <rect x="640" y="110" width="260" height="110" rx="14" fill="#eafbe7" stroke="#000" stroke-width="4"></rect>
-              <text x="770" y="150" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:18px;">Recurso interno</text>
-              <text x="770" y="178" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:14px;">Panel / API / NAS</text>
-
-              <line x1="320" y1="165" x2="350" y2="165" stroke="#000" stroke-width="4"></line>
-              <line x1="610" y1="165" x2="640" y2="165" stroke="#000" stroke-width="4"></line>
-
-              <text x="335" y="145" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:12px;">Túnel</text>
-              <text x="625" y="145" text-anchor="middle" style="fill:#000 !important;font-weight:800;font-size:12px;">Acceso</text>
-
-              <rect x="360" y="245" width="240" height="50" rx="12" fill="#071023" stroke="#000" stroke-width="4"></rect>
-              <text x="480" y="276" text-anchor="middle" style="fill:#fff !important;font-weight:800;font-size:14px;">Regla: solo desde la IP dedicada</text>
-            </svg>
-          </div>
-        </div>
-
-        <section class="note">
-          <strong>Key takeaway:</strong> IP dedicada no es “más anonimato”; es <strong>mejor control</strong> y operaciones más simples
+<div aria-label="Diagrama: acceso con IP dedicada y allowlisting" class="svg-card">
+<div class="svg-scroll">
+<svg aria-label="Diagrama: IP dedicada para allowlisting" role="img" style="max-width:100%;height:auto;color:#000;" viewbox="0 0 960 320">
+<rect fill="#fff" height="320" stroke="#000" stroke-width="4" width="960" x="0" y="0"></rect>
+<rect fill="#fff7e6" height="110" rx="14" stroke="#000" stroke-width="4" width="260" x="60" y="110"></rect>
+<text style="fill:#000 !important;font-weight:800;font-size:18px;" text-anchor="middle" x="190" y="150">Empleado</text>
+<text style="fill:#000 !important;font-weight:800;font-size:14px;" text-anchor="middle" x="190" y="178">VPN activa</text>
+<rect fill="#e8f2ff" height="140" rx="14" stroke="#000" stroke-width="4" width="260" x="350" y="95"></rect>
+<text style="fill:#000 !important;font-weight:800;font-size:18px;" text-anchor="middle" x="480" y="140">Servidor VPN</text>
+<text style="fill:#000 !important;font-weight:800;font-size:14px;" text-anchor="middle" x="480" y="168">IP dedicada</text>
+<text style="fill:#000 !important;font-weight:800;font-size:14px;" text-anchor="middle" x="480" y="196">Allowlisted</text>
+<rect fill="#eafbe7" height="110" rx="14" stroke="#000" stroke-width="4" width="260" x="640" y="110"></rect>
+<text style="fill:#000 !important;font-weight:800;font-size:18px;" text-anchor="middle" x="770" y="150">Recurso interno</text>
+<text style="fill:#000 !important;font-weight:800;font-size:14px;" text-anchor="middle" x="770" y="178">Panel / API / NAS</text>
+<line stroke="#000" stroke-width="4" x1="320" x2="350" y1="165" y2="165"></line>
+<line stroke="#000" stroke-width="4" x1="610" x2="640" y1="165" y2="165"></line>
+<text style="fill:#000 !important;font-weight:800;font-size:12px;" text-anchor="middle" x="335" y="145">Túnel</text>
+<text style="fill:#000 !important;font-weight:800;font-size:12px;" text-anchor="middle" x="625" y="145">Acceso</text>
+<rect fill="#071023" height="50" rx="12" stroke="#000" stroke-width="4" width="240" x="360" y="245"></rect>
+<text style="fill:#fff !important;font-weight:800;font-size:14px;" text-anchor="middle" x="480" y="276">Regla: solo desde la IP dedicada</text>
+</svg>
+</div>
+</div>
+<section class="note">
+<strong>Key takeaway:</strong> IP dedicada no es “más anonimato”; es <strong>mejor control</strong> y operaciones más simples
           cuando necesitas listas blancas o una huella de red estable.
         </section>
-      </section>
-
-      <section id="dns-ipv6">
-        <h2>Pruebas de fugas DNS/IPv6 y kill switch</h2>
-        <p>
+</section>
+<section id="dns-ipv6">
+<h2>Pruebas de fugas DNS/IPv6 y kill switch</h2>
+<p>
           En empresa, las fugas (DNS/IPv6/WebRTC) son más que un “detalle”: pueden exponer dominios internos, hábitos de navegación
           corporativa o endpoints sensibles. Por eso, además de “conectar la VPN”, necesitas verificar.
         </p>
-        <ul>
-          <li><strong>Kill switch:</strong> bloquea tráfico si la VPN cae (evita que apps sensibles salgan “por fuera”).</li>
-          <li><strong>DNS seguro:</strong> DNS del proveedor o DNS corporativo; evita resolvers aleatorios.</li>
-          <li><strong>IPv6:</strong> o lo soportas bien dentro del túnel o lo desactivas/filtras para evitar bypass.</li>
-        </ul>
-
-        <div class="related-wide" role="note" aria-label="Relacionado">
-          <span class="related-wide__label">Related:</span>
-          <a href="/es/blog/vpn-dns-leak.html">Fuga DNS con VPN: cómo detectarla y arreglarla</a>
-        </div>
-
-        <div class="table-scroll" aria-label="Tabla de pruebas recomendadas">
-          <table>
-            <caption><strong>Tabla 3.</strong> Pruebas mínimas para validar tu VPN (equipo remoto)</caption>
-            <thead>
-              <tr>
-                <th>Prueba</th>
-                <th>Qué debería pasar</th>
-                <th>Qué indica fallo</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>DNS leak</td>
-                <td>El DNS visible coincide con el túnel VPN / política corporativa.</td>
-                <td>DNS del ISP del empleado o de una red Wi‑Fi pública.</td>
-              </tr>
-              <tr>
-                <td>IPv6 leak</td>
-                <td>IPv6 protegido o deshabilitado de forma controlada.</td>
-                <td>IPv6 “sale” fuera de la VPN.</td>
-              </tr>
-              <tr>
-                <td>Kill switch</td>
-                <td>Si cortas la VPN, apps críticas pierden conectividad.</td>
-                <td>El tráfico continúa sin túnel (exposición).</td>
-              </tr>
-              <tr>
-                <td>Latencia</td>
-                <td>Pings estables para VoIP/CRM; ruta razonable.</td>
-                <td>Saltos excesivos, pérdida, experiencia mala.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <section class="note">
-          <strong>Key takeaway:</strong> La verificación (test) es parte del producto. Una VPN sin pruebas de fugas es como un cinturón
+<ul>
+<li><strong>Kill switch:</strong> bloquea tráfico si la VPN cae (evita que apps sensibles salgan “por fuera”).</li>
+<li><strong>DNS seguro:</strong> DNS del proveedor o DNS corporativo; evita resolvers aleatorios.</li>
+<li><strong>IPv6:</strong> o lo soportas bien dentro del túnel o lo desactivas/filtras para evitar bypass.</li>
+</ul>
+<div aria-label="Relacionado" class="related-wide" role="note">
+<span class="related-wide__label">Related:</span>
+<a href="/es/blog/vpn-dns-leak.html">Fuga DNS con VPN: cómo detectarla y arreglarla</a>
+</div>
+<div aria-label="Tabla de pruebas recomendadas" class="table-scroll">
+<table>
+<caption><strong>Tabla 3.</strong> Pruebas mínimas para validar tu VPN (equipo remoto)</caption>
+<thead>
+<tr>
+<th>Prueba</th>
+<th>Qué debería pasar</th>
+<th>Qué indica fallo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DNS leak</td>
+<td>El DNS visible coincide con el túnel VPN / política corporativa.</td>
+<td>DNS del ISP del empleado o de una red Wi‑Fi pública.</td>
+</tr>
+<tr>
+<td>IPv6 leak</td>
+<td>IPv6 protegido o deshabilitado de forma controlada.</td>
+<td>IPv6 “sale” fuera de la VPN.</td>
+</tr>
+<tr>
+<td>Kill switch</td>
+<td>Si cortas la VPN, apps críticas pierden conectividad.</td>
+<td>El tráfico continúa sin túnel (exposición).</td>
+</tr>
+<tr>
+<td>Latencia</td>
+<td>Pings estables para VoIP/CRM; ruta razonable.</td>
+<td>Saltos excesivos, pérdida, experiencia mala.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<section class="note">
+<strong>Key takeaway:</strong> La verificación (test) es parte del producto. Una VPN sin pruebas de fugas es como un cinturón
           de seguridad sin abrochar.
         </section>
-      </section>
-
-      <section id="errores">
-        <h2>Errores típicos que vemos en pymes (y cómo evitarlos)</h2>
-        <p>Estos fallos aparecen una y otra vez (y son arreglables):</p>
-        <ul>
-          <li><strong>MFA “opcional”:</strong> si es opcional, alguien no lo activará. Solución: política obligatoria.</li>
-          <li><strong>Split tunneling sin criterio:</strong> se usa por comodidad y termina filtrando tráfico sensible.</li>
-          <li><strong>Usuarios compartidos:</strong> “la cuenta del admin para todos”. Solución: identidades individuales + roles.</li>
-          <li><strong>Sin proceso de baja:</strong> alguien se va y su acceso queda vivo. Solución: checklist de offboarding.</li>
-          <li><strong>Sin formación:</strong> la VPN no protege del phishing. Solución: sesiones cortas y recurrentes.</li>
-        </ul>
-        <p>
+</section>
+<section id="errores">
+<h2>Errores típicos que vemos en pymes (y cómo evitarlos)</h2>
+<p>Estos fallos aparecen una y otra vez (y son arreglables):</p>
+<ul>
+<li><strong>MFA “opcional”:</strong> si es opcional, alguien no lo activará. Solución: política obligatoria.</li>
+<li><strong>Split tunneling sin criterio:</strong> se usa por comodidad y termina filtrando tráfico sensible.</li>
+<li><strong>Usuarios compartidos:</strong> “la cuenta del admin para todos”. Solución: identidades individuales + roles.</li>
+<li><strong>Sin proceso de baja:</strong> alguien se va y su acceso queda vivo. Solución: checklist de offboarding.</li>
+<li><strong>Sin formación:</strong> la VPN no protege del phishing. Solución: sesiones cortas y recurrentes.</li>
+</ul>
+<p>
           Si quieres ampliar el “contexto de red” y entender la diferencia entre VPN y otras capas, te puede servir también:
           <a href="/es/blog/proxy-vs-vpn.html">Proxy vs VPN</a> y <a href="/es/blog/protocolos-vpn.html">protocolos VPN</a>.
         </p>
-
-        <div class="related-wide" role="note" aria-label="Relacionado">
-          <span class="related-wide__label">Related:</span>
-          <a href="/es/blog/ajustes-optimos-vpn.html">Ajustes óptimos de VPN: rendimiento y estabilidad para trabajo</a>
-        </div>
-      </section>
-
-      <!-- CTA (Bottom) -->
-      <section aria-label="Recomendación final" class="cta-block">
-        <h2>Recomendación final: elige una VPN que puedas operar</h2>
-        <p>
+<div aria-label="Relacionado" class="related-wide" role="note">
+<span class="related-wide__label">Related:</span>
+<a href="/es/blog/ajustes-optimos-vpn.html">Ajustes óptimos de VPN: rendimiento y estabilidad para trabajo</a>
+</div>
+</section>
+<!-- CTA (Bottom) -->
+<section aria-label="Recomendación final" class="cta-block">
+<h2>Recomendación final: elige una VPN que puedas operar</h2>
+<p>
           Para pymes, la mejor VPN no es la “más famosa”, sino la que puedes desplegar, auditar y mantener sin fricción:
           MFA, kill switch, buenas apps y políticas claras. Si hoy no tienes nada, empieza simple y hazlo bien.
         </p>
-        <div class="cta-grid">
-          <a class="btn btn-primary" href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" target="_blank" rel="nofollow sponsored noopener noreferrer">
+<div class="cta-grid">
+<a class="btn btn-nord" href="https://go.nordvpn.net/aff_c?aff_id=2495&amp;offer_id=312&amp;url_id=2584" rel="nofollow sponsored noopener noreferrer" target="_blank">
             Probar NordVPN Business
           </a>
-          <a class="btn btn-secondary" href="https://www.tkqlhce.com/click-101525886-17061430" target="_blank" rel="nofollow sponsored noopener noreferrer">
+<a class="btn btn-surf" href="https://www.tkqlhce.com/click-101525886-17061430" rel="nofollow sponsored noopener noreferrer" target="_blank">
             Ver Surfshark Business
           </a>
-          <a class="btn btn-tertiary" href="https://www.dpbolvw.net/click-101525886-15834536" target="_blank" rel="nofollow sponsored noopener noreferrer">
+<a class="btn btn-proton" href="https://www.dpbolvw.net/click-101525886-15834536" rel="nofollow sponsored noopener noreferrer" target="_blank">
             Ver Proton VPN (Business)
           </a>
-        </div>
-      </section>
-
-      <section id="faq">
-        <h2>Preguntas frecuentes sobre VPN para empresas</h2>
-
-        <details>
-          <summary>¿Es obligatorio usar VPN para cumplir con el RGPD?</summary>
-          <p>
+</div>
+</section>
+<section id="faq">
+<h2>Preguntas frecuentes sobre VPN para empresas</h2>
+<details>
+<summary>¿Es obligatorio usar VPN para cumplir con el RGPD?</summary>
+<p>
             No hay una obligación literal de “usar VPN”, pero sí de aplicar medidas de seguridad adecuadas al riesgo.
             En teletrabajo, cifrar el tráfico y controlar accesos suele ser una medida razonable. La VPN ayuda, pero
             debes complementarla con MFA, gestión de usuarios, políticas y respuesta a incidentes.
           </p>
-        </details>
-
-        <details>
-          <summary>¿Una VPN empresarial afecta la velocidad de conexión?</summary>
-          <p>
+</details>
+<details>
+<summary>¿Una VPN empresarial afecta la velocidad de conexión?</summary>
+<p>
             Puede añadir algo de latencia por cifrado y ruta, pero con servidores cercanos y protocolos modernos el impacto
             suele ser moderado. Si haces videollamadas o usas VoIP, prueba varios servidores y revisa nuestra guía de
             <a href="/es/blog/prueba-de-velocidad-vpn.html">prueba de velocidad de VPN</a>.
           </p>
-        </details>
-
-        <details>
-          <summary>¿Cómo sé si mi VPN tiene “no‑logs” de verdad?</summary>
-          <p>
+</details>
+<details>
+<summary>¿Cómo sé si mi VPN tiene “no‑logs” de verdad?</summary>
+<p>
             Busca una política clara, auditorías independientes y transparencia técnica. Recuerda: “no‑logs” no significa
             “sin ningún registro”, sino no registrar actividad sensible. Aquí tienes una guía dedicada:
             <a href="/es/blog/no-logs-vpn.html">VPN sin registros (no‑logs)</a>.
           </p>
-        </details>
-
-        <details>
-          <summary>¿Qué protocolos son recomendables para pymes?</summary>
-          <p>
+</details>
+<details>
+<summary>¿Qué protocolos son recomendables para pymes?</summary>
+<p>
             WireGuard suele destacar por rendimiento y simplicidad. OpenVPN sigue siendo una opción sólida por compatibilidad.
             Si quieres comparar, consulta <a href="/es/blog/protocolos-vpn.html">protocolos VPN</a>.
           </p>
-        </details>
-
-        <details>
-          <summary>¿Puedo usar VPN también en Smart TV o consolas de la oficina?</summary>
-          <p>
+</details>
+<details>
+<summary>¿Puedo usar VPN también en Smart TV o consolas de la oficina?</summary>
+<p>
             Sí, pero es otro caso de uso. Para streaming corporativo o pantallas, revisa:
             <a href="/es/blog/vpn-para-smart-tv.html">VPN para Smart TV</a> y
             <a href="/es/blog/vpn-para-consolas-ps5-xbox.html">VPN para PS5/Xbox</a>.
           </p>
-        </details>
-      </section>
-
-      <section class="disclosure">
-        <p>
+</details>
+</section>
+<section class="disclosure">
+<p>
           Este artículo contiene enlaces de afiliados. Si compras a través de ellos, VPN World puede recibir una comisión
           sin coste adicional para ti. Esto nos ayuda a mantener el sitio y publicar guías técnicas actualizadas.
         </p>
-      </section>
-
-      <section class="author-box">
-        <div class="author-box__inner">
-          <img src="../../assets/img/author/denys-shchur.webp" alt="Foto del autor Denys Shchur" width="96" height="96" loading="lazy" />
-          <div>
-            <p class="author-box__title">Escrito por <a href="/es/about-denys-shchur.html">Denys Shchur</a></p>
-            <p class="author-box__bio">Redactor especializado en VPN y privacidad. En VPN World publicamos guías prácticas y comprobables para usuarios y equipos.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- RELATED_START -->
-      <section class="related-guides" aria-label="Guías relacionadas">
-        <h2>Guías relacionadas</h2>
-        <ul>
-          <li><a href="/es/blog/que-es-una-vpn.html">¿Qué es una VPN?</a></li>
-          <li><a href="/es/blog/protocolos-vpn.html">Protocolos VPN</a></li>
-          <li><a href="/es/blog/proxy-vs-vpn.html">Proxy vs VPN</a></li>
-          <li><a href="/es/blog/ajustes-optimos-vpn.html">Ajustes óptimos de VPN</a></li>
-          <li><a href="/es/blog/prueba-de-velocidad-vpn.html">Prueba de velocidad de VPN</a></li>
-        </ul>
-      </section>
-      <!-- RELATED_END -->
-
-    </article>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <strong>VPN World</strong>
-        <p>Servicio independiente sobre privacidad y seguridad online.</p>
-      </div>
-      <nav aria-label="Enlaces del sitio">
-        <a href="/es/privacy.html">Privacidad</a>
-        <a href="/es/disclosure.html">Disclosure</a>
-        <a href="mailto:u1797008805@gmail.com">Contacto</a>
-      </nav>
-    </div>
-    <div class="container tiny">© 2026 VPN World</div>
-  </footer>
-
-  <script src="../../assets/js/main.js"></script>
-
-  <!-- Cookie Consent (canonical) -->
-  <div id="cookie-consent-layer" class="cookie-layer" aria-hidden="true"></div>
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Consentimiento de cookies">
-    <div class="cookie-banner__inner">
-      <div class="cookie-banner__text">
-        <span class="cookie-banner__msg">Utilizamos cookies para mejorar tu experiencia y medir el rendimiento del sitio. Puedes aceptar o rechazar.</span>
-        <a class="cookie-banner__link" href="/es/privacy.html" rel="nofollow">Privacidad</a>
-      </div>
-      <div class="cookie-banner__actions">
-        <button id="cookie-accept" type="button">Aceptar</button>
-        <button id="cookie-reject" type="button">Rechazar</button>
-      </div>
-    </div>
-  </div>
-  <!-- /Cookie Consent (canonical) -->
-
-  <!-- PAGE: /es/blog/vpn-para-empresas.html -->
+</section>
+<section class="author-box">
+<div class="author-box__inner">
+<img alt="Foto del autor Denys Shchur" height="96" loading="lazy" src="../../assets/img/author/denys-shchur.webp" width="96"/>
+<div>
+<p class="author-box__title">Escrito por <a href="/es/about-denys-shchur.html">Denys Shchur</a></p>
+<p class="author-box__bio">Redactor especializado en VPN y privacidad. En VPN World publicamos guías prácticas y comprobables para usuarios y equipos.</p>
+</div>
+</div>
+</section>
+<!-- RELATED_START -->
+<section aria-label="Guías relacionadas" class="related-guides">
+<h2>Guías relacionadas</h2>
+<ul>
+<li><a href="/es/blog/que-es-una-vpn.html">¿Qué es una VPN?</a></li>
+<li><a href="/es/blog/protocolos-vpn.html">Protocolos VPN</a></li>
+<li><a href="/es/blog/proxy-vs-vpn.html">Proxy vs VPN</a></li>
+<li><a href="/es/blog/ajustes-optimos-vpn.html">Ajustes óptimos de VPN</a></li>
+<li><a href="/es/blog/prueba-de-velocidad-vpn.html">Prueba de velocidad de VPN</a></li>
+</ul>
+</section>
+<!-- RELATED_END -->
+</article>
+</main>
+<footer class="site-footer">
+<div class="container footer-grid">
+<div>
+<strong>VPN World</strong>
+<p>Servicio independiente sobre privacidad y seguridad online.</p>
+</div>
+<nav aria-label="Enlaces del sitio">
+<a href="/es/privacy.html">Privacidad</a>
+<a href="/es/disclosure.html">Disclosure</a>
+<a href="mailto:u1797008805@gmail.com">Contacto</a>
+</nav>
+</div>
+<div class="container tiny">© 2026 VPN World</div>
+</footer>
+<script src="../../assets/js/main.js"></script>
+<!-- Cookie Consent (canonical) -->
+<div aria-hidden="true" class="cookie-layer" id="cookie-consent-layer"></div>
+<div aria-label="Consentimiento de cookies" aria-live="polite" class="cookie-banner" id="cookie-banner" role="dialog">
+<div class="cookie-banner__inner">
+<div class="cookie-banner__text">
+<span class="cookie-banner__msg">Utilizamos cookies para mejorar tu experiencia y medir el rendimiento del sitio. Puedes aceptar o rechazar.</span>
+<a class="cookie-banner__link" href="/es/privacy.html" rel="nofollow">Privacidad</a>
+</div>
+<div class="cookie-banner__actions">
+<button id="cookie-accept" type="button">Aceptar</button>
+<button id="cookie-reject" type="button">Rechazar</button>
+</div>
+</div>
+</div>
+<!-- /Cookie Consent (canonical) -->
+<!-- PAGE: /es/blog/vpn-para-empresas.html -->
 </body>
 </html>
