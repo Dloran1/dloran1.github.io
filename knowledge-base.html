@@ -187,7 +187,78 @@
       .kb-card{grid-column:span 12}
       .kb-hero h1{font-size:24px}
     }
+  
+    /* Breadcrumbs */
+    .kb-breadcrumbs{
+      display:flex; align-items:center; gap:8px;
+      font-size:13px; font-weight:950;
+      color:rgba(255,255,255,.86);
+      margin:0 0 10px;
+      flex-wrap:wrap;
+    }
+    .kb-breadcrumbs a{
+      color:#fff;
+      text-decoration:none;
+      border-bottom:1px solid rgba(255,255,255,.28);
+    }
+    .kb-breadcrumbs a:hover{border-bottom-color:rgba(255,255,255,.55)}
+    /* Highlight */
+    mark.kb-mark{
+      background: rgba(31,111,235,.22);
+      color:#000;
+      padding:0 .12em;
+      border-radius:.25em;
+      box-shadow: 0 0 0 1px rgba(31,111,235,.18) inset;
+    }
+    /* GitHub icon */
+    .kb-btn.github-link::before{
+      content:"";
+      width:14px;height:14px;display:inline-block;
+      margin-right:8px;
+      background-size:14px 14px;
+      background-repeat:no-repeat;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23000000' d='M8 0C3.58 0 0 3.73 0 8.35c0 3.7 2.29 6.84 5.47 7.95.4.08.55-.18.55-.4 0-.2-.01-.86-.01-1.56-2.01.46-2.53-.5-2.69-.97-.09-.24-.48-.97-.82-1.16-.28-.16-.68-.55-.01-.56.63-.01 1.08.61 1.23.86.72 1.25 1.87.9 2.33.69.07-.54.28-.9.51-1.11-1.78-.21-3.64-.93-3.64-4.13 0-.91.31-1.65.82-2.23-.08-.21-.36-1.06.08-2.2 0 0 .67-.22 2.2.85.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.5-1.07 2.2-.85 2.2-.85.44 1.14.16 1.99.08 2.2.51.58.82 1.32.82 2.23 0 3.21-1.87 3.92-3.65 4.13.29.26.54.77.54 1.56 0 1.13-.01 2.04-.01 2.32 0 .22.15.48.55.4C13.71 15.19 16 12.05 16 8.35 16 3.73 12.42 0 8 0z'/%3E%3C/svg%3E");
+    }
+    /* On dark buttons, use white icon */
+    .kb-btn.dark.github-link::before,
+    .kb-btn.primary.github-link::before,
+    .kb-btn.green.github-link::before{
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23ffffff' d='M8 0C3.58 0 0 3.73 0 8.35c0 3.7 2.29 6.84 5.47 7.95.4.08.55-.18.55-.4 0-.2-.01-.86-.01-1.56-2.01.46-2.53-.5-2.69-.97-.09-.24-.48-.97-.82-1.16-.28-.16-.68-.55-.01-.56.63-.01 1.08.61 1.23.86.72 1.25 1.87.9 2.33.69.07-.54.28-.9.51-1.11-1.78-.21-3.64-.93-3.64-4.13 0-.91.31-1.65.82-2.23-.08-.21-.36-1.06.08-2.2 0 0 .67-.22 2.2.85.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.5-1.07 2.2-.85 2.2-.85.44 1.14.16 1.99.08 2.2.51.58.82 1.32.82 2.23 0 3.21-1.87 3.92-3.65 4.13.29.26.54.77.54 1.56 0 1.13-.01 2.04-.01 2.32 0 .22.15.48.55.4C13.71 15.19 16 12.05 16 8.35 16 3.73 12.42 0 8 0z'/%3E%3C/svg%3E");
+    }
+
   </style>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://dloran1.github.io/knowledge-base.html",
+      "url": "https://dloran1.github.io/knowledge-base.html",
+      "name": "Knowledge Base — VPN World × SmartAdvisorOnline"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://dloran1.github.io/knowledge-base.html#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://dloran1.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Knowledge Base",
+          "item": "https://dloran1.github.io/knowledge-base.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
 </head>
 
 <body>
@@ -205,6 +276,13 @@
 
   <main class="kb-wrap">
     <section class="kb-hero" aria-label="Knowledge Base">
+
+      <nav class="kb-breadcrumbs" aria-label="Breadcrumbs">
+        <a href="/">Home</a>
+        <span aria-hidden="true">›</span>
+        <span>Knowledge Base</span>
+      </nav>
+
       <h1>Knowledge Base</h1>
       <p>Reference docs and evergreen guides — searchable and grouped by project.</p>
       <div class="kb-badges" aria-label="Badges">
@@ -251,7 +329,7 @@
                 <span class="kb-tag">DNS</span><span class="kb-tag">Leak test</span><span class="kb-tag">Fixes</span>
               </div>
               <div class="kb-actions">
-                <a class="kb-btn primary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-dns-leak.md" target="_blank" rel="noopener noreferrer">Open</a>
+                <a class="kb-btn primary github-link" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-dns-leak.md" target="_blank" rel="noopener noreferrer">Open</a>
                 <button class="kb-btn ghost" type="button" data-copy="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-dns-leak.md">Copy link</button>
               </div>
             </div>
@@ -269,7 +347,7 @@
                 <span class="kb-tag">Glossary</span><span class="kb-tag">Basics</span><span class="kb-tag">Terms</span>
               </div>
               <div class="kb-actions">
-                <a class="kb-btn primary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-glossary.md" target="_blank" rel="noopener noreferrer">Open</a>
+                <a class="kb-btn primary github-link" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-glossary.md" target="_blank" rel="noopener noreferrer">Open</a>
                 <button class="kb-btn ghost" type="button" data-copy="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-glossary.md">Copy link</button>
               </div>
             </div>
@@ -287,8 +365,8 @@
                 <span class="kb-tag">P2P</span><span class="kb-tag">Kill switch</span><span class="kb-tag">Privacy</span>
               </div>
               <div class="kb-actions">
-                <a class="kb-btn primary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-torrent.md" target="_blank" rel="noopener noreferrer">Open vpn-torrent.md</a>
-                <a class="kb-btn dark" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-torrenting.md" target="_blank" rel="noopener noreferrer">Open vpn-torrenting.md</a>
+                <a class="kb-btn primary github-link" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-torrent.md" target="_blank" rel="noopener noreferrer">Open vpn-torrent.md</a>
+                <a class="kb-btn dark github-link" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-torrenting.md" target="_blank" rel="noopener noreferrer">Open vpn-torrenting.md</a>
               </div>
             </div>
           </article>
@@ -305,7 +383,7 @@
                 <span class="kb-tag">Travel</span><span class="kb-tag">Public Wi‑Fi</span><span class="kb-tag">Security</span>
               </div>
               <div class="kb-actions">
-                <a class="kb-btn primary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-travel.md" target="_blank" rel="noopener noreferrer">Open</a>
+                <a class="kb-btn primary github-link" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-travel.md" target="_blank" rel="noopener noreferrer">Open</a>
                 <button class="kb-btn ghost" type="button" data-copy="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-travel.md">Copy link</button>
               </div>
             </div>
@@ -323,7 +401,7 @@
                 <span class="kb-tag">Streaming</span><span class="kb-tag">Geo</span><span class="kb-tag">DNS</span>
               </div>
               <div class="kb-actions">
-                <a class="kb-btn primary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-streaming.md" target="_blank" rel="noopener noreferrer">Open</a>
+                <a class="kb-btn primary github-link" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-streaming.md" target="_blank" rel="noopener noreferrer">Open</a>
                 <button class="kb-btn ghost" type="button" data-copy="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-streaming.md">Copy link</button>
               </div>
             </div>
@@ -341,7 +419,7 @@
                 <span class="kb-tag">Limits</span><span class="kb-tag">Risks</span><span class="kb-tag">Reality</span>
               </div>
               <div class="kb-actions">
-                <a class="kb-btn primary" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/disadvantages-of-vpn.md" target="_blank" rel="noopener noreferrer">Open</a>
+                <a class="kb-btn primary github-link" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/disadvantages-of-vpn.md" target="_blank" rel="noopener noreferrer">Open</a>
                 <button class="kb-btn ghost" type="button" data-copy="https://github.com/dloran1/dloran1.github.io/blob/main/docs/disadvantages-of-vpn.md">Copy link</button>
               </div>
             </div>
@@ -373,7 +451,7 @@
               </div>
               <div class="kb-actions">
                 <a class="kb-btn green" href="https://smartadvisoronline.com/blog/vpn-for-youtube.html" target="_blank" rel="noopener noreferrer">Open guide</a>
-                <a class="kb-btn dark" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-for-youtube.md" target="_blank" rel="noopener noreferrer">Open docs</a>
+                <a class="kb-btn dark github-link" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-for-youtube.md" target="_blank" rel="noopener noreferrer">Open docs</a>
               </div>
             </div>
           </article>
@@ -391,7 +469,7 @@
               </div>
               <div class="kb-actions">
                 <a class="kb-btn green" href="https://smartadvisoronline.com/blog/vpn-for-hulu.html" target="_blank" rel="noopener noreferrer">Open guide</a>
-                <a class="kb-btn dark" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-for-hulu.md" target="_blank" rel="noopener noreferrer">Open docs</a>
+                <a class="kb-btn dark github-link" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-for-hulu.md" target="_blank" rel="noopener noreferrer">Open docs</a>
               </div>
             </div>
           </article>
@@ -408,7 +486,7 @@
                 <span class="kb-tag">Sports</span><span class="kb-tag">Live</span><span class="kb-tag">Buffering</span>
               </div>
               <div class="kb-actions">
-                <a class="kb-btn green" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-for-sports-streaming.md" target="_blank" rel="noopener noreferrer">Open docs</a>
+                <a class="kb-btn green github-link" href="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-for-sports-streaming.md" target="_blank" rel="noopener noreferrer">Open docs</a>
                 <button class="kb-btn ghost" type="button" data-copy="https://github.com/dloran1/dloran1.github.io/blob/main/docs/vpn-for-sports-streaming.md">Copy link</button>
               </div>
             </div>
@@ -465,6 +543,38 @@
         return (s||"").toLowerCase().trim();
       }
 
+
+      // Highlight search matches (visual aid)
+      function escapeRegExp(str){ return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+      function prepareHighlightCache(){
+        document.querySelectorAll(".kb-card").forEach(function(card){
+          var t = card.querySelector(".kb-card-title");
+          var d = card.querySelector(".kb-desc");
+          if(t && !t.getAttribute("data-orig")) t.setAttribute("data-orig", t.textContent);
+          if(d && !d.getAttribute("data-orig")) d.setAttribute("data-orig", d.textContent);
+        });
+      }
+      function applyHighlights(raw){
+        var q = (raw||"").trim();
+        var re = null;
+        if(q.length >= 2){
+          re = new RegExp(escapeRegExp(q), "ig");
+        }
+        document.querySelectorAll(".kb-card").forEach(function(card){
+          var t = card.querySelector(".kb-card-title");
+          var d = card.querySelector(".kb-desc");
+          if(t){
+            var origT = t.getAttribute("data-orig") || t.textContent;
+            t.innerHTML = re ? origT.replace(re, function(m){ return '<mark class="kb-mark">'+m+'</mark>'; }) : origT;
+          }
+          if(d){
+            var origD = d.getAttribute("data-orig") || d.textContent;
+            d.innerHTML = re ? origD.replace(re, function(m){ return '<mark class="kb-mark">'+m+'</mark>'; }) : origD;
+          }
+        });
+      }
+
+
       function filterCards(){
         var q = normalize(document.getElementById("kb-q").value);
         var active = document.querySelector('.kb-tab[aria-pressed="true"]');
@@ -495,12 +605,18 @@
         empty.hidden = (visible !== 0);
       }
 
-      document.getElementById("kb-q").addEventListener("input", filterCards);
+      prepareHighlightCache();
+
+      document.getElementById("kb-q").addEventListener("input", function(){
+        filterCards();
+        applyHighlights(document.getElementById("kb-q").value);
+      });
 
       document.querySelectorAll(".kb-tab").forEach(function(btn){
         btn.addEventListener("click", function(){
           setTab(btn);
           filterCards();
+          applyHighlights(document.getElementById("kb-q").value);
         });
       });
 
@@ -519,6 +635,7 @@
       });
 
       filterCards();
+      applyHighlights(document.getElementById("kb-q").value);
     })();
   </script>
 </body>
