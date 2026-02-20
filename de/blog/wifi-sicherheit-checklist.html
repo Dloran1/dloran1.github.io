@@ -115,6 +115,50 @@
 main details{margin:10px 0;padding:8px 10px;border:1px solid #e1e4e8;border-radius:10px;background:#fff;}
 main details>summary{cursor:pointer;font-weight:700;}
 </style>
+<style id="vw-contrast-fix-faq-author">
+/* Hard contrast fix: FAQ/details must NEVER be white-on-white on dark shell */
+article details{
+  background:#ffffff !important;
+  color:#000000 !important;
+  border:1px solid rgba(0,0,0,.18) !important;
+  border-radius:14px !important;
+  margin:14px 0 !important;
+  overflow:hidden !important;
+}
+article details > summary{
+  color:#000000 !important;
+  background:#ffffff !important;
+  font-weight:800 !important;
+  padding:16px 18px !important;
+  cursor:pointer !important;
+  list-style:none !important;
+}
+article details > summary::-webkit-details-marker{display:none !important;}
+article details > summary::before{
+  content:"▶";
+  display:inline-block;
+  margin-right:10px;
+  font-weight:900;
+  color:#000000;
+  transform:translateY(-1px);
+}
+article details[open] > summary::before{content:"▼";}
+article details .faq-a,
+article details p,
+article details ul,
+article details li{
+  color:#000000 !important;
+}
+article details .faq-a{padding:0 18px 16px !important;}
+/* Author box: make author name clearly clickable */
+.author-box a.author-name,
+.author-box a.author-name:visited{
+  color:inherit !important;
+  text-decoration:underline !important;
+  text-underline-offset:3px;
+}
+.author-box a.author-name:hover{opacity:.95;}
+</style>
 </head>
 <body>
 <!-- Language switch -->
@@ -273,7 +317,7 @@ main details>summary{cursor:pointer;font-weight:700;}
 <!-- Author -->
 <section class="author-box">
 <img alt="Autor: Denys Shchur" height="72" loading="lazy" src="/assets/img/author/denys-shchur.webp" width="72"/>
-<div><strong><a href="/de/about-denys-shchur.html">Denys Shchur</a></strong><br/><span class="tiny">Editor, VPN World</span></div>
+<div><strong><a href="/de/about-denys-shchur.html" class="author-name">Denys Shchur</a></strong><br/><span class="tiny">Editor, VPN World</span></div>
 </section>
 <!-- Related -->
 <p aria-label="SmartAdvisor Empfehlung" class="note">
