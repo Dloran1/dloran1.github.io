@@ -182,6 +182,14 @@
   color:#6a737d;
   text-decoration:line-through;
 }
+
+/* === Checklist progress (gamification) === */
+.checklist-box #progress-status{display:block;font-weight:800;margin:4px 0 10px;color:#000}
+.progress-container{background:#eee;border:1px solid #000;border-radius:999px;overflow:hidden;height:18px;margin:0 0 14px}
+#progress-bar{width:0%;height:100%;background:linear-gradient(90deg,#ff3b30,#ffcc00,#34c759);transition:width .45s ease}
+.feedback-note{display:none;margin:8px 0 0 45px;padding:8px 10px;border-left:4px solid #34c759;background:#fff;color:#000;border-radius:10px;border:1px solid #000;font-size:.92rem;line-height:1.35}
+.check-item input.step:checked ~ .feedback-note{display:block}
+
 </style>
 <!-- GA4 + Consent Mode v2 (default deny) -->
 <script defer="" src="/assets/js/cookie-consent.js"></script>
@@ -214,58 +222,56 @@
 </figure>
 <div class="meta-updated container tiny" style="margin-top:-8px;margin-bottom:8px;">Updated: <time datetime="2026-02-20">February 20, 2026</time></div>
 <p class="lead">Short answer (2026): enable WPA3, use strong unique passwords, auto‑updates, guest/IoT isolation, secure DNS, and a reputable VPN on public Wi‑Fi (airports, hotels, cafes). Watch for AI‑powered phishing portals and fake “free Wi‑Fi” prompts — verify the network name and avoid logging into sensitive accounts until encrypted.</p>
+<section class="note" aria-label="Recommended guides">
+  <p><strong>New to this topic?</strong> First read the deep‑dive <a href="/en-us/blog/wifi-security.html">Wi‑Fi security guide</a>, then follow this checklist. When you’re done, run a quick <a href="/en-us/blog/vpn-speed-test.html">VPN speed test</a> and a <a href="/en-us/blog/vpn-dns-leak.html">DNS/IPv6 leak test</a> to verify your setup. If you often work from cafés or airports, see <a href="/en-us/blog/vpn-public-wifi.html">VPN for public Wi‑Fi</a> and the basics in <a href="/en-us/blog/vpn-protocols.html">VPN protocols</a>.</p>
+</section>
 <section aria-label="Interactive Security Checklist 2026" class="checklist-box" data-checklist="wifi-2026">
 <h3 style="margin-top:0; color:#28a745;">✅ Interactive Security Checklist (2026)</h3>
-<p><small>Click each step to secure your connection:</small></p>
+<p><small>Click each step to secure your connection:</small></p><span id="progress-status">Security Level: Vulnerable (0%)</span><div aria-label="Checklist progress" class="progress-container"><div id="progress-bar"></div></div>
 <label class="check-item">
-<input type="checkbox"/>
+<input class="step" type="checkbox"/>
 <span><b>Enable WPA3-SAE:</b> The gold standard for encryption in 2026.</span>
-<span class="checkmark"></span>
+<span class="checkmark"></span><div class="feedback-note">✓ WPA3-SAE reduces offline password cracking and improves forward secrecy on modern routers.</div>
 </label>
 <label class="check-item">
-<input type="checkbox"/>
+<input class="step" type="checkbox"/>
 <span><b>DNS over HTTPS (DoH):</b> Prevents ISP snooping and DNS spoofing.</span>
-<span class="checkmark"></span>
+<span class="checkmark"></span><div class="feedback-note">✓ DoH enabled — DNS lookups are harder to snoop or tamper with on public networks.</div>
 </label>
 <label class="check-item">
-<input type="checkbox"/>
+<input class="step" type="checkbox"/>
 <span><b>Disable WPS:</b> Closes the most common backdoor on older routers.</span>
-<span class="checkmark"></span>
+<span class="checkmark"></span><div class="feedback-note">✓ WPS disabled — you removed a common brute‑force entry point on consumer routers.</div>
 </label>
 <label class="check-item">
-<input type="checkbox"/>
+<input class="step" type="checkbox"/>
 <span><b>VPN Kill Switch:</b> Essential for public Wi‑Fi safety.</span>
-<span class="checkmark"></span>
+<span class="checkmark"></span><div class="feedback-note">✓ Kill Switch checked — your traffic won’t leak if the VPN drops for a moment.</div>
 </label>
 <label class="check-item">
-<input type="checkbox"/>
+<input class="step" type="checkbox"/>
 <span><b>Separate IoT Network:</b> Keeps smart devices away from your private data.</span>
-<span class="checkmark"></span>
+<span class="checkmark"></span><div class="feedback-note">✓ Guest/IoT isolation — smart devices are kept away from your laptop and private data.</div>
 </label>
 </section>
-
-
 <!-- Early CTA block (3 partners) -->
-<div class="cta-buttons" aria-label="Recommended offers">
-  <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584"
-     class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">
+<div aria-label="Recommended offers" class="cta-buttons">
+<a class="nordvpn" href="https://go.nordvpn.net/aff_c?aff_id=2495&amp;offer_id=312&amp;url_id=2584" rel="nofollow sponsored noopener noreferrer" target="_blank">
     Try NordVPN — very solid for Wi‑Fi security
   </a>
-  <a href="https://www.tkqlhce.com/click-101525886-17061430"
-     class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">
+<a class="surfshark" href="https://www.tkqlhce.com/click-101525886-17061430" rel="nofollow sponsored noopener noreferrer" target="_blank">
     Try Surfshark — ideal if you have multiple devices
   </a>
-  <a href="https://www.dpbolvw.net/click-101525886-15834536"
-     class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer">
+<a class="proton" href="https://www.dpbolvw.net/click-101525886-15834536" rel="nofollow sponsored noopener noreferrer" target="_blank">
     Try Proton VPN — strong privacy focus for travel
   </a>
 </div>
-<p class="note">
-    New to this topic? First read the deep-dive <a href="/en-us/blog/wifi-security.html">Wi-Fi security guide</a>,
-    then follow this checklist. When you’re done, run a quick
-    <a href="/en-us/blog/vpn-speed-test.html">VPN speed test</a> and a
-    <a href="/en-us/blog/vpn-dns-leak.html">DNS/IPv6 leak test</a> to verify your setup.
-  </p>
+<p class="note">New to this topic? First read the deep-dive ,
+then follow this checklist. When you’re done, run a quick
+ and a
+ to verify your setup.
+If you use cafés/airports often, also skim our  guide and
+ checklist.</p>
 <section aria-label="Man-in-the-middle diagram" class="svg-card">
 <div class="svg-scroll">
 <svg aria-label="Man-in-the-middle attack on public Wi-Fi" role="img" viewbox="0 0 980 260">
@@ -318,8 +324,6 @@
 </svg>
 </div>
 </section>
-
-
 <h2>Quick wins (5–10 minutes)</h2>
 <ul class="checklist">
 <li>Change default router admin password to a <strong>unique</strong> 16–20-character passphrase; turn off remote admin if unused.</li>
@@ -430,17 +434,14 @@
   <a href="https://smartadvisoronline.com/blog/vpn-and-privacy-laws.html" rel="nofollow sponsored noopener noreferrer" target="_blank">VPN &amp; Privacy Laws (2026)</a>.
 </p>
 <!-- Late CTA block (3 partners) -->
-<div class="cta-buttons" aria-label="Recommended offers">
-  <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584"
-     class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">
+<div aria-label="Recommended offers" class="cta-buttons">
+<a class="nordvpn" href="https://go.nordvpn.net/aff_c?aff_id=2495&amp;offer_id=312&amp;url_id=2584" rel="nofollow sponsored noopener noreferrer" target="_blank">
     Get NordVPN — best overall for public Wi‑Fi
   </a>
-  <a href="https://www.tkqlhce.com/click-101525886-17061430"
-     class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">
+<a class="surfshark" href="https://www.tkqlhce.com/click-101525886-17061430" rel="nofollow sponsored noopener noreferrer" target="_blank">
     Get Surfshark — best value for families
   </a>
-  <a href="https://www.dpbolvw.net/click-101525886-15834536"
-     class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer">
+<a class="proton" href="https://www.dpbolvw.net/click-101525886-15834536" rel="nofollow sponsored noopener noreferrer" target="_blank">
     Get Proton VPN — privacy-first pick
   </a>
 </div><h2>FAQ</h2>
@@ -665,5 +666,49 @@
 </div>
 </div>
 <!-- /Cookie Consent (canonical) -->
-</body>
+<script>
+(function(){
+  const box = document.querySelector('.checklist-box');
+  if(!box) return;
+  const steps = Array.from(box.querySelectorAll('input.step[type="checkbox"]'));
+  const bar = document.getElementById('progress-bar');
+  const status = document.getElementById('progress-status');
+  if(!steps.length || !bar || !status) return;
+
+  const STORE_KEY = 'vw_wifi_checklist_2026_enus_v1';
+
+  function setStatus(pct){
+    const p = Math.max(0, Math.min(100, pct|0));
+    let label = '';
+    if(p === 0) label = 'Security Level: Vulnerable (0%)';
+    else if(p < 40) label = `Security Level: Basic protection (${p}%)`;
+    else if(p < 80) label = `Security Level: Strong (${p}%)`;
+    else if(p < 100) label = `Security Level: Very strong (${p}%)`;
+    else label = 'Security Level: Fort Knox (100%) — you’re in great shape.';
+    status.textContent = label;
+    bar.style.width = p + '%';
+  }
+
+  function compute(){
+    const checked = steps.filter(s => s.checked).length;
+    const pct = Math.round((checked / steps.length) * 100);
+    setStatus(pct);
+    try{
+      const state = steps.map(s => s.checked ? 1 : 0).join('');
+      localStorage.setItem(STORE_KEY, state);
+    }catch(e){}
+  }
+
+  // Restore
+  try{
+    const saved = localStorage.getItem(STORE_KEY);
+    if(saved && saved.length === steps.length){
+      steps.forEach((s, idx) => { s.checked = saved[idx] === '1'; });
+    }
+  }catch(e){}
+
+  steps.forEach(s => s.addEventListener('change', compute));
+  compute();
+})();
+</script></body>
 </html>
