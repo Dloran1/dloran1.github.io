@@ -187,6 +187,7 @@
 .checklist-box #progress-status{display:block;font-weight:800;margin:4px 0 10px;color:#000}
 .progress-container{background:#eee;border:1px solid #000;border-radius:999px;overflow:hidden;height:18px;margin:0 0 14px}
 #progress-bar{width:0%;height:100%;background:linear-gradient(90deg,#ff3b30,#ffcc00,#34c759);transition:width .45s ease}
+.progress-tip{margin:-6px 0 14px;padding:10px 12px;background:#fff;color:#000;border:1px solid #000;border-radius:12px;font-weight:700;line-height:1.35}
 .feedback-note{display:none;margin:8px 0 0 45px;padding:8px 10px;border-left:4px solid #34c759;background:#fff;color:#000;border-radius:10px;border:1px solid #000;font-size:.92rem;line-height:1.35}
 .check-item input.step:checked ~ .feedback-note{display:block}
 
@@ -228,6 +229,7 @@
 <section aria-label="Interactive Security Checklist 2026" class="checklist-box" data-checklist="wifi-2026">
 <h3 style="margin-top:0; color:#28a745;">✅ Interactive Security Checklist (2026)</h3>
 <p><small>Click each step to secure your connection:</small></p><span id="progress-status">Security Level: Vulnerable (0%)</span><div aria-label="Checklist progress" class="progress-container"><div id="progress-bar"></div></div>
+<div id="progress-tip" class="progress-tip" aria-live="polite">Your network is an open door. Start with WPA3 to lock it.</div>
 <label class="check-item">
 <input class="step" type="checkbox"/>
 <span><b>Enable WPA3-SAE:</b> The gold standard for encryption in 2026.</span>
@@ -673,6 +675,7 @@ If you use cafés/airports often, also skim our  guide and
   const steps = Array.from(box.querySelectorAll('input.step[type="checkbox"]'));
   const bar = document.getElementById('progress-bar');
   const status = document.getElementById('progress-status');
+  const tip = document.getElementById('progress-tip');
   if(!steps.length || !bar || !status) return;
 
   const STORE_KEY = 'vw_wifi_checklist_2026_enus_v1';
@@ -685,8 +688,15 @@ If you use cafés/airports often, also skim our  guide and
     else if(p < 80) label = `Security Level: Strong (${p}%)`;
     else if(p < 100) label = `Security Level: Very strong (${p}%)`;
     else label = 'Security Level: Fort Knox (100%) — you’re in great shape.';
-    status.textContent = label;
-    bar.style.width = p + '%';
+if(tip){
+  if(p <= 20) tip.textContent = 'Your network is an open door. Start with WPA3 to lock it.';
+  else if(p <= 50) tip.textContent = 'Great start! Your DNS is now private, which helps prevent ISP tracking and spoofing.';
+  else if(p <= 80) tip.textContent = 'Solid protection. You’ve neutralized most common public Wi‑Fi attacks.';
+  else if(p < 100) tip.textContent = 'Almost there. Finish the last steps to reduce the chance of “evil twin” and MITM attacks.';
+  else tip.textContent = 'Total lockdown. Even AI‑driven phishing portals will struggle to get in.';
+}
+status.textContent = label;
+bar.style.width = p + '%';
   }
 
   function compute(){
