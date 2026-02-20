@@ -110,6 +110,10 @@
 .checklist-box .check-item input:checked + span{color:#6a737d;text-decoration:line-through;}
 .checklist-box .feedback-note{font-size:.9rem;color:#0b6623;margin:6px 0 0 0;display:none;}
 .checklist-box .check-item input:checked ~ .feedback-note{display:block;}
+
+/* FAQ spacing */
+main details{margin:10px 0;padding:8px 10px;border:1px solid #e1e4e8;border-radius:10px;background:#fff;}
+main details>summary{cursor:pointer;font-weight:700;}
 </style>
 </head>
 <body>
@@ -188,8 +192,11 @@
 <p class="tiny" style="text-align:center">Falls das Video nicht lädt: <a href="https://www.youtube.com/watch?v=9Z1q0L5wG8E" rel="noopener" target="_blank">auf YouTube ansehen</a>.</p>
 <h2>6) Gerätehygiene</h2>
 <p>OS/Apps aktuell halten und starke Passwörter nutzen (<a href="/de/blog/wifi-sicherheit.html">Grundlagen der WLAN-Sicherheit</a>).</p>
+<section aria-label="Warum das wichtig ist" class="note" style="border-left:5px solid #ffb020;">
+<p><strong>⚠️ Warum das wichtig ist (2026):</strong> Angreifer nutzen heute KI, um täuschend echte WLAN‑Login‑Portale („Evil Twin“) zu erstellen und Geräte in offenen Netzen abzufangen. Wenn Sie unterwegs arbeiten oder reisen, reichen starke Passwörter allein nicht — Sie brauchen sauberes Router‑Setup, getrennte Netze (Gast/IoT) und verschlüsselte Namensauflösung (DoH/DoT), damit niemand Ihre Verbindungen mitlesen oder umleiten kann.</p>
+</section>
 <h2>Checkliste zum Abhaken</h2>
-<section aria-label="Interaktive WLAN-Sicherheits-Checkliste (Deutschland)" class="checklist-box">
+<p>Sicherheit im Jahr 2026 bedeutet mehr als nur ein Passwort. Mit der Zunahme von KI-gesteuerten Phishing-Angriffen und Schwachstellen in älteren Protokollen ist Ihr Heimnetzwerk ein primäres Ziel für Cyberkriminelle. Diese Checkliste hilft Ihnen, Ihre FRITZ!Box oder Ihren Router auf das Niveau eines Hochsicherheitstrakts zu bringen.</p><section aria-label="Interaktive WLAN-Sicherheits-Checkliste (Deutschland)" class="checklist-box">
 <span class="progress-status" id="progress-status">Sicherheitsstufe: Gefährdet (0%)</span>
 <span class="progress-tip" id="progress-tip">Beginnen Sie mit WPA3. Ein offenes WLAN ist im Jahr 2026 ein zu großes Risiko.</span>
 <div aria-label="Fortschritt" aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" class="progress-container" role="progressbar">
@@ -198,7 +205,7 @@
 <div class="interactive-list" id="interactive-list">
 <label class="check-item">
 <input class="step" type="checkbox"/>
-<span><b>WPA3 aktivieren:</b> Wenn möglich WPA3‑Personal (SAE) statt WPA2 nutzen.</span>
+<span><b>WPA3-SAE aktivieren:</b> Es schützt besser gegen Offline-Wörterbuchangriffe, denen WPA2 häufig nicht gewachsen ist.</span>
 <span class="checkmark"></span>
 <div class="feedback-note">✓ Schutz gegen Offline‑Passwortangriffe ist deutlich besser.</div>
 </label>
@@ -210,7 +217,7 @@
 </label>
 <label class="check-item">
 <input class="step" type="checkbox"/>
-<span><b>DNS over HTTPS (DoH) aktivieren:</b> Verschlüsseln Sie DNS‑Anfragen am Router oder Endgerät.</span>
+<span><b>Verschlüsseltes DNS (DoH/DoT) nutzen:</b> So verhindern Sie, dass Ihr ISP oder Angreifer im WLAN besuchte Domains im Klartext mitlesen oder manipulieren können.</span>
 <span class="checkmark"></span>
 <div class="feedback-note">✓ DoH/DoT reduziert DNS‑Mitschnitte und Spoofing im WLAN.</div>
 </label>
@@ -229,6 +236,28 @@
 </div>
 <p class="tiny" style="margin:10px 0 0;">Hinweis: Der Fortschritt wird nur lokal in Ihrem Browser gespeichert.</p>
 </section>
+<h2>FAQ für Fortgeschrittene (Deutschland)</h2>
+<details>
+<summary>Sollte ich WPS an meiner FRITZ!Box wirklich deaktivieren?</summary>
+<p>Ja. WPS ist bequem, aber ein häufiger Angriffsvektor. In der Praxis ist ein starkes WLAN‑Passwort + WPA3 sicherer. Nutzen Sie WPS nur kurzfristig (z. B. Einrichtung) und deaktivieren Sie es danach wieder.</p>
+</details>
+<details>
+<summary>WPA3‑SAE vs. WPA2‑AES: Lohnt sich das Upgrade?</summary>
+<p>In den meisten Fällen: ja. WPA3‑SAE schützt besser gegen Offline‑Wörterbuchangriffe. Wenn ältere Geräte Probleme machen, verwenden Sie WPA2‑AES (kein TKIP) und planen Sie mittelfristig den Austausch der Altgeräte.</p>
+</details>
+<details>
+<summary>Was bringt DNS over HTTPS (DoH) in Deutschland wirklich?</summary>
+<p>Klassisches DNS ist im Netzwerk leicht mitzulesen und zu manipulieren. DoH/DoT verschlüsselt DNS‑Anfragen, erschwert Spoofing im WLAN und verbessert die Privatsphäre gegenüber Hotspot‑Betreibern. Wenn möglich, konfigurieren Sie DoH/DoT am Router.</p>
+</details>
+<details>
+<summary>FRITZ!Box: Welche Einstellungen sind 2026 besonders wichtig?</summary>
+<p>Halten Sie FRITZ!OS aktuell, deaktivieren Sie ungenutzte Fernzugriffe und prüfen Sie Dienste wie TR‑064/UPnP. Trennen Sie Gast‑/IoT‑Netze und erlauben Sie keine Administration aus dem Internet, sofern nicht zwingend nötig.</p>
+</details>
+<details>
+<summary>Ist mein altes WPA2-Gerät noch sicher?</summary>
+<p>Nicht wirklich. WPA2 bleibt ein Risiko (z. B. durch bekannte Implementationsprobleme wie KRACK). Wenn ein Upgrade auf WPA3 nicht möglich ist, isolieren Sie ältere Geräte in einem separaten Gast-WLAN/IoT-Netz und deaktivieren Sie WPS.</p>
+</details>
+
 <!-- CTA #2 -->
 <div aria-label="Empfohlene Angebote" class="cta-buttons">
 <a class="nordvpn" href="https://go.nordvpn.net/aff_c?aff_id=2495&amp;offer_id=312&amp;url_id=2584" rel="nofollow sponsored noopener noreferrer" target="_blank">
@@ -244,9 +273,14 @@
 <!-- Author -->
 <section class="author-box">
 <img alt="Autor: Denys Shchur" height="72" loading="lazy" src="/assets/img/author/denys-shchur.webp" width="72"/>
-<div><strong>Denys Shchur</strong><br/><span class="tiny">Editor, VPN World</span></div>
+<div><strong><a href="/de/about-denys-shchur.html">Denys Shchur</a></strong><br/><span class="tiny">Editor, VPN World</span></div>
 </section>
 <!-- Related -->
+<p aria-label="SmartAdvisor Empfehlung" class="note">
+<strong>SmartAdvisor Empfehlung:</strong> Wenn Sie Ihre Sicherheits‑Einstellungen automatisieren möchten, sehen Sie sich unser Tool/Report an:
+  <a href="https://smartadvisoronline.com/blog/vpn-and-privacy-laws.html" rel="nofollow sponsored noopener noreferrer" target="_blank">VPN &amp; Privacy Laws (2026) — SmartAdvisorOnline</a>.
+  Es erklärt die rechtlichen Grundlagen und hilft, die passenden Protokolle für Ihr Router‑Setup auszuwählen.
+</p>
 <aside class="related">
 <h2>Verwandte Guides</h2>
 <ul>
@@ -263,7 +297,6 @@
 <div class="container footer-grid">
 <div><strong>VPN World</strong><p>Unabhängige Inhalte zu Privatsphäre und Sicherheit.</p></div>
 <nav><a href="/de/about.html">Über uns</a>
-
 <a href="/de/privacy.html">Datenschutz</a>
 <a href="/de/disclosure.html">Offenlegung</a>
 <a href="/sitemap.xml">Sitemap</a>
