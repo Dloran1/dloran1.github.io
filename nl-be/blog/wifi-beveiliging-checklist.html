@@ -27,12 +27,19 @@
 <link rel="icon" href="/favicon.ico">
 <link rel="stylesheet" href="../../assets/css/style.css">
 <style>
-/* HARD FIX: keep snippet + widget readable on dark shell */
+/* HARD FIX: keep snippet + widget readable on dark shell (without breaking button text) */
 .snippet-box{background:#fff !important;color:#000 !important;border:2px solid #000 !important}
 .snippet-box *{color:#000 !important}
-.checklist-box{background:#fff !important;color:#000 !important}
-.checklist-box *{color:#000 !important}
-.checklist-box thead tr{background:#000 !important;color:#fff !important}
+
+/* Widget cards: force readable text on white surfaces */
+.status-card, .checklist-container{color:#000 !important}
+.status-card *{color:#000 !important}
+.wifi-card{background:#fff;color:#000;border:3px solid #000}
+.wifi-card .desc{color:#444 !important}
+
+/* Buttons: keep intended contrast */
+#wifi-reset{background:#000 !important;color:#fff !important;border:0 !important}
+#wifi-clear{background:#fff !important;color:#000 !important;border:3px solid #000 !important}
 </style>
 
 <style>
@@ -125,21 +132,20 @@
   <p style="color:#000;"><em>Gebruik onze interactieve audit hieronder om alle 25 punten te controleren.</em></p>
 </div>
 
-<div class="checklist-box" style="border: 4px solid #000; padding: 15px; background: #fff; margin-bottom: 40px;">
-  <h2 style="margin-top:0; font-size: 1.5em;">🛡️ Wi‑Fi Audit 2026</h2>
-
-  <div class="progress-container" style="background: #eee; height: 25px; border: 2px solid #000; margin-bottom: 10px; position: relative; overflow: hidden;">
-    <div id="progress-bar" style="background: #00ff00; width: 0%; height: 100%; transition: width 0.4s ease;"></div>
+<div class="checklist-container" style="max-width: 100%; margin: 0 auto; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;">
+  <div class="status-card" style="border: 4px solid #000; padding: 20px; background: #fff; margin-bottom: 20px; border-radius: 14px;">
+    <div id="status-label" style="font-weight: 800; font-size: 1.2em; margin-bottom: 10px;">Beveiligingsniveau: 0%</div>
+    <div class="progress-bg" style="background: #eee; height: 26px; border: 2px solid #000; margin-bottom: 10px; position: relative; overflow: hidden; border-radius: 10px;">
+      <div id="progress-bar" style="background: #00ff00; width: 0%; height: 100%; transition: width 0.4s ease;"></div>
+    </div>
+    <div id="status-tip" style="font-style: italic; color: #555; font-size: 0.95em; line-height: 1.35;">Start de audit door de stappen hieronder te volgen.</div>
   </div>
 
-  <div id="status-label" style="font-weight: 800; font-size: 1.05em; margin-bottom: 5px;">Beveiligingsniveau: 0%</div>
-  <div id="status-tip" style="font-style: italic; color: #111; margin-bottom: 18px; font-size: 0.92em; line-height: 1.35;">Start de audit door de stappen hieronder af te vinken.</div>
+  <div id="wifi-checklist-cards" style="display: grid; grid-template-columns: 1fr; gap: 15px;"></div>
 
-  <div id="wifi-checklist-container" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px;"></div>
-
-  <div style="display: flex; gap: 10px;">
-    <button id="wifi-reset" type="button" style="flex: 1; padding: 12px; background: #000; color: #fff; border: 2px solid #000; font-weight: 800; border-radius: 10px; cursor: pointer;">Resetten</button>
-    <button id="wifi-clear" type="button" style="flex: 1; padding: 12px; background: #fff; color: #000; border: 2px solid #000; font-weight: 800; border-radius: 10px; cursor: pointer;">Wissen</button>
+  <div style="display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap;">
+    <button id="wifi-reset" type="button" style="flex: 1; min-width: 150px; padding: 15px; background: #000; color: #fff; border: none; font-weight: 800; cursor: pointer; text-transform: uppercase; border-radius: 12px;">Reset audit</button>
+    <button id="wifi-clear" type="button" style="flex: 1; min-width: 150px; padding: 15px; background: #fff; color: #000; border: 3px solid #000; font-weight: 800; cursor: pointer; text-transform: uppercase; border-radius: 12px;">Wissen</button>
   </div>
 </div>
 
@@ -356,7 +362,7 @@
   const statusEl = document.getElementById('status-label');
   const tipEl = document.getElementById('status-tip');
   const bar = document.getElementById('progress-bar');
-  const container = document.getElementById('wifi-checklist-container');
+  const container = document.getElementById('wifi-checklist-cards');
 
   const resetBtn = document.getElementById('wifi-reset');
   const clearBtn = document.getElementById('wifi-clear');
@@ -452,36 +458,39 @@
       const checked = state.checked.includes(idx);
 
       const card = document.createElement('div');
+      card.className = 'wifi-card';
       card.style.cssText = `
-        display:flex;
-        align-items:flex-start;
-        padding:12px;
-        border:2px solid #000;
-        background:${checked ? '#f0fff0' : '#fff'};
-        gap:12px;
-        cursor:pointer;
-        border-radius:12px;
+        border: 3px solid #000;
+        padding: 15px;
+        background: ${checked ? '#f0fff0' : '#fff'};
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        cursor: pointer;
+        border-radius: 14px;
+        transition: transform 0.1s ease;
       `;
 
       card.innerHTML = `
-        <div style="font-weight:800;font-size:1.15em;min-width:28px;line-height:1.1;">${idx+1}</div>
-        <div style="flex:1;min-width:0;">
-          <div style="font-weight:800;font-size:0.95em;line-height:1.25;">${it[0]}</div>
-          <div style="font-size:0.82em;color:#111;opacity:0.78;line-height:1.25;margin-top:4px;">${it[1]}</div>
+        <div style="font-size: 1.35em; font-weight: 800; min-width: 30px; color: #000;">${idx+1}</div>
+        <div style="flex: 1; min-width: 0;">
+          <div style="font-weight: 800; font-size: 1.02em; margin-bottom: 4px; line-height: 1.2; color:#000;">${it[0]}</div>
+          <div class="desc" style="font-size: 0.86em; color: #444; line-height: 1.3;">${it[1]}</div>
         </div>
-        <input type="checkbox" ${checked ? 'checked' : ''} style="width:26px;height:26px;cursor:pointer;flex:0 0 auto;margin-top:2px;" aria-label="Check: ${it[0].replace(/"/g,'&quot;')}">
+        <div style="min-width: 34px;">
+          <input type="checkbox" ${checked ? 'checked' : ''} style="width: 26px; height: 26px; cursor: pointer;">
+        </div>
       `;
 
-      // Tap on the card toggles checkbox (except when tapping input)
-      card.addEventListener('click', (e) => {
+      card.onclick = (e) => {
         if(e.target && e.target.tagName === 'INPUT') return;
         const cb = card.querySelector('input');
         cb.checked = !cb.checked;
-        cb.dispatchEvent(new Event('change', { bubbles: true }));
-      });
+        cb.dispatchEvent(new Event('change'));
+      };
 
       const cb = card.querySelector('input');
-      cb.addEventListener('change', () => {
+      cb.onchange = () => {
         const s = loadState();
         const has = s.checked.includes(idx);
         if(cb.checked && !has) s.checked.push(idx);
@@ -489,7 +498,7 @@
         saveState(s);
         updateStatus();
         card.style.background = cb.checked ? '#f0fff0' : '#fff';
-      });
+      };
 
       container.appendChild(card);
     });
