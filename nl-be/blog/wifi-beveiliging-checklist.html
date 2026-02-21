@@ -26,6 +26,23 @@
 
 <link rel="icon" href="/favicon.ico">
 <link rel="stylesheet" href="../../assets/css/style.css">
+<style>
+/* HARD FIX: keep snippet + widget readable on dark shell */
+.snippet-box{background:#fff !important;color:#000 !important;border:2px solid #000 !important}
+.snippet-box *{color:#000 !important}
+.checklist-box{background:#fff !important;color:#000 !important}
+.checklist-box *{color:#000 !important}
+.checklist-box thead tr{background:#000 !important;color:#fff !important}
+</style>
+
+<style>
+/* Hard fix: snippet box must stay readable on dark-theme pages */
+.snippet-box{background:#fff !important;color:#000 !important;border:2px solid #000 !important}
+.snippet-box *{color:#000 !important}
+/* Make list bullets/text readable everywhere */
+.snippet-box ul{margin:10px 0 0 22px}
+</style>
+
 
 <!-- Open Graph / Twitter -->
 <meta property="og:type" content="article">
@@ -87,16 +104,46 @@
 <main class="container">
 
 
-<div class="snippet-box" style="background:#f9f9f9; border:2px solid #000; padding:20px; margin-bottom:30px;">
-  <h3 style="margin-top:0;">Samenvatting Wi‑Fi beveiliging 2026</h3>
-  <p>Om je thuisnetwerk (Ziggo, KPN, Telenet) optimaal te beveiligen in 2026, zijn deze 4 stappen cruciaal:</p>
-  <ul>
-    <li><strong>WPA3-SAE:</strong> Schakel dit in om brute-force aanvallen te voorkomen.</li>
-    <li><strong>DNS over HTTPS (DoH):</strong> Voorkom dat je provider je surfgedrag volgt.</li>
-    <li><strong>Gastnetwerk:</strong> Isoleer IoT-apparaten van je privédata.</li>
-    <li><strong>WPS uitschakelen:</strong> Verwijder dit bekende beveiligingslek volledig.</li>
+<div class="snippet-box" style="background:#fff; color:#000; border:2px solid #000; padding:20px; margin-bottom:30px;">
+  <h3 style="margin-top:0; color:#000;">Samenvatting Wi‑Fi beveiliging 2026</h3>
+  <p style="color:#000;">Om je thuisnetwerk (Ziggo, KPN, Telenet) optimaal te beveiligen in 2026, zijn deze 4 stappen cruciaal:</p>
+  <ul style="color:#000;">
+    <li><strong>WPA3-SAE:</strong> Voorkomt moderne brute-force aanvallen.</li>
+    <li><strong>DNS over HTTPS (DoH):</strong> Stopt tracking door je provider.</li>
+    <li><strong>Gastnetwerk:</strong> Isoleert IoT-apparaten van je privédata.</li>
+    <li><strong>WPS uitschakelen:</strong> Sluit een kritiek beveiligingslek.</li>
   </ul>
-  <p><em>Gebruik onze interactieve checklist hieronder voor een volledige audit van 25 punten.</em></p>
+  <p style="color:#000;"><em>Gebruik onze interactieve audit hieronder om alle 25 punten te controleren.</em></p>
+</div>
+
+<div class="checklist-box" style="border: 4px solid #000; padding: 25px; background: #fff; margin-bottom: 40px;">
+  <h2 style="margin-top:0;">🛡️ Interactieve Wi‑Fi Audit 2026</h2>
+
+  <div class="progress-container" style="background: #eee; height: 35px; border: 2px solid #000; margin-bottom: 15px; position: relative; overflow: hidden;">
+    <div id="progress-bar" style="background: #00ff00; width: 0%; height: 100%; transition: width 0.4s ease;"></div>
+  </div>
+
+  <div id="status-label" style="font-weight: 800; font-size: 1.15em; margin-bottom: 6px;">Beveiligingsniveau: 0%</div>
+  <div id="status-tip" style="font-style: italic; color: #111; margin-bottom: 22px;">Start de audit door de stappen hieronder af te vinken.</div>
+
+  <div class="table-scroll" style="margin: 0 0 14px 0;">
+    <table style="width: 100%; border-collapse: collapse; background:#fff; color:#000;">
+      <thead>
+        <tr style="background: #000; color: #fff;">
+          <th style="padding: 12px; border: 2px solid #000; width: 44px;">#</th>
+          <th style="padding: 12px; border: 2px solid #000;">Stap</th>
+          <th style="padding: 12px; border: 2px solid #000;">Uitleg</th>
+          <th style="padding: 12px; border: 2px solid #000; width: 70px;">Check</th>
+        </tr>
+      </thead>
+      <tbody id="wifi-tbody"></tbody>
+    </table>
+  </div>
+
+  <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+    <button id="wifi-reset" type="button" style="padding: 12px 18px; background: #000; color: #fff; border: 2px solid #000; cursor: pointer; font-weight: 800; text-transform: uppercase; border-radius: 10px;">Resetten</button>
+    <button id="wifi-clear" type="button" style="padding: 12px 18px; background: #fff; color: #000; border: 2px solid #000; cursor: pointer; font-weight: 800; border-radius: 10px;">Wissen</button>
+  </div>
 </div>
 
 <p>Of je nu een <strong>Ziggo Connectbox</strong>, een <strong>KPN Experia Box</strong> of in België een <strong>Telenet HGW</strong> / <strong>Proximus-modem</strong> gebruikt: de standaardinstellingen zijn in 2026 niet meer genoeg. Met betere encryptie, versleutelde DNS en slimme netwerksegmentatie maak je het hackers (en geautomatiseerde scans) extreem moeilijk. Hieronder kun je je netwerk stap voor stap “steriliseren” zonder ingewikkelde enterprise-tools.</p>
@@ -192,6 +239,13 @@
         </tbody>
       </table>
     </div>
+
+    <div style="margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap;">
+      <button id="wifi-reset" type="button" style="padding:10px 14px;background:#071023;color:#fff;border:2px solid #000;border-radius:10px;font-weight:800;cursor:pointer;">Resetten</button>
+      <button id="wifi-clear" type="button" style="padding:10px 14px;background:#fff;color:#000;border:2px solid #000;border-radius:10px;font-weight:800;cursor:pointer;">Wissen</button>
+    </div>
+
+</div>
 
     <p class="tiny">Gebruik je een provider-router? Zoek in het menu naar <em>Wi‑Fi beveiliging</em>, <em>Geavanceerd</em>, <em>LAN</em>, <em>Gastnetwerk</em> of <em>Beheer</em>. Bij Ziggo/KPN/Telenet staan deze opties vaak onder “Draadloos” of “Wireless”.</p>
   </section>
@@ -342,13 +396,18 @@
 <!-- /Cookie Consent (canonical) -->
 
 
+
 <script>
 (function(){
   const STORE_KEY = 'vw_wifi_checklist_2026_nl_v1';
-  const statusEl = document.getElementById('status-label') || document.getElementById('wifi-status');
-  const tipEl = document.getElementById('status-tip') || document.getElementById('wifi-tip');
-  const bar = document.getElementById('progress-bar') || document.getElementById('wifi-bar');
-  const tbody = document.getElementById('wifi-checklist-body');
+
+  const statusEl = document.getElementById('status-label');
+  const tipEl = document.getElementById('status-tip');
+  const bar = document.getElementById('progress-bar');
+  const tbody = document.getElementById('wifi-tbody');
+
+  const resetBtn = document.getElementById('wifi-reset');
+  const clearBtn = document.getElementById('wifi-clear');
 
   const items = [
     ["Admin-wachtwoord wijzigen (lang & uniek)", "Voorkomt dat iemand je router kan overnemen met standaardlogins."],
@@ -356,36 +415,36 @@
     ["WPS volledig uitschakelen", "WPS is een bekende zwakke plek en wordt misbruikt door automatische tools."],
     ["UPnP uitschakelen (tenzij écht nodig)", "UPnP kan ongewenst poorten openen naar buiten."],
     ["Firmware up-to-date + automatische updates aan", "Dicht bekende kwetsbaarheden (ook in provider-routers)."],
-    ["WPA3‑SAE inschakelen (of WPA2‑AES als fallback)", "Sterkere encryptie en betere bescherming tegen wachtwoordaanvallen."],
-    ["Sterke Wi‑Fi sleutel instellen (16–20+ tekens)", "Maakt brute‑force en ‘AI‑guessing’ veel minder kansrijk."],
+    ["WPA3-SAE inschakelen (of WPA2-AES als fallback)", "Sterkere encryptie en betere bescherming tegen wachtwoordaanvallen."],
+    ["Sterke Wi‑Fi sleutel instellen (16–20+ tekens)", "Maakt brute-force en ‘AI-guessing’ veel minder kansrijk."],
     ["SSID neutraliseren (geen adres/naam/merk)", "Voorkomt dat je jezelf onnodig identificeert."],
-    ["2,4 GHz beperken tot IoT/afstand; 5/6 GHz voor hoofdapparaten", "Minder ruis, betere prestaties en vaak betere security-opties."],
     ["Gastnetwerk activeren", "Bezoekers en tijdelijke apparaten komen niet in je hoofdnetwerk."],
     ["IoT op gastnetwerk of aparte SSID/VLAN", "Beperkt schade als een smart device wordt gekraakt."],
-    ["Client‑isolatie op gastnetwerk aan", "Voorkomt dat gasten elkaar kunnen aanvallen op dezelfde hotspot."],
-    ["Versleutelde DNS (DoH/DoT) inschakelen op router", "Minder meekijken/monitoren; minder DNS‑spoofing."],
-    ["DNS‑afdwínging: blokkeer alternatieve DNS van clients", "Voorkomt dat malware een eigen DNS-resolver gebruikt."],
-    ["Malware/phishing DNS-filter inschakelen (waar beschikbaar)", "Blokkeert bekende kwaadaardige domeinen vroegtijdig."],
-    ["IPv6 bewust instellen (of tijdelijk uit als je router het slecht doet)", "Voorkomt onverwachte routes/leaks door misconfig."],
-    ["Firewall/‘SPI’ ingeschakeld laten", "Basale bescherming tegen ongewenst inkomend verkeer."],
-    ["Poortforwarding opschonen (verwijder oude regels)", "Minder open deuren richting je apparaten."],
-    ["Router‑logins: 2FA activeren (als beschikbaar)", "Extra barrière bij gestolen wachtwoorden."],
-    ["Apparaten: OS & apps updaten", "Veel hacks misbruiken oude software."],
-    ["Volledige schijfversleuteling + schermvergrendeling", "Beschermt data bij verlies/diefstal van laptop/telefoon."],
-    ["Browser: HTTPS‑Only & trackingbeperking aan", "Minder risico op downgrade en tracking via third‑party."],
-    ["Back-ups controleren (3‑2‑1 of minimaal 1 offline kopie)", "Herstel na ransomware of device failure."],
-    ["Publiek Wi‑Fi: VPN altijd aan + kill switch", "Beschermt verkeer tegen sniffing en man‑in‑the‑middle."],
-    ["Testen: voer een DNS‑leak test uit na wijzigingen", "Controleert of je DNS‑instellingen ook echt werken."]
+    ["Client-isolatie op gastnetwerk aan", "Voorkomt dat gasten elkaar kunnen aanvallen op dezelfde hotspot."],
+    ["DNS over HTTPS (DoH) inschakelen", "Versleutelt DNS en vermindert tracking / spoofing."],
+    ["DNS afdwingen (blokkeer alternatieve DNS)", "Voorkomt dat malware een eigen resolver gebruikt."],
+    ["Malware/phishing DNS-filter aan (waar beschikbaar)", "Blokkeert bekende kwaadaardige domeinen."],
+    ["IPv6 bewust instellen (of tijdelijk uit bij issues)", "Voorkomt onverwachte routes/leaks door misconfig."],
+    ["Firewall/SPI ingeschakeld laten", "Basale bescherming tegen ongewenst inkomend verkeer."],
+    ["Poortforwarding opschonen (oude regels weg)", "Minder open deuren richting je apparaten."],
+    ["Router-logins: 2FA aan (als beschikbaar)", "Extra barrière bij gestolen wachtwoorden."],
+    ["Apparaten: OS & apps updaten", "Veel aanvallen misbruiken oude software."],
+    ["Back-ups controleren (minimaal 1 offline kopie)", "Herstel na ransomware of device failure."],
+    ["Publiek Wi‑Fi: VPN altijd aan + kill switch", "Beschermt tegen sniffing en man-in-the-middle."],
+    ["Beheer je verbonden apparaten (unknown devices blokkeren)", "Detecteert indringers of ‘shadow IoT’."],
+    ["Zet ‘guest access’ tijdslimiet/auto-off (waar mogelijk)", "Beperkt langdurige risico’s."],
+    ["Test na wijzigingen met een DNS/IP leak test", "Checkt of je instellingen echt effect hebben."],
+    ["Bewaar een ‘router recovery plan’ (admin login + backup config)", "Snel herstel bij problemen of reset."]
   ];
 
   function loadState(){
     try{
       const raw = localStorage.getItem(STORE_KEY);
-      const data = raw ? JSON.parse(raw) : {checked: []};
+      const data = raw ? JSON.parse(raw) : { checked: [] };
       if(!Array.isArray(data.checked)) data.checked = [];
       return data;
     }catch(e){
-      return {checked: []};
+      return { checked: [] };
     }
   }
 
@@ -393,14 +452,14 @@
     try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){}
   }
 
+  function clearProgress(){
+    try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+  }
+
   function setStatus(p){
-    const statusEl = document.getElementById('status-label');
-    const tipEl = document.getElementById('status-tip');
-    const bar = document.getElementById('progress-bar');
     let label = '';
     let tip = '';
-    
-    // Dynamische statussen (gamification)
+
     if(p <= 20){
       label = `Beveiligingsniveau: Kwetsbaar (${p}%)`;
       tip = '⚠️ Je netwerk is momenteel een open doel. Begin met stap 1: WPA3 activeren.';
@@ -423,41 +482,32 @@
     if(bar) bar.style.width = p + '%';
   }
 
-    if(statusEl) statusEl.textContent = label;
-    if(tipEl) tipEl.textContent = tip;
-    if(bar) bar.style.width = p + '%';
-  }
-
-    if(statusEl) statusEl.textContent = label;
-    if(tipEl) tipEl.textContent = tip;
-    if(bar) bar.style.width = p + '%';
-  }
-
   function updateStatus(){
     const s = loadState();
     const total = items.length;
     const done = s.checked.length;
-    const p = Math.round((done/total)*100);
+    const p = Math.round((done / total) * 100);
     setStatus(p);
   }
 
   function render(){
     if(!tbody) return;
+
     const state = loadState();
     tbody.innerHTML = '';
+
     items.forEach((it, idx) => {
-      const id = `wifi-item-${idx+1}`;
       const checked = state.checked.includes(idx);
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td style="padding:10px;border:2px solid #000;vertical-align:top;"><strong>${idx+1}</strong></td>
-        <td style="padding:10px;border:2px solid #000;vertical-align:top;">${it[0]}</td>
-        <td style="padding:10px;border:2px solid #000;vertical-align:top;" class="tiny">${it[1]}</td>
-        <td style="padding:10px;border:2px solid #000;vertical-align:top;text-align:center;">
-          <input type="checkbox" id="${id}" ${checked ? 'checked' : ''} aria-label="Afvinken: ${it[0].replace(/"/g,'&quot;')}">
+        <td style="padding: 12px; border: 2px solid #000;"><strong>${idx+1}</strong></td>
+        <td style="padding: 12px; border: 2px solid #000;">${it[0]}</td>
+        <td style="padding: 12px; border: 2px solid #000;" class="tiny">${it[1]}</td>
+        <td style="padding: 12px; border: 2px solid #000; text-align:center;">
+          <input type="checkbox" ${checked ? 'checked' : ''} aria-label="Check: ${it[0].replace(/"/g,'&quot;')}">
         </td>
       `;
-      tbody.appendChild(tr);
+
       const cb = tr.querySelector('input[type="checkbox"]');
       cb.addEventListener('change', () => {
         const s = loadState();
@@ -467,34 +517,18 @@
         saveState(s);
         updateStatus();
       });
+
+      tbody.appendChild(tr);
     });
+
     updateStatus();
   }
 
-  
-  const resetBtn = document.getElementById('wifi-reset');
-  const clearBtn = document.getElementById('wifi-clear');
-
-  function clearProgress(){
-    try{ localStorage.removeItem(STORE_KEY); }catch(e){}
-  }
-
-  if(resetBtn){
-    resetBtn.addEventListener('click', () => {
-      clearProgress();
-      render();
-    });
-  }
-  if(clearBtn){
-    clearBtn.addEventListener('click', () => {
-      clearProgress();
-      render();
-    });
-  }
+  if(resetBtn) resetBtn.addEventListener('click', () => { clearProgress(); render(); });
+  if(clearBtn) clearBtn.addEventListener('click', () => { clearProgress(); render(); });
 
   document.addEventListener('DOMContentLoaded', render);
 })();
 </script>
-
 </body>
 </html>
