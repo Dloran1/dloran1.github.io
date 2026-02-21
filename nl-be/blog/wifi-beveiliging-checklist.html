@@ -102,6 +102,66 @@
 .wifi-card.is-done .wifi-card-desc{opacity:0.75}
 </style>
 
+
+<style id="wifi-checklist-gamify">
+/* === Interactive checklist (NL-BE, DE-style) === */
+.checklist-box{
+  background:#ffffff;
+  color:#000;
+  border:1px solid #e1e4e8;
+  border-left:5px solid #28a745;
+  padding:22px;
+  border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  margin:22px 0;
+}
+.checklist-box .progress-status{display:block;font-weight:800;color:#000;margin-bottom:6px;}
+.checklist-box .progress-tip{display:block;color:#000;margin-bottom:10px;}
+.checklist-box .progress-container{
+  background:#eee;
+  border-radius:20px;
+  overflow:hidden;
+  height:22px;
+  border:1px solid #ddd;
+}
+.checklist-box #progress-bar{
+  width:0%;
+  height:100%;
+  background:linear-gradient(90deg,#ff416c,#28a745);
+  transition:width .35s ease-in-out;
+}
+.checklist-box .check-item{
+  display:block;
+  position:relative;
+  padding-left:45px;
+  margin:14px 0;
+  cursor:pointer;
+  font-size:1.05rem;
+  line-height:1.5;
+  color:#000;
+}
+.checklist-box .check-item input{position:absolute;opacity:0;cursor:pointer;}
+.checklist-box .checkmark{
+  position:absolute;
+  top:0;left:0;
+  height:28px;width:28px;
+  background-color:#f0f0f0;
+  border-radius:8px;
+  border:2px solid #ddd;
+}
+.checklist-box .check-item:hover .checkmark{background-color:#e2e2e2;}
+.checklist-box .check-item input:checked ~ .checkmark{background-color:#28a745;border-color:#28a745;}
+.checklist-box .checkmark:after{
+  content:"";position:absolute;display:none;
+  left:9px;top:5px;width:6px;height:12px;
+  border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg);
+}
+.checklist-box .check-item input:checked ~ .checkmark:after{display:block;}
+.checklist-box .check-item input:checked + span{color:#6a737d;text-decoration:line-through;}
+.checklist-box .feedback-note{font-size:.9rem;color:#0b6623;margin:6px 0 0 0;display:none;}
+.checklist-box .check-item input:checked ~ .feedback-note{display:block;}
+</style>
+
 </head>
 
 <body>
@@ -152,22 +212,169 @@
   <p style="color:#000;"><em>Gebruik onze interactieve audit hieronder om alle 25 punten te controleren.</em></p>
 </div>
 
-<div class="checklist-wrapper" style="max-width: 100%; margin: 0 auto;">
-  <div id="status-card" style="border: 4px solid #000; padding: 20px; background: #fff; margin-bottom: 25px; border-radius: 14px;">
-    <div id="status-label" style="font-weight: 800; font-size: 1.15em; margin-bottom: 10px;">Beveiligingsniveau: 0%</div>
-    <div style="background: #eee; height: 26px; border: 2px solid #000; margin-bottom: 10px; position: relative; overflow: hidden; border-radius: 10px;">
-      <div id="progress-bar" style="background: #00ff00; width: 0%; height: 100%; transition: width 0.4s ease;"></div>
-    </div>
-    <div id="status-tip" style="font-style: italic; color: #555; font-size: 0.95em; line-height: 1.4;">Start de audit door de stappen te volgen.</div>
+<section aria-label="Interactieve Wi‑Fi beveiligingschecklist (NL‑BE)" class="checklist-box">
+  <span class="progress-status" id="progress-status">Beveiligingsniveau: Kwetsbaar (0%)</span>
+  <span class="progress-tip" id="progress-tip">Begin met WPA3. Een onveilig netwerk is in 2026 een te groot risico.</span>
+
+  <div class="progress-container" role="progressbar" aria-label="Voortgang" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+    <div id="progress-bar"></div>
   </div>
 
-  <div id="wifi-cards-grid" style="display: grid; grid-template-columns: 1fr; gap: 12px;"></div>
-
-  <div style="display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap;">
-    <button id="wifi-reset" type="button" style="flex: 1; min-width: 150px; padding: 15px; background: #000; color: #fff; border: none; font-weight: 800; cursor: pointer; text-transform: uppercase; border-radius: 12px;">Reset</button>
-    <button id="wifi-clear" type="button" style="flex: 1; min-width: 150px; padding: 15px; background: #fff; color: #000; border: 3px solid #000; font-weight: 800; cursor: pointer; text-transform: uppercase; border-radius: 12px;">Wissen</button>
+  <div class="interactive-list" id="interactive-list">
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>Admin-wachtwoord wijzigen (lang & uniek):</b> Voorkomt dat iemand je router kan overnemen met standaardlogins.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 1 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>Externe beheerfunctie uitschakelen (WAN/remote management):</b> Verkleint het aanvalsoppervlak drastisch.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 2 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>WPS volledig uitschakelen:</b> WPS is een bekende zwakke plek en wordt misbruikt door automatische tools.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 3 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>UPnP uitschakelen (tenzij écht nodig):</b> UPnP kan ongewenst poorten openen naar buiten.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 4 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>Firmware up-to-date + automatische updates aan:</b> Dicht bekende kwetsbaarheden (ook in provider-routers).</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 5 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>WPA3-SAE inschakelen (of WPA2-AES als fallback):</b> Sterkere encryptie en betere bescherming tegen wachtwoordaanvallen.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 6 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>Sterke Wi‑Fi sleutel instellen (16–20+ tekens):</b> Maakt brute-force en ‘AI-guessing’ veel minder kansrijk.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 7 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>SSID neutraliseren (geen adres/naam/merk):</b> Voorkomt dat je jezelf onnodig identificeert.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 8 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>Gastnetwerk activeren:</b> Bezoekers en tijdelijke apparaten komen niet in je hoofdnetwerk.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 9 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>IoT op gastnetwerk of aparte SSID/VLAN:</b> Beperkt schade als een smart device wordt gekraakt.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 10 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>Client-isolatie op gastnetwerk aan:</b> Voorkomt dat gasten elkaar kunnen aanvallen op dezelfde hotspot.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 11 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>DNS over HTTPS (DoH) inschakelen:</b> Versleutelt DNS en vermindert tracking / spoofing.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 12 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>DNS afdwingen (blokkeer alternatieve DNS):</b> Voorkomt dat malware een eigen resolver gebruikt.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 13 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>Malware/phishing DNS-filter aan (waar beschikbaar):</b> Blokkeert bekende kwaadaardige domeinen.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 14 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>IPv6 bewust instellen:</b> Voorkomt onverwachte routes/leaks door misconfig.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 15 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>Firewall/SPI ingeschakeld laten:</b> Basale bescherming tegen ongewenst inkomend verkeer.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 16 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>Poortforwarding opschonen:</b> Minder open deuren richting je apparaten.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 17 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>Router-logins: 2FA aan:</b> Extra barrière bij gestolen wachtwoorden.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 18 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>Apparaten: OS & apps updaten:</b> Veel aanvallen misbruiken oude software.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 19 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>Back-ups controleren:</b> Herstel na ransomware of device failure.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 20 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>Publiek Wi‑Fi: VPN altijd aan + kill switch:</b> Beschermt tegen sniffing en man-in-the-middle.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 21 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>Beheer je verbonden apparaten:</b> Detecteert indringers.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 22 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>Zet ‘guest access’ tijdslimiet:</b> Beperkt langdurige risico’s.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 23 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>Test met een DNS/IP leak test:</b> Checkt of je instellingen echt effect hebben.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 24 afgevinkt — goede verbetering.</div>
+</label>
+<label class="check-item">
+  <input class="step" type="checkbox"/>
+  <span><b>Bewaar een ‘router recovery plan’:</b> Snel herstel bij problemen.</span>
+  <span class="checkmark"></span>
+  <div class="feedback-note">✓ Stap 25 afgevinkt — goede verbetering.</div>
+</label>
   </div>
-</div>
+
+  <p class="tiny" style="margin:10px 0 0;">Je voortgang wordt lokaal in je browser opgeslagen (geen upload).</p>
+</section>
 
 <p>Of je nu een <strong>Ziggo Connectbox</strong>, een <strong>KPN Experia Box</strong> of in België een <strong>Telenet HGW</strong> / <strong>Proximus-modem</strong> gebruikt: de standaardinstellingen zijn in 2026 niet meer genoeg. Met betere encryptie, versleutelde DNS en slimme netwerksegmentatie maak je het hackers (en geautomatiseerde scans) extreem moeilijk. Hieronder kun je je netwerk stap voor stap “steriliseren” zonder ingewikkelde enterprise-tools.</p>
 
@@ -375,205 +582,68 @@
 
 
 
-<script>
+<script id="wifi-checklist-js">
 (function(){
   const STORE_KEY = 'vw_wifi_checklist_2026_nl_v1';
-
-  const statusEl = document.getElementById('status-label');
-  const tipEl = document.getElementById('status-tip');
-    const liveTipEl = document.getElementById('wifi-live-tip');
-
+  const steps = Array.from(document.querySelectorAll('.checklist-box .step'));
   const bar = document.getElementById('progress-bar');
-  const container = document.getElementById('wifi-cards-grid');
+  const statusEl = document.getElementById('progress-status');
+  const tipEl = document.getElementById('progress-tip');
+  if(!steps.length || !bar || !statusEl || !tipEl) return;
 
-  const resetBtn = document.getElementById('wifi-reset');
-  const clearBtn = document.getElementById('wifi-clear');
-
-  const items = [
-    ["Admin-wachtwoord wijzigen (lang & uniek)", "Voorkomt dat iemand je router kan overnemen met standaardlogins."],
-    ["Externe beheerfunctie uitschakelen (WAN/remote management)", "Verkleint het aanvalsoppervlak drastisch."],
-    ["WPS volledig uitschakelen", "WPS is een bekende zwakke plek en wordt misbruikt door automatische tools."],
-    ["UPnP uitschakelen (tenzij écht nodig)", "UPnP kan ongewenst poorten openen naar buiten."],
-    ["Firmware up-to-date + automatische updates aan", "Dicht bekende kwetsbaarheden (ook in provider-routers)."],
-    ["WPA3-SAE inschakelen (of WPA2-AES als fallback)", "Sterkere encryptie en betere bescherming tegen wachtwoordaanvallen."],
-    ["Sterke Wi‑Fi sleutel instellen (16–20+ tekens)", "Maakt brute-force en ‘AI-guessing’ veel minder kansrijk."],
-    ["SSID neutraliseren (geen adres/naam/merk)", "Voorkomt dat je jezelf onnodig identificeert."],
-    ["Gastnetwerk activeren", "Bezoekers en tijdelijke apparaten komen niet in je hoofdnetwerk."],
-    ["IoT op gastnetwerk of aparte SSID/VLAN", "Beperkt schade als een smart device wordt gekraakt."],
-    ["Client-isolatie op gastnetwerk aan", "Voorkomt dat gasten elkaar kunnen aanvallen op dezelfde hotspot."],
-    ["DNS over HTTPS (DoH) inschakelen", "Versleutelt DNS en vermindert tracking / spoofing."],
-    ["DNS afdwingen (blokkeer alternatieve DNS)", "Voorkomt dat malware een eigen resolver gebruikt."],
-    ["Malware/phishing DNS-filter aan (waar beschikbaar)", "Blokkeert bekende kwaadaardige domeinen."],
-    ["IPv6 bewust instellen (of tijdelijk uit bij issues)", "Voorkomt onverwachte routes/leaks door misconfig."],
-    ["Firewall/SPI ingeschakeld laten", "Basale bescherming tegen ongewenst inkomend verkeer."],
-    ["Poortforwarding opschonen (oude regels weg)", "Minder open deuren richting je apparaten."],
-    ["Router-logins: 2FA aan (als beschikbaar)", "Extra barrière bij gestolen wachtwoorden."],
-    ["Apparaten: OS & apps updaten", "Veel aanvallen misbruiken oude software."],
-    ["Back-ups controleren (minimaal 1 offline kopie)", "Herstel na ransomware of device failure."],
-    ["Publiek Wi‑Fi: VPN altijd aan + kill switch", "Beschermt tegen sniffing en man-in-the-middle."],
-    ["Beheer je verbonden apparaten (unknown devices blokkeren)", "Detecteert indringers of ‘shadow IoT’."],
-    ["Zet ‘guest access’ tijdslimiet/auto-off (waar mogelijk)", "Beperkt langdurige risico’s."],
-    ["Test na wijzigingen met een DNS/IP leak test", "Checkt of je instellingen echt effect hebben."],
-    ["Bewaar een ‘router recovery plan’ (admin login + backup config)", "Snel herstel bij problemen of reset."]
-  ];
-
-  function loadState(){
-    try{
-      const raw = localStorage.getItem(STORE_KEY);
-      const data = raw ? JSON.parse(raw) : { checked: [] };
-      if(!Array.isArray(data.checked)) data.checked = [];
-      return data;
-    }catch(e){
-      return { checked: [] };
-    }
-  }
-
-  function saveState(state){
-    try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){}
-  }
-
-  function clearProgress(){
-    try{ localStorage.removeItem(STORE_KEY); }catch(e){}
-  }
-
-  function setStatus(p){
+  function setStatus(pct){
+    const p = Math.max(0, Math.min(100, pct|0));
     let label = '';
     let tip = '';
 
-    if(p <= 20){
-      label = `Beveiligingsniveau: Kwetsbaar (${p}%)`;
-      tip = '⚠️ Je netwerk is momenteel een open doel. Begin met stap 1: WPA3 activeren.';
-    } else if(p <= 50){
+    if(p === 0){
+      label = 'Beveiligingsniveau: Kwetsbaar (0%)';
+      tip = 'Begin met WPA3-SAE en schakel WPS uit. In 2026 is “standaard veilig” niet genoeg.';
+    } else if(p < 40){
       label = `Beveiligingsniveau: Basisbeveiliging (${p}%)`;
-      tip = '🛡️ Goede start! Schakel nu DNS over HTTPS in om je ISP-tracking te blokkeren.';
-    } else if(p <= 80){
-      label = `Beveiligingsniveau: Sterke Verdediging (${p}%)`;
-      tip = '🚀 Je bent bijna veilig. Isoleer nu je smart-home (IoT) apparaten.';
+      tip = 'Goede start! Zet nu DNS over HTTPS (DoH) aan om tracking en manipulatie te verminderen.';
+    } else if(p < 80){
+      label = `Beveiligingsniveau: Solide Verdediging (${p}%)`;
+      tip = 'Sterke basis. Isoleer IoT op gastnetwerk/VLAN en houd firmware up-to-date.';
     } else if(p < 100){
       label = `Beveiligingsniveau: Bijna een Vesting (${p}%)`;
-      tip = '⚡ Nog een paar stappen! Vergeet niet je router-firmware te updaten.';
+      tip = 'Bijna klaar. Ruim port forwards op en gebruik een VPN consequent op openbare Wi‑Fi.';
     } else {
       label = 'Beveiligingsniveau: Digitale Vesting (100%) — Uitstekend!';
-      tip = '🏆 Gefeliciteerd! Je thuisnetwerk is nu optimaal beveiligd tegen moderne hacks.';
+      tip = 'Gefeliciteerd! Je netwerk is nu net zo veilig als een streng beveiligd datacenter.';
     }
 
-
-
-  function showLiveTip(idx, checked){
-    if(!liveTipEl) return;
-    const title = items[idx] ? items[idx][0] : 'Stap';
-    const expl = items[idx] ? items[idx][1] : '';
-    const prefix = checked ? '✅ Afgevinkt' : '↩️ Teruggezet';
-    liveTipEl.innerHTML = `<strong>${prefix}:</strong> ${title}. <span style="opacity:.85">${expl}</span>`;
+    statusEl.textContent = label;
+    tipEl.textContent = tip;
+    bar.style.width = p + '%';
+    const pc = document.querySelector('.checklist-box .progress-container');
+    if(pc) pc.setAttribute('aria-valuenow', String(p));
   }
 
-    if(statusEl) statusEl.textContent = label;
-    if(tipEl) tipEl.textContent = tip;
-    if(bar) bar.style.width = p + '%';
-  } else if(p <= 50){
-      label = `Beveiligingsniveau: Basisbeveiliging (${p}%)`;
-      tip = '🛡️ Goede start! Schakel nu DNS over HTTPS in om je ISP-tracking te blokkeren.';
-    } else if(p <= 80){
-      label = `Beveiligingsniveau: Sterke Verdediging (${p}%)`;
-      tip = '🚀 Je bent bijna veilig. Isoleer nu je smart-home (IoT) apparaten.';
-    } else if(p < 100){
-      label = `Beveiligingsniveau: Bijna een Vesting (${p}%)`;
-      tip = '⚡ Nog een paar stappen! Vergeet niet je router-firmware te updaten.';
-    } else {
-      label = 'Beveiligingsniveau: Digitale Vesting (100%) — Uitstekend!';
-      tip = '🏆 Gefeliciteerd! Je thuisnetwerk is nu optimaal beveiligd tegen moderne hacks.';
-    }
-
-    if(statusEl) statusEl.textContent = label;
-    if(tipEl) tipEl.textContent = tip;
-    if(bar) bar.style.width = p + '%';
+  function compute(){
+    const checked = steps.filter(s => s.checked).length;
+    const total = steps.length;
+    const pct = total ? Math.round((checked/total)*100) : 0;
+    setStatus(pct);
+    try{
+      localStorage.setItem(STORE_KEY, JSON.stringify({checked: steps.map(s=>!!s.checked)}));
+    }catch(e){}
   }
 
-  function updateStatus(){
-    const s = loadState();
-    const total = items.length;
-    const done = s.checked.length;
-    const p = Math.round((done / total) * 100);
-    setStatus(p);
+  function restore(){
+    try{
+      const raw = localStorage.getItem(STORE_KEY);
+      if(!raw){ compute(); return; }
+      const data = JSON.parse(raw);
+      if(data && Array.isArray(data.checked)){
+        steps.forEach((s,i)=>{ s.checked = !!data.checked[i]; });
+      }
+    }catch(e){}
+    compute();
   }
 
-  function render() {
-    const grid = document.getElementById('wifi-cards-grid');
-    if (!grid) return;
-
-    const state = loadState();
-    grid.innerHTML = '';
-
-    items.forEach((it, idx) => {
-      const isChecked = state.checked.includes(idx);
-
-      const card = document.createElement('div');
-      card.className = 'wifi-card' + (isChecked ? ' is-done' : '');
-      card.style.cssText = `
-        border: 3px solid #000;
-        padding: 15px;
-        background: ${isChecked ? '#f0fff0' : '#fff'};
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        border-radius: 14px;
-      `;
-
-      card.innerHTML = `
-        <div style="font-size: 1.35em; font-weight: 800; min-width: 35px; color:#000;">${idx + 1}</div>
-        <div style="flex: 1; min-width: 0;">
-          <div class="wifi-card-title" style="font-weight: 800; font-size: 1em; margin-bottom: 4px; line-height: 1.2; color:#000;">${it[0]}</div>
-          <div class="wifi-card-desc" style="font-size: 0.85em; color: #444; line-height: 1.3;">${it[1]}</div>
-        </div>
-        <div style="min-width: 34px;">
-          <input type="checkbox" ${isChecked ? 'checked' : ''} style="width: 26px; height: 26px; cursor: pointer;">
-        </div>
-      `;
-
-      card.onclick = (e) => {
-        if (e.target && e.target.tagName === 'INPUT') return;
-        const cb = card.querySelector('input');
-        cb.checked = !cb.checked;
-        cb.dispatchEvent(new Event('change'));
-      };
-
-      const cb = card.querySelector('input');
-      cb.onchange = () => {
-        const s = loadState();
-        if (cb.checked) {
-          if (!s.checked.includes(idx)) s.checked.push(idx);
-        } else {
-          s.checked = s.checked.filter(x => x !== idx);
-        }
-        saveState(s);
-        updateStatus();
-
-        card.classList.toggle('is-done', cb.checked);
-        card.style.background = cb.checked ? '#f0fff0' : '#fff';
-      };
-
-      grid.appendChild(card);
-    });
-
-    updateStatus();
-  });
-
-      tbody.appendChild(tr);
-    });
-
-    updateStatus();
-  }
-
-  if(resetBtn) resetBtn.addEventListener('click', () => { clearProgress(); render(); });
-  if(clearBtn) clearBtn.addEventListener('click', () => { clearProgress(); render(); });
-
-  if(document.readyState === 'loading'){
-    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', render); } else { render(); }
-  } else {
-    render();
-  }
+  steps.forEach(s => s.addEventListener('change', compute));
+  restore();
 })();
 </script>
 </body>
