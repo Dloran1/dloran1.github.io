@@ -983,12 +983,34 @@
 
   <!-- DNS Fix Dashboard (interactive, saved progress) -->
   <script>
-  (function(){
-    const STORAGE_KEY = "vpw_dns_leak_fix";
-    const total = 25;
+(function(){
+  "use strict";
 
-    const cards = [
-      {id:"kill_switch", risk:"high", title:"Enable kill switch (block without VPN)", impact:"Blocks the most common “2-second disconnect” leaks during reconnect windows on Windows 11 and public Wi‑Fi.", recommendation:"Great start. A kill switch seals the reconnect window where most DNS leaks happen. Now rerun the DNS test immediately after toggling Wi‑Fi off/on to confirm traffic stays blocked until VPN is back.", why:"Prevents the classic fallback leak when VPN drops for seconds.", steps:[
+  // Keep the same key to preserve existing user progress
+  const STORAGE_KEY = "vpw_dns_leak_fix_2026_v2";
+
+  const grid = document.getElementById("dnsGrid");
+  const doneEl = document.getElementById("dnsDone");
+  const totalEl = document.getElementById("dnsTotal");
+  const statusEl = document.getElementById("dnsStatus");
+  const bar = document.getElementById("dnsBar");
+
+  const dynLabel = document.getElementById("dnsDynamicLabel");
+  const dynTip = document.getElementById("dnsDynamicTip");
+  const impactEl = document.getElementById("dnsImpact");
+
+  const recoText = document.getElementById("dnsRecoText");
+
+  const covDNS = document.getElementById("cov_dns");
+  const covIPv6 = document.getElementById("cov_ipv6");
+  const covWebRTC = document.getElementById("cov_webrtc");
+  const covDoH = document.getElementById("cov_doh");
+  const covRouter = document.getElementById("cov_router");
+
+  const markAllBtn = document.getElementById("dnsMarkAll");
+  const resetBtn = document.getElementById("dnsClearAll");
+
+  const cards = [{id:"kill_switch", risk:"high", title:"Enable kill switch (block without VPN)", impact:"Blocks the most common “2-second disconnect” leaks during reconnect windows on Windows 11 and public Wi‑Fi.", recommendation:"Great start. A kill switch seals the reconnect window where most DNS leaks happen. Now rerun the DNS test immediately after toggling Wi‑Fi off/on to confirm traffic stays blocked until VPN is back.", why:"Prevents the classic fallback leak when VPN drops for seconds.", steps:[
         "Open your VPN app → enable Kill Switch.",
         "Also enable any option like “Block internet without VPN” or “Always-on / lockdown”.",
         "Retest DNS after toggling Wi‑Fi off/on."
@@ -1111,217 +1133,216 @@
         "Repeat tests on a hotspot or another Wi‑Fi.",
         "Confirm DNS resolvers remain VPN-managed.",
         "Mark the dashboard as verified."
-      ], code:`If you can’t reproduce the pass result twice, treat it as ‘not fixed’ and keep digging.`}
-    ];
+      ], code:`If you can’t reproduce the pass result twice, treat it as ‘not fixed’ and keep digging.`}];
 
-    const grid = document.getElementById("dnsGrid");
-    const doneEl = document.getElementById("dnsDone");
-    const totalEl = document.getElementById("dnsTotal");
-    const statusEl = document.getElementById("dnsStatus");
-    const barEl = document.getElementById("dnsBar");
+  function escapeHtml(s){
+    return String(s)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
 
-    totalEl.textContent = String(total);
-
-    function safeParse(json){
-      try{ return JSON.parse(json); }catch(e){ return null; }
-    }
-    function loadState(){
+  function loadState(){
+    try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      const parsed = raw ? safeParse(raw) : null;
-      return (parsed && typeof parsed === "object") ? parsed : {};
+      return raw ? JSON.parse(raw) : {};
+    } catch(e) {
+      return {};
     }
-    function saveState(state){
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    }
-    function computeDone(state){
-      let c = 0;
-      for (const card of cards){
-        if (state[card.id] === true) c++;
-      }
-      return c;
-    }
-    function setBar(done){
-      const pct = Math.round((done/total)*100);
-      barEl.style.width = pct + "%";
-      statusEl.textContent = (done === total) ? "Verified" : (done === 0 ? "Not verified" : "In progress");
-      updateDynamicFeedback(done);
-      updateTransformerTable(loadState());
-    }
+  }
 
-    const ISP_EXAMPLES = "Comcast / AT&T / Verizon";
+  function saveState(state){
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+  }
 
-    const insights = [
-      { key: 0,   label: "Risk: Critical", tip: `Your privacy is under active risk. Your ISP (${ISP_EXAMPLES}) can still infer a large share of your activity from DNS and metadata. Start with the high‑risk cards.`, color: "#dc2626" },
-      { key: 20,  label: "Risk: High",     tip: `You fixed the easiest holes, but the tunnel still has leak paths. Expect DNS/IPv6/WebRTC surprises on public Wi‑Fi.`, color: "#ef4444" },
-      { key: 50,  label: "Risk: Moderate", tip: `Tunnel is getting hardened. Most automated tracking is blinded, but browser/IPv6 edge cases can still leak on 5G and captive portals.`, color: "#f59e0b" },
-      { key: 80,  label: "Risk: Low",      tip: `Solid protection. Remaining failures are usually advanced edge cases (transition tech, router DNS hijacks, inconsistent DoH policies).`, color: "#16a34a" },
-      { key: 100, label: "Digital Fortress", tip: `Digital Fortress: even during reconnect windows, your data should not exit the protected perimeter. Retest on a second network to confirm.`, color: "#15803d" }
+  function computeDone(state){
+    let c = 0;
+    for (const card of cards) {
+      if (state[card.id] === true) c++;
+    }
+    return c;
+  }
+
+  function percentFromDone(done){
+    return Math.round((done / cards.length) * 100);
+  }
+
+  function setProgress(done){
+    const p = percentFromDone(done);
+    if (bar) bar.style.width = p + "%";
+    if (doneEl) doneEl.textContent = String(done);
+    if (totalEl) totalEl.textContent = String(cards.length);
+
+    if (statusEl) statusEl.textContent = (p === 100) ? "Verified" : "Not verified";
+
+    // Dynamic "Result & impact"
+    if (!dynLabel || !dynTip || !impactEl) return;
+
+    const isp = "Comcast / AT&T / Verizon";
+    const bands = [
+      { min: 0,   label: "Risk: Critical", color: "#b42318",
+        tip: "Your privacy is at risk. Your ISP (" + isp + ") may still see DNS patterns and metadata.",
+        impact: ["Start with the first HIGH‑risk cards", "Retest: DNS + IPv6 + WebRTC after each change"] },
+      { min: 30,  label: "Risk: High", color: "#b54708",
+        tip: "Better, but leaks are still possible on Windows 11 and public Wi‑Fi. Keep hardening.",
+        impact: ["Block IPv6 + WebRTC next", "Retest: IPv6 leak + WebRTC leak"] },
+      { min: 60,  label: "Risk: Moderate", color: "#7a5d00",
+        tip: "Tunnel is stronger. Automated tracking is reduced, but OS/browser features can still bypass VPN.",
+        impact: ["Lock DNS (router + app) and Secure DNS behavior", "Retest: DNS + DoH + captive portal"] },
+      { min: 85,  label: "Risk: Low", color: "#14613a",
+        tip: "Solid protection. Remaining risks are edge‑cases (Teredo/SMHNR, misconfigured Secure DNS).",
+        impact: ["Finish OS‑level leak blockers", "Run the full test suite again"] },
+      { min: 100, label: "Risk: Zero", color: "#0b7a39",
+        tip: "Digital Fortress. Even on reconnects, your device avoids sending DNS outside the VPN perimeter.",
+        impact: ["Keep VPN/OS updated", "Repeat validation monthly or after VPN updates"] }
     ];
 
-    function getImpactList(percent){
-      if (percent < 20) return [
-        `ISP visibility is still high (${ISP_EXAMPLES}).`,
-        "DNS routing may bypass the tunnel during reconnect windows.",
-        "Browser settings (DoH/WebRTC) can override system routing."
-      ];
-      if (percent < 50) return [
-        "Fallback leaks are reduced, but not eliminated.",
-        "IPv6 and WebRTC can still expose identity/location signals.",
-        "Public Wi‑Fi DNS hijacking can still break expectations."
-      ];
-      if (percent < 80) return [
-        "Most automatic tracking systems lose easy DNS/IP signals.",
-        "Remaining leaks are often advanced: IPv6 transition, captive portals, router policies.",
-        "You’re close — retest after each final change."
-      ];
-      if (percent < 100) return [
-        "Strong baseline across DNS/IPv6/WebRTC on your main network.",
-        "Remaining risk is mostly hostile networks and misconfigured routers.",
-        "Validate on hotspot/public Wi‑Fi to confirm stability."
-      ];
-      return [
-        "DNS resolvers should be VPN-managed (not ISP/hotspot).",
-        "IPv6/WebRTC should not expose your real public IP.",
-        "Reconnect windows should stay sealed (kill switch/lockdown)."
-      ];
+    const band = bands.slice().reverse().find(b => p >= b.min) || bands[0];
+    dynLabel.textContent = band.label;
+    dynLabel.style.color = band.color;
+    dynTip.textContent = band.tip;
+
+    const lis = (band.impact || []).map(x => "<li>" + escapeHtml(x) + "</li>").join("");
+    impactEl.innerHTML =
+      '<div class="dns-impact__title">What this improves</div>' +
+      '<ul class="dns-impact__list">' + lis + "</ul>";
+  }
+
+  function setCoveragePill(el, ok){
+    if(!el) return;
+    el.classList.toggle("ok", !!ok);
+    el.classList.toggle("bad", !ok);
+    el.textContent = ok ? "OK" : "Needs work";
+  }
+
+  // Fix: these functions were missing in the previous build
+  function updateTransformerTable(state){
+    const dnsOk = !!state.dns_protection && !!state.router_dns_enforce;
+    const ipv6Ok = !!state.ipv6_policy;
+    const webrtcOk = !!state.webrtc_hardening;
+    const dohOk = !!state.secure_dns_doh || !!state.firefox_dns_over_https || !!state.edge_secure_dns;
+    const routerOk = !!state.router_dns_enforce;
+
+    setCoveragePill(covDNS, dnsOk);
+    setCoveragePill(covIPv6, ipv6Ok);
+    setCoveragePill(covWebRTC, webrtcOk);
+    setCoveragePill(covDoH, dohOk);
+    setCoveragePill(covRouter, routerOk);
+  }
+
+  function showRecommendation(card, isChecked){
+    if(!recoText || !card) return;
+
+    if(isChecked){
+      const why = card.why ? (' <span class="dns-reco__why">' + escapeHtml(card.why) + "</span>") : "";
+      const impact = card.impact ? (' <span class="dns-reco__impact">' + escapeHtml(card.impact) + "</span>") : "";
+      recoText.innerHTML = "<strong>✅ Applied:</strong> " + escapeHtml(card.reco || "Good move.") + why + impact;
+    } else {
+      recoText.innerHTML = "<strong>⚠️ Not applied:</strong> " + escapeHtml(card.impact || "This remains a possible leak path.");
     }
+  }
 
-    function updateDynamicFeedback(done){
-      const percent = Math.round((done/total)*100);
-      const chosen = [...insights].reverse().find(i => percent >= i.key) || insights[0];
+  function cardHTML(card, isChecked){
+    const risk = (card.risk || "medium").toLowerCase();
+    const checkedAttr = isChecked ? "checked" : "";
+    const activeCls = isChecked ? "active" : "";
+    const riskCls = risk === "high" ? "risk-high" : (risk === "low" ? "risk-low" : "risk-med");
 
-      const labelEl = document.getElementById("dnsDynamicLabel");
-      const tipEl = document.getElementById("dnsDynamicTip");
-      const impactEl = document.getElementById("dnsImpact");
+    const steps = Array.isArray(card.steps) ? card.steps : [];
+    const stepsHtml = steps.length ? "<ol class=\"dns-steps\">" + steps.map(s => "<li>" + escapeHtml(s) + "</li>").join("") + "</ol>" : "";
 
-      if (labelEl) { labelEl.textContent = chosen.label; labelEl.style.color = chosen.color; }
-      if (tipEl) { tipEl.textContent = chosen.tip; }
-      if (impactEl) {
-        const items = getImpactList(percent).map(x => `<li>${x}</li>`).join("");
-        impactEl.innerHTML = `<strong>What this gives you right now:</strong><ul>${items}</ul>`;
-      }
-    }
+    const code = (card.code || "").trim();
+    const codeHtml = code ? "<pre class=\"dns-code\"><code>" + escapeHtml(code) + "</code></pre>" : "";
 
-    function setCoverage(id, ok){
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.className = "live-pill " + (ok ? "live-pill--ok" : "live-pill--bad");
-      el.textContent = ok ? "Fixed" : "Not fixed";
-    }
+    return (
+      '<article class="dns-card ' + activeCls + " " + riskCls + '" data-id="' + escapeHtml(card.id) + '">' +
+        '<header class="dns-card__head">' +
+          '<div class="dns-card__title-wrap">' +
+            '<h3 class="dns-card__title">' + escapeHtml(card.title || "") + "</h3>" +
+            '<div class="dns-card__meta">' +
+              '<span class="dns-badge">' + (risk === "high" ? "HIGH RISK" : (risk === "low" ? "LOW RISK" : "MEDIUM")) + "</span>" +
+              '<span class="dns-badge dns-badge--ghost">' + escapeHtml(card.id) + "</span>" +
+            "</div>" +
+          "</div>" +
+          '<label class="dns-card__toggle" aria-label="Toggle">' +
+            '<input type="checkbox" ' + checkedAttr + " />" +
+            '<span class="dns-toggle-ui" aria-hidden="true"></span>' +
+          "</label>" +
+        "</header>" +
 
-    function updateTransformerTable(state){
-      // Coverage groups: these flip to green when key checks are verified.
-      const dns_ok   = state["dns_protection"] && state["kill_switch"];
-      const ipv6_ok  = state["ipv6_policy"] && (state["teredo"] || true); // teredo is a bonus; ipv6_policy is the core
-      const webrtc_ok= state["webrtc_hardening"] && (state["browser_profile"] || true);
-      const doh_ok   = state["secure_dns_doh"] || state["firefox_dns_over_https"] || state["edge_secure_dns"];
-      const router_ok= state["router_dns_enforce"] && state["reconnect_after_portal"];
+        '<p class="dns-card__impact">' + escapeHtml(card.impact || "") + "</p>" +
 
-      setCoverage("cov_dns", !!dns_ok);
-      setCoverage("cov_ipv6", !!ipv6_ok);
-      setCoverage("cov_webrtc", !!webrtc_ok);
-      setCoverage("cov_doh", !!doh_ok);
-      setCoverage("cov_router", !!router_ok);
-    }
+        '<details class="dns-card__details">' +
+          "<summary>Steps &amp; command</summary>" +
+          stepsHtml +
+          codeHtml +
+        "</details>" +
 
-    function showRecommendation(card, isDone){
-      const recoEl = document.getElementById("dnsRecoText");
-      if (!recoEl) return;
+        '<div class="dns-card__why"><strong>Expert why:</strong> ' + escapeHtml(card.why || "") + "</div>" +
+      "</article>"
+    );
+  }
 
-      // If user unchecks, keep a neutral tip.
-      if (!isDone){
-        recoEl.innerHTML = "Unchecked. Retest to confirm the leak is back (or the fix was not stable).";
-        return;
-      }
+  function render(){
+    if(!grid) return;
+    const state = loadState();
 
-      const impact = card.impact || "Improves privacy by reducing metadata exposure.";
-      const reco = card.recommendation || "Retest DNS + IPv6 + WebRTC after this change, then move to the next high‑risk card.";
-      recoEl.innerHTML = `<strong>Nice.</strong> ${reco}<br><br><strong>Impact:</strong> ${impact}`;
-    }
+    grid.innerHTML = cards.map(card => {
+      const isChecked = !!state[card.id];
+      return cardHTML(card, isChecked);
+    }).join("");
 
-    function render(){
-      const state = loadState();
-      grid.innerHTML = "";
-      for (const card of cards){
-        const checked = state[card.id] === true;
-        const riskClass = card.risk === "high" ? "high" : (card.risk === "med" ? "med" : "low");
-        const riskLabel = card.risk === "high" ? "High" : (card.risk === "med" ? "Medium" : "Low");
-        const el = document.createElement("article");
-        el.className = "dns-card";
-        el.setAttribute("data-id", card.id);
-        el.innerHTML = `
-          <header>
-            <div>
-              <h3>${card.title}</h3>
-              <div class="dns-meta">
-                <span class="dns-risk ${riskClass}">Risk: ${riskLabel}</span>
-              </div>
-            </div>
-            <label class="dns-check" title="Mark as verified">
-              <input type="checkbox" ${checked ? "checked" : ""} aria-label="Mark ${card.title} as done">
-              <span style="font-weight:900">Done</span>
-            </label>
-          </header>
-          <div class="dns-body">
-            <p><strong>Why it matters:</strong> ${card.why}</p>
-            <details>
-              <summary>Show exact steps</summary>
-              <ul>
-                ${card.steps.map(s => `<li>${s}</li>`).join("")}
-              </ul>
-              <pre><code>${card.code.replace(/</g,"&lt;").replace(/>/g,"&gt;")}</code></pre>
-            </details>
-          </div>
-        `;
-        grid.appendChild(el);
-      }
-      const done = computeDone(state);
-      doneEl.textContent = String(done);
-      setBar(done);
-    }
-      updateDynamicFeedback(done);
-      updateTransformerTable(state);
+    grid.querySelectorAll(".dns-card").forEach(cardEl => {
+      cardEl.addEventListener("click", (e) => {
+        const t = e.target;
+        if (t && (t.closest("details") || t.tagName === "SUMMARY" || t.tagName === "CODE" || t.tagName === "PRE" || t.tagName === "A")) return;
 
+        const id = cardEl.getAttribute("data-id");
+        const cb = cardEl.querySelector('input[type="checkbox"]');
+        if(!id || !cb) return;
 
-    function updateOne(id, value){
-      const state = loadState();
-      state[id] = !!value;
-      saveState(state);
-      const done = computeDone(state);
-      doneEl.textContent = String(done);
-      setBar(done);
-    }
+        cb.checked = !cb.checked;
 
-    grid.addEventListener("change", function(e){
-      const target = e.target;
-      if (!target || target.tagName !== "INPUT" || target.type !== "checkbox") return;
-      const cardEl = target.closest(".dns-card");
-      if (!cardEl) return;
-      const id = cardEl.getAttribute("data-id");
-      if (!id) return;
-      const cardObj = cards.find(c => c.id === id);
-      if (cardObj) showRecommendation(cardObj, target.checked);
-      updateTransformerTable(loadState());
-      updateOne(id, target.checked);
+        const stateNow = loadState();
+        stateNow[id] = cb.checked;
+        saveState(stateNow);
+
+        const card = cards.find(c => c.id === id);
+        showRecommendation(card, cb.checked);
+
+        render();
+      });
     });
 
-    document.getElementById("dnsMarkAll").addEventListener("click", function(){
+    const done = computeDone(state);
+    setProgress(done);
+    updateTransformerTable(state);
+  }
+
+  if(markAllBtn){
+    markAllBtn.addEventListener("click", () => {
       const state = {};
-      for (const c of cards) state[c.id] = true;
+      for(const c of cards) state[c.id] = true;
       saveState(state);
+      if(recoText) recoText.innerHTML = "<strong>✅ Applied:</strong> All checks marked. Retest DNS + IPv6 + WebRTC now.";
       render();
-      const r = document.getElementById('dnsRecoText'); if (r) r.textContent = 'All checks marked. Validate by retesting on a second network.';
     });
+  }
 
-    document.getElementById("dnsClearAll").addEventListener("click", function(){
-      localStorage.removeItem(STORAGE_KEY);
+  if(resetBtn){
+    resetBtn.addEventListener("click", () => {
+      saveState({});
+      if(recoText) recoText.textContent = "Checklist reset. Apply one change → retest.";
       render();
-      const r = document.getElementById('dnsRecoText'); if (r) r.textContent = 'Reset done. Start with kill switch + IPv6 + Secure DNS (DoH), then retest.';
     });
+  }
 
-    render();
-  })();
-  </script>
+  render();
+})();
+</script>
+
   <!-- /DNS Fix Dashboard -->
 
 </body>
