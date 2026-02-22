@@ -194,7 +194,7 @@ html{scroll-behavior:smooth;}
 <li>Clear definitions (what matters, what doesn’t)</li>
 <li>Repeatable DNS/IPv6/WebRTC test routine</li>
 <li>Device fixes + practical “edge cases”</li>
-</ul>
+<li>Related: <a href="wifi-security-checklist-uk.html">Wi‑Fi security checklist</a> (quick hardening steps before testing).</li></ul>
 </div>
 <div class="hero-media">
 <div class="hero-art">
@@ -217,7 +217,7 @@ html{scroll-behavior:smooth;}
 <li style=" color:#071023;">Enable <strong style=" color:#071023;">“Force VPN DNS”</strong> (or “Use VPN DNS only”) inside your VPN app.</li>
 <li style=" color:#071023;">Disable <strong style=" color:#071023;">IPv6</strong> (the #1 bypass in many Windows/ISP stacks).</li>
 <li style=" color:#071023;">Set a trusted DNS (e.g., <strong style=" color:#071023;">1.1.1.1</strong>) at OS level if your VPN client can’t lock DNS.</li>
-<li style=" color:#071023;">Block <strong style=" color:#071023;">WebRTC</strong> in your browser (uBlock Origin / browser setting) to stop browser-side leaks.</li>
+<li style=" color:#071023;">Block <strong style=" color:#071023;">WebRTC</strong> in your browser (uBlock Origin / browser setting) to stop browser-side leaks. See <a href="vpn-edge-uk.html">VPN on Microsoft Edge</a> for quick WebRTC/privacy toggles.</li>
 </ul>
 </div>
 <section class="section leak-compare">
@@ -318,9 +318,9 @@ html{scroll-behavior:smooth;}
 </div>
 </div>
 </section>
-<section><h2 id="tests">How to test (2‑minute routine)</h2><p>Use this repeatable routine before and after each fix so you know what actually changed.</p><ol><li>Connect to your VPN and enable any “Force VPN DNS / Use VPN DNS only” option.</li><li>Run a DNS leak test twice and note which DNS provider/ASN is shown.</li><li>Repeat in a Private/Incognito window (rules out extensions and cached DoH).</li><li>If results differ, disable extensions (uBlock, proxy, DNS/DoH tools) and test again.</li><li>Temporarily disable IPv6 and retest — IPv6 bypass is still a top leak cause on many ISP stacks.</li></ol></section><section id="dns-fixer" style="margin-top: 22px;">
+<section><h2 id="tests">How to test (2‑minute routine)</h2><p>Use this repeatable routine before and after each fix so you know what actually changed.<span> If you’re on Windows, follow our <a href="vpn-windows-setup-uk.html">Windows VPN setup guide</a>, then check <a href="vpn-kill-switch-uk.html">kill switch settings</a> and <a href="vpn-protocols-uk.html">protocol options</a>. For tricky networks, compare your results on <a href="vpn-public-wifi-uk.html">public Wi‑Fi</a>.</span></p><ol><li>Connect to your VPN and enable any “Force VPN DNS / Use VPN DNS only” option.</li><li>Run a DNS leak test twice and note which DNS provider/ASN is shown.</li><li>Repeat in a Private/Incognito window (rules out extensions and cached DoH).</li><li>If results differ, disable extensions (uBlock, proxy, DNS/DoH tools) and test again.</li><li>Temporarily disable IPv6 and retest — IPv6 bypass is still a top leak cause on many ISP stacks.</li></ol></section><section id="dns-fixer" style="margin-top: 22px;">
 <h2 id="fix">The DNS Leak Emergency Fixer Dashboard</h2>
-<p class="note"><strong>How it works:</strong> tick each fix you’ve applied. Your progress score updates instantly, and the panel suggests what to do next.</p>
+<p class="note"><strong>How it works:</strong> tick each fix you’ve applied. Your progress score updates instantly, and the panel suggests what to do next.</p><p>Need a clean baseline? Start with our <a href="vpn-optimal-settings-uk.html">optimal VPN settings checklist</a> and, if you’re running VPN on a home network, see <a href="vpn-router-setup-uk.html">VPN on a router</a> (DNS leaks often come from router DNS or IPv6 settings).</p>
 <div class="checklist-wrapper" style="max-width: 100%; margin: 0 auto;">
 <div id="dns-status-card" style="border: 4px solid #000; padding: 18px; background: #fff; margin-bottom: 16px; border-radius: 15px;">
 <div id="dns-status-label" style="font-weight: 900; font-size: 1.25em; margin-bottom: 10px;">Status: At risk (0%)</div>
@@ -380,7 +380,25 @@ html{scroll-behavior:smooth;}
                 height: 26px;
                 margin-top: 2px;
               }
-            </style>
+            
+
+/* --- DNS Leak Fixer: hard contrast + override "white on white" (mobile Safari) --- */
+#dns-fixer, #dns-fixer * { color: #071023 !important; }
+#dns-status-card, #dns-detail, #dns-cards-grid .dns-card { background: #ffffff !important; }
+#dns-status-label, #dns-detail-title, #dns-detail-command, #dns-detail-why { 
+  color: #071023 !important; 
+  opacity: 1 !important;
+}
+#dns-status-label { font-weight: 900 !important; }
+#dns-detail .muted, #dns-status-card .muted { color: #071023 !important; opacity: 1 !important; }
+#dns-detail pre, #dns-detail code { color: #071023 !important; }
+/* ensure numbering/title never fades */
+#dns-cards-grid .dns-card .num, 
+#dns-cards-grid .dns-card h3,
+#dns-cards-grid .dns-card p { opacity: 1 !important; }
+/* improve tap targets for TOC links */
+.toc a { scroll-margin-top: 110px; }
+</style>
 </section>
 <section class="section uk-context">
 <h2>UK-specific gotchas (BT, Virgin Media, Sky)</h2>
@@ -683,7 +701,6 @@ document.addEventListener('DOMContentLoaded', function(){
 </div>
 </div>
 <!-- /Cookie Consent (canonical) -->
-
 <script>
 (function(){
   const toc = document.querySelector('.toc-card');
