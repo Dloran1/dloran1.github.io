@@ -104,6 +104,21 @@
     .path-arrow{display:inline-block;font-weight:900}
 
     /* Dashboard */
+    /* Live widget add-ons (do not break base layout) */
+    .dns-live{display:grid;grid-template-columns:1.2fr .8fr;gap:10px;margin:12px 0}
+    @media (max-width:900px){.dns-live{grid-template-columns:1fr}}
+    .dns-live__card{background:#fff;border-radius:16px;border:3px solid #000;padding:12px;color:#000}
+    .dns-live__title{font-weight:900;letter-spacing:.2px;margin-bottom:6px}
+    .dns-live__label{font-weight:900;font-size:1.06rem;margin:6px 0}
+    .dns-live__tip{margin:0;color:#000}
+    .dns-live__impact{margin-top:10px}
+    .dns-live__impact ul{margin:8px 0 0 18px}
+    .dns-live__impact li{margin:6px 0}
+
+    .live-pill{display:inline-block;padding:3px 10px;border-radius:999px;font-weight:900;border:2px solid #000;background:#fff;color:#000}
+    .live-pill--bad{background:#fff5f5}
+    .live-pill--ok{background:#eafff2}
+
     .dns-dashboard{margin:18px 0;border-radius:18px;border:1px solid rgba(255,255,255,.12);background:#0b1220;padding:14px}
     .dns-dashboard *{box-sizing:border-box}
     .dns-dashboard h2,.dns-dashboard h3{color:#fff}
@@ -375,6 +390,9 @@
           <p><strong>Related:</strong> <a href="/en-us/blog/vpn-kill-switch.html">VPN Kill Switch</a> · <a href="/en-us/blog/vpn-protocols.html">VPN Protocols</a></p>
         </div>
 
+        <h2>How this dashboard fixes your security</h2>
+        <p class="note"><strong>Quick answer:</strong> The table below tells you what leaks exist, how visible they are to your ISP, and which dashboard checks flip them from “red” to “green”.</p>
+
         <h2>Leak types that Google understands (Rich Result table)</h2>
         <div class="table-scroll" role="region" aria-label="Leak types comparison table">
           <table>
@@ -559,9 +577,66 @@
           </div>
           <div class="dns-progress" aria-label="Progress bar"><span id="dnsBar"></span></div>
 
+
           <div class="dns-note">
             <strong>Rule:</strong> change <em>one</em> variable → rerun DNS + IPv6 + WebRTC tests. If you change 5 settings at once, you won’t know what fixed it.
           </div>
+
+          <!-- Live feedback + recommendations (15/10) -->
+          <div class="dns-live">
+            <div class="dns-live__card" id="dnsFeedback" aria-live="polite">
+              <div class="dns-live__title">Result &amp; impact</div>
+              <div class="dns-live__label" id="dnsDynamicLabel">Risk: Critical</div>
+              <div class="dns-live__tip" id="dnsDynamicTip">Your ISP can still see a lot. Start with the first high‑risk cards.</div>
+              <div class="dns-live__impact" id="dnsImpact"></div>
+            </div>
+            <div class="dns-live__card" id="dnsReco" aria-live="polite">
+              <div class="dns-live__title">Smart recommendation</div>
+              <div class="dns-live__tip" id="dnsRecoText">Check a card to see what it improves — and what to retest next.</div>
+            </div>
+          </div>
+
+          <!-- Transformer table (visual win) -->
+          <div class="table-scroll" role="region" aria-label="Leak coverage status table">
+            <table id="dnsCoverageTable">
+              <caption>Live coverage status (updates as you complete cards)</caption>
+              <thead>
+                <tr>
+                  <th>Leak area</th>
+                  <th>What changes when it turns green</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>DNS routing</strong></td>
+                  <td>Your resolvers stop showing Comcast / AT&amp;T / Verizon (or hotspot DNS)</td>
+                  <td><span class="live-pill live-pill--bad" id="cov_dns">Not fixed</span></td>
+                </tr>
+                <tr>
+                  <td><strong>IPv6 bypass</strong></td>
+                  <td>Native IPv6 can’t escape outside the tunnel</td>
+                  <td><span class="live-pill live-pill--bad" id="cov_ipv6">Not fixed</span></td>
+                </tr>
+                <tr>
+                  <td><strong>WebRTC exposure</strong></td>
+                  <td>Browser stops leaking real public IP / local candidates</td>
+                  <td><span class="live-pill live-pill--bad" id="cov_webrtc">Not fixed</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Secure DNS (DoH) conflicts</strong></td>
+                  <td>Browser DNS stops overriding VPN DNS policy</td>
+                  <td><span class="live-pill live-pill--bad" id="cov_doh">Not fixed</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Public Wi‑Fi &amp; router enforcement</strong></td>
+                  <td>Direct DNS is blocked; captive portals don’t force DNS outside tunnel</td>
+                  <td><span class="live-pill live-pill--bad" id="cov_router">Not fixed</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
 
           <div class="dns-grid" id="dnsGrid">
             <!-- 25 cards injected by JS for consistency and uniqueness -->
@@ -903,7 +978,7 @@
     const total = 25;
 
     const cards = [
-      {id:"kill_switch", risk:"high", title:"Enable kill switch (block without VPN)", why:"Prevents the classic fallback leak when VPN drops for seconds.", steps:[
+      {id:"kill_switch", risk:"high", title:"Enable kill switch (block without VPN)", impact:"Blocks the most common “2-second disconnect” leaks during reconnect windows on Windows 11 and public Wi‑Fi.", recommendation:"Great start. A kill switch seals the reconnect window where most DNS leaks happen. Now rerun the DNS test immediately after toggling Wi‑Fi off/on to confirm traffic stays blocked until VPN is back.", why:"Prevents the classic fallback leak when VPN drops for seconds.", steps:[
         "Open your VPN app → enable Kill Switch.",
         "Also enable any option like “Block internet without VPN” or “Always-on / lockdown”.",
         "Retest DNS after toggling Wi‑Fi off/on."
@@ -913,17 +988,17 @@
         "Disable “custom DNS” temporarily until tests pass.",
         "Run extended DNS test twice."
       ], code:`Retest pattern:\n1) Connect VPN\n2) Run DNS test (standard + extended)\n3) Switch server\n4) Run DNS test again`},
-      {id:"ipv6_policy", risk:"high", title:"Fix IPv6: tunnel it or disable it", why:"IPv6 bypass is a top cause of “VPN leaks” in 2026.", steps:[
+      {id:"ipv6_policy", risk:"high", title:"Fix IPv6: tunnel it or disable it", impact:"Blocks native IPv6 bypass that can reveal your identity/location signals even while VPN is ON.", recommendation:"Great — now your browser and apps can’t silently send IPv6 traffic outside the tunnel. This blocks a huge share of real‑world leaks on 5G and modern Wi‑Fi. Retest IPv6, then rerun the DNS test to confirm the resolver list is clean.", why:"IPv6 bypass is a top cause of “VPN leaks” in 2026.", steps:[
         "Run an IPv6 leak test while VPN is on.",
         "If IPv6 leaks: disable IPv6 on the active adapter or enable VPN IPv6 support.",
         "Retest after reboot."
       ], code:`Windows quick toggle (GUI):\nControl Panel → Network & Internet → Network Connections\nRight‑click adapter → Properties → uncheck “Internet Protocol Version 6 (TCP/IPv6)”`},
-      {id:"webrtc_hardening", risk:"med", title:"Harden WebRTC to prevent real IP exposure", why:"WebRTC can reveal network addresses in some configurations.", steps:[
+      {id:"webrtc_hardening", risk:"med", title:"Harden WebRTC to prevent real IP exposure", impact:"Reduces browser-level IP exposure used by WebRTC-powered sites and trackers.", recommendation:"Good move. WebRTC is a common “silent leak” vector in browsers. After changing this, restart the browser and rerun the WebRTC test — then confirm your public IP is still the VPN IP.", why:"WebRTC can reveal network addresses in some configurations.", steps:[
         "Run a WebRTC leak test in your main browser.",
         "If real IP appears: disable WebRTC IP handling / use privacy settings.",
         "Retest after restarting the browser."
       ], code:`Firefox:\nSettings → Privacy & Security → (search) WebRTC\nIn about:config set: media.peerconnection.enabled = false (advanced)`},
-      {id:"secure_dns_doh", risk:"med", title:"Secure DNS (DoH): avoid conflicts with VPN DNS", why:"Browser-level DoH can override system routing and create resolver surprises.", steps:[
+      {id:"secure_dns_doh", risk:"med", title:"Secure DNS (DoH): avoid conflicts with VPN DNS", impact:"Stops the browser from forcing DNS to a resolver outside the VPN’s policy.", recommendation:"Perfect. Secure DNS (DoH) can override system routing and defeat VPN DNS settings. After this change, rerun the extended DNS test and confirm you no longer see ISP/hotspot resolvers.", why:"Browser-level DoH can override system routing and create resolver surprises.", steps:[
         "Chrome/Edge: Settings → Privacy → Security → Secure DNS.",
         "Set to “Use current service provider” or turn OFF during testing.",
         "Retest DNS and confirm resolvers are VPN-managed."
@@ -933,12 +1008,12 @@
         "Retest DNS in the same browser you use daily.",
         "Only re-enable split tunneling after tests pass."
       ], code:`If you must split-tunnel:\n- Keep browser + banking + chat apps inside VPN\n- Exclude only low-risk apps (updates, games) and test separately`},
-      {id:"teredo", risk:"med", title:"Windows Teredo / transition tech: disable if leaking", why:"IPv6 transition layers can create edge-case routing leaks.", steps:[
+      {id:"teredo", risk:"med", title:"Windows Teredo / transition tech: disable if leaking", impact:"Closes edge-case IPv6 transition tunnels that can create inconsistent routing on Windows 11.", recommendation:"Nice. Teredo/transition layers can cause unpredictable IPv6 behavior. After disabling, reboot (or reconnect) and rerun IPv6 + DNS tests to verify stability.", why:"IPv6 transition layers can create edge-case routing leaks.", steps:[
         "If IPv6 tests behave inconsistently on Windows, disable Teredo temporarily.",
         "Retest IPv6 + DNS.",
         "Re-enable only if needed for specific apps."
       ], code:`PowerShell (Admin):\nnetsh interface teredo set state disabled\n\nUndo:\nnetsh interface teredo set state default`},
-      {id:"smart_multihomed", risk:"med", title:"Smart Multi-Homed Name Resolution (Windows)", why:"Can query multiple DNS servers to ‘speed up’ resolution.", steps:[
+      {id:"smart_multihomed", risk:"med", title:"Smart Multi-Homed Name Resolution (Windows)", impact:"Prevents Windows from querying multiple DNS servers (including ISP) in parallel for “speed”.", recommendation:"Excellent. SMHNR can silently send DNS queries to multiple resolvers — including ISP DNS. After disabling, reboot and rerun the extended DNS test to confirm only VPN DNS remains.", why:"Can query multiple DNS servers to ‘speed up’ resolution.", steps:[
         "Disable SMHNR if DNS tests show mixed resolvers.",
         "Reboot, then rerun extended DNS test.",
         "Verify only VPN DNS is used."
@@ -952,7 +1027,7 @@
         "Disconnect VPN → reconnect VPN.",
         "Run DNS + IPv6 + WebRTC tests."
       ], code:`If the portal blocks VPN:\n- Login first\n- Then connect VPN\n- If it still fails, use cellular hotspot for a clean test`},
-      {id:"router_dns_enforce", risk:"high", title:"Router DNS enforcement (block direct DNS)", why:"If the router allows direct DNS to ISP/hotspot, the whole network leaks.", steps:[
+      {id:"router_dns_enforce", risk:"high", title:"Router DNS enforcement (block direct DNS)", impact:"Stops entire-home DNS leaks by blocking direct DNS to ISP/hotspot and forcing DNS through the VPN tunnel.", recommendation:"Strong. This turns your router into a DNS gatekeeper. After enforcing, test from two devices (phone + laptop) and confirm neither can resolve via ISP DNS.", why:"If the router allows direct DNS to ISP/hotspot, the whole network leaks.", steps:[
         "On VPN router setups, block outbound DNS to anything except VPN DNS.",
         "Force LAN clients to use router DNS only.",
         "Retest from two devices."
@@ -1059,7 +1134,101 @@
       const pct = Math.round((done/total)*100);
       barEl.style.width = pct + "%";
       statusEl.textContent = (done === total) ? "Verified" : (done === 0 ? "Not verified" : "In progress");
+      updateDynamicFeedback(done);
+      updateTransformerTable(loadState());
     }
+
+    const ISP_EXAMPLES = "Comcast / AT&T / Verizon";
+
+    const insights = [
+      { key: 0,   label: "Risk: Critical", tip: `Your privacy is under active risk. Your ISP (${ISP_EXAMPLES}) can still infer a large share of your activity from DNS and metadata. Start with the high‑risk cards.`, color: "#dc2626" },
+      { key: 20,  label: "Risk: High",     tip: `You fixed the easiest holes, but the tunnel still has leak paths. Expect DNS/IPv6/WebRTC surprises on public Wi‑Fi.`, color: "#ef4444" },
+      { key: 50,  label: "Risk: Moderate", tip: `Tunnel is getting hardened. Most automated tracking is blinded, but browser/IPv6 edge cases can still leak on 5G and captive portals.`, color: "#f59e0b" },
+      { key: 80,  label: "Risk: Low",      tip: `Solid protection. Remaining failures are usually advanced edge cases (transition tech, router DNS hijacks, inconsistent DoH policies).`, color: "#16a34a" },
+      { key: 100, label: "Digital Fortress", tip: `Digital Fortress: even during reconnect windows, your data should not exit the protected perimeter. Retest on a second network to confirm.`, color: "#15803d" }
+    ];
+
+    function getImpactList(percent){
+      if (percent < 20) return [
+        `ISP visibility is still high (${ISP_EXAMPLES}).`,
+        "DNS routing may bypass the tunnel during reconnect windows.",
+        "Browser settings (DoH/WebRTC) can override system routing."
+      ];
+      if (percent < 50) return [
+        "Fallback leaks are reduced, but not eliminated.",
+        "IPv6 and WebRTC can still expose identity/location signals.",
+        "Public Wi‑Fi DNS hijacking can still break expectations."
+      ];
+      if (percent < 80) return [
+        "Most automatic tracking systems lose easy DNS/IP signals.",
+        "Remaining leaks are often advanced: IPv6 transition, captive portals, router policies.",
+        "You’re close — retest after each final change."
+      ];
+      if (percent < 100) return [
+        "Strong baseline across DNS/IPv6/WebRTC on your main network.",
+        "Remaining risk is mostly hostile networks and misconfigured routers.",
+        "Validate on hotspot/public Wi‑Fi to confirm stability."
+      ];
+      return [
+        "DNS resolvers should be VPN-managed (not ISP/hotspot).",
+        "IPv6/WebRTC should not expose your real public IP.",
+        "Reconnect windows should stay sealed (kill switch/lockdown)."
+      ];
+    }
+
+    function updateDynamicFeedback(done){
+      const percent = Math.round((done/total)*100);
+      const chosen = [...insights].reverse().find(i => percent >= i.key) || insights[0];
+
+      const labelEl = document.getElementById("dnsDynamicLabel");
+      const tipEl = document.getElementById("dnsDynamicTip");
+      const impactEl = document.getElementById("dnsImpact");
+
+      if (labelEl) { labelEl.textContent = chosen.label; labelEl.style.color = chosen.color; }
+      if (tipEl) { tipEl.textContent = chosen.tip; }
+      if (impactEl) {
+        const items = getImpactList(percent).map(x => `<li>${x}</li>`).join("");
+        impactEl.innerHTML = `<strong>What this gives you right now:</strong><ul>${items}</ul>`;
+      }
+    }
+
+    function setCoverage(id, ok){
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.className = "live-pill " + (ok ? "live-pill--ok" : "live-pill--bad");
+      el.textContent = ok ? "Fixed" : "Not fixed";
+    }
+
+    function updateTransformerTable(state){
+      // Coverage groups: these flip to green when key checks are verified.
+      const dns_ok   = state["dns_protection"] && state["kill_switch"];
+      const ipv6_ok  = state["ipv6_policy"] && (state["teredo"] || true); // teredo is a bonus; ipv6_policy is the core
+      const webrtc_ok= state["webrtc_hardening"] && (state["browser_profile"] || true);
+      const doh_ok   = state["secure_dns_doh"] || state["firefox_dns_over_https"] || state["edge_secure_dns"];
+      const router_ok= state["router_dns_enforce"] && state["reconnect_after_portal"];
+
+      setCoverage("cov_dns", !!dns_ok);
+      setCoverage("cov_ipv6", !!ipv6_ok);
+      setCoverage("cov_webrtc", !!webrtc_ok);
+      setCoverage("cov_doh", !!doh_ok);
+      setCoverage("cov_router", !!router_ok);
+    }
+
+    function showRecommendation(card, isDone){
+      const recoEl = document.getElementById("dnsRecoText");
+      if (!recoEl) return;
+
+      // If user unchecks, keep a neutral tip.
+      if (!isDone){
+        recoEl.innerHTML = "Unchecked. Retest to confirm the leak is back (or the fix was not stable).";
+        return;
+      }
+
+      const impact = card.impact || "Improves privacy by reducing metadata exposure.";
+      const reco = card.recommendation || "Retest DNS + IPv6 + WebRTC after this change, then move to the next high‑risk card.";
+      recoEl.innerHTML = `<strong>Nice.</strong> ${reco}<br><br><strong>Impact:</strong> ${impact}`;
+    }
+
     function render(){
       const state = loadState();
       grid.innerHTML = "";
@@ -1100,6 +1269,9 @@
       doneEl.textContent = String(done);
       setBar(done);
     }
+      updateDynamicFeedback(done);
+      updateTransformerTable(state);
+
 
     function updateOne(id, value){
       const state = loadState();
@@ -1117,6 +1289,9 @@
       if (!cardEl) return;
       const id = cardEl.getAttribute("data-id");
       if (!id) return;
+      const cardObj = cards.find(c => c.id === id);
+      if (cardObj) showRecommendation(cardObj, target.checked);
+      updateTransformerTable(loadState());
       updateOne(id, target.checked);
     });
 
@@ -1125,11 +1300,13 @@
       for (const c of cards) state[c.id] = true;
       saveState(state);
       render();
+      const r = document.getElementById('dnsRecoText'); if (r) r.textContent = 'All checks marked. Validate by retesting on a second network.';
     });
 
     document.getElementById("dnsClearAll").addEventListener("click", function(){
       localStorage.removeItem(STORAGE_KEY);
       render();
+      const r = document.getElementById('dnsRecoText'); if (r) r.textContent = 'Reset done. Start with kill switch + IPv6 + Secure DNS (DoH), then retest.';
     });
 
     render();
