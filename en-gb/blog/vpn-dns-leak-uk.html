@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en-gb">
 <head>
 <meta charset="utf-8"/>
@@ -85,7 +84,6 @@
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "@id": "https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html"}, "headline": "DNS Leak with a VPN: Detection & Fixes (2026)", "description": "2026 practical guide: what a DNS leak is, how to test DNS/IPv6/WebRTC, and how to fix leaks on Windows, macOS, Android, iOS, and routers — with realistic privacy limits.", "image": "https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp", "inLanguage": "en-GB", "datePublished": "2026-01-06", "dateModified": "2026-02-22", "author": {"@type": "Person", "name": "Denys Shchur", "url": "https://dloran1.github.io/en-gb/about-denys-shchur.html"}, "publisher": {"@type": "Organization", "name": "VPN World", "logo": {"@type": "ImageObject", "url": "https://dloran1.github.io/assets/img/logo.png"}}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://dloran1.github.io/en-gb/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://dloran1.github.io/en-gb/blog/"}, {"@type": "ListItem", "position": 3, "name": "DNS Leak with a VPN: Detection & Fixes (2026)", "item": "https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html"}]}, {"@type": "ItemList", "name": "Related articles", "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://dloran1.github.io/en-gb/blog/what-is-a-vpn-uk.html", "name": "What is a VPN? (UK)"}, {"@type": "ListItem", "position": 2, "url": "https://dloran1.github.io/en-gb/blog/vpn-kill-switch-uk.html", "name": "VPN Kill Switch: stop leaks"}, {"@type": "ListItem", "position": 3, "url": "https://dloran1.github.io/en-gb/blog/vpn-optimal-settings-uk.html", "name": "Optimal VPN settings (UK)"}, {"@type": "ListItem", "position": 4, "url": "https://dloran1.github.io/en-gb/blog/proxy-vs-vpn-uk.html", "name": "Proxy vs VPN (UK)"}, {"@type": "ListItem", "position": 5, "url": "https://dloran1.github.io/en-gb/blog/vpn-public-wifi-uk.html", "name": "VPN on public Wi-Fi (UK)"}, {"@type": "ListItem", "position": 6, "url": "https://dloran1.github.io/en-gb/blog/vpn-protocols-uk.html", "name": "VPN protocols explained (UK)"}, {"@type": "ListItem", "position": 7, "url": "https://dloran1.github.io/en-gb/blog/no-logs-vpn-uk.html", "name": "No-logs VPN (UK)"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is a DNS leak when using a VPN?", "acceptedAnswer": {"@type": "Answer", "text": "A DNS leak happens when domain lookups (DNS queries) are sent outside the VPN tunnel — often to your ISP or a network’s DNS — even while the VPN appears connected. That can expose the sites you’re visiting as metadata."}}, {"@type": "Question", "name": "Why do DNS leaks happen most often on Windows?", "acceptedAnswer": {"@type": "Answer", "text": "Windows can prioritise multiple network adapters, cached DNS, and fallback resolvers. After updates, sleep/wake, or network changes (Wi-Fi to hotspot), DNS can briefly route outside the tunnel unless the VPN enforces DNS protection and a proper kill switch."}}, {"@type": "Question", "name": "Is IPv6 a common cause of leaks?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. If your VPN protects IPv4 but doesn’t properly handle IPv6, some traffic (including DNS-related requests) may bypass the tunnel. Either use a VPN with solid IPv6 handling or disable IPv6 on that device/network."}}, {"@type": "Question", "name": "Does a VPN make you anonymous?", "acceptedAnswer": {"@type": "Answer", "text": "Not fully. A VPN helps protect the network layer (IP/DNS leaks), but logins, cookies, fingerprinting and app identifiers can still link activity to you. Treat a VPN as one strong privacy layer, not total anonymity."}}]}]}</script>
 <script defer="" src="/assets/js/cookie-consent.js"></script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
-
 <style>
 /* Emergency box: never allow light text on light background */
 .emergency-fix-box, .emergency-fix-box *{ color:#071023 !important; }
@@ -108,7 +106,18 @@
 /* Ensure our comparison table caption is readable */
 .cmp-table caption{ font-weight:800; padding:10px 8px; }
 </style>
-</head>
+<style>
+/* Stage 2.5 hotfix: make TOC anchors usable with sticky header */
+html{scroll-behavior:smooth;}
+[id]{scroll-margin-top:110px;}
+
+/* Stage 2.5 hotfix: avoid low-contrast ("white on white") inside dashboard cards */
+#dns-cards-grid .dns-card{background:#fff !important;}
+#dns-cards-grid .dns-card,
+#dns-cards-grid .dns-card *{color:#071023 !important;}
+#dns-cards-grid .dns-card .dns-why{opacity:1 !important;}
+#dns-cards-grid .dns-card > div:first-child{opacity:1 !important;}
+</style></head>
 <body>
 <!-- HEADER -->
 <header class="site-header">
@@ -185,13 +194,12 @@
 </div>
 </section>
 <!-- CONTENT -->
-
 <section class="section emergency-intro">
 <h2>DNS Leak Emergency Fixer (2026)</h2>
 <p>If your leak test shows your <strong>real DNS</strong>, treat it like an emergency: your ISP can log domains even when your web traffic is encrypted. Use the quick fix below, then work through the full dashboard to lock down Windows, browsers and routers.</p>
 </section>
 <div class="emergency-fix-box" style="border: 3px solid #d9534f; padding: 18px; background: #fff5f5; border-radius: 12px; margin: 18px 0 18px; color:#071023;">
-<h2 style="color:#d9534f; margin:0 0 10px;">Quick Fix: DNS Leak 2026 (UK)</h2>
+<h2 id="quick" style="color:#d9534f; margin:0 0 10px;">Quick Fix: DNS Leak 2026 (UK)</h2>
 <p style="margin:0 0 10px; color:#071023;">
               If your <strong style=" color:#071023;">real DNS</strong> is visible (common on UK networks like <strong style=" color:#071023;">BT</strong>, <strong style=" color:#071023;">Virgin Media</strong> or <strong style=" color:#071023;">Sky</strong>), do this immediately:
             </p>
@@ -245,7 +253,7 @@
 </div>
 </section>
 <section class="section dns-diagrams">
-<h2>Why leaks happen: request path in 2 diagrams</h2>
+<h2 id="why">Why leaks happen: request path in 2 diagrams</h2>
 <div class="svg-card">
 <div class="svg-scroll">
 <svg aria-label="Secure DNS request path through VPN tunnel" role="img" style="max-width:980px;width:980px;height:auto;color:#000;" viewbox="0 0 980 220">
@@ -300,8 +308,8 @@
 </div>
 </div>
 </section>
-<section id="dns-fixer" style="margin-top: 22px;">
-<h2>The DNS Leak Emergency Fixer Dashboard</h2>
+<section><h2 id="tests">How to test (2‑minute routine)</h2><p>Use this repeatable routine before and after each fix so you know what actually changed.</p><ol><li>Connect to your VPN and enable any “Force VPN DNS / Use VPN DNS only” option.</li><li>Run a DNS leak test twice and note which DNS provider/ASN is shown.</li><li>Repeat in a Private/Incognito window (rules out extensions and cached DoH).</li><li>If results differ, disable extensions (uBlock, proxy, DNS/DoH tools) and test again.</li><li>Temporarily disable IPv6 and retest — IPv6 bypass is still a top leak cause on many ISP stacks.</li></ol></section><section id="dns-fixer" style="margin-top: 22px;">
+<h2 id="fix">The DNS Leak Emergency Fixer Dashboard</h2>
 <p class="note"><strong>How it works:</strong> tick each fix you’ve applied. Your progress score updates instantly, and the panel suggests what to do next.</p>
 <div class="checklist-wrapper" style="max-width: 100%; margin: 0 auto;">
 <div id="dns-status-card" style="border: 4px solid #000; padding: 18px; background: #fff; margin-bottom: 16px; border-radius: 15px;">
@@ -363,7 +371,6 @@
                 margin-top: 2px;
               }
             </style>
-
 </section>
 <section class="section uk-context">
 <h2>UK-specific gotchas (BT, Virgin Media, Sky)</h2>
@@ -375,7 +382,7 @@
 </ul>
 </section>
 <section class="section faq-section">
-<h2>FAQ: DNS leaks (UK)</h2>
+<h2 id="faq">FAQ: DNS leaks (UK)</h2>
 <details class="faq-item"><summary>How do I know if I have a DNS leak?</summary>
 <p>If a DNS leak test shows your ISP resolver (BT/Virgin/Sky) while your VPN is connected, your DNS is escaping the tunnel. Run the test twice (after reconnecting) to confirm it’s consistent.</p>
 </details>
@@ -392,7 +399,6 @@
 <p>Turn on your VPN’s kill switch and “Force VPN DNS”, disable IPv6, then flush DNS cache. After that, run the leak test again. The dashboard above walks you through the full checklist.</p>
 </details>
 </section>
-
 <!-- VIDEO -->
 <section class="section section-alt">
 <div class="container">
@@ -469,7 +475,6 @@
 <p>© 2026 VPN World</p>
 </div>
 </footer>
-
 <script>
 document.addEventListener('DOMContentLoaded', function(){
 
