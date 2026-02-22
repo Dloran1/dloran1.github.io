@@ -5,8 +5,9 @@
 <meta charset="utf-8"/>
 <title>DNS Leak with a VPN (2026): How to Test &amp; Fix DNS/IPv6/WebRTC Leaks | VPN World</title>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="2026 practical guide: what a DNS leak is, how to test DNS/IPv6/WebRTC, and how to fix leaks on &lt;a href="vpn-windows-setup-uk.html"=""/>Windows, <a href="vpn-macos-uk.html">macOS</a>, <a href="vpn-android-uk.html">Android</a>, <a href="vpn-ios-uk.html">iOS</a>, and <a href="vpn-&lt;a href=" vpn-router-setup-uk.html"="">router</a>-setup-uk.html"&gt;routers — with realistic privacy limits." name="description"/&gt;
-<meta content="index, follow" name="robots">
+<meta name="description" content="2026 UK guide: detect and fix DNS, IPv6, and WebRTC leaks on Windows, macOS, Android, iOS, and routers. Includes BT, Virgin Media, and Sky ISP-specific fixes."/>
+<meta content="2026 practical guide: what a DNS leak is, how to test DNS/IPv6/WebRTC, and how to fix leaks on &lt;a href="vpn-windows-setup-uk.html"=""/>Windows, <a href="vpn-macos-uk.html">macOS</a>, <a href="vpn-android-uk.html">Android</a>, <a href="vpn-ios-uk.html">iOS</a>, and <a href="vpn-&lt;a href=" vpn-router-setup-uk.html"="">router</a>-setup-uk.html"&gt;routers — with realistic privacy limits." 
+<meta content="index, follow" name="robots"/>
 <link href="/favicon.ico" rel="icon"/>
 <link href="https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html" rel="canonical"/>
 <!-- HREFLANG (7× + x-default) -->
@@ -483,7 +484,7 @@ html{scroll-behavior:smooth;}
 
 /* --- DNS Leak Fixer: hard contrast + override "white on white" (mobile Safari) --- */
 #dns-status-card, #dns-detail, #dns-cards-grid .dns-card { background: #ffffff !important; }
-#dns-status-label, #dns-detail-title, #dns-detail-command, #dns-detail-why { 
+#dns-status-label, #dns-detail-title, #dns-detail-cmd, #dns-detail-why { 
   color: #071023 !important; 
   opacity: 1 !important;
 }
@@ -707,185 +708,274 @@ html{scroll-behavior:smooth;}
 </div>
 </footer>
 <script>
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function () {
+  (function () {
+    const STORE_KEY = 'vw_dns_leak_fixer_2026_en_gb_v2';
 
-            (function(){
-              const STORE_KEY = 'vw_dns_leak_fixer_2026_en_gb_v1';
+    const grid = document.getElementById('dns-cards-grid');
+    const bar = document.getElementById('dns-progress-bar');
+    const statusLabel = document.getElementById('dns-status-label');
+    const statusTip = document.getElementById('dns-status-tip');
 
-              const grid = document.getElementById('dns-cards-grid');
-              const bar = document.getElementById('dns-progress-bar');
-              const statusLabel = document.getElementById('dns-status-label');
-              const statusTip = document.getElementById('dns-status-tip');
+    const detailTitle = document.getElementById('dns-detail-title');
+    const detailCmd = document.getElementById('dns-detail-cmd');
+    const detailWhy = document.getElementById('dns-detail-why');
 
-              const detailTitle = document.getElementById('dns-detail-title');
-              const detailCmd = document.getElementById('dns-detail-cmd');
-              const detailWhy = document.getElementById('dns-detail-why');
+    const resetBtn = document.getElementById('dns-reset');
+    const clearBtn = document.getElementById('dns-clear');
 
-              const resetBtn = document.getElementById('dns-reset');
-              const clearBtn = document.getElementById('dns-clear');
+    // UK-local context for dynamic messages (avoid locale "skleika")
+    const ISP_EXAMPLES = 'Virgin Media / BT / Sky';
 
-              const items = [
-                {t:'Force VPN DNS (app setting)', c:'VPN app → Settings → DNS → “Use VPN DNS only” / “Force VPN DNS”', w:'This stops the client from falling back to your ISP resolver during reconnection. Many “mystery” leaks are just DNS fallback.'},
-                {t:'Disable IPv6 (fast test)', c:'Windows: Network Connections → Adapter → Properties → uncheck “Internet Protocol Version 6 (TCP/IPv6)”', w:'UK ISP IPv6 stacks can bypass a VPN tunnel if the client is IPv4-only or misconfigured. Either enable IPv6 support in the VPN, or disable IPv6.'},
-                {t:'Disable Teredo tunnelling', c:'Run (Admin CMD): netsh interface teredo set state disabled', w:'Teredo creates hidden IPv6 tunnels that can leak routes and DNS outside VPN rules.'},
-                {t:'Disable “Smart Multi-Homed Name Resolution” (Win 11)', c:'gpedit.msc → Computer Configuration → Administrative Templates → Network → DNS Client → Turn off smart multi-homed name resolution = Enabled', w:'Windows can send DNS queries to multiple adapters (Ethernet/Wi‑Fi/VPN). Turning this off prevents “parallel” DNS leaks.'},
-                {t:'Enable system kill switch', c:'VPN app → Kill Switch → System-level / Always-on', w:'If the VPN drops for 1 second, Windows can immediately query ISP DNS. A kill switch blocks traffic until the tunnel is back.'},
-                {t:'Check for a second DNS app', c:'Look for: NextDNS / AdGuard / “Secure DNS” tools running in background', w:'Multiple DNS resolvers at once can override your VPN DNS setting and cause split behaviour.'},
-                {t:'Set secure DNS in browser (Chrome/Edge)', c:'Settings → Privacy → Security → Use secure DNS → Choose provider (Cloudflare)', w:'Browser secure DNS reduces leaks when the OS resolver is unstable — but it’s not a full replacement for VPN DNS.'},
-                {t:'Disable WebRTC leaks', c:'Install uBlock Origin → enable “Prevent WebRTC from leaking local IP” (or use browser setting)', w:'WebRTC can expose local IPs to websites even with a VPN. Disable it for sensitive browsing.'},
-                {t:'Flush DNS cache', c:'Windows (Admin CMD): ipconfig /flushdns', w:'After changing DNS settings, flushing cache prevents stale resolver entries from producing false leak results.'},
-                {t:'Restart network stack', c:'Windows: Settings → Network & internet → Advanced network settings → Network reset (last resort)', w:'If you’ve installed many VPN/DNS tools, the stack can get messy. Resetting adapters often fixes persistent leaks.'},
-                {t:'Disable split tunnelling (temporarily)', c:'VPN app → Split tunnelling → Off', w:'Split tunnelling can route DNS outside the tunnel depending on client design. Turn it off when troubleshooting leaks.'},
-                {t:'Bind VPN adapter on Windows', c:'Advanced adapter settings: prefer VPN DNS, lower metrics on non‑VPN adapters', w:'Adapter metrics influence which DNS server Windows prefers. A wrong metric can make ISP DNS “win”.'},
-                {t:'Router DNS: avoid ISP defaults', c:'Router → Internet/WAN DNS → set 1.1.1.1 / 9.9.9.9 (if you trust them)', w:'If devices use router DNS, the router may forward to ISP DNS. Setting trusted DNS reduces household-wide leakage.'},
-                {t:'Disable IPv6 on router (if VPN can’t handle IPv6)', c:'Router admin → IPv6 → Off', w:'If your VPN does not tunnel IPv6, router-level IPv6 can create leaks for every device.'},
-                {t:'Check VPN protocol (WireGuard/OpenVPN)', c:'Try WireGuard/NordLynx vs OpenVPN (or vice versa)', w:'Some protocols handle DNS differently. Switching protocol is a quick way to eliminate client bugs.'},
-                {t:'Turn on “Block outside DNS” (Windows)', c:'If available in your VPN: “Block internet when disconnected”', w:'This prevents Windows from reaching ISP DNS on reconnect events.'},
-                {t:'Disable “Private DNS” conflicts (Android)', c:'Android → Network → Private DNS → Off/Automatic (test)', w:'Private DNS can override VPN DNS on some devices. Test behaviour both ways.'},
-                {t:'Use Always‑On VPN (Android)', c:'Android → VPN → Always‑on + Block connections without VPN', w:'This gives you a kill switch at OS level and reduces leak windows.'},
-                {t:'iOS: turn off “Limit IP Address Tracking” (test)', c:'iOS Wi‑Fi → (i) → Limit IP Address Tracking → Off (temporary)', w:'Relay/obfuscation features can change DNS routes. Test without them to isolate the leak.'},
-                {t:'Browser extensions audit', c:'Disable suspicious “VPN/DNS” extensions; keep only trusted ones', w:'Extensions can inject proxy settings or change DNS/DoH and create inconsistent results.'},
-                {t:'Check for captive portals / public Wi‑Fi', c:'On public Wi‑Fi, open a non‑HTTPS page to complete the portal, then connect VPN', w:'Captive portals often block VPN DNS until you accept terms; this can look like a leak.'},
-                {t:'Reinstall the VPN client', c:'Uninstall → reboot → install latest version', w:'Corrupted TAP/Wintun drivers or legacy configs are a common cause of leaks on Windows.'},
-                {t:'Test with a clean browser profile', c:'Create a new browser profile (no extensions) and run tests', w:'This isolates WebRTC/DoH/extensions from OS-level DNS issues.'},
-                {t:'Run a leak test after each change', c:'Use the “Leak tests” section below (DNS + IPv6 + WebRTC)', w:'Troubleshooting works only if you verify. Test after each fix so you know what actually solved the leak.'},
-                {t:'Document your “known-good” settings', c:'Save a note: VPN app settings + OS DNS + router DNS', w:'If a future update breaks DNS, you can restore your safe baseline quickly.'}
-              ];
+    // 25 expert cards (OS + browser + router). Text intentionally UK-flavoured.
+    const cards = [
+      { id:'kill_switch', risk:'HIGH', title:'Enable kill switch (block without VPN)', impact:'Prevents the classic “2‑second reconnect” leak when VPN drops.', reco_on:'Good move. Your device can’t silently fall back to ISP routes.', reco_off:'Without a kill switch, a VPN drop can expose DNS/IP instantly.', steps:['Open your VPN app settings','Enable Kill Switch (system / always‑on)','Reconnect VPN and retest DNS/IPv6/WebRTC'], code:'VPN app → Settings → Kill Switch → Enable (system / always‑on)' },
+      { id:'dns_protection', risk:'HIGH', title:'Turn on DNS leak protection in the VPN app', impact:'Forces DNS through the tunnel instead of ISP resolvers.', reco_on:'Nice. This blocks most “ISP DNS fallback” patterns.', reco_off:'If this is off, your ISP can still see DNS patterns.', steps:['VPN app → Settings → DNS','Enable “Use VPN DNS only” / “Force VPN DNS”','Retest DNS twice'], code:'VPN app → Settings → DNS → Enable “Use VPN DNS only”' },
+      { id:'ipv6_fix', risk:'HIGH', title:'Fix IPv6: tunnel it or disable it', impact:'Closes the top bypass path on UK ISP stacks in 2026.', reco_on:'Great. IPv6 bypass is one of the biggest real‑world leak causes.', reco_off:'If IPv6 bypasses the tunnel, your ISP can see part of your traffic.', steps:['If your VPN supports IPv6: enable it','If not: disable IPv6 temporarily','Retest IPv6 + DNS'], code:'Windows: ncpa.cpl → Adapter → Properties → uncheck IPv6 (temporary)' },
+      { id:'webrtc_harden', risk:'MEDIUM', title:'Harden WebRTC to prevent real IP exposure', impact:'Stops browser‑level IP leakage used by trackers.', reco_on:'Good. WebRTC leaks are common on Chromium browsers.', reco_off:'WebRTC can expose local addresses even with a VPN.', steps:['Install uBlock Origin','Enable WebRTC leak prevention','Retest WebRTC'], code:'uBlock Origin → Settings → “Prevent WebRTC from leaking local IP”' },
+      { id:'teredo_off', risk:'MEDIUM', title:'Disable Teredo interface (Windows)', impact:'Removes hidden IPv6 tunnelling that can bypass VPN rules.', reco_on:'Perfect. Teredo is a frequent “mystery tunnel”.', reco_off:'Teredo can create routes outside VPN control.', steps:['Open CMD as Administrator','Run the netsh command','Reboot or reconnect'], code:'netsh interface teredo set state disabled' },
+      { id:'smmnr_off', risk:'HIGH', title:'Disable Smart Multi‑Homed Name Resolution (Win 11)', impact:'Prevents Windows sending DNS to multiple adapters in parallel.', reco_on:'Excellent. This blocks “parallel DNS” leaks on Windows 11.', reco_off:'If on, Windows may query DNS outside the VPN adapter.', steps:['Open gpedit.msc','DNS Client → Turn off smart multi‑homed name resolution','Set to Enabled'], code:'gpedit.msc → Computer Config → Admin Templates → Network → DNS Client → Turn off SMHNR = Enabled' },
+      { id:'flush_dns', risk:'LOW', title:'Flush DNS cache after changes', impact:'Avoids false results from cached resolver entries.', reco_on:'Good housekeeping. Your retest results will be cleaner.', reco_off:'Cache can make fixes look like they failed (or succeeded).', steps:['Open CMD as Administrator','Flush DNS','Retest'], code:'ipconfig /flushdns' },
+      { id:'restart_vpn', risk:'LOW', title:'Reconnect VPN (new session)', impact:'Forces fresh routes and DNS policy to apply.', reco_on:'Nice. Many clients apply DNS rules only on reconnect.', reco_off:'A stale session can keep old DNS routes alive.', steps:['Disconnect VPN','Wait 5 seconds','Reconnect and retest'], code:'VPN app → Disconnect → Reconnect' },
+      { id:'disable_split', risk:'MEDIUM', title:'Disable split tunnelling (temporarily)', impact:'Stops apps routing DNS outside the tunnel during troubleshooting.', reco_on:'Good call. Split tunnelling can create confusing leak paths.', reco_off:'Split tunnelling may exclude browsers or DNS helper services.', steps:['VPN app → Split tunnelling','Turn OFF temporarily','Retest'], code:'VPN app → Settings → Split tunnelling → Off (temporary)' },
+      { id:'browser_doh_check', risk:'MEDIUM', title:'Secure DNS (DoH): avoid conflicts with VPN DNS', impact:'Prevents browser DoH overriding your VPN DNS policy.', reco_on:'Good. Now the browser won’t surprise you with a different resolver.', reco_off:'Browser DoH can route DNS outside your VPN’s intended resolver.', steps:['Chrome/Edge → Settings','Privacy & security → Security → Use secure DNS','Set to “Off” or “With current provider”'], code:'Chrome/Edge → Settings → Privacy & security → Security → Use secure DNS → Off (or “with current provider”)' },
+      { id:'firefox_trr', risk:'MEDIUM', title:'Firefox TRR (DoH): set to “Default” or “Off”', impact:'Stops Firefox forcing DoH regardless of OS routing.', reco_on:'Nice. Firefox won’t override your VPN DNS policy now.', reco_off:'Firefox TRR can bypass OS resolver selection.', steps:['Open about:preferences#privacy','Enable/Disable DoH appropriately','Retest DNS'], code:'Firefox → Settings → Privacy & Security → DNS over HTTPS → Default / Off' },
+      { id:'adapter_metric', risk:'MEDIUM', title:'Fix adapter metrics (Windows)', impact:'Ensures the VPN adapter wins DNS priority.', reco_on:'Great. Wrong metrics are a classic reason ISP DNS “wins”.', reco_off:'If metrics are wrong, Windows may prefer ISP DNS.', steps:['Open Network Connections','Advanced settings / adapter metrics','Prefer VPN adapter'], code:'Windows → Network adapter → Advanced → Interface metric (VPN lower than Wi‑Fi/Ethernet)' },
+      { id:'mdns_guard', risk:'LOW', title:'mDNS leak prevention (local discovery)', impact:'Reduces local network metadata leakage on public Wi‑Fi.', reco_on:'Good. Local discovery traffic is reduced.', reco_off:'mDNS can reveal device names/services on some networks.', steps:['Disable local discovery on public Wi‑Fi','Turn off sharing when travelling','Retest if needed'], code:'Windows: Settings → Network → turn off Network discovery (Public profile)' },
+      { id:'windows_firewall', risk:'LOW', title:'Firewall rule: block DNS outside VPN (advanced)', impact:'Hard blocks UDP/TCP 53 to non‑VPN interfaces.', reco_on:'Strong. This is close to “no mistakes allowed”.', reco_off:'Without it, some apps may still reach ISP DNS under edge cases.', steps:['Use your VPN’s kill switch if possible','Otherwise create outbound rules for DNS','Retest'], code:'Windows Defender Firewall → Outbound rules → Block UDP/TCP 53 on non‑VPN interfaces (advanced)' },
+      { id:'router_dns', risk:'MEDIUM', title:'Router DNS: don’t leave ISP defaults', impact:'Prevents household devices leaking via router forwarding to ISP DNS.', reco_on:'Nice. This reduces “whole home” DNS leakage.', reco_off:'ISP router defaults often forward DNS to the ISP.', steps:['Open router admin panel','Set custom DNS if you trust it','Retest from a phone/laptop'], code:'Router → WAN/Internet DNS → set trusted DNS (e.g., 1.1.1.1 / 9.9.9.9) if appropriate' },
+      { id:'router_ipv6', risk:'MEDIUM', title:'Router IPv6: disable if VPN cannot handle IPv6', impact:'Stops IPv6 bypass at the network edge.', reco_on:'Good. This removes an entire bypass path.', reco_off:'If router IPv6 stays on while VPN is IPv4‑only, leaks happen.', steps:['Router admin → IPv6 settings','Disable IPv6 (temporary)','Retest'], code:'Router → IPv6 → Off (temporary if VPN lacks IPv6 support)' },
+      { id:'private_dns_android', risk:'LOW', title:'Android Private DNS: set correctly', impact:'Avoids Android enforcing a resolver outside your VPN policy.', reco_on:'Good. Android won’t override DNS unexpectedly.', reco_off:'Private DNS can force DoT/DoH resolvers that conflict with VPN.', steps:['Android Settings → Network & internet','Private DNS','Set to Off/Automatic depending on VPN'], code:'Android → Settings → Network & internet → Private DNS → Off/Automatic' },
+      { id:'ios_limit_tracking', risk:'LOW', title:'iOS: limit IP address tracking (Safari)', impact:'Reduces extra network “help” layers that confuse tests.', reco_on:'Good. Tests are more consistent.', reco_off:'Extra privacy relays may change resolver behaviour and results.', steps:['iOS Settings → Safari','Disable conflicting relay features during tests','Retest'], code:'iOS → Settings → Safari → turn off conflicting relays during testing (temporary)' },
+      { id:'vpn_protocol', risk:'LOW', title:'Switch VPN protocol (WireGuard / NordLynx / OpenVPN)', impact:'Some clients apply DNS rules differently per protocol.', reco_on:'Good. Choose the protocol with the cleanest DNS behaviour.', reco_off:'A buggy protocol path can cause intermittent leaks.', steps:['Try WireGuard-based protocol','Retest DNS','Keep the one with stable results'], code:'VPN app → Protocol → Try WireGuard/NordLynx (then retest)' },
+      { id:'disable_proxy_ext', risk:'LOW', title:'Disable proxy/DNS browser extensions (during tests)', impact:'Removes interference from extensions that change routing.', reco_on:'Nice. Results reflect the VPN, not the extension.', reco_off:'Extensions can create “false leak” signals.', steps:['Disable extensions temporarily','Retest','Re-enable one by one'], code:'Browser → Extensions → disable proxy/DNS tools temporarily' },
+      { id:'incognito_retest', risk:'LOW', title:'Retest in Private/Incognito window', impact:'Rules out cache, cookies, and extension differences.', reco_on:'Good. You’re following the correct troubleshooting method.', reco_off:'Without this, you can misdiagnose the cause.', steps:['Open Incognito/Private','Run DNS/IPv6/WebRTC tests','Compare results'], code:'Chrome: Ctrl+Shift+N / Safari: Private Window → retest' },
+      { id:'second_device', risk:'LOW', title:'Cross-check on a second device', impact:'Confirms whether the leak is device-specific or network-wide.', reco_on:'Smart. This avoids chasing the wrong layer.', reco_off:'One device may be fixed while another still leaks.', steps:['Test phone + laptop','Compare DNS providers','Fix at router if both leak'], code:'Run the same DNS test from phone and laptop on the same Wi‑Fi' },
+      { id:'reboot', risk:'LOW', title:'Reboot after network changes', impact:'Flushes stubborn routing/DNS state on some systems.', reco_on:'OK. Not glamorous, but it works surprisingly often.', reco_off:'Some settings only apply after restart.', steps:['Reboot device','Reconnect VPN','Retest'], code:'Reboot → reconnect VPN → retest DNS/IPv6/WebRTC' },
+      { id:'verify_isp_names', risk:'MEDIUM', title:'Verify ISP exposure in results (UK)', impact:`Ensures tests are reading ${ISP_EXAMPLES} paths correctly.`, reco_on:'Good. You’re validating the “who sees what” layer.', reco_off:`If you see ${ISP_EXAMPLES} resolver names/ASNs, DNS is still exposed.`, steps:['Run DNS test','Note resolver/ASN','Compare after each fix'], code:'Run DNS leak test → note resolver/ASN → confirm it changes after fixes' }
+    ];
 
-              function loadState(){
-                try{
-                  const raw = localStorage.getItem(STORE_KEY);
-                  const data = raw ? JSON.parse(raw) : {checked:[], last:-1};
-                  if(!Array.isArray(data.checked)) data.checked = [];
-                  if(typeof data.last !== 'number') data.last = -1;
-                  return data;
-                }catch(e){
-                  return {checked:[], last:-1};
-                }
-              }
+    // ----- State helpers -----
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORE_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) { return {}; }
+    }
+    function saveState(state) {
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
+    }
+    function countDone(state) {
+      let n = 0;
+      for (const k in state) if (state[k] === true) n++;
+      return n;
+    }
+    function clamp(n, a, b) { return Math.max(a, Math.min(b, n)); }
 
-              function saveState(s){
-                try{ localStorage.setItem(STORE_KEY, JSON.stringify(s)); }catch(e){}
-              }
+    // ----- Dynamic risk insights -----
+    function getInsight(percent) {
+      if (percent >= 100) return { label: 'Risk: Zero (Digital Fortress)', color: '#0a7a0a', tip: `Excellent. DNS exposure to ${ISP_EXAMPLES} is effectively blocked.` };
+      if (percent >= 80)  return { label: 'Risk: Low', color: '#0a7a0a', tip: 'Solid protection. Retest on public Wi‑Fi and after VPN reconnects.' };
+      if (percent >= 50)  return { label: 'Risk: Moderate', color: '#b45309', tip: `Most tracking is reduced, but OS/browser edges can still leak to ${ISP_EXAMPLES}.` };
+      if (percent >= 20)  return { label: 'Risk: High', color: '#b91c1c', tip: `Still exposed. Start with Force VPN DNS + IPv6 fixes to block ${ISP_EXAMPLES} visibility.` };
+      return { label: 'Risk: Critical', color: '#b91c1c', tip: `Your privacy is at risk. Your ISP (${ISP_EXAMPLES}) can still see DNS patterns and metadata.` };
+    }
 
-              function setDetail(idx){
-                if(idx < 0 || idx >= items.length) return;
-                const it = items[idx];
-                if(detailTitle) detailTitle.textContent = it.t;
-                if(detailCmd) detailCmd.textContent = it.c;
-                if(detailWhy) detailWhy.textContent = it.w;
-              }
+    function updateTopStatus(done, total) {
+      const percent = total ? Math.round((done / total) * 100) : 0;
+      if (bar) bar.style.width = clamp(percent, 0, 100) + '%';
 
-              function setStatus(p){
-                let label = '';
-                let tip = '';
-                if(p <= 15){
-                  label = `Status: At risk (${p}%)`;
-                  tip = 'Start with Force VPN DNS + Disable IPv6. These two fixes solve most UK cases.';
-                }else if(p <= 45){
-                  label = `Status: Basic protection (${p}%)`;
-                  tip = 'Good start. Next: Teredo + Smart Multi-Homed DNS (Windows 11).';
-                }else if(p <= 75){
-                  label = `Status: Strong defence (${p}%)`;
-                  tip = 'You’re close. Now audit WebRTC + split tunnelling and test again.';
-                }else if(p < 100){
-                  label = `Status: Nearly sealed (${p}%)`;
-                  tip = 'Finish the remaining edge-cases: router IPv6/DNS and driver clean-up.';
-                }else{
-                  label = 'Status: DNS sealed (100%)';
-                  tip = 'Excellent. Re-test occasionally after VPN/app updates or ISP router resets.';
-                }
-                if(statusLabel) statusLabel.textContent = label;
-                if(statusTip) statusTip.textContent = tip;
-                if(bar) bar.style.width = p + '%';
-              }
+      const insight = getInsight(percent);
+      if (statusLabel) statusLabel.textContent = `Status: ${insight.label} (${percent}%)`;
+      if (statusLabel) statusLabel.style.color = insight.color;
 
-              function updateStatus(){
-                const s = loadState();
-                const p = Math.round((s.checked.length / items.length) * 100);
-                setStatus(p);
-              }
+      if (statusTip) {
+        statusTip.textContent = insight.tip;
+        statusTip.style.color = '#071023';
+      }
+      return { percent, insight };
+    }
 
-              function render(){
-                if(!grid) return;
-                const state = loadState();
-                grid.innerHTML = '';
+    function cardMini(done, total, currentIndex, isDone) {
+      // small per-card progress segment + explanation
+      const percent = total ? Math.round((done / total) * 100) : 0;
+      const insight = getInsight(percent);
 
-                items.forEach((it, idx) => {
-                  const done = state.checked.includes(idx);
+      const pill = isDone ? '✔ Applied' : '⚠ Not applied';
+      const pillColor = isDone ? '#0a7a0a' : '#b91c1c';
 
-                  const card = document.createElement('div');
-                  card.className = 'dns-card' + (done ? ' is-done' : '');
+      return `
+        <div class="dns-mini">
+          <div class="dns-mini__row">
+            <span class="dns-mini__pill" style="border-color:${pillColor};color:${pillColor}">${pill}</span>
+            <span class="dns-mini__risk" style="color:${insight.color}">${insight.label}</span>
+            <span class="dns-mini__pct">${percent}%</span>
+          </div>
+          <div class="dns-mini__bar" aria-hidden="true">
+            <span class="dns-mini__barfill" style="width:${percent}%;"></span>
+          </div>
+          <div class="dns-mini__tip">${insight.tip}</div>
+        </div>
+      `;
+    }
 
-                  card.innerHTML = `
-                    <div style="font-weight:900; font-size:1.25em; min-width:32px; line-height:1;">${idx+1}</div>
-                    <div style="flex:1;">
-                      <div class="dns-title">${it.t}</div>
-                      <div class="dns-why">${it.w}</div>
-                    </div>
-                    <div style="min-width:32px;">
-                      <input type="checkbox" ${done ? 'checked' : ''} aria-label="Mark as done">
-                    </div>
-                  `;
+    function render() {
+      if (!grid) return;
 
-                  const cb = card.querySelector('input');
+      const state = loadState();
+      const done = countDone(state);
+      const total = cards.length;
 
-                  const applyToggle = (checked) => {
-                    const s = loadState();
-                    const has = s.checked.includes(idx);
-                    if(checked && !has) s.checked.push(idx);
-                    if(!checked && has) s.checked = s.checked.filter(x => x !== idx);
-                    s.last = idx;
-                    saveState(s);
-                    card.classList.toggle('is-done', checked);
-                    setDetail(idx);
-                    updateStatus();
-                  };
+      // Update top status
+      updateTopStatus(done, total);
 
-                  // Click anywhere toggles + opens detail
-                  card.addEventListener('click', (e) => {
-                    if(e.target && e.target.tagName === 'INPUT') return;
-                    cb.checked = !cb.checked;
-                    applyToggle(cb.checked);
-                  });
+      // Build cards
+      grid.innerHTML = '';
+      cards.forEach((card, idx) => {
+        const isDone = !!state[card.id];
 
-                  cb.addEventListener('change', () => applyToggle(cb.checked));
+        const el = document.createElement('div');
+        el.className = 'dns-card' + (isDone ? ' is-done' : '');
+        el.setAttribute('data-id', card.id);
+        el.setAttribute('role', 'button');
+        el.setAttribute('tabindex', '0');
 
-                  // Long-press feel: show details even without toggling
-                  card.addEventListener('contextmenu', (e) => { e.preventDefault(); setDetail(idx); });
+        // IMPORTANT: Make checkbox tap reliable on iOS (no double-tap)
+        el.innerHTML = `
+          <div style="flex:1;">
+            <div class="dns-title">${card.title}</div>
+            <div class="dns-why"><strong>Expert why:</strong> ${card.impact}</div>
+            ${cardMini(done, total, idx, isDone)}
+            <details class="dns-details">
+              <summary>Steps &amp; command</summary>
+              <ol class="dns-steps">
+                ${card.steps.map(s => `<li>${s}</li>`).join('')}
+              </ol>
+              <pre class="dns-code"><code>${card.code}</code></pre>
+            </details>
+          </div>
+          <input class="dns-cb" type="checkbox" ${isDone ? 'checked' : ''} aria-label="Mark as applied">
+        `;
 
-                  grid.appendChild(card);
-                });
+        const cb = el.querySelector('.dns-cb');
 
-                // Restore last selection
-                if(state.last >= 0) setDetail(state.last);
-                updateStatus();
-              }
+        // Keep details clickable without toggling the checkbox
+        const stop = (ev) => { ev.stopPropagation(); };
+        el.querySelectorAll('summary, a, pre, code').forEach(n => {
+          n.addEventListener('click', stop, { passive: true });
+          n.addEventListener('touchstart', stop, { passive: true });
+        });
 
-              if(resetBtn){
-                resetBtn.addEventListener('click', () => {
-                  try{ localStorage.removeItem(STORE_KEY); }catch(e){}
-                  if(detailTitle) detailTitle.textContent = '—';
-                  if(detailCmd) detailCmd.textContent = '—';
-                  if(detailWhy) detailWhy.textContent = 'Tap a card to see the exact action, command, or setting path.';
-                  render();
-                });
-              }
+        function applySelection() {
+          // Always show the selected fix panel (tap clarity)
+          if (detailTitle) detailTitle.textContent = card.title;
+          if (detailCmd) detailCmd.textContent = card.code;
+          if (detailWhy) detailWhy.textContent = `${card.reco_on} Retest: DNS + IPv6 + WebRTC after this change.`;
+        }
 
-              if(clearBtn){
-                clearBtn.addEventListener('click', () => {
-                  try{ localStorage.removeItem(STORE_KEY); }catch(e){}
-                  render();
-                });
-              }
+        function toggle(isFromCb) {
+          const next = !cb.checked;
+          cb.checked = next;
 
-              if(document.readyState === 'loading'){
-                document.addEventListener('DOMContentLoaded', render);
-              }else{
-                render();
-              }
-            })();
-            
+          const st = loadState();
+          st[card.id] = next;
+          saveState(st);
+
+          // Show selection and rerender
+          applySelection();
+          render();
+
+          // Scroll selection into view lightly on mobile if user tapped checkbox
+          if (isFromCb && detailTitle) {
+            // no forced scroll; keep stable
+          }
+        }
+
+        // Card tap toggles (except inside details)
+        el.addEventListener('click', function (ev) {
+          // if click originates from checkbox itself, let onchange handle
+          if (ev.target && ev.target.classList && ev.target.classList.contains('dns-cb')) return;
+          toggle(false);
+        });
+
+        // iOS: touchstart makes tap immediate (but doesn’t double-fire)
+        el.addEventListener('touchstart', function (ev) {
+          if (ev.target && ev.target.classList && ev.target.classList.contains('dns-cb')) return;
+          // no preventDefault; just make sure it feels responsive
+        }, { passive: true });
+
+        // Checkbox toggles
+        cb.addEventListener('click', function (ev) {
+          ev.stopPropagation();
+        });
+        cb.addEventListener('change', function (ev) {
+          ev.stopPropagation();
+          // on change, state already reflects checked value
+          const st = loadState();
+          st[card.id] = cb.checked;
+          saveState(st);
+          applySelection();
+          render();
+        });
+
+        // Keyboard accessibility
+        el.addEventListener('keydown', function (ev) {
+          if (ev.key === 'Enter' || ev.key === ' ') {
+            ev.preventDefault();
+            toggle(false);
+          }
+        });
+
+        grid.appendChild(el);
+      });
+    }
+
+    // Buttons
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function () {
+        localStorage.removeItem(STORE_KEY);
+        if (detailTitle) detailTitle.textContent = '—';
+        if (detailCmd) detailCmd.textContent = '—';
+        if (detailWhy) detailWhy.textContent = 'Tap a card to see the exact action, command, or setting path.';
+        render();
+      });
+    }
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function () {
+        localStorage.removeItem(STORE_KEY);
+        render();
+      });
+    }
+
+    // Extra CSS fixes (white-on-white, Safari)
+    const css = document.createElement('style');
+    css.textContent = `
+      /* Hard contrast (UK dashboard) */
+      #dns-status-card, #dns-detail, #dns-cards-grid .dns-card { background:#fff !important; }
+      #dns-status-card *, #dns-detail *, #dns-cards-grid .dns-card * { color:#071023 !important; }
+      #dns-status-label { font-weight:900; }
+      #dns-status-tip { opacity:1 !important; }
+      #dns-cards-grid .dns-why { color:#071023 !important; }
+      #dns-cards-grid .dns-details summary { font-weight:900; cursor:pointer; }
+      #dns-cards-grid .dns-code { background:#fff; border:3px solid #000; border-radius:12px; padding:10px; overflow:auto; }
+      #dns-cards-grid .dns-steps { margin:10px 0 0 18px; }
+      #dns-cards-grid .dns-cb { width:28px; height:28px; flex:0 0 auto; margin-top:2px; }
+      /* Per-card mini status */
+      .dns-mini { margin-top:10px; border:3px solid #000; border-radius:12px; padding:10px; background:#fff; }
+      .dns-mini__row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+      .dns-mini__pill { font-weight:900; border:3px solid #000; border-radius:999px; padding:4px 10px; background:#fff; }
+      .dns-mini__risk { font-weight:900; }
+      .dns-mini__pct { margin-left:auto; font-weight:900; }
+      .dns-mini__bar { height:10px; border:3px solid #000; border-radius:999px; overflow:hidden; background:#fff; margin:8px 0; }
+      .dns-mini__barfill { display:block; height:100%; background:#22c55e; }
+      .dns-mini__tip { font-size:0.92em; line-height:1.35; }
+      /* Stop iOS highlight oddities */
+      #dns-cards-grid .dns-card { -webkit-tap-highlight-color: rgba(0,0,0,0); }
+    `;
+    document.head.appendChild(css);
+
+    render();
+  })();
 });
 </script>
 <script src="../../assets/js/main.js"></script>
