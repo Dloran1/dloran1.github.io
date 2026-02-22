@@ -132,11 +132,21 @@
     .dns-btn:hover{background:rgba(255,255,255,.12)}
     .dns-progress{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:999px;height:14px;overflow:hidden}
     .dns-progress > span{display:block;height:100%;background:#22c55e;width:0%}
-    .dns-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+    .dns-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;margin-top:12px}
+    @media (max-width:600px){.dns-grid{grid-template-columns:1fr}}
     @media (max-width:900px){.dns-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media (max-width:560px){.dns-grid{grid-template-columns:1fr}}
 
     .dns-card{background:#fff;border-radius:16px;border:3px solid #000;color:#000;overflow:hidden}
+
+    /* Mobile readability: ensure cards never look "cut" */
+    @media (max-width:600px){
+      .dns-card header{padding:10px 12px}
+      .dns-card h3{font-size:1.05rem;line-height:1.25}
+      .dns-body{padding:10px 12px}
+      .dns-actions button{width:100%}
+    }
+
     .dns-card header{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;padding:12px}
     .dns-card h3{margin:0;font-size:1.02rem;line-height:1.2;color:#000}
     .dns-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px}
