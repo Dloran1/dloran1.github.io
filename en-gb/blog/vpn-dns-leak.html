@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+
+<html lang="en-gb">
+<head>
+<meta charset="utf-8"/>
+<title>DNS Leak with a VPN (2026): How to Test &amp; Fix DNS/IPv6/WebRTC Leaks | VPN World</title>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="2026 practical guide: what a DNS leak is, how to test DNS/IPv6/WebRTC, and how to fix leaks on &lt;a href=" vpn-windows-setup-uk.html"=""/>Windows, <a href="vpn-macos-uk.html">macOS</a>, <a href="vpn-android-uk.html">Android</a>, <a href="vpn-ios-uk.html">iOS</a>, and <a href="vpn-&lt;a href=" vpn-router-setup-uk.html"="">router</a>-setup-uk.html"&gt;routers — with realistic privacy limits." name="description"/&gt;
+<meta content="index, follow" name="robots">
+<link href="/favicon.ico" rel="icon"/>
+<link href="https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html" rel="canonical"/>
+<!-- HREFLANG (7× + x-default) -->
+<link href="https://dloran1.github.io/blog/wyciek-dns-vpn.html" hreflang="pl" rel="alternate"/>
+<link href="https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html" hreflang="en-gb" rel="alternate"/>
+<link href="https://dloran1.github.io/en-us/blog/vpn-dns-leak.html" hreflang="en-us" rel="alternate"/>
+<link href="https://dloran1.github.io/de/blog/vpn-dns-leak.html" hreflang="de" rel="alternate"/>
+<link href="https://dloran1.github.io/es/blog/vpn-dns-leak.html" hreflang="es" rel="alternate"/>
+<link href="https://dloran1.github.io/fr/blog/vpn-dns-leak.html" hreflang="fr" rel="alternate"/>
+<link href="https://dloran1.github.io/nl-be/blog/vpn-dns-leak.html" hreflang="nl-be" rel="alternate"/>
+<link href="https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html" hreflang="x-default" rel="alternate"/>
+<!-- Styles -->
+<link href="../../assets/css/style.css" rel="stylesheet"/>
+<!-- Preconnect -->
+<link href="https://www.googletagmanager.com" rel="dns-prefetch"/>
+<link crossorigin="" href="https://www.googletagmanager.com" rel="preconnect"/>
+<link href="https://www.google-analytics.com" rel="dns-prefetch"/>
+<link crossorigin="" href="https://www.google-analytics.com" rel="preconnect"/>
+<!-- Open Graph / Twitter -->
+<meta content="article" property="og:type"/>
+<meta content="VPN World" property="og:site_name"/>
+<meta content="en_GB" property="og:locale"/>
+<meta content="pl_PL" property="og:locale:alternate"/>
+<meta content="en_US" property="og:locale:alternate"/>
+<meta content="de_DE" property="og:locale:alternate"/>
+<meta content="es_ES" property="og:locale:alternate"/>
+<meta content="fr_FR" property="og:locale:alternate"/>
+<meta content="nl_BE" property="og:locale:alternate"/>
+<meta content="DNS Leak with a VPN (2026): How to Test &amp; Fix DNS/IPv6/WebRTC Leaks" property="og:title"/>
+<meta content="Test DNS/IPv6/WebRTC in minutes and fix leaks on Windows, macOS, Android, iOS and routers — with realistic privacy limits." property="og:description"/>
+<meta content="https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html" property="og:url"/>
+<meta content="https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="DNS Leak with a VPN (2026): How to Test &amp; Fix DNS/IPv6/WebRTC Leaks" name="twitter:title"/>
+<meta content="2026 practical guide: detect and fix DNS/IPv6/WebRTC leaks with a repeatable checklist." name="twitter:description"/>
+<meta content="https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp" name="twitter:image"/>
+<!-- GA4 + Consent Mode v2 (DEFAULT DENIED) -->
+<!-- Stage 2.5: hard high-contrast fix for tables + SVG (must override dark theme) -->
+<style>
+    /* --- TABLE FIX: always readable on dark/light --- */
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;border-radius:14px}
+    .table-scroll table{min-width:720px;background:#fff !important;color:#000 !important;border-collapse:collapse;width:100%}
+    .table-scroll caption{caption-side:top;text-align:left;font-weight:800;color:#000 !important;padding:10px 8px}
+    .table-scroll th,.table-scroll td{border:3px solid #000 !important;padding:10px 10px;vertical-align:top;color:#000 !important;background:#fff !important}
+    .table-scroll thead th{background:#fff !important}
+    .table-scroll tbody tr:nth-child(even) td{background:#fff !important}
+    .table-scroll a{color:#000 !important;text-decoration:underline;font-weight:800}
+
+    /* --- SVG FIX: always readable on dark/light --- */
+    .svg-card{background:#fff;border:3px solid #000;border-radius:16px;padding:12px;margin:14px 0}
+    .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .svg-card svg{max-width:100%;height:auto;display:block;color:#000}
+    .svg-card svg text{fill:#000 !important;font-weight:800}
+    .svg-card .svg-caption{margin:10px 0 0;font-size:13px;color:#000;font-weight:700}
+
+    .badge-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+    .badge{display:inline-flex;align-items:center;gap:8px;border:3px solid #000;border-radius:999px;padding:7px 10px;background:#fff;color:#000;font-weight:800}
+    .badge-dot{width:12px;height:12px;border-radius:999px;border:3px solid #000;background:#fff;display:inline-block}
+    .kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;border:3px solid #000;border-radius:10px;padding:2px 8px;background:#fff;color:#000;font-weight:800}
+
+    /* --- Related card style (dark wide card, green accent) --- */
+    .related-card{background:#0b1220;border:2px solid rgba(255,255,255,.14);border-radius:18px;padding:14px 14px 14px 18px;margin:14px 0;position:relative}
+    .related-card:before{content:"";position:absolute;left:10px;top:14px;bottom:14px;width:6px;border-radius:8px;background:#2bd576}
+    .related-card strong{color:#eaeaea}
+    .related-card a{color:#eaeaea;text-decoration:underline;font-weight:800}
+    .related-grid{display:grid;grid-template-columns:1fr;gap:10px}
+    @media (min-width:860px){.related-grid{grid-template-columns:1fr 1fr}}
+
+    /* Small TOC */
+    .toc{margin:12px 0 0;padding:12px 12px;border:2px solid rgba(255,255,255,.14);border-radius:14px;background:rgba(15,23,32,.25)}
+    .toc a{text-decoration:underline}
+  
+
+/* --- FIX: ensure widget text is always readable on white cards (avoid light-on-white) --- */
+.dns-fixer, .dns-fixer * { color: #000; }
+.dns-fixer .dns-muted { color:#111 !important; opacity:1 !important; }
+.dns-fixer .dns-hint { color:#111 !important; }
+.dns-fixer .dns-card p, .dns-fixer .dns-card li { color:#000; }
+.dns-fixer input[type="checkbox"] { accent-color:#000; }
+h2[id], h3[id], section[id] { scroll-margin-top: 96px; }
+</style>
+<!-- JSON-LD (Stage 2.5): Article + FAQPage + BreadcrumbList + ItemList -->
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "@id": "https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html"}, "headline": "DNS Leak with a VPN: Detection & Fixes (2026)", "description": "2026 practical guide: what a DNS leak is, how to test DNS/IPv6/WebRTC, and how to fix leaks on Windows, macOS, Android, iOS, and routers — with realistic privacy limits.", "image": "https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp", "inLanguage": "en-GB", "datePublished": "2026-01-06", "dateModified": "2026-02-22", "author": {"@type": "Person", "name": "Denys Shchur", "url": "https://dloran1.github.io/en-gb/about-denys-shchur.html"}, "publisher": {"@type": "Organization", "name": "VPN World", "logo": {"@type": "ImageObject", "url": "https://dloran1.github.io/assets/img/logo.png"}}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://dloran1.github.io/en-gb/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://dloran1.github.io/en-gb/blog/"}, {"@type": "ListItem", "position": 3, "name": "DNS Leak with a VPN: Detection & Fixes (2026)", "item": "https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html"}]}, {"@type": "ItemList", "name": "Related articles", "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://dloran1.github.io/en-gb/blog/what-is-a-vpn-uk.html", "name": "What is a VPN? (UK)"}, {"@type": "ListItem", "position": 2, "url": "https://dloran1.github.io/en-gb/blog/vpn-kill-switch-uk.html", "name": "VPN <a href="vpn-kill-switch-uk.html">kill switch</a>: stop leaks"}, {"@type": "ListItem", "position": 3, "url": "https://dloran1.github.io/en-gb/blog/vpn-optimal-settings-uk.html", "name": "Optimal VPN settings (UK)"}, {"@type": "ListItem", "position": 4, "url": "https://dloran1.github.io/en-gb/blog/proxy-vs-vpn-uk.html", "name": "<a href="proxy-vs-vpn-uk.html">Proxy vs VPN</a> (UK)"}, {"@type": "ListItem", "position": 5, "url": "https://dloran1.github.io/en-gb/blog/vpn-public-wifi-uk.html", "name": "VPN on <a href="vpn-public-wifi-uk.html">public Wi‑Fi</a> (UK)"}, {"@type": "ListItem", "position": 6, "url": "https://dloran1.github.io/en-gb/blog/vpn-<a href="vpn-protocols-uk.html">protocols</a>-uk.html", "name": "<a href="vpn-protocols-uk.html">VPN protocols</a> explained (UK)"}, {"@type": "ListItem", "position": 7, "url": "https://dloran1.github.io/en-gb/blog/no-logs-vpn-uk.html", "name": "No-logs VPN (UK)"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is a DNS leak when using a VPN?", "acceptedAnswer": {"@type": "Answer", "text": "A DNS leak happens when domain lookups (DNS queries) are sent outside the VPN tunnel — often to your ISP or a network’s DNS — even while the VPN appears connected. That can expose the sites you’re visiting as metadata."}}, {"@type": "Question", "name": "Why do DNS leaks happen most often on Windows?", "acceptedAnswer": {"@type": "Answer", "text": "Windows can prioritise multiple network adapters, cached DNS, and fallback resolvers. After updates, sleep/wake, or network changes (Wi-Fi to hotspot), DNS can briefly route outside the tunnel unless the VPN enforces DNS protection and a proper kill switch."}}, {"@type": "Question", "name": "Is IPv6 a common cause of leaks?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. If your VPN protects IPv4 but doesn’t properly handle IPv6, some traffic (including DNS-related requests) may bypass the tunnel. Either use a VPN with solid IPv6 handling or disable IPv6 on that device/network."}}, {"@type": "Question", "name": "Does a VPN make you anonymous?", "acceptedAnswer": {"@type": "Answer", "text": "Not fully. A VPN helps protect the network layer (IP/DNS leaks), but logins, cookies, fingerprinting and app identifiers can still link activity to you. Treat a VPN as one strong privacy layer, not total anonymity."}}]}]}</script>
+<script defer="" src="/assets/js/cookie-consent.js"></script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+<style>
+/* Emergency box: never allow light text on light background */
+.emergency-fix-box, .emergency-fix-box *{ color:#071023 !important; }
+.emergency-fix-box ul{ margin:12px 0 0; padding-left:22px; }
+.emergency-fix-box li{ margin:8px 0; }
+
+/* DNS dashboard cards: strong contrast + done state */
+.dns-dashboard .dns-card{ background:#fff !important; color:#071023 !important; border:4px solid #000 !important; }
+.dns-dashboard .dns-card .dns-num{ color:#071023 !important; font-weight:900 !important; opacity:1 !important; }
+.dns-dashboard .dns-card.is-done{ background:#f0fff0 !important; }
+.dns-dashboard .dns-card.is-done .dns-title{ text-decoration:line-through; opacity:.75; }
+.dns-dashboard .dns-card.is-done .dns-desc{ opacity:.85; }
+.dns-dashboard .dns-card input[type="checkbox"]{ accent-color:#071023; }
+
+/* FAQ details */
+.faq-section details{ background:#fff; border:3px solid #000; border-radius:14px; padding:14px 16px; margin:12px 0; }
+.faq-section summary{ cursor:pointer; font-weight:800; color:#071023; }
+.faq-section p{ color:#071023; }
+
+/* Ensure our comparison table caption is readable */
+.cmp-table caption{ font-weight:800; padding:10px 8px; }
+</style>
+<style>
+/* Stage 2.5 hotfix: make TOC anchors usable with sticky header */
+html{scroll-behavior:smooth;}
+[id]{scroll-margin-top:110px;}
+
+/* Stage 2.5 hotfix: avoid low-contrast ("white on white") inside dashboard cards */
+#dns-cards-grid .dns-card{background:#fff !important;}
+#dns-cards-grid .dns-card,
+#dns-cards-grid .dns-card *{color:#071023 !important;}
+#dns-cards-grid .dns-card .dns-why{opacity:1 !important;}
+#dns-cards-grid .dns-card > div:first-child{opacity:1 !important;}
+</style></meta></head>
+<body>
+<!-- HEADER -->
+<header class="site-header">
+<div class="container header-inner">
+<div class="header-main">
+<a class="brand" href="/en-gb/">
+<img alt="VPN World logo" class="logo" src="../../assets/img/logo.png"/>
+<span class="brand-text">VPN World</span>
+</a>
+<nav aria-label="Main navigation" class="primary-nav">
+<a href="/en-gb/blog/">Blog</a>
+</nav>
+</div>
+<nav aria-label="Language switcher" class="lang-switch">
+<a href="/blog/wyciek-dns-vpn.html">Polski</a> |
+        <a class="active" href="/en-gb/blog/vpn-dns-leak-uk.html">English (UK)</a> |
+        <a href="/en-us/blog/vpn-dns-leak.html">English (US)</a> |
+        <a href="/de/blog/vpn-dns-leak.html">Deutsch</a> |
+        <a href="/es/blog/vpn-dns-leak.html">Español</a> |
+        <a href="/fr/blog/vpn-dns-leak.html">Français</a> |
+        <a href="/nl-be/blog/vpn-dns-leak.html">Nederlands (BE)</a>
+</nav>
+</div>
+</header>
+<main>
+<!-- HERO -->
+<section class="hero">
+<div class="container hero-inner">
+<div class="hero-copy">
+<h1>DNS Leak with a VPN: Detection &amp; Fixes (2026)</h1>
+<p class="note">
+<strong>Quick answer:</strong>
+            A DNS leak means your DNS lookups (the domains you visit) escape the VPN tunnel. In this guide you’ll test DNS/IPv6/WebRTC in minutes and apply fixes on Windows, macOS, Android, iOS and routers — with realistic privacy limits.
+          </p>
+<p>
+            If you want a clean baseline first, read <a href="/en-gb/blog/what-is-a-vpn-uk.html">What is a VPN?</a>.
+            If you just want “find &amp; fix”, jump to <a href="#tests">Leak tests</a>.
+          </p>
+<div class="hero-author">
+<img alt="Denys Shchur – author of VPN World" src="../../assets/img/author/denys-shchur.webp"/>
+<div class="hero-author-text">
+<span class="hero-author-label">Written by</span>
+<span class="hero-author-name">
+<a href="/en-gb/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a>
+</span>
+<span class="meta">Updated: 2026-02-22 · 12–18 min read</span>
+</div>
+</div>
+<!-- Early CTA block (3 partners) -->
+<div aria-label="Affiliate offers" class="cta-buttons">
+<a class="nordvpn" href="https://go.nordvpn.net/aff_c?aff_id=2495&amp;offer_id=312&amp;url_id=2584" rel="nofollow sponsored noopener noreferrer" target="_blank">Try NordVPN — DNS protection + kill switch</a>
+<a class="surfshark" href="https://www.tkqlhce.com/click-101525886-17061430" rel="nofollow sponsored noopener noreferrer" target="_blank">Try Surfshark — RAM-only servers</a>
+<a class="proton" href="https://www.dpbolvw.net/click-101525886-15834536" rel="nofollow sponsored noopener noreferrer" target="_blank">Try Proton VPN — privacy-first</a>
+</div>
+<div aria-label="On-page navigation" class="toc">
+<strong>On this page:</strong>
+<a href="#quick">Quick checklist</a> ·
+            <a href="#why">Why leaks happen</a> ·
+            <a href="#tests">How to test</a> ·
+            <a href="#fix">Fixes by device</a> ·
+            <a href="#faq">FAQ</a>
+</div>
+<ul class="meta-points">
+<li>Clear definitions (what matters, what doesn’t)</li>
+<li>Repeatable DNS/IPv6/WebRTC test routine</li>
+<li>Device fixes + practical “edge cases”</li>
+<li>Related: <a href="wifi-security-checklist-uk.html">Wi‑Fi security checklist</a> (quick hardening steps before testing).</li></ul>
+</div>
+<div class="hero-media">
+<div class="hero-art">
+<img alt="Illustration for DNS leak detection and fixes (2026)" src="../../assets/img/hero/vpn-dns-leak-uk.webp"/>
+</div>
+</div>
+</div>
+</section>
+<!-- CONTENT -->
+<section class="section emergency-intro">
+<h2>DNS Leak Emergency Fixer (2026)</h2>
+<p>If your leak test shows your <strong>real DNS</strong>, treat it like an emergency: your ISP can log domains even when your web traffic is encrypted. Use the quick fix below, then work through the full dashboard to lock down Windows, browsers and routers.</p>
+</section>
+<div class="emergency-fix-box" style="border: 3px solid #d9534f; padding: 18px; background: #fff5f5; border-radius: 12px; margin: 18px 0 18px; color:#071023;">
+<h2 id="quick" style="color:#d9534f; margin:0 0 10px;">Quick Fix: DNS Leak 2026 (UK)</h2>
+<p style="margin:0 0 10px; color:#071023;">
+              If your <strong style=" color:#071023;">real DNS</strong> is visible (common on UK networks like <strong style=" color:#071023;">BT</strong>, <strong style=" color:#071023;">Virgin Media</strong> or <strong style=" color:#071023;">Sky</strong>), do this immediately:
+            </p>
+<ul style="font-weight:800; line-height:1.6; margin:0; padding-left: 18px; color:#071023;">
+<li style=" color:#071023;">Enable <strong style=" color:#071023;">“Force VPN DNS”</strong> (or “Use VPN DNS only”) inside your VPN app.</li>
+<li style=" color:#071023;">Disable <strong style=" color:#071023;">IPv6</strong> (the #1 bypass in many Windows/ISP stacks).</li>
+<li style=" color:#071023;">Set a trusted DNS (e.g., <strong style=" color:#071023;">1.1.1.1</strong>) at OS level if your VPN client can’t lock DNS.</li>
+<li style=" color:#071023;">Block <strong style=" color:#071023;">WebRTC</strong> in your browser (uBlock Origin / browser setting) to stop browser-side leaks. See <a href="vpn-edge-uk.html">VPN on Microsoft Edge</a> for quick WebRTC/privacy toggles.</li>
+</ul>
+</div>
+<section class="section leak-compare">
+<h2>Leak levels: what your ISP can see</h2>
+<div class="table-scroll">
+<table class="cmp-table" style="min-width:760px;">
+<caption>DNS leak types, risk level, and the fastest fix (UK 2026)</caption>
+<thead>
+<tr>
+<th scope="col">Leak type</th>
+<th scope="col">What BT/Virgin/Sky can see</th>
+<th scope="col">Risk</th>
+<th scope="col">Fastest fix (2026)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Standard DNS leak</strong></td>
+<td>Domains you query (visited sites) and timestamps.</td>
+<td>🔴 High</td>
+<td>Enable <strong>Force VPN DNS</strong> / use provider DNS inside the tunnel.</td>
+</tr>
+<tr>
+<td><strong>IPv6 leak</strong></td>
+<td>Your real IPv6 traffic can bypass the VPN tunnel.</td>
+<td>🔴 Critical</td>
+<td>Disable IPv6 (or ensure VPN fully supports IPv6 + firewall rules).</td>
+</tr>
+<tr>
+<td><strong>WebRTC leak</strong></td>
+<td>Local / private IP hints (browser-side).</td>
+<td>🟡 Medium</td>
+<td>Disable WebRTC or use uBlock Origin / browser setting.</td>
+</tr>
+<tr>
+<td><strong>Teredo / transition tunnels</strong></td>
+<td>Hidden Windows tunnels may route name resolution outside VPN.</td>
+<td>🟡 Medium</td>
+<td>Disable Teredo + “Smart Multi‑Homed Name Resolution”.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="section dns-diagrams">
+<h2 id="why">Why leaks happen: request path in 2 diagrams</h2>
+<div class="svg-card">
+<div class="svg-scroll">
+<svg aria-label="Secure DNS request path through VPN tunnel" role="img" style="max-width:980px;width:980px;height:auto;color:#000;" viewbox="0 0 980 220">
+<rect fill="#fff" height="220" rx="16" stroke="#000" stroke-width="4" width="980" x="0" y="0"></rect>
+<text fill="#000" font-size="26" font-weight="800" x="40" y="70">User</text>
+<rect fill="#e6f4ff" height="80" rx="14" stroke="#000" stroke-width="4" width="170" x="20" y="90"></rect>
+<text fill="#000" font-size="22" font-weight="800" x="40" y="135">Laptop / Phone</text>
+<rect fill="#eafff1" height="100" rx="14" stroke="#000" stroke-width="4" width="240" x="240" y="80"></rect>
+<text fill="#000" font-size="22" font-weight="800" x="260" y="125">VPN tunnel</text>
+<text fill="#000" font-size="18" font-weight="800" x="260" y="155">Encrypted (AES/WireGuard)</text>
+<rect fill="#fff3d6" height="100" rx="14" stroke="#000" stroke-width="4" width="250" x="530" y="80"></rect>
+<text fill="#000" font-size="22" font-weight="800" x="550" y="125">Private VPN DNS</text>
+<text fill="#000" font-size="18" font-weight="800" x="550" y="155">Resolver inside tunnel</text>
+<rect fill="#f3e8ff" height="100" rx="14" stroke="#000" stroke-width="4" width="130" x="830" y="80"></rect>
+<text fill="#000" font-size="22" font-weight="800" x="852" y="135">Internet</text>
+<path d="M190 130 L240 130" fill="none" stroke="#000" stroke-width="4"></path>
+<polygon fill="#000" points="240,130 228,122 228,138"></polygon>
+<path d="M480 130 L530 130" fill="none" stroke="#000" stroke-width="4"></path>
+<polygon fill="#000" points="530,130 518,122 518,138"></polygon>
+<path d="M780 130 L830 130" fill="none" stroke="#000" stroke-width="4"></path>
+<polygon fill="#000" points="830,130 818,122 818,138"></polygon>
+</svg>
+</div>
+</div>
+<div class="svg-card" style="margin-top:14px;">
+<div class="svg-scroll">
+<svg aria-label="DNS leak path where ISP DNS is used" role="img" style="max-width:980px;width:980px;height:auto;color:#000;" viewbox="0 0 980 250">
+<rect fill="#fff" height="250" rx="16" stroke="#000" stroke-width="4" width="980" x="0" y="0"></rect>
+<rect fill="#e6f4ff" height="80" rx="14" stroke="#000" stroke-width="4" width="170" x="20" y="90"></rect>
+<text fill="#000" font-size="22" font-weight="800" x="40" y="135">User device</text>
+<rect fill="#eafff1" height="100" rx="14" stroke="#000" stroke-width="4" width="240" x="240" y="80"></rect>
+<text fill="#000" font-size="22" font-weight="800" x="260" y="125">VPN tunnel</text>
+<text fill="#000" font-size="18" font-weight="800" x="260" y="155">Encrypted traffic</text>
+<rect fill="#ffe4e4" height="80" rx="14" stroke="#000" stroke-width="4" width="260" x="530" y="60"></rect>
+<text fill="#000" font-size="22" font-weight="800" x="550" y="108">Leak!</text>
+<text fill="#000" font-size="18" font-weight="800" x="610" y="108">(DNS bypass)</text>
+<rect fill="#fff3d6" height="80" rx="14" stroke="#000" stroke-width="4" width="260" x="530" y="155"></rect>
+<text fill="#000" font-size="22" font-weight="800" x="550" y="205">ISP DNS</text>
+<text fill="#000" font-size="18" font-weight="800" x="640" y="205">BT / Virgin / Sky</text>
+<rect fill="#f3e8ff" height="100" rx="14" stroke="#000" stroke-width="4" width="130" x="830" y="120"></rect>
+<text fill="#000" font-size="22" font-weight="800" x="852" y="175">Internet</text>
+<path d="M190 130 L240 130" fill="none" stroke="#000" stroke-width="4"></path>
+<polygon fill="#000" points="240,130 228,122 228,138"></polygon>
+<path d="M480 130 L830 170" fill="none" stroke="#000" stroke-width="4"></path>
+<polygon fill="#000" points="830,170 816,162 818,178"></polygon>
+<path d="M480 120 L530 100" fill="none" stroke="#000" stroke-width="4"></path>
+<polygon fill="#000" points="530,100 516,96 520,112"></polygon>
+<path d="M660 140 L660 155" fill="none" stroke="#000" stroke-width="4"></path>
+<polygon fill="#000" points="660,155 652,143 668,143"></polygon>
+<text fill="#000" font-size="18" font-weight="800" x="240" y="40">If DNS escapes the tunnel, your ISP can log domains even while the VPN is “on”.</text>
+</svg>
+</div>
+</div>
+</section>
+<section><h2 id="tests">How to test (2‑minute routine)</h2><p>Use this repeatable routine before and after each fix so you know what actually changed.<span> If you’re on Windows, follow our <a href="vpn-windows-setup-uk.html">Windows VPN setup guide</a>, then check <a href="vpn-kill-switch-uk.html">kill switch settings</a> and <a href="vpn-protocols-uk.html">protocol options</a>. For tricky networks, compare your results on <a href="vpn-public-wifi-uk.html">public Wi‑Fi</a>.</span></p><ol><li>Connect to your VPN and enable any “Force VPN DNS / Use VPN DNS only” option.</li><li>Run a DNS leak test twice and note which DNS provider/ASN is shown.</li><li>Repeat in a Private/Incognito window (rules out extensions and cached DoH).</li><li>If results differ, disable extensions (uBlock, proxy, DNS/DoH tools) and test again.</li><li>Temporarily disable IPv6 and retest — IPv6 bypass is still a top leak cause on many ISP stacks.</li></ol></section><section id="dns-fixer" style="margin-top: 22px;">
+<h2 id="fix">The DNS Leak Emergency Fixer Dashboard</h2>
+<p class="note"><strong>How it works:</strong> tick each fix you’ve applied. Your progress score updates instantly, and the panel suggests what to do next.</p><p>Need a clean baseline? Start with our <a href="vpn-optimal-settings-uk.html">optimal VPN settings checklist</a> and, if you’re running VPN on a home network, see <a href="vpn-router-setup-uk.html">VPN on a router</a> (DNS leaks often come from router DNS or IPv6 settings).</p>
+<div class="checklist-wrapper" style="max-width: 100%; margin: 0 auto;">
+<div id="dns-status-card" style="border: 4px solid #000; padding: 18px; background: #fff; margin-bottom: 16px; border-radius: 15px;">
+<div id="dns-status-label" style="font-weight: 900; font-size: 1.25em; margin-bottom: 10px;">Status: At risk (0%)</div>
+<div style="background: #eee; height: 26px; border: 2px solid #000; margin-bottom: 10px; position: relative; overflow: hidden; border-radius: 7px;">
+<div id="dns-progress-bar" style="background: #00ff00; width: 0%; height: 100%; transition: width 0.25s ease;"></div>
+</div>
+<div id="dns-status-tip" style="font-style: italic; color: #333; font-size: 0.95em; line-height: 1.35;">
+                  Start with <strong>Force VPN DNS</strong> and <strong>Disable IPv6</strong> — these two fix most UK leaks.
+                </div>
+</div>
+<div id="dns-detail" style="border:2px solid #000; background:#fff; border-radius:14px; padding:14px; margin-bottom:14px;">
+<div style="font-weight:900; margin-bottom:6px;">Selected fix</div>
+<div id="dns-detail-title" style="font-weight:900; font-size:1.05em;">—</div>
+<div id="dns-detail-cmd" style="margin-top:6px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size:0.92em; white-space:pre-wrap;">—</div>
+<div id="dns-detail-why" style="margin-top:8px; color:#222; line-height:1.35;">Tap a card to see the exact action, command, or setting path.</div>
+</div>
+<div id="dns-cards-grid" style="display: grid; grid-template-columns: 1fr; gap: 12px;"></div>
+<div style="display:flex; gap:10px; margin-top: 16px;">
+<button id="dns-reset" style="flex:1; padding: 14px; background:#000; color:#fff; border:none; font-weight:900; cursor:pointer; border-radius: 10px; text-transform: uppercase;">Reset dashboard</button>
+<button id="dns-clear" style="flex:1; padding: 14px; background:#fff; color:#000; border:3px solid #000; font-weight:900; cursor:pointer; border-radius: 10px; text-transform: uppercase;">Clear</button>
+</div>
+</div>
+<style>
+              /* Local widget helpers (high-contrast, mobile-first) */
+              #dns-cards-grid .dns-card{
+                border: 3px solid #000;
+                padding: 14px;
+                background: #fff;
+                display:flex;
+                align-items:flex-start;
+                gap: 14px;
+                cursor:pointer;
+                border-radius: 14px;
+              }
+              #dns-cards-grid .dns-card.is-done{
+                background: #f0fff0;
+              }
+              #dns-cards-grid .dns-card .dns-title{
+                font-weight: 900;
+                font-size: 1.02em;
+                line-height: 1.25;
+              }
+              #dns-cards-grid .dns-card.is-done .dns-title{
+                text-decoration: line-through;
+                text-decoration-thickness: 3px;
+              }
+              #dns-cards-grid .dns-card .dns-why{
+                font-size: 0.9em;
+                color: #222;
+                line-height: 1.35;
+              }
+              #dns-cards-grid .dns-card.is-done .dns-why{
+                opacity: 0.85;
+              }
+              #dns-cards-grid input[type="checkbox"]{
+                width: 26px;
+                height: 26px;
+                margin-top: 2px;
+              }
+            
+
+/* --- DNS Leak Fixer: hard contrast + override "white on white" (mobile Safari) --- */
+#dns-status-card, #dns-detail, #dns-cards-grid .dns-card { background: #ffffff !important; }
+#dns-status-label, #dns-detail-title, #dns-detail-command, #dns-detail-why { 
+  color: #071023 !important; 
+  opacity: 1 !important;
+}
+#dns-status-label { font-weight: 900 !important; }
+#dns-detail .muted, #dns-status-card .muted { color: #071023 !important; opacity: 1 !important; }
+#dns-detail pre, #dns-detail code { color: #071023 !important; }
+/* ensure numbering/title never fades */
+#dns-cards-grid .dns-card .num, 
+#dns-cards-grid .dns-card h3,
+#dns-cards-grid .dns-card p { opacity: 1 !important; }
+/* improve tap targets for TOC links */
+.toc a { scroll-margin-top: 110px; }
+
+
+/* DNS Fixer: keep white cards black text, but DO NOT force black on dark callouts */
+#dns-fixer #dns-status-card,
+#dns-fixer #dns-selected-card,
+#dns-fixer #dns-fixes .fix-item,
+#dns-fixer #dns-cards-grid .dns-card{
+  background:#fff !important;
+  color:#071023 !important;
+}
+#dns-fixer #dns-status-card *,
+#dns-fixer #dns-selected-card *,
+#dns-fixer #dns-fixes .fix-item *,
+#dns-fixer #dns-cards-grid .dns-card *{
+  color:#071023 !important;
+  -webkit-text-fill-color:#071023 !important;
+  opacity:1 !important;
+}
+
+/* Dark callouts inside the section (e.g., “How it works”) should stay readable */
+#dns-fixer .note,
+#dns-fixer .note *,
+#dns-fixer .tip,
+#dns-fixer .tip *{
+  color:#eaf2ff !important;
+  -webkit-text-fill-color:#eaf2ff !important;
+}
+
+/* Buttons on dark backgrounds */
+#dns-fixer .dns-controls .btn{
+  color:#071023 !important;
+}
+#dns-fixer .dns-controls .btn.btn-secondary{
+  color:#eaf2ff !important;
+}
+</style>
+</section>
+<section class="section uk-context">
+<h2>UK-specific gotchas (BT, Virgin Media, Sky)</h2>
+<p>In the UK, DNS leaks are often caused by <strong>IPv6</strong> and Windows “helpful” features that send queries to multiple adapters. Virgin Media and BT networks commonly use IPv6 stacks that can bypass a misconfigured tunnel.</p>
+<ul>
+<li><strong>Virgin Media hub + IPv6:</strong> test with IPv6 disabled once to confirm.</li>
+<li><strong>BT/Sky DNS caching:</strong> after changes, reconnect Wi‑Fi and flush DNS cache to see real results.</li>
+<li><strong>Router mode vs modem mode:</strong> double-NAT setups can create inconsistent DNS routes.</li>
+</ul>
+</section>
+<section class="section faq-section">
+<h2 id="faq">FAQ: DNS leaks (UK)</h2>
+<details class="faq-item"><summary>How do I know if I have a DNS leak?</summary>
+<p>If a DNS leak test shows your ISP resolver (BT/Virgin/Sky) while your VPN is connected, your DNS is escaping the tunnel. Run the test twice (after reconnecting) to confirm it’s consistent.</p>
+</details>
+<details class="faq-item"><summary>Is disabling IPv6 safe?</summary>
+<p>For troubleshooting, yes. If disabling IPv6 fixes the leak, your VPN likely isn’t handling IPv6 properly on your device/network. You can keep IPv6 off or switch to a VPN that supports IPv6 end-to-end.</p>
+</details>
+<details class="faq-item"><summary>What is “Force VPN DNS” and why does it matter?</summary>
+<p>It forces all DNS queries to go through the VPN’s resolver (or a resolver inside the tunnel). Without it, Windows or the router may use the ISP DNS even when your web traffic is encrypted.</p>
+</details>
+<details class="faq-item"><summary>Can browsers cause DNS/WebRTC leaks?</summary>
+<p>Yes. WebRTC can reveal local IP hints, and extensions can override proxy/DNS settings. Test with a clean browser profile and disable WebRTC if the leak appears browser-only.</p>
+</details>
+<details class="faq-item"><summary>What’s the fastest “emergency fix” on Windows 11?</summary>
+<p>Turn on your VPN’s kill switch and “Force VPN DNS”, disable IPv6, then flush DNS cache. After that, run the leak test again. The dashboard above walks you through the full checklist.</p>
+</details>
+</section>
+<!-- VIDEO -->
+<section class="section section-alt">
+<div class="container">
+<h2>Short video: VPN privacy explained in plain English</h2>
+<p class="note">
+<strong>Key takeaway:</strong> the main job of a VPN is to separate <strong>who you are</strong> (your IP, ISP) from <strong>what you do</strong> (sites you access).
+          DNS leaks rebuild that bridge — so we test.
+        </p>
+<div class="video-wrap">
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" frameborder="0" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&amp;modestbranding=1" title="VPN World — video"></iframe>
+</div>
+<p>
+          If the player doesn’t load, watch on YouTube:
+          <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" rel="nofollow noopener noreferrer" target="_blank">https://www.youtube.com/watch?v=rzcAKFaZvhE</a>.
+        </p>
+</div>
+</section>
+<!-- RELATED_START -->
+<section class="section">
+<div class="container">
+<h2>Related articles</h2>
+<div class="related-grid">
+<div class="related-card"><strong>Related:</strong> <a href="/en-gb/blog/what-is-a-vpn-uk.html">What is a VPN? (UK)</a></div>
+<div class="related-card"><strong>Related:</strong> <a href="/en-gb/blog/vpn-kill-switch-uk.html">VPN Kill Switch: stop leaks</a></div>
+<div class="related-card"><strong>Related:</strong> <a href="/en-gb/blog/vpn-optimal-settings-uk.html">Optimal VPN settings (UK)</a></div>
+<div class="related-card"><strong>Related:</strong> <a href="/en-gb/blog/proxy-vs-vpn-uk.html">Proxy vs VPN (UK)</a></div>
+<div class="related-card"><strong>Related:</strong> <a href="/en-gb/blog/vpn-public-wifi-uk.html">VPN on public Wi-Fi (UK)</a></div>
+<div class="related-card"><strong>Related:</strong> <a href="/en-gb/blog/no-logs-vpn-uk.html">No-logs VPN (UK)</a></div>
+</div>
+</div>
+</section>
+<!-- RELATED_END -->
+<!-- AUTHOR -->
+<section class="section">
+<div class="container">
+<div class="author-box">
+<img alt="Portrait of Denys Shchur" class="author-avatar" src="../../assets/img/author/denys-shchur.webp"/>
+<div>
+<h3>About the author</h3>
+<p>
+<strong><a href="/en-gb/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a></strong>
+              is the creator of VPN World, focusing on practical, test-driven guides about VPNs, online privacy and secure remote work.
+              He spends far too much time checking for leaks so you don’t have to.
+            </p>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA (late) -->
+<section class="section">
+<div class="container article">
+<div aria-label="Recommended VPNs" class="cta-box">
+<h2>Recommended VPNs</h2>
+<p class="cta-note">Affiliate links (nofollow/sponsored).</p>
+<div aria-label="Affiliate offers" class="cta-buttons">
+<a class="nordvpn" href="https://go.nordvpn.net/aff_c?aff_id=2495&amp;offer_id=312&amp;url_id=2584" rel="nofollow sponsored noopener noreferrer" target="_blank">Try NordVPN — DNS protection + kill switch</a>
+<a class="surfshark" href="https://www.tkqlhce.com/click-101525886-17061430" rel="nofollow sponsored noopener noreferrer" target="_blank">Try Surfshark — RAM-only servers</a>
+<a class="proton" href="https://www.dpbolvw.net/click-101525886-15834536" rel="nofollow sponsored noopener noreferrer" target="_blank">Try Proton VPN — privacy-first</a>
+</div>
+<p class="human-note">Disclosure: VPN World may earn a commission if you subscribe via these links — without changing your price.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- FOOTER -->
+<footer class="site-footer">
+<div class="container">
+<p><strong>VPN World</strong> · Independent service about privacy, security, and practical VPN use.</p>
+<p>
+<a href="/en-gb/privacy.html">Privacy</a> ·
+        <a href="/en-gb/disclosure.html">Disclosure</a> ·
+        <a href="mailto:u1797008805@gmail.com">Contact</a>
+</p>
+<p>© 2026 VPN World</p>
+</div>
+</footer>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+
+            (function(){
+              const STORE_KEY = 'vw_dns_leak_fixer_2026_en_gb_v1';
+
+              const grid = document.getElementById('dns-cards-grid');
+              const bar = document.getElementById('dns-progress-bar');
+              const statusLabel = document.getElementById('dns-status-label');
+              const statusTip = document.getElementById('dns-status-tip');
+
+              const detailTitle = document.getElementById('dns-detail-title');
+              const detailCmd = document.getElementById('dns-detail-cmd');
+              const detailWhy = document.getElementById('dns-detail-why');
+
+              const resetBtn = document.getElementById('dns-reset');
+              const clearBtn = document.getElementById('dns-clear');
+
+              const items = [
+                {t:'Force VPN DNS (app setting)', c:'VPN app → Settings → DNS → “Use VPN DNS only” / “Force VPN DNS”', w:'This stops the client from falling back to your ISP resolver during reconnection. Many “mystery” leaks are just DNS fallback.'},
+                {t:'Disable IPv6 (fast test)', c:'Windows: Network Connections → Adapter → Properties → uncheck “Internet Protocol Version 6 (TCP/IPv6)”', w:'UK ISP IPv6 stacks can bypass a VPN tunnel if the client is IPv4-only or misconfigured. Either enable IPv6 support in the VPN, or disable IPv6.'},
+                {t:'Disable Teredo tunnelling', c:'Run (Admin CMD): netsh interface teredo set state disabled', w:'Teredo creates hidden IPv6 tunnels that can leak routes and DNS outside VPN rules.'},
+                {t:'Disable “Smart Multi-Homed Name Resolution” (Win 11)', c:'gpedit.msc → Computer Configuration → Administrative Templates → Network → DNS Client → Turn off smart multi-homed name resolution = Enabled', w:'Windows can send DNS queries to multiple adapters (Ethernet/Wi‑Fi/VPN). Turning this off prevents “parallel” DNS leaks.'},
+                {t:'Enable system kill switch', c:'VPN app → Kill Switch → System-level / Always-on', w:'If the VPN drops for 1 second, Windows can immediately query ISP DNS. A kill switch blocks traffic until the tunnel is back.'},
+                {t:'Check for a second DNS app', c:'Look for: NextDNS / AdGuard / “Secure DNS” tools running in background', w:'Multiple DNS resolvers at once can override your VPN DNS setting and cause split behaviour.'},
+                {t:'Set secure DNS in browser (Chrome/Edge)', c:'Settings → Privacy → Security → Use secure DNS → Choose provider (Cloudflare)', w:'Browser secure DNS reduces leaks when the OS resolver is unstable — but it’s not a full replacement for VPN DNS.'},
+                {t:'Disable WebRTC leaks', c:'Install uBlock Origin → enable “Prevent WebRTC from leaking local IP” (or use browser setting)', w:'WebRTC can expose local IPs to websites even with a VPN. Disable it for sensitive browsing.'},
+                {t:'Flush DNS cache', c:'Windows (Admin CMD): ipconfig /flushdns', w:'After changing DNS settings, flushing cache prevents stale resolver entries from producing false leak results.'},
+                {t:'Restart network stack', c:'Windows: Settings → Network & internet → Advanced network settings → Network reset (last resort)', w:'If you’ve installed many VPN/DNS tools, the stack can get messy. Resetting adapters often fixes persistent leaks.'},
+                {t:'Disable split tunnelling (temporarily)', c:'VPN app → Split tunnelling → Off', w:'Split tunnelling can route DNS outside the tunnel depending on client design. Turn it off when troubleshooting leaks.'},
+                {t:'Bind VPN adapter on Windows', c:'Advanced adapter settings: prefer VPN DNS, lower metrics on non‑VPN adapters', w:'Adapter metrics influence which DNS server Windows prefers. A wrong metric can make ISP DNS “win”.'},
+                {t:'Router DNS: avoid ISP defaults', c:'Router → Internet/WAN DNS → set 1.1.1.1 / 9.9.9.9 (if you trust them)', w:'If devices use router DNS, the router may forward to ISP DNS. Setting trusted DNS reduces household-wide leakage.'},
+                {t:'Disable IPv6 on router (if VPN can’t handle IPv6)', c:'Router admin → IPv6 → Off', w:'If your VPN does not tunnel IPv6, router-level IPv6 can create leaks for every device.'},
+                {t:'Check VPN protocol (WireGuard/OpenVPN)', c:'Try WireGuard/NordLynx vs OpenVPN (or vice versa)', w:'Some protocols handle DNS differently. Switching protocol is a quick way to eliminate client bugs.'},
+                {t:'Turn on “Block outside DNS” (Windows)', c:'If available in your VPN: “Block internet when disconnected”', w:'This prevents Windows from reaching ISP DNS on reconnect events.'},
+                {t:'Disable “Private DNS” conflicts (Android)', c:'Android → Network → Private DNS → Off/Automatic (test)', w:'Private DNS can override VPN DNS on some devices. Test behaviour both ways.'},
+                {t:'Use Always‑On VPN (Android)', c:'Android → VPN → Always‑on + Block connections without VPN', w:'This gives you a kill switch at OS level and reduces leak windows.'},
+                {t:'iOS: turn off “Limit IP Address Tracking” (test)', c:'iOS Wi‑Fi → (i) → Limit IP Address Tracking → Off (temporary)', w:'Relay/obfuscation features can change DNS routes. Test without them to isolate the leak.'},
+                {t:'Browser extensions audit', c:'Disable suspicious “VPN/DNS” extensions; keep only trusted ones', w:'Extensions can inject proxy settings or change DNS/DoH and create inconsistent results.'},
+                {t:'Check for captive portals / public Wi‑Fi', c:'On public Wi‑Fi, open a non‑HTTPS page to complete the portal, then connect VPN', w:'Captive portals often block VPN DNS until you accept terms; this can look like a leak.'},
+                {t:'Reinstall the VPN client', c:'Uninstall → reboot → install latest version', w:'Corrupted TAP/Wintun drivers or legacy configs are a common cause of leaks on Windows.'},
+                {t:'Test with a clean browser profile', c:'Create a new browser profile (no extensions) and run tests', w:'This isolates WebRTC/DoH/extensions from OS-level DNS issues.'},
+                {t:'Run a leak test after each change', c:'Use the “Leak tests” section below (DNS + IPv6 + WebRTC)', w:'Troubleshooting works only if you verify. Test after each fix so you know what actually solved the leak.'},
+                {t:'Document your “known-good” settings', c:'Save a note: VPN app settings + OS DNS + router DNS', w:'If a future update breaks DNS, you can restore your safe baseline quickly.'}
+              ];
+
+              function loadState(){
+                try{
+                  const raw = localStorage.getItem(STORE_KEY);
+                  const data = raw ? JSON.parse(raw) : {checked:[], last:-1};
+                  if(!Array.isArray(data.checked)) data.checked = [];
+                  if(typeof data.last !== 'number') data.last = -1;
+                  return data;
+                }catch(e){
+                  return {checked:[], last:-1};
+                }
+              }
+
+              function saveState(s){
+                try{ localStorage.setItem(STORE_KEY, JSON.stringify(s)); }catch(e){}
+              }
+
+              function setDetail(idx){
+                if(idx < 0 || idx >= items.length) return;
+                const it = items[idx];
+                if(detailTitle) detailTitle.textContent = it.t;
+                if(detailCmd) detailCmd.textContent = it.c;
+                if(detailWhy) detailWhy.textContent = it.w;
+              }
+
+              function setStatus(p){
+                let label = '';
+                let tip = '';
+                if(p <= 15){
+                  label = `Status: At risk (${p}%)`;
+                  tip = 'Start with Force VPN DNS + Disable IPv6. These two fixes solve most UK cases.';
+                }else if(p <= 45){
+                  label = `Status: Basic protection (${p}%)`;
+                  tip = 'Good start. Next: Teredo + Smart Multi-Homed DNS (Windows 11).';
+                }else if(p <= 75){
+                  label = `Status: Strong defence (${p}%)`;
+                  tip = 'You’re close. Now audit WebRTC + split tunnelling and test again.';
+                }else if(p < 100){
+                  label = `Status: Nearly sealed (${p}%)`;
+                  tip = 'Finish the remaining edge-cases: router IPv6/DNS and driver clean-up.';
+                }else{
+                  label = 'Status: DNS sealed (100%)';
+                  tip = 'Excellent. Re-test occasionally after VPN/app updates or ISP router resets.';
+                }
+                if(statusLabel) statusLabel.textContent = label;
+                if(statusTip) statusTip.textContent = tip;
+                if(bar) bar.style.width = p + '%';
+              }
+
+              function updateStatus(){
+                const s = loadState();
+                const p = Math.round((s.checked.length / items.length) * 100);
+                setStatus(p);
+              }
+
+              function render(){
+                if(!grid) return;
+                const state = loadState();
+                grid.innerHTML = '';
+
+                items.forEach((it, idx) => {
+                  const done = state.checked.includes(idx);
+
+                  const card = document.createElement('div');
+                  card.className = 'dns-card' + (done ? ' is-done' : '');
+
+                  card.innerHTML = `
+                    <div style="font-weight:900; font-size:1.25em; min-width:32px; line-height:1;">${idx+1}</div>
+                    <div style="flex:1;">
+                      <div class="dns-title">${it.t}</div>
+                      <div class="dns-why">${it.w}</div>
+                    </div>
+                    <div style="min-width:32px;">
+                      <input type="checkbox" ${done ? 'checked' : ''} aria-label="Mark as done">
+                    </div>
+                  `;
+
+                  const cb = card.querySelector('input');
+
+                  const applyToggle = (checked) => {
+                    const s = loadState();
+                    const has = s.checked.includes(idx);
+                    if(checked && !has) s.checked.push(idx);
+                    if(!checked && has) s.checked = s.checked.filter(x => x !== idx);
+                    s.last = idx;
+                    saveState(s);
+                    card.classList.toggle('is-done', checked);
+                    setDetail(idx);
+                    updateStatus();
+                  };
+
+                  // Click anywhere toggles + opens detail
+                  card.addEventListener('click', (e) => {
+                    if(e.target && e.target.tagName === 'INPUT') return;
+                    cb.checked = !cb.checked;
+                    applyToggle(cb.checked);
+                  });
+
+                  cb.addEventListener('change', () => applyToggle(cb.checked));
+
+                  // Long-press feel: show details even without toggling
+                  card.addEventListener('contextmenu', (e) => { e.preventDefault(); setDetail(idx); });
+
+                  grid.appendChild(card);
+                });
+
+                // Restore last selection
+                if(state.last >= 0) setDetail(state.last);
+                updateStatus();
+              }
+
+              if(resetBtn){
+                resetBtn.addEventListener('click', () => {
+                  try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+                  if(detailTitle) detailTitle.textContent = '—';
+                  if(detailCmd) detailCmd.textContent = '—';
+                  if(detailWhy) detailWhy.textContent = 'Tap a card to see the exact action, command, or setting path.';
+                  render();
+                });
+              }
+
+              if(clearBtn){
+                clearBtn.addEventListener('click', () => {
+                  try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+                  render();
+                });
+              }
+
+              if(document.readyState === 'loading'){
+                document.addEventListener('DOMContentLoaded', render);
+              }else{
+                render();
+              }
+            })();
+            
+});
+</script>
+<script src="../../assets/js/main.js"></script>
+<!-- Cookie Consent (canonical) -->
+<div aria-hidden="true" class="cookie-layer" id="cookie-consent-layer"></div>
+<div aria-label="Cookie consent" aria-live="polite" class="cookie-banner" id="cookie-banner" role="dialog">
+<div class="cookie-banner__inner">
+<div class="cookie-banner__text">
+<span class="cookie-banner__msg">We use cookies.</span>
+<a class="cookie-banner__link" href="/en-gb/privacy.html" rel="nofollow">Privacy</a>
+</div>
+<div class="cookie-banner__actions">
+<button id="cookie-accept" type="button">Accept</button>
+<button id="cookie-reject" type="button">Reject</button>
+</div>
+</div>
+</div>
+<!-- /Cookie Consent (canonical) -->
+<script>
+(function(){
+  const toc = document.querySelector('.toc-card');
+  if(!toc) return;
+  toc.addEventListener('click', function(e){
+    const a = e.target.closest('a[href^="#"]');
+    if(!a) return;
+    const id = a.getAttribute('href').slice(1);
+    const target = document.getElementById(id);
+    if(!target) return;
+    e.preventDefault();
+    try{
+      target.scrollIntoView({behavior:'smooth', block:'start'});
+    }catch(err){
+      location.hash = '#' + id;
+    }
+  });
+})();
+</script>
+</body>
+</html>
+<!-- PAGE: https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html -->
