@@ -243,7 +243,7 @@ html{scroll-behavior:smooth;}
 </div>
 <nav aria-label="Language switcher" class="lang-switch">
 <a href="/blog/wyciek-dns-vpn.html">Polski</a> |
-        <a class="active" href="/de/blog/vpn-dns-leak.html">English (UK)</a> |
+        <a href="/en-gb/blog/vpn-dns-leak-uk.html">English (UK)</a> |
         <a href="/en-us/blog/vpn-dns-leak.html">English (US)</a> |
         <a href="/de/blog/vpn-dns-leak.html" aria-current="page" class="active">Deutsch</a> |
         <a href="/es/blog/vpn-dns-leak.html">Español</a> |
@@ -304,13 +304,13 @@ html{scroll-behavior:smooth;}
   <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 0 20px;">
 
     <div style="text-align: center; margin-bottom: 30px;">
-      <h2 style="font-size: 2.2em; color: #2c3e50; margin-bottom: 10px;">🛡️ DNS Stealth Control Center</h2>
-      <p style="color: #7f8c8d;">Интерактивная диагностика и исправление утечек в реальном времени.</p>
+      <h2 style="font-size: 2.2em; color: #2c3e50; margin-bottom: 10px;">🛡️ DNS Stealth Kontrollzentrum</h2>
+      <p style="color: #7f8c8d;">Interaktive Diagnose und Behebung von DNS-Leaks in Echtzeit.</p>
     </div>
 
     <div style="background: #fff; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; border: 1px solid #e0e0e0;">
       <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: bold;">
-        <span>Общий уровень защиты:</span>
+        <span>Gesamtes Schutzniveau:</span>
         <span id="global-perc">0%</span>
       </div>
       <div style="background: #eee; height: 12px; border-radius: 6px; overflow: hidden;">
@@ -322,8 +322,8 @@ html{scroll-behavior:smooth;}
       </div>
 
     <div style="margin-top: 30px; display: flex; gap: 10px; justify-content: center;">
-      <button id="btn-mark-all" style="padding: 10px 20px; cursor: pointer; border-radius: 5px; border: none; background: #34495e; color: #fff;">Выбрать все</button>
-      <button id="btn-reset-all" style="padding: 10px 20px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc; background: #fff;">Сбросить</button>
+      <button id="btn-mark-all" style="padding: 10px 20px; cursor: pointer; border-radius: 5px; border: none; background: #34495e; color: #fff;">Alle auswählen</button>
+      <button id="btn-reset-all" style="padding: 10px 20px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc; background: #fff;">Zurücksetzen</button>
     </div>
   </div>
 </section>
@@ -337,38 +337,38 @@ html{scroll-behavior:smooth;}
     {
       id: "ipv6",
       title: "Disable IPv6 Protocol",
-      risk: "Главная причина утечек DNS в Windows 10/11.",
+      risk: "Hauptursache für DNS-Leaks unter Windows 10/11.",
       smart: "SmartAdvisor: Провайдеры (Telekom/Orange) используют IPv6 для обхода VPN.",
       vpn: "VPN World: Без этого фикса твой реальный адрес торчит наружу. Отключай не глядя.",
       code: "netsh interface ipv6 set teredo disabled",
-      steps: ["Открыть Панель управления", "Свойства сети", "Снять галочку с IPv6"]
+      steps: ["Systemsteuerung öffnen", "Netzwerkeigenschaften öffnen", "IPv6 deaktivieren"]
     },
     {
       id: "webrtc",
       title: "WebRTC Leak Shield",
-      risk: "Браузерная уязвимость, раскрывающая локальный IP.",
+      risk: "Browser-Schwachstelle, die deine echte IP preisgeben kann.",
       smart: "SmartAdvisor: JavaScript может запросить ваш IP в обход туннеля.",
       vpn: "VPN World: Сайты видят твой настоящий город, даже если ты в Лондоне. Фиксим!",
       code: "browser.config -> media.peerconnection.enabled = false",
-      steps: ["Установить плагин uBlock", "Включить 'Prevent WebRTC leak'", "Или сменить конфиг браузера"]
+      steps: ["uBlock‑Plugin installieren", "'Prevent WebRTC leak' aktivieren", "Oder Browser‑Konfiguration ändern"]
     },
     {
       id: "killswitch",
       title: "System Kill Switch",
-      risk: "Утечка данных при кратковременном обрыве связи.",
+      risk: "Datenleck bei kurzfristigem VPN-Abbruch.",
       smart: "SmartAdvisor: Блокирует весь трафик вне VPN-туннеля.",
       vpn: "VPN World: Твоя подушка безопасности. Если VPN упадет — интернет должен замолчать.",
       code: "VPN App Settings -> Firewall/Kill Switch",
-      steps: ["Зайти в настройки VPN", "Включить 'Always-on VPN'", "Активировать 'Block non-VPN traffic'"]
+      steps: ["VPN‑Einstellungen öffnen", "'Always‑on VPN' aktivieren", "'Block non‑VPN traffic' aktivieren"]
     },
     {
       id: "teredo",
       title: "Disable Teredo Tunneling",
-      risk: "Скрытый туннель Windows для IPv6 трафика.",
+      risk: "Versteckter Windows-Tunnel für IPv6‑Traffic.",
       smart: "SmartAdvisor: Позволяет DNS-запросам 'просачиваться' мимо VPN.",
       vpn: "VPN World: Это лазейка для Microsoft. Закрой её через терминал.",
       code: "netsh interface teredo set state disabled",
-      steps: ["Запустить CMD от Админа", "Ввести команду", "Перезагрузить ПК"]
+      steps: ["CMD als Administrator starten", "Befehl eingeben", "PC neu starten"]
     }
     // Добавь еще 21 карточку по этой же структуре...
   ];
@@ -426,7 +426,7 @@ html{scroll-behavior:smooth;}
         </div>
 
         <details style="margin-top: 15px; font-size: 0.8em;">
-          <summary style="cursor: pointer; color: #3498db;">Инструкция и код</summary>
+          <summary style="cursor: pointer; color: #3498db;">Anleitung und Befehl</summary>
           <div style="padding-top: 10px;">
             <ul style="padding-left: 15px; margin-bottom: 10px;">
               ${card.steps.map(s => `<li>${s}</li>`).join('')}
