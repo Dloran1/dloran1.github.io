@@ -227,7 +227,14 @@ html{scroll-behavior:smooth;}
   background: #5cff3a !important;
 }
 
-</style></head>
+</style><style>
+/* DNS widget hard contrast fix (DE) */
+#dns-control-center, #dns-control-center * { color:#000 !important; }
+#dns-control-center .container { color:#000 !important; }
+#dns-control-center #dns-grid-paginated > div { background:#fff !important; }
+#dns-control-center details summary { color:#0b5bd3 !important; }
+</style>
+</head>
 <body>
 <!-- HEADER -->
 <header class="site-header">
@@ -300,168 +307,126 @@ html{scroll-behavior:smooth;}
       </ol>
     </nav>
 
-    <section id="dns-control-center" style="background: #f4f7f6; padding: 40px 0; font-family: 'Segoe UI', Roboto, sans-serif;">
-  <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 0 20px;">
-
-    <div style="text-align: center; margin-bottom: 30px;">
-      <h2 style="font-size: 2.2em; color: #2c3e50; margin-bottom: 10px;">🛡️ DNS Stealth Kontrollzentrum</h2>
-      <p style="color: #7f8c8d;">Interaktive Diagnose und Behebung von DNS-Leaks in Echtzeit.</p>
-    </div>
-
-    <div style="background: #fff; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; border: 1px solid #e0e0e0;">
-      <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: bold;">
-        <span>Gesamtes Schutzniveau:</span>
-        <span id="global-perc">0%</span>
-      </div>
-      <div style="background: #eee; height: 12px; border-radius: 6px; overflow: hidden;">
-        <div id="global-bar" style="width: 0%; height: 100%; background: #27ae60; transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);"></div>
+    <section id="dns-control-center" style="background:#f4f7f6; padding:40px 0; font-family:'Segoe UI',sans-serif; color:#000;">
+  <div class="container" style="max-width:1000px; margin:0 auto; padding:0 20px; color:#000;">
+    <div style="text-align:center; margin-bottom:25px; color:#000;">
+      <h2 style="font-size:2em; color:#2c3e50; margin:0 0 10px;">🛡️ DNS Stealth Control Center (2026)</h2>
+      <div style="background:#fff; color:#000; padding:15px; border-radius:12px; border:1px solid #ddd; display:inline-block; min-width:250px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:5px; font-size:0.9em; color:#000;">
+          <span style="color:#000;">Gesamtschutz:</span>
+          <span id="global-perc" style="color:#000;">0%</span>
+        </div>
+        <div style="background:#eee; height:8px; border-radius:4px; overflow:hidden;">
+          <div id="global-bar" style="width:0%; height:100%; background:#27ae60; transition:0.5s;"></div>
+        </div>
       </div>
     </div>
 
-    <div id="dns-grid-v3" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
-      </div>
+    <div id="dns-grid-paginated" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:15px; min-height:450px; align-content:start; color:#000;">
+    </div>
 
-    <div style="margin-top: 30px; display: flex; gap: 10px; justify-content: center;">
-      <button id="btn-mark-all" style="padding: 10px 20px; cursor: pointer; border-radius: 5px; border: none; background: #34495e; color: #fff;">Alle auswählen</button>
-      <button id="btn-reset-all" style="padding: 10px 20px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc; background: #fff;">Zurücksetzen</button>
+    <div style="display:flex; justify-content:center; align-items:center; gap:20px; margin-top:25px; color:#000;">
+      <button id="prev-page" style="padding:10px 15px; cursor:pointer; border-radius:8px; border:1px solid #ccc; background:#fff; color:#000;">← Zurück</button>
+      <span id="page-info" style="font-weight:700; color:#111;">Seite 1 von 6</span>
+      <button id="next-page" style="padding:10px 15px; cursor:pointer; border-radius:8px; border:1px solid #ccc; background:#fff; color:#000;">Weiter →</button>
     </div>
   </div>
 </section>
 
 <script>
 (function() {
-  const STORAGE_KEY = "vpn_world_stealth_v3";
+  const STORAGE_KEY = "vpn_world_paginated_v1";
+  let currentPage = 0;
+  const cardsPerPage = 4;
 
-  // ДАННЫЕ КАРТОЧЕК (25 штук - добавь остальные по аналогии)
   const cards = [
-    {
-      id: "ipv6",
-      title: "Disable IPv6 Protocol",
-      risk: "Hauptursache für DNS-Leaks unter Windows 10/11.",
-      smart: "SmartAdvisor: Провайдеры (Telekom/Orange) используют IPv6 для обхода VPN.",
-      vpn: "VPN World: Без этого фикса твой реальный адрес торчит наружу. Отключай не глядя.",
-      code: "netsh interface ipv6 set teredo disabled",
-      steps: ["Systemsteuerung öffnen", "Netzwerkeigenschaften öffnen", "IPv6 deaktivieren"]
-    },
-    {
-      id: "webrtc",
-      title: "WebRTC Leak Shield",
-      risk: "Browser-Schwachstelle, die deine echte IP preisgeben kann.",
-      smart: "SmartAdvisor: JavaScript может запросить ваш IP в обход туннеля.",
-      vpn: "VPN World: Сайты видят твой настоящий город, даже если ты в Лондоне. Фиксим!",
-      code: "browser.config -> media.peerconnection.enabled = false",
-      steps: ["uBlock‑Plugin installieren", "'Prevent WebRTC leak' aktivieren", "Oder Browser‑Konfiguration ändern"]
-    },
-    {
-      id: "killswitch",
-      title: "System Kill Switch",
-      risk: "Datenleck bei kurzfristigem VPN-Abbruch.",
-      smart: "SmartAdvisor: Блокирует весь трафик вне VPN-туннеля.",
-      vpn: "VPN World: Твоя подушка безопасности. Если VPN упадет — интернет должен замолчать.",
-      code: "VPN App Settings -> Firewall/Kill Switch",
-      steps: ["VPN‑Einstellungen öffnen", "'Always‑on VPN' aktivieren", "'Block non‑VPN traffic' aktivieren"]
-    },
-    {
-      id: "teredo",
-      title: "Disable Teredo Tunneling",
-      risk: "Versteckter Windows-Tunnel für IPv6‑Traffic.",
-      smart: "SmartAdvisor: Позволяет DNS-запросам 'просачиваться' мимо VPN.",
-      vpn: "VPN World: Это лазейка для Microsoft. Закрой её через терминал.",
-      code: "netsh interface teredo set state disabled",
-      steps: ["CMD als Administrator starten", "Befehl eingeben", "PC neu starten"]
-    }
-    // Добавь еще 21 карточку по этой же структуре...
+    { id: "ipv6", title: "IPv6 deaktivieren", risk: "Telekom/Vodafone: DNS kann am VPN vorbei laufen.", smart: "SmartAdvisor: IPv6 umgeht VPN-Tunnel bei vielen ISP-Routern (z. B. Telekom/Vodafone) und führt zu DNS-Leaks.", vpn: "VPN World: Wenn IPv6 aktiv bleibt, kann dein echter Provider DNS sehen. Deaktivieren — ohne Diskussion.", code: "netsh interface ipv6 set teredo disabled" },
+    { id: "webrtc", title: "WebRTC blockieren", risk: "Browser kann lokale/echte IP preisgeben.", smart: "SmartAdvisor: Über STUN kann JavaScript lokale IPs auslesen — auch mit aktivem VPN.", vpn: "VPN World: Viele Seiten leaken deine echte IP über WebRTC. Im Browser deaktivieren oder per Add-on blocken.", code: "media.peerconnection.enabled = false" },
+    { id: "killswitch", title: "Kill Switch aktivieren", risk: "Kurzzeitiger VPN-Abbruch = Datenleck.", smart: "SmartAdvisor: Ein Kill Switch verhindert unverschlüsselte Daten-Spikes bei Dropouts.", vpn: "VPN World: Ohne Kill Switch bist du bei einem Abbruch "nackt" im Netz. Immer aktivieren.", code: "Enable App Kill-Switch" },
+    { id: "teredo", title: "Teredo Tunneling deaktivieren", risk: "Versteckter Windows-Tunnel für IPv6-Traffic.", smart: "SmartAdvisor: Teredo kann Firewall-Policies aushebeln und Leaks verursachen.", vpn: "VPN World: Teredo ist eine unnötige Hintertür. Per CMD ausknipsen und neu starten.", code: "netsh interface teredo set state disabled" },
+    { id: "dns_leak", title: "DNS-Binding erzwingen", risk: "Instabile DNS-Abfragen / falsche Resolver.", smart: "SmartAdvisor: Erzwingt, dass das System NUR VPN-DNS nutzt (keine Fallbacks).", vpn: "VPN World: Stell sicher, dass nur der VPN-DNS antwortet — keine Provider-Resolver mehr.", code: "Set-DnsClientServerAddress" },
+    { id: "smh", title: "Smart Multi-Homed Name Resolution", risk: "Windows fragt mehrere Interfaces parallel.", smart: "SmartAdvisor: Windows kann DNS gleichzeitig über WLAN/Ethernet/virtuelle Adapter senden.", vpn: "VPN World: Diese Windows-Funktion killt Privatsphäre. Deaktivieren, wenn du Leaks siehst.", code: "Disable-NetAdapterBinding" },
+    { id: "icmp", title: "ICMP-Leaks vermeiden", risk: "Ping/Tracking kann Standort/Route verraten.", smart: "SmartAdvisor: ICMP kann für Fingerprinting und Standort-Rückschlüsse genutzt werden.", vpn: "VPN World: Blockiere unnötige ICMP-Regeln, wenn Seiten dich tracken wollen.", code: "Windows Firewall: ICMP-Regeln prüfen" },
+    { id: "split", title: "Split-Tunneling prüfen", risk: "Traffic läuft versehentlich am VPN vorbei.", smart: "SmartAdvisor: Falsche Routen/AllowedIPs führen dazu, dass DNS direkt zum ISP geht.", vpn: "VPN World: Split-Tunneling nur bewusst nutzen. Routen & DNS checken.", code: "Check VPN Routing Table" }
+    // Weitere Karten kannst du später ergänzen — Pagination passt sich automatisch an.
   ];
 
-  const grid = document.getElementById('dns-grid-v3');
-  const globalBar = document.getElementById('global-bar');
-  const globalPerc = document.getElementById('global-perc');
-
-  function loadState() {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-  }
-
-  function saveState(state) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  }
+  function loadState() { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+  function saveState(state) { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 
   function render() {
     const state = loadState();
+    const grid = document.getElementById('dns-grid-paginated');
+    const start = currentPage * cardsPerPage;
+    const end = start + cardsPerPage;
+    const pageCards = cards.slice(start, end);
+
     grid.innerHTML = "";
-    let doneCount = 0;
 
-    cards.forEach(card => {
+    let totalDone = 0;
+    cards.forEach(c => { if (state[c.id]) totalDone++; });
+
+    const globalPerc = Math.round((totalDone / cards.length) * 100);
+    document.getElementById('global-bar').style.width = globalPerc + "%";
+    document.getElementById('global-perc').innerText = globalPerc + "%";
+    document.getElementById('page-info').innerText = `Seite ${currentPage + 1} von ${Math.ceil(cards.length / cardsPerPage)}`;
+
+    pageCards.forEach(card => {
       const isChecked = !!state[card.id];
-      if (isChecked) doneCount++;
-
       const el = document.createElement('div');
-      el.style = `
-        background: #fff; border: 2px solid ${isChecked ? '#27ae60' : '#e0e0e0'};
-        padding: 20px; border-radius: 12px; cursor: pointer;
-        transition: 0.3s; position: relative; display: flex; flex-direction: column;
-        box-shadow: ${isChecked ? '0 5px 15px rgba(39,174,96,0.1)' : 'none'};
-      `;
+      el.style = `background:#fff; color:#000; border:2px solid ${isChecked ? '#27ae60' : '#e0e0e0'}; padding:20px; border-radius:12px; cursor:pointer; transition:0.3s; position:relative;`;
 
       el.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
-          <h3 style="margin: 0; font-size: 1.1em; color: #2c3e50;">${card.title}</h3>
-          <div style="width: 24px; height: 24px; border-radius: 50%; border: 2px solid ${isChecked ? '#27ae60' : '#ccc'}; background: ${isChecked ? '#27ae60' : '#fff'}; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px;">
-            ${isChecked ? '✓' : ''}
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; color:#000;">
+          <h3 style="margin:0; font-size:1.1em; color:#111;">${card.title}</h3>
+          <div style="width:22px; height:22px; border-radius:50%; border:2px solid ${isChecked ? '#27ae60' : '#ccc'}; background:${isChecked ? '#27ae60' : '#fff'}; display:flex; align-items:center; justify-content:center; color:${isChecked ? '#fff' : '#000'};">${isChecked ? '✓' : ''}</div>
+        </div>
+
+        <div style="height:4px; background:#eee; border-radius:2px; margin-bottom:12px;">
+          <div style="width:${isChecked ? '100%' : '0%'}; height:100%; background:#27ae60; transition:0.4s;"></div>
+        </div>
+
+        <div style="background:#f9f9f9; color:#000; padding:10px; border-radius:8px; font-size:0.85em; ${isChecked ? 'display:block' : 'display:none'}">
+          <div style="border-left:3px solid #3498db; padding-left:8px; margin-bottom:6px; color:#000;">
+            <strong style="color:#000;">SmartAdvisor:</strong> <span style="color:#000;">${card.smart}</span>
+          </div>
+          <div style="border-left:3px solid #e67e22; padding-left:8px; color:#000;">
+            <strong style="color:#000;">VPN World:</strong> <span style="color:#000;">${card.vpn}</span>
           </div>
         </div>
 
-        <p style="font-size: 0.85em; color: #666; margin-bottom: 15px;">${card.risk}</p>
+        <p style="font-size:0.85em; color:#111; margin:10px 0 0;">
+          ${isChecked ? '✅ Fix aktiv' : '⚠️ Risiko: ' + card.risk}
+        </p>
 
-        <div style="height: 4px; background: #eee; border-radius: 2px; margin-bottom: 15px;">
-          <div style="width: ${isChecked ? '100%' : '0%'}; height: 100%; background: #27ae60; transition: 0.4s;"></div>
-        </div>
-
-        <div style="background: #f9f9f9; padding: 10px; border-radius: 8px; font-size: 0.8em; ${isChecked ? 'display: block;' : 'display: none;'}">
-          <div style="margin-bottom: 8px; border-left: 3px solid #3498db; padding-left: 8px;">
-            <strong>SmartAdvisor:</strong> ${card.smart}
-          </div>
-          <div style="border-left: 3px solid #e67e22; padding-left: 8px;">
-            <strong>VPN World:</strong> ${card.vpn}
-          </div>
-        </div>
-
-        <details style="margin-top: 15px; font-size: 0.8em;">
-          <summary style="cursor: pointer; color: #3498db;">Anleitung und Befehl</summary>
-          <div style="padding-top: 10px;">
-            <ul style="padding-left: 15px; margin-bottom: 10px;">
-              ${card.steps.map(s => `<li>${s}</li>`).join('')}
-            </ul>
-            <pre style="background: #2c3e50; color: #ecf0f1; padding: 10px; border-radius: 5px; overflow-x: auto;"><code>${card.code}</code></pre>
-          </div>
+        <details style="margin-top:10px; font-size:0.8em; color:#000;">
+          <summary style="color:#0b5bd3; cursor:pointer;">Anleitung & Code</summary>
+          <pre style="background:#fff; color:#000; border:1px solid #ddd; padding:10px; border-radius:8px; margin-top:8px; overflow:auto;"><code style="color:#000;">${card.code}</code></pre>
         </details>
       `;
 
       el.onclick = (e) => {
         if (e.target.closest('details') || e.target.tagName === 'SUMMARY') return;
-        const newState = loadState();
-        newState[card.id] = !isChecked;
-        saveState(newState);
+        const s = loadState();
+        s[card.id] = !isChecked;
+        saveState(s);
         render();
       };
 
       grid.appendChild(el);
     });
 
-    const perc = Math.round((doneCount / cards.length) * 100);
-    globalBar.style.width = perc + "%";
-    globalPerc.innerText = perc + "%";
+    document.getElementById('prev-page').disabled = currentPage === 0;
+    document.getElementById('next-page').disabled = end >= cards.length;
   }
 
-  document.getElementById('btn-mark-all').onclick = () => {
-    const s = {}; cards.forEach(c => s[c.id] = true); saveState(s); render();
-  };
-  document.getElementById('btn-reset-all').onclick = () => {
-    saveState({}); render();
-  };
+  document.getElementById('next-page').onclick = () => { if ((currentPage + 1) * cardsPerPage < cards.length) { currentPage++; render(); } };
+  document.getElementById('prev-page').onclick = () => { if (currentPage > 0) { currentPage--; render(); } };
 
   render();
 })();
 </script>
+
 
 
 <section id="leak-tests">
