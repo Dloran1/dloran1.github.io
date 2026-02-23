@@ -122,6 +122,43 @@ h2[id], h3[id], section[id] { scroll-margin-top: 96px; }
   background: #5cff3a !important;
 }
 
+
+/* Widget micro-feedback inside each card (mobile usability) */
+.dns-card .dns-micro{
+  margin-top:12px;
+  padding-top:12px;
+  border-top:1px dashed #cfd6df;
+  color:#000;
+}
+.dns-card .dns-micro .dns-micro-label{
+  font-weight:800;
+  font-size:0.95rem;
+  margin:0 0 8px 0;
+}
+.dns-card .dns-microbar{
+  height:6px;
+  background:#e5e7eb;
+  border-radius:999px;
+  overflow:hidden;
+  border:1px solid #000;
+}
+.dns-card .dns-microbar > span{
+  display:block;
+  height:100%;
+  width:0%;
+  background:#27ae60;
+  transition:width .25s ease;
+}
+.dns-card .dns-micro-lines{
+  margin-top:10px;
+  display:grid;
+  gap:6px;
+}
+.dns-card .dns-micro-lines strong{ font-weight:900; }
+.dns-card .dns-micro-lines .ok{ color:#0b6b2b; font-weight:900; }
+.dns-card .dns-micro-lines .warn{ color:#a23b00; font-weight:900; }
+.dns-card input[type="checkbox"]{ pointer-events:none; } /* avoid iOS tap issues; card handles toggle */
+
 </style>
 <!-- JSON-LD (Stage 2.5): Article + FAQPage + BreadcrumbList + ItemList -->
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "@id": "https://dloran1.github.io/de/blog/vpn-dns-leak.html", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://dloran1.github.io/de/blog/vpn-dns-leak.html"}, "headline": "DNS-Leak trotz VPN: Erkennen & beheben (2026)", "description": "Interaktiver Guide 2026: DNS-/IPv6-/WebRTC-Leaks testen und beheben — mit Control Center, Live-Status und praxiserprobten Fixes für Windows, macOS, Android, iOS und Router.", "image": ["https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp"], "author": {"@type": "Person", "name": "Denys Shchur", "url": "https://smartadvisoronline.com/about/denys-shchur.html", "sameAs": ["https://www.linkedin.com/in/denys-shchurr/"]}, "publisher": {"@type": "Organization", "name": "VPN World", "logo": {"@type": "ImageObject", "url": "https://dloran1.github.io/assets/img/logo.png"}}, "datePublished": "2026-01-06", "dateModified": "2026-02-22", "inLanguage": "de"}, {"@type": "FAQPage", "@id": "https://dloran1.github.io/de/blog/vpn-dns-leak.html#faq", "mainEntity": [{"@type": "Question", "name": "Was ist ein DNS-Leak bei einem VPN?", "acceptedAnswer": {"@type": "Answer", "text": "Ein DNS-Leak liegt vor, wenn DNS-Anfragen (Domain-Auflösungen) nicht durch den VPN-Tunnel gehen, sondern über den Resolver deines Internetanbieters laufen. Dann kann der ISP deine DNS-Muster trotz aktivem VPN weiterhin sehen."}}, {"@type": "Question", "name": "Wie teste ich DNS-, IPv6- und WebRTC-Leaks schnell?", "acceptedAnswer": {"@type": "Answer", "text": "Führe nacheinander DNS-, IPv6- und WebRTC-Tests durch. Ändere dabei immer nur eine Einstellung und teste erneut — so erkennst du exakt, welcher Fix wirkt."}}, {"@type": "Question", "name": "Warum ist IPv6 in 2026 eine Hauptursache für VPN-Leaks?", "acceptedAnswer": {"@type": "Answer", "text": "Viele Netze liefern IPv6 nativ aus. Wenn dein VPN IPv6 nicht korrekt tunnelt, kann IPv6-Verkehr am Tunnel vorbeigehen. Das betrifft besonders Router-Setups, 5G und gemischte WLAN-Netze."}}, {"@type": "Question", "name": "Soll ich Secure DNS (DoH/DoT) im Browser aktiv lassen?", "acceptedAnswer": {"@type": "Answer", "text": "Nicht immer. Browser-DoH kann DNS an einen externen Resolver senden und damit die DNS-Policy des VPNs umgehen. Wenn du ein VPN nutzt, ist es oft besser, DoH im Browser auszuschalten oder so zu konfigurieren, dass es den VPN-Resolver respektiert."}}, {"@type": "Question", "name": "Hilft ein Kill Switch wirklich gegen DNS-Leaks?", "acceptedAnswer": {"@type": "Answer", "text": "Ja — er blockiert Traffic im Moment eines VPN-Abbruchs. Ohne Kill Switch können DNS-Anfragen während kurzer Reconnect-Fenster über den ISP laufen."}}, {"@type": "Question", "name": "Warum muss ich nach jedem Fix erneut testen?", "acceptedAnswer": {"@type": "Answer", "text": "Leaks sind oft sporadisch (Roaming, Sleep/Wake, Netzwechsel). Wiederholte Tests bestätigen, dass der Fix stabil ist und nicht nur zufällig ‚gut‘ aussieht."}}]}, {"@type": "BreadcrumbList", "@id": "https://dloran1.github.io/de/blog/vpn-dns-leak.html#breadcrumbs", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "VPN World", "item": "https://dloran1.github.io/"}, {"@type": "ListItem", "position": 2, "name": "Blog (DE)", "item": "https://dloran1.github.io/de/blog/"}, {"@type": "ListItem", "position": 3, "name": "DNS-Leak trotz VPN", "item": "https://dloran1.github.io/de/blog/vpn-dns-leak.html"}]}, {"@type": "ItemList", "@id": "https://dloran1.github.io/de/blog/vpn-dns-leak.html#related", "name": "Verwandte Artikel", "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://dloran1.github.io/de/blog/vpn-kill-switch.html", "name": "VPN Kill Switch"}, {"@type": "ListItem", "position": 2, "url": "https://dloran1.github.io/de/blog/vpn-optimale-einstellungen.html", "name": "Optimale VPN‑Einstellungen"}, {"@type": "ListItem", "position": 3, "url": "https://dloran1.github.io/de/blog/vpn-router-einrichtung.html", "name": "VPN am Router"}, {"@type": "ListItem", "position": 4, "url": "https://dloran1.github.io/de/blog/vpn-protokolle.html", "name": "VPN‑Protokolle erklärt"}, {"@type": "ListItem", "position": 5, "url": "https://dloran1.github.io/de/blog/wifi-sicherheit-checklist.html", "name": "WLAN‑Sicherheits‑Checkliste"}]}]}</script>
@@ -860,7 +897,7 @@ html{scroll-behavior:smooth;}
 
   function setSelected(card, checked){
     if(!detailTitle || !detailCmd || !detailWhy) return;
-    const badge = card.expert ? " 🛡️ Verified by SmartAdvisor" : "";
+    const badge = card.expert ? " 🛡️ Von SmartAdvisor verifiziert" : "";
     detailTitle.textContent = (checked ? "✅ " : "⚠️ ") + card.title + badge;
     detailCmd.textContent = card.code || "—";
     detailWhy.textContent = card.why || "—";
@@ -878,7 +915,11 @@ html{scroll-behavior:smooth;}
   }
 
   function render(){
-    const st = loadState();
+    co
+    const doneCount = cards.reduce((acc, c) => acc + (state[c.id] === true ? 1 : 0), 0);
+    const percent = Math.round((doneCount / cards.length) * 100);
+    const stage = percent <= 25 ? "Kritisch" : (percent <= 50 ? "Basis-Schutz" : (percent <= 85 ? "Fortgeschritten" : "Stealth Mode"));
+nst st = loadState();
     const done = countDone(st);
 
     grid.innerHTML = "";
@@ -903,7 +944,29 @@ html{scroll-behavior:smooth;}
             <span class="dns-check" aria-hidden="true">${checked ? "✅" : "⬜"}</span>
           </div>
         </div>
+
         <div class="dns-card-sub">${card.why}</div>
+
+        <div class="dns-micro" aria-live="polite">
+          <div class="dns-micro-label">Gesamtschutz: ${percent}% · ${stage}</div>
+          <div class="dns-microbar" role="progressbar" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100">
+            <span style="width:${percent}%"></span>
+          </div>
+          <div class="dns-micro-lines">
+            <div>
+              <strong>🛡️ SmartAdvisor:</strong>
+              <span class="${checked ? "ok" : "warn"}">
+                ${card.expert ? (checked ? "Verifiziert – Priorität in 2026." : "Verifiziert – zuerst aktivieren.") : (checked ? "OK – zusätzlicher Hardening‑Schritt." : "Optional – aber empfohlen.")}
+              </span>
+            </div>
+            <div>
+              <strong>📡 VPN World:</strong>
+              <span class="${checked ? "ok" : "warn"}">
+                ${checked ? "✅ Aktiviert: " : "⚠️ Noch offen: "}${card.why}
+              </span>
+            </div>
+          </div>
+        </div>
       `;
 
       el.addEventListener("click", () => {
