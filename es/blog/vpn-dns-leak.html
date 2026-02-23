@@ -3,12 +3,12 @@
 <html lang="es">
 <head>
 <meta charset="utf-8"/>
-<title>Fuga de DNS con VPN: cómo detectarla y arreglarla en España (2026) + Control Center</title>
+<title>DNS Leak en VPN: Cómo detectarlo y arreglarlo (España 2026) + Control Center</title>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta name="description" content="¿Tu VPN filtra DNS? Guía 2026 para España (Movistar, Orange, Digi): test rápido, causas reales y 25 fixes en nuestro Control Center para cerrar fugas de DNS/IPv6/WebRTC."/>
+<meta name="description" content="¿Tu VPN filtra DNS, IPv6 o WebRTC en España? Guía 2026 + Centro de Control interactivo con 25 ajustes para Movistar, Orange, Vodafone ES y Digi."/>
 <meta content="index, follow" name="robots"/>
 <link href="/favicon.ico" rel="icon"/>
-<link href="https://dloran1.github.io/de/blog/vpn-dns-leak.html" rel="canonical"/>
+<link href="https://dloran1.github.io/es/blog/vpn-dns-leak.html" rel="canonical"/>
 <!-- HREFLANG (7× + x-default) -->
   <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/wyciek-dns-vpn.html">
   <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html">
@@ -38,7 +38,7 @@
 <meta content="nl_BE" property="og:locale:alternate"/>
 <meta content="DNS Leak with a VPN (2026): How to Test &amp; Fix DNS/IPv6/WebRTC Leaks" property="og:title"/>
 <meta content="Teste DNS/IPv6/WebRTC in Minuten und behebe Leaks auf Windows, macOS, Android, iOS und Routern (2026)." property="og:description"/>
-<meta content="https://dloran1.github.io/de/blog/vpn-dns-leak.html" property="og:url"/>
+<meta content="https://dloran1.github.io/es/blog/vpn-dns-leak.html" property="og:url"/>
 <meta content="https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/>
@@ -123,9 +123,29 @@ h2[id], h3[id], section[id] { scroll-margin-top: 96px; }
   background: #5cff3a !important;
 }
 
+
+/* Quick Answer box (Featured Snippet bait) */
+.qa-box{background:#ffffff;border:2px solid #1f6feb;border-radius:14px;padding:18px 18px 14px;margin:18px 0 22px;box-shadow:0 10px 26px rgba(0,0,0,.08);color:#0b1220}
+.qa-box h2{margin:0 0 10px;font-size:1.25rem;line-height:1.25;color:#071023}
+.qa-box p{margin:0 0 10px;color:#0b1220}
+.qa-box ul{margin:0;padding-left:20px;color:#0b1220}
+.qa-box li{margin:6px 0}
+.qa-box strong{color:#071023}
+
+/* DNS Control Center: force white cards + black text even on dark shells */
+#dns-control-center, #dns-control-center *{color:#000 !important}
+#dns-control-center{background:#fff !important;border:1px solid #d7dde8;border-radius:16px}
+#dns-control-center .dns-cc-meter{background:#fff !important}
+#dns-control-center .dns-cc-meter-title,
+#dns-control-center .dns-cc-meter-hint,
+#dns-control-center .dns-cc-meter-perc,
+#dns-control-center .dns-cc-pager .page-info,
+#dns-control-center .dns-cc-note{color:#000 !important}
+#dns-control-center .dns-cc-card{background:#fff !important}
+#dns-control-center details summary{color:#0b63ce !important}
 </style>
 <!-- JSON-LD (Stage 2.5): Article + FAQPage + BreadcrumbList + ItemList -->
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "@id": "https://dloran1.github.io/de/blog/vpn-dns-leak.html", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://dloran1.github.io/es/blog/vpn-dns-leak.html"}, "headline": "Fuga de DNS con VPN: cómo detectarla y arreglarla en España (2026)", "description": "Guía 2026 para España (Movistar, Orange, Digi): test, causas y fixes para eliminar fugas DNS/IPv6/WebRTC.", "image": ["https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp"], "author": {"@type": "Person", "name": "Denys Shchur", "url": "https://smartadvisoronline.com/about/denys-shchur.html", "sameAs": ["https://www.linkedin.com/in/denys-shchurr/"]}, "publisher": {"@type": "Organization", "name": "VPN World", "logo": {"@type": "ImageObject", "url": "https://dloran1.github.io/assets/img/logo.png"}}, "datePublished": "2026-01-06", "dateModified": "2026-02-22", "inLanguage": "es", "url": "https://dloran1.github.io/es/blog/vpn-dns-leak.html"}, {"@type": "FAQPage", "@id": "https://dloran1.github.io/de/blog/vpn-dns-leak.html#faq", "mainEntity": [{"@type": "Question", "name": "¿Cómo sé si mi VPN tiene una fuga de DNS?", "acceptedAnswer": {"@type": "Answer", "text": "Haz pruebas en dnsleaktest.com (Standard y Extended) y en ipleak.net con la VPN activa. Si aparecen DNS de tu ISP (Movistar, Orange, Vodafone ES o Digi), hay fuga."}}, {"@type": "Question", "name": "¿Por qué IPv6 provoca fugas con tanta frecuencia en España?", "acceptedAnswer": {"@type": "Answer", "text": "Muchos routers del ISP anuncian IPv6 por defecto y algunas VPN no tunelan IPv6 de forma consistente. Parte del tráfico o las consultas DNS pueden salir fuera del túnel."}}, {"@type": "Question", "name": "¿DNS-over-HTTPS (DoH) ayuda o empeora?", "acceptedAnswer": {"@type": "Answer", "text": "Puede ayudar si está alineado con la VPN. Si el navegador usa DoH externo mientras la VPN impone DNS propio, puede causar conflictos y fugas. Lo más estable es DoH de la VPN o DoH desactivado + DNS de la VPN."}}, {"@type": "Question", "name": "¿Un Kill Switch evita fugas de DNS?", "acceptedAnswer": {"@type": "Answer", "text": "Evita exposición cuando la VPN se cae, pero no arregla por sí solo conflictos de DNS/IPv6. Aun así es imprescindible."}}, {"@type": "Question", "name": "¿Qué ajustes de Windows suelen causar fugas?", "acceptedAnswer": {"@type": "Answer", "text": "Smart Name Resolution (consultas DNS en paralelo), métricas/rutas incorrectas y adaptadores adicionales. Ajusta esos puntos y repite el test."}}, {"@type": "Question", "name": "¿Qué ve el ISP si hay una fuga DNS?", "acceptedAnswer": {"@type": "Answer", "text": "Puede ver los dominios consultados y patrones de navegación, aunque no siempre el contenido HTTPS. Por eso la meta es cero DNS fuera del túnel."}}]}, {"@type": "BreadcrumbList", "@id": "https://dloran1.github.io/de/blog/vpn-dns-leak.html#breadcrumbs", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "VPN World", "item": "https://dloran1.github.io/"}, {"@type": "ListItem", "position": 2, "name": "Blog (DE)", "item": "https://dloran1.github.io/de/blog/"}, {"@type": "ListItem", "position": 3, "name": "DNS-Leak trotz VPN", "item": "https://dloran1.github.io/de/blog/vpn-dns-leak.html"}]}, {"@type": "ItemList", "@id": "https://dloran1.github.io/de/blog/vpn-dns-leak.html#related", "name": "Relacionadoe Artikel", "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://dloran1.github.io/es/blog/vpn-kill-switch.html", "name": "VPN Kill Switch"}, {"@type": "ListItem", "position": 2, "url": "https://dloran1.github.io/es/blog/vpn-optimale-einstellungen.html", "name": "Optimale VPN‑Einstellungen"}, {"@type": "ListItem", "position": 3, "url": "https://dloran1.github.io/es/blog/vpn-router-einrichtung.html", "name": "VPN am Router"}, {"@type": "ListItem", "position": 4, "url": "https://dloran1.github.io/es/blog/vpn-protokolle.html", "name": "VPN‑Protokolle erklärt"}, {"@type": "ListItem", "position": 5, "url": "https://dloran1.github.io/es/blog/wifi-sicherheit-checklist.html", "name": "WLAN‑Sicherheits‑Checkliste"}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "@id": "https://dloran1.github.io/es/blog/vpn-dns-leak.html", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://dloran1.github.io/es/blog/vpn-dns-leak.html"}, "headline": "Fuga de DNS con VPN: cómo detectarla y arreglarla en España (2026)", "description": "Guía 2026 para España (Movistar, Orange, Digi): test, causas y fixes para eliminar fugas DNS/IPv6/WebRTC.", "image": ["https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp"], "author": {"@type": "Person", "name": "Denys Shchur", "url": "https://dloran1.github.io/es/about/denys-shchur.html", "sameAs": ["https://www.linkedin.com/in/denys-shchurr/"]}, "publisher": {"@type": "Organization", "name": "VPN World", "logo": {"@type": "ImageObject", "url": "https://dloran1.github.io/assets/img/logo.png"}}, "datePublished": "2026-01-06", "dateModified": "2026-02-22", "inLanguage": "es", "url": "https://dloran1.github.io/es/blog/vpn-dns-leak.html"}, {"@type": "FAQPage", "@id": "https://dloran1.github.io/es/blog/vpn-dns-leak.html#faq", "mainEntity": [{"@type": "Question", "name": "¿Cómo sé si mi VPN tiene una fuga de DNS?", "acceptedAnswer": {"@type": "Answer", "text": "Haz pruebas en dnsleaktest.com (Standard y Extended) y en ipleak.net con la VPN activa. Si aparecen DNS de tu ISP (Movistar, Orange, Vodafone ES o Digi), hay fuga."}}, {"@type": "Question", "name": "¿Por qué IPv6 provoca fugas con tanta frecuencia en España?", "acceptedAnswer": {"@type": "Answer", "text": "Muchos routers del ISP anuncian IPv6 por defecto y algunas VPN no tunelan IPv6 de forma consistente. Parte del tráfico o las consultas DNS pueden salir fuera del túnel."}}, {"@type": "Question", "name": "¿DNS-over-HTTPS (DoH) ayuda o empeora?", "acceptedAnswer": {"@type": "Answer", "text": "Puede ayudar si está alineado con la VPN. Si el navegador usa DoH externo mientras la VPN impone DNS propio, puede causar conflictos y fugas. Lo más estable es DoH de la VPN o DoH desactivado + DNS de la VPN."}}, {"@type": "Question", "name": "¿Un Kill Switch evita fugas de DNS?", "acceptedAnswer": {"@type": "Answer", "text": "Evita exposición cuando la VPN se cae, pero no arregla por sí solo conflictos de DNS/IPv6. Aun así es imprescindible."}}, {"@type": "Question", "name": "¿Qué ajustes de Windows suelen causar fugas?", "acceptedAnswer": {"@type": "Answer", "text": "Smart Name Resolution (consultas DNS en paralelo), métricas/rutas incorrectas y adaptadores adicionales. Ajusta esos puntos y repite el test."}}, {"@type": "Question", "name": "¿Qué ve el ISP si hay una fuga DNS?", "acceptedAnswer": {"@type": "Answer", "text": "Puede ver los dominios consultados y patrones de navegación, aunque no siempre el contenido HTTPS. Por eso la meta es cero DNS fuera del túnel."}}]}, {"@type": "BreadcrumbList", "@id": "https://dloran1.github.io/es/blog/vpn-dns-leak.html#breadcrumbs", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "VPN World", "item": "https://dloran1.github.io/"}, {"@type": "ListItem", "position": 2, "name": "Blog (DE)", "item": "https://dloran1.github.io/es/blog/"}, {"@type": "ListItem", "position": 3, "name": "DNS-Leak trotz VPN", "item": "https://dloran1.github.io/es/blog/vpn-dns-leak.html"}]}, {"@type": "ItemList", "@id": "https://dloran1.github.io/es/blog/vpn-dns-leak.html#related", "name": "Relacionadoe Artikel", "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://dloran1.github.io/es/blog/vpn-kill-switch.html", "name": "VPN Kill Switch"}, {"@type": "ListItem", "position": 2, "url": "https://dloran1.github.io/es/blog/vpn-optimale-einstellungen.html", "name": "Optimale VPN‑Einstellungen"}, {"@type": "ListItem", "position": 3, "url": "https://dloran1.github.io/es/blog/vpn-router-einrichtung.html", "name": "VPN am Router"}, {"@type": "ListItem", "position": 4, "url": "https://dloran1.github.io/es/blog/vpn-protokolle.html", "name": "VPN‑Protokolle erklärt"}, {"@type": "ListItem", "position": 5, "url": "https://dloran1.github.io/es/blog/wifi-sicherheit-checklist.html", "name": "WLAN‑Sicherheits‑Checkliste"}]}]}</script>
 <script defer="" src="/assets/js/cookie-consent.js"></script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-EMR8C4TLVM"></script>
 <style>
@@ -275,7 +295,7 @@ html{scroll-behavior:smooth;}
         <h1>Fuga de DNS con VPN: cómo detectarla y arreglarla en España (2026)</h1>
 
         <div class="qa-box">
-          <h2>¿Qué es una fuga de DNS y cómo solucionarla rápido?</h2>
+  <h2>¿Qué es una fuga de DNS y cómo solucionarla rápido?</h2>
           <p><strong>Una fuga de DNS</strong> ocurre cuando tus consultas se salen del túnel VPN y tu ISP (por ejemplo, <strong>Movistar</strong> u <strong>Orange</strong>) puede ver qué dominios visitas. Con una VPN bien configurada, el DNS debe ir cifrado dentro del túnel.</p>
           <ul>
             <li><strong>Desactiva IPv6</strong> (muy importante en España: Movistar/Digi).</li>
@@ -294,7 +314,7 @@ html{scroll-behavior:smooth;}
           <div class="author">
             <img src="../../assets/img/author/denys-shchur.webp" alt="Autorfoto: Denys Shchur" width="44" height="44" loading="lazy" />
             <div>
-              <div class="byline">Autor: <a href="https://smartadvisoronline.com/about/denys-shchur.html">Denys Shchur</a></div>
+              <div class="byline">Autor: <a href="https://dloran1.github.io/es/about/denys-shchur.html">Denys Shchur</a></div>
               <div class="meta">Veröffentlicht: 2026-01-06 · Aktualisiert: 2026-02-22 · 12–18 Min. Lesezeit</div>
             </div>
           </div>
@@ -682,11 +702,11 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- FOOTER -->
 <footer class="site-footer">
 <div class="container">
-<p><strong>VPN World</strong> · Unabhängiger Service zu Privatsphäre, Sicherheit und praktischer VPN-Nutzung.</p>
+<p><strong>VPN World</strong> · Servicio independiente sobre privacidad, seguridad y uso práctico de VPN.</p>
 <p>
 <a href="/es/privacy.html">Privacidad</a> ·
-        <a href="/es/disclosure.html">Offenlegung</a> ·
-        <a href="mailto:u1797008805@gmail.com">Kontakt</a>
+        <a href="/es/disclosure.html">Divulgación</a> ·
+        <a href="mailto:u1797008805@gmail.com">Contacto</a>
 </p>
 <p>© 2026 VPN World</p>
 </div>
@@ -729,4 +749,4 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
-<!-- PAGE: /de/blog/vpn-dns-leak.html -->
+<!-- PAGE: /es/blog/vpn-dns-leak.html -->
