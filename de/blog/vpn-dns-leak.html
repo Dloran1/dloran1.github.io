@@ -343,13 +343,262 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Daten-Array (du kannst später alle 25 nach diesem Muster ergänzen)
   const cards = [
-    { id: "ipv6", title: "IPv6 deaktivieren", risk: "Telekom/Vodafone: DNS kann am VPN vorbei laufen.", smart: "SmartAdvisor: IPv6 verarbeitet DNS bei vielen ISP-Routern außerhalb des VPN-Tunnels.", vpn: "VPN World: IPv6 ist oft die Leak-Lücke. Deaktiviere es, damit dein Provider keine DNS sieht.", code: "netsh interface ipv6 set teredo disabled" },
-    { id: "webrtc", title: "WebRTC blockieren", risk: "Browser kann die echte IP preisgeben.", smart: "SmartAdvisor: STUN-Server können lokale IPs trotz VPN-Adapter sichtbar machen.", vpn: "VPN World: WebRTC kann deine echte IP leaken. Im Browser deaktivieren oder per Add-on blocken.", code: "media.peerconnection.enabled = false" },
-    { id: "killswitch", title: "Kill Switch", risk: "Kurzzeitiger unverschlüsselter Traffic-Burst.", smart: "SmartAdvisor: Systemweite Fail-Safe-Funktion gegen Datenlecks bei VPN-Abbruch.", vpn: "VPN World: VPN fällt kurz aus — und ohne Kill Switch bist du ungeschützt. Immer aktivieren.", code: "Enable System Kill-Switch" },
-    { id: "teredo", title: "Teredo Tunneling deaktivieren", risk: "Versteckter Windows-IPv6-Tunnel.", smart: "SmartAdvisor: Teredo kapselt IPv6 in UDP und kann Firewalls umgehen.", vpn: "VPN World: Unnötige Windows-Lücke. Schalte Teredo ab und starte neu.", code: "netsh interface teredo set state disabled" },
-    { id: "dns_binding", title: "DNS-Binding", risk: "Interface-Priorität kann DNS leaken.", smart: "SmartAdvisor: Erzwingt, dass das OS nur an VPN-DNS-Server bindet (keine Fallbacks).", vpn: "VPN World: Binde DNS an den VPN-Adapter, damit Windows nicht selbst \"ausweicht\".", code: "Set-DnsClientServerAddress" },
-    { id: "mhomed", title: "Smart Multi-Homed Name Resolution", risk: "Windows sendet DNS parallel über mehrere Adapter.", smart: "SmartAdvisor: Verhindert, dass Windows Queries gleichzeitig an alle Interfaces schickt.", vpn: "VPN World: Diese \"smarte\" Funktion kann DNS-Leaks verursachen. Deaktiviere sie bei Problemen.", code: "Disable-NetAdapterBinding" }
+    // --- GRUPPE 1: SYSTEMPROTOKOLLE ---
+    {
+      id: "ipv6",
+      title: "IPv6 deaktivieren",
+      risk: "Häufigste DNS-Leck-Quelle (Telekom/Vodafone).",
+      smart: "SmartAdvisor: IPv6-Traffic wird bei vielen ISP-Routern am VPN-Tunnel vorbeigeleitet.",
+      vpn: "VPN World: Provider lieben IPv6, weil man dich darüber am leichtesten enttarnt. Abschalten.",
+      code: "netsh interface ipv6 set teredo disabled",
+      steps: ["Netzwerkeinstellungen öffnen", "Adaptereigenschaften", "Häkchen bei IPv6 entfernen"]
+    },
+    {
+      id: "teredo",
+      title: "Teredo Tunneling deaktivieren",
+      risk: "Versteckter Windows-Tunnel für IPv6 (Leak-Risiko).",
+      smart: "SmartAdvisor: Teredo kapselt IPv6 in UDP und kann Firewall-Regeln umgehen.",
+      vpn: "VPN World: Ein unnötiger Windows-Tunnel. Schließe diese Lücke sofort.",
+      code: "netsh interface teredo set state disabled",
+      steps: ["CMD als Admin starten", "Befehl eingeben", "PC neu starten"]
+    },
+    {
+      id: "mhomed",
+      title: "Smart Multi-Homed DNS",
+      risk: "Windows sendet DNS-Anfragen parallel an mehrere Adapter.",
+      smart: "SmartAdvisor: Windows wählt oft den schnellsten Resolver (häufig den ISP) — das verursacht Leaks.",
+      vpn: "VPN World: Die „smarte“ Windows-Funktion ist in der Praxis gefährlich. Deaktivieren, wenn Privatsphäre wichtig ist.",
+      code: "Set-ItemProperty -Path 'HKLM:\\Software\\Policies\\Microsoft\\Windows NT\\DNSClient' -Name 'DisableSmartNameResolution' -Value 1",
+      steps: ["PowerShell/Registry als Admin", "Policy-Pfad prüfen", "Wert auf 1 setzen"]
+    },
+    {
+      id: "llmnr",
+      title: "LLMNR deaktivieren",
+      risk: "Lokale Namensauflösung kann Informationen im Netzwerk preisgeben.",
+      smart: "SmartAdvisor: LLMNR/NetBIOS erhöhen die Angriffsfläche in öffentlichen WLANs.",
+      vpn: "VPN World: In Cafés/Hotels ist das ein unnötiges Risiko. LLMNR aus, wenn du unterwegs bist.",
+      code: "reg add \"HKLM\\Software\\Policies\\Microsoft\\Windows NT\\DNSClient\" /v EnableMulticast /t REG_DWORD /d 0 /f",
+      steps: ["CMD/PowerShell als Admin", "Befehl ausführen", "Neustart"]
+    },
+
+    // --- GRUPPE 2: BROWSER ---
+    {
+      id: "webrtc",
+      title: "WebRTC-Leak-Schutz",
+      risk: "WebRTC kann lokale/echte IP-Adressen leaken.",
+      smart: "SmartAdvisor: STUN-Server können trotz VPN den lokalen IP-Stack sichtbar machen.",
+      vpn: "VPN World: Der Browser ist oft der Leak-König. WebRTC blocken — besonders für Streaming/Banking.",
+      code: "Firefox about:config -> media.peerconnection.enabled = false",
+      steps: ["Firefox: about:config öffnen", "media.peerconnection.enabled suchen", "auf false setzen"]
+    },
+    {
+      id: "dns_over_https",
+      title: "DNS-over-HTTPS (DoH) prüfen",
+      risk: "Browser-DNS kann mit VPN-DNS kollidieren (uneinheitliche Resolver).",
+      smart: "SmartAdvisor: DoH kann systemweite DNS-Routen überschreiben und Leaks/Blockaden auslösen.",
+      vpn: "VPN World: Entweder DoH bewusst über den VPN nutzen — oder im Browser deaktivieren, damit nur VPN-DNS zählt.",
+      code: "Browser-Einstellungen -> Sicherheit/Datenschutz -> „Sicheres DNS“ (DoH)",
+      steps: ["Chrome/Edge: Einstellungen", "Datenschutz & Sicherheit", "Sicheres DNS anpassen/deaktivieren"]
+    },
+    {
+      id: "prefetch",
+      title: "DNS-Prefetching deaktivieren",
+      risk: "Browser fragt Domains vorab ab (zusätzliche DNS-Spuren).",
+      smart: "SmartAdvisor: Prefetch kann DNS-Anfragen erzeugen, bevor du klickst — schlecht für Privatsphäre.",
+      vpn: "VPN World: Wenn der Browser „rät“, wohin du gehst, entstehen unnötige DNS-Requests. Prefetch aus.",
+      code: "Firefox about:config -> network.dns.disablePrefetch = true",
+      steps: ["about:config öffnen", "network.dns.disablePrefetch suchen", "auf true setzen"]
+    },
+    {
+      id: "browser_ipv6",
+      title: "Browser-IPv6 prüfen",
+      risk: "Manche Browser/Stacks bevorzugen IPv6 und umgehen schwache VPN-Setups.",
+      smart: "SmartAdvisor: Wenn IPv6 nicht sauber getunnelt wird, sind Leaks möglich.",
+      vpn: "VPN World: Wenn du IPv6 nicht komplett abschaltest, stelle sicher, dass dein VPN IPv6 wirklich korrekt behandelt.",
+      code: "VPN-App: IPv6-Leak-Schutz aktivieren (falls vorhanden)",
+      steps: ["VPN-App öffnen", "Erweiterte Einstellungen", "IPv6-Leak-Schutz aktivieren"]
+    },
+
+    // --- GRUPPE 3: VPN-SOFTWARE ---
+    {
+      id: "killswitch",
+      title: "System-Kill-Switch",
+      risk: "Datenleck bei VPN-Verbindungsabbruch.",
+      smart: "SmartAdvisor: Blockiert Traffic außerhalb des Tunnels bei Dropouts.",
+      vpn: "VPN World: Dein Fallschirm. Wenn VPN weg — muss das Internet sofort still sein.",
+      code: "VPN-App -> Einstellungen -> Kill Switch / Firewall",
+      steps: ["VPN-App öffnen", "Sicherheitsfeatures", "Kill Switch aktivieren"]
+    },
+    {
+      id: "lan_block",
+      title: "Unsichtbar im LAN (LAN-Block)",
+      risk: "Andere Geräte im WLAN können dich scannen/angreifen.",
+      smart: "SmartAdvisor: Reduziert Angriffe wie ARP-Spoofing und lokale Discovery.",
+      vpn: "VPN World: In öffentlichen WLANs ist LAN-Block Pflicht. Du willst nicht im selben Netz sichtbar sein.",
+      code: "VPN-App -> Einstellungen -> „Lokalen Netzwerkzugriff blockieren“",
+      steps: ["VPN-App öffnen", "Lokales Netzwerk/LAN", "Blockieren aktivieren"]
+    },
+    {
+      id: "ipv6_leak_v",
+      title: "VPN: IPv6-Leak-Protection",
+      risk: "IPv6-Leaks trotz aktivem VPN.",
+      smart: "SmartAdvisor: Erzwingt IPv6-Routing durch den Tunnel oder filtert IPv6.",
+      vpn: "VPN World: Wenn IPv6 an bleibt, muss dein VPN es sauber tunneln oder hart blocken.",
+      code: "VPN-App -> Einstellungen -> IPv6-Leak-Schutz",
+      steps: ["In der VPN-App aktivieren"]
+    },
+    {
+      id: "protocol_switch",
+      title: "VPN-Protokoll wechseln",
+      risk: "Ein Protokoll kann im Netz gedrosselt/gebrochen werden.",
+      smart: "SmartAdvisor: In restriktiven Netzen helfen WireGuard↔OpenVPN↔IKEv2 Wechsel oft sofort.",
+      vpn: "VPN World: Wenn du Leaks/Disconnects siehst: Protokoll wechseln, dann erneut testen.",
+      code: "VPN-App -> Protokoll: WireGuard / OpenVPN / IKEv2",
+      steps: ["VPN-App öffnen", "Protokoll ändern", "Reconnect", "DNS-Test wiederholen"]
+    },
+
+    // --- GRUPPE 4: ADVANCED / WINDOWS-HARDENING ---
+    {
+      id: "dns_binding",
+      title: "DNS-Binding (Interface-Metric)",
+      risk: "Falsche Adapter-Priorität führt zu DNS-Fallbacks.",
+      smart: "SmartAdvisor: Setzt die VPN-Schnittstelle auf höchste Priorität.",
+      vpn: "VPN World: Mach den VPN-Adapter zum Chef — dann gibt es weniger „Windows-Improvisation“.",
+      code: "Set-NetIPInterface -InterfaceAlias 'VPN' -InterfaceMetric 1",
+      steps: ["PowerShell als Admin", "InterfaceAlias anpassen", "Metric setzen"]
+    },
+    {
+      id: "wpad",
+      title: "WPAD deaktivieren",
+      risk: "Proxy Auto-Discovery kann missbraucht werden (Traffic-Umleitung).",
+      smart: "SmartAdvisor: WPAD ist eine bekannte Angriffsfläche in Unternehmens- und Hotelnetzen.",
+      vpn: "VPN World: Alte Windows-Falle. Wenn du viel reist, schalte WPAD ab.",
+      code: "reg add \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\Wpad\" /v WpadOverride /t REG_DWORD /d 1 /f",
+      steps: ["regedit/CLI", "WpadOverride setzen", "Neustart/Abmelden"]
+    },
+    {
+      id: "icmp",
+      title: "ICMP (Ping) filtern",
+      risk: "Latenz-/Ping-Analysen können Standort/Route verraten.",
+      smart: "SmartAdvisor: Ping ist ein Fingerprinting-Signal (nicht das stärkste, aber messbar).",
+      vpn: "VPN World: Nicht immer nötig — aber wenn du hart absichern willst, ICMP-Regeln prüfen.",
+      code: "Windows Defender Firewall: Eingehende ICMP-Regeln deaktivieren",
+      steps: ["wf.msc öffnen", "Eingehende Regeln", "ICMPv4-Inbound prüfen/deaktivieren"]
+    },
+    {
+      id: "smb_leak",
+      title: "SMB/Netzwerk-Shares absichern",
+      risk: "Windows kann bei Netzwerk-Browsing interne Infos preisgeben.",
+      smart: "SmartAdvisor: SMB/Discovery in öffentlichen Netzen erhöht Risiko und kann Leaks triggern.",
+      vpn: "VPN World: Im Café brauchst du keine Datei-Freigaben. Netzwerk-Erkennung aus, SMB härten.",
+      code: "Disable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol -NoRestart",
+      steps: ["PowerShell als Admin", "SMB1 deaktivieren", "Neustart"]
+    },
+    {
+      id: "dns_cache",
+      title: "DNS-Cache leeren",
+      risk: "Alte Resolver-Einträge können Tests verfälschen.",
+      smart: "SmartAdvisor: Flush entfernt gecachte Antworten (hilft bei Diagnose).",
+      vpn: "VPN World: Nach Änderungen immer flushen — sonst jagst du Geister in den Logs.",
+      code: "ipconfig /flushdns",
+      steps: ["CMD öffnen", "Befehl ausführen"]
+    },
+
+    // --- GRUPPE 5: MOBILE & ROUTER ---
+    {
+      id: "ios_leak",
+      title: "iOS WLAN-Unterstützung (Wi‑Fi Assist) aus",
+      risk: "iPhone nutzt mobile Daten bei schlechtem WLAN (Tunnel-Bypass möglich).",
+      smart: "SmartAdvisor: Wi‑Fi Assist kann Verbindungen umleiten, wenn WLAN schwach ist.",
+      vpn: "VPN World: Wenn WLAN mies ist, schaltet iOS gerne auf 4G. Stelle sicher, dass VPN auch dort aktiv ist.",
+      code: "Einstellungen -> Mobilfunk -> WLAN-Unterstützung AUS",
+      steps: ["Einstellungen öffnen", "Mobilfunk", "WLAN-Unterstützung deaktivieren"]
+    },
+    {
+      id: "and_dns",
+      title: "Android „Privates DNS“ prüfen",
+      risk: "Konflikt mit VPN-DNS (DoT/Private DNS).",
+      smart: "SmartAdvisor: Private DNS kann VPN-DNS ignorieren oder blockieren.",
+      vpn: "VPN World: Wenn du Leaks siehst: Privates DNS testweise aus oder korrekt mit VPN abstimmen.",
+      code: "Android -> Netzwerk & Internet -> Privates DNS",
+      steps: ["Einstellungen", "Privates DNS", "Aus/Automatisch testen"]
+    },
+    {
+      id: "router_ipv6",
+      title: "Router-IPv6 deaktivieren",
+      risk: "Leak auf Hardware-Ebene (Geräte bekommen IPv6 direkt).",
+      smart: "SmartAdvisor: Wenn der Router IPv6 verteilt, reicht ein reiner App-VPN manchmal nicht.",
+      vpn: "VPN World: Wenn du Zuhause IPv6 nicht brauchst: im Router aus — dann hast du Ruhe.",
+      code: "Router -> Netzwerk/Internet -> IPv6 -> Disable",
+      steps: ["Router-Login", "IPv6-Menü", "deaktivieren", "Neustart Router"]
+    },
+    {
+      id: "static_route",
+      title: "Statische Route prüfen",
+      risk: "Traffic kann am Tunnel vorbei geroutet werden (Split-Routing).",
+      smart: "SmartAdvisor: Fehlkonfigurations-Klassiker bei Custom-Setups/Work-VPNs.",
+      vpn: "VPN World: Wenn du manuell routest: doppelt prüfen. Ein falscher Gateway = Leak.",
+      code: "route print / route add …",
+      steps: ["Routentabelle prüfen", "Gateway/Metric kontrollieren"]
+    },
+
+    // --- GRUPPE 6: TESTS & FINAL CHECK ---
+    {
+      id: "extended_test",
+      title: "Erweiterter DNS-Test",
+      risk: "Kurztests übersehen Fallback-Resolver.",
+      smart: "SmartAdvisor: Mehrere parallele Abfragen decken Race-Conditions/Adapter-Fallbacks auf.",
+      vpn: "VPN World: Ein schneller Test reicht nicht. Mach den Extended-Test und schau dir ALLE Resolver an.",
+      code: "dnsleaktest.com -> Extended Test",
+      steps: ["Website öffnen", "Extended Test", "Resolver-Liste prüfen"]
+    },
+    {
+      id: "trace_route",
+      title: "Traceroute prüfen",
+      risk: "Hops außerhalb des Tunnels zeigen Routing-Probleme.",
+      smart: "SmartAdvisor: Zeigt Zwischenstationen und mögliche Provider-Hops.",
+      vpn: "VPN World: Wenn du Provider-IPs siehst, stimmt Routing nicht. Erst fixen, dann weitermachen.",
+      code: "tracert 8.8.8.8",
+      steps: ["CMD öffnen", "tracert ausführen", "Hops prüfen"]
+    },
+    {
+      id: "mac_random",
+      title: "MAC-Randomisierung aktivieren",
+      risk: "Hardware-Tracking in Hotspots.",
+      smart: "SmartAdvisor: Randomisierte MAC reduziert Wiedererkennung im öffentlichen WLAN.",
+      vpn: "VPN World: Deine MAC ist wie ein Ausweis. Randomisieren — vor allem in Airports/Hotels.",
+      code: "Windows -> WLAN -> Zufällige Hardwareadressen EIN",
+      steps: ["WLAN auswählen", "Eigenschaften", "Zufällige Hardwareadressen aktivieren"]
+    },
+    {
+      id: "time_zone",
+      title: "Zeitzonen-Leak prüfen",
+      risk: "IP-Standort vs. Systemzeit kann dich enttarnen.",
+      smart: "SmartAdvisor: Einige Dienste vergleichen IP-Geo mit Zeitzone/Locale.",
+      vpn: "VPN World: Wenn IP „London“ und Uhr „Warschau“ — das fällt auf. Bei Bedarf angleichen.",
+      code: "Windows -> Datum/Uhrzeit -> Zeitzone anpassen",
+      steps: ["Automatik prüfen", "Zeitzone setzen", "Browser-Location prüfen"]
+    },
+    {
+      id: "battery_api",
+      title: "Browser-Fingerprinting reduzieren",
+      risk: "Fingerprinting über viele Signale (nicht nur DNS).",
+      smart: "SmartAdvisor: Hardening senkt Tracking-Risiko (Canvas/WebGL/AudioContext usw.).",
+      vpn: "VPN World: DNS ist nur eine Ebene. Für maximale Privatsphäre: Browser hardenen oder privacy-fokussierten Browser nutzen.",
+      code: "Privacy Browser / Hardening-Profile (z. B. LibreWolf)",
+      steps: ["Privacy-Browser nutzen", "Fingerprint-Schutz aktivieren", "Extensions sparsam"]
+    },
+    {
+      id: "final_seal",
+      title: "VPN World Final Check",
+      risk: "Letzte Prüfung: DNS + IP + WebRTC + IPv6.",
+      smart: "SmartAdvisor: Wenn alle Layer grün sind, ist die Leak-Fläche stark reduziert.",
+      vpn: "VPN World: Wenn du bis hier bist: sauber. Jetzt noch einmal testen — dann bist du im „digitalen Bunker“.",
+      code: "Final: DNS-Test + WebRTC-Test + IPv6-Test wiederholen",
+      steps: ["DNS-Test", "WebRTC-Test", "IPv6-Test", "Screenshots/Notizen"]
+    }
   ];
+
 
   function loadState() { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
   function saveState(state) { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
