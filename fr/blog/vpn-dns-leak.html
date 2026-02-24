@@ -292,11 +292,10 @@
       margin-bottom:10px;
     }
     .dns-card__check{
-      margin-top:2px;
-      width:18px;
-      height:18px;
-      flex:0 0 auto;
+      width:26px;
+      height:26px;
       cursor:pointer;
+      accent-color:#1f6feb;
     }
     .dns-card__titlewrap{ flex:1 1 auto; }
     .dns-card__title{
@@ -332,21 +331,34 @@
     }
     .vpn-opinion{ font-weight:800; color:#1f7a33; font-size:.88rem; }
 
-    .dns-hint { margin-top:12px; border:1px solid #e6e6e6; border-radius:10px; background:#fff; }
-    .dns-hint > summary {
+    .dns-hint{
+      margin-top:12px;
+      border:1px solid #e6e6e6;
+      border-radius:10px;
+      background:#fff;
+      position:relative;
+      z-index:2;
+    }
+    .dns-hint > summary{
       list-style:none;
       cursor:pointer;
-      padding:10px 12px;
-      font-weight:800;
-      color:#111;
+      padding:12px 12px;
+      font-weight:900;
       display:flex;
-      align-items:center;
       justify-content:space-between;
     }
-    .dns-hint > summary::-webkit-details-marker { display:none; }
-    .dns-hint > summary:after { content:"▾"; font-weight:900; }
-    .dns-hint[open] > summary:after { content:"▴"; }
-    .dns-hint-body { padding:10px 12px 12px; border-top:1px solid #f0f0f0; color:#111; }
+    .dns-hint > summary::-webkit-details-marker{
+      display:none;
+    }
+    .dns-hint > summary:after{
+      content:"▾";
+    }
+    .dns-hint[open] > summary:after{
+      content:"▴";
+    }
+    .dns-hint-body{
+      padding:10px 12px;
+    }
     .dns-hint-body p { margin:8px 0; font-size:.88rem; }
 
     .dns-card pre{
@@ -766,8 +778,13 @@
                 '</div>' +
               '</div>' +
               '<p><strong>Risque :</strong> ' + escapeHtml(card.risk) + '</p>' +
-              '<p class="analyse-opinion"><em>' + escapeHtml(card.smart) + '</em></p>' +
-              '<p class="vpn-opinion"><strong>VPN World :</strong> ' + escapeHtml(card.vpn) + '</p>' +
+              '<p class="analyse-opinion">' +
+              '<strong>SmartAdvisorOnline :</strong> ' +
+              escapeHtml(String(card.smart||"").replace(/^Analyse\s*:\s*/i,"")) +
+              '</p>' +
+              '<p class="vpn-opinion"><strong>VPN World :</strong> ' +
+              escapeHtml(String(card.vpn||"").replace(/^VPN World\s*:\s*/i,"")) +
+              '</p>' +
               '<details class="dns-hint">' +
                 '<summary>Voir l\'explication</summary>' +
                 '<div class="dns-hint-body">' +
