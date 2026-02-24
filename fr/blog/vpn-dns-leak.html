@@ -8,7 +8,7 @@
   <meta name="robots" content="index, follow">
 
   <link rel="icon" href="/favicon.ico">
-  <link rel="canonical" href="https://dloran1.github.io/fr/blog/fuite-dns-vpn.html">
+  <link rel="canonical" href="https://dloran1.github.io/fr/blog/vpn-dns-leak.html">
 
   <!-- HREFLANG (7× + x-default) -->
   <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/wyciek-dns-vpn.html">
@@ -164,7 +164,6 @@
   </style>
       <script src="/assets/js/cookie-consent.js" defer></script>
 
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
 </head>
 
 <body>
@@ -482,7 +481,7 @@
           <div class="cta-buttons" aria-label="Offres partenaires">
             <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer NordVPN — protection anti-fuites solide</a>
             <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer Surfshark — bon rapport qualité/prix</a>
-            <a href="https://www.dpbolvw.net/click-101525886-15834536" class="protonvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer Proton VPN — focus confidentialité</a>
+            <a href="https://www.dpbolvw.net/click-101525886-15834536" class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer Proton VPN — focus confidentialité</a>
           </div>
 
           <ul class="meta-points">
@@ -1068,7 +1067,7 @@
           <div class="cta-buttons" aria-label="Offres partenaires">
             <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer NordVPN — protection anti-fuites</a>
             <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer Surfshark — multi-appareils</a>
-            <a href="https://www.dpbolvw.net/click-101525886-15834536" class="protonvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer Proton VPN — confidentialité</a>
+            <a href="https://www.dpbolvw.net/click-101525886-15834536" class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer Proton VPN — confidentialité</a>
           </div>
           <p class="human-note">Divulgation : VPN World peut percevoir une commission si vous souscrivez via ces liens — sans changer votre prix.</p>
         </div>
@@ -1095,99 +1094,16 @@
 <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
   <div class="cookie-banner__inner">
     <div class="cookie-banner__text">
-      <span class="cookie-banner__msg">We use cookies.</span>
+      <span class="cookie-banner__msg">Nous utilisons des cookies.</span>
       <a class="cookie-banner__link" href="/fr/privacy.html" rel="nofollow">Confidentialité</a>
     </div>
     <div class="cookie-banner__actions">
-      <button id="cookie-accept" type="button">Accept</button>
-      <button id="cookie-reject" type="button">Reject</button>
+      <button id="cookie-accept" type="button">Accepter</button>
+      <button id="cookie-reject" type="button">Refuser</button>
     </div>
   </div>
 </div>
 <!-- /Cookie Consent (canonical) -->
-
-<script id="dns-control-center-script">
-(function () {
-  'use strict';
-
-  const cards = [
-    { id: "ipv6_fr", title: "Désactiver l'IPv6", risk: "Fuite critique (Orange/Free).", smart: "SmartAdvisor : L'IPv6 contourne souvent le VPN sur les Box françaises.", vpn: "VPN World : La source n°1 de fuites en France. Désactivez-le !", code: "netsh interface ipv6 set teredo disabled" },
-    { id: "webrtc_fr", title: "Bloquer WebRTC", risk: "IP réelle visible via navigateur.", smart: "SmartAdvisor : Les API STUN peuvent révéler votre position (Paris/Lyon).", vpn: "VPN World : Votre navigateur est un bavard. Coupez-lui la parole.", code: "media.peerconnection.enabled = false" },
-    { id: "killswitch_fr", title: "Kill Switch", risk: "Exposition si la fibre coupe.", smart: "SmartAdvisor : Bloque tout trafic si le VPN se déconnecte.", vpn: "VPN World : Votre parachute. Indispensable pour une sécurité étanche.", code: "Activer dans les paramètres VPN" },
-    { id: "dns_bind_fr", title: "DNS Binding (Windows)", risk: "Priorité réseau incorrecte.", smart: "SmartAdvisor : Force Windows à utiliser uniquement les DNS du VPN.", vpn: "VPN World : On verrouille le système pour ignorer le DNS de la Box.", code: "Set-DnsClientServerAddress" },
-    { id: "flush_fr", title: "Vider le cache DNS", risk: "Traces résiduelles.", smart: "SmartAdvisor : Supprime les anciens enregistrements du FAI.", vpn: "VPN World : On nettoie la mémoire pour effacer toute trace.", code: "ipconfig /flushdns" },
-    { id: "teredo_fr", title: "Tunnel Teredo", risk: "Porte dérobée Windows.", smart: "SmartAdvisor : Teredo encapsule IPv6 et peut contourner le VPN.", vpn: "VPN World : Protocole inutile qui fragilise l'anonymat. Fermez cette porte.", code: "netsh interface teredo set state disabled" },
-    { id: "mhomed_fr", title: "Smart Multi-Homed DNS", risk: "Windows interroge plusieurs DNS.", smart: "SmartAdvisor : Empêche Windows de choisir le DNS Orange/SFR 'le plus rapide'.", vpn: "VPN World : Désactivez cette 'intelligence' risquée.", code: "DisableSmartNameResolution = 1" },
-    { id: "llmnr_fr", title: "Désactiver LLMNR", risk: "Fuite de noms sur le LAN.", smart: "SmartAdvisor : Peut divulguer le nom de votre PC sur un Wi-Fi public.", vpn: "VPN World : Protocole ancien. Désactivez-le.", code: "Disable-NetAdapterBinding (LLMNR)" },
-    { id: "prefetch_fr", title: "DNS Prefetching", risk: "Pré-chargement de domaines.", smart: "SmartAdvisor : Le navigateur résout des domaines avant votre clic.", vpn: "VPN World : Le navigateur devine vos pas. C'est une fuite.", code: "network.dns.disablePrefetch = true" },
-    { id: "lan_block_fr", title: "Invisibilité LAN", risk: "Visible sur le Wi‑Fi public.", smart: "SmartAdvisor : Bloque les scans d'autres appareils sur le réseau.", vpn: "VPN World : Soyez invisible au café ou dans le train.", code: "Réglages VPN → Invisible LAN" },
-    { id: "icmp_fr", title: "Filtre ICMP (Ping)", risk: "Traçage par latence.", smart: "SmartAdvisor : Les pings peuvent révéler votre distance réelle.", vpn: "VPN World : Bloquez le ping pour réduire le traçage.", code: "netsh advfirewall (ICMP) — bloquer" },
-    { id: "wpad_fr", title: "Désactiver WPAD", risk: "Auto‑découverte vulnérable.", smart: "SmartAdvisor : WPAD peut être détourné pour intercepter des requêtes.", vpn: "VPN World : Vieille faille Windows. À boucher.", code: "Registry: WpadOverride = 1" },
-    { id: "smb_fr", title: "Protection SMB", risk: "Fuite via Explorateur.", smart: "SmartAdvisor : Windows peut fuiter en cherchant des partages réseau.", vpn: "VPN World : Désactivez SMB1 si possible.", code: "Disable-WindowsOptionalFeature -FeatureName SMB1Protocol" },
-    { id: "mac_fr", title: "MAC aléatoire", risk: "Traçage matériel.", smart: "SmartAdvisor : Change l'identifiant Wi‑Fi entre connexions.", vpn: "VPN World : Changez votre 'plaque' numérique.", code: "Wi‑Fi → Adresse MAC aléatoire" },
-    { id: "timezone_fr", title: "Fuseau horaire", risk: "IP vs horloge incohérents.", smart: "SmartAdvisor : IP VPN + heure locale = signal suspect.", vpn: "VPN World : Harmonisez l'heure si nécessaire.", code: "Ajuster l'horloge système" },
-    { id: "ios_fr", title: "Assistance Wi‑Fi (iOS)", risk: "Bascule 4G/5G.", smart: "SmartAdvisor : iOS utilise le cellulaire si le Wi‑Fi est faible.", vpn: "VPN World : Désactivez l'assistance Wi‑Fi.", code: "Réglages → Données cellulaires → Assistance Wi‑Fi OFF" },
-    { id: "android_fr", title: "DNS privé Android", risk: "Conflit avec le VPN.", smart: "SmartAdvisor : Le DNS privé peut contourner certaines routes.", vpn: "VPN World : Mettez-le sur OFF si vous dépendez du VPN.", code: "Paramètres → Réseau → DNS privé OFF" },
-    { id: "battery_fr", title: "API Batterie", risk: "Fingerprinting.", smart: "SmartAdvisor : Des signaux de batterie peuvent servir d'ID.", vpn: "VPN World : Réduisez l'empreinte navigateur.", code: "Utiliser un navigateur axé vie privée" },
-    { id: "final_fr", title: "Sceau VPN World", risk: "Vérification finale.", smart: "SmartAdvisor : Couches principales validées.", vpn: "VPN World : Vous êtes maintenant dans un bunker numérique.", code: "Protection renforcée" }
-  ];
-
-  let currentPage = 0;
-  const cardsPerPage = 4;
-
-  const grid = document.getElementById('dns-grid-paginated');
-  const pageInfo = document.getElementById('page-info');
-  const nextBtn = document.getElementById('next-page');
-  const prevBtn = document.getElementById('prev-page');
-
-  if (!grid) return;
-
-  function escapeHtml(s) {
-    return String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  }
-
-  function render() {
-    grid.innerHTML = '';
-    const start = currentPage * cardsPerPage;
-    const end = start + cardsPerPage;
-    const currentCards = cards.slice(start, end);
-
-    currentCards.forEach((card) => {
-      const div = document.createElement('div');
-      div.className = 'dns-card';
-      div.innerHTML = `
-        <h3>${escapeHtml(card.title)}</h3>
-        <p><strong>Risque :</strong> ${escapeHtml(card.risk)}</p>
-        <p class="expert-opinion"><em>${escapeHtml(card.smart)}</em></p>
-        <p class="vpn-opinion"><strong>VPN World :</strong> ${escapeHtml(card.vpn)}</p>
-        <pre><code>${escapeHtml(card.code)}</code></pre>
-      `;
-      grid.appendChild(div);
-    });
-
-    const totalPages = Math.max(1, Math.ceil(cards.length / cardsPerPage));
-    if (pageInfo) pageInfo.textContent = `Page ${currentPage + 1} / ${totalPages}`;
-    if (prevBtn) prevBtn.disabled = (currentPage <= 0);
-    if (nextBtn) nextBtn.disabled = ((currentPage + 1) * cardsPerPage >= cards.length);
-  }
-
-  if (nextBtn) nextBtn.addEventListener('click', () => {
-    if ((currentPage + 1) * cardsPerPage < cards.length) {
-      currentPage++;
-      render();
-    }
-  });
-
-  if (prevBtn) prevBtn.addEventListener('click', () => {
-    if (currentPage > 0) {
-      currentPage--;
-      render();
-    }
-  });
-
-  render();
-})();
-</script>
 </body>
 </html>
 
