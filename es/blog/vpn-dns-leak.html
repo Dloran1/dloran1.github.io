@@ -305,7 +305,7 @@ html{scroll-behavior:smooth;}
 <h1>Fuga de DNS con VPN: cómo detectarla y arreglarla en España (2026)</h1>
 <div class="qa-box">
 <h2>¿Qué es una fuga de DNS y cómo solucionarla rápido?</h2>
-<p><strong>Una fuga de DNS</strong> ocurre cuando tus consultas se salen del túnel VPN y tu ISP (por ejemplo, <strong>Movistar</strong> u <strong>Orange</strong>) puede ver qué dominios visitas. Con una VPN bien configurada, el DNS debe ir cifrado dentro del túnel.</p>
+<p><strong>Una fuga de DNS</strong> ocurre cuando tus consultas se salen del túnel VPN, enviando tus consultas a Movistar, Orange o Digi en lugar de tu VPN. Así, tu ISP puede ver qué dominios visitas y crear un perfil de tus hábitos.</p>
 <ul>
 <li><strong>Desactiva IPv6</strong> (muy importante en España: Movistar/Digi).</li>
 <li><strong>Bloquea WebRTC</strong> para evitar fugas de IP en el navegador.</li>
@@ -486,314 +486,202 @@ document.addEventListener('DOMContentLoaded', function() {
   {
     "id": "ipv6",
     "title": "Desactivar IPv6 (España)",
-    "risk": "Fuga crítica en redes de Movistar/Vodafone/Digi (IPv6 agresivo).",
-    "smart": "SmartAdvisor: Muchos routers de Telefónica/Movistar enrutan DNS/IPv6 fuera del túnel VPN si IPv6 queda activo.",
+    "risk": "Fuga crítica en redes de Movistar/Orange/Digi (IPv6 agresivo).",
+    "smart": "SmartAdvisor: Muchos routers de ISP enrutan IPv6 fuera del túnel si queda activo.",
     "vpn": "VPN World: En España, IPv6 es el agujero nº1. Si no lo apagas, tu VPN puede quedar “ciega”.",
-    "code": "netsh interface ipv6 set teredo disabled",
-    "steps": [
-      "Abre Configuración → Red e Internet → Cambiar opciones del adaptador",
-      "En tu adaptador activo: Propiedades → desmarca “Protocolo de Internet versión 6 (TCP/IPv6)”",
-      "Reinicia el equipo o reconecta la VPN"
-    ]
+    "code": "netsh interface ipv6 set teredo disabled"
   },
   {
     "id": "teredo",
-    "title": "Desactivar Teredo",
-    "risk": "Túnel IPv6 oculto (puede saltarse reglas/filtrado).",
-    "smart": "SmartAdvisor: Teredo encapsula IPv6 en UDP; algunos firewalls/VPN no lo interceptan correctamente.",
-    "vpn": "VPN World: Un túnel innecesario de Windows. Ciérralo sin dudar.",
-    "code": "netsh interface teredo set state disabled",
-    "steps": [
-      "Abre CMD como administrador",
-      "Ejecuta el comando",
-      "Reinicia Windows"
-    ]
+    "title": "Túnel Teredo",
+    "risk": "Puerta trasera oculta de Windows.",
+    "smart": "SmartAdvisor: Teredo encapsula IPv6 y puede evadir el firewall.",
+    "vpn": "VPN World: Un túnel de Microsoft que solo sirve para que te rastreen. Ciérralo.",
+    "code": "netsh interface teredo set state disabled"
   },
   {
     "id": "mhomed",
-    "title": "Desactivar Smart Name Resolution",
-    "risk": "Windows consulta DNS en varios adaptadores (elige el más “rápido”).",
-    "smart": "SmartAdvisor: Smart Multi-Homed Name Resolution puede enviar consultas al DNS del ISP por latencia.",
-    "vpn": "VPN World: La “función inteligente” que más fuga. Hay que apagarla.",
-    "code": "Set-ItemProperty -Path 'HKLM:\Software\Policies\Microsoft\Windows NT\DNSClient' -Name 'DisableSmartNameResolution' -Value 1",
-    "steps": [
-      "Abre PowerShell como administrador",
-      "Ejecuta el comando",
-      "Reinicia"
-    ]
+    "title": "Smart Multi-Homed DNS",
+    "risk": "Windows pregunta a todos los DNS.",
+    "smart": "SmartAdvisor: Evita que el sistema use el DNS del ISP por ser 'más rápido'.",
+    "vpn": "VPN World: La función más peligrosa de Windows. Desactiva este caos.",
+    "code": "Set-ItemProperty -Path 'HKLM:\\...\\DNSClient' -Name 'DisableSmartNameResolution' -Value 1"
   },
   {
     "id": "llmnr",
     "title": "Desactivar LLMNR",
-    "risk": "Resolución de nombres en LAN (ruido y exposición local).",
-    "smart": "SmartAdvisor: LLMNR expone consultas en la red local y puede facilitar ataques tipo spoofing.",
-    "vpn": "VPN World: En redes públicas, esto es un altavoz. Apágalo.",
-    "code": "reg add \"HKLM\Software\Policies\Microsoft\Windows NT\DNSClient\" /v EnableMulticast /t REG_DWORD /d 0 /f",
-    "steps": [
-      "CMD como administrador",
-      "Ejecuta el comando",
-      "Reinicia"
-    ]
+    "risk": "Fuga de nombre en red local.",
+    "smart": "SmartAdvisor: Puede revelar el nombre de tu PC a webs externas.",
+    "vpn": "VPN World: Protocolo antiguo que no necesitas. Desactívalo con PowerShell.",
+    "code": "Disable-NetAdapterBinding -ComponentID ms_llmnr"
   },
   {
     "id": "webrtc",
     "title": "Bloquear WebRTC",
     "risk": "Filtración de IP local/real mediante STUN.",
-    "smart": "SmartAdvisor: APIs WebRTC pueden revelar IPs de interfaz (LAN/VPN) incluso con proxy.",
+    "smart": "SmartAdvisor: WebRTC puede revelar IPs de interfaz incluso con proxy/VPN.",
     "vpn": "VPN World: Tu navegador es un chivato. Bloquea WebRTC si te importa la privacidad.",
-    "code": "Firefox: about:config → media.peerconnection.enabled = false",
-    "steps": [
-      "En Firefox abre about:config",
-      "Busca media.peerconnection.enabled",
-      "Ponlo en false"
-    ]
+    "code": "Firefox: about:config → media.peerconnection.enabled = false"
   },
   {
     "id": "doh",
     "title": "DNS-over-HTTPS (DoH) con cabeza",
     "risk": "Conflicto: el navegador ignora el DNS de la VPN.",
-    "smart": "SmartAdvisor: DoH en el navegador puede saltarse la política DNS del sistema/VPN y crear “doble DNS”.",
-    "vpn": "VPN World: O usas DoH del proveedor de la VPN, o lo desactivas. Mezclar = caos.",
-    "code": "Chrome/Edge: Configuración → Privacidad → “DNS seguro” → Desactivar (o elegir proveedor de la VPN).",
-    "steps": [
-      "Abre la configuración del navegador",
-      "Busca “DNS seguro/DoH”",
-      "Desactívalo o configura el proveedor correcto"
-    ]
+    "smart": "SmartAdvisor: DoH del navegador puede crear un “doble DNS” fuera del túnel.",
+    "vpn": "VPN World: O DoH del proveedor de la VPN, o desactivado. Mezclar = caos.",
+    "code": "Chrome/Edge: Privacidad → “DNS seguro” → Desactivar (o proveedor de la VPN)"
   },
   {
     "id": "prefetch",
-    "title": "Desactivar DNS Prefetch",
-    "risk": "El navegador consulta dominios antes de que hagas clic.",
-    "smart": "SmartAdvisor: Prefetch genera ruido DNS y puede filtrar patrones de navegación.",
-    "vpn": "VPN World: Menos “adivinanzas”, menos fugas.",
-    "code": "Firefox: network.dns.disablePrefetch = true",
-    "steps": [
-      "about:config",
-      "Busca network.dns.disablePrefetch",
-      "Ponlo en true"
-    ]
+    "title": "DNS Prefetching",
+    "risk": "Carga anticipada de dominios.",
+    "smart": "SmartAdvisor: El navegador consulta webs antes de que hagas clic.",
+    "vpn": "VPN World: El navegador intenta adivinar tus pasos. Eso es una fuga.",
+    "code": "Firefox about:config → network.dns.disablePrefetch = true"
   },
   {
     "id": "killswitch",
     "title": "Activar Kill Switch",
     "risk": "Exposición instantánea si cae la VPN.",
-    "smart": "SmartAdvisor: Kill Switch bloquea el tráfico a nivel de sistema para evitar ráfagas sin cifrar.",
+    "smart": "SmartAdvisor: Bloquea tráfico a nivel sistema para evitar ráfagas sin cifrar.",
     "vpn": "VPN World: Tu paracaídas. Si la VPN cae, Internet debe callarse.",
-    "code": "Actívalo en la app de tu VPN (Ajustes → Seguridad → Kill Switch).",
-    "steps": [
-      "Abre la app de la VPN",
-      "Activa Kill Switch",
-      "Prueba desconectando la VPN: no debe haber tráfico"
-    ]
+    "code": "Actívalo en la app VPN (Ajustes → Seguridad → Kill Switch)"
   },
   {
     "id": "lan_block",
-    "title": "Bloquear tráfico LAN",
-    "risk": "Escaneos locales/ARP spoofing en Wi‑Fi público.",
-    "smart": "SmartAdvisor: Reducir superficie en LAN evita descubrimiento y ataques locales.",
-    "vpn": "VPN World: En cafeterías, mejor ser invisible.",
-    "code": "En la app VPN: “Bloquear LAN / Invisibilidad en LAN”.",
-    "steps": [
-      "Busca “LAN” en ajustes de seguridad",
-      "Actívalo",
-      "Comprueba que no ves dispositivos de la red local"
-    ]
+    "title": "Invisibilidad LAN",
+    "risk": "Visible para otros en la Wi‑Fi.",
+    "smart": "SmartAdvisor: Bloquea escaneos de otros dispositivos en redes públicas.",
+    "vpn": "VPN World: Hazte invisible en el Starbucks. Nadie debe ver tu tráfico.",
+    "code": "Ajustes VPN → Invisible on LAN"
   },
   {
     "id": "ipv6_vpn_prot",
     "title": "Protección IPv6 en la VPN",
     "risk": "Si IPv6 queda activo, puede fugarse sin filtro.",
-    "smart": "SmartAdvisor: Algunas VPN filtran o tunelizan IPv6; otras solo lo bloquean parcialmente.",
+    "smart": "SmartAdvisor: Algunas VPN filtran/tunelizan IPv6; otras solo lo bloquean parcialmente.",
     "vpn": "VPN World: Si no puedes desactivar IPv6, al menos activa el filtro en la VPN.",
-    "code": "Ajustes VPN → “IPv6 leak protection” / “Bloquear IPv6”.",
-    "steps": [
-      "Abre ajustes avanzados de la VPN",
-      "Activa protección IPv6",
-      "Repite un test de fugas"
-    ]
+    "code": "Ajustes VPN → “IPv6 leak protection” / “Bloquear IPv6”"
   },
   {
     "id": "dns_binding",
     "title": "Forzar DNS de la VPN (prioridad)",
     "risk": "Prioridad de interfaz incorrecta (Windows elige DNS del ISP).",
-    "smart": "SmartAdvisor: Ajustar métricas y DNS evita que Windows “prefiera” el adaptador del ISP.",
+    "smart": "SmartAdvisor: Ajusta métricas/DNS para que Windows no “prefiera” el ISP.",
     "vpn": "VPN World: La VPN manda. Sin excepciones.",
-    "code": "PowerShell: Set-NetIPInterface -InterfaceAlias 'VPN' -InterfaceMetric 1",
-    "steps": [
-      "PowerShell como admin",
-      "Cambia el alias por el de tu adaptador VPN",
-      "Reinicia la conexión"
-    ]
+    "code": "PowerShell: Set-NetIPInterface -InterfaceAlias 'VPN' -InterfaceMetric 1"
   },
   {
     "id": "wpad",
     "title": "Desactivar WPAD",
-    "risk": "Auto-descubrimiento de proxy (vector de secuestro).",
-    "smart": "SmartAdvisor: WPAD puede ser abusado para redirigir tráfico y manipular resolución.",
-    "vpn": "VPN World: Una reliquia peligrosa de Windows. Mejor apagada.",
-    "code": "Opciones de Internet → Conexiones → Configuración LAN → desmarca “Detectar la configuración automáticamente”.",
-    "steps": [
-      "Panel de Control → Opciones de Internet",
-      "Conexiones → Configuración LAN",
-      "Desactiva detección automática"
-    ]
+    "risk": "Vulnerabilidad de auto-descubrimiento.",
+    "smart": "SmartAdvisor: WPAD puede ser usado para secuestrar tus consultas DNS.",
+    "vpn": "VPN World: Un agujero de seguridad de Windows de hace 20 años. Tápalo.",
+    "code": "Registry: WpadOverride = 1"
   },
   {
-    "id": "dns_cache",
-    "title": "Vaciar caché DNS",
-    "risk": "Entradas antiguas del ISP (falsa sensación de seguridad).",
-    "smart": "SmartAdvisor: Vaciar caché elimina resoluciones previas y ayuda a validar el DNS real.",
-    "vpn": "VPN World: Borra la “memoria sucia” antes de volver a probar.",
-    "code": "ipconfig /flushdns",
-    "steps": [
-      "CMD",
-      "Ejecuta el comando",
-      "Repite test DNS"
-    ]
+    "id": "smb_leak",
+    "title": "Protección SMB",
+    "risk": "Fuga vía Explorador de Archivos.",
+    "smart": "SmartAdvisor: Windows puede filtrar tu IP al buscar recursos de red.",
+    "vpn": "VPN World: Incluso las carpetas de Windows pueden chivarse. Bloquea SMB1.",
+    "code": "Disable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol"
   },
   {
-    "id": "icmps",
-    "title": "Reducir huella por latencia (ping)",
-    "risk": "Geolocalización aproximada por RTT/ICMP.",
-    "smart": "SmartAdvisor: No es una fuga directa, pero reduce correlación en escenarios sensibles.",
-    "vpn": "VPN World: No siempre hace falta, pero para OPSEC alto suma puntos.",
-    "code": "Firewall: bloquear ICMP entrante (regla específica).",
-    "steps": [
-      "Abre Firewall avanzado",
-      "Crea regla para ICMPv4/ICMPv6 entrante",
-      "Bloquear"
-    ]
+    "id": "mac_rand",
+    "title": "MAC Aleatoria",
+    "risk": "Rastreo de hardware (DNI del PC).",
+    "smart": "SmartAdvisor: Cambia el ID de tu tarjeta Wi‑Fi en cada conexión.",
+    "vpn": "VPN World: Cambia tu 'matrícula' digital para que no te reconozcan.",
+    "code": "Wi‑Fi → Direcciones de hardware aleatorias (ON)"
+  },
+  {
+    "id": "timezone",
+    "title": "Fuga de Zona Horaria",
+    "risk": "Discordancia IP vs Reloj.",
+    "smart": "SmartAdvisor: Si tu IP es de Islandia y tu reloj de Madrid, te pillan.",
+    "vpn": "VPN World: Ajusta la hora del sistema a la del servidor VPN si tu caso lo requiere.",
+    "code": "Sistema → Fecha y hora → Zona horaria"
+  },
+  {
+    "id": "battery",
+    "title": "API de Batería",
+    "risk": "Fingerprinting por nivel de carga.",
+    "smart": "SmartAdvisor: Datos únicos de batería pueden servir como ID de usuario.",
+    "vpn": "VPN World: Hasta tu batería te delata. Usa navegadores como LibreWolf.",
+    "code": "Usar navegador endurecido (LibreWolf/Firefox hardening)"
+  },
+  {
+    "id": "icmp",
+    "title": "Filtro ICMP (Ping)",
+    "risk": "Rastreo por latencia.",
+    "smart": "SmartAdvisor: Los pings revelan la distancia real a tu servidor.",
+    "vpn": "VPN World: No dejes que midan tu distancia real. Bloquea el ping.",
+    "code": "Firewall: bloquear ICMP entrante (regla específica)"
   },
   {
     "id": "router_ipv6",
     "title": "Desactivar IPv6 en el router",
     "risk": "Fuga a nivel de red doméstica (antes de llegar a la VPN).",
     "smart": "SmartAdvisor: Si el router reparte IPv6, algunos dispositivos lo usarán aunque la VPN esté activa.",
-    "vpn": "VPN World: Si el router “empuja” IPv6, tus gadgets lo usan. Córtalo en la raíz.",
-    "code": "Panel del router → IPv6 → Desactivar (según modelo/ISP).",
-    "steps": [
-      "Entra al router (192.168.1.1)",
-      "Busca IPv6/Internet",
-      "Desactiva y reinicia el router"
-    ]
+    "vpn": "VPN World: Córtalo en la raíz: desactiva IPv6 en el router.",
+    "code": "Panel del router → IPv6 → Desactivar"
   },
   {
     "id": "ios_wifi_assist",
     "title": "iOS: desactivar Asistencia Wi‑Fi",
     "risk": "iPhone usa datos móviles si el Wi‑Fi es débil.",
-    "smart": "SmartAdvisor: En ciertas condiciones, iOS puede cambiar a 4G/5G y escapar del túnel.",
+    "smart": "SmartAdvisor: iOS puede cambiar a 4G/5G y escapar del túnel.",
     "vpn": "VPN World: Función traicionera. Apágala si dependes de la VPN.",
-    "code": "Ajustes → Datos móviles → Asistencia Wi‑Fi (OFF).",
-    "steps": [
-      "Ajustes",
-      "Datos móviles",
-      "Desactiva Asistencia Wi‑Fi"
-    ]
+    "code": "Ajustes → Datos móviles → Asistencia Wi‑Fi (OFF)"
   },
   {
     "id": "android_private_dns",
     "title": "Android: DNS privado",
     "risk": "Conflicto con DNS de la VPN (DoT/Private DNS).",
-    "smart": "SmartAdvisor: Android 9+ puede usar DNS privado y crear rutas DNS fuera de la VPN.",
-    "vpn": "VPN World: Si tu VPN ya protege DNS, deja DNS privado en “Desactivado” o configura el del proveedor VPN.",
-    "code": "Ajustes → Red e Internet → DNS privado → Desactivado/Automático.",
-    "steps": [
-      "Abre ajustes",
-      "Busca “DNS privado”",
-      "Ponlo en Desactivado (o proveedor correcto)"
-    ]
+    "smart": "SmartAdvisor: Android puede usar DNS privado y crear rutas DNS fuera de la VPN.",
+    "vpn": "VPN World: Si tu VPN ya protege DNS, deja DNS privado desactivado o alinea el proveedor.",
+    "code": "Ajustes → Red e Internet → DNS privado → Desactivado/Automático"
   },
   {
-    "id": "mac_random",
-    "title": "Aleatorización de MAC",
-    "risk": "Rastreo por hotspots/routers (ID hardware).",
-    "smart": "SmartAdvisor: Cambiar MAC reduce correlación en redes públicas.",
-    "vpn": "VPN World: Tu “pasaporte” en Wi‑Fi. Cámbialo.",
-    "code": "iOS/Android/Windows: activar “Dirección MAC aleatoria” por red.",
-    "steps": [
-      "Busca “MAC aleatoria” en Wi‑Fi",
-      "Actívalo para redes públicas",
-      "Reinicia Wi‑Fi"
-    ]
-  },
-  {
-    "id": "timezone",
-    "title": "Fuga por zona horaria",
-    "risk": "Fingerprint: IP en España pero hora diferente.",
-    "smart": "SmartAdvisor: Sitios comparan ubicación IP y zona horaria para detectar inconsistencias.",
-    "vpn": "VPN World: Si tu IP está en Londres y tu reloj en Madrid… canta.",
-    "code": "Ajusta zona horaria acorde a la ubicación del servidor VPN (si tu caso lo requiere).",
-    "steps": [
-      "Windows: Fecha y hora",
-      "Zona horaria",
-      "Ajusta manualmente si es necesario"
-    ]
-  },
-  {
-    "id": "battery_api",
-    "title": "Reducir fingerprint por Battery API",
-    "risk": "Huella digital (fingerprinting) por métricas únicas.",
-    "smart": "SmartAdvisor: Algunos navegadores exponen señales que ayudan a identificarte.",
-    "vpn": "VPN World: No es DNS, pero suma privacidad real.",
-    "code": "Usa navegador endurecido (p. ej., Firefox con hardening / LibreWolf).",
-    "steps": [
-      "Bloquea scripts de terceros",
-      "Reduce APIs expuestas",
-      "Actualiza navegador"
-    ]
+    "id": "dns_cache",
+    "title": "Vaciar caché DNS",
+    "risk": "Entradas antiguas del ISP (falsa sensación de seguridad).",
+    "smart": "SmartAdvisor: Vaciar caché ayuda a validar el DNS real tras cambiar ajustes.",
+    "vpn": "VPN World: Borra la “memoria sucia” antes de volver a probar.",
+    "code": "ipconfig /flushdns"
   },
   {
     "id": "extended_test",
     "title": "Test DNS extendido",
     "risk": "Tests cortos no detectan fugas intermitentes.",
-    "smart": "SmartAdvisor: Pruebas paralelas muestran comportamiento real bajo carga.",
-    "vpn": "VPN World: Un test rápido ve 1 cosa; el extendido ve la verdad.",
-    "code": "Realiza un “Extended test” en un sitio fiable de DNS leak test.",
-    "steps": [
-      "Conecta la VPN",
-      "Ejecuta test extendido",
-      "Revisa si aparece DNS del ISP"
-    ]
+    "smart": "SmartAdvisor: Pruebas más largas muestran comportamiento real bajo carga.",
+    "vpn": "VPN World: El extendido ve la verdad.",
+    "code": "dnsleaktest.com → Extended test"
   },
   {
     "id": "traceroute",
     "title": "Comprobar rutas (traceroute)",
     "risk": "Saltos fuera del túnel (routing anómalo).",
-    "smart": "SmartAdvisor: Identifica si hay rutas inesperadas hacia tu ISP.",
+    "smart": "SmartAdvisor: Identifica rutas inesperadas hacia tu ISP.",
     "vpn": "VPN World: Si ves nodos del ISP donde no deben, hay problema.",
-    "code": "Windows: tracert 8.8.8.8",
-    "steps": [
-      "CMD",
-      "Ejecuta tracert",
-      "Analiza saltos"
-    ]
+    "code": "Windows: tracert 8.8.8.8"
   },
   {
     "id": "static_route",
     "title": "Revisar rutas estáticas",
     "risk": "Rutas mal puestas desvían tráfico fuera de la VPN.",
     "smart": "SmartAdvisor: Rutas incorrectas rompen el default gateway del túnel.",
-    "vpn": "VPN World: Un “atajo” mal puesto = fuga.",
-    "code": "route print (diagnóstico) / route add ... (solo si sabes lo que haces).",
-    "steps": [
-      "Revisa rutas actuales",
-      "Elimina rutas sospechosas",
-      "Reinicia adaptadores"
-    ]
+    "vpn": "VPN World: Un atajo mal puesto = fuga.",
+    "code": "route print (diagnóstico)"
   },
   {
-    "id": "sello_final",
-    "title": "Sello final VPN World",
-    "risk": "Última verificación de capas (DNS/IPv6/WebRTC).",
-    "smart": "SmartAdvisor: Todas las capas deben validarse con pruebas repetidas y cambios persistentes.",
-    "vpn": "VPN World: Si llegaste aquí y todo marca verde, estás en modo bunker. Respeto.",
-    "code": "Repite test DNS/IPv6/WebRTC y guarda tu checklist.",
-    "steps": [
-      "Ejecuta tests",
-      "Marca todo en el Control Center",
-      "Guarda/Exporta tu rutina"
-    ]
+    "id": "final_seal",
+    "title": "Sello Final VPN World",
+    "risk": "Verificación de todas las capas.",
+    "smart": "SmartAdvisor: Todos los niveles de seguridad validados.",
+    "vpn": "VPN World: Si llegaste aquí, estás en un búnker digital. ¡Disfruta!",
+    "code": "¡Protección 100%!"
   }
 ];
 
