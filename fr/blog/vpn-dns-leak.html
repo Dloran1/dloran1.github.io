@@ -322,7 +322,7 @@
       color:#222;
     }
 
-    .expert-opinion{
+    .analyse-opinion{
       background:#f0f7ff;
       padding:10px;
       border-radius:8px;
@@ -332,35 +332,22 @@
     }
     .vpn-opinion{ font-weight:800; color:#1f7a33; font-size:.88rem; }
 
-    .dns-hint{
-      margin-top:10px;
-      border:1px solid #e7e7e7;
-      border-radius:10px;
-      overflow:hidden;
-      background:#fbfbfb;
-    }
-    .dns-hint__btn{
-      width:100%;
-      text-align:left;
-      border:0;
-      background:transparent;
+    .dns-hint { margin-top:12px; border:1px solid #e6e6e6; border-radius:10px; background:#fff; }
+    .dns-hint > summary {
+      list-style:none;
+      cursor:pointer;
       padding:10px 12px;
       font-weight:800;
-      cursor:pointer;
       color:#111;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:10px;
     }
-    .dns-hint__btn:focus{ outline:2px solid #007bff; outline-offset:2px; }
-    .dns-hint__content{
-      padding:0 12px 12px 12px;
-      display:none;
-      color:#222;
-      font-size:.88rem;
-    }
-    .dns-hint.is-open .dns-hint__content{ display:block; }
+    .dns-hint > summary::-webkit-details-marker { display:none; }
+    .dns-hint > summary:after { content:"▾"; font-weight:900; }
+    .dns-hint[open] > summary:after { content:"▴"; }
+    .dns-hint-body { padding:10px 12px 12px; border-top:1px solid #f0f0f0; color:#111; }
+    .dns-hint-body p { margin:8px 0; font-size:.88rem; }
 
     .dns-card pre{
       background:#111;
@@ -398,7 +385,7 @@
 
   <div class="dns-widget-container">
     <div class="dns-widget-header">
-      <h2>Centre de Contrôle DNS &amp; Claude AI</h2>
+      <h2>Centre de Contrôle DNS</h2>
       <p>Cochez ce que vous avez appliqué. Le progrès se sauvegarde automatiquement.</p>
     </div>
 
@@ -423,31 +410,281 @@
       var STORAGE_KEY = "vpnworld_fr_dns_widget_v1";
 
       var cards = [
-        { id:"ipv6_livebox", title:"Désactiver l'IPv6 (Livebox/Freebox)", risk:"Les Box forcent souvent l'IPv6 et peuvent contourner un VPN IPv4-only.", smart:"Claude AI : Je surveille les signaux de résolution IPv6 qui sortent hors tunnel.", vpn:"VPN World : Si votre VPN ne gère pas IPv6, désactivez-le et re-testez.", hint:"Sur une Livebox/Freebox, cherchez IPv6/Firewall IPv6. Sur Windows, vérifiez aussi l'adaptateur réseau. Re-test DNS + IPv6 après chaque changement.", code:"Windows: Panneau réseau → IPv6 OFF (si VPN IPv4-only)" },
-        { id:"webrtc_block", title:"Blocage WebRTC", risk:"Le navigateur peut révéler une IP locale/publique via STUN.", smart:"Claude AI : Je détecte des fuites WebRTC même quand le VPN semble connecté.", vpn:"VPN World : Désactivez WebRTC ou limitez-le via paramètres/extension.", hint:"Firefox: media.peerconnection.enabled=false. Chrome/Edge: utilisez une extension anti-WebRTC ou durcissez le navigateur (Brave/LibreWolf).", code:"Firefox: media.peerconnection.enabled = false" },
-        { id:"killswitch", title:"Kill Switch système", risk:"Une micro-coupure expose l'IP/DNS hors tunnel.", smart:"Claude AI : Les coupures Fibre/Wi-Fi sont le moment n°1 des fuites.", vpn:"VPN World : Activez un kill switch au niveau système (pas juste navigateur).", hint:"Test: activez le VPN, lancez un téléchargement, puis coupez le VPN → tout doit se bloquer. Rebranchez ensuite et re-test DNS.", code:"App VPN → Kill Switch: ON" },
-        { id:"dns_binding", title:"DNS Binding / Anti-fuite DNS", risk:"Windows/OS peut privilégier une interface et envoyer le DNS au FAI.", smart:"Claude AI : Je repère des requêtes DNS envoyées au resolver de la Box.", vpn:"VPN World : Forcez l'usage DNS du VPN + désactivez la résolution «smart».", hint:"Sur Windows, désactivez Smart Multi-Homed DNS et vérifiez l'ordre des interfaces. Re-test DNS étendu.", code:"Windows: désactiver Smart Name Resolution" },
-        { id:"teredo", title:"Désactiver Teredo", risk:"Tunnel IPv6 dans IPv4 pouvant contourner les règles VPN.", smart:"Claude AI : Teredo est une porte «tunnel dans le tunnel».", vpn:"VPN World : Désactivez-le si vous n'en avez pas besoin.", hint:"Windows Admin: netsh interface teredo set state disabled. Redémarrez puis re-test IPv6.", code:"netsh interface teredo set state disabled" },
-        { id:"llmnr", title:"Désactiver LLMNR", risk:"Résolution locale bavarde sur des réseaux publics.", smart:"Claude AI : LLMNR peut divulguer noms et requêtes sur le LAN.", vpn:"VPN World : Coupez-le via stratégie ou réglages réseau.", hint:"En entreprise: GPO. Sinon, via paramètres avancés/registre selon version. Re-test sur Wi-Fi public.", code:"Désactiver LLMNR (GPO/Registre)" },
-        { id:"wpad", title:"Désactiver WPAD", risk:"Auto-découverte proxy exploitable (MITM).", smart:"Claude AI : WPAD est un vieux vecteur d'attaque en mobilité.", vpn:"VPN World : Désactivez la détection auto des paramètres.", hint:"Windows: Options Internet → Connexions → Paramètres réseau → décocher auto. Re-test.", code:"Options Internet → détecter auto: OFF" },
-        { id:"smarthomed", title:"Smart Multi-Homed DNS", risk:"Windows interroge plusieurs DNS et choisit parfois celui du FAI.", smart:"Claude AI : Windows préfère souvent le DNS «le plus rapide» (FAI).", vpn:"VPN World : Désactivez pour forcer l'exclusivité DNS.", hint:"Registre/Policy selon Windows. Après modif: ipconfig /flushdns + re-test.", code:"DisableSmartNameResolution=1" },
-        { id:"doh", title:"DNS over HTTPS (DoH)", risk:"Le DNS peut être envoyé à un tiers (même si pas au FAI).", smart:"Claude AI : Je vérifie la cohérence VPN ↔ DoH (pas de contournement).", vpn:"VPN World : Harmonisez VPN + DoH et re-testez.", hint:"Si votre VPN a ses DNS, laissez souvent le VPN gérer. Sinon choisissez un DoH cohérent (Cloudflare/NextDNS) et re-test.", code:"Firefox: network.trr.mode = 2" },
-        { id:"dot", title:"DNS over TLS (DoT)", risk:"Alternative DoH, mais peut créer un resolver parallèle.", smart:"Claude AI : Un resolver DoT externe peut contourner votre stratégie VPN.", vpn:"VPN World : Utilisez DoT seulement si vous maîtrisez le chemin DNS.", hint:"Android «DNS privé» = DoT. Si conflit: désactivez ou pointez vers votre résolveur choisi.", code:"Android: DNS privé (DoT) paramétrer" },
-        { id:"prefetch", title:"DNS Prefetching", risk:"Résolutions silencieuses avant clic.", smart:"Claude AI : Les pré-résolutions génèrent des requêtes DNS non attendues.", vpn:"VPN World : Désactivez la prélecture DNS.", hint:"Firefox: network.dns.disablePrefetch=true. Chrome: paramètres/flags selon version.", code:"Firefox: network.dns.disablePrefetch = true" },
-        { id:"flush", title:"Vider le cache DNS", risk:"Anciennes entrées peuvent pointer vers un resolver non voulu.", smart:"Claude AI : Le cache DNS garde des traces et fausse les tests.", vpn:"VPN World : Flush après chaque changement réseau/VPN.", hint:"Windows: ipconfig /flushdns. macOS: dscacheutil -flushcache (selon version).", code:"ipconfig /flushdns" },
-        { id:"cloudflare_gateway", title:"Cloud Gateway (ex: Cloudflare/NextDNS)", risk:"Sans couche Cloud, certaines requêtes échappent au contrôle.", smart:"Claude AI : Je compare les patterns DNS avec la politique gateway.", vpn:"VPN World : Ajoutez une couche de filtrage Cloud si besoin.", hint:"Utile en mobilité/foyer: règles anti-malware/anti-tracking au niveau DNS + logs côté vous.", code:"Configurer Gateway / NextDNS" },
-        { id:"proxy_dns", title:"Proxy DNS local", risk:"Conflits OS/VPN si plusieurs resolvers tournent.", smart:"Claude AI : Un proxy local peut forcer la capture de toutes requêtes.", vpn:"VPN World : À utiliser si vous savez ce que vous faites.", hint:"Attention: complexité. Testez d'abord la config simple (VPN + anti-fuite).", code:"Local resolver → tunnel VPN" },
-        { id:"mac_rand", title:"MAC Randomization", risk:"Traçage matériel sur Wi-Fi.", smart:"Claude AI : La MAC stable relie vos sessions entre réseaux.", vpn:"VPN World : Activez la MAC aléatoire.", hint:"Windows 11: paramètres Wi-Fi. iOS/Android: «Adresse privée».", code:"Wi-Fi → Adresse aléatoire: ON" },
-        { id:"timezone", title:"Synchronisation du fuseau horaire", risk:"IP (VPN) vs horloge locale incohérentes (fingerprinting).", smart:"Claude AI : Les sites détectent souvent les incohérences IP/heure.", vpn:"VPN World : Alignez heure/fuseau si nécessaire.", hint:"Ne changez pas tout le temps. Ajustez seulement si vous avez des blocages/flags.", code:"Windows: Paramètres heure/fuseau" },
-        { id:"battery_api", title:"Battery API Shield", risk:"Fingerprinting via signaux batterie.", smart:"Claude AI : Je signale les surfaces de fingerprinting actives.", vpn:"VPN World : Utilisez un navigateur durci.", hint:"Brave/LibreWolf réduisent l'empreinte. Désactivez les API quand possible.", code:"Firefox: dom.battery.enabled = false" },
-        { id:"icmp", title:"Filtre ICMP (Ping)", risk:"Mesure de latence = indices géographiques.", smart:"Claude AI : Le timing réseau peut trahir votre localisation.", vpn:"VPN World : Filtrez ICMP si nécessaire.", hint:"Ne cassez pas le diagnostic réseau sans raison. Option avancée.", code:"Firewall: ICMP inbound — restreindre" },
-        { id:"smb_leak", title:"SMB Leak (Windows)", risk:"Requêtes SMB sortantes peuvent exposer IP/identité.", smart:"Claude AI : Les appels SMB peuvent sortir hors tunnel selon règles.", vpn:"VPN World : Bloquez SMB sortant sur réseaux publics.", hint:"Désactivez SMB1, et bloquez ports 445/139 en sortie si vous n'en avez pas besoin.", code:"Désactiver SMB1 + firewall" },
-        { id:"lan_invisible", title:"Invisibilité LAN", risk:"Découverte par d'autres appareils sur le Wi-Fi.", smart:"Claude AI : Sur Wi-Fi public, la visibilité LAN est un risque.", vpn:"VPN World : Activez «Invisibility on LAN» si dispo.", hint:"Sur Windows: réseau «Public» + partage OFF. Sur VPN: option dédiée.", code:"VPN: Invisibility on LAN" },
-        { id:"windows_update_dns", title:"Windows Update / Services DNS", risk:"Certains services réinitialisent DNS après MAJ.", smart:"Claude AI : Je surveille les changements DNS après update/redémarrage.", vpn:"VPN World : Re-test après MAJ Windows.", hint:"Après update: vérifier DNS, IPv6, kill switch. Re-test DNS étendu.", code:"Re-test post-update" },
-        { id:"entropy_check", title:"Contrôle d'entropie (détection)", risk:"Patterns DNS anormaux peuvent être flaggés.", smart:"Claude AI : Je détecte des patterns inhabituels et propose corrections.", vpn:"VPN World : Objectif = cohérence + stabilité.", hint:"Ne cherchez pas l'obfuscation à tout prix. Visez la cohérence VPN/DNS.", code:"Audit trafic (concept)" },
-        { id:"zero_day_block", title:"Blocage «Zero-Day» (concept)", risk:"Nouvelles méthodes de fuite/track non documentées.", smart:"Claude AI : Je compare vos signaux à des patterns à risque.", vpn:"VPN World : Protégez-vous avec une hygiène + re-tests.", hint:"Pratique: mettez à jour navigateur/VPN/OS et re-testez régulièrement.", code:"MAJ + re-tests" },
-        { id:"netbios_off", title:"Désactiver NetBIOS", risk:"Ancien protocole bavard pouvant révéler la topologie réseau.", smart:"Claude AI : NetBIOS fuit des informations sur le LAN même en VPN.", vpn:"VPN World : Désactivez NetBIOS sur TCP/IP dans les paramètres IPv4.", hint:"Panneau de configuration → Centre réseau → Propriétés IPv4 → Avancé → WINS → désactiver NetBIOS.", code:"WMI: SetTcpipNetbios 2" },
-        { id:"final_seal", title:"Sceau Final VPN World", risk:"Oublier une couche = fuite possible.", smart:"Claude AI : Checklist validée. Les couches critiques sont couvertes.", vpn:"VPN World : Vous avez un setup propre. Re-test après chaque changement réseau.", hint:"Votre vraie «sécurité» = discipline: re-test Wi-Fi ⇄ 4G, après MAJ, après changement VPN.", code:"STATUS: SECURED_2026" }
+        {
+          id:"ipv6_livebox",
+          title:"Désactiver l'IPv6 (Livebox/Freebox)",
+          risk:"Les Box forcent souvent l'IPv6 et peuvent contourner un VPN IPv4-only.",
+          smart:"Analyse : L'IPv6 contourne le tunnel VPN quand le client ne le prend pas en charge.",
+          vpn:"VPN World : Si votre VPN ne gère pas IPv6, désactivez-le et re-testez.",
+          hintWhy:"L'IPv6 peut sortir hors tunnel si le VPN est configuré en IPv4 uniquement. La Box émet alors les requêtes via le FAI.",
+          hintHow:"Sur une Livebox/Freebox, cherchez IPv6/Firewall IPv6 dans l'interface admin. Sur Windows, désactivez aussi via Panneau réseau → Propriétés de l'adaptateur.",
+          hintCheck:"Re-testez DNS + IPv6 sur un outil de test (ex: ipleak.net) après chaque changement.",
+          code:"Windows: Panneau réseau → IPv6 OFF (si VPN IPv4-only)"
+        },
+        {
+          id:"webrtc_block",
+          title:"Blocage WebRTC",
+          risk:"Le navigateur peut révéler une IP locale/publique via STUN.",
+          smart:"Analyse : Les API STUN du navigateur peuvent exposer l'IP réelle malgré un VPN actif.",
+          vpn:"VPN World : Désactivez WebRTC ou limitez-le via paramètres/extension.",
+          hintWhy:"Les navigateurs utilisent WebRTC pour la communication peer-to-peer. Les requêtes STUN révèlent l'IP réelle avant le tunnel VPN.",
+          hintHow:"Firefox: about:config → media.peerconnection.enabled=false. Chrome/Edge: utilisez une extension anti-WebRTC ou un navigateur durci (Brave/LibreWolf).",
+          hintCheck:"Testez via un site de vérification WebRTC avec VPN actif. Seule l'IP VPN doit apparaître.",
+          code:"Firefox: media.peerconnection.enabled = false"
+        },
+        {
+          id:"killswitch",
+          title:"Kill Switch système",
+          risk:"Une micro-coupure expose l'IP/DNS hors tunnel.",
+          smart:"Analyse : Les coupures réseau (Fibre/Wi-Fi) sont le moment le plus fréquent de fuite d'IP.",
+          vpn:"VPN World : Activez un kill switch au niveau système, pas seulement dans le navigateur.",
+          hintWhy:"Sans kill switch, une reconnexion VPN expose l'IP et le DNS réels pendant quelques secondes.",
+          hintHow:"Activez le Kill Switch dans votre app VPN. Vérifiez aussi les règles de pare-feu système.",
+          hintCheck:"Activez le VPN, lancez un téléchargement, coupez le VPN → tout doit se bloquer. Re-testez après reconnexion.",
+          code:"App VPN → Kill Switch: ON"
+        },
+        {
+          id:"dns_binding",
+          title:"DNS Binding / Anti-fuite DNS",
+          risk:"Windows/OS peut privilégier une interface et envoyer le DNS au FAI.",
+          smart:"Analyse : Le système peut interroger le resolver de la Box si l'interface VPN est moins prioritaire.",
+          vpn:"VPN World : Forcez l'usage DNS du VPN + désactivez la résolution «smart».",
+          hintWhy:"Windows peut interroger plusieurs interfaces réseau simultanément et retenir la réponse la plus rapide, souvent celle du FAI.",
+          hintHow:"Désactivez Smart Multi-Homed DNS (registre). Vérifiez l'ordre de priorité des interfaces réseau.",
+          hintCheck:"Re-testez avec un DNS leak test étendu. Seuls les DNS du VPN doivent apparaître.",
+          code:"Windows: désactiver Smart Name Resolution"
+        },
+        {
+          id:"teredo",
+          title:"Désactiver Teredo",
+          risk:"Tunnel IPv6 dans IPv4 pouvant contourner les règles VPN.",
+          smart:"Analyse : Teredo crée un tunnel IPv6 encapsulé dans IPv4, contournant parfois les règles VPN.",
+          vpn:"VPN World : Désactivez-le si vous n'en avez pas besoin.",
+          hintWhy:"Teredo encapsule IPv6 dans UDP/IPv4 pour traverser les NAT. Ce tunnel peut échapper au filtrage VPN.",
+          hintHow:"Windows Admin: netsh interface teredo set state disabled. Redémarrez la machine après la modification.",
+          hintCheck:"Re-testez IPv6 : aucune adresse IPv6 réelle ne doit être visible.",
+          code:"netsh interface teredo set state disabled"
+        },
+        {
+          id:"llmnr",
+          title:"Désactiver LLMNR",
+          risk:"Résolution locale bavarde sur des réseaux publics.",
+          smart:"Analyse : LLMNR diffuse des requêtes DNS sur le LAN, révélant noms et topologie réseau.",
+          vpn:"VPN World : Coupez-le via stratégie de groupe ou réglages réseau.",
+          hintWhy:"LLMNR diffuse les requêtes de résolution sur le réseau local, pouvant divulguer des informations en Wi-Fi public.",
+          hintHow:"En entreprise: via GPO. Sinon, via paramètres réseau avancés ou registre selon votre version Windows.",
+          hintCheck:"Re-testez la configuration sur un Wi-Fi public. Vérifiez l'absence de diffusion LLMNR.",
+          code:"Désactiver LLMNR (GPO/Registre)"
+        },
+        {
+          id:"wpad",
+          title:"Désactiver WPAD",
+          risk:"Auto-découverte proxy exploitable (MITM).",
+          smart:"Analyse : WPAD peut être usurpé pour rediriger le trafic via un proxy malveillant.",
+          vpn:"VPN World : Désactivez la détection automatique des paramètres proxy.",
+          hintWhy:"WPAD permet la découverte automatique de proxy. Sur un réseau hostile, un attaquant peut répondre à sa place (MITM).",
+          hintHow:"Windows: Options Internet → Connexions → Paramètres LAN → décocher «Détecter auto les paramètres».",
+          hintCheck:"Vérifiez après modif que le trafic passe bien par le VPN sans proxy intermédiaire.",
+          code:"Options Internet → détecter auto: OFF"
+        },
+        {
+          id:"smarthomed",
+          title:"Smart Multi-Homed DNS",
+          risk:"Windows interroge plusieurs DNS et choisit parfois celui du FAI.",
+          smart:"Analyse : Windows retient la réponse DNS la plus rapide, souvent celle du FAI ou de la Box.",
+          vpn:"VPN World : Désactivez pour forcer l'exclusivité DNS du tunnel VPN.",
+          hintWhy:"Cette fonctionnalité Windows envoie les requêtes DNS à toutes les interfaces disponibles et garde la réponse la plus rapide — souvent le FAI.",
+          hintHow:"Modifiez le registre: DisableSmartNameResolution=1. Consultez la documentation Microsoft pour votre version.",
+          hintCheck:"Après modification: ipconfig /flushdns + re-test DNS étendu.",
+          code:"DisableSmartNameResolution=1"
+        },
+        {
+          id:"doh",
+          title:"DNS over HTTPS (DoH)",
+          risk:"Le DNS peut être envoyé à un tiers même si le VPN est actif.",
+          smart:"Analyse : Un DoH configuré dans le navigateur peut court-circuiter le DNS du VPN.",
+          vpn:"VPN World : Harmonisez VPN + DoH et re-testez pour confirmer l'absence de fuite.",
+          hintWhy:"Si le navigateur force DoH vers Cloudflare ou Google, les requêtes DNS peuvent ne pas passer par le tunnel VPN.",
+          hintHow:"Si votre VPN gère ses propres DNS, laissez-le faire. Sinon choisissez un DoH cohérent (Cloudflare/NextDNS) et re-testez.",
+          hintCheck:"Re-testez DNS étendu pour vérifier la cohérence VPN ↔ DoH. Seuls les resolvers voulus doivent apparaître.",
+          code:"Firefox: network.trr.mode = 2"
+        },
+        {
+          id:"dot",
+          title:"DNS over TLS (DoT)",
+          risk:"Alternative DoH, mais peut créer un resolver parallèle.",
+          smart:"Analyse : Un resolver DoT externe peut contourner la stratégie DNS du VPN.",
+          vpn:"VPN World : Utilisez DoT seulement si vous maîtrisez le chemin DNS complet.",
+          hintWhy:"Android «DNS privé» utilise DoT. Si mal configuré, il peut contourner le DNS du VPN.",
+          hintHow:"Android: Paramètres → Réseau → DNS privé. Désactivez si conflit ou pointez vers votre résolveur choisi.",
+          hintCheck:"Testez la fuite DNS avec VPN actif. Vérifiez que seuls les DNS attendus apparaissent.",
+          code:"Android: DNS privé (DoT) paramétrer"
+        },
+        {
+          id:"prefetch",
+          title:"DNS Prefetching",
+          risk:"Résolutions DNS silencieuses avant le clic de l'utilisateur.",
+          smart:"Analyse : Le navigateur génère des requêtes DNS non attendues avant même le clic.",
+          vpn:"VPN World : Désactivez la prélecture DNS pour un contrôle total.",
+          hintWhy:"Le navigateur pré-résout les liens présents sur la page en cours, créant des fuites DNS difficiles à détecter.",
+          hintHow:"Firefox: about:config → network.dns.disablePrefetch=true. Chrome: paramètres ou flags selon version.",
+          hintCheck:"Vérifiez via un proxy DNS que les pré-résolutions ne contournent plus le tunnel.",
+          code:"Firefox: network.dns.disablePrefetch = true"
+        },
+        {
+          id:"flush",
+          title:"Vider le cache DNS",
+          risk:"Anciennes entrées peuvent pointer vers un resolver non voulu.",
+          smart:"Analyse : Le cache DNS conserve des traces qui faussent les tests et les connexions.",
+          vpn:"VPN World : Flush DNS après chaque changement de réseau ou de serveur VPN.",
+          hintWhy:"Le cache DNS retient les résolutions précédentes. Une ancienne entrée peut pointer vers le resolver du FAI.",
+          hintHow:"Windows: ipconfig /flushdns dans cmd. macOS: dscacheutil -flushcache (la commande varie selon la version).",
+          hintCheck:"Re-testez DNS immédiatement après le flush pour confirmer les nouveaux resolvers actifs.",
+          code:"ipconfig /flushdns"
+        },
+        {
+          id:"cloudflare_gateway",
+          title:"Cloud Gateway (ex: Cloudflare/NextDNS)",
+          risk:"Sans couche Cloud, certaines requêtes DNS échappent au contrôle.",
+          smart:"Analyse : Une gateway DNS ajoute un niveau de filtrage indépendant du VPN.",
+          vpn:"VPN World : Ajoutez une couche de filtrage Cloud DNS si votre configuration le permet.",
+          hintWhy:"Même avec un VPN, certaines requêtes DNS peuvent contourner le tunnel. Une gateway ajoute un filet de sécurité.",
+          hintHow:"Créez un compte NextDNS ou Cloudflare Gateway. Configurez vos règles anti-malware/anti-tracking.",
+          hintCheck:"Vérifiez les logs DNS dans le tableau de bord de votre gateway pour détecter les anomalies.",
+          code:"Configurer Gateway / NextDNS"
+        },
+        {
+          id:"proxy_dns",
+          title:"Proxy DNS local",
+          risk:"Conflits OS/VPN si plusieurs resolvers tournent simultanément.",
+          smart:"Analyse : Un proxy DNS local capture toutes les requêtes avant qu'elles atteignent le système.",
+          vpn:"VPN World : Option avancée — à utiliser si vous maîtrisez la configuration.",
+          hintWhy:"Sans proxy local, certaines applications peuvent contourner le DNS du VPN via leurs propres resolvers.",
+          hintHow:"Installez Stubby ou Unbound comme proxy local. Pointez-le vers votre résolveur chiffré.",
+          hintCheck:"Testez d'abord la configuration simple (VPN + anti-fuite) avant d'ajouter un proxy local.",
+          code:"Local resolver → tunnel VPN"
+        },
+        {
+          id:"mac_rand",
+          title:"MAC Randomization",
+          risk:"Traçage matériel sur les réseaux Wi-Fi.",
+          smart:"Analyse : Une adresse MAC stable permet de vous identifier sur différents réseaux.",
+          vpn:"VPN World : Activez la randomisation MAC pour limiter le traçage physique.",
+          hintWhy:"Votre adresse MAC est un identifiant unique diffusé sur le réseau local, visible par tous les équipements.",
+          hintHow:"Windows 11: Paramètres Wi-Fi → Adresse matérielle aléatoire. iOS/Android: option «Adresse privée» par réseau.",
+          hintCheck:"Reconnectez-vous et vérifiez que la MAC affichée est bien différente de la MAC réelle.",
+          code:"Wi-Fi → Adresse aléatoire: ON"
+        },
+        {
+          id:"timezone",
+          title:"Synchronisation du fuseau horaire",
+          risk:"IP VPN et horloge locale incohérentes peuvent signaler l'usage d'un VPN.",
+          smart:"Analyse : Une incohérence IP/heure est un indicateur fréquent de fingerprinting.",
+          vpn:"VPN World : Alignez heure/fuseau si nécessaire, surtout en cas de détection ou blocage.",
+          hintWhy:"Si l'IP VPN indique UK mais l'horloge Paris+1, le site peut détecter l'incohérence et bloquer.",
+          hintHow:"Ajustez le fuseau horaire uniquement si vous rencontrez des blocages ou des détections.",
+          hintCheck:"Vérifiez la cohérence IP/heure si un service vous refuse l'accès.",
+          code:"Windows: Paramètres heure/fuseau"
+        },
+        {
+          id:"battery_api",
+          title:"Battery API Shield",
+          risk:"Le niveau de batterie peut servir d'identifiant unique (fingerprinting).",
+          smart:"Analyse : Les API système exposent des signaux qui permettent d'identifier le navigateur.",
+          vpn:"VPN World : Utilisez un navigateur durci pour réduire la surface de fingerprinting.",
+          hintWhy:"L'API Battery Status expose niveau, état de charge et temps restant — suffisant pour créer un identifiant unique.",
+          hintHow:"Utilisez Brave ou LibreWolf qui réduisent l'empreinte. Firefox: about:config → dom.battery.enabled=false.",
+          hintCheck:"Vérifiez votre score de fingerprinting sur coveryourtracks.eff.org avant et après.",
+          code:"Firefox: dom.battery.enabled = false"
+        },
+        {
+          id:"icmp",
+          title:"Filtre ICMP (Ping)",
+          risk:"Les mesures de latence peuvent révéler votre localisation géographique.",
+          smart:"Analyse : Le timing des réponses ICMP peut trahir la distance réelle au serveur.",
+          vpn:"VPN World : Filtrez ICMP entrant si nécessaire — option avancée.",
+          hintWhy:"La latence ICMP permet d'estimer la distance physique entre l'hôte et le serveur, révélant parfois le pays réel.",
+          hintHow:"Bloquez les réponses ICMP entrantes via le pare-feu système. Option avancée à utiliser avec précaution.",
+          hintCheck:"Vérifiez que les diagnostics réseau essentiels (traceroute interne) fonctionnent encore après modification.",
+          code:"Firewall: ICMP inbound — restreindre"
+        },
+        {
+          id:"smb_leak",
+          title:"SMB Leak (Windows)",
+          risk:"Des requêtes SMB sortantes peuvent exposer IP et identité.",
+          smart:"Analyse : L'Explorateur Windows peut générer des requêtes SMB hors tunnel selon les règles actives.",
+          vpn:"VPN World : Bloquez le trafic SMB sortant sur les réseaux non fiables.",
+          hintWhy:"Windows tente automatiquement de résoudre les partages réseau via SMB, pouvant exposer l'IP réelle.",
+          hintHow:"Désactivez SMB1 via PowerShell: Disable-WindowsOptionalFeature. Bloquez ports 445/139 en sortie dans le pare-feu.",
+          hintCheck:"Vérifiez que l'Explorateur Windows ne tente plus de connexions SMB vers l'extérieur.",
+          code:"Désactiver SMB1 + firewall"
+        },
+        {
+          id:"lan_invisible",
+          title:"Invisibilité LAN",
+          risk:"Votre appareil peut être découvert par d'autres sur le même Wi-Fi.",
+          smart:"Analyse : Sur Wi-Fi public, la visibilité réseau locale est un vecteur de scan et d'attaque.",
+          vpn:"VPN World : Activez «Invisibility on LAN» si disponible dans votre app VPN.",
+          hintWhy:"En Wi-Fi public ou partagé, d'autres utilisateurs peuvent scanner et découvrir votre appareil.",
+          hintHow:"Windows: définissez le profil réseau sur «Public» et désactivez le partage de fichiers. Activez l'option dédiée de votre VPN.",
+          hintCheck:"Vérifiez dans les paramètres réseau que le partage et la découverte sont bien désactivés.",
+          code:"VPN: Invisibility on LAN"
+        },
+        {
+          id:"windows_update_dns",
+          title:"Windows Update / Services DNS",
+          risk:"Les MAJ Windows peuvent réinitialiser des paramètres DNS et réseau.",
+          smart:"Analyse : Certaines mises à jour système réinitialisent silencieusement la configuration DNS.",
+          vpn:"VPN World : Re-testez systématiquement après chaque mise à jour Windows.",
+          hintWhy:"Des mises à jour majeures peuvent réinitialiser les paramètres DNS, désactiver le kill switch ou modifier la priorité des interfaces.",
+          hintHow:"Après chaque MAJ Windows, vérifiez: DNS actif, IPv6 désactivé (si nécessaire), kill switch toujours actif.",
+          hintCheck:"Re-testez DNS étendu, IPv6 et kill switch après chaque redémarrage post-MAJ.",
+          code:"Re-test post-update"
+        },
+        {
+          id:"entropy_check",
+          title:"Contrôle d'entropie (détection)",
+          risk:"Des patterns DNS inhabituels peuvent déclencher des blocages ou des détections.",
+          smart:"Analyse : Des patterns DNS anormaux peuvent trahir l'usage d'un tunnel ou d'un proxy.",
+          vpn:"VPN World : Visez la cohérence et la stabilité plutôt que l'obfuscation excessive.",
+          hintWhy:"Un trafic DNS trop aléatoire ou irrégulier peut lui-même signaler l'usage d'un outil d'anonymisation.",
+          hintHow:"Maintenez une configuration cohérente VPN/DNS. Évitez de multiplier les couches d'obfuscation.",
+          hintCheck:"Si vous suspectez des anomalies, auditez votre trafic DNS avec un outil de capture.",
+          code:"Audit trafic (concept)"
+        },
+        {
+          id:"zero_day_block",
+          title:"Blocage «Zero-Day» (concept)",
+          risk:"De nouvelles méthodes de fuite DNS apparaissent régulièrement.",
+          smart:"Analyse : Les vecteurs de fuite évoluent. Une configuration correcte aujourd'hui peut devenir insuffisante.",
+          vpn:"VPN World : Maintenez à jour navigateur, VPN et OS. Re-testez régulièrement.",
+          hintWhy:"De nouvelles techniques de fingerprinting et de détection de VPN émergent continuellement.",
+          hintHow:"Abonnez-vous aux bulletins de sécurité de votre fournisseur VPN. Mettez à jour tous les composants régulièrement.",
+          hintCheck:"Planifiez un re-test complet après chaque mise à jour majeure du navigateur ou du client VPN.",
+          code:"MAJ + re-tests"
+        },
+        {
+          id:"netbios_off",
+          title:"Désactiver NetBIOS",
+          risk:"NetBIOS diffuse des informations sur le réseau local, y compris le nom de votre machine.",
+          smart:"Analyse : NetBIOS expose la topologie réseau locale et le nom d'hôte, même en VPN.",
+          vpn:"VPN World : Désactivez NetBIOS sur TCP/IP dans les paramètres de chaque adaptateur.",
+          hintWhy:"NetBIOS diffuse activement des informations sur votre machine (nom, groupe de travail) sur le réseau local.",
+          hintHow:"Panneau de configuration → Centre réseau → Propriétés IPv4 → Avancé → WINS → Désactiver NetBIOS sur TCP/IP.",
+          hintCheck:"Vérifiez que le nom NetBIOS n'est plus visible sur le réseau local avec un outil de scan.",
+          code:"WMI: SetTcpipNetbios 2"
+        },
+        {
+          id:"final_seal",
+          title:"Sceau Final VPN World",
+          risk:"Oublier une couche de protection = fuite possible.",
+          smart:"Analyse : Checklist validée. Les couches critiques sont configurées et testées.",
+          vpn:"VPN World : Vous avez un setup propre. Re-testez après chaque changement de réseau.",
+          hintWhy:"Une configuration VPN efficace nécessite des re-tests réguliers car l'environnement réseau change constamment.",
+          hintHow:"Établissez une routine: re-testez après chaque changement de réseau, MAJ système ou changement de fournisseur VPN.",
+          hintCheck:"Planifiez un audit mensuel complet de votre configuration VPN/DNS/IPv6.",
+          code:"STATUS: SECURED_2026"
+        }
       ];
 
       var currentPage = 0;
@@ -529,21 +766,20 @@
                 '</div>' +
               '</div>' +
               '<p><strong>Risque :</strong> ' + escapeHtml(card.risk) + '</p>' +
-              '<p class="expert-opinion"><em>' + escapeHtml(card.smart) + '</em></p>' +
+              '<p class="analyse-opinion"><em>' + escapeHtml(card.smart) + '</em></p>' +
               '<p class="vpn-opinion"><strong>VPN World :</strong> ' + escapeHtml(card.vpn) + '</p>' +
-              '<div class="dns-hint">' +
-                '<button class="dns-hint__btn" type="button" aria-expanded="false">' +
-                  '<span>Voir l\'explication</span>' +
-                  '<span aria-hidden="true">\u25be</span>' +
-                '</button>' +
-                '<div class="dns-hint__content">' + escapeHtml(card.hint) + '</div>' +
-              '</div>' +
+              '<details class="dns-hint">' +
+                '<summary>Voir l\'explication</summary>' +
+                '<div class="dns-hint-body">' +
+                  '<p><strong>Pourquoi ?</strong> ' + escapeHtml(card.hintWhy) + '</p>' +
+                  '<p><strong>Comment faire ?</strong> ' + escapeHtml(card.hintHow) + '</p>' +
+                  '<p><strong>\u00c0 v\u00e9rifier apr\u00e8s :</strong> ' + escapeHtml(card.hintCheck) + '</p>' +
+                '</div>' +
+              '</details>' +
               '<pre><code>' + escapeHtml(card.code) + '</code></pre>';
 
             var top = wrap.querySelector(".dns-card__top");
             var checkbox = wrap.querySelector(".dns-card__check");
-            var hint = wrap.querySelector(".dns-hint");
-            var hintBtn = wrap.querySelector(".dns-hint__btn");
 
             function applyDone(val) {
               setDone(card.id, val);
@@ -569,13 +805,6 @@
                   e.preventDefault();
                   top.click();
                 }
-              });
-            }
-
-            if (hintBtn && hint) {
-              hintBtn.addEventListener("click", function() {
-                var open = hint.classList.toggle("is-open");
-                hintBtn.setAttribute("aria-expanded", open ? "true" : "false");
               });
             }
 
