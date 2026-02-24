@@ -67,7 +67,7 @@
         "image":"https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp",
         "inLanguage":"fr",
         "datePublished":"2026-01-06",
-        "dateModified":"2026-01-06",
+        "dateModified":"2026-02-22",
         "author":{"@type":"Person","name":"Denys Shchur","url":"https://dloran1.github.io/fr/about-denys-shchur.html"},
         "publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}}
       },
@@ -218,235 +218,395 @@
             La solution fiable, c’est <strong>kill switch + DNS correct + gestion IPv6 + re-tests</strong> après chaque changement réseau.
           </p>
 
-<section class="dns-leak-widget" id="control-center">
+<section class="dns-leak-widget" id="control-center" aria-label="Centre de Contrôle DNS">
   <style>
-    /* Self-contained widget styles (readable on dark shell) */
     .dns-widget-container {
-      background: #f9f9f9;
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
-      padding: 25px;
-      margin: 30px 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background:#f9f9f9;
+      border:1px solid #e0e0e0;
+      border-radius:12px;
+      padding:22px;
+      margin:28px 0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      color:#111;
+    }
+    .dns-widget-header{ text-align:center; margin-bottom:16px; }
+    .dns-widget-header h2{ margin:0 0 8px 0; color:#111; }
+    .dns-widget-header p{ margin:0; color:#222; }
 
-      /* hard readability for dark theme shells */
-      color: #111;
+    .dns-progress {
+      margin:16px 0 10px 0;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      justify-content:center;
+      flex-wrap:wrap;
     }
-    .dns-widget-container * { color: inherit; }
-
-    .dns-widget-header {
-      text-align: center;
-      margin-bottom: 25px;
+    .dns-progress__barwrap{
+      width:min(520px, 100%);
+      height:12px;
+      background:#e6e6e6;
+      border-radius:999px;
+      overflow:hidden;
+      border:1px solid #d6d6d6;
     }
-    .dns-widget-header h2 {
-      margin: 0 0 10px 0;
-      color: #111;
+    .dns-progress__bar{
+      height:100%;
+      width:0%;
+      background:#22c55e;
+      transition:width .2s ease;
     }
-    .dns-widget-header p {
-      margin: 0;
-      color: #222;
-    }
-
-    #dns-grid-paginated {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      min-height: 580px;
-      align-content: start;
-    }
-    .dns-card {
-      background: #ffffff;
-      border: 1px solid #eee;
-      border-radius: 10px;
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      transition: transform 0.2s;
-      color: #111; /* ensure readable text */
-    }
-    .dns-card:hover {
-      transform: translateY(-3px);
-      border-color: #007bff;
-    }
-    .dns-card h3 {
-      font-size: 1.1rem;
-      margin: 0 0 12px 0;
-      color: #0b4ea2;
-      border-bottom: 1px solid #f0f0f0;
-      padding-bottom: 8px;
-    }
-    .dns-card p {
-      font-size: 0.9rem;
-      line-height: 1.4;
-      margin: 8px 0;
-      color: #222;
-    }
-    .dns-card p strong { color: #111; }
-
-    .expert-opinion {
-      background: #f0f7ff;
-      padding: 8px;
-      border-radius: 6px;
-      font-style: italic;
-      color: #0b4ea2;
-      font-size: 0.85rem;
-    }
-    .vpn-opinion {
-      font-weight: 700;
-      color: #1f7a33;
-      font-size: 0.85rem;
+    .dns-progress__label{
+      font-weight:800;
+      color:#333;
+      white-space:nowrap;
     }
 
-    .dns-card pre {
-      background: #111;            /* darker but readable */
-      color: #fff;
-      padding: 10px;
-      border-radius: 5px;
-      font-size: 0.8rem;
-      overflow-x: auto;
-      margin-top: auto;
+    #fr-dns-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+      gap:18px;
+      min-height:580px;
+      align-content:start;
     }
-    .dns-card code { color: #fff; }
 
-    .pagination-controls {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 30px;
-      gap: 20px;
+    .dns-card{
+      background:#fff;
+      border:1px solid #eee;
+      border-radius:12px;
+      padding:16px;
+      display:flex;
+      flex-direction:column;
+      box-shadow:0 2px 4px rgba(0,0,0,.05);
+      transition:transform .15s, border-color .15s;
     }
-    .btn-pagination {
-      background: #007bff;
-      color: white !important;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 700;
-      transition: background 0.2s;
+    .dns-card:hover{ transform:translateY(-2px); border-color:#007bff; }
+
+    .dns-card__top{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      cursor:pointer;
+      user-select:none;
+      padding-bottom:10px;
+      border-bottom:1px solid #f0f0f0;
+      margin-bottom:10px;
     }
-    .btn-pagination:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-      color: #555 !important;
+    .dns-card__check{
+      margin-top:2px;
+      width:18px;
+      height:18px;
+      flex:0 0 auto;
+      cursor:pointer;
     }
-    .btn-pagination:hover:not(:disabled) {
-      background: #0056b3;
+    .dns-card__titlewrap{ flex:1 1 auto; }
+    .dns-card__title{
+      font-size:1.05rem;
+      margin:0;
+      color:#0b4ea2;
+      line-height:1.25;
     }
-    #page-info {
-      font-weight: 800;
-      color: #333 !important;
+    .dns-card__status{
+      margin-top:6px;
+      font-weight:800;
+      font-size:.8rem;
+      color:#1f7a33;
+      display:none;
     }
+    .dns-card.is-done .dns-card__status{ display:block; }
+    .dns-card.is-done{ border-color:#22c55e; }
+
+    .dns-card p{
+      font-size:.9rem;
+      line-height:1.45;
+      margin:8px 0;
+      color:#222;
+    }
+
+    .expert-opinion{
+      background:#f0f7ff;
+      padding:10px;
+      border-radius:8px;
+      font-style:italic;
+      color:#0b4ea2;
+      font-size:.88rem;
+    }
+    .vpn-opinion{ font-weight:800; color:#1f7a33; font-size:.88rem; }
+
+    .dns-hint{
+      margin-top:10px;
+      border:1px solid #e7e7e7;
+      border-radius:10px;
+      overflow:hidden;
+      background:#fbfbfb;
+    }
+    .dns-hint__btn{
+      width:100%;
+      text-align:left;
+      border:0;
+      background:transparent;
+      padding:10px 12px;
+      font-weight:800;
+      cursor:pointer;
+      color:#111;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .dns-hint__btn:focus{ outline:2px solid #007bff; outline-offset:2px; }
+    .dns-hint__content{
+      padding:0 12px 12px 12px;
+      display:none;
+      color:#222;
+      font-size:.88rem;
+    }
+    .dns-hint.is-open .dns-hint__content{ display:block; }
+
+    .dns-card pre{
+      background:#111;
+      color:#fff;
+      padding:10px;
+      border-radius:8px;
+      font-size:.8rem;
+      overflow-x:auto;
+      margin-top:12px;
+    }
+    .dns-card code{ color:#fff; }
+
+    .pagination-controls{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      margin-top:18px;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+    .btn-pagination{
+      background:#007bff;
+      color:#fff;
+      border:0;
+      padding:10px 16px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:900;
+      transition:background .15s;
+    }
+    .btn-pagination:disabled{ background:#ccc; color:#555; cursor:not-allowed; }
+    .btn-pagination:hover:not(:disabled){ background:#0056b3; }
+    #fr-dns-pageinfo{ font-weight:900; color:#333; }
   </style>
 
   <div class="dns-widget-container">
     <div class="dns-widget-header">
-      <h2>Centre de Contrôle DNS &amp; AI</h2>
-      <p>Configurez votre bunker numérique contre les fuites Orange, Free et SFR.</p>
+      <h2>Centre de Contrôle DNS &amp; Claude AI</h2>
+      <p>Cochez ce que vous avez appliqué. Le progrès se sauvegarde automatiquement.</p>
     </div>
 
-    <div id="dns-grid-paginated"></div>
+    <div class="dns-progress" aria-label="Progression">
+      <div class="dns-progress__barwrap" aria-hidden="true">
+        <div id="fr-dns-progressbar" class="dns-progress__bar"></div>
+      </div>
+      <div id="fr-dns-progresslabel" class="dns-progress__label">0% — 0/25</div>
+    </div>
+
+    <div id="fr-dns-grid"></div>
 
     <div class="pagination-controls">
-      <button id="prev-page" class="btn-pagination" disabled>Précédent</button>
-      <span id="page-info">Page 1 / 7</span>
-      <button id="next-page" class="btn-pagination">Suivant</button>
+      <button id="fr-dns-prev" class="btn-pagination" disabled>Précédent</button>
+      <span id="fr-dns-pageinfo">Page 1 / 7</span>
+      <button id="fr-dns-next" class="btn-pagination">Suivant</button>
     </div>
   </div>
 
   <script>
     (function () {
-      const cards = [
-        { id: 1, title: "Désactiver l’IPv6 (Livebox)", risk: "Les Box Orange/Free ignorent souvent le tunnel VPN en IPv6.", smart: "Claude AI : L’IPv6 est la porte dérobée n°1 pour votre FAI français.", vpn: "VPN World : Indispensable. Désactivez-le pour forcer le tunnel IPv4.", code: "netsh interface ipv6 set teredo disabled" },
-        { id: 2, title: "Audit Claude AI", risk: "Fuites comportementales indétectables par les outils classiques.", smart: "Claude AI : J’analyse vos logs DNS pour repérer des anomalies cachées.", vpn: "VPN World : L’intelligence artificielle valide votre étanchéité en temps réel.", code: "claude-ai --verify --deep-scan" },
-        { id: 3, title: "Blocage WebRTC", risk: "Votre IP réelle peut fuiter via les API STUN du navigateur.", smart: "Claude AI : Les navigateurs révèlent votre position locale à Paris/Lyon.", vpn: "VPN World : Désactivez WebRTC ou utilisez une extension dédiée.", code: "media.peerconnection.enabled = false" },
-        { id: 4, title: "Cloud DNS Firewall", risk: "Requêtes DNS non filtrées sortant du tunnel.", smart: "Claude AI : Le Cloud Gateway agit comme un filtre de sécurité amont.", vpn: "VPN World : Utilisez NextDNS ou Cloudflare Gateway (1.1.1.1).", code: "Set-DnsClientServerAddress -InterfaceIndex (id)" },
-        { id: 5, title: "Kill Switch Système", risk: "Exposition instantanée en cas de coupure de la Fibre.", smart: "Claude AI : Sans Kill Switch, votre IP réelle est exposée en 1ms.", vpn: "VPN World : Ne naviguez jamais sans un Kill Switch actif au niveau noyau.", code: "Vérifier paramètres : App VPN -> Kill Switch" },
-        { id: 6, title: "Désactiver Teredo", risk: "Protocole de tunneling pouvant contourner le pare-feu VPN.", smart: "Claude AI : Un tunnel dans le tunnel. Inutile et risqué pour votre anonymat.", vpn: "VPN World : Microsoft utilise Teredo pour l’IPv6. Fermez cette porte.", code: "netsh interface teredo set state disabled" },
-        { id: 7, title: "Smart Multi-Homed DNS", risk: "Windows envoie des requêtes à tous les serveurs DNS disponibles.", smart: "Claude AI : Windows choisit souvent le plus rapide (celui d’Orange).", vpn: "VPN World : Désactivez cette fonction pour forcer l’exclusivité VPN.", code: "DisableSmartNameResolution = 1 (Registre)" },
-        { id: 8, title: "DNS over HTTPS (DoH)", risk: "Interception des requêtes en texte clair par le FAI.", smart: "Claude AI : Le chiffrement DoH rend vos requêtes invisibles pour SFR/Free.", vpn: "VPN World : Activez le DoH dans votre navigateur et votre passerelle Cloud.", code: "network.trr.mode = 2" },
-        { id: 9, title: "Désactiver LLMNR", risk: "Fuite de noms de réseau local vers l’extérieur.", smart: "Claude AI : Peut révéler l’identité de votre machine sur des réseaux publics.", vpn: "VPN World : Protocole obsolète. À couper via GPO ou PowerShell.", code: "Disable-NetAdapterBinding -ComponentID ms_llmnr" },
-        { id: 10, title: "DNS Prefetching", risk: "Le navigateur résout les domaines avant même votre clic.", smart: "Claude AI : Cette anticipation crée des fuites DNS ‘silencieuses’.", vpn: "VPN World : Désactivez la prélecture pour un contrôle total des requêtes.", code: "network.dns.disablePrefetch = true" },
-        { id: 11, title: "Vider le cache DNS", risk: "Historique résiduel pointant vers l’ancien résolveur FAI.", smart: "Claude AI : Les anciennes adresses polluent votre nouvelle connexion sécurisée.", vpn: "VPN World : Flush DNS après chaque changement de serveur VPN.", code: "ipconfig /flushdns" },
-        { id: 12, title: "Fuite SMB (Windows)", risk: "L’Explorateur Windows peut fuiter votre IP via des partages distants.", smart: "Claude AI : Une faille historique qui permet de capturer votre IP réelle.", vpn: "VPN World : Bloquez le trafic SMB sortant via le pare-feu VPN.", code: "Disable-WindowsOptionalFeature -FeatureName SMB1" },
-        { id: 13, title: "WPAD Deactivation", risk: "Découverte auto de proxy pouvant détourner le trafic DNS.", smart: "Claude AI : Une faille souvent utilisée pour des attaques ‘Man-in-the-Middle’.", vpn: "VPN World : Désactivez ‘Détecter automatiquement les paramètres’.", code: "WpadOverride = 1 (Registre)" },
-        { id: 14, title: "Invisibilité LAN", risk: "Être visible par les autres utilisateurs de la Box WiFi.", smart: "Claude AI : Essentiel en télétravail ou sur les réseaux publics.", vpn: "VPN World : Activez ‘Invisibility on LAN’ dans les réglages VPN.", code: "Réglages Réseau -> Invisible" },
-        { id: 15, title: "MAC Aléatoire", risk: "Traçage de votre identifiant matériel unique (DNI du PC).", smart: "Claude AI : La rotation de l’adresse MAC empêche le suivi physique.", vpn: "VPN World : Activez les adresses matérielles aléatoires sous Windows 11.", code: "ms-settings:network-wifi" },
-        { id: 16, title: "Filtre ICMP (Ping)", risk: "Les pings permettent d’estimer votre distance réelle du serveur.", smart: "Claude AI : Le timing des réponses peut trahir votre pays d’origine.", vpn: "VPN World : Bloquez les réponses ICMP entrantes via votre pare-feu.", code: "netsh advfirewall firewall set rule name=’All’ new enable=no" },
-        { id: 17, title: "Timezone Sync", risk: "Décalage entre votre IP (VPN) et l’horloge de votre système.", smart: "Claude AI : Une preuve directe d’utilisation de VPN pour les sites web.", vpn: "VPN World : Alignez l’heure de votre PC sur celle du serveur VPN.", code: "tzutil /s ‘GMT Standard Time’" },
-        { id: 18, title: "Audit Zero-Day Cloud", risk: "Nouvelles méthodes de tracking DNS non documentées.", smart: "Claude AI : Le Cloud Gateway bloque les domaines suspects via IA.", vpn: "VPN World : Une protection proactive contre les menaces émergentes.", code: "cloud-gateway --ai-shield active" },
-        { id: 19, title: "Battery API Shield", risk: "Le niveau de batterie sert d’identifiant unique (Fingerprinting).", smart: "Claude AI : Une technique de traçage subtile mais efficace.", vpn: "VPN World : Utilisez des navigateurs durcis (LibreWolf/Brave).", code: "dom.battery.enabled = false" },
-        { id: 20, title: "Entropie DNS", risk: "Détection de tunnel par analyse statistique du trafic.", smart: "Claude AI : Je lisse votre trafic DNS pour le rendre ‘naturel’.", vpn: "VPN World : Cachez le fait que vous utilisez un tunnel chiffré.", code: "ai-traffic-obfuscation --on" },
-        { id: 21, title: "Filtrage Adblock DNS", risk: "Publicités injectant des scripts de traçage IP.", smart: "Claude AI : Moins de pubs = moins de points de fuite potentiels.", vpn: "VPN World : Activez le blocage DNS des publicités au niveau Cloud.", code: "dns-filter --ads --trackers" },
-        { id: 22, title: "Proxy DNS Local", risk: "Conflits entre le service DNS Windows et le client VPN.", smart: "Claude AI : Un proxy local assure que chaque requête est capturée.", vpn: "VPN World : Forcez l’usage d’un résolveur local sécurisé.", code: "127.0.0.1:53 -> VPN_Tunnel" },
-        { id: 23, title: "Désactiver NetBIOS", risk: "Ancien protocole fuyant des infos sur votre réseau local.", smart: "Claude AI : NetBIOS bavarde trop sur la topologie de votre réseau.", vpn: "VPN World : Désactivez NetBIOS sur TCP/IP dans les paramètres IPv4.", code: "WMI: SetTcpipNetbios 2" },
-        { id: 24, title: "DNS over TLS (DoT)", risk: "Alternative au DoH pour sécuriser le transport DNS.", smart: "Claude AI : Idéal pour une protection au niveau du système complet.", vpn: "VPN World : Configurez DoT si votre système le supporte (Android/Linux).", code: "Stubby / Unbound Config" },
-        { id: 25, title: "Sceau Final VPN World", risk: "Vérification de l’étanchéité totale de la chaîne.", smart: "Claude AI : Audit terminé. Votre bunker numérique est opérationnel.", vpn: "VPN World : Félicitations, vous êtes protégé à 100% contre les fuites.", code: "STATUS: SECURED_2026" }
+      var STORAGE_KEY = "vpnworld_fr_dns_widget_v1";
+
+      var cards = [
+        { id:"ipv6_livebox", title:"Désactiver l'IPv6 (Livebox/Freebox)", risk:"Les Box forcent souvent l'IPv6 et peuvent contourner un VPN IPv4-only.", smart:"Claude AI : Je surveille les signaux de résolution IPv6 qui sortent hors tunnel.", vpn:"VPN World : Si votre VPN ne gère pas IPv6, désactivez-le et re-testez.", hint:"Sur une Livebox/Freebox, cherchez IPv6/Firewall IPv6. Sur Windows, vérifiez aussi l'adaptateur réseau. Re-test DNS + IPv6 après chaque changement.", code:"Windows: Panneau réseau → IPv6 OFF (si VPN IPv4-only)" },
+        { id:"webrtc_block", title:"Blocage WebRTC", risk:"Le navigateur peut révéler une IP locale/publique via STUN.", smart:"Claude AI : Je détecte des fuites WebRTC même quand le VPN semble connecté.", vpn:"VPN World : Désactivez WebRTC ou limitez-le via paramètres/extension.", hint:"Firefox: media.peerconnection.enabled=false. Chrome/Edge: utilisez une extension anti-WebRTC ou durcissez le navigateur (Brave/LibreWolf).", code:"Firefox: media.peerconnection.enabled = false" },
+        { id:"killswitch", title:"Kill Switch système", risk:"Une micro-coupure expose l'IP/DNS hors tunnel.", smart:"Claude AI : Les coupures Fibre/Wi-Fi sont le moment n°1 des fuites.", vpn:"VPN World : Activez un kill switch au niveau système (pas juste navigateur).", hint:"Test: activez le VPN, lancez un téléchargement, puis coupez le VPN → tout doit se bloquer. Rebranchez ensuite et re-test DNS.", code:"App VPN → Kill Switch: ON" },
+        { id:"dns_binding", title:"DNS Binding / Anti-fuite DNS", risk:"Windows/OS peut privilégier une interface et envoyer le DNS au FAI.", smart:"Claude AI : Je repère des requêtes DNS envoyées au resolver de la Box.", vpn:"VPN World : Forcez l'usage DNS du VPN + désactivez la résolution «smart».", hint:"Sur Windows, désactivez Smart Multi-Homed DNS et vérifiez l'ordre des interfaces. Re-test DNS étendu.", code:"Windows: désactiver Smart Name Resolution" },
+        { id:"teredo", title:"Désactiver Teredo", risk:"Tunnel IPv6 dans IPv4 pouvant contourner les règles VPN.", smart:"Claude AI : Teredo est une porte «tunnel dans le tunnel».", vpn:"VPN World : Désactivez-le si vous n'en avez pas besoin.", hint:"Windows Admin: netsh interface teredo set state disabled. Redémarrez puis re-test IPv6.", code:"netsh interface teredo set state disabled" },
+        { id:"llmnr", title:"Désactiver LLMNR", risk:"Résolution locale bavarde sur des réseaux publics.", smart:"Claude AI : LLMNR peut divulguer noms et requêtes sur le LAN.", vpn:"VPN World : Coupez-le via stratégie ou réglages réseau.", hint:"En entreprise: GPO. Sinon, via paramètres avancés/registre selon version. Re-test sur Wi-Fi public.", code:"Désactiver LLMNR (GPO/Registre)" },
+        { id:"wpad", title:"Désactiver WPAD", risk:"Auto-découverte proxy exploitable (MITM).", smart:"Claude AI : WPAD est un vieux vecteur d'attaque en mobilité.", vpn:"VPN World : Désactivez la détection auto des paramètres.", hint:"Windows: Options Internet → Connexions → Paramètres réseau → décocher auto. Re-test.", code:"Options Internet → détecter auto: OFF" },
+        { id:"smarthomed", title:"Smart Multi-Homed DNS", risk:"Windows interroge plusieurs DNS et choisit parfois celui du FAI.", smart:"Claude AI : Windows préfère souvent le DNS «le plus rapide» (FAI).", vpn:"VPN World : Désactivez pour forcer l'exclusivité DNS.", hint:"Registre/Policy selon Windows. Après modif: ipconfig /flushdns + re-test.", code:"DisableSmartNameResolution=1" },
+        { id:"doh", title:"DNS over HTTPS (DoH)", risk:"Le DNS peut être envoyé à un tiers (même si pas au FAI).", smart:"Claude AI : Je vérifie la cohérence VPN ↔ DoH (pas de contournement).", vpn:"VPN World : Harmonisez VPN + DoH et re-testez.", hint:"Si votre VPN a ses DNS, laissez souvent le VPN gérer. Sinon choisissez un DoH cohérent (Cloudflare/NextDNS) et re-test.", code:"Firefox: network.trr.mode = 2" },
+        { id:"dot", title:"DNS over TLS (DoT)", risk:"Alternative DoH, mais peut créer un resolver parallèle.", smart:"Claude AI : Un resolver DoT externe peut contourner votre stratégie VPN.", vpn:"VPN World : Utilisez DoT seulement si vous maîtrisez le chemin DNS.", hint:"Android «DNS privé» = DoT. Si conflit: désactivez ou pointez vers votre résolveur choisi.", code:"Android: DNS privé (DoT) paramétrer" },
+        { id:"prefetch", title:"DNS Prefetching", risk:"Résolutions silencieuses avant clic.", smart:"Claude AI : Les pré-résolutions génèrent des requêtes DNS non attendues.", vpn:"VPN World : Désactivez la prélecture DNS.", hint:"Firefox: network.dns.disablePrefetch=true. Chrome: paramètres/flags selon version.", code:"Firefox: network.dns.disablePrefetch = true" },
+        { id:"flush", title:"Vider le cache DNS", risk:"Anciennes entrées peuvent pointer vers un resolver non voulu.", smart:"Claude AI : Le cache DNS garde des traces et fausse les tests.", vpn:"VPN World : Flush après chaque changement réseau/VPN.", hint:"Windows: ipconfig /flushdns. macOS: dscacheutil -flushcache (selon version).", code:"ipconfig /flushdns" },
+        { id:"cloudflare_gateway", title:"Cloud Gateway (ex: Cloudflare/NextDNS)", risk:"Sans couche Cloud, certaines requêtes échappent au contrôle.", smart:"Claude AI : Je compare les patterns DNS avec la politique gateway.", vpn:"VPN World : Ajoutez une couche de filtrage Cloud si besoin.", hint:"Utile en mobilité/foyer: règles anti-malware/anti-tracking au niveau DNS + logs côté vous.", code:"Configurer Gateway / NextDNS" },
+        { id:"proxy_dns", title:"Proxy DNS local", risk:"Conflits OS/VPN si plusieurs resolvers tournent.", smart:"Claude AI : Un proxy local peut forcer la capture de toutes requêtes.", vpn:"VPN World : À utiliser si vous savez ce que vous faites.", hint:"Attention: complexité. Testez d'abord la config simple (VPN + anti-fuite).", code:"Local resolver → tunnel VPN" },
+        { id:"mac_rand", title:"MAC Randomization", risk:"Traçage matériel sur Wi-Fi.", smart:"Claude AI : La MAC stable relie vos sessions entre réseaux.", vpn:"VPN World : Activez la MAC aléatoire.", hint:"Windows 11: paramètres Wi-Fi. iOS/Android: «Adresse privée».", code:"Wi-Fi → Adresse aléatoire: ON" },
+        { id:"timezone", title:"Synchronisation du fuseau horaire", risk:"IP (VPN) vs horloge locale incohérentes (fingerprinting).", smart:"Claude AI : Les sites détectent souvent les incohérences IP/heure.", vpn:"VPN World : Alignez heure/fuseau si nécessaire.", hint:"Ne changez pas tout le temps. Ajustez seulement si vous avez des blocages/flags.", code:"Windows: Paramètres heure/fuseau" },
+        { id:"battery_api", title:"Battery API Shield", risk:"Fingerprinting via signaux batterie.", smart:"Claude AI : Je signale les surfaces de fingerprinting actives.", vpn:"VPN World : Utilisez un navigateur durci.", hint:"Brave/LibreWolf réduisent l'empreinte. Désactivez les API quand possible.", code:"Firefox: dom.battery.enabled = false" },
+        { id:"icmp", title:"Filtre ICMP (Ping)", risk:"Mesure de latence = indices géographiques.", smart:"Claude AI : Le timing réseau peut trahir votre localisation.", vpn:"VPN World : Filtrez ICMP si nécessaire.", hint:"Ne cassez pas le diagnostic réseau sans raison. Option avancée.", code:"Firewall: ICMP inbound — restreindre" },
+        { id:"smb_leak", title:"SMB Leak (Windows)", risk:"Requêtes SMB sortantes peuvent exposer IP/identité.", smart:"Claude AI : Les appels SMB peuvent sortir hors tunnel selon règles.", vpn:"VPN World : Bloquez SMB sortant sur réseaux publics.", hint:"Désactivez SMB1, et bloquez ports 445/139 en sortie si vous n'en avez pas besoin.", code:"Désactiver SMB1 + firewall" },
+        { id:"lan_invisible", title:"Invisibilité LAN", risk:"Découverte par d'autres appareils sur le Wi-Fi.", smart:"Claude AI : Sur Wi-Fi public, la visibilité LAN est un risque.", vpn:"VPN World : Activez «Invisibility on LAN» si dispo.", hint:"Sur Windows: réseau «Public» + partage OFF. Sur VPN: option dédiée.", code:"VPN: Invisibility on LAN" },
+        { id:"windows_update_dns", title:"Windows Update / Services DNS", risk:"Certains services réinitialisent DNS après MAJ.", smart:"Claude AI : Je surveille les changements DNS après update/redémarrage.", vpn:"VPN World : Re-test après MAJ Windows.", hint:"Après update: vérifier DNS, IPv6, kill switch. Re-test DNS étendu.", code:"Re-test post-update" },
+        { id:"entropy_check", title:"Contrôle d'entropie (détection)", risk:"Patterns DNS anormaux peuvent être flaggés.", smart:"Claude AI : Je détecte des patterns inhabituels et propose corrections.", vpn:"VPN World : Objectif = cohérence + stabilité.", hint:"Ne cherchez pas l'obfuscation à tout prix. Visez la cohérence VPN/DNS.", code:"Audit trafic (concept)" },
+        { id:"zero_day_block", title:"Blocage «Zero-Day» (concept)", risk:"Nouvelles méthodes de fuite/track non documentées.", smart:"Claude AI : Je compare vos signaux à des patterns à risque.", vpn:"VPN World : Protégez-vous avec une hygiène + re-tests.", hint:"Pratique: mettez à jour navigateur/VPN/OS et re-testez régulièrement.", code:"MAJ + re-tests" },
+        { id:"netbios_off", title:"Désactiver NetBIOS", risk:"Ancien protocole bavard pouvant révéler la topologie réseau.", smart:"Claude AI : NetBIOS fuit des informations sur le LAN même en VPN.", vpn:"VPN World : Désactivez NetBIOS sur TCP/IP dans les paramètres IPv4.", hint:"Panneau de configuration → Centre réseau → Propriétés IPv4 → Avancé → WINS → désactiver NetBIOS.", code:"WMI: SetTcpipNetbios 2" },
+        { id:"final_seal", title:"Sceau Final VPN World", risk:"Oublier une couche = fuite possible.", smart:"Claude AI : Checklist validée. Les couches critiques sont couvertes.", vpn:"VPN World : Vous avez un setup propre. Re-test après chaque changement réseau.", hint:"Votre vraie «sécurité» = discipline: re-test Wi-Fi ⇄ 4G, après MAJ, après changement VPN.", code:"STATUS: SECURED_2026" }
       ];
 
-      let currentPage = 0;
-      const cardsPerPage = 4;
-      const grid = document.getElementById("dns-grid-paginated");
-      const prevBtn = document.getElementById("prev-page");
-      const nextBtn = document.getElementById("next-page");
-      const pageInfo = document.getElementById("page-info");
+      var currentPage = 0;
+      var perPage = 4;
+
+      var grid = document.getElementById("fr-dns-grid");
+      var btnPrev = document.getElementById("fr-dns-prev");
+      var btnNext = document.getElementById("fr-dns-next");
+      var pageInfo = document.getElementById("fr-dns-pageinfo");
+      var progBar = document.getElementById("fr-dns-progressbar");
+      var progLabel = document.getElementById("fr-dns-progresslabel");
 
       function escapeHtml(v) {
-        const unsafe = String(v ?? "");
-        return unsafe
+        var s = String(v == null ? "" : v);
+        return s
           .replace(/&/g, "&amp;")
           .replace(/</g, "&lt;")
           .replace(/>/g, "&gt;")
           .replace(/"/g, "&quot;")
-          .replace(/’/g, "&#039;");
+          .replace(/'/g, "&#039;");
+      }
+
+      function loadState() {
+        try {
+          var raw = localStorage.getItem(STORAGE_KEY);
+          var parsed = raw ? JSON.parse(raw) : null;
+          if (parsed && typeof parsed === "object") return parsed;
+        } catch (e) {}
+        return { done: {} };
+      }
+
+      function saveState(st) {
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(st)); } catch (e) {}
+      }
+
+      var state = loadState();
+
+      function isDone(cardId) {
+        return !!state.done[cardId];
+      }
+
+      function setDone(cardId, val) {
+        state.done[cardId] = !!val;
+        saveState(state);
+        updateProgress();
+      }
+
+      function updateProgress() {
+        var total = cards.length;
+        var doneCount = 0;
+        for (var i = 0; i < cards.length; i++) {
+          if (isDone(cards[i].id)) doneCount++;
+        }
+        var pct = total ? Math.round((doneCount / total) * 100) : 0;
+        if (progBar) progBar.style.width = pct + "%";
+        if (progLabel) progLabel.textContent = pct + "% \u2014 " + doneCount + "/" + total;
       }
 
       function render() {
         if (!grid) return;
         grid.innerHTML = "";
 
-        const start = currentPage * cardsPerPage;
-        const end = start + cardsPerPage;
-        const currentCards = cards.slice(start, end);
+        var start = currentPage * perPage;
+        var end = start + perPage;
+        var slice = cards.slice(start, end);
 
-        currentCards.forEach((card) => {
-          const div = document.createElement("div");
-          div.className = "dns-card";
-          div.innerHTML = `
-            <h3>${escapeHtml(card.title)}</h3>
-            <p><strong>Risque :</strong> ${escapeHtml(card.risk)}</p>
-            <p class="expert-opinion"><em>${escapeHtml(card.smart)}</em></p>
-            <p class="vpn-opinion"><strong>VPN World :</strong> ${escapeHtml(card.vpn)}</p>
-            <pre><code>${escapeHtml(card.code)}</code></pre>
-          `;
-          grid.appendChild(div);
-        });
+        for (var i = 0; i < slice.length; i++) {
+          (function(card) {
+            var done = isDone(card.id);
+            var wrap = document.createElement("div");
+            wrap.className = "dns-card" + (done ? " is-done" : "");
 
-        const totalPages = Math.ceil(cards.length / cardsPerPage);
-        if (pageInfo) pageInfo.textContent = `Page ${currentPage + 1} / ${totalPages}`;
+            wrap.innerHTML =
+              '<div class="dns-card__top" role="button" tabindex="0" aria-pressed="' + (done ? "true" : "false") + '">' +
+                '<input class="dns-card__check" type="checkbox" ' + (done ? "checked" : "") + ' aria-label="Marquer comme appliqu\u00e9">' +
+                '<div class="dns-card__titlewrap">' +
+                  '<h3 class="dns-card__title">' + escapeHtml(card.title) + '</h3>' +
+                  '<div class="dns-card__status">\u2705 Appliqu\u00e9</div>' +
+                '</div>' +
+              '</div>' +
+              '<p><strong>Risque :</strong> ' + escapeHtml(card.risk) + '</p>' +
+              '<p class="expert-opinion"><em>' + escapeHtml(card.smart) + '</em></p>' +
+              '<p class="vpn-opinion"><strong>VPN World :</strong> ' + escapeHtml(card.vpn) + '</p>' +
+              '<div class="dns-hint">' +
+                '<button class="dns-hint__btn" type="button" aria-expanded="false">' +
+                  '<span>Voir l\'explication</span>' +
+                  '<span aria-hidden="true">\u25be</span>' +
+                '</button>' +
+                '<div class="dns-hint__content">' + escapeHtml(card.hint) + '</div>' +
+              '</div>' +
+              '<pre><code>' + escapeHtml(card.code) + '</code></pre>';
 
-        if (prevBtn) prevBtn.disabled = currentPage === 0;
-        if (nextBtn) nextBtn.disabled = end >= cards.length;
+            var top = wrap.querySelector(".dns-card__top");
+            var checkbox = wrap.querySelector(".dns-card__check");
+            var hint = wrap.querySelector(".dns-hint");
+            var hintBtn = wrap.querySelector(".dns-hint__btn");
+
+            function applyDone(val) {
+              setDone(card.id, val);
+              wrap.classList.toggle("is-done", val);
+              if (top) top.setAttribute("aria-pressed", val ? "true" : "false");
+            }
+
+            if (checkbox) {
+              checkbox.addEventListener("click", function(e) {
+                e.stopPropagation();
+                applyDone(!!checkbox.checked);
+              });
+            }
+
+            if (top) {
+              top.addEventListener("click", function() {
+                var nextVal = !isDone(card.id);
+                if (checkbox) checkbox.checked = nextVal;
+                applyDone(nextVal);
+              });
+              top.addEventListener("keydown", function(e) {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  top.click();
+                }
+              });
+            }
+
+            if (hintBtn && hint) {
+              hintBtn.addEventListener("click", function() {
+                var open = hint.classList.toggle("is-open");
+                hintBtn.setAttribute("aria-expanded", open ? "true" : "false");
+              });
+            }
+
+            grid.appendChild(wrap);
+          })(slice[i]);
+        }
+
+        var totalPages = Math.ceil(cards.length / perPage);
+        if (pageInfo) pageInfo.textContent = "Page " + (currentPage + 1) + " / " + totalPages;
+        if (btnPrev) btnPrev.disabled = currentPage === 0;
+        if (btnNext) btnNext.disabled = (currentPage + 1) * perPage >= cards.length;
+        updateProgress();
       }
 
-      if (prevBtn) {
-        prevBtn.addEventListener("click", () => {
+      if (btnPrev) {
+        btnPrev.addEventListener("click", function() {
           if (currentPage > 0) {
             currentPage--;
             render();
-            const root = document.getElementById("control-center");
+            var root = document.getElementById("control-center");
             if (root) root.scrollIntoView({ behavior: "smooth" });
           }
         });
       }
 
-      if (nextBtn) {
-        nextBtn.addEventListener("click", () => {
-          if ((currentPage + 1) * cardsPerPage < cards.length) {
+      if (btnNext) {
+        btnNext.addEventListener("click", function() {
+          if ((currentPage + 1) * perPage < cards.length) {
             currentPage++;
             render();
-            const root = document.getElementById("control-center");
+            var root = document.getElementById("control-center");
             if (root) root.scrollIntoView({ behavior: "smooth" });
           }
         });
@@ -473,7 +633,7 @@
               <span class="hero-author-name">
                 <a href="/fr/about-denys-shchur.html" style="text-decoration:none;">Denys Shchur</a>
               </span>
-              <span class="meta">Mis à jour : 2026-01-06 · 12–18 min de lecture</span>
+              <span class="meta">Mis à jour : 2026-02-22 · 12–18 min de lecture</span>
             </div>
           </div>
 
