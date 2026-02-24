@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Default Operating Mode
+
+**Analyze and report only.** Do not modify, create, or delete any files unless the user explicitly says "APPLY CHANGES". When asked to fix, improve, or update something, describe what you would do and wait for the instruction to apply it.
+
 ## Project Overview
 
 VPN World is a multilingual VPN affiliate content site — 411 pre-generated static HTML files, deployed to GitHub Pages at `dloran1.github.io`. There is no build step, no framework, and no package manager.
