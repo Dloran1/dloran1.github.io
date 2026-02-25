@@ -1,897 +1,301 @@
-# VPNW Stage 2.5 Standard Reference
+# VPNW Stage 2.5 Standard Reference (Constitution)
 
-> Canonical reference file for VPN World HTML article production.
-> Compare every article output against this checklist before finalising.
-
----
-
-## HARD RULES (non-negotiable)
-
-- **NEVER** modify the `<!-- HREFLANG (7× + x-default) -->` block or the visible `<nav class="lang-switch">` element.
-- **NEVER** invent paths, slugs, image names, or URLs. Scan the repo and cite existing files only.
-- The visual baseline is `/nl-be/blog/vpn-voor-smart-tv.html` ("dark shell + white article card" layout).
-- Cookie consent: single layer — `<div id="cookie-consent-layer">` + `<div id="cookie-banner">` with locale-correct text. No duplicate banners.
-- GA4 ID is **G-EMR8C4TLVM**, loaded only via `/assets/js/cookie-consent.js` (never inline). Page-view fires only after Accept (Consent Mode v2 default-denied).
+> **This file is the single source of truth** for how VPN World articles are built, edited, and QA’d.
+> Every change must be checked against this standard **before** delivering a final HTML file.
 
 ---
 
-## KNOWN PATHS (repo-confirmed)
+## 0) What this standard is for
 
-| Item | Path |
-|------|------|
-| Stylesheet | `../../assets/css/style.css` (from `/locale/blog/`) |
-| Cookie consent JS | `/assets/js/cookie-consent.js` |
-| Main JS | `../../assets/js/main.js` |
-| Author image | `../../assets/img/author/denys-shchur.webp` |
-| Hero images | `../../assets/img/hero/<slug>-uk.webp` (all use -uk suffix) |
-| FR author page | `/fr/about-denys-shchur.html` |
-| FR privacy | `/fr/privacy.html` |
-| FR disclosure | `/fr/disclosure.html` |
-| Root about | `/about-denys-shchur.html` |
-| Contact email | `mailto:u1797008805@gmail.com` |
-| GA4 ID | `G-EMR8C4TLVM` |
-| Affiliate NordVPN | `https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584` |
-| Affiliate Surfshark | `https://www.tkqlhce.com/click-101525886-17061430` |
-| Affiliate Proton VPN | `https://www.dpbolvw.net/click-101525886-15834536` |
-| YouTube video (nocookie) | `https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&modestbranding=1` |
-| YouTube fallback link | `https://www.youtube.com/watch?v=rzcAKFaZvhE` |
+VPN World is a 7‑locale GitHub Pages project. For every topic/slug we usually ship **7 localized pages**:
+
+- **pl** (root): `/blog/<slug>.html`
+- **en-gb**: `/en-gb/blog/<slug>.html`
+- **en-us**: `/en-us/blog/<slug>.html`
+- **de**: `/de/blog/<slug>.html`
+- **es**: `/es/blog/<slug>.html`
+- **fr**: `/fr/blog/<slug>.html`
+- **nl-be**: `/nl-be/blog/<slug>.html`
+
+**Hard rule:** if you don’t know a path **exactly**, you must **scan the repo** and confirm the real file before proceeding.
+No “best guess” URLs. No invented slugs. No fake paths.
 
 ---
 
-## PAGE SKELETON ORDER (strict)
+## 1) HARD RULES (non‑negotiable)
 
-```html
-<!DOCTYPE html>
-<html lang="{locale}">
-<head>
-  <!-- 1. charset + viewport + robots -->
-  <!-- 2. title + description (locale) -->
-  <!-- 3. canonical (locale) -->
-  <!-- 4. HREFLANG (7× + x-default) — DO NOT EDIT -->
-  <!-- 5. style.css link (correct relative depth) -->
-  <!-- 6. preconnect / dns-prefetch (GTM + GA) -->
-  <!-- 7. OG + Twitter (locale; hero image: existing -uk.webp filename) -->
-  <!--    include article:published_time + article:modified_time -->
-  <!-- 8. JSON-LD: Article + FAQPage + BreadcrumbList + ItemList(Related) -->
-  <!-- 9. GA4 comment: "GA4 + Consent Mode v2 (DEFAULT DENIED)" -->
-  <!-- 10. Page-only inline <style> (table/SVG high-contrast + related-card) -->
-  <!-- 11. cookie-consent.js defer -->
-</head>
-<body>
-  <!-- 12. site-header: brand + primary-nav ("Blog") -->
-  <!-- 13. lang-switch nav — DO NOT EDIT -->
-  <!-- HERO SECTION (strict order inside hero-copy): -->
-  <!--   a. H1 -->
-  <!--   b. Quick Answer block (.note or .key-takeaway) -->
-  <!--   c. Short intro paragraph (2–4 lines) -->
-  <!--   d. hero-author (image + name link + meta date/reading time) -->
-  <!--   e. Early CTA block (div.cta-buttons with nordvpn/surfshark/proton) -->
-  <!--   f. Widget container (if applicable) — AFTER CTA, never inside H tags -->
-  <!--   g. meta-points ul (optional highlight list) -->
-  <!-- hero-media: hero image -->
-  <!-- TOC (.note block with ul links) -->
-  <!-- ARTICLE CONTENT (min 1200 words): -->
-  <!--   - H2 sections, each with Key takeaway immediately after H2 -->
-  <!--   - 1–3 tables (each in .table-scroll, with <caption>) -->
-  <!--   - 4–5 SVG diagrams (each in .svg-card > .svg-scroll, white bg) -->
-  <!--   - ≥1 .related-card inside content (not just footer) -->
-  <!-- VIDEO BLOCK (youtube-nocookie + fallback link) -->
-  <!-- FAQ SECTION (visible DL/DD + JSON-LD FAQPage already in head) -->
-  <!-- CONCLUSION -->
-  <!-- LATE CTA BLOCK (same structure as early CTA, div.cta-buttons) -->
-  <!-- RELATED SECTION (≥4 .related-card items, confirmed slugs only) -->
-  <!-- AUTHOR BOX (div.author-box, image + bio + locale author page link) -->
-  <!-- FOOTER (footer.site-footer > div.container.footer-grid > div + nav) -->
-  <!-- main.js script -->
-  <!-- Cookie consent HTML (cookie-consent-layer + cookie-banner, locale text) -->
-</body>
-</html>
-```
+### 1.1 Do not touch hreflang & language switcher
+- **NEVER** modify, regenerate, reorder, or “improve”:
+  - `<!-- HREFLANG (7× + x-default) -->` block
+  - the visible language switcher `<nav class="lang-switch">…</nav>`
+- These blocks must remain **byte‑identical** unless Denys explicitly tells you to change them.
+- `x-default` always points to **en-gb**.
 
----
+### 1.2 No hallucinations / no AI voice / no “AI meta”
+- **No writing “as an AI”**. No “this article was generated”. No “I’m ChatGPT”.
+- Content voice is always written as **VPN World** and/or **Denys Shchur** (author),
+  unless a specific task says otherwise (e.g., SmartAdvisorOnline editorial voice).
+- **No filler** or “AI mush”. Be specific, practical, and human.
 
-## SNIPPET RULE (iron law)
+### 1.3 Locale purity
+- One page = one language. **No mixing languages**.
+- Not a machine translation. Every locale must read like a native, current (2026) article.
 
-- **Under H1**: visible Quick Answer block — concrete: what to do, what to expect, what to check.
-- **Under every H2**: visible "Key takeaway" snippet — 1–2 actionable sentences.
-- Use `.note` class or inline styled block. No hidden/collapsed snippets.
-- Locale language only (no mixed languages).
+### 1.4 Repo truth only
+- **NEVER** invent:
+  - internal links
+  - file paths
+  - hero image names
+  - policy URLs
+  - author page URLs
+  - JS/CSS file locations
+- If uncertain: **scan again** (search file tree, grep, open real files) and proceed only when confirmed.
 
----
+### 1.5 Visual baseline (do not reinvent)
+- Use the existing canonical visual standard from:
+  - `/nl-be/blog/vpn-voor-smart-tv.html`
+- Use the repo’s `/assets/css/style.css`. Avoid new custom styling unless fixing a real bug.
 
-## CTA RULES
+### 1.6 Cookie + GA (Consent Mode v2)
+- Cookie consent is one canonical layer:
+  - `<div id="cookie-consent-layer">` + `<div id="cookie-banner">`
+  - Buttons `#cookie-accept` / `#cookie-reject`
+  - Calls `acceptConsent()` / `rejectConsent()` only
+  - Locale‑correct text and localized policy links
+- GA4 measurement ID: **G-EMR8C4TLVM**
+- GA page_view fires only after Accept (default denied).
+- Never add legacy banners or duplicate consent UI.
 
-- Exactly **2 CTA blocks** per article: one early (after intro/author in hero), one late (end of article, before related section).
-- Both must use exactly:
-  ```html
-  <div class="cta-buttons" aria-label="Offres partenaires">
-    <a href="https://go.nordvpn.net/..." class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">...</a>
-    <a href="https://www.tkqlhce.com/..." class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">...</a>
-    <a href="https://www.dpbolvw.net/..." class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer">...</a>
-  </div>
-  ```
-- Wrap late CTA in `div.cta-box` with `h2` and `p.cta-note` for context.
+### 1.7 CTA blocks (exact structure)
+- Every article must contain **exactly two** CTA blocks:
+  - one early (after intro or early section)
+  - one late (near the end, before conclusion/FAQ end)
+- Structure must match `vpn-netflix.html` pattern:
+  - wrapper: `<div class="cta-buttons">`
+  - anchors: `<a class="nordvpn">`, `<a class="surfshark">`, `<a class="proton">`
+- All affiliate links: `rel="nofollow sponsored noopener noreferrer" target="_blank"`
+- Proton VPN is a **required 3rd partner**.
+
+### 1.8 YouTube embed (nocookie + fallback)
+- Embed the official author video:
+  - `https://www.youtube.com/watch?v=rzcAKFaZvhE`
+- Use `youtube-nocookie.com` iframe + a visible fallback link.
+
+### 1.9 Links limits
+- In the **main article text**: max **15 contextual internal links**.
+- Do not count links in: language switcher, CTA, related block, footer, policies.
+
+### 1.10 Accessibility / validity / contrast
+- Never nest `<p>` inside headings (`<h1>…</h1>` etc.).
+- Hero `alt` must be locale language and topical.
+- Diagrams + tables must be readable on dark shell:
+  - tables in `.table-scroll`, white background, black text, strong borders
+  - SVG in `.svg-card > .svg-scroll`, forced black text (`font-weight:800`)
+- Avoid low contrast grays.
 
 ---
 
-## WIDGET RULES (DNS Control Center)
+## 2) Projects context (VPN World + SmartAdvisorOnline)
 
-- Container IDs must be prefixed `{locale}-dns-*` (e.g. `fr-dns-grid`, `fr-dns-prev`, `fr-dns-next`, `fr-dns-pageinfo`, `fr-dns-progressbar`, `fr-dns-progresslabel`).
-- Progress bar required at top of widget.
-- **Per-card progress badge** (`div.dns-card-progress-badge`) must be injected inside every card and updated live by `updateProgress()`.
-- localStorage key: `vpnworld_{locale}_dns_widget_v1` (e.g. `vpnworld_fr_dns_widget_v1`).
-- Whole-card clickable (except summary, .dns-hint, a, pre, code, checkbox, text-selection).
-- Keyboard a11y: Enter/Space on top bar toggles done state.
-- No external libraries. No console errors.
-- Hints use `<details class="dns-hint"><summary>…</summary><div class="dns-hint-body">…</div></details>`.
+We operate two connected projects:
 
----
+### VPN World (this repo)
+- Multi‑locale static GitHub Pages site.
+- Focus: practical VPN use, privacy, checklists, comparisons, leak tests, troubleshooting.
 
-## DIAGRAMS / SVG RULES
-
-Minimum **4 SVGs** per article (target 4–5). Each must:
-- Be wrapped: `<div class="svg-card" aria-label="…"><div class="svg-scroll"><svg …></svg></div></div>`
-- Have an explicit white background rect: `<rect x="0" y="0" width="W" height="H" fill="#ffffff"/>`
-- Have readable text: all `<text>` elements use `fill="#000"` (or override via CSS)
-- Use `stroke="#000"` with `stroke-width="3"` or `4` for all lines/borders
-- Use soft colour fills for boxes (e.g. `#eaf2ff`, `#eafff1`, `#fff6cc`, `#ffecec`) — NEVER dark fill with white text
-- `role="img" aria-label="…"` on the `<svg>` element
-
-CSS pattern (inline in page `<style>`):
-```css
-.svg-card{margin:18px 0;border-radius:14px;background:#fff;border:1px solid #e5e7eb;box-shadow:0 8px 20px rgba(0,0,0,.12)}
-.svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:12px}
-.svg-scroll svg{display:block;max-width:100%;height:auto;color:#000}
-.svg-scroll svg text{fill:#000 !important;font-weight:800}
-```
+### SmartAdvisorOnline (separate site)
+- Domain: `smartadvisoronline.com`
+- Has tools (e.g. leak test): `https://smartadvisoronline.com/tools/leak-test.html`
+- Sometimes we cross‑link between projects **only if the task/TZ explicitly allows it**.
+  Never add cross‑site links by default.
 
 ---
 
-## TABLE RULES
+## 3) Known paths (repo‑confirmed baseline)
 
-Minimum **1 table** per article (target 1–3). Each must:
-- Be wrapped: `<div class="table-scroll" aria-label="…"><table>…</table></div>`
-- Include `<caption>` (required for a11y + SEO)
-- Be forced readable on dark theme with page-level inline CSS:
-  ```css
-  .table-scroll, .table-scroll *{color:#000 !important}
-  .table-scroll table{width:100%;border-collapse:collapse;background:#fff !important}
-  .table-scroll th,.table-scroll td{border:2px solid #000 !important;padding:10px 12px;vertical-align:top;background:#fff !important}
-  .table-scroll thead th{background:#eaf2ff !important}
-  .table-scroll tbody tr:nth-child(even) td{background:#f7fbff !important}
-  .table-scroll a{color:#0b4fd6 !important;text-decoration:underline}
-  ```
+> If any of these are missing in the current repo, re‑scan and update this section.
 
----
-
-## INTERNAL LINKING
-
-- Max **15 contextual internal links** in article body (not counting footer, related, CTA, lang-switcher).
-- Related block: **4–7 items**, confirmed slugs only (scan `/fr/blog/` to verify before adding).
-- In-content `.related-card` blocks: at least 1 in the body content (in addition to footer related section).
+- PL articles live in: `/blog/*.html`
+- Other locales live in: `/<locale>/blog/*.html`
+- Author pages:
+  - `/about-denys-shchur.html`
+  - `/<locale>/about-denys-shchur.html`
+- Policy pages:
+  - `/privacy.html` and `/<locale>/privacy.html`
+  - `/disclosure.html` and `/<locale>/disclosure.html`
+- Assets (shared):
+  - `/assets/css/style.css`
+  - `/assets/js/main.js`
+  - `/assets/js/cookie-consent.js`
+  - `/assets/img/author/denys-shchur.webp`
+  - `/assets/img/hero/*-uk.webp` (same filename used across locales)
 
 ---
 
-## RELATED CARD STYLE (dark, green accent — project standard)
+## 4) Article structure (must be consistent)
 
-```css
-.related-card{
-  margin:18px 0;
-  background:#071023;
-  border:1px solid #1b2432;
-  border-radius:14px;
-  padding:14px 16px;
-  position:relative;
-  box-shadow:0 10px 22px rgba(0,0,0,.18);
-}
-.related-card:before{
-  content:"";
-  position:absolute;
-  left:10px;top:12px;bottom:12px;
-  width:4px;border-radius:4px;
-  background:#22c55e;
-}
-.related-card p{margin:0;color:#eaeaea}
-.related-card a{color:#eaeaea;text-decoration:underline}
-.related-card strong{color:#eaeaea}
-```
+Below is the **canonical page layout order**. Do not reorder unless Denys says so.
 
----
+### 4.1 Head (SEO & metadata)
+- `<title>` and `<meta name="description">` are locale‑specific, 2026‑current, and human.
+- `canonical` points to self.
+- OG/Twitter tags with correct hero and locale/alternates.
+- JSON‑LD blocks (required):
+  - Article
+  - FAQPage
+  - BreadcrumbList
+  - ItemList (Related)
 
-## FOOTER PATTERN (match baseline)
+### 4.2 Body (top → bottom)
 
-```html
-<footer class="site-footer">
-  <div class="container footer-grid">
-    <div>
-      <strong>VPN World</strong>
-      <p>Service indépendant sur la confidentialité et la sécurité en ligne.</p>
-    </div>
-    <nav aria-label="Liens pied de page">
-      <a href="/fr/privacy.html">Confidentialité</a>
-      <a href="/fr/disclosure.html">Divulgation</a>
-      <a href="mailto:u1797008805@gmail.com">Contact</a>
-    </nav>
-  </div>
-  <div class="container tiny">© 2026 VPN World</div>
-</footer>
-```
+1) **Header / Top nav**
+- Includes brand + **Blog** link in top navigation.
 
----
+2) **Hero section**
+- Hero image: `/assets/img/hero/<topic>-uk.webp` (confirmed in repo)
+- H1 title
 
-## VIDEO BLOCK RULE
+3) **Under H1: REQUIRED SNIPPET**
+- Immediately under H1, include a visible snippet block (Quick Answer / TL;DR).
+- Must be short, punchy, locale‑native, not “AI”.
 
-```html
-<section class="section section-alt">
-  <div class="container">
-    <h2>…title…</h2>
-    <p class="note"><strong>Key takeaway :</strong> …</p>
-    <div class="video-wrap">
-      <iframe
-        src="https://www.youtube-nocookie.com/embed/rzcAKFaZvhE?rel=0&modestbranding=1"
-        title="VPN World — vidéo"
-        loading="lazy"
-        frameborder="0"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen></iframe>
-    </div>
-    <p>Si le lecteur ne se charge pas, regardez sur YouTube :
-      <a href="https://www.youtube.com/watch?v=rzcAKFaZvhE" target="_blank" rel="nofollow noopener noreferrer">https://www.youtube.com/watch?v=rzcAKFaZvhE</a>.
-    </p>
-  </div>
-</section>
-```
+4) **Intro (human but expert)**
+- 2–4 short paragraphs, includes 1–2 “human” phrases.
+- Set expectation: what user will learn, who this is for.
 
----
+5) **Early CTA block**
+- `<div class="cta-buttons">` with Nord/Surf/Proton.
 
-## COOKIE CONSENT HTML (canonical, end of body)
+6) **TOC (if present in template)**
+- Keep the existing TOC pattern from the baseline file for that locale.
 
-```html
-<!-- Cookie Consent (canonical) -->
-<div id="cookie-consent-layer" class="cookie-layer" aria-hidden="true"></div>
-<div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
-  <div class="cookie-banner__inner">
-    <div class="cookie-banner__text">
-      <span class="cookie-banner__msg"><!-- locale message here --></span>
-      <a class="cookie-banner__link" href="/fr/privacy.html" rel="nofollow">Confidentialité</a>
-    </div>
-    <div class="cookie-banner__actions">
-      <button id="cookie-accept" type="button">Accepter</button>
-      <button id="cookie-reject" type="button">Refuser</button>
-    </div>
-  </div>
-</div>
-<!-- /Cookie Consent (canonical) -->
-```
+7) **Core sections (H2 clusters)**
+- Each important H2 should include:
+  - a **Key takeaway** mini‑line under the heading or early in the section
+  - practical steps, pitfalls, and local realities
+- Required content patterns (when relevant):
+  - “When it makes sense”
+  - “Limitations / when it won’t help”
+  - leak test guidance (DNS/IPv6/WebRTC) if topic touches privacy
+  - troubleshooting checklist if topic touches setup/streaming/work
 
-French strings (from cookie-consent.js):
-- msg: `Nous utilisons des cookies pour mesurer le trafic (GA4) et améliorer le site.`
-- accept: `Accepter` | reject: `Refuser` | privacy link text: `Confidentialité`
+8) **Widgets placement (only when the page has a widget)**
+- The widget must have a real container ID in HTML that matches JS.
+- Place widgets after 2–3 sections (after user understands the context), unless TZ says otherwise.
+
+9) **Tables (1–3 per article)**
+- Always wrap in `.table-scroll`
+- Always use `<caption>` (not loose text above)
+- Force white bg + black text + strong borders
+
+10) **SVG diagrams (4–5 per article, diverse)**
+- Always wrap in:
+  - `.svg-card` + `.svg-scroll` (overflow-x)
+- SVG rules:
+  - `viewBox`
+  - `svg{color:#000}`
+  - `svg text{fill:#000 !important;font-weight:800}`
+  - strokes `#000` and 3–4px
+
+11) **Progress duplication inside cards (for checklist widgets)**
+- If the widget shows a global progress bar at top, also add a compact per‑card progress:
+  - a tiny bar or badge inside each card
+  - immediate feedback text under the action area
+- Must be readable on dark theme (no white-on-white or black-on-black).
+
+12) **Related block (end of article)**
+- Use the wide dark full‑width “Related:” card with green left accent (per baseline).
+- Related URLs must exist in the same locale. Never link to 404.
+- Typical target: 4–7 related items (or per matrix/TZ).
+
+13) **FAQ (visible + JSON‑LD)**
+- 6–10 questions that match user intent and locale reality.
+- No fluff.
+
+14) **Author box**
+- Denys Shchur author box with working author page link (locale‑correct).
+- Use the repo’s author image path.
+
+15) **Footer**
+- Must contain localized links to:
+  - Privacy
+  - Disclosure
+  - Contact (if present in repo)
+- No broken paths.
 
 ---
 
-## CHECKLIST (before finalising any article)
+## 5) Writing style (quality rules)
 
-- [ ] hreflang + lang-switch byte-identical to original
-- [ ] canonical correct for locale
-- [ ] OG hero image exists in /assets/img/hero/
-- [ ] article:published_time + article:modified_time present in OG
-- [ ] JSON-LD: Article + FAQPage + BreadcrumbList + ItemList present
-- [ ] dateModified matches "Mis à jour" hero meta line
-- [ ] cookie-consent.js loaded (defer), correct locale strings in cookie banner
-- [ ] 2 CTA blocks (early + late), both with nordvpn/surfshark/proton classes
-- [ ] ≥4 SVG diagrams (white bg, readable, .svg-card wrapper)
-- [ ] ≥1 table (.table-scroll with caption)
-- [ ] Key takeaway after every H2
-- [ ] Quick Answer visible under H1
-- [ ] Author box at bottom with correct locale author page link
-- [ ] Footer uses footer-grid pattern with locale privacy/disclosure/contact
-- [ ] All internal links point to confirmed existing files
-- [ ] Related section: 4–7 items, confirmed slugs
-- [ ] No "Analyse :" / "Claude AI" / test strings in widget
-- [ ] localStorage key: vpnworld_{locale}_dns_widget_v1
-- [ ] All widget IDs prefixed {locale}-dns-*
+### Human + expert tone
+- Short sentences mixed with occasional longer explanation.
+- Add 2–3 natural human phrases per article (not cringe, not overdone).
+- Explain “why” and “when it fails”, not just “do X”.
 
-# ADDENDUM — CONTENT CONSTITUTION (MUST FOLLOW) ✅
-**Status:** LAW / Constitution / Checklist  
-**Applies to:** VPN World (Stage 2.5+) and (when explicitly requested) SmartAdvisorOnline pages  
-**Priority:** This section overrides any generic model behavior.
+### Region adaptation (per locale)
+Each locale must include:
+- local ISPs/providers where relevant
+- local streaming services/platform quirks where relevant
+- local legal/regulatory context when relevant (GDPR/RODO/CNIL etc.)
+- local devices and store ecosystems (Android TV, iOS, Windows, routers)
+
+### Uniqueness
+- Do not reuse paragraphs across locales.
+- No “template translation”. Re‑express the idea natively.
 
 ---
 
-## 1) Voice, Authorship, and “No-AI” Rule (HARD)
-### 1.1. Who is speaking
-All visible text must be written **only** as:
-- **VPN World** editorial voice, or
-- **Denys Shchur** (author voice),  
-unless the **task brief (TZ)** explicitly says: **SmartAdvisorOnline** voice.
+## 6) Internal linking rules (context links)
 
-### 1.2. Forbidden AI artifacts (ZERO tolerance)
-Strictly prohibited in user-facing text:
-- “As an AI…”, “I can’t browse…”, “I’m a model…”
-- “This article was generated…”
-- Any “AI meta” phrases, disclaimers, or self-references
-- Robotic filler, repetitive patterns, “template sounding” paragraphs
-- Hallucinated facts, invented features, invented measurements, invented tools
-
-**Rule:** If you don’t know a fact — **do not fabricate**. Either:
-- omit it, or
-- replace with a safe, verifiable framing (“in many cases…”, “typically…”) without false specifics, or
-- request exact source from the repo/TZ.
-
-### 1.3. Human but expert tone (HARD)
-Tone must be:
-- **human, practical, confident**, but not salesy
-- short human phrases allowed (2–3 per article) like:
-  - “Let’s keep it simple…”
-  - “Here’s what actually matters…”
-  - “If you only do one thing — do this…”
-
-Avoid: corporate tone, generic “guide-like” fluff, or unnatural “SEO packing”.
+- In‑text links: max 15.
+- Prefer linking to:
+  1) prerequisite guides (“what is VPN”, “how to install”, “leak tests”)
+  2) troubleshooting (“VPN not working”, “DNS leak”, “IPv6 leak”)
+  3) adjacent topic comparisons (“proxy vs VPN”, “VPN vs Tor”)
+- Related block: use existing locale pages only. If any target is missing → do not link.
 
 ---
 
-## 2) Localization is NOT Translation (HARD)
-### 2.1. No auto-translation
-Localized pages are **not** direct translations.
-Each locale must be written as **native, region-adapted content**.
+## 7) Workflow & memory refresh
 
-### 2.2. Regional adaptation requirements
-For each locale, include relevant local details where appropriate:
-- **Local ISPs/operators** (examples: PL: Orange/Play/T-Mobile; NL-BE: Proximus/Telenet; FR: Orange/SFR/Free; DE: Telekom/Vodafone/O2; UK: BT/Virgin/Sky; US: Comcast/AT&T/Verizon)
-- **Local streaming/app issues** and common error patterns (only if relevant to topic)
-- **Local privacy/legal framing**: GDPR (EU), UK GDPR, ePrivacy, CNIL (FR), etc.  
-  **Important:** do not give legal advice; keep it factual and cautious.
-- **Local vocabulary and idioms** (native phrasing, not literal English structures)
+### 7.1 Before editing any article
+1) Open the target locale file.
+2) Open the baseline reference file for that locale (or `/nl-be/blog/vpn-voor-smart-tv.html`).
+3) Confirm:
+   - hreflang block untouched
+   - language switcher untouched
+   - cookie banner structure unchanged
+   - policy links exist
 
-### 2.3. Language purity
-The entire article must be **100% in the page locale language**.  
-No mixed languages in meta, UI labels, widgets, headings, buttons, captions, FAQ, or cookie banner.
+### 7.2 If unsure — scan
+If any path or slug is unclear:
+- STOP that part.
+- Scan repo (search tree, grep strings, open files).
+- Proceed only after confirmation by actual repo content.
 
----
-
-## 3) Repo Truth: NO invented paths/URLs/Slugs (HARD)
-### 3.1. Path/slug rule
-You may use internal links, hero images, policy links, author links, and widgets **only** if they exist in the repo.
-
-**If uncertain: STOP and rescan repo.**  
-Never “best guess” a file name, folder, or slug.
-
-### 3.2. Immutable blocks (CRITICAL)
-The following must remain **byte-identical** to the original file:
-- the **hreflang block**
-- the visible **language switcher**
-
-You may read/verify them, but **never edit** unless the user explicitly says so.
+### 7.3 Scheduled refresh
+- Every **2 days** (or when you feel uncertainty about structure), re‑scan the repo:
+  - verify policy pages, author pages, assets, and at least 1 baseline article per locale
+  - update this file only if repo truth changed
 
 ---
 
-## 4) Two connected projects: VPN World + SmartAdvisorOnline
-### 4.1. Project roles
-- **VPN World** = multi-locale knowledge hub + practical guides + on-page tools/widgets.
-- **SmartAdvisorOnline** = advanced data/tools platform (status pages, tools, monitoring, research pages).
+## 8) Output requirements (delivery)
 
-### 4.2. Cross-link rule (ONLY if TZ says so)
-Cross-links between projects are allowed **only when the TZ explicitly requests** interlinking.
-Otherwise, keep projects independent.
-
-When cross-linking is requested:
-- link must be factual and useful (tool, status page, reference method)
-- no forced promos
-- never invent SAO URLs—use only verified ones from repo/TZ
+When delivering a result:
+1) Provide **one complete updated HTML file** (not fragments).
+2) Provide a short **WHAT CHANGED** bullet list.
+3) Include the **final page URL** at the end (absolute).
+4) Explicitly confirm:
+   - hreflang block unchanged (byte‑identical)
+   - language switcher unchanged (byte‑identical)
 
 ---
 
-## 5) Standard Page Structure (HARD TEMPLATE)
-This is the canonical structure for a Stage 2.5 article page.  
-The exact HTML wrappers come from the project template; below is the **content order**.
-
-### 5.1. Above-the-fold (must exist)
-1) **Hero section** (image + title area)
-2) **H1** (single, clean, no nested <p>)
-3) **Meta line** (date published/updated, author link)
-4) **Intro (2–5 short paragraphs)**: what this page solves, who it’s for, what you’ll get
-5) **Quick Answer snippet** (MANDATORY under H1)
-   - short, actionable, ~3–6 bullets or 2 short paragraphs
-   - must answer the query immediately
-
-✅ **Rule:** “Quick Answer” block is mandatory for EVERY article.
-
-### 5.2. Early CTA block (mandatory)
-After intro or after first H2 (as per template):
-- **CTA Buttons block** (NordVPN/Surfshark/Proton) — exact project pattern.
-
-### 5.3. Table of contents (recommended)
-If the template includes TOC, keep it consistent.
-
-### 5.4. Core content sections (H2 clusters)
-Use 6–10 H2 sections typically. Under each important H2:
-- immediately include a **Key Takeaway** line (1–2 sentences).
-- then go deeper with practical steps, pitfalls, checks.
-
-**Required conceptual sections** (adapt names per locale/topic):
-- What it is / How it works (only if relevant)
-- When it makes sense (use cases)
-- Limitations / What it won’t solve
-- Risks & mistakes
-- Step-by-step / checklist / configuration
-- Testing & verification (DNS/IPv6/WebRTC leaks, etc — only if topic needs it)
-- Troubleshooting (realistic failures + fixes)
-- FAQ (visible, not only JSON-LD)
-
-### 5.5. Widgets placement (rule)
-If a page includes a tool/widget:
-- place it **after 2–3 sections** (usually after risks/functionality), not at the very end.
-- provide **1 short paragraph before** the widget (what it does)
-- provide **1 short paragraph after** the widget (how to interpret results)
-
-If the widget is a card-based checker:
-- ensure card UX (readable labels, progress duplication in cards if required by widget spec)
-
-### 5.6. Tables (mandatory)
-- Minimum **1 table**, often 2–3 depending on topic.
-- Every table must be inside `.table-scroll` and must include `<caption>` (or explicit label).
-- Table content must be practical: comparisons, checklists, settings, troubleshooting matrix.
-
-### 5.7. Diagrams / SVG (mandatory)
-- Aim for **4–5 diagrams per article** where meaningful (mix types).
-- Wrap every SVG as `.svg-card > .svg-scroll`.
-- High contrast readability is mandatory (white background, black text, thick strokes).
-- Diagram labels must be localized.
-
-### 5.8. Video block (mandatory)
-- YouTube **nocookie** embed + fallback link
-- placed around mid-article (after 2–3 sections) unless TZ says otherwise
-
-### 5.9. Conclusion / “Final verdict” (mandatory)
-Near the end:
-- summary of best actions (3–7 bullets)
-- what to do next
-- avoid salesy ending; practical tone
-
-### 5.10. Late CTA block (mandatory)
-Close to the end, before related/author:
-- second **CTA Buttons block** (same pattern)
-
-### 5.11. Related block (mandatory)
-- 4–7 related links (only existing slugs)
-- logic: same cluster + next step + supporting base knowledge
-- do not exceed site internal-link limits specified in the standard
-
-### 5.12. Author box (mandatory)
-- must show Denys Shchur (or editorial team if TZ says “играем командой”)
-- author link must be the real author page for this locale (from repo)
-
-### 5.13. Footer policies (mandatory)
-- Privacy / Disclosure / Contact must be locale-correct and repo-verified.
-- Cookie banner strings localized.
-
----
-
-## 6) Content Quality Rules (No fluff)
-### 6.1. Uniqueness & freshness
-- Content must be unique and current for the year in the TZ.
-- No generic “VPN is important” padding.
-- Use specific mechanisms: protocols, leaks, latency, DNS/IPv6, split tunneling, kill switch, obfuscation, etc — but only where relevant.
-
-### 6.2. Proof discipline
-If you state a specific number, provider name, law detail, or app behavior:
-- it must be either general/common knowledge OR explicitly supported by repo/TZ.
-Otherwise, rewrite it to a safe generic statement.
-
-### 6.3. Internal links discipline
-- Inside the main text: keep links **useful**, not spammy.
-- Never link to non-existent pages.
-- Never open internal links in new tabs.
-
----
-
-## 7) Workflow Rule: Every article has its own TZ (HARD)
-For every new slug/page:
-- there will always be a **specific TZ** (brief) describing: topic, target intent, audience, widget needs, link cluster, and locale nuances.
-- This document is the **Constitution**, but the **TZ is the mission** for a конкретная статья.
-
-If TZ conflicts with the Constitution:
-- Constitution wins unless user explicitly overrides a rule.
-
----
-
-## 8) Final delivery checklist (must report)
-When delivering final HTML:
-- Provide “WHAT CHANGED” bullet list
-- Provide final page URL (absolute)
-- Confirm hreflang + language switcher are byte-identical (or stop and recheck)
-- Confirm no invented slugs/paths were used
-# LOCALE PLAYBOOK — REGION-ADAPTIVE WRITING RULES (HARD)
-
-Purpose: ensure every article reads as native, region-aware, and written by a real local expert — not translated.
-
-These rules apply to:
-- vocabulary
-- examples
-- providers mentioned
-- laws referenced
-- troubleshooting context
-
-Never force local references if irrelevant. Use only when context makes sense.
-
----
-
-# 🇵🇱 POLISH (pl)
-Tone: practical, direct, slightly informal but expert.
-
-Preferred vocabulary:
-- VPN: use normally (no need to expand repeatedly)
-- “wyciek DNS”, “ochrona prywatności”, “połączenie VPN”
-- avoid overly formal legal phrasing unless necessary
-
-Local ISP examples:
-- Orange Polska
-- Play
-- T-Mobile Polska
-- Plus
-- UPC Polska
-
-Local law context:
-- GDPR → RODO
-- mention “RODO” when discussing privacy (if relevant)
-
-Realistic local problems:
-- public Wi-Fi in cafes, trains (PKP Intercity Wi-Fi)
-- mobile network switching between LTE/5G/Wi-Fi
-- ISP DNS overrides
-
-Avoid:
-- Germanic sentence structure
-- overly academic phrasing
-
----
-
-# 🇬🇧 ENGLISH (UK) — en-gb
-Tone: calm, expert, understated confidence.
-
-Vocabulary preferences:
-- “privacy”, “connection”, “settings”, “mobile network”
-- spelling: behaviour, colour, centre, optimise
-
-Local ISP examples:
-- BT
-- Virgin Media
-- Sky Broadband
-- TalkTalk
-
-Streaming/platform context:
-- BBC iPlayer
-- Sky Go
-- ITVX
-
-Legal references:
-- UK GDPR
-- Investigatory Powers Act (only if relevant)
-
-Avoid:
-- US-centric phrasing (“cell phone” → use “mobile”)
-- overhyped marketing tone
-
----
-
-# 🇺🇸 ENGLISH (US) — en-us
-Tone: confident, practical, slightly more direct than UK version.
-
-Vocabulary preferences:
-- “internet provider”
-- “connection”
-- “network traffic”
-- spelling: behavior, color, center
-
-Local ISP examples:
-- Comcast Xfinity
-- AT&T
-- Verizon
-- Spectrum
-
-Platform references:
-- Hulu
-- Netflix
-- public Wi-Fi in airports, coffee shops
-
-Avoid:
-- British spellings
-- overly formal legal tone
-
----
-
-# 🇩🇪 GERMAN (de)
-Tone: precise, technical clarity, structured.
-
-Vocabulary preferences:
-- “DNS-Leak”
-- “VPN-Verbindung”
-- “Datenschutz”
-- avoid overly casual slang
-
-Local ISP examples:
-- Deutsche Telekom
-- Vodafone
-- O2
-- 1&1
-
-Legal references:
-- DSGVO (German GDPR)
-- privacy protection importance is culturally high
-
-Typical local issues:
-- strict firewall environments
-- IPv6 enabled by default on many providers
-
-Avoid:
-- literal English translations
-- overly casual conversational tone
-
----
-
-# 🇫🇷 FRENCH (fr)
-Tone: clear, professional, educational.
-
-Vocabulary preferences:
-- “fuite DNS”
-- “connexion VPN”
-- “protection de la vie privée”
-
-Local ISP examples:
-- Orange
-- Free
-- SFR
-- Bouygues Telecom
-
-Legal references:
-- RGPD
-- CNIL (only when relevant)
-
-Typical local issues:
-- ISP DNS interception
-- mobile network switching
-
-Avoid:
-- anglicisms unless necessary
-- overly technical jargon without explanation
-
----
-
-# 🇪🇸 SPANISH (es)
-Tone: clear, helpful, moderately conversational.
-
-Vocabulary preferences:
-- “fuga DNS”
-- “conexión VPN”
-- “proveedor de internet”
-
-Local ISP examples:
-- Movistar
-- Vodafone España
-- Orange España
-
-Typical context:
-- mobile network switching
-- public Wi-Fi risks
-
-Avoid:
-- formal legal over-language
-- literal translation structure
-
----
-
-# 🇳🇱 DUTCH (nl-be)
-Tone: practical, straightforward, highly clear.
-
-Vocabulary preferences:
-- “DNS-lek”
-- “VPN-verbinding”
-- “privacybescherming”
-
-Local ISP examples:
-- Proximus
-- Telenet
-- Orange Belgium
-
-Typical local context:
-- dual-stack IPv4/IPv6 setups
-- ISP DNS preference behavior
-
-Avoid:
-- formal legal language unless needed
-- German-style structure
-
----
-
-# Cross-locale human realism rule (MANDATORY)
-Each article must include:
-- natural human phrasing
-- realistic examples
-- practical troubleshooting scenarios
-- but never fabricated statistics or claims
-
-Allowed:
-“On some networks, especially public Wi-Fi or mobile connections, DNS requests may bypass the VPN.”
-
-Forbidden:
-“Exactly 37% of users experience DNS leaks.” (unless real, verified source exists)
-
----
-
-# Final principle
-Localization = adaptation, not translation.
-
-Every article must feel:
-- native
-- written by a regional expert
-- technically credible
-- human
-# MEMORY REFRESH PROTOCOL — STRUCTURE AWARENESS SYSTEM
-
-Purpose:
-Ensure Claude always works with the current, real project structure and never relies on stale memory.
-
-Claude must treat the filesystem as the only source of truth.
-
----
-
-# RULE 1 — PERIODIC STRUCTURE REFRESH
-
-Claude MUST refresh its understanding of the project structure regularly.
-
-Trigger conditions:
-
-• At least once every 48 hours  
-• At the start of any new article generation  
-• At the start of any modification task  
-• After any git pull, git merge, or project update  
-• If ANY uncertainty exists about structure, paths, or files  
-
-Claude must NEVER rely on old memory when filesystem is available.
-
-Filesystem always overrides memory.
-
----
-
-# RULE 2 — STRUCTURE SCAN PROCESS (MANDATORY WHEN REFRESHING)
-
-Claude must scan these directories:
-
-/blog/
-/en-gb/blog/
-/en-us/blog/
-/de/blog/
-/es/blog/
-/fr/blog/
-/nl-be/blog/
-
-/assets/
-/assets/img/
-/assets/css/
-/assets/js/
-
-/about-denys-shchur.html
-/privacy.html
-/disclosure.html
-
-and localized equivalents.
-
-Claude must build a fresh internal map of:
-
-• available articles
-• slug structure
-• asset paths
-• author pages
-• widget scripts
-• standards files
-
----
-
-# RULE 3 — STANDARD FILE IS PRIMARY AUTHORITY
-
-Claude must always read and respect:
-
-/_standards/VPNW_STAGE25_STANDARD.md
-
-This file is the constitution.
-
-If structure conflicts with memory → follow standard file.
-
----
-
-# RULE 4 — PRE-TASK VALIDATION (MANDATORY)
-
-Before generating or modifying any article, Claude MUST internally verify:
-
-• slug exists
-• correct locale path
-• correct asset paths
-• correct author path
-• correct related articles availability
-• correct widget compatibility
-
-If uncertain → perform structure scan again.
-
-Never guess.
-
----
-
-# RULE 5 — NEVER CACHE STRUCTURE PERMANENTLY
-
-Claude must treat structure memory as temporary.
-
-Structure must be refreshed periodically.
-
-Filesystem is always authoritative.
-
----
-
-# RULE 6 — DOUBT HANDLING PROTOCOL
-
-If Claude is unsure about:
-
-• paths
-• slugs
-• assets
-• linking targets
-• structure rules
-
-Claude MUST:
-
-1. pause assumptions
-2. scan filesystem
-3. rebuild structure awareness
-4. then proceed
-
-Never invent.
-
-Never assume.
-
----
-
-# RULE 7 — ARTICLE GENERATION ALWAYS USES LIVE STRUCTURE
-
-Before generating an article, Claude MUST:
-
-• scan locale directory
-• identify related articles
-• identify available assets
-• identify correct author page
-• identify correct policy pages
-
-Only then generate.
-
----
-
-# RULE 8 — SMARTADVISORONLINE STRUCTURE REFRESH
-
-When SmartAdvisorOnline is involved, Claude must scan:
-
-/tools/
-/data/
-/status/
-/blog/
-
-and verify tool paths.
-
----
-
-# RULE 9 — STRUCTURE REFRESH PRIORITY LEVEL
-
-Structure refresh is HIGH PRIORITY.
-
-Structure correctness overrides speed.
-
-Correct structure is more important than fast output.
-
----
-
-# FINAL PRINCIPLE
-
-Claude must always operate using current filesystem state, not memory assumptions.
-
-Memory is temporary.
-
-Filesystem is truth.
+## 9) Fail‑safe (if you lack info)
+
+If at any point you do not know an exact path/link/slug/filename:
+- STOP
+- scan the repo again
+- never “guess”
+- only proceed when confirmed by real file existence
