@@ -71,3 +71,170 @@ NordVPN and Surfshark CTA links use UTM parameters:
 - `sitemap.xml` contains `<xhtml:link>` alternates for every URL — update it when adding/removing pages.
 - `rss.xml` covers the Polish (root) blog feed — update when adding Polish posts.
 - Language detection in `cookie-consent.js` reads `document.documentElement.lang` to select i18n strings — keep `<html lang="...">` accurate per locale.
+# MEMORY REFRESH PROTOCOL — STRUCTURE AWARENESS SYSTEM
+
+Purpose:
+Ensure Claude always works with the current, real project structure and never relies on stale memory.
+
+Claude must treat the filesystem as the only source of truth.
+
+---
+
+# RULE 1 — PERIODIC STRUCTURE REFRESH
+
+Claude MUST refresh its understanding of the project structure regularly.
+
+Trigger conditions:
+
+• At least once every 48 hours  
+• At the start of any new article generation  
+• At the start of any modification task  
+• After any git pull, git merge, or project update  
+• If ANY uncertainty exists about structure, paths, or files  
+
+Claude must NEVER rely on old memory when filesystem is available.
+
+Filesystem always overrides memory.
+
+---
+
+# RULE 2 — STRUCTURE SCAN PROCESS (MANDATORY WHEN REFRESHING)
+
+Claude must scan these directories:
+
+/blog/
+/en-gb/blog/
+/en-us/blog/
+/de/blog/
+/es/blog/
+/fr/blog/
+/nl-be/blog/
+
+/assets/
+/assets/img/
+/assets/css/
+/assets/js/
+
+/about-denys-shchur.html
+/privacy.html
+/disclosure.html
+
+and localized equivalents.
+
+Claude must build a fresh internal map of:
+
+• available articles
+• slug structure
+• asset paths
+• author pages
+• widget scripts
+• standards files
+
+---
+
+# RULE 3 — STANDARD FILE IS PRIMARY AUTHORITY
+
+Claude must always read and respect:
+
+/_standards/VPNW_STAGE25_STANDARD.md
+
+This file is the constitution.
+
+If structure conflicts with memory → follow standard file.
+
+---
+
+# RULE 4 — PRE-TASK VALIDATION (MANDATORY)
+
+Before generating or modifying any article, Claude MUST internally verify:
+
+• slug exists
+• correct locale path
+• correct asset paths
+• correct author path
+• correct related articles availability
+• correct widget compatibility
+
+If uncertain → perform structure scan again.
+
+Never guess.
+
+---
+
+# RULE 5 — NEVER CACHE STRUCTURE PERMANENTLY
+
+Claude must treat structure memory as temporary.
+
+Structure must be refreshed periodically.
+
+Filesystem is always authoritative.
+
+---
+
+# RULE 6 — DOUBT HANDLING PROTOCOL
+
+If Claude is unsure about:
+
+• paths
+• slugs
+• assets
+• linking targets
+• structure rules
+
+Claude MUST:
+
+1. pause assumptions
+2. scan filesystem
+3. rebuild structure awareness
+4. then proceed
+
+Never invent.
+
+Never assume.
+
+---
+
+# RULE 7 — ARTICLE GENERATION ALWAYS USES LIVE STRUCTURE
+
+Before generating an article, Claude MUST:
+
+• scan locale directory
+• identify related articles
+• identify available assets
+• identify correct author page
+• identify correct policy pages
+
+Only then generate.
+
+---
+
+# RULE 8 — SMARTADVISORONLINE STRUCTURE REFRESH
+
+When SmartAdvisorOnline is involved, Claude must scan:
+
+/tools/
+/data/
+/status/
+/blog/
+
+and verify tool paths.
+
+---
+
+# RULE 9 — STRUCTURE REFRESH PRIORITY LEVEL
+
+Structure refresh is HIGH PRIORITY.
+
+Structure correctness overrides speed.
+
+Correct structure is more important than fast output.
+
+---
+
+# FINAL PRINCIPLE
+
+Claude must always operate using current filesystem state, not memory assumptions.
+
+Memory is temporary.
+
+Filesystem is truth.
