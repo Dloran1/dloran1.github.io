@@ -137,7 +137,7 @@ Never elsewhere.
 
 # INTERNAL LINKING RULE
 
-Max 7 contextual links inside article.
+Max 15 contextual links inside article.
 
 Related section: 4–7 articles.
 
