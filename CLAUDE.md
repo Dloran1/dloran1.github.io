@@ -8,15 +8,16 @@ This repo already contains full standards. You MUST follow them.
 
 PRIMARY STANDARD FILES (READ FIRST):
 
+/standards/CLAUDE_BOOT.md
 /standards/VPNW_STAGE25_STANDARD.md
 /standards/VPNW_LOCALIZATION_STANDARD.md
-/standards/SLUG_INDEX.json
+/standards/SLUG_INDEX_FROM_HREFLANG_FLAT.json
 
 These files are your source of truth.
 
 DO NOT guess structure.
-DO NOT scan entire repo if SLUG_INDEX.json exists.
-
+DO NOT scan entire repo if SLUG index exists.
+DO NOT scan for hreflang or language switcher — they are already present in target pages and MUST NOT be modified.
 ---
 
 ABSOLUTE RULES:
