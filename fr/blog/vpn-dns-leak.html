@@ -45,6 +45,8 @@
   <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="article:published_time" content="2026-01-06">
+  <meta property="article:modified_time" content="2026-02-22">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Fuite DNS avec un VPN : détection et solutions (2026)">
@@ -199,18 +201,6 @@
       <div class="container hero-inner">
         <div class="hero-copy">
           <h1>Fuite DNS avec un VPN : détection et solutions (2026)</h1>
-
-<section class="card">
-<h2>Qu'est-ce qu'une fuite DNS, notamment sur les box Orange, Free, SFR ou Bouygues Telecom et comment la corriger ?</h2>
-<p>Une fuite DNS, notamment sur les box Orange, Free, SFR ou Bouygues Telecom est une faille où vos requêtes sont envoyées à votre fournisseur d'accès comme Orange, Free, SFR ou Bouygues Telecom au lieu du tunnel VPN chiffré. Cela expose votre activité.</p>
-<ul>
-<li>Désactiver l’IPv6 sur votre box internet française</li>
-<li>Bloquer WebRTC dans le navigateur</li>
-<li>Activer un <a href="/fr/blog/vpn-kill-switch.html">Kill Switch VPN</a></li>
-<li>Vider le cache DNS avec ipconfig /flushdns</li>
-</ul>
-</section>
-
 
           <p class="note">
             <strong>Réponse rapide :</strong>
@@ -1285,6 +1275,46 @@
           </table>
         </div>
 
+        <!-- Diagram 4: Couches de protection VPN anti-fuite -->
+        <div class="svg-card" aria-label="Schéma : couches de protection VPN anti-fuite DNS">
+          <div class="svg-scroll">
+            <svg viewBox="0 0 980 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schéma des 4 couches de protection contre les fuites DNS : kill switch, anti-fuite DNS, gestion IPv6, re-tests">
+              <rect x="0" y="0" width="980" height="340" fill="#ffffff"/>
+              <text x="490" y="34" font-size="18" text-anchor="middle" font-weight="800">4 couches de protection contre les fuites</text>
+
+              <defs>
+                <marker id="arr4" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+                  <path d="M0,0 L12,6 L0,12 Z" fill="#000"/>
+                </marker>
+              </defs>
+
+              <!-- Layer 1 -->
+              <rect x="40" y="58" width="880" height="58" rx="14" fill="#eafff1" stroke="#000" stroke-width="4"/>
+              <text x="90" y="83" font-size="15" font-weight="800">Couche 1 — Kill Switch</text>
+              <text x="90" y="103" font-size="13">Bloque tout trafic si le tunnel VPN tombe · évite les expositions lors des bascules réseau</text>
+
+              <!-- Layer 2 -->
+              <rect x="40" y="132" width="880" height="58" rx="14" fill="#eaf2ff" stroke="#000" stroke-width="4"/>
+              <text x="90" y="157" font-size="15" font-weight="800">Couche 2 — Anti-fuite DNS</text>
+              <text x="90" y="177" font-size="13">Force les requêtes DNS dans le tunnel · désactive la résolution multi-interface Windows</text>
+
+              <!-- Layer 3 -->
+              <rect x="40" y="206" width="880" height="58" rx="14" fill="#fff6cc" stroke="#000" stroke-width="4"/>
+              <text x="90" y="231" font-size="15" font-weight="800">Couche 3 — Gestion IPv6</text>
+              <text x="90" y="251" font-size="13">Désactivez IPv6 si le VPN est IPv4-only · ou utilisez un VPN qui gère IPv6 nativement</text>
+
+              <!-- Layer 4 -->
+              <rect x="40" y="280" width="880" height="48" rx="14" fill="#fff0f0" stroke="#000" stroke-width="4"/>
+              <text x="90" y="305" font-size="15" font-weight="800">Couche 4 — Re-tests réguliers</text>
+              <text x="90" y="322" font-size="13">DNS étendu + IPv6 + WebRTC après chaque changement réseau, MAJ système ou serveur VPN</text>
+            </svg>
+          </div>
+        </div>
+
+        <p class="note">
+          <strong>Key takeaway :</strong> ces 4 couches se complètent — aucune ne suffit seule. La combinaison kill switch + DNS correct + IPv6 géré + re-tests est le « pack minimum » fiable.
+        </p>
+
         <h2 id="doh">DoH / DoT et VPN : amis ou ennemis ?</h2>
         <p>
           En 2026, beaucoup d’utilisateurs activent “DNS sécurisé” dans Chrome/Edge ou un mode DoH dans Firefox.
@@ -1469,8 +1499,17 @@
         <div class="related-card">
           <p><strong>Related:</strong> <a href="/fr/blog/securite-wifi.html">Sécurité Wi-Fi</a> — le terrain idéal des fuites (et des mauvaises surprises).</p>
         </div>
-        <div class="related-card">
-          <p><strong>Related:</strong> <a href="/fr/blog/configuration-vpn-routeur.html">Configuration VPN routeur</a> — solution “tout le foyer” si bien configurée.</p>
+        <div class=”related-card”>
+          <p><strong>Related:</strong> <a href=”/fr/blog/configuration-vpn-routeur.html”>Configuration VPN routeur</a> — solution “tout le foyer” si bien configurée.</p>
+        </div>
+        <div class=”related-card”>
+          <p><strong>Related:</strong> <a href=”/fr/blog/vpn-wifi-public.html”>VPN sur Wi-Fi public</a> — les fuites sont encore plus critiques sur les réseaux partagés.</p>
+        </div>
+        <div class=”related-card”>
+          <p><strong>Related:</strong> <a href=”/fr/blog/quest-ce-quun-vpn.html”>Qu'est-ce qu'un VPN ?</a> — comprendre les bases avant de configurer la protection anti-fuite.</p>
+        </div>
+        <div class=”related-card”>
+          <p><strong>Related:</strong> <a href=”/fr/blog/no-logs-vpn.html”>VPN no-logs</a> — politique de journalisation et fuites DNS : deux sujets complémentaires.</p>
         </div>
       </div>
     </section>
@@ -1510,15 +1549,18 @@
   </main>
 
   <footer class="site-footer">
-    <div class="container">
-      <p><strong>VPN World</strong> · Service indépendant sur la confidentialité, la sécurité et l’usage pratique des VPN.</p>
-      <p>
-        <a href="/fr/privacy.html">Confidentialité</a> ·
-        <a href="/fr/disclosure.html">Divulgation</a> ·
+    <div class="container footer-grid">
+      <div>
+        <strong>VPN World</strong>
+        <p>Service indépendant sur la confidentialité et la sécurité en ligne.</p>
+      </div>
+      <nav aria-label="Liens pied de page">
+        <a href="/fr/privacy.html">Confidentialité</a>
+        <a href="/fr/disclosure.html">Divulgation</a>
         <a href="mailto:u1797008805@gmail.com">Contact</a>
-      </p>
-      <p>© 2026 VPN World</p>
+      </nav>
     </div>
+    <div class="container tiny">© 2026 VPN World</div>
   </footer>
 
   <script src="../../assets/js/main.js"></script>
