@@ -476,208 +476,260 @@
           </ul>
         </div>
 
-        <!-- DNS Control Center — NL-BE België v2.5 -->
-        <section id="vpnw-dns-control-be" class="dns-widget-v2">
+        <!-- DNS Audit Center — NL-BE België v2.5 -->
+        <section id="vpnw-dns-audit-be" class="vpnw-dashboard">
   <style>
     :root{
-      --vw-primary:#0b4fd6;
-      --vw-success:#10b981;
-      --vw-dark:#071023;
-      --vw-border:#000;
+      --v-green:#10b981;
+      --v-red:#ef4444;
+      --v-blue:#0b4fd6;
+      --v-black:#0a0a0c;
+      --v-gray:#f3f4f6;
     }
-    .dns-widget-v2{
-      margin:40px 0;
-      padding:24px;
-      background:#fff;
-      border:3px solid var(--vw-border);
-      border-radius:20px;
-      font-family:'Inter',sans-serif;
+    .vpnw-dashboard{
+      margin:50px 0;
+      padding:30px;
+      background:var(--v-gray);
+      border:4px solid var(--v-black);
+      border-radius:24px;
+      font-family:'Inter',system-ui,sans-serif;
+      box-shadow:12px 12px 0 rgba(0,0,0,0.1);
     }
-    .dns-header{
-      border-bottom:3px solid var(--vw-border);
-      padding-bottom:20px;
+    .dash-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
       margin-bottom:25px;
+      border-bottom:4px solid var(--v-black);
+      padding-bottom:20px;
     }
-    .main-gauge-container{
-      background:#eee;
-      height:12px;
-      border-radius:6px;
-      border:2px solid var(--vw-border);
+    .dash-title h2{
+      margin:0;
+      font-size:32px;
+      font-weight:900;
+      letter-spacing:-1px;
+      text-transform:uppercase;
+    }
+    .main-progress-container{
+      width:100%;
+      height:20px;
+      background:#fff;
+      border:3px solid var(--v-black);
+      border-radius:10px;
       margin-top:15px;
       overflow:hidden;
     }
-    #main-gauge-fill{
-      height:100%;
+    #main-bar{
       width:0%;
-      background:var(--vw-success);
-      transition:width .5s ease;
+      height:100%;
+      background:var(--v-green);
+      transition:width .6s cubic-bezier(.17,.67,.83,.67);
     }
-    .dns-grid{
+    .dash-grid{
       display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-      gap:15px;
-      min-height:350px;
+      grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+      gap:20px;
+      min-height:480px;
     }
-    .dns-card{
-      border:3px solid var(--vw-border);
-      border-radius:14px;
-      padding:16px;
+    .dash-card{
       background:#fff;
-      transition:.3s;
-      position:relative;
+      border:3px solid var(--v-black);
+      border-radius:16px;
+      padding:20px;
+      transition:all .3s ease;
       cursor:pointer;
+      position:relative;
+      display:flex;
+      flex-direction:column;
     }
-    .dns-card.validated{
-      background:#f0fdf4;
-      border-color:var(--vw-success);
-      box-shadow:5px 5px 0 var(--vw-border);
+    .dash-card:hover{
+      transform:translate(-4px,-4px);
+      box-shadow:6px 6px 0 var(--v-black);
     }
-    .dns-details{
+    .dash-card.active{
+      border-color:var(--v-green);
+      background:#f0fdfa;
+    }
+    .card-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      margin-bottom:10px;
+    }
+    .card-top h3{
+      margin:0;
+      font-size:16px;
+      font-weight:800;
+      line-height:1.2;
+      padding-right:40px;
+    }
+    .status-badge{
+      font-size:11px;
+      font-weight:900;
+      padding:4px 8px;
+      border-radius:4px;
+      border:2px solid var(--v-black);
+      display:inline-block;
+      margin-top:10px;
+      transition:.3s;
+    }
+    .status-bad{background:var(--v-red);color:#fff;}
+    .dash-card.active .status-bad{display:none;}
+    .status-good{display:none;background:var(--v-green);color:#fff;}
+    .dash-card.active .status-good{display:inline-block;}
+    .card-content{
       max-height:0;
+      opacity:0;
       overflow:hidden;
       transition:all .4s ease;
-      font-size:13px;
-      opacity:0;
+      border-top:0 solid transparent;
     }
-    .dns-card.validated .dns-details{
-      max-height:500px;
+    .dash-card.active .card-content{
+      max-height:600px;
       opacity:1;
-      border-top:1px dashed #bbb;
-      margin-top:12px;
-      padding-top:12px;
+      margin-top:15px;
+      padding-top:15px;
+      border-top:2px dashed var(--v-black);
     }
-    .mini-bar{
-      height:6px;
-      background:#ddd;
-      border-radius:3px;
-      margin:12px 0;
-      border:1px solid var(--vw-border);
+    .expert-note{font-size:13px;margin-bottom:12px;}
+    .expert-note b{
+      color:var(--v-blue);
+      text-transform:uppercase;
+      font-size:11px;
+      display:block;
+      margin-bottom:2px;
     }
-    .mini-bar-fill{
-      height:100%;
-      width:0%;
-      transition:.3s;
+    .code-box{
+      background:var(--v-black);
+      color:#00ff41;
+      padding:12px;
+      border-radius:8px;
+      font-family:'Fira Code',monospace;
+      font-size:12px;
+      display:block;
+      overflow-x:auto;
     }
-    .dns-card.validated .mini-bar-fill{
-      width:100%;
-      background:var(--vw-success);
+    .dash-check{
+      width:30px;
+      height:30px;
+      cursor:pointer;
+      accent-color:var(--v-green);
+    }
+    .dash-nav{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:30px;
+      margin-top:40px;
     }
     .nav-btn{
-      padding:10px 20px;
-      border:3px solid var(--vw-border);
-      border-radius:8px;
-      font-weight:900;
-      cursor:pointer;
       background:#fff;
+      border:3px solid var(--v-black);
+      padding:12px 25px;
+      font-weight:900;
+      border-radius:12px;
+      cursor:pointer;
+      transition:.2s;
+    }
+    .nav-btn:hover:not(:disabled){
+      background:var(--v-black);
+      color:#fff;
     }
     .nav-btn:disabled{
       opacity:.3;
-    }
-    .dns-checkbox{
-      width:28px;
-      height:28px;
-      accent-color:var(--vw-success);
-      position:absolute;
-      right:15px;
-      top:15px;
-      z-index:10;
-    }
-    .expert-label{
-      color:var(--vw-primary);
-      font-weight:800;
-      font-size:10px;
-      text-transform:uppercase;
-      display:block;
-      margin-bottom:5px;
-    }
-    .dns-code{
-      background:#111;
-      color:#39ff14;
-      padding:8px;
-      border-radius:4px;
-      font-family:monospace;
-      font-size:11px;
-      display:block;
-      margin-top:8px;
+      cursor:not-allowed;
     }
   </style>
 
-  <div class="dns-header">
-    <div style="display:flex;justify-content:space-between;align-items:center;">
-      <h2 style="margin:0;font-size:24px;font-weight:900;">DNS CONTROLECENTRUM</h2>
-      <div style="font-size:20px;font-weight:900;" id="perc-val">0%</div>
+  <div class="dash-header">
+    <div class="dash-title">
+      <h2>DNS AUDIT CENTER</h2>
+      <div class="main-progress-container">
+        <div id="main-bar"></div>
+      </div>
     </div>
-    <div class="main-gauge-container">
-      <div id="main-gauge-fill"></div>
+    <div class="dash-stats">
+      <div style="font-size:40px;font-weight:900;" id="main-perc">0%</div>
+      <div style="font-weight:800;font-size:14px;" id="main-status">SYSTEM KWETSBAAR</div>
     </div>
   </div>
 
-  <div id="dns-master-grid" class="dns-grid"></div>
+  <div id="dashboard-grid" class="dash-grid"></div>
 
-  <div style="display:flex;justify-content:center;gap:20px;margin-top:25px;">
-    <button id="prev-btn" class="nav-btn">VORIGE</button>
-    <button id="next-btn" class="nav-btn">VOLGENDE</button>
+  <div class="dash-nav">
+    <button id="p-prev" class="nav-btn">VORIGE</button>
+    <div style="font-weight:800;" id="p-info">PAGINA 1 / 7</div>
+    <button id="p-next" class="nav-btn">VOLGENDE</button>
   </div>
 
   <script>
   (function(){
-    const items=[
-      {id:1,title:"IPv6 Uitschakelen (Telenet)",smart:"Telenet forceert IPv6-verkeer buiten de VPN-tunnel om.",action:"Schakel IPv6 uit in de router-instellingen.",code:"Instellingen -> IPv6 -> OFF"},
-      {id:2,title:"WebRTC Leak Block",smart:"Browsers lekken je lokale IP via STUN-verzoeken.",action:"Gebruik de Brave-browser of een WebRTC blocker.",code:"media.peerconnection.enabled = false"},
-      {id:3,title:"Kill Switch Nivel 2",smart:"DNS-lekken treden op tijdens herverbinden op Proximus.",action:"Gebruik de 'Permanent Kill Switch' optie.",code:"App Settings -> Advanced Kill Switch"},
-      {id:4,title:"Smart Multi-Homed DNS",smart:"Windows vraagt DNS aan alle adapters tegelijkertijd.",action:"Schakel dit uit via de Group Policy Editor.",code:"gpedit.msc -> Turn off smart multi-homed"},
-      {id:5,title:"DNS over HTTPS Sync",smart:"Browsers negeren vaak VPN-DNS door hun eigen DoH.",action:"Synchroniseer browser-DNS met je VPN.",code:"Privacy -> Secure DNS -> Disable"},
-      {id:6,title:"DNS Hijacking (Orange)",smart:"Belgische ISP's onderscheppen poort 53.",action:"Forceer DNS over TLS (DoT) via poort 853.",code:"VPN Protocol -> OpenVPN (TCP)"},
-      {id:7,title:"Flush DNS Cache",smart:"Oude Belgische DNS-records blijven in de cache.",action:"Schoon de cache op na elke verbinding.",code:"cmd: ipconfig /flushdns"},
-      {id:8,title:"mDNS Privacy Lock",smart:"Lekt apparaatnamen op openbare Wi-Fi (NMBS).",action:"Blokkeer UDP-poort 5353 in je firewall.",code:"sudo ufw deny 5353/udp"},
-      {id:9,title:"Proximus DNS Hijack",smart:"Proximus onderschept DNS via transparante proxy, ook bij custom DNS.",action:"Forceer VPN-DNS met kill switch op strict.",code:"nslookup whoami.akamai.net -> VPN IP verwacht"},
-      {id:10,title:"Orange BE Interception",smart:"Orange BE omleidt poort 53 op publieke hotspots naar eigen servers.",action:"Gebruik DoH via VPN-tunnel. Vermijd poort 53 op Orange.",code:"Protocol: DoH via VPN tunnel"},
-      {id:11,title:"VOO DNS Caching",smart:"VOO houdt DNS-antwoorden gecached buiten TTL.",action:"Flush cache na VPN-verbinding. Gebruik VPN-eigen resolver.",code:"ipconfig /flushdns && net stop dnscache"},
-      {id:12,title:"Scarlet CGNAT Fix",smart:"Scarlet plaatst klanten achter CGNAT, blokkeert VPN-poorten.",action:"Gebruik WireGuard UDP of stealth TCP 443.",code:"VPN Protocol -> WireGuard UDP 51820"},
-      {id:13,title:"Belgische Dataretentie",smart:"ISP's moeten DNS-logs 12 mnd bewaren (Art. 126 WEC).",action:"Gebruik VPN-DNS zodat ISP geen domeinnamen logt.",code:"DNS via VPN: ISP logt alleen tunnel-IP"},
-      {id:14,title:"NMBS WiFi DNS Lek",smart:"NMBS-wifi onderschept DNS via captive portal voor VPN.",action:"Herverbind VPN na portal. Test DNS direct na verbinding.",code:"Stap: portal -> VPN connect -> DNS hertest"},
-      {id:15,title:"Captive Portal Poisoning",smart:"Portals injecteren DNS-antwoorden om alle verkeer om te leiden.",action:"Verbind altijd via VPN na portal-bypass.",code:"curl -I http://detectportal.firefox.com/success.txt"},
-      {id:16,title:"OpenVPN vs WireGuard DNS",smart:"OpenVPN laat system-DNS actief naast VPN-DNS. WireGuard is strikter.",action:"Kies WireGuard voor schoner DNS-gedrag.",code:"Get-NetAdapter | Get-DnsClientServerAddress"},
-      {id:17,title:"IPv6 RA Spoofing",smart:"RA-spoofing kan IPv6 gateway overnemen en DNS omzeilen.",action:"Blokkeer RA van externe bronnen of schakel IPv6 uit.",code:"netsh interface ipv6 set global randomizeidentifiers=disabled"},
-      {id:18,title:"Firewall Poort 53",smart:"Poort 53 buiten de tunnel moet geblokkeerd zijn om lekken te voorkomen.",action:"Blokkeer outbound UDP/TCP 53 buiten de VPN-adapter.",code:"netsh advfirewall add rule name=DNSBlock dir=out protocol=UDP remoteport=53 action=block"},
-      {id:19,title:"ISP Transparante Proxy",smart:"Belgische ISP's inspecteren HTTP via transparante proxy naast DNS.",action:"Gebruik HTTPS + VPN. Controleer headers op proxy-sporen.",code:"curl -v http://1.1.1.1 | grep Via"},
-      {id:20,title:"DNS Cache Persistentie",smart:"Oude records blijven actief na VPN-disconnect, lekken bij herverbinden.",action:"Flush DNS-cache bij elke VPN connect/disconnect event.",code:"ipconfig /flushdns"},
-      {id:21,title:"Split Tunnel DNS Mismatch",smart:"Split tunneling stuurt DNS via ISP terwijl VPN actief is.",action:"Zet split tunneling uit of forceer alle DNS door VPN.",code:"VPN Settings -> Route all traffic -> ON"},
-      {id:22,title:"VPN Reconnect Lek",smart:"Lek-venster van 1-3s bij herverbinden voor kill switch actief is.",action:"Gebruik Always-on VPN of Lockdown mode.",code:"VPN -> Always-on -> Block if disconnected"},
-      {id:23,title:"Router DNS Override",smart:"Router overschrijft DHCP-DNS, ook als VPN op het apparaat actief is.",action:"Stel statische DNS in op apparaat (geen DHCP-DNS).",code:"ipconfig /all | findstr DNS"},
-      {id:24,title:"QUIC DNS Bypass",smart:"QUIC (HTTP/3) kan DNS buiten VPN-DNS sturen.",action:"Schakel QUIC uit in browser of blokkeer UDP 443.",code:"chrome://flags/#enable-quic -> Disabled"},
-      {id:25,title:"Encrypted DNS Verificatie",smart:"Controleer of VPN-DNS DoH/DoT gebruikt, niet alleen poort 53.",action:"Verifieer met DNS-lek test dat encryptie actief is. Auditeer elke 30 dagen.",code:"https://www.dnsleaktest.com -> Extended test"}
+    const auditItems=[
+      {id:1,t:"IPv6 Uitschakelen (Telenet)",n:"Telenet forceert IPv6-verkeer buiten de VPN-tunnel om.",v:"Schakel IPv6 uit in de router-instellingen.",c:"Instellingen -> IPv6 -> OFF"},
+      {id:2,t:"WebRTC Leak Block",n:"Browsers lekken je lokale IP via STUN-verzoeken.",v:"Gebruik de Brave-browser of een WebRTC blocker.",c:"media.peerconnection.enabled = false"},
+      {id:3,t:"Kill Switch Nivel 2",n:"DNS-lekken treden op tijdens herverbinden op Proximus.",v:"Gebruik de 'Permanent Kill Switch' optie.",c:"App Settings -> Advanced Kill Switch"},
+      {id:4,t:"Smart Multi-Homed DNS",n:"Windows vraagt DNS aan alle adapters tegelijkertijd.",v:"Schakel dit uit via de Group Policy Editor.",c:"gpedit.msc -> Turn off smart multi-homed"},
+      {id:5,t:"DNS over HTTPS Sync",n:"Browsers negeren vaak VPN-DNS door hun eigen DoH.",v:"Synchroniseer browser-DNS met je VPN.",c:"Privacy -> Secure DNS -> Disable"},
+      {id:6,t:"DNS Hijacking (Orange)",n:"Belgische ISP's onderscheppen poort 53.",v:"Forceer DNS over TLS (DoT) via poort 853.",c:"VPN Protocol -> OpenVPN (TCP)"},
+      {id:7,t:"Flush DNS Cache",n:"Oude Belgische DNS-records blijven in de cache.",v:"Schoon de cache op na elke verbinding.",c:"cmd: ipconfig /flushdns"},
+      {id:8,t:"mDNS Privacy Lock",n:"Lekt apparaatnamen op openbare Wi-Fi (NMBS).",v:"Blokkeer UDP-poort 5353 in je firewall.",c:"sudo ufw deny 5353/udp"},
+      {id:9,t:"Proximus DNS Hijack",n:"Proximus onderschept DNS via transparante proxy, ook bij custom DNS.",v:"Forceer VPN-DNS met kill switch op strict.",c:"nslookup whoami.akamai.net -> VPN IP verwacht"},
+      {id:10,t:"Orange BE Interception",n:"Orange BE omleidt poort 53 op publieke hotspots naar eigen servers.",v:"Gebruik DoH via VPN-tunnel. Vermijd poort 53 op Orange.",c:"Protocol: DoH via VPN tunnel"},
+      {id:11,t:"VOO DNS Caching",n:"VOO houdt DNS-antwoorden gecached buiten TTL.",v:"Flush cache na VPN-verbinding. Gebruik VPN-eigen resolver.",c:"ipconfig /flushdns && net stop dnscache"},
+      {id:12,t:"Scarlet CGNAT Fix",n:"Scarlet plaatst klanten achter CGNAT, blokkeert VPN-poorten.",v:"Gebruik WireGuard UDP of stealth TCP 443.",c:"VPN Protocol -> WireGuard UDP 51820"},
+      {id:13,t:"Belgische Dataretentie",n:"ISP's moeten DNS-logs 12 mnd bewaren (Art. 126 WEC).",v:"Gebruik VPN-DNS zodat ISP geen domeinnamen logt.",c:"DNS via VPN: ISP logt alleen tunnel-IP"},
+      {id:14,t:"NMBS WiFi DNS Lek",n:"NMBS-wifi onderschept DNS via captive portal voor VPN.",v:"Herverbind VPN na portal. Test DNS direct na verbinding.",c:"Stap: portal -> VPN connect -> DNS hertest"},
+      {id:15,t:"Captive Portal Poisoning",n:"Portals injecteren DNS-antwoorden om alle verkeer om te leiden.",v:"Verbind altijd via VPN na portal-bypass.",c:"curl -I http://detectportal.firefox.com/success.txt"},
+      {id:16,t:"OpenVPN vs WireGuard DNS",n:"OpenVPN laat system-DNS actief naast VPN-DNS. WireGuard is strikter.",v:"Kies WireGuard voor schoner DNS-gedrag.",c:"Get-NetAdapter | Get-DnsClientServerAddress"},
+      {id:17,t:"IPv6 RA Spoofing",n:"RA-spoofing kan IPv6 gateway overnemen en DNS omzeilen.",v:"Blokkeer RA van externe bronnen of schakel IPv6 uit.",c:"netsh interface ipv6 set global randomizeidentifiers=disabled"},
+      {id:18,t:"Firewall Poort 53",n:"Poort 53 buiten de tunnel moet geblokkeerd zijn om lekken te voorkomen.",v:"Blokkeer outbound UDP/TCP 53 buiten de VPN-adapter.",c:"netsh advfirewall add rule name=DNSBlock dir=out protocol=UDP remoteport=53 action=block"},
+      {id:19,t:"ISP Transparante Proxy",n:"Belgische ISP's inspecteren HTTP via transparante proxy naast DNS.",v:"Gebruik HTTPS + VPN. Controleer headers op proxy-sporen.",c:"curl -v http://1.1.1.1 | grep Via"},
+      {id:20,t:"DNS Cache Persistentie",n:"Oude records blijven actief na VPN-disconnect, lekken bij herverbinden.",v:"Flush DNS-cache bij elke VPN connect/disconnect event.",c:"ipconfig /flushdns"},
+      {id:21,t:"Split Tunnel DNS Mismatch",n:"Split tunneling stuurt DNS via ISP terwijl VPN actief is.",v:"Zet split tunneling uit of forceer alle DNS door VPN.",c:"VPN Settings -> Route all traffic -> ON"},
+      {id:22,t:"VPN Reconnect Lek",n:"Lek-venster van 1-3s bij herverbinden voor kill switch actief is.",v:"Gebruik Always-on VPN of Lockdown mode.",c:"VPN -> Always-on -> Block if disconnected"},
+      {id:23,t:"Router DNS Override",n:"Router overschrijft DHCP-DNS, ook als VPN op het apparaat actief is.",v:"Stel statische DNS in op apparaat (geen DHCP-DNS).",c:"ipconfig /all | findstr DNS"},
+      {id:24,t:"QUIC DNS Bypass",n:"QUIC (HTTP/3) kan DNS buiten VPN-DNS sturen.",v:"Schakel QUIC uit in browser of blokkeer UDP 443.",c:"chrome://flags/#enable-quic -> Disabled"},
+      {id:25,t:"Encrypted DNS Verificatie",n:"Controleer of VPN-DNS DoH/DoT gebruikt, niet alleen poort 53.",v:"Verifieer met DNS-lek test dat encryptie actief is. Auditeer elke 30 dagen.",c:"https://www.dnsleaktest.com -> Extended test"}
     ];
 
-    let page=0;
-    const step=4;
-    const state=JSON.parse(localStorage.getItem('vw_dns_be_v2')||'{}');
+    let currentPage=0;
+    const perPage=4;
+    const stateKey='vpnw_be_audit_v2';
+    const state=JSON.parse(localStorage.getItem(stateKey)||'{}');
 
-    function update(){
+    function updateUI(){
       const count=Object.values(state).filter(v=>v).length;
-      const p=Math.round((count/items.length)*100);
-      document.getElementById('main-gauge-fill').style.width=p+'%';
-      document.getElementById('perc-val').innerText=p+'%';
-      render();
+      const total=auditItems.length;
+      const perc=Math.round((count/total)*100);
+      document.getElementById('main-bar').style.width=perc+'%';
+      document.getElementById('main-perc').innerText=perc+'%';
+      const statusEl=document.getElementById('main-status');
+      if(perc===100){statusEl.innerText="SYSTEEM VOLLEDIG VEILIG";statusEl.style.color="var(--v-green)";}
+      else if(perc>50){statusEl.innerText="MATIGE BESCHERMING";statusEl.style.color="#f59e0b";}
+      else{statusEl.innerText="SYSTEM KWETSBAAR";statusEl.style.color="var(--v-red)";}
+      renderGrid();
     }
 
-    function render(){
-      const grid=document.getElementById('dns-master-grid');
+    function renderGrid(){
+      const grid=document.getElementById('dashboard-grid');
       grid.innerHTML='';
-      items.slice(page*step,(page+1)*step).forEach(function(item){
-        const active=!!state[item.id];
+      const start=currentPage*perPage;
+      const currentItems=auditItems.slice(start,start+perPage);
+      currentItems.forEach(function(item){
+        const isActive=!!state[item.id];
         const card=document.createElement('div');
-        card.className='dns-card '+(active?'validated':'');
+        card.className='dash-card '+(isActive?'active':'');
         card.innerHTML=
-          '<h3 style="margin:0;font-size:14px;font-weight:800;max-width:80%;">'+item.title+'</h3>'+
-          '<input type="checkbox" class="dns-checkbox"'+(active?' checked':'')+'>'+
-          '<div class="mini-bar"><div class="mini-bar-fill"></div></div>'+
-          '<div class="dns-details">'+
-            '<span class="expert-label">SmartAdvisor Analyse</span>'+
-            '<p style="margin:0 0 8px;">'+item.smart+'</p>'+
-            '<span class="expert-label">VPN World Verdict</span>'+
-            '<p style="margin:0 0 8px;"><strong>'+item.action+'</strong></p>'+
-            '<code class="dns-code">'+item.code+'</code>'+
+          '<div class="card-top">'+
+            '<h3>'+item.t+'</h3>'+
+            '<input type="checkbox" class="dash-check"'+(isActive?' checked':'')+'>'+
+          '</div>'+
+          '<div class="status-badge status-bad">VULNERABLE</div>'+
+          '<div class="status-badge status-good">VALIDATED</div>'+
+          '<div class="card-content">'+
+            '<div class="expert-note"><b>Analyse:</b> '+item.n+'</div>'+
+            '<div class="expert-note"><b>Verdict:</b> '+item.v+'</div>'+
+            '<code class="code-box">'+item.c+'</code>'+
           '</div>';
         card.onclick=function(e){
           if(e.target.type!=='checkbox'){
@@ -687,19 +739,19 @@
           }else{
             state[item.id]=e.target.checked;
           }
-          localStorage.setItem('vw_dns_be_v2',JSON.stringify(state));
-          update();
+          localStorage.setItem(stateKey,JSON.stringify(state));
+          updateUI();
         };
         grid.appendChild(card);
       });
-      document.getElementById('prev-btn').disabled=page===0;
-      document.getElementById('next-btn').disabled=(page+1)*step>=items.length;
+      document.getElementById('p-info').innerText='PAGINA '+(currentPage+1)+' / '+Math.ceil(auditItems.length/perPage);
+      document.getElementById('p-prev').disabled=currentPage===0;
+      document.getElementById('p-next').disabled=(currentPage+1)*perPage>=auditItems.length;
     }
 
-    document.getElementById('next-btn').onclick=function(){page++;render();};
-    document.getElementById('prev-btn').onclick=function(){page--;render();};
-
-    update();
+    document.getElementById('p-next').onclick=function(){currentPage++;renderGrid();};
+    document.getElementById('p-prev').onclick=function(){currentPage--;renderGrid();};
+    updateUI();
   })();
   </script>
 </section>
