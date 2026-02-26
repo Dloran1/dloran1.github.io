@@ -494,14 +494,17 @@
       box-shadow: 10px 10px 0 rgba(0,0,0,0.05);
     }
 
+    /* HEADER & MAIN PROGRESS */
     .dns-header { border-bottom: 3px solid var(--vw-border); padding-bottom: 20px; margin-bottom: 25px; }
     .main-gauge-container { background: #eee; height: 12px; border-radius: 6px; border: 2px solid var(--vw-border); margin-top: 15px; overflow: hidden; position: relative; }
     #main-gauge-fill { height: 100%; width: 0%; background: var(--vw-success); transition: width 0.5s ease; }
 
+    /* GRID & PAGINATION */
     .dns-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; min-height: 400px; }
     .dns-page { display: none; grid-template-columns: subgrid; grid-column: 1 / -1; gap: inherit; }
     .dns-page.active { display: grid; }
 
+    /* CARDS */
     .dns-card {
       border: 3px solid var(--vw-border); border-radius: 14px; padding: 16px;
       background: var(--vw-bg-card); transition: 0.3s; position: relative;
@@ -511,16 +514,19 @@
     .dns-card-head { display: flex; justify-content: space-between; align-items: flex-start; }
     .dns-card h3 { margin: 0; font-size: 15px; font-weight: 900; line-height: 1.2; text-transform: uppercase; padding-right: 30px;}
 
+    /* MINI PROGRESS BAR */
     .mini-bar { height: 6px; background: #ddd; border-radius: 3px; margin: 12px 0; overflow: hidden; border: 1px solid var(--vw-border); }
     .mini-bar-fill { height: 100%; width: 0%; background: #ccc; transition: 0.3s; }
     .dns-card.validated .mini-bar-fill { width: 100%; background: var(--vw-success); }
 
+    /* DROP-DOWN CONTENT */
     .dns-details {
       max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out;
       font-size: 13px; border-top: 0px solid transparent;
     }
     .dns-card.validated .dns-details { max-height: 300px; border-top: 1px dashed #bbb; margin-top: 12px; padding-top: 12px; }
 
+    /* PAGINATION BUTTONS */
     .dns-nav { display: flex; justify-content: center; gap: 15px; margin-top: 30px; }
     .nav-btn {
       padding: 10px 20px; border: 3px solid var(--vw-border); border-radius: 8px;
@@ -735,6 +741,35 @@
           Gebruik het dashboard hierboven (checks be02 t/m be09) om je provider-specifieke lekken te documenteren.
           Zie ook <a href="/nl-be/blog/vpn-kill-switch.html">VPN kill switch</a> voor waarom "strict" mode de beste verdediging is tegen Proximus-fallback.
         </p>
+
+        <div class="svg-card" style="margin: 40px 0; border: 3px solid #000; border-radius: 15px; padding: 20px; background: #fff;">
+          <h3 style="text-align:center; font-weight:900; text-transform:uppercase;">De Belgische Leak-Matrix (2026)</h3>
+          <div class="svg-scroll">
+            <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#f0f0f0" stroke-width="1"/>
+                </pattern>
+              </defs>
+              <rect width="800" height="300" fill="url(#grid)" />
+
+              <circle cx="100" cy="150" r="45" fill="#0b4fd6" stroke="#000" stroke-width="3"/>
+              <text x="100" y="155" text-anchor="middle" fill="#fff" font-weight="900" font-size="12">GEBRUIKER</text>
+
+              <path d="M145 130 Q 400 20, 650 130" stroke="#ef4444" stroke-width="4" fill="none" stroke-dasharray="8,4" />
+              <text x="400" y="50" text-anchor="middle" fill="#ef4444" font-weight="900">LEK: TELENET IPv6 (BYPASS)</text>
+
+              <path d="M145 170 Q 400 280, 650 170" stroke="#ef4444" stroke-width="4" fill="none" stroke-dasharray="8,4" />
+              <text x="400" y="270" text-anchor="middle" fill="#ef4444" font-weight="900">LEK: PROXIMUS DNS HIJACK</text>
+
+              <rect x="200" y="135" width="400" height="30" rx="15" fill="#10b981" stroke="#000" stroke-width="2"/>
+              <text x="400" y="155" text-anchor="middle" fill="#fff" font-weight="900" font-size="12">VEILIGE VPN TUNNEL</text>
+
+              <rect x="650" y="120" width="100" height="60" rx="5" fill="#000" stroke="#000" />
+              <text x="700" y="155" text-anchor="middle" fill="#fff" font-weight="900" font-size="12">WEB</text>
+            </svg>
+          </div>
+        </div>
 
         <div class="table-scroll" style="margin-top:14px;">
           <table>
@@ -1174,6 +1209,52 @@
         <div class="takeaway" role="note" aria-label="Belangrijkste inzicht">
           <strong>Sleutelinzicht:</strong>
           <p>Retest na elke update (OS, VPN, browser). 60 seconden check = gemoedsrust. Lekken keren terug na updates — maak retesten een gewoonte, niet een uitzondering.</p>
+        </div>
+
+        <div class="table-scroll">
+          <table>
+            <caption>Vergelijking: "Veilige DNS" in België (Audit 2026)</caption>
+            <thead>
+              <tr>
+                <th>Provider / Service</th>
+                <th>Protocol</th>
+                <th>Privacy Level</th>
+                <th>VPN World Rating</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Proximus Default</strong></td>
+                <td>Standard UDP</td>
+                <td>&#x274C; Zeer Laag</td>
+                <td>Vermijden (logs ~6 mnd)</td>
+              </tr>
+              <tr>
+                <td><strong>Telenet Default</strong></td>
+                <td>Standard UDP</td>
+                <td>&#x274C; Laag</td>
+                <td>Onveilig (IPv6 leaks)</td>
+              </tr>
+              <tr>
+                <td><strong>Google DNS</strong></td>
+                <td>DoH / DoT</td>
+                <td>&#x26A0;&#xFE0F; Gemiddeld</td>
+                <td>Snel, maar data-mining</td>
+              </tr>
+              <tr>
+                <td><strong>Cloudflare (1.1.1.1)</strong></td>
+                <td>DoH / DoT</td>
+                <td>&#x2705; Hoog</td>
+                <td>Goed alternatief</td>
+              </tr>
+              <tr>
+                <td><strong>VPN Private DNS</strong></td>
+                <td>Encrypted (in-tunnel)</td>
+                <td>&#x1F3C6; Maximaal</td>
+                <td>Aanbevolen voor 2026</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         <!-- ============================================================ -->
