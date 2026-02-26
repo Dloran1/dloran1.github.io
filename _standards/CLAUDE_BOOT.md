@@ -1,178 +1,92 @@
 # CLAUDE BOOT SEQUENCE — VPN WORLD
+FIRST FILE Claude Code MUST read at session start.
+AUTHORITY: ABSOLUTE
 
-This file is the FIRST file Claude Code MUST read at session start.
+---
 
-This file defines memory loading, standards loading, and scanning limits.
+# STEP 0 — WORKING DIRECTORY (CRITICAL)
+You MUST assume the working directory is the repository root.
+
+Therefore:
+- Use ONLY repo-relative paths:
+  - ./_standards/VPNW_STAGE25_STANDARD.md
+  - ./_standards/VPNW_LOCALIZATION_STANDARD.md
+  - ./_standards/SLUG_INDEX_FROM_HREFLANG_FLAT.json
+  - ./standards/STRUCTURE_INDEX.md
+  - ./<locale>/blog/<slug>.html
+
+ABSOLUTE PROHIBITION:
+- NEVER reference OS-absolute paths:
+  /c/AI_WORK/..., C:\..., /home/..., /root/...
+
+If any required file is missing at these repo-relative paths:
+- STOP IMMEDIATELY
+- Report missing path
+- Do NOT scan repo to “find” alternatives
+- Do NOT guess
 
 ---
 
 # STEP 1 — LOAD CORE STANDARDS
+Read:
+1) ./_standards/VPNW_STAGE25_STANDARD.md
+2) ./_standards/VPNW_LOCALIZATION_STANDARD.md
 
-Claude MUST immediately load and read:
-
-/_standards/VPNW_STAGE25_STANDARD.md  
-/_standards/VPNW_LOCALIZATION_STANDARD.md  
-
-These define:
-
-• writing structure  
-• authorship identity  
-• linking rules  
-• widget placement  
-• localization behavior  
-
-These files are the constitution.
-
-Claude MUST obey them 100%.
+Obey them 100%.
 
 ---
 
-# STEP 2 — LOAD SLUG INDEX (CRITICAL)
+# STEP 2 — LOAD SLUG INDEX (ONLY SOURCE OF LINKS)
+Read:
+- ./_standards/SLUG_INDEX_FROM_HREFLANG_FLAT.json
 
-Claude MUST load:
+This is the ONLY source of truth for:
+- slugs
+- URLs
+- locale mapping
 
-/_standards/SLUG_INDEX_FROM_HREFLANG_FLAT.json
-
-This file is the ONLY source of truth for:
-
-• slugs  
-• URLs  
-• locale mapping  
-
-Claude MUST NEVER:
-
-scan entire repository  
-search random folders  
-guess paths  
-
-ONLY use SLUG_INDEX.
+Never scan the repo for slugs.
 
 ---
 
-# STEP 3 — LANGUAGE SWITCHER RULE
+# STEP 3 — LOAD STRUCTURE MAP
+Read:
+- ./standards/STRUCTURE_INDEX.md
 
-Language switcher already exists in pages.
-
-Claude MUST NEVER:
-
-search for switcher  
-generate switcher  
-modify switcher  
-
-Claude MUST leave switcher untouched.
+Never invent folders. Polish is /blog/, others are /<locale>/blog/.
 
 ---
 
-# STEP 4 — TARGET FILE SCANNING RULE
+# STEP 4 — LANGUAGE SWITCHER RULE (BYTE-IDENTICAL)
+In target pages:
+- hreflang block exists
+- language switcher exists
 
-Claude MAY scan ONLY:
-
-target file being edited  
-
-and  
-
-/_standards/*.md  
-/_standards/SLUG_INDEX_FROM_HREFLANG_FLAT.json  
-
-Claude MUST NEVER scan full repo.
-
-This prevents token waste.
+NEVER modify either.
+Preserve byte-identical.
 
 ---
 
-# STEP 5 — AUTHORSHIP IDENTITY
+# STEP 5 — SCAN LIMIT
+Allowed reads:
+- target file(s)
+- the standards listed above
 
-Claude writes ONLY as:
-
-Denys Shchur  
-VPN World  
-
-or
-
-SmartAdvisorOnline (ONLY if explicitly requested)
-
-Claude MUST NEVER mention AI.
+Forbidden:
+- full repo scans
+- broad grep/ls across thousands of files
 
 ---
 
-# STEP 6 — WRITING MODE
+# STEP 6 — AUTHORSHIP IDENTITY
+Write ONLY as:
+- Denys Shchur / VPN World
 
-Claude operates in:
-
-Production Mode
-
-NOT analysis mode.
-
-Claude produces production-ready code.
+Never mention AI/Claude/model/analysis.
 
 ---
 
-# STEP 7 — MEMORY REFRESH RULE
+# STEP 7 — EXECUTE TASK
+Now scan ONLY the target file and apply the task.
 
-If Claude is unsure about:
-
-structure  
-links  
-slugs  
-
-Claude MUST reload:
-
-VPNW_STAGE25_STANDARD.md  
-VPNW_LOCALIZATION_STANDARD.md  
-SLUG_INDEX_FROM_HREFLANG_FLAT.json  
-
-Claude MUST NOT scan full repo.
-
----
-
-# STEP 8 — PROJECT STRUCTURE AWARENESS
-
-Project structure:
-
-Root locale:
-/blog/
-
-Other locales:
-/en-gb/blog/
-/en-us/blog/
-/de/blog/
-/fr/blog/
-/es/blog/
-/nl-be/blog/
-
-Assets:
-/assets/
-
-Standards:
-/_standards/
-
----
-
-# STEP 9 — EXECUTION PRIORITY ORDER
-
-Claude MUST follow this order:
-
-1. Read CLAUDE_BOOT.md
-2. Load VPNW_STAGE25_STANDARD.md
-3. Load VPNW_LOCALIZATION_STANDARD.md
-4. Load SLUG_INDEX_FROM_HREFLANG_FLAT.json
-5. Scan target file
-6. Execute task
-
----
-
-# STEP 10 — ABSOLUTE PROHIBITIONS
-
-Claude MUST NEVER:
-
-scan full repo  
-guess slugs  
-guess hreflang  
-guess paths  
-modify language switcher  
-
-ONLY use confirmed data.
-
----
-
-END OF BOOT SEQUENCE
+END.
