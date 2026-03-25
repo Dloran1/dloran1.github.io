@@ -244,6 +244,31 @@
 .expert-note p{margin:.35rem 0 0;color:#d6deea}
 .footer-grid nav{display:flex;flex-wrap:wrap;gap:.65rem 1rem;align-items:flex-start}
 .footer-grid nav a{white-space:nowrap}
+/* hard contrast fixes for tables, svg, dark cards */
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:14px;border:1px solid #d5d9e2;margin:1rem 0 1.2rem}
+.table-scroll table{min-width:760px;width:100%;background:#fff !important;color:#000 !important;border-collapse:collapse}
+.table-scroll caption{caption-side:top;text-align:left;padding:1rem 1rem .75rem;background:#fff !important;color:#000 !important;font-weight:800}
+.table-scroll thead,.table-scroll tbody,.table-scroll tr,.table-scroll th,.table-scroll td{background:#fff !important;color:#000 !important}
+.table-scroll thead th,.table-scroll th{background:#071023 !important;color:#fff !important;-webkit-text-fill-color:#fff !important;border:1px solid #243247 !important;font-weight:800}
+.table-scroll td{border:1px solid #d7dde8 !important;color:#000 !important}
+.table-scroll tbody tr:nth-child(even) td{background:#f7f9fc !important;color:#000 !important}
+.table-scroll tbody tr:hover td{background:#eef4ff !important;color:#000 !important}
+.table-scroll a{color:#0b57d0 !important}
+.svg-card,.svg-card *{color:#d6deea}
+.svg-card p,.svg-card li,.svg-card .video-note,.svg-card .market-note{color:#d6deea !important}
+.svg-card h2,.svg-card h3,.svg-card strong{color:#fff !important}
+.expert-note,.expert-note *{color:#fff !important}
+.expert-note p,.expert-note li,.expert-note strong{color:#d6deea !important}
+.svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;background:#fff;border:1px solid #d5d9e2;border-radius:14px;padding:.55rem}
+.svg-scroll svg{display:block;max-width:100%;height:auto;color:#000 !important}
+.svg-scroll svg text{fill:#000 !important;font-weight:800}
+.svg-scroll svg line,.svg-scroll svg path,.svg-scroll svg polyline,.svg-scroll svg polygon,.svg-scroll svg rect,.svg-scroll svg circle{stroke:#000 !important;stroke-width:4}
+.fix-card,.fix-card *{color:#d6deea !important}
+.fix-card strong,.fix-panel h3{color:#fff !important}
+.kpi-card p,.decision-card p,.tool-card p,.status-pill small,.market-note,.video-note{color:#d6deea !important}
+.error-btn{cursor:pointer}
+.error-btn:focus-visible{outline:3px solid #4cc2ff;outline-offset:2px}
+@media (max-width:640px){.table-scroll table{min-width:680px}}
 </style></head>
 <body>
 <nav class="lang-switch">
@@ -289,11 +314,11 @@
 <h2>🚀 Szybka diagnostyka problemów z DAZN</h2>
 <p>Wybierz problem, który widzisz najczęściej. Zamiast przewijać całą stronę, od razu dostaniesz najbardziej prawdopodobną przyczynę i pierwszy ruch, który warto wykonać.</p>
 <div aria-label="Typ problemu z DAZN" class="error-grid" role="tablist">
-<button class="error-btn" data-target="vpnblocked" type="button"><span>VPN zablokowany</span><span class="sub">region / proxy / błąd logowania</span></button>
-<button class="error-btn" data-target="catalog" type="button"><span>Zły katalog</span><span class="sub">widzisz inną bibliotekę niż oczekiwana</span></button>
-<button class="error-btn" data-target="buffer" type="button"><span>Czarny ekran / bufor</span><span class="sub">ładowanie, ale brak stabilnego obrazu</span></button>
-<button class="error-btn" data-target="smarttv" type="button"><span>Smart TV / Android TV</span><span class="sub">aplikacja działa inaczej niż na laptopie</span></button>
-<button class="error-btn" data-target="payment" type="button"><span>Płatność / konto</span><span class="sub">karta nie przechodzi albo region konta przeszkadza</span></button>
+<button aria-label="Napraw problem: VPN zablokowany w DAZN" class="error-btn" data-target="vpnblocked" type="button"><span>VPN zablokowany</span><span class="sub">region / proxy / błąd logowania</span></button>
+<button aria-label="Napraw problem: zły katalog DAZN" class="error-btn" data-target="catalog" type="button"><span>Zły katalog</span><span class="sub">widzisz inną bibliotekę niż oczekiwana</span></button>
+<button aria-label="Napraw problem: czarny ekran lub buforowanie DAZN" class="error-btn" data-target="buffer" type="button"><span>Czarny ekran / bufor</span><span class="sub">ładowanie, ale brak stabilnego obrazu</span></button>
+<button aria-label="Napraw problem: Smart TV lub Android TV z DAZN" class="error-btn" data-target="smarttv" type="button"><span>Smart TV / Android TV</span><span class="sub">aplikacja działa inaczej niż na laptopie</span></button>
+<button aria-label="Napraw problem: płatność lub konto DAZN" class="error-btn" data-target="payment" type="button"><span>Płatność / konto</span><span class="sub">karta nie przechodzi albo region konta przeszkadza</span></button>
 </div>
 <div aria-live="polite" class="fix-panel" id="fix-vpnblocked">
 <h3>DAZN widzi połączenie jako VPN lub proxy</h3>
@@ -429,6 +454,7 @@
 <section>
 <h2>Płatność, konto i scenariusz z kodem podarunkowym</h2>
 <p>To jedna z mniej wygodnych części całej układanki. Jeśli polska karta nie przechodzi albo chcesz zbudować osobny scenariusz dla innego rynku, sam VPN bywa tylko połową rozwiązania. W praktyce problem może leżeć w sposobie aktywacji konta, regionie rozliczenia albo tym, że DAZN nie traktuje Twojej konfiguracji jako „lokalnej” dla wybranego rynku.</p>
+<div class="note"><strong>Praktyczny niuans dla Polski:</strong> gdy nie masz karty z rynku docelowego, część użytkowników testuje osobne konto Google Play lub Apple ID ustawione na dany kraj i doładowane kodem podarunkowym. To nie jest gwarantowana ścieżka, ale bywa prostsza niż wielokrotne próby na jednym polskim koncie.</div>
 <div class="decision-grid">
 <div class="decision-card"><h3>Najprostsza droga</h3><p>Zostań przy polskim rynku, jeśli zależy Ci głównie na stabilności i szybkiej aktywacji bez dodatkowych przeszkód.</p></div>
 <div class="decision-card"><h3>Najbardziej praktyczny eksperyment</h3><p>Najpierw sprawdź, czy inny katalog naprawdę daje Ci treści, których nie masz w Polsce. Nie komplikuj konta bez wyraźnego celu.</p></div>
