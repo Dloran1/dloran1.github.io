@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <title>VPN DNS Leak Test (2026): Step-by-Step Fix for DNS, IPv6 &amp; WebRTC Leaks | VPN World</title>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta name="description" content="2026 UK step-by-step guide: run a VPN DNS leak test, spot DNS/IPv6/WebRTC leaks, and fix them on Windows, macOS, Android, iPhone and routers. Includes BT, Virgin Media and Sky-specific fixes."/>
+<meta content="2026 UK step-by-step guide: run a VPN DNS leak test, spot DNS/IPv6/WebRTC leaks, and fix them on Windows, macOS, Android, iPhone and routers. Includes BT, Virgin Media and Sky-specific fixes." name="description"/>
 <meta content="index, follow" name="robots"/>
 <link href="/favicon.ico" rel="icon"/>
 <link href="https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html" rel="canonical"/>
@@ -226,7 +226,8 @@ html{scroll-behavior:smooth;}
   background: #5cff3a !important;
 }
 
-</style></head>
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "HowTo", "name": "How to fix a VPN DNS leak in the UK", "description": "Step-by-step DNS leak fix routine for UK users: test leaks, force VPN DNS, disable IPv6 if needed, harden WebRTC, flush cache and retest.", "inLanguage": "en-GB", "totalTime": "PT10M", "step": [{"@type": "HowToStep", "name": "Run a leak baseline test", "text": "Open a VPN DNS leak test and note your resolver, IPv6 status and WebRTC exposure before changing anything."}, {"@type": "HowToStep", "name": "Force VPN DNS", "text": "Enable Force VPN DNS or Use VPN DNS only inside your VPN app, then reconnect the tunnel."}, {"@type": "HowToStep", "name": "Fix IPv6 and WebRTC", "text": "If your VPN cannot tunnel IPv6, disable IPv6 temporarily and harden WebRTC in the browser."}, {"@type": "HowToStep", "name": "Flush DNS and retest", "text": "Flush local DNS cache, reconnect VPN and rerun DNS, IPv6 and WebRTC tests."}]}</script><style>.error-btn:hover{background:#333;border-color:#e31b23;} .faq-section details summary:hover{color:#000;}</style></head>
 <body>
 <!-- HEADER -->
 <header class="site-header">
@@ -321,22 +322,37 @@ html{scroll-behavior:smooth;}
 </div>
 <section class="section">
 <div class="container article">
-  <div class="status-panel" style="border:3px solid #000;padding:16px;background:#fff;margin:0 0 16px;border-radius:16px;">
-    <h2 style="margin-top:0;">What you can diagnose on this page</h2>
-    <p class="status-description">Use the interactive dashboard for fast fixes, then confirm each change with a readable Google-friendly checklist and table. This structure helps both users and search engines understand the exact problem path.</p>
-    <div class="badge-row">
-      <span class="badge"><span class="badge-dot"></span>DNS resolver leaks</span>
-      <span class="badge"><span class="badge-dot"></span>IPv6 bypass</span>
-      <span class="badge"><span class="badge-dot"></span>WebRTC exposure</span>
-      <span class="badge"><span class="badge-dot"></span>Router and ISP edge cases</span>
-    </div>
-  </div>
-  <div class="related-grid" style="margin-top:12px;">
-    <div class="related-card"><strong>Tool:</strong> <a href="https://smartadvisoronline.com/tools/leak-test.html">Run a leak test</a> to check visible IP and DNS after each fix.</div>
-    <div class="related-card"><strong>Tool:</strong> <a href="https://smartadvisoronline.com/tools/speed-test.html">Run a speed test</a> if changing protocol or server location also slows your connection.</div>
-  </div>
+<div class="status-panel" style="border:3px solid #000;padding:16px;background:#fff;margin:0 0 16px;border-radius:16px;">
+<h2 style="margin-top:0;">What you can diagnose on this page</h2>
+<p class="status-description">Use the interactive dashboard for fast fixes, then confirm each change with a readable Google-friendly checklist and table. This structure helps both users and search engines understand the exact problem path.</p>
+<div class="badge-row">
+<span class="badge"><span class="badge-dot"></span>DNS resolver leaks</span>
+<span class="badge"><span class="badge-dot"></span>IPv6 bypass</span>
+<span class="badge"><span class="badge-dot"></span>WebRTC exposure</span>
+<span class="badge"><span class="badge-dot"></span>Router and ISP edge cases</span>
+</div>
+</div>
+<div class="related-grid" style="margin-top:12px;">
+<div class="related-card"><strong>Tool:</strong> <a href="https://smartadvisoronline.com/tools/leak-test.html">Run a leak test</a> to check visible IP and DNS after each fix.</div>
+<div class="related-card"><strong>Tool:</strong> <a href="https://smartadvisoronline.com/tools/speed-test.html">Run a speed test</a> if changing protocol or server location also slows your connection.</div>
+</div>
 </div>
 </section>
+<section class="section" id="live-leak-test">
+<h2>Run a real leak baseline before you change anything</h2>
+<p>Before you tick a single fix, run a clean baseline on our <a href="https://smartadvisoronline.com/tools/leak-test.html" rel="noopener noreferrer" target="_blank">Leak Test tool</a>. It helps you verify whether the problem is <strong>DNS only</strong>, a wider <strong>IPv6 leak</strong>, or a browser-level <strong>WebRTC leak</strong>. If your VPN says connected but you still see ISP resolvers, that is exactly the pattern behind many <a href="vpn-dazn-uk.html">DAZN UK playback and 50-006 errors</a>.</p>
+<div class="tool-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;">
+<div class="tool-card note" style="margin:0;">
+<strong>Step 1: Check DNS and IP</strong>
+<p style="margin:.5rem 0 0;">Run the leak test with the VPN on. If you still see BT, Virgin Media, Sky or another ISP resolver, continue with the fixes below. <a href="vpn-public-wifi-uk.html">Public Wi‑Fi advice</a>, <a href="vpn-kill-switch-uk.html">kill switch setup</a> and <a href="vpn-streaming-uk.html">streaming troubleshooting</a> are usually the next three checks if the resolver still leaks after a reconnect.</p>
+</div>
+<div class="tool-card note" style="margin:0;">
+<strong>Step 2: Measure speed after the fix</strong>
+<p style="margin:.5rem 0 0;">After you stop the leak, use the <a href="https://smartadvisoronline.com/tools/speed-test.html" rel="noopener noreferrer" target="_blank">Speed Test tool</a> to confirm that the new protocol or DNS change did not crush throughput.</p>
+</div>
+</div>
+</section>
+
 <section class="section leak-compare">
 <h2>Leak levels: what your ISP can see</h2>
 <div class="table-scroll">
@@ -436,189 +452,71 @@ html{scroll-behavior:smooth;}
 </div>
 </section>
 <section><h2 id="tests">How to test (2‑minute routine)</h2><p>Use this repeatable routine before and after each fix so you know what actually changed.<span> If you’re on Windows, follow our <a href="vpn-windows-setup-uk.html">Windows VPN setup guide</a>, then check <a href="vpn-kill-switch-uk.html">kill switch settings</a> and <a href="vpn-protocols-uk.html">protocol options</a>. For tricky networks, compare your results on <a href="vpn-public-wifi-uk.html">public Wi‑Fi</a>.</span></p><ol><li>Connect to your VPN and enable any “Force VPN DNS / Use VPN DNS only” option.</li><li>Run a DNS leak test twice and note which DNS provider/ASN is shown.</li><li>Repeat in a Private/Incognito window (rules out extensions and cached DoH).</li><li>If results differ, disable extensions (uBlock, proxy, DNS/DoH tools) and test again.</li><li>Temporarily disable IPv6 and retest — IPv6 bypass is still a top leak cause on many ISP stacks.</li></ol></section><section id="dns-fixer" style="margin-top: 22px;">
-<h2 id="fix">The DNS Leak Emergency Fixer Dashboard</h2>
-<p class="note"><strong>How it works:</strong> tick each fix you’ve applied. Your progress score updates instantly, and the panel suggests what to do next.</p><p>Need a clean baseline? Start with our <a href="vpn-optimal-settings-uk.html">optimal VPN settings checklist</a> and, if you’re running VPN on a home network, see <a href="vpn-router-setup-uk.html">VPN on a router</a> (DNS leaks often come from router DNS or IPv6 settings).</p>
-<div class="checklist-wrapper" style="max-width: 100%; margin: 0 auto;">
-<div id="dns-status-card" style="border: 4px solid #000; padding: 18px; background: #fff; margin-bottom: 16px; border-radius: 15px;">
-<div id="dns-status-label" style="font-weight: 900; font-size: 1.25em; margin-bottom: 10px;">Status: At risk (0%)</div>
-<div style="background: #eee; height: 26px; border: 2px solid #000; margin-bottom: 10px; position: relative; overflow: hidden; border-radius: 7px;">
-<div id="dns-progress-bar" style="background: #00ff00; width: 0%; height: 100%; transition: width 0.25s ease;"></div>
+<h2 id="fix">DNS Leak Emergency Fixer (2026)</h2>
+<p class="note"><strong>Why this version is easier to use:</strong> the fixes are split into compact pages, so you can always see your current score, the selected action and what to do next without scrolling through a giant checklist.</p>
+<p>Best flow: run the <a href="https://smartadvisoronline.com/tools/leak-test.html" rel="noopener noreferrer" target="_blank">Leak Test</a>, apply one change, then retest. If the leak shows up only during sports apps or browser playback, open <a href="vpn-dazn-uk.html">the DAZN UK troubleshooting guide</a> in a second tab.</p>
+<div class="dns-wizard">
+<div class="dns-summary-grid">
+<div class="status-panel" id="dns-status-card">
+<div class="status-title" id="dns-status-label">Status: Critical (0%)</div>
+<div class="progress-bar"><div class="progress-fill" id="dns-progress-bar" style="width:0%"></div></div>
+<div class="status-description" id="dns-status-tip">Start with Force VPN DNS and IPv6 control — those two steps solve a huge share of UK DNS leaks.</div>
 </div>
-<div id="dns-status-tip" style="font-style: italic; color: #333; font-size: 0.95em; line-height: 1.35;">
-                  Start with <strong>Force VPN DNS</strong> and <strong>Disable IPv6</strong> — these two fix most UK leaks.
-                </div>
-</div>
-<div id="dns-detail" style="border:2px solid #000; background:#fff; border-radius:14px; padding:14px; margin-bottom:14px;">
+<div class="status-panel" id="dns-detail">
 <div style="font-weight:900; margin-bottom:6px;">Selected fix</div>
 <div id="dns-detail-title" style="font-weight:900; font-size:1.05em;">—</div>
-<div id="dns-detail-cmd" style="margin-top:6px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size:0.92em; white-space:pre-wrap;">—</div>
-<div id="dns-detail-why" style="margin-top:8px; color:#222; line-height:1.35;">Tap a card to see the exact action, command, or setting path.</div>
+<div class="dns-code" id="dns-detail-cmd" style="margin-top:8px;">—</div>
+<div id="dns-detail-why" style="margin-top:8px;">Tap a card to see the exact action, command, or setting path.</div>
 </div>
-<div id="dns-cards-grid" style="display: grid; grid-template-columns: 1fr; gap: 12px;"></div>
-<div style="display:flex; gap:10px; margin-top: 16px;">
-<button id="dns-reset" style="flex:1; padding: 14px; background:#000; color:#fff; border:none; font-weight:900; cursor:pointer; border-radius: 10px; text-transform: uppercase;">Reset dashboard</button>
-<button id="dns-clear" style="flex:1; padding: 14px; background:#fff; color:#000; border:3px solid #000; font-weight:900; cursor:pointer; border-radius: 10px; text-transform: uppercase;">Clear</button>
+</div>
+<div aria-label="Checklist pages" class="dns-pager">
+<button class="pager-btn" id="dns-prev" type="button">← Prev</button>
+<div class="dns-page-tabs" id="dns-page-tabs"></div>
+<button class="pager-btn" id="dns-next" type="button">Next →</button>
+</div>
+<div class="dns-page-label" id="dns-page-label">Page 1</div>
+<div class="dns-cards-grid" id="dns-cards-grid"></div>
+<div class="dns-actions">
+<button class="btn btn-primary" id="dns-reset" type="button">Reset dashboard</button>
+<button class="btn btn-secondary" id="dns-clear" type="button">Clear progress</button>
 </div>
 </div>
 <style>
-              /* Local widget helpers (high-contrast, mobile-first) */
-              #dns-cards-grid .dns-card{
-                border: 3px solid #000;
-                padding: 14px;
-                background: #fff;
-                display:flex;
-                align-items:flex-start;
-                gap: 14px;
-                cursor:pointer;
-                border-radius: 14px;
-              }
-              #dns-cards-grid .dns-card.is-done{
-                background: #f0fff0;
-              }
-              #dns-cards-grid .dns-card .dns-title{
-                font-weight: 900;
-                font-size: 1.02em;
-                line-height: 1.25;
-              }
-              #dns-cards-grid .dns-card.is-done .dns-title{
-                text-decoration: line-through;
-                text-decoration-thickness: 3px;
-              }
-              #dns-cards-grid .dns-card .dns-why{
-                font-size: 0.9em;
-                color: #222;
-                line-height: 1.35;
-              }
-              #dns-cards-grid .dns-card.is-done .dns-why{
-                opacity: 0.85;
-              }
-              #dns-cards-grid input[type="checkbox"]{
-                width: 26px;
-                height: 26px;
-                margin-top: 2px;
-              }
-            
-
-/* --- DNS Leak Fixer: hard contrast + override "white on white" (mobile Safari) --- */
-#dns-status-card, #dns-detail, #dns-cards-grid .dns-card { background: #ffffff !important; }
-#dns-status-label, #dns-detail-title, #dns-detail-cmd, #dns-detail-why { 
-  color: #071023 !important; 
-  opacity: 1 !important;
-}
-#dns-status-label { font-weight: 900 !important; }
-#dns-detail .muted, #dns-status-card .muted { color: #071023 !important; opacity: 1 !important; }
-#dns-detail pre, #dns-detail code { color: #071023 !important; }
-/* ensure numbering/title never fades */
-#dns-cards-grid .dns-card .num, 
-#dns-cards-grid .dns-card h3,
-#dns-cards-grid .dns-card p { opacity: 1 !important; }
-/* improve tap targets for TOC links */
-.toc a { scroll-margin-top: 110px; }
-
-
-/* DNS Fixer: keep white cards black text, but DO NOT force black on dark callouts */
-#dns-fixer #dns-status-card,
-#dns-fixer #dns-selected-card,
-#dns-fixer #dns-fixes .fix-item,
-#dns-fixer #dns-cards-grid .dns-card{
-  background:#fff !important;
-  color:#071023 !important;
-}
-#dns-fixer #dns-status-card *,
-#dns-fixer #dns-selected-card *,
-#dns-fixer #dns-fixes .fix-item *,
-#dns-fixer #dns-cards-grid .dns-card *{
-  color:#071023 !important;
-  -webkit-text-fill-color:#071023 !important;
-  opacity:1 !important;
-}
-
-/* Callouts inside the section must stay readable on mobile */
-#dns-fixer .note,
-#dns-fixer .tip{
-  background:#fff !important;
-  color:#071023 !important;
-  border:2px solid #000 !important;
-  border-left:6px solid #27c59b !important;
-  opacity:1 !important;
-  filter:none !important;
-}
-#dns-fixer .note *,
-#dns-fixer .tip *{
-  color:#071023 !important;
-  -webkit-text-fill-color:#071023 !important;
-  opacity:1 !important;
-}
-/* Buttons on dark backgrounds */
-#dns-fixer .dns-controls .btn{
-  color:#071023 !important;
-}
-#dns-fixer .dns-controls .btn.btn-secondary{
-  color:#eaf2ff !important;
-}
-
-/* ===== STATUS PANEL — HARD CONTRAST FIX (FINAL) ===== */
-.status-panel,
-.status-panel * {
-  color: #000 !important;
-  opacity: 1 !important;
-}
-
-.status-panel {
-  background: #ffffff !important;
-  color: #000000 !important;
-  border-radius: 14px;
-}
-
-.status-panel .status-title {
-  color: #000 !important;
-  font-weight: 800;
-}
-
-.status-panel .status-description,
-.status-panel .status-hint,
-.status-panel p {
-  color: #000 !important;
-}
-
-.status-panel .progress-bar {
-  background: #e5e5e5 !important;
-}
-
-.status-panel .progress-fill {
-  background: #5cff3a !important;
-}
-
-
-/* --- FINAL contrast lock (mobile Safari): prevent white-on-white in white cards --- */
-#dns-fixer #dns-status-card,
-#dns-fixer #dns-status-card * ,
-#dns-fixer #dns-detail,
-#dns-fixer #dns-detail * {
-  color: #071023 !important;
-  -webkit-text-fill-color: #071023 !important;
-  text-shadow: none !important;
-  opacity: 1 !important;
-}
-
-#dns-fixer #dns-status-label,
-#dns-fixer #dns-status-tip,
-#dns-fixer #dns-detail-title,
-#dns-fixer #dns-detail-cmd,
-#dns-fixer #dns-detail-why {
-  color: #071023 !important;
-  -webkit-text-fill-color: #071023 !important;
-  opacity: 1 !important;
-}
-
-/* If any legacy “muted” utility sneaks in, force it readable on white cards */
-#dns-fixer #dns-status-card .muted,
-#dns-fixer #dns-detail .muted,
-#dns-fixer #dns-status-card [style*="opacity"],
-#dns-fixer #dns-detail [style*="opacity"] {
-  opacity: 1 !important;
-}
-
+#dns-fixer .dns-wizard{display:block;}
+#dns-fixer .dns-summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px;margin:16px 0;}
+#dns-fixer .status-panel{background:#fff !important;color:#071023 !important;border:3px solid #000;border-radius:16px;padding:16px;}
+#dns-fixer .status-panel *{color:#071023 !important;-webkit-text-fill-color:#071023 !important;opacity:1 !important;}
+#dns-fixer .progress-bar{background:#e5e7eb;border:3px solid #000;border-radius:999px;height:18px;overflow:hidden;margin:10px 0 6px;}
+#dns-fixer .progress-fill{background:#22c55e;height:100%;}
+#dns-fixer .dns-code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;background:#fff;border:2px solid #000;border-radius:12px;padding:10px;white-space:pre-wrap;overflow:auto;}
+#dns-fixer .dns-pager{display:flex;align-items:center;gap:10px;justify-content:space-between;margin:10px 0;flex-wrap:wrap;}
+#dns-fixer .dns-page-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+#dns-fixer .page-tab,#dns-fixer .pager-btn{border:3px solid #000;background:#fff;color:#071023;font-weight:900;border-radius:999px;padding:8px 12px;cursor:pointer;}
+#dns-fixer .page-tab.is-active{background:#071023;color:#fff;}
+#dns-fixer .page-tab.is-active{-webkit-text-fill-color:#fff !important;}
+#dns-fixer .dns-page-label{font-weight:900;margin:6px 0 10px;}
+#dns-fixer .dns-cards-grid{display:grid;grid-template-columns:1fr;gap:12px;}
+#dns-fixer .dns-card{background:#fff !important;color:#071023 !important;border:3px solid #000;border-radius:16px;padding:14px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;}
+#dns-fixer .dns-card *{color:#071023 !important;-webkit-text-fill-color:#071023 !important;opacity:1 !important;}
+#dns-fixer .dns-card.is-done{background:#f0fff4 !important;}
+#dns-fixer .dns-card .dns-title{font-weight:900;font-size:1.02em;line-height:1.25;}
+#dns-fixer .dns-card .dns-why{font-size:.94em;line-height:1.4;margin-top:4px;}
+#dns-fixer .dns-mini{margin-top:10px;border:2px solid #000;border-radius:12px;padding:10px;background:#fff;}
+#dns-fixer .dns-mini__row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+#dns-fixer .dns-mini__pill{font-weight:900;border:2px solid currentColor;border-radius:999px;padding:4px 8px;background:#fff;}
+#dns-fixer .dns-mini__pct{margin-left:auto;font-weight:900;}
+#dns-fixer .dns-mini__bar{height:10px;border:2px solid #000;border-radius:999px;overflow:hidden;background:#fff;margin:8px 0;}
+#dns-fixer .dns-mini__barfill{display:block;height:100%;background:#22c55e;}
+#dns-fixer .dns-mini__tip{font-size:.92em;line-height:1.35;}
+#dns-fixer .dns-cb{width:26px;height:26px;flex:0 0 auto;margin-top:2px;}
+#dns-fixer .dns-details summary{font-weight:900;cursor:pointer;}
+#dns-fixer .dns-actions{display:flex;gap:10px;margin-top:14px;}
+#dns-fixer .dns-actions .btn{flex:1;border-radius:12px;}
+#dns-fixer .btn.btn-primary{background:#000;color:#fff;border:3px solid #000;}
+#dns-fixer .btn.btn-secondary{background:#fff;color:#071023;border:3px solid #000;}
+#dns-fixer .btn.btn-primary{-webkit-text-fill-color:#fff !important;}
+#dns-fixer .btn.btn-secondary{-webkit-text-fill-color:#071023 !important;}
+@media (min-width:760px){#dns-fixer .dns-cards-grid{grid-template-columns:1fr 1fr;}}
 </style>
 </section>
 <section class="section uk-context">
@@ -631,6 +529,8 @@ html{scroll-behavior:smooth;}
 </ul>
 </section>
 <section class="section">
+
+<p><strong>Related fixes worth opening alongside this guide:</strong> if you are testing a stream, read <a href="vpn-dazn-uk.html">our DAZN UK guide</a>; if the tunnel drops, review the <a href="vpn-kill-switch-uk.html">kill switch guide</a>; if your DNS is still wrong on home Wi‑Fi, check <a href="vpn-router-setup-uk.html">router DNS setup</a>; and if you need a cleaner baseline, start from <a href="vpn-optimal-settings-uk.html">optimal VPN settings</a>, <a href="proxy-vs-vpn-uk.html">proxy vs VPN</a>, <a href="what-is-a-vpn-uk.html">what a VPN actually changes</a>, <a href="vpn-public-wifi-uk.html">public Wi‑Fi risks</a>, <a href="no-logs-vpn-uk.html">no-logs VPN reality</a>, <a href="vpn-streaming-uk.html">streaming fixes</a>, <a href="vpn-for-smart-tv-uk.html">Smart TV setup</a>, <a href="vpn-banking-online-uk.html">banking edge cases</a> and <a href="vpn-torrenting-uk.html">torrent privacy checks</a>.</p>
 <h2>Step-by-step troubleshooting matrix</h2>
 <div class="table-scroll">
 <table style="min-width:780px;">
@@ -757,6 +657,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const resetBtn = document.getElementById('dns-reset');
     const clearBtn = document.getElementById('dns-clear');
+    const prevBtn = document.getElementById('dns-prev');
+    const nextBtn = document.getElementById('dns-next');
+    const pageTabs = document.getElementById('dns-page-tabs');
+    const pageLabel = document.getElementById('dns-page-label');
+    const PAGE_SIZE = 6;
+    let currentPage = 0;
 
     // UK-local context for dynamic messages (avoid locale "skleika")
     const ISP_EXAMPLES = 'Virgin Media / BT / Sky';
@@ -853,6 +759,23 @@ document.addEventListener('DOMContentLoaded', function () {
       `;
     }
 
+    function renderPageTabs(totalPages){
+      if(!pageTabs) return;
+      pageTabs.innerHTML='';
+      for(let i=0;i<totalPages;i++){
+        const b=document.createElement('button');
+        b.type='button';
+        b.className='page-tab'+(i===currentPage?' is-active':'');
+        b.textContent=String(i+1);
+        b.setAttribute('aria-label','Open checklist page '+(i+1));
+        b.addEventListener('click',()=>{ currentPage=i; render(); });
+        pageTabs.appendChild(b);
+      }
+      if(pageLabel) pageLabel.textContent='Page '+(currentPage+1)+' of '+totalPages;
+      if(prevBtn) prevBtn.disabled = currentPage===0;
+      if(nextBtn) nextBtn.disabled = currentPage>=totalPages-1;
+    }
+
     function render() {
       if (!grid) return;
 
@@ -863,9 +786,14 @@ document.addEventListener('DOMContentLoaded', function () {
       // Update top status
       updateTopStatus(done, total);
 
-      // Build cards
+      // Build cards for current page
       grid.innerHTML = '';
-      cards.forEach((card, idx) => {
+      const totalPages = Math.ceil(cards.length / PAGE_SIZE);
+      currentPage = Math.max(0, Math.min(currentPage, totalPages - 1));
+      renderPageTabs(totalPages);
+      const start = currentPage * PAGE_SIZE;
+      const visibleCards = cards.slice(start, start + PAGE_SIZE);
+      visibleCards.forEach((card, idx) => {
         const isDone = !!state[card.id];
 
         const el = document.createElement('div');
@@ -879,7 +807,7 @@ document.addEventListener('DOMContentLoaded', function () {
           <div style="flex:1;">
             <div class="dns-title">${card.title}</div>
             <div class="dns-why"><strong>Expert why:</strong> ${card.impact}</div>
-            ${cardMini(done, total, idx, isDone)}
+            ${cardMini(done, total, start + idx, isDone)}
             <details class="dns-details">
               <summary>Steps &amp; command</summary>
               <ol class="dns-steps">
@@ -963,6 +891,9 @@ document.addEventListener('DOMContentLoaded', function () {
         grid.appendChild(el);
       });
     }
+
+    if (prevBtn) { prevBtn.addEventListener('click', function(){ if(currentPage>0){ currentPage--; render(); } }); }
+    if (nextBtn) { nextBtn.addEventListener('click', function(){ const totalPages=Math.ceil(cards.length/PAGE_SIZE); if(currentPage<totalPages-1){ currentPage++; render(); } }); }
 
     // Buttons
     if (resetBtn) {
