@@ -1470,6 +1470,270 @@
   });
 })();
 </script>
+
+<script>
+(function(){
+  const grid = document.getElementById('dnsGrid');
+  if(!grid) return;
+
+  const STORAGE_KEY = 'vpnworld_dns_fix_dashboard_de_v1';
+  const cards = [
+    {id:'kill_switch', title:'Kill Switch aktivieren', risk:'high', area:'dns', why:'Blockiert Fallback-Traffic, wenn der VPN-Tunnel kurz abreißt.', fix:'Aktiviere Kill Switch und – falls vorhanden – „ohne VPN blockieren“.', retest:'Danach DNS-, IPv6- und WebRTC-Test erneut ausführen.'},
+    {id:'dns_protection', title:'DNS-Leak-Schutz in der VPN-App aktivieren', risk:'high', area:'dns', why:'Zwingt DNS-Auflösung in den vom VPN verwalteten Pfad.', fix:'Schalte DNS-Leak-Schutz / sichere DNS-Routen in der VPN-App ein.', retest:'DNS-Resolver-Namen erneut prüfen.'},
+    {id:'ipv6_control', title:'IPv6 absichern oder deaktivieren', risk:'high', area:'ipv6', why:'Verhindert, dass natives IPv6 am Tunnel vorbeigeht.', fix:'IPv6 am aktiven Adapter deaktivieren oder ein VPN-Profil mit sauberem IPv6-Tunnel nutzen.', retest:'IPv6-Test und DNS-Test erneut starten.'},
+    {id:'webrtc_hardening', title:'WebRTC härten', risk:'high', area:'webrtc', why:'Verhindert, dass Browser Netzwerkdaten oder die echte IP verraten.', fix:'WebRTC-Einstellungen härten, ggf. im Browser oder per Datenschutz-Addon.', retest:'WebRTC-Test in einem frischen Tab wiederholen.'},
+    {id:'secure_dns', title:'Secure DNS / DoH Konflikte prüfen', risk:'high', area:'doh', why:'Browser-DNS kann die DNS-Politik des VPN umgehen.', fix:'Secure DNS testweise deaktivieren oder auf „aktuellen Anbieter verwenden“ setzen.', retest:'DNS-Test im selben Browser erneut ausführen.'},
+    {id:'split_tunnel', title:'Split Tunneling prüfen', risk:'med', area:'dns', why:'Ausgeschlossene Browser oder Apps umgehen oft den geschützten Pfad.', fix:'Browser und sensible Apps nicht aus dem Tunnel ausschließen.', retest:'DNS-Test mit genau derselben App erneut ausführen.'},
+    {id:'teredo', title:'Windows Teredo / Übergangstechniken prüfen', risk:'med', area:'ipv6', why:'Übergangstechniken können unerwartete IPv6-/Routing-Pfade öffnen.', fix:'Teredo und ähnliche Übergangstechniken deaktivieren, wenn sie Probleme verursachen.', retest:'IPv6- und DNS-Test wiederholen.'},
+    {id:'smhnr', title:'Smart Multi-Homed Name Resolution prüfen', risk:'med', area:'dns', why:'Windows kann DNS über mehrere Interfaces parallel auflösen.', fix:'Mehrfach-Resolver-Verhalten minimieren und nur den aktiven VPN-Pfad testen.', retest:'DNS-Test nach einem Neustart erneut durchführen.'},
+    {id:'flush_cache', title:'DNS-Cache leeren', risk:'med', area:'dns', why:'Alte Resolver-Einträge verfälschen die Diagnose.', fix:'DNS-Cache leeren und Browser / App neu starten.', retest:'Standard- und erweiterten DNS-Test erneut laufen lassen.'},
+    {id:'captive_portal', title:'Captive Portal korrekt abarbeiten', risk:'high', area:'router', why:'Hotel- und Gäste-WLAN erzwingen oft zuerst eigene DNS-Regeln.', fix:'Zuerst am Portal anmelden, danach VPN neu verbinden.', retest:'Danach den kompletten Test-Stack erneut starten.'},
+    {id:'router_enforce', title:'Router-DNS-Erzwingung prüfen', risk:'high', area:'router', why:'Direktes DNS auf Router-Ebene kann alle Geräte betreffen.', fix:'Direktes DNS blockieren und DNS nur über den Tunnel zulassen.', retest:'DNS-Test von mindestens zwei Geräten aus wiederholen.'},
+    {id:'sleep_wake', title:'Sleep/Wake- und Netzwerkwechsel validieren', risk:'med', area:'dns', why:'Viele Leaks entstehen erst nach Standby oder WLAN-Wechsel.', fix:'Gerät in Standby schicken, aufwecken und sofort erneut testen.', retest:'DNS- und IPv6-Test direkt nach dem Wiederverbinden starten.'},
+    {id:'protocol_switch', title:'VPN-Protokoll wechseln', risk:'med', area:'dns', why:'Instabile Protokolle reconnecten manchmal unsauber.', fix:'Zwischen WireGuard, OpenVPN oder IKEv2 wechseln und erneut validieren.', retest:'DNS-, IPv6- und WebRTC-Test nach dem Protokollwechsel durchführen.'},
+    {id:'clean_profile', title:'Frisches Browser-Profil testen', risk:'med', area:'webrtc', why:'Erweiterungen und alte Policies verfälschen das Ergebnis.', fix:'Leak-Tests in einem frischen Profil oder privaten Fenster wiederholen.', retest:'DNS- und WebRTC-Ergebnis mit dem Hauptprofil vergleichen.'},
+    {id:'firefox_doh', title:'Firefox DNS-over-HTTPS prüfen', risk:'med', area:'doh', why:'Firefox kann eigenes DoH-Routing erzwingen.', fix:'DNS-over-HTTPS in Firefox testweise ausschalten oder sauber anpassen.', retest:'DNS-Test direkt in Firefox erneut starten.'},
+    {id:'edge_dns', title:'Edge Secure DNS prüfen', risk:'med', area:'doh', why:'Edge kann vom System-DNS abweichen.', fix:'Secure DNS testweise deaktivieren oder vereinheitlichen.', retest:'DNS- und WebRTC-Test in Edge erneut durchführen.'},
+    {id:'android_always_on', title:'Android Always-on VPN aktivieren', risk:'high', area:'dns', why:'Schützt besonders beim App-Start oder Netzwerkwechsel.', fix:'Always-on VPN und „Verbindungen ohne VPN blockieren“ einschalten.', retest:'DNS-Test direkt nach Flugmodus an/aus wiederholen.'},
+    {id:'android_private_dns', title:'Android Privates DNS prüfen', risk:'med', area:'doh', why:'Privates DNS kann VPN-DNS teilweise überlagern.', fix:'Privates DNS testweise auf automatisch oder aus stellen.', retest:'DNS-Test und App-Verhalten erneut prüfen.'},
+    {id:'ios_ondemand', title:'iOS On-Demand / Auto-Reconnect validieren', risk:'med', area:'dns', why:'Beim Wechsel zwischen WLAN und Mobilfunk entstehen oft kurze Fallbacks.', fix:'On-Demand sauber konfigurieren und Netzwechsel bewusst testen.', retest:'DNS-Test nach WLAN↔Mobilfunk-Wechsel wiederholen.'},
+    {id:'private_relay', title:'iCloud Private Relay Konflikte prüfen', risk:'med', area:'doh', why:'Mehrere Privacy-Schichten können sich gegenseitig übersteuern.', fix:'Private Relay testweise deaktivieren, wenn das VPN-DNS instabil wirkt.', retest:'DNS- und WebRTC-Test direkt danach wiederholen.'},
+    {id:'vpn_update', title:'Nach App-Updates erneut validieren', risk:'low', area:'dns', why:'VPN-Updates ändern manchmal Routing-Regeln oder Defaults.', fix:'Nach jedem App-Update denselben 3-Test-Flow erneut fahren.', retest:'Resolver-Namen und WebRTC-Ergebnis dokumentieren.'},
+    {id:'os_update', title:'Nach Betriebssystem-Updates erneut validieren', risk:'low', area:'dns', why:'Systemupdates setzen Adapter- oder Browser-Defaults zurück.', fix:'Nach Updates DNS/IPv6/WebRTC einmal komplett gegenprüfen.', retest:'Alle drei Tests im selben Netzwerk wiederholen.'},
+    {id:'public_wifi', title:'Öffentliches WLAN kritisch betrachten', risk:'high', area:'router', why:'Öffentliche Netze manipulieren DNS deutlich häufiger.', fix:'Nicht nur auf die neue IP schauen, sondern Resolver-Namen prüfen.', retest:'Immer in einem zweiten Netzwerk gegenprüfen.'},
+    {id:'second_device', title:'Auf einem zweiten Gerät gegenprüfen', risk:'med', area:'router', why:'So erkennst du, ob das Problem am Gerät oder am Netzwerk liegt.', fix:'Das gleiche WLAN mit einem zweiten Gerät testen.', retest:'Ergebnisse zwischen beiden Geräten vergleichen.'},
+    {id:'second_network', title:'In einem zweiten Netzwerk final validieren', risk:'high', area:'router', why:'Nur so trennt man Gerätefehler von Netzwerk-Hijacking.', fix:'Heimnetz, Mobilfunk oder ein anderes WLAN als Gegenprobe nutzen.', retest:'Wenn beide Netzwerke sauber sind, ist der Fix belastbarer.'}
+  ];
+
+  const riskLabels = {high:'Hoch', med:'Mittel', low:'Niedrig'};
+  const areaLabels = {
+    dns: 'DNS-Routing',
+    ipv6: 'IPv6-Bypass',
+    webrtc: 'WebRTC-Exposition',
+    doh: 'Secure-DNS-Konflikte',
+    router: 'Öffentliches WLAN & Router-Erzwingung'
+  };
+  const areaCoverage = {
+    dns: ['kill_switch','dns_protection','split_tunnel','smhnr','flush_cache','sleep_wake','protocol_switch','vpn_update','os_update'],
+    ipv6: ['ipv6_control','teredo'],
+    webrtc: ['webrtc_hardening','clean_profile'],
+    doh: ['secure_dns','firefox_doh','edge_dns','android_private_dns','private_relay'],
+    router: ['captive_portal','router_enforce','public_wifi','second_device','second_network','android_always_on','ios_ondemand']
+  };
+
+  function loadState(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    }catch(e){
+      return {};
+    }
+  }
+
+  let state = loadState();
+
+  function saveState(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+  }
+
+  function recommendationFor(card, checked){
+    if(checked){
+      return `Erledigt: ${card.title}. Wiederhole jetzt ${card.retest}`;
+    }
+    return `${card.fix} Danach: ${card.retest}`;
+  }
+
+  function cardFeedback(card, checked){
+    if(checked){
+      return {
+        title: 'Grün markiert',
+        pill: 'Verifiziert',
+        klass: 'card-feedback card-feedback--on',
+        text: `${areaLabels[card.area]} ist für diesen Punkt abgedeckt. Jetzt erneut testen, statt direkt weitere Schalter umzulegen.`
+      };
+    }
+    return {
+      title: 'Noch offen',
+      pill: `Risiko: ${riskLabels[card.risk]}`,
+      klass: 'card-feedback card-feedback--off',
+      text: `${card.why} Erster sinnvoller Schritt: ${card.fix}`
+    };
+  }
+
+  function renderCards(){
+    grid.innerHTML = '';
+    cards.forEach((card, index) => {
+      const checked = !!state[card.id];
+      const article = document.createElement('article');
+      article.className = 'dns-card';
+      article.setAttribute('data-id', card.id);
+      article.innerHTML = `
+        <header>
+          <div>
+            <h3>${index + 1}. ${card.title}</h3>
+            <div class="dns-meta">
+              <span class="dns-risk ${card.risk}">${riskLabels[card.risk]}</span>
+              <span class="dns-risk">${areaLabels[card.area]}</span>
+            </div>
+          </div>
+          <label class="dns-check">
+            <input type="checkbox" ${checked ? 'checked' : ''} aria-label="${card.title} als erledigt markieren"/>
+            <span class="dns-kbd" role="button" tabindex="0" aria-pressed="${checked ? 'true' : 'false'}">OK</span>
+          </label>
+        </header>
+        <div class="dns-body">
+          <p><strong>Warum wichtig:</strong> ${card.why}</p>
+          <details>
+            <summary>Was genau tun?</summary>
+            <p>${card.fix}</p>
+            <p><strong>Danach erneut testen:</strong> ${card.retest}</p>
+          </details>
+          <div class="${cardFeedback(card, checked).klass}">
+            <div class="card-feedback__row">
+              <span class="card-feedback__pill">${cardFeedback(card, checked).pill}</span>
+              <span class="card-feedback__title">${cardFeedback(card, checked).title}</span>
+            </div>
+            <p class="card-feedback__text">${cardFeedback(card, checked).text}</p>
+          </div>
+        </div>
+      `;
+      const input = article.querySelector('input');
+      const btn = article.querySelector('[role="button"]');
+
+      function setChecked(nextChecked){
+        state[card.id] = !!nextChecked;
+        saveState();
+        btn.setAttribute('aria-pressed', nextChecked ? 'true' : 'false');
+        input.checked = !!nextChecked;
+        renderCards();
+        updateDashboard(card, !!nextChecked);
+      }
+
+      input.addEventListener('change', () => setChecked(input.checked));
+      btn.addEventListener('click', () => setChecked(!input.checked));
+      btn.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          setChecked(!input.checked);
+        }
+      });
+
+      grid.appendChild(article);
+    });
+  }
+
+  function coverageDone(area){
+    const ids = areaCoverage[area] || [];
+    const done = ids.filter(id => !!state[id]).length;
+    return {done, total: ids.length};
+  }
+
+  function updateCoverage(){
+    const map = {
+      dns: document.getElementById('cov_dns'),
+      ipv6: document.getElementById('cov_ipv6'),
+      webrtc: document.getElementById('cov_webrtc'),
+      doh: document.getElementById('cov_doh'),
+      router: document.getElementById('cov_router')
+    };
+    Object.entries(map).forEach(([area, el]) => {
+      if(!el) return;
+      const stat = coverageDone(area);
+      const ok = stat.done === stat.total && stat.total > 0;
+      const text = ok ? 'Behoben' : `${stat.done}/${stat.total} geprüft`;
+      el.textContent = text;
+      el.className = `live-pill ${ok ? 'live-pill--ok' : 'live-pill--bad'}`;
+    });
+  }
+
+  function updateDashboard(lastCard, lastChecked){
+    const done = cards.filter(c => !!state[c.id]).length;
+    const total = cards.length;
+    const percent = Math.round((done / total) * 100);
+
+    const doneEl = document.getElementById('dnsDone');
+    const totalEl = document.getElementById('dnsTotal');
+    const statusEl = document.getElementById('dnsStatus');
+    const barEl = document.getElementById('dnsBar');
+    const labelEl = document.getElementById('dnsDynamicLabel');
+    const tipEl = document.getElementById('dnsDynamicTip');
+    const recoEl = document.getElementById('dnsRecoText');
+    const impactEl = document.getElementById('dnsImpact');
+
+    if(doneEl) doneEl.textContent = String(done);
+    if(totalEl) totalEl.textContent = String(total);
+    if(barEl) barEl.style.width = percent + '%';
+
+    let status = 'Nicht verifiziert';
+    if(done >= total) status = 'Vollständig geprüft';
+    else if(done >= 18) status = 'Fast sauber';
+    else if(done >= 10) status = 'Teilweise abgesichert';
+    else if(done >= 1) status = 'In Arbeit';
+
+    if(statusEl) statusEl.textContent = status;
+
+    if(labelEl){
+      if(done === total) labelEl.textContent = 'Risiko: Stark reduziert';
+      else if(done >= 18) labelEl.textContent = 'Risiko: Niedrig bis mittel';
+      else if(done >= 10) labelEl.textContent = 'Risiko: Mittel';
+      else labelEl.textContent = 'Risiko: Kritisch';
+    }
+
+    const remaining = cards.filter(c => !state[c.id]).sort((a,b) => ({high:0, med:1, low:2}[a.risk]-({high:0, med:1, low:2}[b.risk])))[0];
+    if(tipEl){
+      if(done === total) tipEl.textContent = 'Starker Stand: Jetzt im zweiten Netzwerk gegenprüfen und die Ergebnisse dokumentieren.';
+      else if(lastCard) tipEl.textContent = recommendationFor(lastCard, lastChecked);
+      else if(remaining) tipEl.textContent = `Nächster sinnvoller Hebel: ${remaining.title}. ${remaining.fix}`;
+    }
+
+    if(recoEl){
+      if(done === total){
+        recoEl.textContent = 'Alle Kernpunkte sind markiert. Jetzt zählen echte Re-Tests: DNS, IPv6 und WebRTC in einem zweiten Netzwerk wiederholen.';
+      }else if(remaining){
+        recoEl.textContent = `Empfohlen als Nächstes: ${remaining.title}. ${remaining.why}`;
+      }else{
+        recoEl.textContent = 'Markiere eine Karte, um kontextbezogene Empfehlungen zu sehen.';
+      }
+    }
+
+    if(impactEl){
+      const list = [
+        `<li><strong>DNS-Routing:</strong> ${coverageDone('dns').done}/${coverageDone('dns').total} Punkte geprüft</li>`,
+        `<li><strong>IPv6-Bypass:</strong> ${coverageDone('ipv6').done}/${coverageDone('ipv6').total} Punkte geprüft</li>`,
+        `<li><strong>WebRTC:</strong> ${coverageDone('webrtc').done}/${coverageDone('webrtc').total} Punkte geprüft</li>`,
+        `<li><strong>Secure DNS / DoH:</strong> ${coverageDone('doh').done}/${coverageDone('doh').total} Punkte geprüft</li>`,
+        `<li><strong>Router / öffentliches WLAN:</strong> ${coverageDone('router').done}/${coverageDone('router').total} Punkte geprüft</li>`
+      ];
+      impactEl.innerHTML = `<ul class="dns-impact__list">${list.join('')}</ul>`;
+    }
+
+    updateCoverage();
+  }
+
+  const markAll = document.getElementById('dnsMarkAll');
+  const clearAll = document.getElementById('dnsClearAll');
+  if(markAll){
+    markAll.addEventListener('click', function(){
+      cards.forEach(card => state[card.id] = true);
+      saveState();
+      renderCards();
+      updateDashboard(null, false);
+    });
+  }
+  if(clearAll){
+    clearAll.addEventListener('click', function(){
+      state = {};
+      saveState();
+      renderCards();
+      updateDashboard(null, false);
+    });
+  }
+
+  renderCards();
+  updateDashboard(null, false);
+})();
+</script>
+
 </body>
 </html>
 <!-- PAGE: /de/blog/vpn-dns-leak.html -->
