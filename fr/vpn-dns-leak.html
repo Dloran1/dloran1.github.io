@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Fuite DNS VPN : comment tester et corriger (France 2026)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Fuite DNS malgré le VPN ? Guide expert France 2026 : tester avec ou sans VPN, corriger IPv6, DoH, Smart Multi-Homed DNS (Windows), portails captifs (Orange/Free/SFR). 25 points de contrôle.">
+  <meta name="robots" content="index, follow">
+
+  <link rel="icon" href="/favicon.ico">
+  <link rel="canonical" href="https://dloran1.github.io/fr/blog/vpn-dns-leak.html">
+
+  <!-- HREFLANG (7× + x-default) -->
+  <link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/wyciek-dns-vpn.html">
+  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html">
+  <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-dns-leak.html">
+  <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-dns-leak.html">
+  <link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/vpn-dns-leak.html">
+  <link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/vpn-dns-leak.html">
+  <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-dns-leak.html">
+  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../../assets/css/style.css">
+
+  <!-- Hero image preload -->
+  <link rel="preload" as="image" href="../../assets/img/hero/vpn-dns-leak-uk.webp">
+
+  <!-- Preconnect -->
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="VPN World">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="nl_BE">
+  <meta property="og:title" content="Fuite DNS VPN : comment tester et corriger (France 2026)">
+  <meta property="og:description" content="Fuite DNS malgré le VPN ? Guide expert France 2026 : tester avec ou sans VPN, corriger IPv6, DoH, Smart Multi-Homed DNS (Windows), portails captifs (Orange/Free/SFR). 25 points de contrôle.">
+  <meta property="og:url" content="https://dloran1.github.io/fr/blog/vpn-dns-leak.html">
+  <meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Tableau de bord de test et de correction des fuites DNS VPN (France 2026)">
+  <meta property="article:published_time" content="2026-01-06">
+  <meta property="article:modified_time" content="2026-03-25">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Fuite DNS VPN : comment tester et corriger (France 2026)">
+  <meta name="twitter:description" content="Fuite DNS malgré le VPN ? Guide expert France 2026 : tester avec ou sans VPN, corriger IPv6, DoH, Smart Multi-Homed DNS (Windows), portails captifs (Orange/Free/SFR). 25 points de contrôle.">
+  <meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EMR8C4TLVM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-EMR8C4TLVM', { 'send_page_view': false, });
+</script>
+
+  <!-- JSON-LD (Stage 2.5): Article + FAQPage + BreadcrumbList + ItemList -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://dloran1.github.io/fr/blog/vpn-dns-leak.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/fr/blog/vpn-dns-leak.html#webpage"},"headline":"Fuite DNS VPN : comment tester et corriger (France 2026)","description":"Fuite DNS malgré le VPN ? Guide expert France 2026 : tester avec ou sans VPN, corriger IPv6, DoH, Smart Multi-Homed DNS (Windows), portails captifs (Orange/Free/SFR). 25 points de contrôle.","image":"https://dloran1.github.io/assets/img/hero/vpn-dns-leak-uk.webp","inLanguage":"fr","datePublished":"2026-01-06","dateModified":"2026-03-25","author":{"@type":"Person","name":"Denys Shchur","url":"https://dloran1.github.io/fr/about-denys-shchur.html"},"publisher":{"@type":"Organization","name":"VPN World","logo":{"@type":"ImageObject","url":"https://dloran1.github.io/assets/img/logo.png"}},"speakable":{"@id":"https://dloran1.github.io/fr/blog/vpn-dns-leak.html#speakable"}},{"@type":"WebPage","@id":"https://dloran1.github.io/fr/blog/vpn-dns-leak.html#webpage","url":"https://dloran1.github.io/fr/blog/vpn-dns-leak.html","name":"Fuite DNS VPN : comment tester et corriger (France 2026)","inLanguage":"fr","description":"Guide pratique France 2026 pour tester et corriger les fuites DNS, IPv6 et WebRTC avec un centre de contrôle interactif.","isPartOf":{"@type":"WebSite","url":"https://dloran1.github.io/fr/","name":"VPN World"},"breadcrumb":{"@id":"https://dloran1.github.io/fr/blog/vpn-dns-leak.html#breadcrumb"}},{"@type":"SpeakableSpecification","@id":"https://dloran1.github.io/fr/blog/vpn-dns-leak.html#speakable","cssSelector":["#quick-answer p:first-child","#quick-answer p","#quick-summary h2","#quick-summary p"]},{"@type":"BreadcrumbList","@id":"https://dloran1.github.io/fr/blog/vpn-dns-leak.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://dloran1.github.io/fr/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/fr/blog/"},{"@type":"ListItem","position":3,"name":"Fuite DNS VPN : comment tester et corriger (France 2026)","item":"https://dloran1.github.io/fr/blog/vpn-dns-leak.html"}]},{"@type":"FAQPage","@id":"https://dloran1.github.io/fr/blog/vpn-dns-leak.html#faq","mainEntity":[{"@type":"Question","name":"Qu'est-ce qu'une fuite DNS avec un VPN ?","acceptedAnswer":{"@type":"Answer","text":"Une fuite DNS se produit quand les requêtes DNS sortent hors du tunnel VPN et arrivent au DNS de votre FAI (Orange, Free, SFR, Bouygues) — même si votre IP est masquée. Votre FAI peut ainsi voir les domaines que vous consultez."}},{"@type":"Question","name":"Comment tester rapidement une fuite DNS ?","acceptedAnswer":{"@type":"Answer","text":"Connectez votre VPN, puis allez sur dnsleaktest.com ou ipleak.net et lancez un test étendu. Si des serveurs DNS liés à Orange, Free, SFR ou Bouygues apparaissent, vous avez une fuite. Répétez sans VPN pour comparer."}},{"@type":"Question","name":"Pourquoi mon VPN laisse fuiter le DNS ?","acceptedAnswer":{"@type":"Answer","text":"Les quatre causes principales sont : IPv6 non géré par le VPN (Orange et Free forcent souvent l'IPv6), DNS over HTTPS activé dans le navigateur, Smart Multi-Homed DNS de Windows qui interroge plusieurs interfaces, et le split tunneling mal configuré."}},{"@type":"Question","name":"Le kill switch suffit-il pour bloquer les fuites DNS ?","acceptedAnswer":{"@type":"Answer","text":"Non, pas seul. Le kill switch bloque le trafic lors d'une coupure VPN mais ne corrige pas les fuites structurelles liées à IPv6, DoH ou Windows Smart DNS. La formule complète est : kill switch + DNS automatique (VPN) + IPv6 désactivé si nécessaire + re-tests réguliers."}},{"@type":"Question","name":"Pourquoi la fuite apparaît-elle seulement sur certains navigateurs ?","acceptedAnswer":{"@type":"Answer","text":"Parce que chaque navigateur peut avoir son propre résolveur DNS. Chrome peut utiliser un DNS over HTTPS externe, Firefox peut suivre un autre comportement, et Brave peut encore ajouter ses propres protections. Il faut donc vérifier séparément le DNS du système, celui du navigateur et WebRTC."}},{"@type":"Question","name":"Comment savoir si mon VPN gère correctement l'IPv6 ?","acceptedAnswer":{"@type":"Answer","text":"Vérifiez dans les paramètres du client VPN s'il existe une option de protection IPv6 ou de blocage des fuites IPv6. Si elle n'existe pas, considérez que votre VPN est probablement IPv4-only et désactivez alors l'IPv6 au niveau du système ou de la box."}},{"@type":"Question","name":"Un redémarrage corrige-t-il la fuite ?","acceptedAnswer":{"@type":"Answer","text":"Parfois temporairement, car il vide certains caches et réinitialise les interfaces. Mais si la cause réelle est Smart Multi-Homed DNS, IPv6 non géré ou un conflit DoH, la fuite reviendra. Il faut corriger la configuration, puis re-tester."}}]},{"@type":"HowTo","@id":"https://dloran1.github.io/fr/blog/vpn-dns-leak.html#howto-control-center","name":"Comment fermer une fuite DNS avec un VPN en France","description":"Flux répétable : testez DNS, IPv6 et WebRTC, appliquez un réglage à la fois et validez le résultat.","inLanguage":"fr","totalTime":"PT15M","supply":[{"@type":"HowToSupply","name":"Un VPN avec kill switch et protection anti-fuite DNS"}],"tool":[{"@type":"HowToTool","name":"Votre navigateur et un site de test DNS/IPv6/WebRTC"}],"step":[{"@type":"HowToStep","position":1,"name":"Désactiver IPv6 (Box Orange/Free)","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : Désactiver IPv6 (Box Orange/Free)."},{"@type":"HowToStep","position":2,"name":"WebRTC Leak Shield","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : WebRTC Leak Shield."},{"@type":"HowToStep","position":3,"name":"Kill Switch Système","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : Kill Switch Système."},{"@type":"HowToStep","position":4,"name":"Smart Multi-Homed DNS","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : Smart Multi-Homed DNS."},{"@type":"HowToStep","position":5,"name":"DNS over HTTPS (DoH)","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : DNS over HTTPS (DoH)."},{"@type":"HowToStep","position":6,"name":"Teredo Tunneling","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : Teredo Tunneling."},{"@type":"HowToStep","position":7,"name":"Flush DNS Cache","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : Flush DNS Cache."},{"@type":"HowToStep","position":8,"name":"LLMNR / NetBIOS","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : LLMNR / NetBIOS."},{"@type":"HowToStep","position":9,"name":"Proxy WPAD","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : Proxy WPAD."},{"@type":"HowToStep","position":10,"name":"DNS Prefetching","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : DNS Prefetching."},{"@type":"HowToStep","position":11,"name":"DHCP Lease (Bail)","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : DHCP Lease (Bail)."},{"@type":"HowToStep","position":12,"name":"Fuite ICMP (Ping)","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : Fuite ICMP (Ping)."},{"@type":"HowToStep","position":13,"name":"WebRTC Media Device ID","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : WebRTC Media Device ID."},{"@type":"HowToStep","position":14,"name":"DNS Tiers (8.8.8.8)","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : DNS Tiers (8.8.8.8)."},{"@type":"HowToStep","position":15,"name":"Bavardage mDNS","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : Bavardage mDNS."},{"@type":"HowToStep","position":16,"name":"IPv6 Leak (Mobile)","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : IPv6 Leak (Mobile)."},{"@type":"HowToStep","position":17,"name":"HSTS Fingerprinting","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : HSTS Fingerprinting."},{"@type":"HowToStep","position":18,"name":"MTU Discovery Leak","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : MTU Discovery Leak."},{"@type":"HowToStep","position":19,"name":"Uptime Fingerprint","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : Uptime Fingerprint."},{"@type":"HowToStep","position":20,"name":"Captive Portals","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : Captive Portals."},{"@type":"HowToStep","position":21,"name":"Split Tunneling Error","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : Split Tunneling Error."},{"@type":"HowToStep","position":22,"name":"Fuite SMTP/Email","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : Fuite SMTP/Email."},{"@type":"HowToStep","position":23,"name":"P2P / Torrent Leak","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : P2P / Torrent Leak."},{"@type":"HowToStep","position":24,"name":"Service Helper VPN","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : Service Helper VPN."},{"@type":"HowToStep","position":25,"name":"Timezone Leak","text":"Appliquez ce réglage, relancez les tests DNS, IPv6 et WebRTC, puis confirmez que les DNS de votre FAI n'apparaissent plus : Timezone Leak."}]},{"@type":"ItemList","@id":"https://dloran1.github.io/fr/blog/vpn-dns-leak.html#related","name":"Articles liés (VPN World FR)","itemListElement":[{"@type":"ListItem","position":1,"url":"https://dloran1.github.io/fr/blog/vpn-kill-switch.html","name":"VPN Kill Switch"},{"@type":"ListItem","position":2,"url":"https://dloran1.github.io/fr/blog/protocoles-vpn.html","name":"Protocoles VPN"},{"@type":"ListItem","position":3,"url":"https://dloran1.github.io/fr/blog/securite-wifi.html","name":"Sécurité Wi‑Fi"},{"@type":"ListItem","position":4,"url":"https://dloran1.github.io/fr/blog/vpn-wifi-public.html","name":"VPN sur Wi‑Fi public"},{"@type":"ListItem","position":5,"url":"https://dloran1.github.io/fr/blog/securite-wifi-checklist.html","name":"Checklist sécurité Wi‑Fi"},{"@type":"ListItem","position":6,"url":"https://dloran1.github.io/fr/blog/configuration-vpn-routeur.html","name":"Configuration VPN routeur"},{"@type":"ListItem","position":7,"url":"https://dloran1.github.io/fr/blog/no-logs-vpn.html","name":"VPN no-logs"}]}]}</script>
+  <!-- Stage 2.5: hard high-contrast fixes for tables + SVG (must override dark theme) -->
+
+<style>
+
+    /* Responsive wrappers (no zoom/lightbox) */
+    .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:12px}
+    .table-scroll table{min-width:760px}
+    .svg-card{margin:18px 0;border-radius:14px;background:#fff;border:1px solid #e5e7eb;box-shadow:0 8px 20px rgba(0,0,0,.12)}
+    .svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:12px}
+    .svg-scroll svg{display:block;max-width:100%;height:auto;color:#000}
+    .svg-scroll svg text{fill:#000 !important;font-weight:800}
+    .svg-scroll svg .thin{stroke-width:3}
+    .svg-scroll svg .thick{stroke-width:4}
+
+    /* Table hard fix: always readable */
+    .table-scroll,.table-scroll *{color:#000 !important}
+    .table-scroll table{width:100%;border-collapse:collapse;background:#fff !important}
+    .table-scroll caption{caption-side:top;text-align:left;padding:10px 12px;font-weight:800;color:#000 !important}
+    .table-scroll th,.table-scroll td{border:2px solid #000 !important;padding:10px 12px;vertical-align:top;background:#fff !important}
+    .table-scroll thead th{background:#071023 !important;color:#fff !important}
+    .table-scroll tbody tr:nth-child(even) td{background:#f7fbff !important}
+    .table-scroll a{color:#0b4fd6 !important;text-decoration:underline}
+    .table-scroll a:hover{opacity:.9}
+
+    /* Related card (dark wide, green accent) */
+    .related-card{
+      margin:18px 0;
+      background:#071023;
+      border:1px solid #1b2432;
+      border-radius:14px;
+      padding:14px 16px;
+      position:relative;
+      box-shadow:0 10px 22px rgba(0,0,0,.18);
+    }
+    .related-card:before{
+      content:"";
+      position:absolute;
+      left:10px;top:12px;bottom:12px;
+      width:4px;border-radius:4px;
+      background:#22c55e;
+    }
+    .related-card p{margin:0;color:#eaeaea}
+    .related-card a{color:#eaeaea;text-decoration:underline}
+    .related-card strong{color:#eaeaea}
+
+    /* Key takeaway box */
+    .key-takeaway{
+      background:#f0fff4;
+      border-left:4px solid #22c55e;
+      border-radius:0 8px 8px 0;
+      padding:12px 16px;
+      margin:12px 0 20px;
+      font-size:.97rem;
+      color:#071023;
+    }
+    .key-takeaway strong{color:#0a7a2a}
+
+    /* Quick Answer box */
+    .quick-answer{
+      background:#fff8e1;
+      border:2px solid #f59e0b;
+      border-radius:12px;
+      padding:16px 20px;
+      margin:18px 0 24px;
+      color:#071023 !important;
+    }
+    .quick-answer h2,
+    .quick-answer p,
+    .quick-answer li,
+    .quick-answer ul,
+    .quick-answer ol{color:#071023 !important}
+    .quick-answer p{margin:6px 0}
+    .quick-answer strong{color:#92400e !important}
+    .cta-note,.human-note{color:#eaeaea !important}
+  
+
+    :root {
+      --vw-primary: #0b4fd6;
+      --vw-success: #22c55e;
+      --vw-dark: #071023;
+      --vw-gray: #f9fafb;
+      --vw-border: #000;
+    }
+
+    .dns-widget-v2 {
+      margin: 30px 0;
+      padding: 24px;
+      background: #fff;
+      border: 3px solid var(--vw-border);
+      border-radius: 16px;
+      font-family: sans-serif;
+      color: #000;
+    }
+
+    .dns-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .dns-title h2 { margin: 0; font-size: 24px; color: var(--vw-dark); }
+
+    .dns-overall-progress {
+      background: var(--vw-gray);
+      padding: 10px 20px;
+      border: 2px solid var(--vw-border);
+      border-radius: 50px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .progress-circle {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      border: 3px solid var(--vw-success);
+      display: inline-block;
+    }
+
+    .dns-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+
+    .dns-card {
+      border: 2px solid var(--vw-border);
+      border-radius: 12px;
+      padding: 16px;
+      transition: all 0.2s ease;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .dns-card.active {
+      border-color: var(--vw-success);
+      background: #f0fff4;
+      box-shadow: 0 4px 0 var(--vw-border);
+    }
+
+    .dns-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .dns-card h3 {
+      margin: 0;
+      font-size: 16px;
+      padding-right: 35px;
+      line-height: 1.3;
+    }
+
+    .dns-checkbox {
+      width: 28px; height: 28px;
+      cursor: pointer;
+      accent-color: var(--vw-success);
+      position: absolute;
+      right: 16px; top: 16px;
+    }
+
+    .dns-card-mini-bar {
+      height: 6px;
+      background: #eee;
+      margin: 8px 0;
+      border-radius: 3px;
+      overflow: hidden;
+      position: relative;
+    }
+    .dns-card-mini-bar div { height: 100%; width: 0%; background: #ccc; transition: width 0.3s, background 0.3s; }
+    .dns-card.active .dns-card-mini-bar div { width: 100% !important; background: var(--vw-success); }
+
+    .dns-details {
+      display: none;
+      margin-top: 12px;
+      font-size: 14px;
+      border-top: 1px dashed #ccc;
+      padding-top: 12px;
+    }
+    .dns-card.active .dns-details { display: block; }
+
+    .expert-box { margin-bottom: 10px; padding-left: 10px; border-left: 3px solid var(--vw-primary); font-style: italic; }
+    .verdict-box { background: #fff; border: 1px solid var(--vw-border); padding: 8px; border-radius: 6px; margin-bottom: 10px; font-weight: bold; }
+    .dns-code { background: #000; color: #0f0; padding: 6px 10px; border-radius: 4px; font-family: monospace; font-size: 12px; display: block; overflow-x: auto; border: 1px solid #333; }
+
+    /* REQUIRED micro-feedback per card */
+    .dns-micro-verdict{margin:6px 0 0;font-weight:800;font-size:12px;}
+    .dns-card.active .dns-micro-verdict{color:#0a7a2a;}
+    .dns-card:not(.active) .dns-micro-verdict{color:#b00020;}
+
+    .dns-footer-stats {
+      margin-top: 20px;
+      text-align: center;
+      font-weight: bold;
+      border-top: 2px solid var(--vw-border);
+      padding-top: 15px;
+    }
+  
+
+.status-bad{color:#b00020}.status-warn{color:#b45309}.status-ok{color:#0a7a2a}
+.dns-pager{display:flex;justify-content:center;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.dns-pager button{appearance:none;border:2px solid #000;background:#fff;color:#000;font-weight:800;padding:8px 12px;border-radius:10px;cursor:pointer}
+.dns-pager button[disabled]{opacity:.45;cursor:not-allowed}
+.dns-pager .page-info{font-weight:800}
+.faq-list{display:grid;gap:12px;margin:14px 0}
+.faq-item{background:#fff;border:3px solid #000;border-radius:14px;padding:0;color:#071023;overflow:hidden}
+.faq-item summary{cursor:pointer;list-style:none;padding:14px 16px;font-weight:800}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item[open] summary{border-bottom:3px solid #000;background:#f6f7fb}
+.faq-item .faq-answer{padding:14px 16px 16px}
+.u-link-reset{text-decoration:none}
+.cta-note,.human-note{margin:10px 0 0;color:#071023}
+#quick-summary{margin:24px 0}
+.author-box a.u-link-reset{text-decoration:none}
+
+</style>
+  <script src="/assets/js/cookie-consent.js" defer></script>
+
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="header-main">
+        <a href="/fr/" class="brand">
+          <img src="../../assets/img/logo.png" class="logo" alt="VPN World logo">
+          <span class="brand-text">VPN World</span>
+        </a>
+
+        <nav class="primary-nav" aria-label="Main navigation">
+          <a href="/fr/blog/">Blog</a>
+        </nav>
+      </div>
+
+      <nav class="lang-switch" aria-label="Language switcher">
+        <a href="/blog/wyciek-dns-vpn.html" class="">Polski</a> |
+        <a href="/en-gb/blog/vpn-dns-leak-uk.html" class="">English (UK)</a> |
+        <a href="/en-us/blog/vpn-dns-leak.html" class="">English (US)</a> |
+        <a href="/de/blog/vpn-dns-leak.html" class="">Deutsch</a> |
+        <a href="/es/blog/vpn-dns-leak.html" class="">Español</a> |
+        <a href="/fr/blog/vpn-dns-leak.html" class="active" aria-current="page">Français</a> |
+        <a href="/nl-be/blog/vpn-dns-leak.html" class="">Nederlands (BE)</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+
+          <h1>Fuite DNS VPN : comment tester et corriger (France 2026)</h1>
+
+          <p class="note">
+            Publié le <time datetime="2026-01-06">6 janvier 2026</time> · Mis à jour le <time datetime="2026-03-25">25 mars 2026</time> · par <strong>Denys Shchur</strong>, VPN World
+          </p>
+
+          <!-- QUICK ANSWER -->
+          <div id="quick-answer" class="quick-answer" aria-label="Réponse rapide">
+            <p><strong>Qu'est-ce qu'une fuite DNS ?</strong> C'est quand vos requêtes DNS — la traduction des noms de domaine en adresses IP — sortent hors du tunnel VPN et arrivent directement chez votre FAI (Orange, Free, SFR, Bouygues), même si votre IP publique est masquée.</p>
+            <p><strong>Test rapide :</strong> connectez votre VPN, allez sur <em>dnsleaktest.com</em>, cliquez "Extended test". Si un serveur de votre opérateur apparaît dans les résultats, vous fuyez.</p>
+            <p><strong>Les 2 causes les plus fréquentes en France :</strong> (1) IPv6 actif contournant un VPN IPv4-only — les box Orange et Free poussent l'IPv6 par défaut ; (2) Windows Smart Multi-Homed DNS ou DNS over HTTPS (DoH) du navigateur qui interroge les serveurs du FAI en parallèle du tunnel.</p>
+            <p><strong>Correctif rapide :</strong> activez le <strong>Kill Switch</strong> de votre app VPN en mode "always-on", passez le DNS en automatique (géré par le VPN), désactivez IPv6 si votre VPN n'en gère pas.</p>
+            <p>Utilisez le DNS Control Center ci-dessous pour valider vos 25 points de contrôle, étape par étape.</p>
+            <div class="note"><strong>Test immédiat :</strong> vérifiez d’abord si votre connexion fuit réellement avec notre <a href="https://smartadvisoronline.com/tools/leak-test.html">Leak Test</a>. C’est le moyen le plus rapide de confirmer un problème DNS, IPv6 ou WebRTC avant de modifier quoi que ce soit.</div>
+          </div>
+
+          <div class="table-scroll u-mt-16">
+            <table>
+              <caption>Spécificités des opérateurs français : où les fuites DNS apparaissent le plus souvent</caption>
+              <thead><tr><th scope="col">Opérateur</th><th scope="col">Signal fréquent</th><th scope="col">Premier contrôle utile</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Orange</strong></td><td>IPv6 actif et reconnexions parfois instables après changement de réseau</td><td>Tester IPv6, puis refaire le test DNS après reconnexion VPN</td></tr>
+                <tr><td><strong>Free</strong></td><td>Résultats variables selon la box et le navigateur</td><td>Vérifier DoH/DoT dans le navigateur et DNS imposé par la box</td></tr>
+                <tr><td><strong>SFR</strong></td><td>Wi‑Fi public et portails captifs pouvant perturber le chemin DNS</td><td>Reconnecter le VPN après authentification, puis lancer le test étendu</td></tr>
+                <tr><td><strong>Bouygues Telecom</strong></td><td>Conflits plus visibles lors du passage Wi‑Fi ↔ 4G/5G</td><td>Valider Kill Switch, WebRTC et stabilité après bascule réseau</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- CTA BLOCK 1 -->
+          <div class="cta-box" aria-label="VPN recommandés anti-fuites">
+            <h2>VPN recommandés pour corriger les fuites DNS</h2>
+            <p class="cta-note">Liens affiliés (nofollow/sponsored).</p>
+            <div class="cta-buttons" aria-label="Offres partenaires">
+              <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer NordVPN — kill switch + DNS anti-fuite</a>
+              <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer Surfshark — multi-appareils, anti-fuites</a>
+              <a href="https://www.dpbolvw.net/click-101525886-15834536" class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer Proton VPN — privacy-first, contrôle DNS</a>
+            </div>
+            <p class="human-note">Divulgation : VPN World peut percevoir une commission si vous souscrivez via ces liens — sans changer votre prix.</p>
+          </div>
+
+        </div>
+
+        <div class="hero-media" aria-label="Image hero">
+          <div class="hero-art">
+            <img src="../../assets/img/hero/vpn-dns-leak-uk.webp" alt="Fuite DNS VPN — schéma et guide de correction (France 2026)" width="1200" height="630" fetchpriority="high" loading="eager" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DNS CONTROL CENTER V2 WIDGET -->
+    <section class="section">
+      <div class="container">
+
+<section id="vpnw-dns-control-center" class="dns-widget-v2">
+  
+
+  <div class="dns-header">
+    <div class="dns-title">
+      <h2>DNS Control Center</h2>
+      <p>Contrôle avancé anti-fuite DNS (France 2026)</p>
+    </div>
+    <div class="dns-overall-progress">
+      <span id="vw-progress-text">0 / 25 SÉCURISÉ</span>
+      <div class="progress-circle"></div>
+    </div>
+  </div>
+
+  <div id="dns-master-grid" class="dns-grid"></div>
+  <div class="dns-pager" aria-label="Pagination du centre de contrôle"><button type="button" id="dns-prev">← Précédent</button><span class="page-info" id="dns-page-info">Page 1 / 13</span><button type="button" id="dns-next">Suivant →</button></div>
+  <div class="dns-footer-stats">
+    <span id="final-verdict">Statut : <span class="status-bad">VULNÉRABLE</span></span>
+  </div>
+
+  <script>
+    (function() {
+      const dnsData = [
+        { id: 1, title: "Désactiver IPv6 (Box Orange/Free)", smart: "SmartAdvisor: IPv6 contourne souvent le tunnel sur les réseaux français.", vpn: "VPN World: Si le VPN est IPv4-only, désactivez l'IPv6 dans l'interface de votre box.", code: "Interface Box -> Paramètres avancés -> Désactiver IPv6" },
+        { id: 2, title: "WebRTC Leak Shield", smart: "SmartAdvisor: Les navigateurs révèlent l'IP locale via les requêtes STUN.", vpn: "VPN World: Utilisez Brave ou désactivez WebRTC dans Firefox.", code: "about:config -> media.peerconnection.enabled = false" },
+        { id: 3, title: "Kill Switch Système", smart: "SmartAdvisor: Les fuites surviennent pendant les millisecondes de reconnexion.", vpn: "VPN World: Activez le 'Permanent Kill Switch' au niveau du firewall.", code: "Settings -> Kill Switch -> Advanced/Always-on" },
+        { id: 4, title: "Smart Multi-Homed DNS", smart: "SmartAdvisor: Windows interroge tous les DNS et choisit le plus rapide (FAI).", vpn: "VPN World: Désactivez cette fonction via GPO ou Registre.", code: "DisableSmartNameResolution = 1" },
+        { id: 5, title: "DNS over HTTPS (DoH)", smart: "SmartAdvisor: Le navigateur peut ignorer le VPN pour parler à Cloudflare.", vpn: "VPN World: Synchronisez les paramètres DNS du navigateur et du VPN.", code: "Settings -> Privacy -> Secure DNS (OFF)" },
+        { id: 6, title: "Teredo Tunneling", smart: "SmartAdvisor: Protocole d'encapsulation IPv6 créant une porte dérobée.", vpn: "VPN World: Désactivez Teredo pour forcer tout le trafic dans le tunnel.", code: "netsh interface teredo set state disabled" },
+        { id: 7, title: "Flush DNS Cache", smart: "SmartAdvisor: Les anciennes entrées pointent vers les DNS d'Orange/SFR.", vpn: "VPN World: Videz le cache système après chaque connexion VPN.", code: "ipconfig /flushdns" },
+        { id: 8, title: "LLMNR / NetBIOS", smart: "SmartAdvisor: Les requêtes de noms locaux fuitent sur les Wi-Fi publics.", vpn: "VPN World: Désactivez-les dans les propriétés de la carte réseau.", code: "IPv4 -> Advanced -> WINS -> Disable NetBIOS" },
+        { id: 9, title: "Proxy WPAD", smart: "SmartAdvisor: L'auto-détection de proxy est un vecteur d'attaque MITM.", vpn: "VPN World: Décochez 'Détecter automatiquement' dans Windows.", code: "Settings -> Proxy -> Auto-detect (OFF)" },
+        { id: 10, title: "DNS Prefetching", smart: "SmartAdvisor: Le navigateur résout les liens avant le clic.", vpn: "VPN World: Désactivez la prédiction réseau dans les options de confidentialité.", code: "Settings -> Privacy -> Preload pages (OFF)" },
+        { id: 11, title: "DHCP Lease (Bail)", smart: "SmartAdvisor: Le renouvellement d'IP peut provoquer une micro-fuite.", vpn: "VPN World: Utilisez une IP locale statique pour stabiliser le tunnel.", code: "Propriétés Carte -> IP fixe (192.168.1.XX)" },
+        { id: 12, title: "Fuite ICMP (Ping)", smart: "SmartAdvisor: Les réponses ICMP révèlent votre distance réelle du serveur.", vpn: "VPN World: Bloquez les pings entrants via le Pare-feu Windows.", code: "Windows Firewall -> ICMPv4 -> Deny" },
+        { id: 13, title: "WebRTC Media Device ID", smart: "SmartAdvisor: L'ID de vos périphériques audio aide au fingerprinting.", vpn: "VPN World: Utilisez Chameleon ou CanvasBlocker pour masquer les IDs.", code: "Extension: Browser Fingerprint Shield" },
+        { id: 14, title: "DNS Tiers (8.8.8.8)", smart: "SmartAdvisor: Forcer Google DNS peut créer des conflits hors tunnel.", vpn: "VPN World: Laissez le DNS en 'Automatique' pour le VPN.", code: "IPv4 Settings -> Obtain DNS automatically" },
+        { id: 15, title: "Bavardage mDNS", smart: "SmartAdvisor: Révèle le nom de votre machine sur le réseau local.", vpn: "VPN World: Crucial pour macOS/Linux. Bloquez le port 5353.", code: "sudo ufw deny 5353/udp" },
+        { id: 16, title: "IPv6 Leak (Mobile)", smart: "SmartAdvisor: Le 4G/5G Orange force souvent l'IPv6.", vpn: "VPN World: Créez un APN configuré uniquement en IPv4.", code: "APN Settings -> Protocol -> IPv4 only" },
+        { id: 17, title: "HSTS Fingerprinting", smart: "SmartAdvisor: Méthode de suivi via le cache de sécurité des sites.", vpn: "VPN World: Nettoyez régulièrement l'historique HSTS.", code: "Ctrl+Shift+Del -> Cache/Cookies" },
+        { id: 18, title: "MTU Discovery Leak", smart: "SmartAdvisor: La taille des paquets trahit l'usage d'un VPN.", vpn: "VPN World: Ajustez le MSS Clamping sur votre routeur (1380).", code: "Router Admin -> MTU -> 1380" },
+        { id: 19, title: "Uptime Fingerprint", smart: "SmartAdvisor: Le temps d'activité aide à identifier votre session.", vpn: "VPN World: Redémarrez votre OS après de longues sessions.", code: "OS Reboot Required" },
+        { id: 20, title: "Captive Portals", smart: "SmartAdvisor: Les Wi-Fi d'hôtels interceptent souvent le DNS.", vpn: "VPN World: Ne lancez le VPN qu'APRES l'auth du portail.", code: "Wait for Login -> Connect VPN" },
+        { id: 21, title: "Split Tunneling Error", smart: "SmartAdvisor: Une mauvaise exclusion d'app mène à des fuites.", vpn: "VPN World: En cas de doute, utilisez le Full Tunnel uniquement.", code: "VPN Settings -> Split Tunneling (OFF)" },
+        { id: 22, title: "Fuite SMTP/Email", smart: "SmartAdvisor: Les clients mail peuvent envoyer votre IP en clair.", vpn: "VPN World: Utilisez le Webmail ou une protection mail VPN.", code: "Check Header: X-Originating-IP" },
+        { id: 23, title: "P2P / Torrent Leak", smart: "SmartAdvisor: Les clients Torrent ignorent parfois le VPN système.", vpn: "VPN World: Liez (Bind) l'application à l'interface réseau du VPN.", code: "qBittorrent -> Settings -> Network -> Interface" },
+        { id: 24, title: "Service Helper VPN", smart: "SmartAdvisor: Si le pilote TUN/TAP plante, la sécurité s'arrête.", vpn: "VPN World: Surveillez que le service du driver est actif.", code: "services.msc -> VPN Driver Service" },
+        { id: 25, title: "Timezone Leak", smart: "SmartAdvisor: Différence entre l'heure système et l'IP du VPN.", vpn: "VPN World: L'heure du PC doit correspondre au fuseau du serveur.", code: "Settings -> Time -> Manual (Match VPN IP)" }
+      ];
+
+      const grid = document.getElementById('dns-master-grid');
+      const progressText = document.getElementById('vw-progress-text');
+      const finalVerdict = document.getElementById('final-verdict');
+      const prevBtn = document.getElementById('dns-prev');
+      const nextBtn = document.getElementById('dns-next');
+      const pageInfo = document.getElementById('dns-page-info');
+      const storageKey = 'vpnworld_fr_dns_v2';
+      let savedState = JSON.parse(localStorage.getItem(storageKey)) || {};
+      let currentPage = 0;
+      const cardsPerPage = 4;
+
+      function updateGlobalProgress() {
+        const activeCount = Object.values(savedState).filter(v => v === true).length;
+        progressText.innerText = `${activeCount} / 25 SÉCURISÉ`;
+        if (activeCount === 25) finalVerdict.innerHTML = 'Statut : <span class="status-ok">ÉTANCHE (OK)</span>';
+        else if (activeCount > 15) finalVerdict.innerHTML = 'Statut : <span class="status-warn">PROTÉGÉ (PARTIEL)</span>';
+        else finalVerdict.innerHTML = 'Statut : <span class="status-bad">VULNÉRABLE</span>';
+      }
+
+      function verdictText(on){
+        return on ? 'VPN World: OK — étape validée' : 'VPN World: À corriger — action requise';
+      }
+
+      function buildCard(item){
+        const card = document.createElement('div');
+        const isOn = !!savedState[item.id];
+        card.className = `dns-card ${isOn ? 'active' : ''}`;
+        card.innerHTML = `
+          <div class="dns-card-head">
+            <h3>${item.title}</h3>
+            <input type="checkbox" class="dns-checkbox" data-id="${item.id}" ${isOn ? 'checked' : ''} aria-label="Valider ${item.title}">
+          </div>
+          <div class="dns-micro-verdict">${verdictText(isOn)}</div>
+          <div class="dns-card-mini-bar"><div></div></div>
+          <div class="dns-details">
+            <div class="expert-box">${item.smart}</div>
+            <div class="verdict-box">${item.vpn}</div>
+            <code class="dns-code">${item.code}</code>
+          </div>`;
+        const checkbox = card.querySelector('.dns-checkbox');
+        const verdictEl = card.querySelector('.dns-micro-verdict');
+        checkbox.addEventListener('change', function() {
+          savedState[item.id] = this.checked;
+          localStorage.setItem(storageKey, JSON.stringify(savedState));
+          render();
+        });
+        card.addEventListener('keydown', function(e){ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); checkbox.checked=!checkbox.checked; checkbox.dispatchEvent(new Event('change')); }});
+        card.tabIndex = 0;
+        card.setAttribute('aria-pressed', isOn ? 'true' : 'false');
+        return card;
+      }
+
+      function render(){
+        const totalPages = Math.ceil(dnsData.length / cardsPerPage);
+        currentPage = Math.max(0, Math.min(currentPage, totalPages - 1));
+        grid.innerHTML = '';
+        const slice = dnsData.slice(currentPage * cardsPerPage, currentPage * cardsPerPage + cardsPerPage);
+        slice.forEach(item => grid.appendChild(buildCard(item)));
+        pageInfo.textContent = `Page ${currentPage + 1} / ${totalPages}`;
+        prevBtn.disabled = currentPage === 0;
+        nextBtn.disabled = currentPage >= totalPages - 1;
+        updateGlobalProgress();
+      }
+      prevBtn.addEventListener('click', ()=>{ currentPage--; render(); });
+      nextBtn.addEventListener('click', ()=>{ currentPage++; render(); });
+      render();
+    })();
+  </script>
+</section>
+
+        <!-- SVG4 — immediately after widget: end-to-end secured flow -->
+        <div class="svg-card"><div class="svg-scroll">
+<svg viewBox="0 0 980 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schéma : objectif sécurité — DNS toujours dans le tunnel VPN">
+  
+  <rect x="0" y="0" width="980" height="260" fill="#fff" stroke="#000" stroke-width="4"/>
+  <rect x="40" y="75" width="210" height="110" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="145" y="120" text-anchor="middle" font-size="16">Appareil</text>
+  <text x="145" y="145" text-anchor="middle" font-size="13">Wi-Fi / 4G / 5G</text>
+  <rect x="300" y="55" width="250" height="150" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="425" y="95" text-anchor="middle" font-size="16">Tunnel VPN</text>
+  <text x="425" y="120" text-anchor="middle" font-size="13">Trafic + DNS</text>
+  <text x="425" y="145" text-anchor="middle" font-size="13">+ Kill Switch</text>
+  <text x="425" y="170" text-anchor="middle" font-size="13">+ DoH contrôlé</text>
+  <rect x="610" y="55" width="320" height="70" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="770" y="95" text-anchor="middle" font-size="16">DNS du VPN</text>
+  <rect x="610" y="135" width="320" height="70" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="770" y="175" text-anchor="middle" font-size="16">Sites / services</text>
+  <path d="M250 130 L300 130" fill="none" stroke="#000" stroke-width="4"/>
+  <polygon points="300,130 286,123 286,137" fill="#000"/>
+  <text x="270" y="118" font-size="12">Tout passe</text>
+  <path d="M550 90 L610 90" fill="none" stroke="#000" stroke-width="4"/>
+  <polygon points="610,90 596,83 596,97" fill="#000"/>
+  <text x="560" y="78" font-size="12">DNS</text>
+  <path d="M550 170 L610 170" fill="none" stroke="#000" stroke-width="4"/>
+  <polygon points="610,170 596,163 596,177" fill="#000"/>
+  <text x="555" y="158" font-size="12">HTTPS</text>
+</svg>
+        </div></div>
+
+      </div>
+    </section>
+
+    <!-- ARTICLE CONTENT -->
+    <section class="section">
+      <div class="container article">
+
+        <!-- H2 #1 -->
+        <h2 id="quest-ce-que-fuite-dns">Qu'est-ce qu'une fuite DNS ?</h2>
+        <div class="key-takeaway">
+          <strong>Key takeaway :</strong> même avec un VPN actif, vos requêtes DNS peuvent passer hors du tunnel et arriver chez votre FAI. Ce n'est pas une panne — c'est une mauvaise configuration, et ça se corrige en quelques étapes précises.
+        </div>
+
+        <p>
+          Chaque fois que vous tapez une adresse dans votre navigateur — forum, banque, streaming — votre appareil traduit ce nom de domaine en adresse IP via un <strong>serveur DNS</strong>. Avec un VPN correctement configuré, ces requêtes DNS transitent à l'intérieur du tunnel chiffré, vers le serveur DNS du VPN, pas vers celui de votre FAI.
+        </p>
+        <p>
+          Mais il existe plusieurs scénarios où la requête DNS contourne le tunnel et part directement vers les serveurs d'Orange, Free, SFR ou Bouygues. C'est ce qu'on appelle une <strong>fuite DNS</strong>. Résultat concret : même si votre IP est masquée, votre FAI voit toujours la liste des domaines que vous consultez. Ce n'est pas identique à une fuite d'IP — votre localisation physique n'est pas forcément exposée — mais c'est une brèche réelle dans votre confidentialité, suffisante pour profiler votre activité en ligne.
+        </p>
+        <p>
+          Sur les réseaux 4G/5G Orange, les fuites DNS sont particulièrement fréquentes : l'opérateur pousse ses propres résolveurs DNS via DHCP et via IPv6, souvent en parallèle de ce que distribue votre app VPN. En coworking parisien ou dans une salle d'attente TGV, le problème vient parfois du portail captif lui-même, qui intercepte le DNS pour la page de login.
+        </p>
+
+        <!-- SVG1 -->
+        <div class="svg-card"><div class="svg-scroll">
+<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schéma : fuite DNS quand le DNS sort hors du tunnel VPN">
+  
+  <rect x="0" y="0" width="900" height="260" fill="#fff" stroke="#000" stroke-width="4"/>
+  <rect x="40" y="70" width="210" height="120" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="145" y="110" text-anchor="middle" font-size="18">Votre appareil</text>
+  <text x="145" y="140" text-anchor="middle" font-size="14">(PC / mobile)</text>
+  <rect x="320" y="35" width="240" height="80" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="440" y="75" text-anchor="middle" font-size="16">Tunnel VPN</text>
+  <text x="440" y="98" text-anchor="middle" font-size="13">Trafic chiffré</text>
+  <rect x="320" y="145" width="240" height="90" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="440" y="185" text-anchor="middle" font-size="16">DNS hors tunnel</text>
+  <text x="440" y="208" text-anchor="middle" font-size="13">→ Fuite DNS</text>
+  <rect x="640" y="35" width="220" height="80" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="750" y="75" text-anchor="middle" font-size="16">Sites / apps</text>
+  <rect x="640" y="145" width="220" height="90" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="750" y="185" text-anchor="middle" font-size="16">DNS FAI</text>
+  <text x="750" y="208" text-anchor="middle" font-size="13">Orange / Free / SFR</text>
+  <path d="M250 105 L320 75" fill="none" stroke="#000" stroke-width="4"/>
+  <polygon points="320,75 306,68 306,82" fill="#000"/>
+  <text x="285" y="70" font-size="12">HTTPS</text>
+  <path d="M250 135 L320 185" fill="none" stroke="#000" stroke-width="4"/>
+  <polygon points="320,185 306,178 306,192" fill="#000"/>
+  <text x="285" y="195" font-size="12">Requêtes DNS</text>
+  <path d="M560 75 L640 75" fill="none" stroke="#000" stroke-width="4"/>
+  <polygon points="640,75 626,68 626,82" fill="#000"/>
+  <path d="M560 185 L640 185" fill="none" stroke="#000" stroke-width="4"/>
+  <polygon points="640,185 626,178 626,192" fill="#000"/>
+</svg>
+        </div></div>
+
+        <!-- H2 #2 -->
+        <h2 id="comment-tester">Comment tester une fuite DNS (fiable)</h2>
+        <div class="key-takeaway">
+          <strong>Key takeaway :</strong> un bon test DNS se fait en deux temps — sans VPN d'abord pour établir la référence, puis avec VPN actif. Si les mêmes serveurs FAI persistent dans les deux cas, vous fuyez. Notez lesquels : ça indique l'interface qui fuit.
+        </div>
+
+        <p>
+          Avant de toucher quoi que ce soit, établissez une <strong>référence sans VPN</strong>. Déconnectez-vous, ouvrez un onglet normal (pas de navigation privée, pas d'extension VPN) et allez sur <em>dnsleaktest.com</em>. Cliquez "Extended test". Notez les serveurs affichés — ils appartiennent à votre FAI : Orange Telecom, Free, SFR ou Bouygues.
+        </p>
+        <p>
+          Ensuite, <strong>connectez votre VPN</strong> et relancez le même test. Le résultat attendu : uniquement des serveurs DNS de votre fournisseur VPN. Si des serveurs de votre FAI persistent — ou si vous voyez un mélange — vous avez une fuite active.
+        </p>
+        <p>
+          Complétez avec deux tests supplémentaires : sur <em>ipleak.net</em> pour détecter une fuite IPv6 (une adresse IPv6 liée à votre FAI ne doit pas apparaître quand le VPN est actif), et sur <em>browserleaks.com/webrtc</em> pour les fuites WebRTC (votre IP publique réelle ne doit pas être visible dans le navigateur).
+        </p>
+        <p>
+          Répétez ces tests après mise en veille, après basculement Wi-Fi/4G, et après chaque mise à jour de Windows ou du client VPN. Les fuites apparaissent le plus souvent lors de ces transitions réseau — c'est précisément là que le Kill Switch doit intervenir.
+        </p>
+        <div class="note"><strong>Après correction :</strong> mesurez l’impact réel sur votre débit avec notre <a href="https://smartadvisoronline.com/tools/speed-test.html">Speed Test</a>. Une configuration propre doit améliorer la cohérence, pas seulement « passer » un test une seule fois.</div>
+
+        <!-- H2 #3 -->
+        <h2 id="signes-fuite-dns">Signes d'une fuite DNS</h2>
+        <div class="key-takeaway">
+          <strong>Key takeaway :</strong> les fuites DNS ont des signatures reconnaissables — résultats variables selon le navigateur, fuites après reconnexion Wi-Fi ou mise en veille. Le tableau ci-dessous aide à identifier rapidement la cause probable avant d'intervenir.
+        </div>
+
+        <p>
+          Une fuite DNS se manifeste rarement par un message d'erreur explicite. C'est plutôt une série d'indices : votre test DNS affiche des résultats différents selon que vous testez sur Chrome ou Firefox, ou la fuite apparaît seulement quand vous revenez d'une mise en veille. Voici les symptômes les plus courants et ce qu'ils signalent.
+        </p>
+
+        <div class="table-scroll">
+<table>
+  <caption>Fuite DNS : symptômes, causes fréquentes et correctifs rapides (France)</caption>
+  <thead><tr><th scope="col">Symptôme</th><th scope="col">Cause probable</th><th scope="col">Correctif rapide</th></tr></thead>
+  <tbody>
+    <tr><td>Leak test affiche DNS Orange/Free/SFR malgré VPN</td><td>IPv6 actif ou DNS Windows multi-homed</td><td>Désactiver IPv6 (si nécessaire) + SmartNameResolution OFF</td></tr>
+    <tr><td>Résultats incohérents selon le navigateur</td><td>DoH activé dans le navigateur</td><td>DoH OFF ou "utiliser DNS du système/VPN"</td></tr>
+    <tr><td>Fuite après mise en veille / reconnexion Wi-Fi</td><td>Micro-coupure + absence de Kill Switch</td><td>Kill Switch "Always-on" + redémarrage du tunnel</td></tr>
+    <tr><td>Fuite sur Wi-Fi public (hôtel/café)</td><td>Portail captif + interception DNS</td><td>Se connecter au portail d'abord, VPN ensuite</td></tr>
+    <tr><td>Fuite avec split tunneling</td><td>App exclue du tunnel</td><td>Désactiver split tunneling (Full tunnel)</td></tr>
+  </tbody>
+</table>
+        </div>
+
+        <!-- H2 #4 -->
+        <h2 id="pourquoi-ca-arrive">Pourquoi ça arrive : les 4 causes principales</h2>
+        <div class="key-takeaway">
+          <strong>Key takeaway :</strong> il n'existe pas une seule cause de fuite DNS, mais quatre vecteurs distincts qui peuvent coexister sur le même appareil. Identifiez lequel vous concerne avant d'intervenir — modifier plusieurs paramètres d'un coup rend le diagnostic impossible si la fuite persiste.
+        </div>
+
+        <h3>IPv6 : pourquoi ça casse le tunnel</h3>
+        <p>
+          La plupart des VPN grand public font tourner leur tunnel en IPv4. Quand votre box Orange ou Free distribue une adresse IPv6 à votre appareil — ce qui est le cas par défaut sur les réseaux modernes — les requêtes DNS sur ce protocole sortent simplement hors du tunnel. Elles arrivent directement au résolveur IPv6 de votre opérateur, transparent pour l'utilisateur et pour la plupart des apps VPN.
+        </p>
+        <p>
+          Solution : vérifiez si votre app VPN propose une option "Bloquer les fuites IPv6" ou "IPv6 leak protection". Si oui, activez-la. Si non — ou si vous n'êtes pas sûr — désactivez l'IPv6 au niveau de l'OS (Windows : Panneau de configuration → Connexions réseau → propriétés de la carte → décocher IPv6) ou directement depuis l'interface d'administration de votre box.
+        </p>
+
+        <!-- SVG3 -->
+        <div class="svg-card"><div class="svg-scroll">
+<svg viewBox="0 0 900 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schéma : IPv6 peut sortir par le FAI si le VPN ne le gère pas">
+  
+  <rect x="0" y="0" width="900" height="280" fill="#fff" stroke="#000" stroke-width="4"/>
+  <rect x="40" y="80" width="220" height="120" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="150" y="120" text-anchor="middle" font-size="16">Votre appareil</text>
+  <text x="150" y="145" text-anchor="middle" font-size="13">IPv4 + IPv6</text>
+  <rect x="320" y="40" width="250" height="80" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="445" y="80" text-anchor="middle" font-size="16">VPN (IPv4)</text>
+  <text x="445" y="104" text-anchor="middle" font-size="13">Tunnel OK</text>
+  <rect x="320" y="160" width="250" height="80" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="445" y="200" text-anchor="middle" font-size="16">IPv6 direct</text>
+  <text x="445" y="224" text-anchor="middle" font-size="13">→ risque de fuite</text>
+  <rect x="650" y="40" width="210" height="80" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="755" y="80" text-anchor="middle" font-size="16">Internet</text>
+  <text x="755" y="104" text-anchor="middle" font-size="13">via VPN</text>
+  <rect x="650" y="160" width="210" height="80" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="755" y="200" text-anchor="middle" font-size="16">FAI IPv6</text>
+  <text x="755" y="224" text-anchor="middle" font-size="13">Orange / Free</text>
+  <path d="M260 120 L320 80" fill="none" stroke="#000" stroke-width="4"/>
+  <polygon points="320,80 306,73 306,87" fill="#000"/>
+  <text x="292" y="72" font-size="12">IPv4</text>
+  <path d="M260 150 L320 200" fill="none" stroke="#000" stroke-width="4"/>
+  <polygon points="320,200 306,193 306,207" fill="#000"/>
+  <text x="292" y="210" font-size="12">IPv6</text>
+  <path d="M570 80 L650 80" fill="none" stroke="#000" stroke-width="4"/>
+  <polygon points="650,80 636,73 636,87" fill="#000"/>
+  <path d="M570 200 L650 200" fill="none" stroke="#000" stroke-width="4"/>
+  <polygon points="650,200 636,193 636,207" fill="#000"/>
+</svg>
+        </div></div>
+
+        <h3>DoH : ami ou piège ?</h3>
+        <p>
+          DNS over HTTPS (DoH) améliore la confidentialité dans un contexte classique — en chiffrant les requêtes DNS pour qu'elles ne soient pas lisibles sur le réseau local. Mais avec un VPN, DoH peut devenir un problème. Si votre navigateur est configuré pour utiliser DoH via Cloudflare (1.1.1.1) ou Google (8.8.8.8), ces requêtes HTTPS peuvent passer hors tunnel, via votre connexion réseau directe. Votre FAI ne voit pas le contenu DNS, mais un tiers comme Cloudflare voit vos requêtes — ce qui contredit l'objectif de confidentialité totale.
+        </p>
+        <p>
+          La règle simple : si vous utilisez un VPN, désactivez DoH dans le navigateur et laissez le VPN gérer le DNS. Ou assurez-vous que votre client VPN supporte DoH de bout en bout et que le navigateur pointe vers son résolveur interne au tunnel. Chrome, Firefox et Edge activent tous DoH automatiquement sur les réseaux qu'ils considèrent "sécurisés" — vérifiez les réglages de confidentialité de chacun.
+        </p>
+
+        <!-- SVG2 -->
+        <div class="svg-card"><div class="svg-scroll">
+<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schéma : DNS over HTTPS peut contourner le VPN selon le navigateur">
+  
+  <rect x="0" y="0" width="900" height="260" fill="#fff" stroke="#000" stroke-width="4"/>
+  <rect x="40" y="70" width="220" height="120" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="150" y="110" text-anchor="middle" font-size="16">Navigateur</text>
+  <text x="150" y="136" text-anchor="middle" font-size="13">Chrome / Firefox / Brave</text>
+  <rect x="330" y="40" width="250" height="80" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="455" y="80" text-anchor="middle" font-size="16">Mode A : DoH OFF</text>
+  <text x="455" y="104" text-anchor="middle" font-size="13">DNS = système / VPN</text>
+  <rect x="330" y="150" width="250" height="80" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="455" y="190" text-anchor="middle" font-size="16">Mode B : DoH ON</text>
+  <text x="455" y="214" text-anchor="middle" font-size="13">DNS via DoH externe</text>
+  <rect x="650" y="40" width="210" height="80" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="755" y="80" text-anchor="middle" font-size="16">DNS VPN</text>
+  <text x="755" y="104" text-anchor="middle" font-size="13">OK</text>
+  <rect x="650" y="150" width="210" height="80" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="755" y="190" text-anchor="middle" font-size="16">DoH tiers</text>
+  <text x="755" y="214" text-anchor="middle" font-size="13">Cloudflare / Google</text>
+  <path d="M260 110 L330 80" fill="none" stroke="#000" stroke-width="4"/>
+  <polygon points="330,80 316,73 316,87" fill="#000"/>
+  <text x="295" y="72" font-size="12">DNS</text>
+  <path d="M260 130 L330 190" fill="none" stroke="#000" stroke-width="4"/>
+  <polygon points="330,190 316,183 316,197" fill="#000"/>
+  <text x="295" y="200" font-size="12">DoH</text>
+  <path d="M580 80 L650 80" fill="none" stroke="#000" stroke-width="4"/>
+  <polygon points="650,80 636,73 636,87" fill="#000"/>
+  <path d="M580 190 L650 190" fill="none" stroke="#000" stroke-width="4"/>
+  <polygon points="650,190 636,183 636,197" fill="#000"/>
+</svg>
+        </div></div>
+
+        <h3>Windows Smart Multi-Homed DNS</h3>
+        <p>
+          Windows 8 et suivants intègrent une fonctionnalité appelée <strong>Smart Multi-Homed Name Resolution</strong>. Son principe : Windows envoie simultanément la requête DNS à toutes les interfaces réseau disponibles — l'interface VPN, la carte Wi-Fi, et parfois une interface IPv6 — et retient la première réponse reçue. Sur un réseau avec une bonne latence FAI (ce qui est le cas pour Orange et SFR en France), c'est souvent le DNS de votre opérateur qui répond en premier. Résultat : fuite DNS garantie, même si tout le reste est correctement configuré.
+        </p>
+
+        <h3>Split tunneling mal configuré</h3>
+        <p>
+          Le split tunneling permet de définir quelles applications passent par le VPN et lesquelles utilisent la connexion directe. Pratique pour accéder à des ressources locales. Mais si une application exclue du tunnel fait des requêtes DNS vers des domaines sensibles, ces requêtes sortent hors du VPN. La règle de sécurité : si vous n'êtes pas certain de votre configuration, désactivez le split tunneling et utilisez le full tunnel. Voir notre guide détaillé sur le <a href="/fr/blog/vpn-split-tunneling.html">split tunneling VPN</a>.
+        </p>
+
+        <!-- H2 #5 -->
+        <h2 id="reparer-methode-priorite">Réparer : méthode par priorité (Top 8)</h2>
+        <div class="key-takeaway">
+          <strong>Key takeaway :</strong> appliquez un réglage à la fois, retestez, puis passez au suivant. Modifier plusieurs paramètres simultanément rend le diagnostic impossible si une fuite persiste.
+        </div>
+
+        <p>
+          Voici les huit correctifs dans l'ordre de probabilité d'impact. Le <a href="/fr/blog/vpn-kill-switch.html">Kill Switch</a> est souvent le plus simple à activer et le plus efficace pour les fuites de reconnexion. L'IPv6 et le Smart DNS Windows sont les deux causes les plus fréquentes des fuites persistantes en France.
+        </p>
+        <p>
+          Après chaque modification, relancez le test étendu sur dnsleaktest.com avec le VPN actif. Si seuls les serveurs de votre VPN apparaissent, l'étape est validée. Si des serveurs FAI persistent, passez au point suivant de la liste.
+        </p>
+
+        <div class="table-scroll">
+<table>
+  <caption>Top 8 réglages à vérifier en priorité (ordre recommandé)</caption>
+  <thead><tr><th scope="col">Priorité</th><th scope="col">Réglage</th><th scope="col">Pourquoi ça compte</th><th scope="col">Où le faire</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Kill Switch</td><td>Évite les fuites pendant la reconnexion</td><td>App VPN</td></tr>
+    <tr><td>2</td><td>IPv6 (si VPN IPv4-only)</td><td>IPv6 peut contourner le tunnel</td><td>Box/OS</td></tr>
+    <tr><td>3</td><td>DoH navigateur</td><td>Peut sortir hors tunnel</td><td>Chrome/Firefox/Brave</td></tr>
+    <tr><td>4</td><td>Smart Multi-Homed DNS</td><td>Windows "essaie tout" → fuite</td><td>Registre/GPO</td></tr>
+    <tr><td>5</td><td>DNS automatique</td><td>Le VPN doit "prendre la main"</td><td>OS</td></tr>
+    <tr><td>6</td><td>Flush DNS</td><td>Évite les résolutions héritées du FAI</td><td>OS</td></tr>
+    <tr><td>7</td><td>Split tunneling OFF</td><td>Réduit les erreurs humaines</td><td>App VPN</td></tr>
+    <tr><td>8</td><td>Portails captifs</td><td>Évite la confusion DNS au login</td><td>Réseaux publics</td></tr>
+  </tbody>
+</table>
+        </div>
+
+        <!-- H2 #6 -->
+        <h2 id="navigateurs">Navigateurs : Chrome, Firefox, Brave</h2>
+        <div class="key-takeaway">
+          <strong>Key takeaway :</strong> chaque navigateur majeur a ses propres réglages DNS qui peuvent interférer avec le VPN. Vérifiez-les un par un — les paramètres par défaut varient selon la version, le système d'exploitation, et même selon le réseau détecté.
+        </div>
+
+        <p>
+          Le navigateur est souvent le maillon faible dans la chaîne DNS. Chrome, Firefox et Edge activent DoH par défaut dans certaines conditions, sans alerter l'utilisateur. Brave tend à mieux respecter le DNS système dans sa configuration de base — mais même lui a ses subtilités selon la version.
+        </p>
+        <p>
+          <strong>Chrome :</strong> Paramètres → Confidentialité et sécurité → Sécurité → DNS sécurisé. Sélectionnez "Utiliser le fournisseur DNS actuel" ou désactivez complètement. Ne choisissez pas Cloudflare ou Google si votre VPN gère le DNS.
+        </p>
+        <p>
+          <strong>Firefox :</strong> tapez <code>about:config</code> dans la barre d'adresse, cherchez <code>network.trr.mode</code>. Valeur 5 = DoH désactivé, Firefox utilise le DNS système (celui du VPN). C'est le réglage recommandé quand un VPN est actif.
+        </p>
+        <p>
+          <strong>Brave :</strong> Paramètres → Confidentialité et sécurité → Sécurité → DNS sécurisé. Par défaut, Brave suit le DNS système — vérifiez que cette option est bien sélectionnée. Activez aussi le blocage WebRTC natif dans Paramètres → Confidentialité et sécurité → Empêcher les fuites WebRTC.
+        </p>
+
+        <div class="table-scroll">
+<table>
+  <caption>Navigateurs : réglages qui influencent le DNS et la confidentialité</caption>
+  <thead><tr><th scope="col">Réglage</th><th scope="col">Risque si activé</th><th scope="col">Recommandation VPN World</th></tr></thead>
+  <tbody>
+    <tr><td>DNS sécurisé / DoH</td><td>Résolution via DoH externe (hors tunnel)</td><td>OFF si doute, ou "utiliser DNS du système"</td></tr>
+    <tr><td>Préchargement / Prefetch</td><td>Résout des domaines avant clic</td><td>Désactiver sur profils "privacy"</td></tr>
+    <tr><td>WebRTC</td><td>Fuite IP locale (STUN)</td><td>Brave/extension, ou désactiver dans Firefox</td></tr>
+    <tr><td>Extensions anti-fingerprint</td><td>Mal configurées = faux positifs</td><td>Une extension fiable, réglée simplement</td></tr>
+  </tbody>
+</table>
+        </div>
+
+        <!-- H2 #7 -->
+        <h2 id="windows-smart-dns">Windows : Smart Multi-Homed DNS, Teredo et LLMNR/NetBIOS</h2>
+        <div class="key-takeaway">
+          <strong>Key takeaway :</strong> Windows cache plusieurs mécanismes de résolution DNS parallèles conçus pour la performance, pas pour la confidentialité. En contexte VPN, ils deviennent des vecteurs de fuite actifs — il faut les désactiver explicitement.
+        </div>
+
+        <p>
+          La désactivation du Smart Multi-Homed DNS se fait via le Registre Windows : <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters</code>, valeur DWORD <code>DisableSmartNameResolution</code> à <code>1</code>. Sur les machines en entreprise, une GPO fera la même chose de façon centralisée.
+        </p>
+        <p>
+          <strong>Teredo :</strong> protocole de tunneling IPv6 sur IPv4, intégré à Windows depuis Vista. Il crée une interface réseau virtuelle qui peut envoyer des paquets encapsulés directement vers internet, contournant le tunnel VPN. Désactivation rapide via PowerShell en administrateur : <code>netsh interface teredo set state disabled</code>. Vérification : <code>netsh interface teredo show state</code> doit indiquer "Disabled".
+        </p>
+        <p>
+          <strong>LLMNR et NetBIOS :</strong> ces protocoles permettent à Windows de résoudre des noms d'hôtes sur le réseau local sans passer par un serveur DNS. Sur un Wi-Fi public — café Marais, gare Montparnasse, salle de coworking — ces requêtes sont diffusées en broadcast et peuvent exposer le nom de votre machine, votre groupe de travail, et d'autres informations réseau. Désactivation NetBIOS : Panneau de configuration → Connexions réseau → Propriétés IPv4 → Avancé → WINS → "Désactiver NetBIOS sur TCP/IP". Pour LLMNR : registre ou GPO, <code>EnableMulticast = 0</code> dans <code>HKLM\Software\Policies\Microsoft\Windows NT\DNSClient</code>.
+        </p>
+        <p>
+          Pour les profils VPN configurés nativement dans Windows (sans app tierce), consultez aussi notre guide sur la <a href="/fr/blog/configuration-vpn-windows.html">configuration VPN Windows</a> — en particulier le réglage "Utiliser la passerelle distante par défaut" qui doit être activé pour forcer le DNS dans le tunnel.
+        </p>
+
+        <!-- SVG5 -->
+        <div class="svg-card"><div class="svg-scroll">
+<svg viewBox="0 0 980 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schéma : Windows Smart Multi-Homed DNS interroge plusieurs interfaces">
+  
+  <rect x="0" y="0" width="980" height="280" fill="#fff" stroke="#000" stroke-width="4"/>
+  <rect x="40" y="90" width="240" height="120" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="160" y="130" text-anchor="middle" font-size="16">Windows</text>
+  <text x="160" y="156" text-anchor="middle" font-size="13">Résolution DNS</text>
+  <text x="160" y="182" text-anchor="middle" font-size="13">"multi-homed"</text>
+  <rect x="340" y="40" width="260" height="70" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="470" y="82" text-anchor="middle" font-size="16">Interface VPN</text>
+  <rect x="340" y="120" width="260" height="70" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="470" y="162" text-anchor="middle" font-size="16">Wi-Fi / Ethernet</text>
+  <rect x="340" y="200" width="260" height="70" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="470" y="242" text-anchor="middle" font-size="16">IPv6 / tunnels</text>
+  <rect x="670" y="120" width="260" height="70" rx="14" fill="#fff" stroke="#000" stroke-width="4"/>
+  <text x="800" y="162" text-anchor="middle" font-size="16">FAI DNS</text>
+  <text x="800" y="186" text-anchor="middle" font-size="13">(Orange / SFR…)</text>
+  <path d="M280 150 L340 75" fill="none" stroke="#000" stroke-width="4"/>
+  <polygon points="340,75 326,68 326,82" fill="#000"/>
+  <text x="305" y="82" font-size="12">Query</text>
+  <path d="M280 150 L340 155" fill="none" stroke="#000" stroke-width="4"/>
+  <polygon points="340,155 326,148 326,162" fill="#000"/>
+  <text x="305" y="145" font-size="12">Query</text>
+  <path d="M280 150 L340 235" fill="none" stroke="#000" stroke-width="4"/>
+  <polygon points="340,235 326,228 326,242" fill="#000"/>
+  <text x="305" y="228" font-size="12">Query</text>
+  <path d="M600 155 L670 155" fill="none" stroke="#000" stroke-width="4"/>
+  <polygon points="670,155 656,148 656,162" fill="#000"/>
+  <text x="635" y="142" font-size="12">Si non désactivé → fuite</text>
+</svg>
+        </div></div>
+
+        <!-- H2 #8 -->
+        <h2 id="wifi-publics-france">Wi-Fi publics en France : hôtels, cafés et gares</h2>
+        <div class="key-takeaway">
+          <strong>Key takeaway :</strong> les portails captifs interceptent systématiquement le DNS pour rediriger vers leur page d'authentification. Connectez-vous toujours au portail <em>avant</em> de lancer votre VPN — jamais dans l'ordre inverse.
+        </div>
+
+        <p>
+          Si vous travaillez depuis un café parisien, un hôtel en province ou une salle d'attente TGV à la Gare de Lyon, le Wi-Fi public est votre ennemi numéro un en matière de fuites DNS. Ces réseaux utilisent quasi-universellement des portails captifs — une page web interposée qui intercepte votre trafic pour vous demander de vous identifier ou d'accepter des conditions d'utilisation.
+        </p>
+        <p>
+          La mécanique du problème : pour afficher cette page de login, le réseau doit intercepter vos requêtes DNS et les rediriger vers son propre serveur. Si vous lancez votre VPN avant de passer par ce portail, le VPN bloque l'interception — et vous ne pouvez pas vous connecter. Si vous forcez la connexion VPN sans vous être authentifié au portail, votre client peut se retrouver dans un état instable où le tunnel est partiellement monté mais des requêtes DNS passent encore hors tunnel.
+        </p>
+        <p>
+          La procédure correcte en trois étapes : (1) connectez-vous au Wi-Fi public, (2) ouvrez un navigateur et complétez l'authentification du portail captif — attendez la confirmation de connexion réseau, (3) lancez votre VPN. Dans cet ordre, le tunnel est propre dès le départ. Consultez également notre <a href="/fr/blog/securite-wifi-checklist.html">checklist sécurité Wi-Fi</a> pour un tour complet des risques sur réseaux partagés.
+        </p>
+        <p>
+          Sur les réseaux coworking à Paris ou Lyon, vérifiez aussi si un proxy transparent est en place — certains espaces filtrent le trafic d'une façon qui interfère avec les requêtes DNS, même après login. Dans ce cas, un VPN utilisant le <a href="/fr/blog/protocoles-vpn.html">protocole WireGuard ou OpenVPN TCP sur port 443</a> passe généralement mieux. En mobilité 4G/5G Orange ou Free, l'opérateur peut imposer ses DNS via DHCPv6 — forcer l'APN en IPv4-only dans les paramètres réseau mobiles résout souvent le problème. Voir aussi notre guide <a href="/fr/blog/vpn-wifi-public.html">VPN sur Wi-Fi public</a> pour les cas mobiles et les réseaux ouverts.
+        </p>
+
+        <!-- H2 #9 -->
+        <h2 id="verification-finale">Vérification finale et bonnes pratiques</h2>
+        <div class="key-takeaway">
+          <strong>Key takeaway :</strong> une configuration VPN correcte ne se valide pas une seule fois — elle se re-teste après chaque mise à jour Windows, chaque changement de réseau, chaque mise à jour du client VPN. Intégrez les tests DNS dans votre routine.
+        </div>
+
+        <p>
+          Une fois vos correctifs appliqués, voici le protocole de vérification finale. D'abord, relancez le test étendu sur dnsleaktest.com avec le VPN actif — uniquement les serveurs du VPN doivent apparaître. Vérifiez ensuite sur ipleak.net l'IPv6 — aucune adresse liée à votre FAI ne doit apparaître. Testez WebRTC sur browserleaks.com/webrtc — votre IP publique réelle ne doit pas être visible.
+        </p>
+        <p>
+          Simulez une déconnexion : mettez votre machine en veille, réveillez-la, reconnectez-vous au réseau — puis relancez les tests sans reconnecter manuellement le VPN. Si le Kill Switch est en mode "always-on", aucune requête ne doit avoir fui pendant la transition. Si des fuites apparaissent à ce moment précis, votre Kill Switch n'est pas correctement configuré.
+        </p>
+        <p>
+          Pour les utilisateurs réguliers de réseaux publics, intégrez le test DNS comme premier geste dès que vous rejoignez un nouveau réseau — avant d'ouvrir quoi que ce soit d'autre. Deux minutes de vérification valent mieux qu'une heure de remédiation.
+        </p>
+        <p>
+          Dernière note : une <a href="/fr/blog/no-logs-vpn.html">politique no-logs sérieuse</a> est complémentaire à la protection contre les fuites DNS, pas substituable. Un VPN peut respecter scrupuleusement sa politique de zéro journalisation et laisser fuiter vos DNS si la configuration réseau est défaillante. Les deux angles comptent — et les deux se vérifient indépendamment.
+        </p>
+
+        <!-- CTA BLOCK 2 -->
+        <div class="cta-box" aria-label="VPN recommandés anti-fuites DNS">
+          <h2>VPN avec protection anti-fuites DNS intégrée</h2>
+          <p class="cta-note">Liens affiliés (nofollow/sponsored).</p>
+          <div class="cta-buttons" aria-label="Offres partenaires">
+            <a href="https://go.nordvpn.net/aff_c?aff_id=2495&offer_id=312&url_id=2584" class="nordvpn" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer NordVPN — kill switch + DNS anti-fuite</a>
+            <a href="https://www.tkqlhce.com/click-101525886-17061430" class="surfshark" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer Surfshark — multi-appareils, anti-fuites</a>
+            <a href="https://www.dpbolvw.net/click-101525886-15834536" class="proton" target="_blank" rel="nofollow sponsored noopener noreferrer">Essayer Proton VPN — privacy-first, contrôle DNS</a>
+          </div>
+          <p class="human-note">Divulgation : VPN World peut percevoir une commission si vous souscrivez via ces liens — sans changer votre prix.</p>
+        </div>
+
+        <section class="quick-answer" id="quick-summary" aria-label="Résumé rapide">
+          <h2>Résumé rapide</h2>
+          <p>En France, les fuites DNS viennent surtout d’IPv6, du DNS over HTTPS dans le navigateur, du Smart Multi-Homed DNS de Windows et des portails captifs. Testez d’abord DNS, puis IPv6, puis WebRTC. Corrigez une seule variable à la fois et re-testez systématiquement.</p>
+        </section>
+
+        <!-- FAQ -->
+        <h2 id="faq">Questions fréquentes</h2>
+        <div class="faq-list">
+          <details class="faq-item"><summary>Qu'est-ce qu'une fuite DNS avec un VPN ?</summary><div class="faq-answer"><p>Une fuite DNS se produit quand les requêtes DNS sortent hors du tunnel VPN et arrivent au DNS de votre FAI (Orange, Free, SFR, Bouygues) — même si votre IP est masquée. Votre FAI peut ainsi voir les domaines que vous consultez.</p></div></details>
+          <details class="faq-item"><summary>Comment tester rapidement une fuite DNS ?</summary><div class="faq-answer"><p>Connectez votre VPN, puis allez sur dnsleaktest.com ou ipleak.net et lancez un test étendu. Si des serveurs DNS liés à Orange, Free, SFR ou Bouygues apparaissent, vous avez une fuite. Répétez sans VPN pour comparer.</p></div></details>
+          <details class="faq-item"><summary>Pourquoi mon VPN laisse fuiter le DNS ?</summary><div class="faq-answer"><p>Les quatre causes principales sont : IPv6 non géré par le VPN (Orange et Free forcent souvent l'IPv6), DNS over HTTPS activé dans le navigateur, Smart Multi-Homed DNS de Windows qui interroge plusieurs interfaces, et le split tunneling mal configuré.</p></div></details>
+          <details class="faq-item"><summary>Le kill switch suffit-il pour bloquer les fuites DNS ?</summary><div class="faq-answer"><p>Non, pas seul. Le kill switch bloque le trafic lors d'une coupure VPN mais ne corrige pas les fuites structurelles liées à IPv6, DoH ou Windows Smart DNS. La formule complète est : kill switch + DNS automatique (VPN) + IPv6 désactivé si nécessaire + re-tests réguliers.</p></div></details>
+          <details class="faq-item"><summary>Pourquoi la fuite apparaît-elle seulement sur certains navigateurs ?</summary><div class="faq-answer"><p>Parce que chaque navigateur peut avoir son propre résolveur DNS. Chrome peut utiliser un DNS over HTTPS externe, Firefox peut suivre un autre comportement, et Brave peut encore ajouter ses propres protections. Il faut donc vérifier séparément le DNS du système, celui du navigateur et WebRTC.</p></div></details>
+          <details class="faq-item"><summary>Comment savoir si mon VPN gère correctement l'IPv6 ?</summary><div class="faq-answer"><p>Vérifiez dans les paramètres du client VPN s'il existe une option de protection IPv6 ou de blocage des fuites IPv6. Si elle n'existe pas, considérez que votre VPN est probablement IPv4-only et désactivez alors l'IPv6 au niveau du système ou de la box.</p></div></details>
+          <details class="faq-item"><summary>Un redémarrage corrige-t-il la fuite ?</summary><div class="faq-answer"><p>Parfois temporairement, car il vide certains caches et réinitialise les interfaces. Mais si la cause réelle est Smart Multi-Homed DNS, IPv6 non géré ou un conflit DoH, la fuite reviendra. Il faut corriger la configuration, puis re-tester.</p></div></details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- RELATED -->
+    <!-- RELATED_START -->
+    <section class="section">
+      <div class="container">
+        <h2>Articles liés</h2>
+
+        <div class="related-card">
+          <p><strong>À lire aussi :</strong> <a href="/fr/blog/vpn-kill-switch.html">VPN Kill Switch</a> — indispensable pour bloquer les fuites lors des coupures et reconnexions réseau.</p>
+        </div>
+        <div class="related-card">
+          <p><strong>À lire aussi :</strong> <a href="/fr/blog/protocoles-vpn.html">Protocoles VPN (WireGuard, OpenVPN, IKEv2)</a> — le protocole choisi influence directement la stabilité du tunnel et le comportement DNS.</p>
+        </div>
+        <div class="related-card">
+          <p><strong>À lire aussi :</strong> <a href="/fr/blog/securite-wifi.html">Sécurité Wi-Fi</a> — le terrain de jeu idéal pour les fuites DNS sur réseaux partagés.</p>
+        </div>
+        <div class="related-card">
+          <p><strong>À lire aussi :</strong> <a href="/fr/blog/vpn-wifi-public.html">VPN sur Wi-Fi public</a> — portails captifs, FAI mobiles et gestion des réseaux non fiables.</p>
+        </div>
+        <div class="related-card">
+          <p><strong>À lire aussi :</strong> <a href="/fr/blog/securite-wifi-checklist.html">Checklist sécurité Wi-Fi</a> — vérification point par point pour les réseaux hôtels, cafés et coworking.</p>
+        </div>
+        <div class="related-card">
+          <p><strong>À lire aussi :</strong> <a href="/fr/blog/configuration-vpn-routeur.html">Configuration VPN routeur</a> — protéger tous les appareils du foyer, y compris ceux sans client VPN natif.</p>
+        </div>
+        <div class="related-card">
+          <p><strong>À lire aussi :</strong> <a href="/fr/blog/no-logs-vpn.html">VPN no-logs</a> — politique de journalisation et protection DNS : deux couches complémentaires, pas interchangeables.</p>
+        </div>
+      </div>
+    </section>
+    <!-- RELATED_END -->
+
+    <section class="section">
+      <div class="container">
+        <div class="author-box">
+          <img src="../../assets/img/author/denys-shchur.webp" alt="Portrait de Denys Shchur" class="author-avatar">
+          <div>
+            <h3>À propos de l'auteur</h3>
+            <p>
+              <strong><a href="/fr/about-denys-shchur.html" class="u-link-reset">Denys Shchur</a></strong>
+              est le créateur de VPN World et se concentre sur des guides pratiques, basés sur des tests, autour des VPN, de la confidentialité en ligne et du travail à distance sécurisé.
+              Il passe beaucoup trop de temps à traquer les fuites DNS et les incohérences réseau, pour que vous n'ayez pas à le faire.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>VPN World</strong>
+        <p>Service indépendant sur la confidentialité et la sécurité en ligne.</p>
+      </div>
+      <nav aria-label="Liens pied de page">
+        <a href="/fr/privacy.html">Confidentialité</a>
+        <a href="/fr/disclosure.html">Divulgation</a>
+        <a href="mailto:u1797008805@gmail.com">Contact</a>
+      </nav>
+    </div>
+    <div class="container tiny">© 2026 VPN World</div>
+  </footer>
+
+  <script src="../../assets/js/main.js"></script>
+  <!-- Cookie Consent (canonical) -->
+<div id="cookie-consent-layer" class="cookie-layer" aria-hidden="true"></div>
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+  <div class="cookie-banner__inner">
+    <div class="cookie-banner__text">
+      <span class="cookie-banner__msg">Nous utilisons des cookies.</span>
+      <a class="cookie-banner__link" href="/fr/privacy.html" rel="nofollow">Confidentialité</a>
+    </div>
+    <div class="cookie-banner__actions">
+      <button id="cookie-accept" type="button">Accepter</button>
+      <button id="cookie-reject" type="button">Refuser</button>
+    </div>
+  </div>
+</div>
+<!-- /Cookie Consent (canonical) -->
+</body>
+</html>
