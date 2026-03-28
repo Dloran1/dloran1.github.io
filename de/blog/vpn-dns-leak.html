@@ -130,6 +130,10 @@
     @media (max-width:900px){.dns-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media (max-width:560px){.dns-grid{grid-template-columns:1fr}}
 
+    .dns-pager{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0 8px}
+    .dns-page-btn{appearance:none;border:2px solid #000;background:#fff;color:#000;font-weight:900;padding:8px 12px;border-radius:12px;cursor:pointer;min-width:44px}
+    .dns-page-btn[aria-current="page"]{background:#1f6feb;color:#fff;border-color:#1f6feb}
+
     .dns-card{display:block !important; visibility:visible !important; opacity:1 !important; background:#fff;border-radius:16px;border:3px solid #000;color:#000;overflow:hidden}
 
     /* Mobile readability: ensure cards never look "cut" */
@@ -902,19 +906,6 @@
 <div class="dns-note">
 <strong>Regel:</strong> Ändere immer nur <em>eine</em> Variable → führe DNS-, IPv6- und WebRTC-Tests erneut aus. Wenn du 5 Einstellungen gleichzeitig änderst, weißt du nicht, was den Fix gebracht hat.
           </div>
-<!-- Live feedback + recommendations (15/10) -->
-<div class="dns-live">
-<div aria-live="polite" class="dns-live__card" id="dnsFeedback">
-<div class="dns-live__title">Result &amp; impact</div>
-<div class="dns-live__label" id="dnsDynamicLabel">Risiko: Kritisch</div>
-<div class="dns-live__tip" id="dnsDynamicTip">Dein Anbieter kann noch viel sehen. Starte mit den ersten Karten mit hohem Risiko.</div>
-<div class="dns-live__impact" id="dnsImpact"></div>
-</div>
-<div aria-live="polite" class="dns-live__card" id="dnsReco">
-<div class="dns-live__title">Smarte Empfehlung</div>
-<div class="dns-live__tip" id="dnsRecoText">Markiere eine Karte, um zu sehen, was sie verbessert — und was du als Nächstes erneut testen solltest.</div>
-</div>
-</div>
 <!-- Transformer table (visual win) -->
 <div aria-label="Leak coverage status table" class="table-scroll" role="region">
 <table id="dnsCoverageTable">
@@ -958,6 +949,22 @@
 <div class="dns-grid" id="dnsGrid">
 <!-- 25 Karten werden per JS eingefügt -->
 </div>
+<div class="dns-pager" id="dnsPager" aria-label="Seiten für Dashboard-Karten"></div>
+
+<!-- Live feedback + recommendations (15/10) -->
+<div class="dns-live">
+<div aria-live="polite" class="dns-live__card" id="dnsFeedback">
+<div class="dns-live__title">Ergebnis &amp; Wirkung</div>
+<div class="dns-live__label" id="dnsDynamicLabel">Risiko: Kritisch</div>
+<div class="dns-live__tip" id="dnsDynamicTip">Dein Anbieter kann noch viel sehen. Starte mit den ersten Karten mit hohem Risiko.</div>
+<div class="dns-live__impact" id="dnsImpact"></div>
+</div>
+<div aria-live="polite" class="dns-live__card" id="dnsReco">
+<div class="dns-live__title">Smarte Empfehlung</div>
+<div class="dns-live__tip" id="dnsRecoText">Markiere eine Karte, um zu sehen, was sie verbessert — und was du als Nächstes erneut testen solltest.</div>
+</div>
+</div>
+
 </section>
 <div class="svg-card">
 <div aria-label="Leak testing flow diagram" class="svg-scroll" role="region">
@@ -1530,6 +1537,8 @@
   }
 
   let state = loadState();
+  let currentPage = 1;
+  const cardsPerPage = 2;
 
   function saveState(){
     try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
@@ -1559,9 +1568,38 @@
     };
   }
 
+  function renderPagination(totalPages){
+    const pager = document.getElementById('dnsPager');
+    if(!pager) return;
+    if(totalPages <= 1){
+      pager.innerHTML = '';
+      return;
+    }
+    pager.innerHTML = '';
+    for(let page = 1; page <= totalPages; page++){
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'dns-page-btn';
+      btn.textContent = String(page);
+      btn.setAttribute('aria-label', `Seite ${page}`);
+      if(page === currentPage) btn.setAttribute('aria-current', 'page');
+      btn.addEventListener('click', () => {
+        currentPage = page;
+        renderCards();
+      });
+      pager.appendChild(btn);
+    }
+  }
+
   function renderCards(){
     grid.innerHTML = '';
-    cards.forEach((card, index) => {
+    const totalPages = Math.max(1, Math.ceil(cards.length / cardsPerPage));
+    if(currentPage > totalPages) currentPage = totalPages;
+    const startIndex = (currentPage - 1) * cardsPerPage;
+    const visibleCards = cards.slice(startIndex, startIndex + cardsPerPage);
+
+    visibleCards.forEach((card, offset) => {
+      const index = startIndex + offset;
       const checked = !!state[card.id];
       const article = document.createElement('article');
       article.className = 'dns-card';
@@ -1619,6 +1657,8 @@
 
       grid.appendChild(article);
     });
+
+    renderPagination(totalPages);
   }
 
   function coverageDone(area){
