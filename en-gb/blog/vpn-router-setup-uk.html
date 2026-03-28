@@ -83,6 +83,9 @@ gtag('config', 'G-EMR8C4TLVM', { 'send_page_view': false });
   .meta-points{margin:14px 0 0;padding-left:18px}
   .meta-points li{margin:6px 0}
   .tool-note,.cta-note,.human-note{margin:10px 0 0;color:#071023}
+  .cta-box .cta-note,.cta-box .human-note{color:#eaeaea !important;opacity:1 !important}
+  .cta-box .cta-note a,.cta-box .human-note a{color:#eaeaea !important}
+  .cta-box{position:relative;z-index:1}
   .related-wide{margin:18px 0;padding:14px 14px 14px 18px;border-radius:16px;background:#0b1220;border:1px solid rgba(255,255,255,.12);position:relative}
   .related-wide:before{content:"";position:absolute;left:10px;top:12px;bottom:12px;width:6px;border-radius:10px;background:#22c55e}
   .related-wide p,.related-wide strong,.related-wide a{color:#eaeaea}
@@ -373,7 +376,12 @@ function render(){
    const el=document.createElement('article'); el.className='router-card'+(done?' is-done':''); el.tabIndex=0; el.setAttribute('aria-pressed',done?'true':'false');
    el.innerHTML=`<span class="done-pill">${done?'Verified':'Pending'}</span><h3>${card.title}</h3><p>${card.tip}</p><p><strong>Risk if ignored:</strong> ${card.risk}</p><details><summary>What to check</summary><pre class="router-code"><code>${card.code}</code></pre></details>`;
    function toggle(){const st=load(); st[card.id]=!st[card.id]; save(st); render();}
-   el.addEventListener('click',toggle); el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}});
+   el.addEventListener('click',e=>{if(e.target.closest('details,summary,pre,code,a,button')) return; toggle();});
+   el.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ') && !e.target.closest('details,summary,pre,code,a,button')){e.preventDefault();toggle();}});
+   const details=el.querySelector('details');
+   const summary=el.querySelector('summary');
+   if(details){details.addEventListener('click',e=>e.stopPropagation());}
+   if(summary){summary.addEventListener('click',e=>e.stopPropagation()); summary.addEventListener('keydown',e=>e.stopPropagation());}
    grid.appendChild(el);
  });
  const done=score(s); const p=Math.round((done/cards.length)*100); perc.textContent=p+'%'; bar.style.width=p+'%'; pageEl.textContent='Page '+(page+1)+' of '+totalPages; result.textContent=resultText(done); prev.disabled=page===0; next.disabled=page>=totalPages-1;
