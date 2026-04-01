@@ -16,7 +16,7 @@
 <link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/configuracion-vpn-router.html"/>
 <link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/configuration-vpn-routeur.html"/>
 <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-router-instellen.html"/>
-<link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/blog/vpn-konfiguracja-routera.html"/>
+<link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-router-setup-uk.html"/>
 <link rel="dns-prefetch" href="https://www.googletagmanager.com"/>
 <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin=""/>
 <link rel="dns-prefetch" href="https://www.google-analytics.com"/>
@@ -145,6 +145,8 @@ gtag('config', 'G-EMR8C4TLVM', { send_page_view: false });
 }
 .widget-card *{color:#000 !important}
 .widget-card.done{background:#ecfdf5}
+.widget-card::after{content:"tap to mark ✓";display:block;font-size:11px;color:#6b7280;margin-top:.5rem;font-style:italic}
+.widget-card.done::after{content:""}
 .widget-card h3{margin:0 0 .5rem;font-size:1.02rem}
 .widget-card .verdict{font-weight:800}
 .widget-card details{margin-top:.7rem}
@@ -329,7 +331,7 @@ gtag('config', 'G-EMR8C4TLVM', { send_page_view: false });
 <header class="site-header">
   <div class="container header-inner">
     <a class="brand" href="/en-gb/">
-      <img alt="VPN World logo" class="logo" src="../../assets/img/logo.png"/>
+      <img alt="VPN World logo" class="logo" src="../../assets/img/logo.png" width="40" height="40"/>
       <span class="brand-text">VPN World</span>
     </a>
     <nav class="top-nav"><a href="/en-gb/blog/">Blog</a></nav>
@@ -354,10 +356,10 @@ gtag('config', 'G-EMR8C4TLVM', { send_page_view: false });
             <span class="legal-note">VPN use is legal in the UK ✓</span>
           </div>
 
-          <p>This page is not a generic router guide. It is written for UK household setups where the line comes through BT, EE, Sky, Virgin Media, TalkTalk, or Plusnet and the real question is not “Can my router run a VPN?” but “What is the least messy way to make the whole house behave?” That means dealing with ISP firmware locks, double NAT, Modem Mode, DNS leaks, and the awkward fact that one route can help streaming but worsen console latency.</p>
+          <p>This page is not a generic router guide. It is written for UK household setups where the line comes through BT, EE, Sky, Virgin Media, TalkTalk, or Plusnet and the real question is not “Can my router run a VPN?” but “What is the least messy way to make the whole house behave?” That means dealing with ISP firmware locks, double NAT, Modem Mode, <a href="vpn-dns-leak-uk.html">DNS leaks</a>, and the awkward fact that one route can help <a href="vpn-streaming-uk.html">streaming</a> but worsen <a href="vpn-for-gaming-uk.html">console latency</a>.</p>
 
           <div class="compat-cta">
-            <h2>Check Your ISP Compatibility ↓</h2>
+            <p><strong>Check Your ISP Compatibility ↓</strong></p>
             <p>Start with the dashboard below, then go straight to the section for your provider. That avoids wasting half an hour applying Sky logic to a Virgin setup or trying to force a BT hub to do a job it simply does not support.</p>
           </div>
 
@@ -384,7 +386,7 @@ gtag('config', 'G-EMR8C4TLVM', { send_page_view: false });
           <span id="auditPerc">0%</span>
         </div>
         <div class="widget-bar"><span id="auditBar"></span></div>
-        <p>Work through one provider path at a time. The biggest mistake on router VPN setups is mixing Modem Mode, DNS, and split-routing changes together.</p>
+        <p>Work through one provider path at a time. The biggest mistake on router VPN setups is mixing Modem Mode, <a href="vpn-dns-leak-uk.html">DNS</a>, and <a href="vpn-split-tunneling-uk.html">split-routing changes</a> together.</p>
       </div>
 
       <div class="widget-grid" id="auditGrid"></div>
@@ -403,7 +405,7 @@ gtag('config', 'G-EMR8C4TLVM', { send_page_view: false });
         <div class="logo-chip" aria-hidden="true">VM</div>
         <h2>Virgin Media Hub: Enable Modem Mode for VPN (2026)</h2>
       </div>
-      <p>Virgin is the cleanest mainstream UK path because Hub 3, Hub 4, and Hub 5 give you Modem Mode. That means you stop fighting the ISP box and let your own router handle the VPN, DNS, and policy rules properly. For most homes, that is also the cleanest path for <a href="vpn-for-smart-tv-uk.html">Smart TV</a>, <a href="vpn-apple-tv-uk.html">Apple TV</a>, and general <a href="vpn-streaming-uk.html">streaming</a> without rebuilding the setup every time one app behaves oddly.</p>
+      <p>Virgin is the cleanest mainstream UK path because Hub 3, Hub 4, and Hub 5 give you Modem Mode. That means you stop fighting the ISP box and let your own router handle the VPN, DNS, and policy rules properly.</p>
       <div class="warning-box">⚠️ Virgin Hub hardware does not become a good VPN router just because it is connected to a fast line. The fix is not “more settings”; it is Modem Mode plus a proper second router.</div>
       <div class="success-box">✅ Once Modem Mode is on, your own router becomes the real network brain. That is the point where WireGuard, DNS control, and split-routing start to make sense.</div>
       <ol class="step-list">
@@ -411,7 +413,7 @@ gtag('config', 'G-EMR8C4TLVM', { send_page_view: false });
         <li>Log in with the admin details printed on the hub label.</li>
         <li>Open <strong>Advanced Settings → Modem Mode</strong> and enable it.</li>
         <li>Connect your VPN router WAN port to the Virgin hub by Ethernet.</li>
-        <li>Import your WireGuard profile on the VPN router and test one wired device first.</li>
+        <li>Import your WireGuard profile on the VPN router and test one wired device first. Then verify the route with a quick <a href="vpn-speed-test-uk.html">speed test</a> and a leak check before you move devices across.</li>
       </ol>
       <div class="code-box"><pre><code>Virgin Media hand-off
 Hub address before modem mode: 192.168.0.1
@@ -425,7 +427,7 @@ WAN path: Virgin Hub → Ethernet → VPN router WAN</code></pre></div>
         <div class="logo-chip" aria-hidden="true">SKY</div>
         <h2>Sky Broadband: Option 61 Guide</h2>
       </div>
-      <p>Sky is the awkward one because direct router replacement often hinges on DHCP Option 61 support. That is why many “works with Sky” promises are weaker than they sound. The line may be fine; the authentication path is the real blocker. This is also why aggressive features such as <a href="vpn-port-forwarding-uk.html">port forwarding</a> or advanced routing tweaks should wait until the WAN path is unquestionably stable.</p>
+      <p>Sky is the awkward one because direct router replacement often hinges on DHCP Option 61 support. That is why many “works with Sky” promises are weaker than they sound. The line may be fine; the authentication path is the real blocker.</p>
       <div class="warning-box">⚠️ Without Option 61 support, a third-party router may never authenticate properly on Sky. No amount of VPN tweaking fixes a WAN link that never comes up cleanly.</div>
       <div class="success-box">✅ The practical route is an ASUS model with Merlin or another router that explicitly supports Sky WAN authentication. Once the line is stable, then you add the VPN client.</div>
       <ol class="step-list">
@@ -433,7 +435,7 @@ WAN path: Virgin Hub → Ethernet → VPN router WAN</code></pre></div>
         <li>Enter the client identifier in the WAN settings.</li>
         <li>Confirm that the router reaches the internet without the VPN first.</li>
         <li>Import the WireGuard or OpenVPN profile only after WAN authentication is stable.</li>
-        <li>Test streaming and DNS separately; Sky setups become messy fast when both change together.</li>
+        <li>Test streaming and DNS separately; Sky setups become messy fast when both change together. If performance still feels odd after WAN authentication, compare it with the rules in <a href="vpn-optimal-settings-uk.html">optimal VPN settings</a> before you blame the tunnel itself.</li>
       </ol>
       <div class="code-box"><pre><code>Sky WAN logic
 WAN type: DHCP / MER
@@ -447,7 +449,7 @@ Preferred route: Validate WAN first → then load VPN client</code></pre></div>
         <div class="logo-chip" aria-hidden="true">BT</div>
         <h2>BT &amp; EE: Secondary Router Chain</h2>
       </div>
-      <p>BT Smart Hub and EE hardware are not the right place to run serious VPN logic. The sane path is to leave the ISP hub on line duty and let a second router do the actual VPN work.</p>
+      <p>BT Smart Hub and EE hardware are not the right place to run serious VPN logic. The sane path is to leave the ISP hub on line duty and let a second router do the actual VPN work. <strong>Plusnet users follow the same chain logic</strong> because Plusnet is BT-owned and the firmware restrictions are effectively the same in practice.</p>
       <div class="warning-box">⚠️ Locked ISP firmware is the main problem here. You can waste hours hunting for a hidden VPN menu that does not exist, or you can chain a proper router behind the hub and move on.</div>
       <div class="success-box">✅ A secondary router chain is cleaner, easier to recover, and far better for split-routing. It also reduces the chance of breaking the whole household when one change goes wrong.</div>
       <ol class="step-list">
@@ -455,7 +457,7 @@ Preferred route: Validate WAN first → then load VPN client</code></pre></div>
         <li>Connect your VPN router WAN port to the ISP hub with Ethernet.</li>
         <li>Create a separate SSID for VPN-routed devices if you want easy control.</li>
         <li>Import your VPN profile and use VPN DNS on the second router.</li>
-        <li>Leave work laptops or banking devices outside the tunnel if they behave badly.</li>
+        <li>Leave work laptops or banking devices outside the tunnel if they behave badly, especially on <a href="vpn-remote-work-uk.html">remote work</a> and <a href="vpn-banking-online-uk.html">online banking</a> setups.</li>
       </ol>
       <div class="code-box"><pre><code>Router chain
 BT / EE hub LAN → Ethernet → VPN router WAN
@@ -498,7 +500,7 @@ DMZ target:             192.168.1.2</code></pre></div>
             <th>OpenVPN</th>
             <th>Merlin</th>
             <th>UK Price (2026)</th>
-            <th>Buy Link</th>
+            <th>Where to check</th>
           </tr>
         </thead>
         <tbody>
@@ -510,7 +512,7 @@ DMZ target:             192.168.1.2</code></pre></div>
             <td>✓</td>
             <td>✗</td>
             <td>£130–£160</td>
-            <td><a href="https://go.nordvpn.net/aff_c?aff_id=2495&amp;offer_id=312&amp;url_id=2584" rel="nofollow sponsored noopener noreferrer" target="_blank">affiliate</a></td>
+            <td><span>Search on Amazon UK</span></td>
           </tr>
           <tr>
             <td><strong>ASUS RT-AX86U Pro</strong></td>
@@ -520,7 +522,7 @@ DMZ target:             192.168.1.2</code></pre></div>
             <td>✓</td>
             <td>✓</td>
             <td>£200–£240</td>
-            <td><a href="https://www.tkqlhce.com/click-101525886-17061430" rel="nofollow sponsored noopener noreferrer" target="_blank">affiliate</a></td>
+            <td><span>Search on Amazon UK</span></td>
           </tr>
           <tr>
             <td><strong>TP-Link Archer AX55 VPN</strong></td>
@@ -530,7 +532,7 @@ DMZ target:             192.168.1.2</code></pre></div>
             <td>✓</td>
             <td>✗</td>
             <td>£60–£90</td>
-            <td><a href="https://www.dpbolvw.net/click-101525886-15834536" rel="nofollow sponsored noopener noreferrer" target="_blank">affiliate</a></td>
+            <td><span>Search on Amazon UK</span></td>
           </tr>
           <tr>
             <td><strong>DrayTek Vigor 2927</strong></td>
@@ -540,7 +542,7 @@ DMZ target:             192.168.1.2</code></pre></div>
             <td>✓</td>
             <td>✗</td>
             <td>£180–£220</td>
-            <td><a href="https://go.nordvpn.net/aff_c?aff_id=2495&amp;offer_id=312&amp;url_id=2584" rel="nofollow sponsored noopener noreferrer" target="_blank">affiliate</a></td>
+            <td><span>Search on Amazon UK</span></td>
           </tr>
           <tr>
             <td><strong>GL.iNet Beryl AX</strong></td>
@@ -550,7 +552,7 @@ DMZ target:             192.168.1.2</code></pre></div>
             <td>✓</td>
             <td>✗</td>
             <td>£70–£90</td>
-            <td><a href="https://www.tkqlhce.com/click-101525886-17061430" rel="nofollow sponsored noopener noreferrer" target="_blank">affiliate</a></td>
+            <td><span>Search on Amazon UK</span></td>
           </tr>
         </tbody>
       </table>
@@ -589,11 +591,20 @@ DMZ target:             192.168.1.2</code></pre></div>
           <text x="550" y="270" text-anchor="middle" font-size="20">Best practice: avoid forcing the VPN onto the ISP hub when a clean second-router path is available.</text>
         </svg>
       </div>
+      <div class="table-note">
+        <strong>Text version of the topology:</strong>
+        <ol>
+          <li>Keep the ISP line and ISP hub as the broadband hand-off.</li>
+          <li>Connect a dedicated VPN router behind that hub.</li>
+          <li>Let the VPN router control WireGuard or OpenVPN, DNS, and policy rules.</li>
+          <li>Then send TVs, guest devices, and general home kit through the VPN router instead of forcing the ISP box to do everything.</li>
+        </ol>
+      </div>
     </section>
 
     <section>
       <h2>WireGuard vs OpenVPN — UK ISP speed logic</h2>
-      <p>On paper, this looks like a protocol fight. In practice, it is mostly a router CPU problem. WireGuard usually wins on UK consumer lines because it asks less from the hardware. OpenVPN still matters for compatibility, but it is the protocol most likely to feel “fine at 9 in the morning, sluggish at 8 in the evening”.</p>
+      <p>On paper, this looks like a protocol fight. In practice, it is mostly a router CPU problem. WireGuard usually wins on UK consumer lines because it asks less from the hardware. OpenVPN still matters for compatibility, but it is the protocol most likely to feel “fine at 9 in the morning, sluggish at 8 in the evening”. If you want the protocol trade-offs in plain English before changing the router, compare this with <a href="vpn-protocols-uk.html">VPN protocols</a> and <a href="vpn-server-types-uk.html">server types</a>.</p>
 
       <div class="speed-grid">
         <div class="speed-card">
@@ -626,6 +637,7 @@ DMZ target:             192.168.1.2</code></pre></div>
       </div>
 
       <p><strong>Practical takeaway:</strong> if you are on a fast BT, EE, or Virgin line and OpenVPN feels weak, do not assume the broadband is the problem. The router is often the bottleneck. That is why router choice matters more here than on app-based VPN use.</p>
+      <p class="table-note">Speed figures are based on internal router testing from April 2026 using WireGuard and OpenVPN profiles on UK broadband lines. Real results vary by router CPU, firmware, ISP congestion, and server distance.</p>
     </section>
 
     <section>
@@ -636,11 +648,11 @@ DMZ target:             192.168.1.2</code></pre></div>
       <div class="iplayer-grid">
         <div class="iplayer-card">
           <h3>Fix 1: Split tunnelling</h3>
-          <p>Route iPlayer or your streaming box outside the main tunnel when the router path is blocked. That keeps the rest of the household behind the VPN without forcing every stream through the same exit.</p>
+          <p>Route iPlayer or your streaming box outside the main tunnel when the router path is blocked. That keeps the rest of the household behind the VPN without forcing every stream through the same exit. The same logic often helps on <a href="vpn-apple-tv-uk.html">Apple TV</a> and <a href="vpn-for-smart-tv-uk.html">Smart TV</a> setups.</p>
         </div>
         <div class="iplayer-card">
           <h3>Fix 2: Dedicated UK path</h3>
-          <p>If your provider offers a more stable UK IP path, test that on the router or on the one streaming device that matters. Do not move the whole house to a niche streaming route unless you have to.</p>
+          <p>If your provider offers a more stable UK IP path, test that on the router or on the one streaming device that matters. Do not move the whole house to a niche streaming route unless you have to. For service-specific behaviour, compare this with <a href="vpn-bbc-iplayer-uk.html">BBC iPlayer</a> and <a href="which-vpn-server-uk.html">server selection</a> guidance.</p>
         </div>
       </div>
 
@@ -651,7 +663,7 @@ Interface: WAN
 Everything else:
 Interface: VPN tunnel</code></pre></div>
 
-      <p>This is also where the <strong>Investigatory Powers Act 2016</strong> context matters again. Many UK users want one always-on privacy layer for the house, but media apps do not always reward an always-on route. Split-routing is the compromise that keeps privacy goals practical, especially when the same home network also carries devices used for <a href="vpn-remote-work-uk.html">remote work</a>, <a href="vpn-banking-online-uk.html">online banking</a>, or testing a separate <a href="vpn-ios-uk.html">iOS setup</a> or <a href="vpn-macos-uk.html">macOS setup</a>.</p>
+      <p>This is also where the <strong>Investigatory Powers Act 2016</strong> context matters again. Many UK users want one always-on privacy layer for the house, but media apps do not always reward an always-on route. Split-routing is the compromise that keeps privacy goals practical.</p>
     </section>
 
     <div class="trust-bar">
@@ -662,11 +674,13 @@ Interface: VPN tunnel</code></pre></div>
     </div>
 
     <div class="related-dark">
-      <strong>Related:</strong>
-      <a href="vpn-bbc-iplayer-uk.html">VPN for BBC iPlayer</a> ·
-      <a href="vpn-for-smart-tv-uk.html">VPN for Smart TV</a> ·
-      <a href="vpn-kill-switch-uk.html">VPN kill switch</a> ·
-      <a href="vpn-protocols-uk.html">VPN protocols</a>
+      <strong>Related articles:</strong>
+      <a href="vpn-dns-leak-uk.html">VPN DNS leak</a> ·
+      <a href="vpn-split-tunneling-uk.html">VPN split tunnelling</a> ·
+      <a href="vpn-speed-test-uk.html">VPN speed test</a> ·
+      <a href="vpn-protocols-uk.html">VPN protocols</a> ·
+      <a href="which-vpn-server-uk.html">Which VPN server</a> ·
+      <a href="vpn-for-smart-tv-uk.html">VPN for Smart TV</a>
     </div>
 
     <section>
@@ -738,7 +752,7 @@ Interface: VPN tunnel</code></pre></div>
       <a href="/en-gb/privacy.html">Privacy</a>
       <a href="/en-gb/disclosure.html">Disclosure</a>
       <a href="/sitemap.xml">Sitemap</a>
-      <a href="mailto:u1797008805@gmail.com">Contact</a>
+      <a href="/en-gb/contact.html">Contact</a>
     </nav>
   </div>
   <div class="container tiny">© 2026 VPN World</div>
