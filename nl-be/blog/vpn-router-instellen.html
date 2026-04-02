@@ -1,71 +1,577 @@
-<!DOCTYPE html><html lang="nl-be">
+<!DOCTYPE html>
+<html lang="nl-be">
 <head>
-<meta charset="utf-8">
-<title>Vpn Router Instellen | VPN World</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="index, follow">
-<link rel="icon" href="/favicon.ico">
-<link rel="stylesheet" href="../../assets/css/style.css">
-<link rel="canonical" href="https://dloran1.github.io/nl-be/blog/vpn-router-instellen.html">
-<link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-konfiguracja-routera.html">
-  <link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-router-setup-uk.html">
-  <link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-router-setup.html">
-  <link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-router-einrichtung.html">
-  <link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/configuracion-vpn-router.html">
-  <link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/configuration-vpn-routeur.html">
-  <link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-router-instellen.html">
-  <link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-router-setup-uk.html">
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RD6M691ZWD"></script>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>VPN instellen op je router 2026: Gids voor Telenet, Proximus en Orange</title>
+<meta name="description" content="Hoe je een VPN op je router instelt in België. Praktische gids voor Telenet bridge-modus, Proximus PPPoE passthrough, Orange DMZ, WireGuard en 4K-streaming in 2026."/>
+<meta name="keywords" content="vpn router instellen belgie, telenet bridge modus mac passthrough, proximus pppoe passthrough, orange belgie dmz router vpn, wireguard router belgie 2026, vlan 10 proximus"/>
+<meta name="robots" content="index,follow"/>
+<link rel="icon" href="/favicon.ico"/>
+<link rel="canonical" href="https://dloran1.github.io/nl-be/blog/vpn-router-instellen.html"/>
+<link rel="alternate" hreflang="pl" href="https://dloran1.github.io/blog/vpn-konfiguracja-routera.html"/>
+<link rel="alternate" hreflang="en-gb" href="https://dloran1.github.io/en-gb/blog/vpn-router-setup-uk.html"/>
+<link rel="alternate" hreflang="en-us" href="https://dloran1.github.io/en-us/blog/vpn-router-setup.html"/>
+<link rel="alternate" hreflang="de" href="https://dloran1.github.io/de/blog/vpn-router-einrichtung.html"/>
+<link rel="alternate" hreflang="es" href="https://dloran1.github.io/es/blog/configuracion-vpn-router.html"/>
+<link rel="alternate" hreflang="fr" href="https://dloran1.github.io/fr/blog/configuration-vpn-routeur.html"/>
+<link rel="alternate" hreflang="nl-be" href="https://dloran1.github.io/nl-be/blog/vpn-router-instellen.html"/>
+<link rel="alternate" hreflang="x-default" href="https://dloran1.github.io/en-gb/blog/vpn-router-setup-uk.html"/>
+<link rel="dns-prefetch" href="https://www.googletagmanager.com"/>
+<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin=""/>
+<link rel="dns-prefetch" href="https://www.google-analytics.com"/>
+<link rel="preconnect" href="https://www.google-analytics.com" crossorigin=""/>
+<link rel="preload" as="image" href="../../assets/img/hero/vpn-router-setup-uk.webp"/>
+<link rel="stylesheet" href="../../assets/css/style.css"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="VPN instellen op je router 2026: Gids voor Telenet, Proximus en Orange"/>
+<meta property="og:description" content="Stap-voor-stap gids voor Telenet bridge-modus, Proximus PPPoE passthrough, Orange DMZ, WireGuard en streaming zonder blokkades in België."/>
+<meta property="og:url" content="https://dloran1.github.io/nl-be/blog/vpn-router-instellen.html"/>
+<meta property="og:site_name" content="VPN World"/>
+<meta property="og:image" content="https://dloran1.github.io/assets/img/hero/vpn-router-setup-uk.webp"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:locale" content="nl_BE"/>
+<meta property="og:locale:alternate" content="pl_PL"/>
+<meta property="og:locale:alternate" content="en_GB"/>
+<meta property="og:locale:alternate" content="en_US"/>
+<meta property="og:locale:alternate" content="de_DE"/>
+<meta property="og:locale:alternate" content="es_ES"/>
+<meta property="og:locale:alternate" content="fr_FR"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="VPN instellen op je router 2026: Gids voor Telenet, Proximus en Orange"/>
+<meta name="twitter:description" content="Belgische routergids voor Telenet, Proximus en Orange met WireGuard, PPPoE, Mac Passthrough en privacylogica."/>
+<meta name="twitter:image" content="https://dloran1.github.io/assets/img/hero/vpn-router-setup-uk.webp"/>
+<script defer src="/assets/js/cookie-consent.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EMR8C4TLVM"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-RD6M691ZWD', { 'send_page_view': false, });
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  analytics_storage: 'denied',
+  functionality_storage: 'denied',
+  personalization_storage: 'denied',
+  security_storage: 'granted'
+});
+gtag('config', 'G-EMR8C4TLVM', { send_page_view: false });
 </script>
-      <script src="/assets/js/cookie-consent.js" defer></script>
+<style>
+:root {
+  --v-be-yellow: #ffd90c;
+  --v-be-red: #d62828;
+  --v-be-black: #111111;
+  --v-green: #10b981;
+  --v-gray: #f3f4f6;
+  --text: #111827;
+  --border: #000000;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+}
+.hero-wide{padding:1.25rem 0 1.5rem}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(320px,.9fr);gap:1.5rem;align-items:start}
+@media (max-width:980px){.hero-grid{grid-template-columns:1fr}}
+.hero-media img{display:block;width:100%;height:auto;border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+.quick-answer,.legal-banner,.warning-box,.success-box,.code-box,.trust-bar,.isp-card,.table-note,.mini-badge,.widget-shell,.speed-card,.stream-card,.related-dark,.be-card{border-radius:16px}
+.quick-answer{background:#fff;border:3px solid #000;border-left:8px solid var(--v-be-red);padding:1rem 1rem .95rem;color:#000;margin:1rem 0}
+.quick-answer *{color:#000}
+.legal-banner{background:#071b46;color:#fff;border:1px solid rgba(255,255,255,.14);padding:1rem 1rem .95rem;margin:.9rem 0 1rem}
+.legal-banner *{color:#fff}
+.law-badge,.legal-note,.time-badge,.mini-badge{display:inline-flex;align-items:center;gap:.4rem;font-weight:800;border-radius:999px;padding:.38rem .75rem}
+.law-badge{background:#fff;color:#000;margin-bottom:.75rem}
+.legal-note{background:rgba(16,185,129,.18);border:1px solid rgba(16,185,129,.35);margin-top:.5rem}
+.compat-cta{background:linear-gradient(135deg,#14193d,#071023);color:#fff;border:1px solid rgba(255,255,255,.12);padding:1rem;border-radius:16px;margin:1rem 0 1.2rem}
+.compat-cta p,.compat-cta strong,.compat-cta a{color:#fff}
+.warning-box{background:#fff7e6;border:3px solid #000;padding:.9rem 1rem;color:#000;margin:.8rem 0}
+.warning-box *{color:#000}
+.success-box{background:#ecfdf5;border:3px solid #000;padding:.9rem 1rem;color:#000;margin:.8rem 0}
+.success-box *{color:#000}
+.time-badge{background:#fff;border:2px solid #000;color:#000;margin-top:.6rem}
+.code-box{background:#071023;border:1px solid rgba(255,255,255,.12);padding:.95rem 1rem;overflow:auto;margin:.8rem 0 0}
+.code-box,.code-box code,.code-box pre{color:#eaf3ff !important}
+.widget-shell{background:#0b1220;border:1px solid rgba(255,255,255,.12);padding:1rem;margin:1rem 0 1.4rem}
+.widget-shell h2,.widget-shell h3,.widget-shell p,.widget-shell strong{color:#fff}
+.widget-meter{background:#fff;border:3px solid #000;border-radius:14px;padding:1rem;color:#000;margin-bottom:1rem}
+.widget-meter *{color:#000 !important}
+.widget-bar{height:14px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin:.5rem 0 .35rem}
+.widget-bar > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--v-be-black),var(--v-be-yellow),var(--v-be-red))}
+.widget-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:820px){.widget-grid{grid-template-columns:1fr}}
+.widget-card{background:#fff;border:3px solid #000;border-radius:16px;padding:1rem;color:#000;cursor:pointer}
+.widget-card *{color:#000 !important}
+.widget-card.done{background:#ecfdf5}
+.widget-card::after{content:"tik om te markeren ✓";color:#6b7280 !important;font-size:11px;display:block;margin-top:.5rem;font-style:italic}
+.widget-card.done::after{content:""}
+.widget-card h3{margin:0 0 .5rem;font-size:1.02rem}
+.widget-card .verdict{font-weight:800}
+.widget-card details{margin-top:.7rem}
+.widget-card summary{font-weight:800;cursor:pointer}
+.widget-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:1rem}
+.widget-btn{appearance:none;border:2px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:#fff;font-weight:800;padding:.6rem .95rem;border-radius:12px;cursor:pointer}
+.widget-btn:disabled{opacity:.45;cursor:not-allowed}
+.widget-page{font-weight:900;color:#fff}
+.widget-ready{display:none;background:rgba(16,185,129,.18);border:1px solid rgba(16,185,129,.35);color:#dffcf0;border-radius:14px;padding:.85rem 1rem;margin-top:1rem;font-weight:800}
+.widget-ready.show{display:block}
+.isp-card{background:#fff;border:3px solid #000;padding:1rem;margin:1.2rem 0;color:#000}
+.isp-card *{color:#000}
+.isp-head{display:flex;align-items:center;gap:.85rem;flex-wrap:wrap}
+.logo-chip{width:58px;height:58px;display:grid;place-items:center;border:3px solid #000;border-radius:14px;background:#f7f8fb;font-weight:900}
+.step-list{padding-left:1.25rem}
+.step-list li{margin:.55rem 0}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:1rem 0;border-radius:14px;background:#fff}
+.table-scroll table{min-width:920px;width:100%;border-collapse:collapse;background:#fff !important;color:#000 !important}
+.table-scroll caption{caption-side:top;text-align:left;padding:1rem;font-weight:900;color:#000 !important;background:#fff !important}
+.table-scroll th,.table-scroll td{border:3px solid #000 !important;padding:.8rem .75rem;vertical-align:top;background:#fff !important;color:#000 !important}
+.table-scroll thead th{background:#071023 !important;color:#fff !important;-webkit-text-fill-color:#fff !important}
+.table-scroll tbody tr:nth-child(even) td{background:#f6f7fb !important}
+.table-scroll tbody tr:hover td{background:#eef4ff !important}
+.table-note{background:#fff;border:2px solid #000;padding:.8rem 1rem;color:#000;margin-top:.7rem}
+.svg-card{background:#fff;border:3px solid #000;border-radius:16px;padding:1rem;margin:1rem 0}
+.svg-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.svg-card svg{display:block;max-width:100%;height:auto;color:#000}
+.svg-card svg text{fill:#000 !important;font-weight:800}
+.svg-card svg line,.svg-card svg path,.svg-card svg polyline,.svg-card svg polygon,.svg-card svg rect,.svg-card svg circle{stroke:#000 !important;stroke-width:4}
+.speed-grid,.stream-grid,.be-grid{display:grid;gap:14px;margin:1rem 0}
+.speed-card,.stream-card,.be-card{background:#fff;border:3px solid #000;padding:1rem;color:#000}
+.speed-card *,.stream-card *,.be-card *{color:#000}
+.speed-row{display:grid;grid-template-columns:220px 1fr auto;gap:12px;align-items:center;margin:.7rem 0}
+@media (max-width:760px){.speed-row{grid-template-columns:1fr}}
+.bar-track{height:16px;background:#e5e7eb;border-radius:999px;overflow:hidden}
+.bar-fill{height:100%}
+.bar-dark{background:linear-gradient(90deg,var(--v-be-black),#4b5563)}
+.bar-red{background:linear-gradient(90deg,#f97316,var(--v-be-red))}
+.stream-grid,.be-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:900px){.stream-grid,.be-grid{grid-template-columns:1fr}}
+.trust-bar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;background:#071023;border:1px solid rgba(255,255,255,.12);padding:1rem;margin:1rem 0 1.25rem}
+@media (max-width:780px){.trust-bar{grid-template-columns:1fr}}
+.trust-bar span{display:block;background:#fff;border:2px solid #000;border-radius:12px;padding:.7rem .8rem;color:#000;font-weight:800}
+.related-dark{background:#071023;border:1px solid rgba(255,255,255,.1);border-left:4px solid #38d39f;padding:1rem;margin:1rem 0 1.2rem}
+.related-dark *{color:#fff}
+.faq-list{display:grid;gap:14px}
+.faq-item{background:#fff;border:3px solid #000;border-radius:14px;overflow:hidden}
+.faq-item summary{cursor:pointer;list-style:none;padding:1rem 1rem .95rem;font-weight:900;color:#000}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item[open] summary{background:#f6f7fb;border-bottom:3px solid #000}
+.faq-answer{padding:.9rem 1rem 1rem;color:#000}
+.author-box{background:#0b152b;border:1px solid #1b2432;border-radius:14px;padding:1rem;color:#fff}
+.author-box *{color:#fff}
+</style>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"Article",
+      "@id":"https://dloran1.github.io/nl-be/blog/vpn-router-instellen.html#article",
+      "mainEntityOfPage":{"@type":"WebPage","@id":"https://dloran1.github.io/nl-be/blog/vpn-router-instellen.html"},
+      "headline":"VPN instellen op je router 2026: Gids voor Telenet, Proximus en Orange",
+      "datePublished":"2026-04-01",
+      "dateModified":"2026-04-01",
+      "author":{"@type":"Person","name":"Denys Shchur"},
+      "publisher":{"@type":"Organization","name":"VPN World","url":"https://dloran1.github.io/"},
+      "inLanguage":"nl-BE",
+      "image":"https://dloran1.github.io/assets/img/hero/vpn-router-setup-uk.webp",
+      "about":[
+        {"@type":"Thing","name":"VPN op router instellen"},
+        {"@type":"Thing","name":"Telenet bridge-modus"},
+        {"@type":"Thing","name":"Proximus PPPoE passthrough"}
+      ]
+    },
+    {
+      "@type":"WebPage",
+      "@id":"https://dloran1.github.io/nl-be/blog/vpn-router-instellen.html",
+      "url":"https://dloran1.github.io/nl-be/blog/vpn-router-instellen.html",
+      "name":"VPN instellen op je router 2026: Gids voor Telenet, Proximus en Orange",
+      "inLanguage":"nl-BE",
+      "speakable":{"@type":"SpeakableSpecification","cssSelector":[".quick-answer",".faq-item"]}
+    },
+    {
+      "@type":"BreadcrumbList",
+      "@id":"https://dloran1.github.io/nl-be/blog/vpn-router-instellen.html#breadcrumbs",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"VPN World","item":"https://dloran1.github.io/"},
+        {"@type":"ListItem","position":2,"name":"Blog","item":"https://dloran1.github.io/nl-be/blog/"},
+        {"@type":"ListItem","position":3,"name":"VPN router instellen","item":"https://dloran1.github.io/nl-be/blog/vpn-router-instellen.html"}
+      ]
+    },
+    {
+      "@type":"FAQPage",
+      "@id":"https://dloran1.github.io/nl-be/blog/vpn-router-instellen.html#faq",
+      "mainEntity":[
+        {"@type":"Question","name":"Kan je een VPN rechtstreeks op een Telenet-modem installeren?","acceptedAnswer":{"@type":"Answer","text":"Nee. De standaardmodem ondersteunt geen volwaardige VPN-client. Je activeert bridge-modus en laat een eigen router de VPN beheren."}},
+        {"@type":"Question","name":"Werkt Proximus met bridge-modus?","acceptedAnswer":{"@type":"Answer","text":"Niet zoals bij Telenet. Proximus laat je een eigen toestel gebruiken via PPPoE op je router en in sommige opstellingen VLAN 10."}},
+        {"@type":"Question","name":"Heeft Orange België een bruikbare bridge-oplossing?","acceptedAnswer":{"@type":"Answer","text":"Op kabelverbindingen is bridgemodus mogelijk op ondersteunde modems. Als dat niet werkt, blijft een DMZ- of cascade-opstelling de praktische fallback."}},
+        {"@type":"Question","name":"Waarom is WireGuard belangrijk op Belgische gigabitlijnen?","acceptedAnswer":{"@type":"Answer","text":"Omdat OpenVPN te veel CPU vraagt op thuisrouters. WireGuard haalt op hetzelfde toestel veel hogere snelheden en stabielere responstijden."}},
+        {"@type":"Question","name":"Wat is PPPoE passthrough bij Proximus?","acceptedAnswer":{"@type":"Answer","text":"Je eigen router bouwt zelf de PPPoE-sessie op, terwijl de providerbox op de lijn blijft. Dat geeft meer controle over WAN, DNS en VPN."}},
+        {"@type":"Question","name":"Waarom is IPv6 een risico bij Telenet of andere providers?","acceptedAnswer":{"@type":"Answer","text":"Als IPv6 buiten de tunnel blijft, kan je echte adres of locatie alsnog zichtbaar worden. Daarom moet je IPv6 bewust beheren op je eigen router."}},
+        {"@type":"Question","name":"Welke router is het best voor VPN in België in 2026?","acceptedAnswer":{"@type":"Answer","text":"GL.iNet Flint 2 is een sterke keuze voor gigabit en WireGuard. ASUS RT-AX88U Pro is beter voor geavanceerde regels, gaming en Smart TV-scenario's."}},
+        {"@type":"Question","name":"Kan je VRT MAX of Netflix gebruiken met een router-VPN?","acceptedAnswer":{"@type":"Answer","text":"Ja, maar meestal alleen met policy routing of split tunneling. TV-boxen, Apple TV of consoles moeten soms buiten de tunnel blijven."}},
+        {"@type":"Question","name":"Heb je een kill switch nodig op een router-VPN?","acceptedAnswer":{"@type":"Answer","text":"Ja. Zonder kill switch valt je netwerk bij tunneluitval terug op het echte provider-IP, wat tot IP-lekken leidt."}}
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
-<nav class="lang-switch"><a href="/blog/vpn-konfiguracja-routera.html">Polski</a> | <a href="/en-gb/blog/vpn-router-setup-uk.html">English (UK)</a> | <a href="/en-us/blog/vpn-router-setup.html">English (US)</a> | <a href="/de/blog/vpn-router-einrichtung.html">Deutsch</a> | <a href="/es/blog/configuracion-vpn-router.html">Español</a> | <a href="/fr/blog/configuration-vpn-routeur.html">Français</a> | <a href="/nl-be/blog/vpn-router-instellen.html" class="active">Nederlands (BE)</a></nav>
+<nav class="lang-switch" aria-label="Language switcher">
+<a href="/blog/vpn-konfiguracja-routera.html">Polski</a> |
+<a href="/en-gb/blog/vpn-router-setup-uk.html">English (UK)</a> |
+<a href="/en-us/blog/vpn-router-setup.html">English (US)</a> |
+<a href="/de/blog/vpn-router-einrichtung.html">Deutsch</a> |
+<a href="/es/blog/configuracion-vpn-router.html">Español</a> |
+<a href="/fr/blog/configuration-vpn-routeur.html">Français</a> |
+<a class="active" aria-current="page" href="/nl-be/blog/vpn-router-instellen.html">Nederlands (BE)</a>
+</nav>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/nl-be/">
+      <img alt="VPN World logo" class="logo" src="../../assets/img/logo.png" width="40" height="40"/>
+      <span class="brand-text">VPN World</span>
+    </a>
+    <nav class="top-nav"><a href="/nl-be/blog/">Blog</a></nav>
+  </div>
+</header>
+<main class="container card article">
+  <article>
+    <section class="hero-wide">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="meta">België · Router-VPN · Bijgewerkt op 1 april 2026</p>
+          <h1>VPN instellen op je router 2026: Gids voor Telenet, Proximus en Orange</h1>
+          <div class="quick-answer"><strong>Snel antwoord:</strong> Kun je direct een VPN installeren op een Telenet Home Gateway of Proximus Internet Box? Nee. De standaardrouters van Belgische providers ondersteunen geen VPN-clients. De oplossing is een eigen VPN-router zoals Asus of GL.iNet te gebruiken. Voor Telenet gebruik je bridge-modus via 3rd party passthrough, en voor Proximus configureer je PPPoE op je eigen router. Deze gids legt stap voor stap uit hoe je dat in 2026 instelt voor privacy, stabiele DNS en 4K-streaming. Bekijk ook eerst <a href="wat-is-een-vpn.html">wat een VPN precies doet</a> als je de basis van tunneling en versleuteling helder wilt hebben.</div>
+          <div class="legal-banner">
+            <span class="law-badge">🔒 PRIVACY</span>
+            <p>Zonder versleuteling op routerniveau ziet je provider nog altijd veel: DNS-verzoeken, bezochte domeinen, gebruiksuren en verkeerpatronen. Een router-VPN verkleint die zichtbaarheid omdat het verkeer versleuteld wordt vóór het over het netwerk van de provider loopt.</p>
+            <span class="legal-note">WireGuard + schone DNS = sterke basis voor een discreter thuisnetwerk ✓</span>
+          </div>
+          <p>In België draait de logica vooral om de overname van de WAN-laag. Telenet is het eenvoudigst zodra bridge-modus actief is. Bij Proximus moet je meestal via PPPoE werken en in sommige situaties VLAN 10 meegeven. Bij Orange hangt het af van het onderliggende netwerk of je met bridge of DMZ werkt. Als je daarna nog streaming, gaming of thuiswerk goed wilt scheiden, helpt het om al vroeg naar <a href="vpn-protocollen.html">VPN-protocollen</a> en een nette DNS-opstelling te kijken.</p>
+          <div class="compat-cta">
+            <p><strong>Controleer de compatibiliteit met je provider ↓</strong></p>
+            <p>Begin met de auditkaartjes, ga dan meteen naar Telenet, Proximus of Orange en meng bridge, PPPoE en DMZ niet door elkaar. Dat voorkomt veel nodeloze foutopsporing.</p>
+          </div>
+          <div class="cta-buttons">
+            <a class="nordvpn" href="https://go.nordvpn.net/aff_c?aff_id=2495&amp;offer_id=312&amp;url_id=2584" rel="nofollow sponsored noopener noreferrer" target="_blank">NordVPN op je router gebruiken</a>
+            <a class="surfshark" href="https://www.tkqlhce.com/click-101525886-17061430" rel="nofollow sponsored noopener noreferrer" target="_blank">Surfshark op je router gebruiken</a>
+            <a class="proton" href="https://www.dpbolvw.net/click-101525886-15834536" rel="nofollow sponsored noopener noreferrer" target="_blank">Proton VPN op je router gebruiken</a>
+          </div>
+        </div>
+        <div class="hero-media">
+          <img alt="VPN-router instellen voor Telenet, Proximus en Orange in België" src="../../assets/img/hero/vpn-router-setup-uk.webp" width="1200" height="630" loading="eager" fetchpriority="high"/>
+        </div>
+      </div>
+    </section>
 
+    <section class="widget-shell" id="be-router-dashboard" aria-label="Belgische routeraudit">
+      <h2>BE Router Audit</h2>
+      <p>Controleer eerst hoe je provider de lijn overdraagt, daarna het protocol en pas daarna DNS, streaming en uitzonderingen. Die volgorde houdt de opstelling beheersbaar.</p>
+      <div class="widget-meter">
+        <div style="display:flex;justify-content:space-between;gap:12px;font-weight:900">
+          <span>Checked <span id="auditCount">0</span> of 10 items</span>
+          <span id="auditPerc">0%</span>
+        </div>
+        <div class="widget-bar"><span id="auditBar"></span></div>
+        <p>Bridge, PPPoE, DMZ, IPv6 en streamingregels zitten op verschillende lagen. Werk laag per laag.</p>
+      </div>
+      <div class="widget-grid" id="auditGrid"></div>
+      <div class="widget-actions">
+        <button class="widget-btn" id="auditPrev" type="button">← VORIGE</button>
+        <span class="widget-page" id="auditPage">Pagina 1 van 3</span>
+        <button class="widget-btn" id="auditNext" type="button">VOLGENDE →</button>
+      </div>
+      <div class="widget-ready" id="auditReady">✓ Je netwerk is klaar voor WireGuard. Volgende stap: DNS, kill switch en policy routing verfijnen.</div>
+    </section>
 
-<header class="site-header"><div class="container header-inner">
-  <a href="/nl-be/" class="brand"><img src="../../assets/img/logo.png" class="logo" alt=""> <span class="brand-text">VPN World</span></a>
-  
-</div></header>
-<main class="container card" style="padding:18px 0"><h1>Vpn Router Instellen</h1><p>Content coming soon...</p><!-- RELATED_START -->
-<section class="related-guides" aria-label="Gerelateerde gidsen">
-  <h2>Gerelateerde gidsen</h2>
-  <ul>
-    <li><a href="/nl-be/blog/vpn-android.html">/nl-be/blog/vpn-android.html</a></li>
-    <li><a href="/nl-be/blog/vpn-ios.html">/nl-be/blog/vpn-ios.html</a></li>
-    <li><a href="/nl-be/blog/vpn-macos.html">/nl-be/blog/vpn-macos.html</a></li>
-    <li><a href="/nl-be/blog/vpn-windows-instellen.html">/nl-be/blog/vpn-windows-instellen.html</a></li>
-    <li><a href="/nl-be/blog/wat-is-een-vpn.html">/nl-be/blog/wat-is-een-vpn.html</a></li>
-  </ul>
-</section>
-<!-- RELATED_END -->
+    <section class="isp-card" id="telenet">
+      <div class="isp-head"><div class="logo-chip" aria-hidden="true">TEL</div><h2>Telenet — bridge-modus en Mac Passthrough</h2></div>
+      <p>Voor veel Belgische huishoudens is Telenet de properste route naar een eigen router. Zodra 3rd party passthrough of bridge-modus actief is, wordt de providerhardware vooral een doorgeefluik en niet langer het slimme deel van je netwerk.</p>
+      <div class="warning-box">⚠️ Als IPv6 actief blijft zonder goede tunnelondersteuning, kan je echte adres nog altijd lekken. Controleer daarom zowel het VPN-pad als de IPv6-instellingen en gebruik daarna een <a href="vpn-dns-leak.html">DNS-lektest</a>.</div>
+      <div class="success-box">✅ Met bridge-modus krijgt je eigen router de publieke IP-adreslogica. Dat maakt WireGuard, eigen DNS en duidelijke routerregels veel eenvoudiger.</div>
+      <ol class="step-list">
+        <li>Log in op Mijn Telenet en activeer bridge-modus of 3rd party passthrough.</li>
+        <li>Verbind de WAN-poort van je eigen router met de Telenet-modem.</li>
+        <li>Zet DHCP op je eigen router aan en laat toestellen automatisch een IP krijgen.</li>
+        <li>Schakel WireGuard in en test eerst één bekabeld toestel.</li>
+        <li>Controleer daarna of <a href="vpn-kill-switch.html">de kill switch</a> en DNS-regels werkelijk actief zijn.</li>
+      </ol>
+      <div class="code-box"><pre><code>Telenet
+Portaal:      Mijn Telenet
+Modus:        Bridge / 3rd party passthrough
+WAN:          Publiek IP op eigen router
+VPN:          WireGuard aanbevolen</code></pre></div>
+      <span class="time-badge">⏱ ~15 minuten</span>
+    </section>
+
+    <section class="isp-card" id="proximus">
+      <div class="isp-head"><div class="logo-chip" aria-hidden="true">PRO</div><h2>Proximus — PPPoE passthrough op je eigen router</h2></div>
+      <p>Proximus werkt anders dan Telenet. Je krijgt doorgaans geen klassieke bridge-modus, maar je kunt wel je eigen router laten inbellen via PPPoE. Daardoor houdt je eigen toestel meer controle over WAN, DNS en de VPN-tunnel.</p>
+      <div class="warning-box">⚠️ Een vuile PPPoE-opstelling met verkeerde VLAN of foutieve MTU levert instabiele tunnels op. Zeker als je later streaming of gaming wilt scheiden, is het slim om vooraf te kijken naar <a href="welke-vpn-server-kiezen.html">welke VPN-server je best kiest</a>.</div>
+      <div class="success-box">✅ Als PPPoE correct draait, werkt Proximus verrassend goed met een eigen router. Op rechtstreekse glasvezelopstellingen kan VLAN 10 nodig zijn om de WAN-lijn correct op te bouwen.</div>
+      <ol class="step-list">
+        <li>Verbind je eigen router met de Internet Box of rechtstreeks met de ONT waar dat toegelaten is.</li>
+        <li>Configureer de WAN-interface van je router op PPPoE.</li>
+        <li>Voeg VLAN ID 10 toe als je aansluiting dat vereist.</li>
+        <li>Importeer het WireGuard-profiel en test de lijn bekabeld.</li>
+        <li>Controleer daarna je <a href="vpn-snelheidstest.html">VPN-snelheidstest</a> en vergelijk met <a href="vpn-optimale-instellingen.html">optimale VPN-instellingen</a>.</li>
+      </ol>
+      <div class="code-box"><pre><code>Proximus
+WAN-type:     PPPoE
+VLAN:         10 indien vereist
+Router:       eigen WAN op PPPoE
+VPN:          WireGuard boven OpenVPN</code></pre></div>
+      <span class="time-badge">⏱ ~20 minuten</span>
+    </section>
+
+    <section class="isp-card" id="orange-voo">
+      <div class="isp-head"><div class="logo-chip" aria-hidden="true">ORG</div><h2>Orange en VOO — oplossingen voor kabelinternet</h2></div>
+      <p>Bij Orange België hangt veel af van het onderliggende kabelnet. Op ondersteunde modems kan bridge-modus bestaan, maar als dat niet werkt, kom je uit op DMZ of een klassieke cascade-opstelling. Dat is minder elegant, maar nog altijd bruikbaar.</p>
+      <div class="warning-box">⚠️ Als bridge niet beschikbaar is, blijft double NAT een reëel risico. In dat geval moet je vooral letten op poortgedrag, WAN-overname en of <a href="vpn-port-forwarding.html">port forwarding met VPN</a> nog logisch blijft.</div>
+      <div class="success-box">✅ Ook achter Orange of VOO kan een goed geplaatste VPN-router het belangrijkste verkeer versleutelen, veilige DNS afdwingen en bruikbare routerregels toepassen.</div>
+      <ol class="step-list">
+        <li>Controleer eerst of bridge-modus op jouw modem beschikbaar is.</li>
+        <li>Als bridge ontbreekt, geef je je eigen router een vast intern adres.</li>
+        <li>Plaats dat adres in DMZ of werk met een zuivere LAN-naar-WAN-cascade.</li>
+        <li>Importeer WireGuard en test DNS, streaming en bekabelde snelheid apart.</li>
+      </ol>
+      <div class="code-box"><pre><code>Orange / VOO
+Bridge:       alleen waar beschikbaar
+Fallback:     DMZ of cascade
+Doel:         double NAT zo veel mogelijk beperken
+VPN:          WireGuard + eigen DNS</code></pre></div>
+      <span class="time-badge">⏱ ~20 minuten</span>
+    </section>
+
+    <div class="table-scroll">
+      <table>
+        <caption>Beste VPN-routers voor België in 2026</caption>
+        <thead>
+          <tr><th>Model</th><th>Beste voor</th><th>WireGuard</th><th>Prijs (2026)</th><th>Aankoop</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>GL.iNet Flint 2</strong></td><td>Gigabitlijnen (Telenet / Proximus)</td><td>✓</td><td>€159–€179</td><td><span>Zoeken op Amazon België</span></td></tr>
+          <tr><td><strong>ASUS RT-AX88U Pro</strong></td><td>Gaming &amp; Smart TV</td><td>✓</td><td>€239–€269</td><td><span>Zoeken op Amazon België</span></td></tr>
+          <tr><td><strong>GL.iNet Beryl AX</strong></td><td>Thuiswerk / reizen</td><td>✓</td><td>€89–€99</td><td><span>Zoeken op Amazon België</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">Prijzen gecontroleerd in april 2026. De echte snelheid hangt af van de CPU van je router, firmwareversie, afstand tot de VPN-server en drukte op het netwerk van je provider.</p>
+
+    <section class="svg-card">
+      <h2>De cascade-opstelling in België</h2>
+      <p>De Belgische praktijk draait meestal rond twee modellen: bridge-modus bij Telenet en PPPoE of DMZ bij Proximus en Orange. In beide gevallen neemt je eigen router de versleuteling en routing over.</p>
+      <div class="svg-scroll">
+        <svg viewBox="0 0 980 240" role="img" aria-label="Belgische cascade-opstelling met providerrouter, VPN-router en beveiligd netwerk">
+          <rect x="40" y="55" width="210" height="110" rx="14" fill="#f3f4f6"></rect>
+          <text x="145" y="98" text-anchor="middle" font-size="22">ISP-modem</text>
+          <text x="145" y="128" text-anchor="middle" font-size="16">Telenet / Proximus / Orange</text>
+
+          <line x1="250" y1="110" x2="420" y2="110" stroke-dasharray="9 7"></line>
+          <text x="335" y="90" text-anchor="middle" font-size="16">Bridge of PPPoE passthrough</text>
+
+          <rect x="420" y="40" width="220" height="140" rx="14" fill="#fff8d6"></rect>
+          <text x="530" y="95" text-anchor="middle" font-size="22">VPN-router</text>
+          <text x="530" y="125" text-anchor="middle" font-size="16">WireGuard + DNS + regels</text>
+
+          <line x1="640" y1="110" x2="820" y2="110"></line>
+          <polygon points="820,110 792,96 792,124" fill="#000"></polygon>
+          <text x="730" y="90" text-anchor="middle" font-size="16">Versleuteld verkeer</text>
+
+          <rect x="820" y="55" width="120" height="110" rx="14" fill="#ecfdf5"></rect>
+          <text x="880" y="92" text-anchor="middle" font-size="18">Veilig</text>
+          <text x="880" y="118" text-anchor="middle" font-size="16">TV / laptop / gsm</text>
+          <text x="880" y="142" text-anchor="middle" font-size="16">IoT / consoles</text>
+        </svg>
+      </div>
+      <div class="table-note">
+        <strong>Tekstversie van de opstelling:</strong>
+        <ol>
+          <li>De providerbox levert de internetverbinding aan je eigen router.</li>
+          <li>De VPN-router bouwt de WireGuard-tunnel op en beheert DNS en routing.</li>
+          <li>Het verkeer van beschermde apparaten wordt versleuteld voordat het de provider bereikt.</li>
+          <li>Met policy routing kun je gevoelige apparaten zoals TV-boxen of consoles buiten de tunnel houden.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section>
+      <h2>Snelheid — waarom WireGuard de standaard is in België</h2>
+      <p>Met gigabitverbindingen van Telenet, Proximus of EDPnet wordt het verschil tussen WireGuard en OpenVPN snel pijnlijk zichtbaar. Voor een eerlijke vergelijking kijk je best ook naar <a href="vpn-servertypes.html">servertypes</a> en niet alleen naar marketingclaims.</p>
+      <div class="speed-grid">
+        <div class="speed-card">
+          <div class="speed-row"><strong>WireGuard</strong><div class="bar-track"><div class="bar-fill bar-dark" style="width:90%"></div></div><span>500–900 Mbps</span></div>
+          <div class="speed-row"><strong>OpenVPN UDP</strong><div class="bar-track"><div class="bar-fill bar-red" style="width:26%"></div></div><span>80–180 Mbps</span></div>
+          <div class="speed-row"><strong>OpenVPN TCP</strong><div class="bar-track"><div class="bar-fill bar-red" style="width:17%"></div></div><span>40–120 Mbps</span></div>
+        </div>
+      </div>
+      <p class="table-note">Indicatieve waarden voor april 2026 op recente thuisrouters. Het eindresultaat hangt af van hardware, firmware, serverafstand en providercongestie.</p>
+    </section>
+
+    <section>
+      <h2>Streaming — VRT MAX en Netflix zonder blokkades</h2>
+      <h3>Waarom streamingdiensten VPN-routes blokkeren</h3>
+      <p>Niet elke dienst reageert hetzelfde op een router-VPN. Sommige platformen zien een datacenter-IP, andere haken af op een vreemde route of onverwachte DNS. Daarom is <a href="vpn-split-tunneling.html">split tunneling</a> vaak noodzakelijk.</p>
+      <div class="stream-grid">
+        <div class="stream-card">
+          <h3>Policy routing voor TV</h3>
+          <p>Houd de TV-box, Apple TV of Smart TV desnoods buiten de tunnel. Zeker voor regionale diensten kan <a href="vpn-apple-tv.html">VPN voor Apple TV</a> of <a href="vpn-voor-smart-tv.html">VPN voor Smart TV</a> een andere logica vragen dan je laptop of gsm.</p>
+        </div>
+        <div class="stream-card">
+          <h3>Consoles en gaming</h3>
+          <p>Consoles zijn gevoeliger voor latency en NAT-problemen. Plaats ze alleen in de tunnel als het echt nodig is en vergelijk zonodig met <a href="vpn-voor-gaming.html">VPN voor gaming</a> of <a href="vpn-netflix.html">VPN voor Netflix</a> voor je alles door dezelfde route dwingt.</p>
+        </div>
+      </div>
+      <div class="code-box"><pre><code>Policy routing voorbeeld
+Buiten tunnel: TV-box, Apple TV, PS5 / Xbox
+In tunnel:     laptop, gsm, IoT, hoofdverkeer</code></pre></div>
+    </section>
+
+    <section>
+      <h2>Privacy — waarom een router-VPN in België nuttig is</h2>
+      <p>Ook in België kan je provider nog veel afleiden uit DNS-opvragingen, bezochte domeinen, gebruiksuren en verkeersvolume. Een router-VPN neemt die zichtbaarheid niet volledig weg, maar verkleint ze wel aanzienlijk doordat het verkeer al versleuteld is voordat het het ISP-netwerk in gaat.</p>
+      <p>Wil je dat praktisch bekijken, lees dan over <a href="no-logs-vpn.html">no-logs VPN</a>, test je eigen lijn met <a href="vpn-dns-leak.html">een DNS-lektest</a> en vergeet de basis van <a href="wifi-beveiliging.html">wifi-beveiliging</a> niet. Voor thuiswerk is dezelfde logica relevant in <a href="vpn-remote-work.html">VPN voor remote work</a>.</p>
+    </section>
+
+    <div class="trust-bar">
+      <span>✓ Telenet werkt het properst met bridge-modus via 3rd party passthrough</span>
+      <span>✓ Proximus vraagt meestal PPPoE op je eigen router in plaats van echte bridge-modus</span>
+      <span>✓ WireGuard benut Belgische gigabitlijnen veel beter dan OpenVPN</span>
+      <span>✓ Policy routing voorkomt dat VRT MAX, Netflix of consoles onnodig breken</span>
+    </div>
+
+    <div class="related-dark">
+      <strong>Gerelateerde artikelen:</strong>
+      <a href="vpn-dns-leak.html">DNS-lektest</a> ·
+      <a href="vpn-protocollen.html">VPN-protocollen</a> ·
+      <a href="vpn-split-tunneling.html">Split tunneling</a> ·
+      <a href="vpn-apple-tv.html">VPN voor Apple TV</a> ·
+      <a href="vpn-snelheidstest.html">VPN-snelheidstest</a> ·
+      <a href="wifi-beveiliging.html">Wifi-beveiliging</a>
+    </div>
+
+    <section>
+      <h2>FAQ: VPN op je router in België</h2>
+      <div class="faq-list">
+        <details class="faq-item"><summary>Kan je een VPN rechtstreeks op een Telenet-modem installeren?</summary><div class="faq-answer">Nee. Je activeert bridge-modus en laat een eigen router de tunnel beheren.</div></details>
+        <details class="faq-item"><summary>Werkt Proximus met bridge-modus?</summary><div class="faq-answer">Niet echt. De praktische route is meestal PPPoE op je eigen router, soms met VLAN 10.</div></details>
+        <details class="faq-item"><summary>Hoe zit het met Orange in België?</summary><div class="faq-answer">Dat hangt af van het netwerk en het modem. Bridge kan bestaan, maar DMZ of cascade blijft de fallback.</div></details>
+        <details class="faq-item"><summary>Waarom is WireGuard beter op Belgische gigabitlijnen?</summary><div class="faq-answer">Omdat OpenVPN te veel CPU verbruikt op thuisrouters en zo de lijn zwaar afremt.</div></details>
+        <details class="faq-item"><summary>Is IPv6 een risico voor lekken?</summary><div class="faq-answer">Ja, als het buiten de tunnel blijft. Daarom moet je IPv6 bewust beheren op je router.</div></details>
+        <details class="faq-item"><summary>Wat is de beste router voor België in 2026?</summary><div class="faq-answer">GL.iNet Flint 2 is sterk voor WireGuard en prijs-prestatie. ASUS RT-AX88U Pro is beter voor geavanceerde regels.</div></details>
+        <details class="faq-item"><summary>Kun je VRT MAX of Netflix kijken via een router-VPN?</summary><div class="faq-answer">Ja, maar vaak alleen met policy routing zodat TV-boxen of streamingtoestellen niet verkeerd door de tunnel lopen.</div></details>
+        <details class="faq-item"><summary>Heeft EDPnet voordelen voor VPN-gebruikers?</summary><div class="faq-answer">Ja, EDPnet is vaak flexibeler voor eigen hardware en directe routerconfiguratie dan meer gesloten provideropstellingen.</div></details>
+        <details class="faq-item"><summary>Heb je een kill switch nodig?</summary><div class="faq-answer">Ja. Zonder kill switch valt je netwerk bij tunneluitval terug op het echte provider-IP.</div></details>
+      </div>
+    </section>
+
+    <div class="author-box">
+      <strong>Auteursnota</strong>
+      <p><a href="/nl-be/about-denys-shchur.html">Denys Shchur</a> schrijft praktische gidsen voor VPN World over echte routeropstellingen, providerbeperkingen en herstelbare thuisnetwerken. Voor België betekent dat: eerst WAN-overname, daarna DNS, dan pas streaming- of game-uitzonderingen.</p>
+    </div>
+
+    <div class="cta-box">
+      <h2>Klaar om je router-VPN op te zetten?</h2>
+      <p>Kies eerst de juiste providerlogica en laad daarna het VPN-profiel op hardware die je lijn echt kan dragen.</p>
+      <div class="cta-buttons">
+        <a class="nordvpn" href="https://go.nordvpn.net/aff_c?aff_id=2495&amp;offer_id=312&amp;url_id=2584" rel="nofollow sponsored noopener noreferrer" target="_blank">NordVPN op router bekijken</a>
+        <a class="surfshark" href="https://www.tkqlhce.com/click-101525886-17061430" rel="nofollow sponsored noopener noreferrer" target="_blank">Surfshark op router bekijken</a>
+        <a class="proton" href="https://www.dpbolvw.net/click-101525886-15834536" rel="nofollow sponsored noopener noreferrer" target="_blank">Proton VPN op router bekijken</a>
+      </div>
+    </div>
+  </article>
 </main>
-<footer class="site-footer"><div class="container footer-grid">
-  <div><strong>VPN World</strong><p>Niezależny serwis o prywatności i bezpieczeństwie w sieci.</p></div>
-  <nav><a href="/nl-be/privacy.html">Privacy</a> <a href="/sitemap.xml">Sitemap</a> <a href="mailto:denger88@gmail.com">Contact</a></nav>
-</div><div class="container tiny">© 2025 VPN World</div></footer>
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div><strong>VPN World</strong><p>Onafhankelijke site over privacy, veiligheid en praktisch VPN-gebruik.</p></div>
+    <nav><a href="/nl-be/privacy.html">Privacy</a> <a href="/nl-be/disclosure.html">Disclosure</a> <a href="/sitemap.xml">Sitemap</a> <a href="/nl-be/contact.html">Contact</a></nav>
+  </div>
+  <div class="container tiny">© 2026 VPN World</div>
+</footer>
 <script src="../../assets/js/main.js"></script>
-<!-- Cookie Consent (canonical) -->
-<div id="cookie-consent-layer" class="cookie-layer" aria-hidden="true"></div>
-<div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+<script>
+(function(){
+  const cards = [
+    {id:'telenet-bridge', title:'Telenet Bridge', n:'De nieuwste Telenet-modems ondersteunen bridge-modus via Mijn Telenet.', v:'Verdict: Activeer bridge-modus (Mac Passthrough).', c:'Mijn Telenet → Bridge / 3rd party passthrough'},
+    {id:'proximus-pppoe', title:'Proximus PPPoE', n:'De Internet Box laat geen klassieke bridge toe, maar je eigen router kan PPPoE opbouwen.', v:'Actie: Configureer PPPoE op je VPN-router.', c:'WAN → PPPoE instellen'},
+    {id:'orange-be-dmz', title:'Orange België', n:'Afhankelijk van het netwerk gebruik je bridge of DMZ achter de providerbox.', v:'Setup: Gebruik DMZ als bridge niet beschikbaar is.', c:'Orange modem → DMZ naar eigen router'},
+    {id:'vlan10-proximus', title:'VLAN 10', n:'Voor een directe verbinding met Proximus of sommige vezelopstellingen is VLAN 10 vaak nodig.', v:'Commando: Stel VLAN ID 10 in op je WAN-poort.', c:'WAN → VLAN 10'},
+    {id:'wireguard-be', title:'WireGuard', n:'Met Belgische gigabitlijnen is WireGuard essentieel voor snelheid.', v:'Verdict: Gebruik WireGuard boven OpenVPN.', c:'WireGuard activeren op je router'},
+    {id:'vrt-max-block', title:'VRT MAX / streaming', n:'Streamingdiensten blokkeren vaak VPN-routes of verdachte exit-IP’s.', v:'Fix: Gebruik policy routing voor TV en streaming.', c:'TV-box / Apple TV buiten tunnel houden'},
+    {id:'dns-privacy-be', title:'DNS-privacy', n:'Belgische providers kunnen veel afleiden via DNS-opvragingen.', v:'Actie: Forceer DNS van de tunnel of Cloudflare.', c:'DNS → 1.1.1.1 of tunnel-DNS'},
+    {id:'ipv6-telenet', title:'IPv6', n:'IPv6 kan je echte locatie of providerpad nog blootleggen.', v:'Tip: Schakel IPv6 uit of beheer het expliciet.', c:'IPv6 uitschakelen of goed tunnelen'},
+    {id:'edpnet-flex', title:'EDPnet', n:'EDPnet is vaak flexibel voor eigen hardware en WAN-instellingen.', v:'Verdict: Directe routerconfiguratie is vaak haalbaar.', c:'PPPoE / VLAN volgens lijnprofiel'},
+    {id:'killswitch-be', title:'Kill switch', n:'Zonder kill switch valt je netwerk terug op het echte provider-IP.', v:'Status: Verplicht om IP-lekken te voorkomen.', c:'Kill switch of fail-closed regel activeren'}
+  ];
+  const perPage = 4;
+  let page = 0;
+  const key = 'vpnw_be_router_audit_v2';
+  const grid = document.getElementById('auditGrid');
+  const prev = document.getElementById('auditPrev');
+  const next = document.getElementById('auditNext');
+  const pageEl = document.getElementById('auditPage');
+  const countEl = document.getElementById('auditCount');
+  const percEl = document.getElementById('auditPerc');
+  const barEl = document.getElementById('auditBar');
+  const readyEl = document.getElementById('auditReady');
+  if(!grid || !prev || !next || !pageEl || !countEl || !percEl || !barEl || !readyEl) return;
+  function loadState(){ try { return JSON.parse(localStorage.getItem(key) || '{}'); } catch(e){ return {}; } }
+  function saveState(state){ localStorage.setItem(key, JSON.stringify(state)); }
+  function checkedCount(state){ return cards.filter(card => !!state[card.id]).length; }
+  function render(){
+    const state = loadState();
+    const totalPages = Math.ceil(cards.length / perPage);
+    page = Math.max(0, Math.min(page, totalPages - 1));
+    const subset = cards.slice(page * perPage, page * perPage + perPage);
+    grid.innerHTML = '';
+    subset.forEach(card => {
+      const done = !!state[card.id];
+      const article = document.createElement('article');
+      article.className = 'widget-card' + (done ? ' done' : '');
+      article.tabIndex = 0;
+      article.innerHTML = `
+        <div class="mini-badge" style="background:#fff;border:2px solid #000;color:#000">${done ? 'BESCHERMD' : 'ONBESCHERMD'}</div>
+        <h3>${card.title}</h3>
+        <p>${card.n}</p>
+        <p class="verdict">${card.v}</p>
+        <details>
+          <summary>Volgende stap</summary>
+          <div class="code-box"><pre><code>${card.c}</code></pre></div>
+        </details>`;
+      function toggle(){ const s = loadState(); s[card.id] = !s[card.id]; saveState(s); render(); }
+      article.addEventListener('click', e => { if(e.target.closest('details,summary,pre,code,a,button')) return; toggle(); });
+      article.addEventListener('keydown', e => { if((e.key==='Enter'||e.key===' ') && !e.target.closest('details,summary,pre,code,a,button')){ e.preventDefault(); toggle(); }});
+      grid.appendChild(article);
+    });
+    const count = checkedCount(state);
+    const perc = Math.round((count / 10) * 100);
+    countEl.textContent = String(count);
+    percEl.textContent = perc + '%';
+    barEl.style.width = perc + '%';
+    pageEl.textContent = 'Pagina ' + (page + 1) + ' van ' + totalPages;
+    prev.disabled = page === 0;
+    next.disabled = page >= totalPages - 1;
+    readyEl.classList.toggle('show', perc === 100);
+  }
+  prev.addEventListener('click', () => { page -= 1; render(); });
+  next.addEventListener('click', () => { page += 1; render(); });
+  render();
+})();
+</script>
+<div aria-hidden="true" class="cookie-layer" id="cookie-consent-layer"></div>
+<div aria-label="Cookie-toestemming" aria-live="polite" class="cookie-banner" id="cookie-banner" role="dialog">
   <div class="cookie-banner__inner">
     <div class="cookie-banner__text">
-      <span class="cookie-banner__msg">We use cookies.</span>
+      <span class="cookie-banner__msg">We gebruiken cookies voor analyses en om de site te verbeteren.</span>
       <a class="cookie-banner__link" href="/nl-be/privacy.html" rel="nofollow">Privacy</a>
     </div>
     <div class="cookie-banner__actions">
-      <button id="cookie-accept" type="button">Accept</button>
-      <button id="cookie-reject" type="button">Reject</button>
+      <button id="cookie-accept" type="button">Accepteren</button>
+      <button id="cookie-reject" type="button">Weigeren</button>
     </div>
   </div>
 </div>
-<!-- /Cookie Consent (canonical) -->
-
-</body></html>
+</body>
+</html>
