@@ -5,16 +5,16 @@ All URLs below represent localized versions of the same topic: using a VPN while
 
 ## Live pages
 
-- **pl:** https://dloran1.github.io/blog/vpn-w-podrozy.html
-- **en-gb:** https://dloran1.github.io/en-gb/blog/vpn-travel-uk.html
-- **en-us:** https://dloran1.github.io/en-us/blog/vpn-travel.html
-- **de:** https://dloran1.github.io/de/blog/vpn-auf-reisen.html
-- **es:** https://dloran1.github.io/es/blog/vpn-para-viajar.html
-- **fr:** https://dloran1.github.io/fr/blog/vpn-en-voyage.html
-- **nl-be:** https://dloran1.github.io/nl-be/blog/vpn-op-reis.html
+- **pl:** https://vpnworldhub.com/blog/vpn-w-podrozy.html
+- **en-gb:** https://vpnworldhub.com/en-gb/blog/vpn-travel-uk.html
+- **en-us:** https://vpnworldhub.com/en-us/blog/vpn-travel.html
+- **de:** https://vpnworldhub.com/de/blog/vpn-auf-reisen.html
+- **es:** https://vpnworldhub.com/es/blog/vpn-para-viajar.html
+- **fr:** https://vpnworldhub.com/fr/blog/vpn-en-voyage.html
+- **nl-be:** https://vpnworldhub.com/nl-be/blog/vpn-op-reis.html
 
 **x-default:**  
-https://dloran1.github.io/en-gb/blog/vpn-travel-uk.html
+https://vpnworldhub.com/en-gb/blog/vpn-travel-uk.html
 
 ## Notes
 

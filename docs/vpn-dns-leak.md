@@ -5,16 +5,16 @@ All URLs below represent localized versions of the same topic: DNS leaks when us
 
 ## Live pages
 
-- **pl:** https://dloran1.github.io/blog/wyciek-dns-vpn.html
-- **en-gb:** https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html
-- **en-us:** https://dloran1.github.io/en-us/blog/vpn-dns-leak.html
-- **de:** https://dloran1.github.io/de/blog/vpn-dns-leak.html
-- **es:** https://dloran1.github.io/es/blog/vpn-dns-leak.html
-- **fr:** https://dloran1.github.io/fr/blog/vpn-dns-leak.html
-- **nl-be:** https://dloran1.github.io/nl-be/blog/vpn-dns-leak.html
+- **pl:** https://vpnworldhub.com/blog/wyciek-dns-vpn.html
+- **en-gb:** https://vpnworldhub.com/en-gb/blog/vpn-dns-leak-uk.html
+- **en-us:** https://vpnworldhub.com/en-us/blog/vpn-dns-leak.html
+- **de:** https://vpnworldhub.com/de/blog/vpn-dns-leak.html
+- **es:** https://vpnworldhub.com/es/blog/vpn-dns-leak.html
+- **fr:** https://vpnworldhub.com/fr/blog/vpn-dns-leak.html
+- **nl-be:** https://vpnworldhub.com/nl-be/blog/vpn-dns-leak.html
 
 **x-default:**  
-https://dloran1.github.io/en-gb/blog/vpn-dns-leak-uk.html
+https://vpnworldhub.com/en-gb/blog/vpn-dns-leak-uk.html
 
 ## Notes
 
